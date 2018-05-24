@@ -7,6 +7,5 @@ namespace Godsend.Models
 {
     public interface IProduct
     {
-        //TODO: properties
     }
 }
