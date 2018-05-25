@@ -11,6 +11,6 @@ namespace Godsend.Models
 
         public Guid Id { get; } = Guid.NewGuid();
 
-        ProductInformation IProduct.Info { get; set; }
+        public ProductInformation Info { get; set; }
     }
 }
