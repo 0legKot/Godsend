@@ -5,8 +5,9 @@ using System.Threading.Tasks;
 
 namespace Godsend.Models
 {
-    public interface IProduct
+    public class CountableProduct:IProduct
     {
-        ProductInformation Info { get; set;}
+        public int Count { get; set; }
+        ProductInformation IProduct.Info { get; set; }
     }
 }

@@ -5,8 +5,7 @@ using System.Threading.Tasks;
 
 namespace Godsend.Models
 {
-    public interface IProduct
+    public class IUser
     {
-        ProductInformation Info { get; set;}
     }
 }

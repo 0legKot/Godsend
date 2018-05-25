@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 
 namespace Godsend.Models
 {
-    public interface IProduct
+    public class SampleProductStorage : IProductStorage
     {
-        ProductInformation Info { get; set;}
+        public IEnumerable<IProduct> Products { get; set; }
     }
 }

@@ -7,5 +7,6 @@ namespace Godsend.Models
 {
     public interface IProductStorage
     {
+        IEnumerable<IProduct> Products { get; set; }
     }
 }
