@@ -1,0 +1,63 @@
+﻿using Godsend.Models;
+using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace Godsend
+{
+    public class EFProductRepository:IProductRepository
+    {
+        private DataContext context;
+
+        public EFProductRepository(DataContext ctx)
+        {
+            context = ctx;
+            if (!context.Products.Any())
+            {
+                context.Products.Add(new DiscreteProduct
+                {
+                    Info = new ProductInformation
+                    {
+                        Name = "Apple",
+                        Description = "Great fruit",
+                        Rating = 5,
+                        Watches = 0
+                    }
+                });
+                context.SaveChanges();
+            }
+        }
+
+        public IEnumerable<Product> Products => context.Products.Include(x=>x.Info);
+
+        public void SaveProduct(Product product)
+        {
+           
+            Product dbEntry = context.Products.FirstOrDefault(p => p.Id == product.Id);
+            if (dbEntry != null)
+            {
+                //TODO: implement IClonable
+                dbEntry.Info.Name = product.Info.Name;
+                dbEntry.Info.Description = product.Info.Description;
+                dbEntry.Info.Watches = product.Info.Watches;
+                dbEntry.Info.Rating = product.Info.Rating;
+            }
+            else context.Add(product);
+            
+            context.SaveChanges();
+        }
+
+        public Product DeleteProduct(Guid productID)
+        {
+            Product dbEntry = context.Products
+                .FirstOrDefault(p => p.Id == productID);
+            if (dbEntry != null)
+            {
+                context.Products.Remove(dbEntry);
+                context.SaveChanges();
+            }
+            return dbEntry;
+        }
+    }
+}

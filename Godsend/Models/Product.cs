@@ -7,7 +7,7 @@ namespace Godsend.Models
 {
     public abstract class Product
     {
-        public Guid Id { get; }
+        public Guid Id { get; set; } 
         public ProductInformation Info { get; set;}
     }
 

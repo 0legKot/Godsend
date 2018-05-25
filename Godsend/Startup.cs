@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.SpaServices.Webpack;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Godsend.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Godsend
 {
@@ -23,6 +24,10 @@ namespace Godsend
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddTransient<IProductRepository, EFProductRepository>();
+            string connection = Configuration.GetConnectionString("StoreDb");
+            services.AddDbContext<DataContext>(options => options.UseSqlServer(connection));
+            services.AddAuthentication();
             services.AddMvc();
         }
 
@@ -43,7 +48,7 @@ namespace Godsend
             }
 
             app.UseStaticFiles();
-
+            app.UseAuthentication();
             app.UseMvc(routes =>
             {
                 routes.MapRoute(

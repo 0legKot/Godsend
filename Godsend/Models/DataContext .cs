@@ -13,5 +13,14 @@ namespace Godsend.Models
         public DbSet<Product> Products { get; set; }
         public DbSet<Supplier> Suppliers { get; set; }
         public DbSet<Order> Orders { get; set; }
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            builder.Entity<SimpleOrder>();
+            builder.Entity<DiscreteProduct>();
+            builder.Entity<WeightedProduct>();
+            builder.Entity<SimpleSupplier>();
+            
+            base.OnModelCreating(builder);
+        }
     }
 }
