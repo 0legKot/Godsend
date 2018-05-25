@@ -7,5 +7,6 @@ namespace Godsend.Models
 {
     public interface IProduct
     {
+        //testcomment
     }
 }
