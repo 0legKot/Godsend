@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 namespace Godsend.Models
 {
     public enum Status {
-        Ready,
-        Shipped,
-        Cancelled
+        Ready=0,
+        Shipped=1,
+        Cancelled=2
             //...
     }
 
