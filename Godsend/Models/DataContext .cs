@@ -10,8 +10,8 @@ namespace Godsend.Models
     {
         public DataContext(DbContextOptions<DataContext> options)
                : base(options) { }
-        public DbSet<IProduct> Products { get; set; }
-        public DbSet<ISupplier> Suppliers { get; set; }
-        public DbSet<IOrder> Orders { get; set; }
+        public DbSet<Product> Products { get; set; }
+        public DbSet<Supplier> Suppliers { get; set; }
+        public DbSet<Order> Orders { get; set; }
     }
 }
