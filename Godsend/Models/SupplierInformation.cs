@@ -5,7 +5,9 @@ using System.Threading.Tasks;
 
 namespace Godsend.Models
 {
-    public class IUser
+    public class SupplierInformation
     {
+        Location Location { get; set; }
+        public IEnumerable<IProduct> Products { get; set; }
     }
 }

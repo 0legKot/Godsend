@@ -5,12 +5,12 @@ using System.Threading.Tasks;
 
 namespace Godsend.Models
 {
-    public class CountableProduct:IProduct
+    public class OrderedProduct : IProduct
     {
-        public int Count { get; set; }
-
         public Guid Id { get; } = Guid.NewGuid();
 
-        ProductInformation IProduct.Info { get; set; }
+        public ProductInformation Info { get ; set; }
+        ISupplier Supplier { get; set; }
+
     }
 }

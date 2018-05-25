@@ -7,5 +7,8 @@ namespace Godsend.Models
 {
     public interface ISupplier
     {
+        Guid Id { get; set; }
+        SupplierInformation Info { get; set; }
+
     }
 }

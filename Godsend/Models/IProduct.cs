@@ -7,6 +7,7 @@ namespace Godsend.Models
 {
     public interface IProduct
     {
-        ProductInformation Info { get; set;}
+     Guid Id { get;  }
+    ProductInformation Info { get; set;}
     }
 }
