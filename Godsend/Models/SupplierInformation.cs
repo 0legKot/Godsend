@@ -8,6 +8,6 @@ namespace Godsend.Models
     public class SupplierInformation
     {
         Location Location { get; set; }
-        public IEnumerable<IProduct> Products { get; set; }
+        //public IEnumerable<IProduct> Products { get; set; }
     }
 }

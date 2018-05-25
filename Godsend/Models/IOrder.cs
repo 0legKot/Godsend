@@ -12,6 +12,7 @@ namespace Godsend.Models
     }
     public interface IOrder
     {
+        Guid Id { get; }
         ISupplier Supplier { get; set; }
         IdentityUser Customer { get; set; }
         IEnumerable<IProduct> Products { get; set; }

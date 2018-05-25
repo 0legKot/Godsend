@@ -9,7 +9,7 @@ namespace Godsend.Models
     {
         public string Name { get; set; }
         public string Description { get; set; }
-        public IEnumerable<ISupplier> Suppliers { get; set; }
+        //public IEnumerable<ISupplier> Suppliers { get; set; }
         public decimal Price { get; set; }
         
         public double Rating { get; set; }

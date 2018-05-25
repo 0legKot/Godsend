@@ -5,10 +5,9 @@ using System.Threading.Tasks;
 
 namespace Godsend.Models
 {
-    public interface ISupplier
+    public class LinkProductsSuppliers
     {
-        Guid Id { get; }
-        SupplierInformation Info { get; set; }
-
+        ISupplier Supplier { get; set; }
+        IProduct Product { get; set; }
     }
 }
