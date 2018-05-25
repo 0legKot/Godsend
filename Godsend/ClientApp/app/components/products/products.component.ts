@@ -5,10 +5,13 @@ import { Product } from "../../models/product.model";
 
 @Component({
     selector: 'products',
+    providers: [Repository],
     templateUrl: './products.component.html'
 })
 export class ProductsComponent {
-    constructor(private repo: Repository) { }
+
+
+    constructor( private repo: Repository) { }
 
     get products(): Product[] {
         if (this.repo.products != null && this.repo.products.length > 0) {

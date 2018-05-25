@@ -1,11 +1,11 @@
 ﻿import { Product } from "./product.model";
-import { Injectable } from "@angular/core";
+import { Injectable, Inject } from "@angular/core";
 import { Http, RequestMethod, Request, Response } from "@angular/http";
 import { Observable } from "rxjs/Observable";
 import "rxjs/add/operator/map";
 import "rxjs/add/operator/catch";
 
-const productsUrl = "/api/products";
+const productsUrl = "api/products";
 const suppliersUrl = "/api/suppliers";
 const ordersUrl = "/api/orders";
 
@@ -14,7 +14,7 @@ const ordersUrl = "/api/orders";
 @Injectable()
 export class Repository {
 
-    constructor(private http: Http) {
+    constructor(private http: Http, @Inject('BASE_URL') private baseUrl: string) {
         this.getProducts();
     }
 
@@ -25,7 +25,8 @@ export class Repository {
 
     getProducts() {
         let url = productsUrl;
-        this.sendRequest(RequestMethod.Get, url)
+        
+        this.sendRequest(RequestMethod.Get, url + "/All")
             .subscribe(response => {
                 this.products = response.data;
             });
@@ -62,11 +63,13 @@ export class Repository {
         : Observable<any> {
 
         return this.http.request(new Request({
-            method: verb, url: url, body: data
+            method: verb, url: this.baseUrl+url, body: data
         })).map(response => {
-            if (response.headers != null)
+            if (response.headers != null) {
+                console.log(response);
                 return response.headers.get("Content-Length") != "0"
                     ? response.json() : null;
+            }
             else return null;
         });
     }
