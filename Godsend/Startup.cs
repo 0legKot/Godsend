@@ -9,6 +9,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Godsend.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
 
 namespace Godsend
 {
@@ -28,6 +29,9 @@ namespace Godsend
             string connection = Configuration.GetConnectionString("StoreDb");
             services.AddDbContext<DataContext>(options => options.UseSqlServer(connection));
             services.AddAuthentication();
+            services.AddIdentity<IdentityUser, IdentityRole>()
+                .AddEntityFrameworkStores<DataContext>()
+                .AddDefaultTokenProviders();
             services.AddMvc();
         }
 
@@ -59,6 +63,7 @@ namespace Godsend
                     name: "spa-fallback",
                     defaults: new { controller = "Home", action = "Index" });
             });
+
         }
     }
 }

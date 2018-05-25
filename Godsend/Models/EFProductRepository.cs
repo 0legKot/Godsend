@@ -1,18 +1,22 @@
 ﻿using Godsend.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Godsend
 {
     public class EFProductRepository:IProductRepository
     {
         private DataContext context;
-
-        public EFProductRepository(DataContext ctx)
+        private const string adminUser = "Admin";
+        private const string adminPassword = "Secret123$";
+        public EFProductRepository(DataContext ctx, UserManager<IdentityUser> userManager)
         {
             context = ctx;
+            
             if (!context.Products.Any())
             {
                 context.Products.Add(new DiscreteProduct
@@ -25,6 +29,7 @@ namespace Godsend
                         Watches = 0
                     }
                 });
+                
                 context.SaveChanges();
             }
         }
