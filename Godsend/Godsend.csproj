@@ -20,6 +20,20 @@
     <Content Remove="ClientApp\**" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Remove="ClientApp\app\components\orders\orders.component.ts" />
+    <None Remove="ClientApp\app\components\products\products.component.ts" />
+    <None Remove="ClientApp\app\models\product.model.ts" />
+    <None Remove="ClientApp\app\models\repository.ts" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <TypeScriptCompile Include="ClientApp\app\components\orders\orders.component.ts" />
+    <TypeScriptCompile Include="ClientApp\app\components\products\products.component.ts" />
+    <TypeScriptCompile Include="ClientApp\app\models\product.model.ts" />
+    <TypeScriptCompile Include="ClientApp\app\models\repository.ts" />
+  </ItemGroup>
+
   <Target Name="DebugRunWebpack" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('wwwroot\dist') ">
     <!-- Ensure Node.js is installed -->
     <Exec Command="node --version" ContinueOnError="true">
