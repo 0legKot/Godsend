@@ -3,14 +3,14 @@
     <div *ngFor="let product of products" class="card card-outline-primary m-1">
         <div class="card-header">
             <span class="h4">
-                {{product.name}}
+                {{product.info.name}}
             </span>
             <span class="float-right badge badge-pill badge-primary">
-                {{product.price  | currency:"USD":true }}
+                {{product.info.price  | currency:"USD":true }}
             </span>
         </div>
         <div class="card-block">
-            <span class="card-text p-a-1">{{product.description}}</span>
+            <span class="card-text p-a-1">{{product.info.description}}</span>
         </div>
     </div>
 </div>

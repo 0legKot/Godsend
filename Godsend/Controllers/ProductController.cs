@@ -7,19 +7,21 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Godsend.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]s")]
     public class ProductController : Controller
     {
         IProductRepository repository;
-        ProductController(IProductRepository repo)
+        public ProductController(IProductRepository repo)
         {
             repository = repo;
         }
+
         [HttpGet("[action]")]
         public IEnumerable<Product> All()
         {
             return repository.Products;
         }
+
         public IActionResult Index()
         {
             return View();

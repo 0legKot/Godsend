@@ -6,10 +6,10 @@ namespace Godsend
 {
     public interface IProductRepository
     {
-            IEnumerable<Product> Products { get; }
+        IEnumerable<Product> Products { get; }
 
-            void SaveProduct(Product product);
+        void SaveProduct(Product product);
 
-            Product DeleteProduct(Guid productID);
+        Product DeleteProduct(Guid productID);
     }
 }

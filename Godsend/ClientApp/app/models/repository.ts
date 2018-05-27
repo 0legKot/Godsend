@@ -26,9 +26,9 @@ export class Repository {
     getProducts() {
         let url = productsUrl;
         
-        this.sendRequest(RequestMethod.Get, url + "/All")
+        this.sendRequest(RequestMethod.Get, url + "/all")
             .subscribe(response => {
-                this.products = response.data;
+                this.products = response;
             });
     }
 

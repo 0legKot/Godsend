@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Godsend
 {
-    public class EFProductRepository:IProductRepository
+    public class EFProductRepository: IProductRepository
     {
         private DataContext context;
         private const string adminUser = "Admin";
@@ -34,7 +34,7 @@ namespace Godsend
             }
         }
 
-        public IEnumerable<Product> Products => context.Products.Include(x=>x.Info);
+        public IEnumerable<Product> Products => context.Products.Include(x => x.Info);
 
         public void SaveProduct(Product product)
         {
