@@ -5,9 +5,9 @@ import { Observable } from "rxjs/Observable";
 import "rxjs/add/operator/map";
 import "rxjs/add/operator/catch";
 
-const productsUrl = "api/products";
-const suppliersUrl = "/api/suppliers";
-const ordersUrl = "/api/orders";
+const productsUrl = "api/product";
+const suppliersUrl = "/api/supplier";
+const ordersUrl = "/api/order";
 
 //TODO: rework
 
@@ -18,7 +18,7 @@ export class Repository {
         this.getProducts();
     }
 
-    getProduct(id: number) {
+    getProduct(id: string) {
         this.sendRequest(RequestMethod.Get, productsUrl + "/" + id)
             .subscribe(response => this.product = response);
     }
@@ -34,8 +34,8 @@ export class Repository {
 
     createProduct(prod: Product) {
         let data = {
-            name: prod.name, 
-            description: prod.description, price: prod.price
+            name: prod.info.name, 
+            description: prod.info.description
         };
 
         this.sendRequest(RequestMethod.Post, productsUrl, data)
@@ -49,8 +49,8 @@ export class Repository {
 
     replaceProduct(prod: Product) {
         let data = {
-            name: prod.name, 
-            description: prod.description, price: prod.price
+            name: prod.info.name, 
+            description: prod.info.description
 
         };
         this.sendRequest(RequestMethod.Put, productsUrl + "/" + prod.id, data)
@@ -74,7 +74,7 @@ export class Repository {
         });
     }
 
-    updateProduct(id: number, changes: Map<string, any>) {
+    updateProduct(id: string, changes: Map<string, any>) {
         var patch:any[]=[];
         changes.forEach((value, key) =>
             patch.push({ op: "replace", path: key, value: value }));
@@ -83,7 +83,7 @@ export class Repository {
             .subscribe(response => this.getProducts());
     }
 
-    deleteProduct(id: number) {
+    deleteProduct(id: string) {
         this.sendRequest(RequestMethod.Delete, productsUrl + "/" + id)
             .subscribe(response => this.getProducts());
     }
@@ -100,7 +100,7 @@ export class Repository {
     }
 
 
-    product: Product;
-    products: Product[];
+    product?: Product;
+    products: Product[] = [];
 
 }

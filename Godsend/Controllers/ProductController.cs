@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Godsend.Controllers
 {
-    [Route("api/[controller]s")]
+    [Route("api/[controller]")]
     public class ProductController : Controller
     {
         IProductRepository repository;

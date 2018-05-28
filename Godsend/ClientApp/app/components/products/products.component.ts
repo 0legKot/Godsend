@@ -10,7 +10,6 @@ import { Product } from "../../models/product.model";
 })
 export class ProductsComponent {
 
-
     constructor( private repo: Repository) { }
 
     get products(): Product[] {
