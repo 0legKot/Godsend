@@ -6,4 +6,19 @@ import { Component } from '@angular/core';
     styleUrls: ['./navmenu.component.css']
 })
 export class NavMenuComponent {
+
+    userData: DummyUserData = { name: "Admin", isAdmin: true};
+
+    scrollToTop(): void {
+        window.scrollTo(0, 0);
+    }
+
+    logout() {
+        this.userData = {};
+    }
+}
+
+class DummyUserData {   
+    name?: string;
+    isAdmin?: boolean;
 }
