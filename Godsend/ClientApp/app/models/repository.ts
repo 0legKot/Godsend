@@ -19,11 +19,11 @@ export class Repository {
     constructor(private http: HttpClient, @Inject('BASE_URL') private baseUrl: string) {
         this.getProducts();
     }
-
+    b: boolean = false;
     getProduct(id: string|null) {
         if (id!=null)
             this.sendRequest('get', productsUrl + "/all/one?id=" + id)
-                .subscribe(response => { this.product = response; console.log("product"); console.log(this.product); });
+                .subscribe(response => { this.product = response; console.log("getproductsent"); console.log(response); return response });
     }
 
     getProducts() {
@@ -99,7 +99,9 @@ export class Repository {
         return this.sendRequest<any>('get', "/api/session/" + dataType);
     }
 
-    get productget() { return <Product>this.product }
+    get productget() {
+         console.log("kill"); console.log(this.product);  return <Product>this.product
+    }
     product: Product | {};
     products: Product[] = [];
 
