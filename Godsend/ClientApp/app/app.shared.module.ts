@@ -31,7 +31,8 @@ import { ProductDetailComponent } from './components/products/productDetail.comp
         LoginComponent,
         SearchComponent,
         StatisticsComponent,
-        SuppliersComponent
+        SuppliersComponent,
+        ProductDetailComponent
     ],
     imports: [
         CommonModule,
@@ -41,7 +42,7 @@ import { ProductDetailComponent } from './components/products/productDetail.comp
             { path: '', redirectTo: 'home', pathMatch: 'full' },
             { path: 'home', component: HomeComponent },
             { path: 'products', component: ProductsComponent },
-            { path: 'products/:id*', component: ProductDetailComponent },
+            { path: 'products/:id', component: ProductDetailComponent },
             { path: 'orders', component: OrdersComponent },
             { path: 'articles', component: ArticlesComponent },
             { path: 'cart', component: CartComponent },

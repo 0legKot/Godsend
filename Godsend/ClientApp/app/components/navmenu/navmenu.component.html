@@ -1,29 +1,29 @@
 <div class='main-nav'>
     <!-- Top left -->
-    <ul>
-        <li [routerLinkActive]="['link-active']">
+    <ul class="list-group hr">
+        <li [routerLinkActive]="['link-active']" class="list-group-item">
             <a [routerLink]="['/home']">Home</a>
         </li>
-        <li [routerLinkActive]="['link-active']">
+        <li [routerLinkActive]="['link-active']" class="list-group-item">
             <a [routerLink]="['/products']">Products</a>
         </li>
-        <li [routerLinkActive]="['link-active']" *ngIf="userData.isAdmin">
+        <li [routerLinkActive]="['link-active']" *ngIf="userData.isAdmin" class="list-group-item">
             <a [routerLink]="['/orders']">Orders</a>
         </li>
-        <li [routerLinkActive]="['link-active']" *ngIf="userData.name">
+        <li [routerLinkActive]="['link-active']" *ngIf="userData.name" class="list-group-item">
             <a [routerLink]="['/statistics']">Statistics</a>
         </li>
-        <li [routerLinkActive]="['link-active']">
+        <li [routerLinkActive]="['link-active']" class="list-group-item">
             <a [routerLink]="['/articles']">Articles</a>
         </li>
-        <li [routerLinkActive]="['link-active']">
+        <li [routerLinkActive]="['link-active']" class="list-group-item">
             <a [routerLink]="['/suppliers']">Suppliers</a>
         </li>
     </ul>
 
     <!-- Top right -->
-    <ul>
-        <li [routerLinkActive]="['link-active']" *ngIf="!userData.name; else loggedout">
+    <ul class="list-group hr1">
+        <li [routerLinkActive]="['link-active']" *ngIf="!userData.name; else loggedout" class="list-group-item">
             <a [routerLink]="['/login']">Login</a>
         </li>
 
@@ -34,18 +34,18 @@
                 </li>
         </ng-template>
 
-        <li [routerLinkActive]="['link-active']">
+        <li [routerLinkActive]="['link-active']" class="list-group-item">
             <a [routerLink]="['/search']">Search</a>
         </li>
-        <li [routerLinkActive]="['link-active']">
+        <li [routerLinkActive]="['link-active']" class="list-group-item">
             <a [routerLink]="['/cart']">Shopping cart</a>
         </li>
     </ul>
 
     <!--Bottom-->
-    <a (click)="scrollToTop()">Top</a>
+    <a (click)="scrollToTop()" class="btn btn-default">Top</a>
     <ul>
-        <li [routerLinkActive]="['link-active']">
+        <li [routerLinkActive]="['link-active']" class="bg-success">
             <a [routerLink]="['/consult']">Consult</a>
         </li>
     </ul>

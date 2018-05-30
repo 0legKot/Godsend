@@ -23,7 +23,6 @@
 
   <ItemGroup>
     <None Remove="ClientApp\app\components\orders\orders.component.ts" />
-    <None Remove="ClientApp\app\components\products\products-routing.module.ts" />
     <None Remove="ClientApp\app\components\products\products.component.ts" />
     <None Remove="ClientApp\app\components\products\products.module.ts" />
     <None Remove="ClientApp\app\models\product.model.ts" />
@@ -33,7 +32,6 @@
   <ItemGroup>
     <TypeScriptCompile Include="ClientApp\app\components\orders\orders.component.ts" />
     <TypeScriptCompile Include="ClientApp\app\components\products\productDetail.component.ts" />
-    <TypeScriptCompile Include="ClientApp\app\components\products\products-routing.module.ts" />
     <TypeScriptCompile Include="ClientApp\app\components\products\products.component.ts" />
     <TypeScriptCompile Include="ClientApp\app\components\products\products.module.ts" />
     <TypeScriptCompile Include="ClientApp\app\models\product.model.ts" />

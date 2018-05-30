@@ -4,6 +4,7 @@ import { HttpClient } from "@angular/common/http"
 import { Observable } from "rxjs/Observable";
 import "rxjs/add/operator/map";
 import "rxjs/add/operator/catch";
+import { retry } from "rxjs/operator/retry";
 
 
 const productsUrl = "api/product";
@@ -22,7 +23,7 @@ export class Repository {
     getProduct(id: string|null) {
         if (id!=null)
             this.sendRequest('get', productsUrl + "/all/one?id=" + id)
-            .subscribe(response => this.product = response);
+                .subscribe(response => { this.product = response; console.log("product"); console.log(this.product); });
     }
 
     getProducts() {
@@ -98,7 +99,7 @@ export class Repository {
         return this.sendRequest<any>('get', "/api/session/" + dataType);
     }
 
-
+    get productget() { return <Product>this.product }
     product: Product | {};
     products: Product[] = [];
 
