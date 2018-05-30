@@ -1,6 +1,6 @@
 ﻿import { Product } from "./product.model";
 import { Injectable, Inject } from "@angular/core";
-import { Http, RequestMethod, Request, Response } from "@angular/http";
+import { HttpClient } from "@angular/common/http"
 import { Observable } from "rxjs/Observable";
 import "rxjs/add/operator/map";
 import "rxjs/add/operator/catch";
@@ -15,7 +15,7 @@ const ordersUrl = "/api/order";
 @Injectable()
 export class Repository {
 
-    constructor(private http: Http, @Inject('BASE_URL') private baseUrl: string) {
+    constructor(private http: HttpClient, @Inject('BASE_URL') private baseUrl: string) {
         this.getProducts();
     }
 
@@ -27,11 +27,12 @@ export class Repository {
 
     getProducts() {
         let url = productsUrl;
-        
-        this.sendRequest(RequestMethod.Get, url + "/all")
+
+        this.sendRequest<Product[]>('get', url + '/all')
             .subscribe(response => {
-                this.products = response;
-            });
+            this.products = response;
+        });
+        
     }
 
     createProduct(prod: Product) {
@@ -40,7 +41,7 @@ export class Repository {
             description: prod.info.description
         };
 
-        this.sendRequest(RequestMethod.Post, productsUrl, data)
+        this.sendRequest<string>('post', productsUrl, data)
             .subscribe(response => {
                 prod.id = response;
                 this.products.push(prod);
@@ -55,14 +56,14 @@ export class Repository {
             description: prod.info.description
 
         };
-        this.sendRequest(RequestMethod.Put, productsUrl + "/" + prod.id, data)
+        this.sendRequest<null>('put', productsUrl + "/" + prod.id, data)
             .subscribe(response => this.getProducts());
     }
-
+    
     
 
-    private sendRequest(verb: RequestMethod, url: string, data?: any)
-        : Observable<any> {
+    private sendRequest<T>(method: string, url: string, data?: any)
+        : Observable<T> {
 
         return this.http.request(new Request({
             method: verb, url: this.baseUrl+url, body: data
@@ -70,36 +71,33 @@ export class Repository {
             if (response.headers != null) {
                 console.log(this.baseUrl + url);
                 console.log(response);
-                return response.headers.get("Content-Length") != "0"
-                    ? response.json() : null;
-            }
-            else return null;
-        });
+                return response;
+            });
     }
-
+    
     updateProduct(id: string, changes: Map<string, any>) {
         var patch:any[]=[];
         changes.forEach((value, key) =>
             patch.push({ op: "replace", path: key, value: value }));
 
-        this.sendRequest(RequestMethod.Patch, productsUrl + "/" + id, patch)
+        this.sendRequest<null>('patch', productsUrl + "/" + id, patch)
             .subscribe(response => this.getProducts());
     }
 
     deleteProduct(id: string) {
-        this.sendRequest(RequestMethod.Delete, productsUrl + "/" + id)
+        this.sendRequest<null>('delete', productsUrl + "/" + id)
             .subscribe(response => this.getProducts());
     }
 
 
 
     storeSessionData(dataType: string, data: any) {
-        return this.sendRequest(RequestMethod.Post, "/api/session/" + dataType, data)
+        return this.sendRequest<null>('post', "/api/session/" + dataType, data)
             .subscribe(response => { });
     }
 
     getSessionData(dataType: string): Observable<any> {
-        return this.sendRequest(RequestMethod.Get, "/api/session/" + dataType);
+        return this.sendRequest<any>('get', "/api/session/" + dataType);
     }
 
 

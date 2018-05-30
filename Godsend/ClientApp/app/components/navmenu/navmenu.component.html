@@ -1,33 +1,60 @@
 <div class='main-nav'>
-    <div class='navbar navbar-inverse'>
-        <div class='navbar-header'>
-            <button type='button' class='navbar-toggle' data-toggle='collapse' data-target='.navbar-collapse'>
-                <span class='sr-only'>Toggle navigation</span>
-                <span class='icon-bar'></span>
-                <span class='icon-bar'></span>
-                <span class='icon-bar'></span>
-            </button>
-            <a class='navbar-brand' [routerLink]="['/home']">Godsend</a>
-        </div>
-        <div class='clearfix'></div>
-        <div class='navbar-collapse collapse'>
-            <ul class='nav navbar-nav'>
-                <li [routerLinkActive]="['link-active']">
-                    <a [routerLink]="['/home']">
-                        <span class='glyphicon glyphicon-home'></span> Home
-                    </a>
+    <!-- Top left -->
+    <ul>
+        <li [routerLinkActive]="['link-active']">
+            <a [routerLink]="['/home']">Home</a>
+        </li>
+        <li [routerLinkActive]="['link-active']">
+            <a [routerLink]="['/products']">Products</a>
+        </li>
+        <li [routerLinkActive]="['link-active']" *ngIf="userData.isAdmin">
+            <a [routerLink]="['/orders']">Orders</a>
+        </li>
+        <li [routerLinkActive]="['link-active']" *ngIf="userData.name">
+            <a [routerLink]="['/statistics']">Statistics</a>
+        </li>
+        <li [routerLinkActive]="['link-active']">
+            <a [routerLink]="['/articles']">Articles</a>
+        </li>
+        <li [routerLinkActive]="['link-active']">
+            <a [routerLink]="['/suppliers']">Suppliers</a>
+        </li>
+    </ul>
+
+    <!-- Top right -->
+    <ul>
+        <li [routerLinkActive]="['link-active']" *ngIf="!userData.name; else loggedout">
+            <a [routerLink]="['/login']">Login</a>
+        </li>
+
+        <ng-template #loggedout>
+            <li>
+            Hello, {{userData.name}}
+            <a (click)="logout()">Log out</a>
                 </li>
-                <li [routerLinkActive]="['link-active']">
-                    <a [routerLink]="['/products']">
-                        <span class='glyphicon glyphicon-education'></span> Products
-                    </a>
-                </li>
-                <li [routerLinkActive]="['link-active']">
-                    <a [routerLink]="['/orders']">
-                        <span class='glyphicon glyphicon-th-list'></span> Orders
-                    </a>
-                </li>
-            </ul>
-        </div>
+        </ng-template>
+
+        <li [routerLinkActive]="['link-active']">
+            <a [routerLink]="['/search']">Search</a>
+        </li>
+        <li [routerLinkActive]="['link-active']">
+            <a [routerLink]="['/cart']">Shopping cart</a>
+        </li>
+    </ul>
+
+    <!--Bottom-->
+    <a (click)="scrollToTop()">Top</a>
+    <ul>
+        <li [routerLinkActive]="['link-active']">
+            <a [routerLink]="['/consult']">Consult</a>
+        </li>
+    </ul>
+
+    <!--while we don't have actual user-->
+    <div>
+        For test purposes <br />
+        Name <input [(ngModel)]="userData.name" /><br />
+        Is admin <input type="checkbox" [(ngModel)]="userData.isAdmin" /><br />
+        <button (click)="logout()">Log out</button>
     </div>
 </div>
