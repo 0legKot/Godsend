@@ -1,60 +1,74 @@
-<div class='main-nav'>
-    <!-- Top left -->
-    <ul class="list-group hr">
-        <li [routerLinkActive]="['link-active']" class="list-group-item">
-            <a [routerLink]="['/home']">Home</a>
-        </li>
-        <li [routerLinkActive]="['link-active']" class="list-group-item">
-            <a [routerLink]="['/products']">Products</a>
-        </li>
-        <li [routerLinkActive]="['link-active']" *ngIf="userData.isAdmin" class="list-group-item">
-            <a [routerLink]="['/orders']">Orders</a>
-        </li>
-        <li [routerLinkActive]="['link-active']" *ngIf="userData.name" class="list-group-item">
-            <a [routerLink]="['/statistics']">Statistics</a>
-        </li>
-        <li [routerLinkActive]="['link-active']" class="list-group-item">
-            <a [routerLink]="['/articles']">Articles</a>
-        </li>
-        <li [routerLinkActive]="['link-active']" class="list-group-item">
-            <a [routerLink]="['/suppliers']">Suppliers</a>
-        </li>
-    </ul>
+<header class="fixed">
+    <div class="wrap">
+        <div class="hamburger pull-left">
+            <i class="fa fa-bars" aria-hidden="true"></i>
+        </div>
+        <!-- Top left -->
+        <nav class='main-nav pull-left'>
+            <ul class="list-unstyled">
+                <li [routerLinkActive]="['link-active']" class="main-nav-item">
+                    <a [routerLink]="['/home']">Home</a>
+                </li>
+                <li [routerLinkActive]="['link-active']" class="main-nav-item">
+                    <a [routerLink]="['/products']">Products</a>
+                </li>
+                <li [routerLinkActive]="['link-active']" *ngIf="userData.isAdmin" class="main-nav-item">
+                    <a [routerLink]="['/orders']">Orders</a>
+                </li>
+                <li [routerLinkActive]="['link-active']" *ngIf="userData.name" class="main-nav-item">
+                    <a [routerLink]="['/statistics']">Statistics</a>
+                </li>
+                <li [routerLinkActive]="['link-active']" class="main-nav-item">
+                    <a [routerLink]="['/articles']">Articles</a>
+                </li>
+                <li [routerLinkActive]="['link-active']" class="main-nav-item">
+                    <a [routerLink]="['/suppliers']">Suppliers</a>
+                </li>
+            </ul>
+        </nav>
+        <!-- Top right -->
+        <nav class="main-nav-2 pull-right">
+            <ul class="list-unstyled">
+                <li [routerLinkActive]="['link-active']" *ngIf="!userData.name; else loggedout" class="main-nav-item-2">
+                    <a [routerLink]="['/login']">Login</a>
+                </li>
 
-    <!-- Top right -->
-    <ul class="list-group hr1">
-        <li [routerLinkActive]="['link-active']" *ngIf="!userData.name; else loggedout" class="list-group-item">
-            <a [routerLink]="['/login']">Login</a>
-        </li>
+                <ng-template #loggedout>
+                    <li class="main-nav-item-2">
+                        <i class="fas fa-user"></i> {{userData.name}}
+                        <a (click)="logout()">Log out</a>
+                    </li>
+                </ng-template>
 
-        <ng-template #loggedout>
-            <li>
-                Hello, {{userData.name}}
-                <a (click)="logout()">Log out</a>
-            </li>
-        </ng-template>
-
-        <li [routerLinkActive]="['link-active']" class="list-group-item">
-            <a [routerLink]="['/search']">Search</a>
-        </li>
-        <li [routerLinkActive]="['link-active']" class="list-group-item">
-            <a [routerLink]="['/cart']">Shopping cart</a>
-        </li>
-    </ul>
-
+                <li [routerLinkActive]="['link-active']" class="main-nav-item-2">
+                    <a [routerLink]="['/search']"><i class="fas fa-search"></i></a>
+                </li>
+                <li [routerLinkActive]="['link-active']" class="main-nav-item-2">
+                    <a [routerLink]="['/cart']"><i class="fas fa-cart-plus"></i></a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</header>
+<br />
+<br />
+<br />
+<br />
+<div>
     <!--Bottom-->
-    <!--<a (click)="scrollToTop()" class="btn btn-default">Top</a>
-        <ul>
-            <li [routerLinkActive]="['link-active']" class="bg-success">
-                <a [routerLink]="['/consult']">Consult</a>
-            </li>
-        </ul>
-    -->
+    <a (click)="scrollToTop()" class="btn btn-default">Top</a>
+    <ul>
+        <li [routerLinkActive]="['link-active']" class="bg-success">
+            <a [routerLink]="['/consult']">Consult</a>
+        </li>
+    </ul>
+
     <!--while we don't have actual user-->
-    <!--<div>
+    <div>
         For test purposes <br />
         Name <input [(ngModel)]="userData.name" /><br />
         Is admin <input type="checkbox" [(ngModel)]="userData.isAdmin" /><br />
         <button (click)="logout()">Log out</button>
-    </div>-->
+    </div>
+
 </div>

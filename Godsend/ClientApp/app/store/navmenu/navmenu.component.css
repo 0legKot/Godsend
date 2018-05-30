@@ -1,5 +1,40 @@
-li .glyphicon {
-    margin-right: 10px;
+/*helpers */
+/*Position */
+.fixed {
+    position: fixed;
+}
+/*Float  */
+.pull-left {
+    float: left;
+}
+.pull-right {
+    float: right;
+}
+/*Display Values */
+.block {
+    display: block;
+}
+.inline-block {
+    display: inline-block;
+}
+/*Aligning Elements */
+.center {
+    margin: 0 auto;
+    text-align: center;
+}
+
+
+header {
+    padding-top: 20px;
+    width: 100%;
+    z-index: 100;
+}
+
+.wrap {
+    max-width: 1200px;
+    padding-left: 50px;
+    padding-right: 50px;
+    margin: 0 auto;
 }
 
 /* Highlighting rules for nav menu items */
@@ -9,72 +44,35 @@ li.link-active a:focus {
     background-color: #4189C7;
     color: white;
 }
+.hamburger {
+    color: #000000;
+    font-size: 20px;
+    display: none;
+    cursor: pointer;
+}
 
-/* Keep the nav menu independent of scrolling and on top of other items */
 .main-nav {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    z-index: 1;
+    display: block;
 }
-ul.hr {
-/* Обнуляем значение отступов */
-    margin: 0;
-    float: left;
-}
-
-    ul.hr li {
-        display: inline; /* Отображать как строчный элемент */
-
+@media (max-width: 768px) {
+    .main-nav {
+        display: none;
+        margin-right: 15px;
     }
-ul.hr1 {
-    /* Обнуляем значение отступов */
-    margin: 0;
-    float: right;
-}
-
-    ul.hr1 li {
-        display: inline; /* Отображать как строчный элемент */
-        margin-right: 5px; /* Отступ слева */
-        border: 1px solid #000; /* Рамка вокруг текста */
-        padding: 3px; /* Поля вокруг текста */
+    .hamburger {
+        display: block;
+        margin-right: 15px;
     }
+}
+.main-nav-2 {
+    display: block;
+}
+.main-nav-item {
+    display: inline-block;
+}
+.main-nav-item-2 {
+    display: inline-block;
+}
 @media (min-width: 768px) {
     /* On small screens, convert the nav menu to a vertical sidebar */
-    .main-nav {
-        height: 100%;
-        width: calc(25% - 20px);
-    }
-    .navbar {
-        border-radius: 0;
-        border-width: 0;
-        height: 100%;
-    }
-    .navbar-header {
-        float: none;
-    }
-    .navbar-collapse {
-        border-top: 1px solid #444;
-        padding: 0;
-    }
-    .navbar ul {
-        float: none;
-    }
-    .navbar li {
-        float: none;
-        font-size: 15px;
-        margin: 6px;
-    }
-    .navbar li a {
-        padding: 10px 16px;
-        border-radius: 4px;
-    }
-    .navbar a {
-        /* If a menu item's text is too long, truncate it */
-        width: 100%;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-    }
 }
