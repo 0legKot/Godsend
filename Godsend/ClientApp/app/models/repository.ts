@@ -21,7 +21,7 @@ export class Repository {
 
     getProduct(id: string|null) {
         if (id!=null)
-        this.sendRequest(RequestMethod.Get, productsUrl + "/all/one?id=" + id)
+            this.sendRequest('get', productsUrl + "/all/one?id=" + id)
             .subscribe(response => this.product = response);
     }
 
@@ -65,10 +65,8 @@ export class Repository {
     private sendRequest<T>(method: string, url: string, data?: any)
         : Observable<T> {
 
-        return this.http.request(new Request({
-            method: verb, url: this.baseUrl+url, body: data
-        })).map(response => {
-            if (response.headers != null) {
+        return this.http.request<T>(method, url, { body: data, responseType: "json" })
+            .map(response => {
                 console.log(this.baseUrl + url);
                 console.log(response);
                 return response;
@@ -101,7 +99,7 @@ export class Repository {
     }
 
 
-    product?: Product;
+    product: Product | {};
     products: Product[] = [];
 
 }

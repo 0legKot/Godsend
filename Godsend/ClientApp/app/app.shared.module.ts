@@ -16,6 +16,7 @@ import { LoginComponent } from './components/login/login.component';
 import { SearchComponent } from './components/search/search.component';
 import { StatisticsComponent } from './components/statistics/statistics.component';
 import { SuppliersComponent } from './components/suppliers/suppliers.component';
+import { ProductDetailComponent } from './components/products/productDetail.component';
 
 @NgModule({
     declarations: [
