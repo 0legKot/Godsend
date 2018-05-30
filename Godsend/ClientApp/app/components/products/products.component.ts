@@ -6,13 +6,12 @@ import { Product } from "../../models/product.model";
 
 @Component({
     selector: 'products',
-    providers: [Repository],
     templateUrl: './products.component.html'
 })
 export class ProductsComponent {
     //private selectedId: string;
 
-    constructor(private repo: Repository, private route: ActivatedRoute) {
+    constructor(private repo: Repository) {
     }
 
     get products(): Product[] {

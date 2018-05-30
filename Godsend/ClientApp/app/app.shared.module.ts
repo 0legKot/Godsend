@@ -22,7 +22,6 @@ import { ProductDetailComponent } from './components/products/productDetail.comp
     declarations: [
         AppComponent,
         NavMenuComponent,
-        ProductsComponent,
         OrdersComponent,
         HomeComponent,
         ArticlesComponent,
@@ -31,7 +30,9 @@ import { ProductDetailComponent } from './components/products/productDetail.comp
         LoginComponent,
         SearchComponent,
         StatisticsComponent,
-        SuppliersComponent
+        SuppliersComponent,
+        ProductDetailComponent,
+        ProductsComponent
     ],
     imports: [
         CommonModule,

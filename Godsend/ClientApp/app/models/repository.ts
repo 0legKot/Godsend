@@ -15,6 +15,7 @@ const ordersUrl = "/api/order";
 @Injectable()
 export class Repository {
 
+  //  private baseUrl = 'localhost:56440/'
     constructor(private http: HttpClient, @Inject('BASE_URL') private baseUrl: string) {
         this.getProducts();
     }
@@ -99,7 +100,7 @@ export class Repository {
     }
 
 
-    product: Product | {};
+    product: Product | {} = {};
     products: Product[] = [];
 
 }

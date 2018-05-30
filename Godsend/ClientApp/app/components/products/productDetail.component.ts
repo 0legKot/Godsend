@@ -9,7 +9,6 @@ import { forEach } from '@angular/router/src/utils/collection';
 
 @Component({
     selector: "productDetail",
-    providers: [Repository],
     templateUrl: "productDetail.component.html"
 })
 export class ProductDetailComponent  {
@@ -25,7 +24,6 @@ export class ProductDetailComponent  {
         this.router.navigate(['/products', { id: productId}]);
     }
     get product() {
-        console.log(this.route.url.last.name);
         console.log(this.route.url.last.name);
 
         this.service.getProduct(this.route.snapshot.params["id"]);

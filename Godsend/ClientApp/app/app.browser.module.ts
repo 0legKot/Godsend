@@ -8,15 +8,18 @@ import { Repository } from './models/repository'
     bootstrap: [ AppComponent ],
     imports: [
         BrowserModule,
-        AppModuleShared
+        AppModuleShared,
+        
     ],
     providers: [
-        { provide: 'BASE_URL', useFactory: getBaseUrl }, Repository
+        Repository,
+        { provide: 'BASE_URL', useFactory: getBaseUrl }
     ]
 })
 export class AppModule {
 }
 
 export function getBaseUrl() {
+    console.log('getting base url');
     return document.getElementsByTagName('base')[0].href;
 }
