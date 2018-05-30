@@ -4,19 +4,19 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 
-import { AppComponent } from './components/app/app.component';
-import { NavMenuComponent } from './components/navmenu/navmenu.component';
-import { HomeComponent } from './components/home/home.component';
-import { ProductsComponent } from './components/products/products.component';
-import { OrdersComponent } from './components/orders/orders.component';
-import { ArticlesComponent } from './components/articles/articles.component';
-import { CartComponent } from './components/cart/cart.component';
-import { ConsultComponent } from './components/consult/consult.component';
-import { LoginComponent } from './components/login/login.component';
-import { SearchComponent } from './components/search/search.component';
-import { StatisticsComponent } from './components/statistics/statistics.component';
-import { SuppliersComponent } from './components/suppliers/suppliers.component';
-import { ProductDetailComponent } from './components/products/productDetail.component';
+import { AppComponent } from './store/app/app.component';
+import { NavMenuComponent } from './store/navmenu/navmenu.component';
+import { HomeComponent } from './store/home/home.component';
+import { ProductsComponent } from './store/products/products.component';
+import { OrdersComponent } from './admin/orders/orders.component';
+import { ArticlesComponent } from './store/articles/articles.component';
+import { CartComponent } from './store/cart/cart.component';
+import { ConsultComponent } from './store/consult/consult.component';
+import { LoginComponent } from './store/login/login.component';
+import { SearchComponent } from './store/search/search.component';
+import { StatisticsComponent } from './store/statistics/statistics.component';
+import { SuppliersComponent } from './store/suppliers/suppliers.component';
+import { ProductDetailComponent } from './store/products/productDetail.component';
 
 @NgModule({
     declarations: [
