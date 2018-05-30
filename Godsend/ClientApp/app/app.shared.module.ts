@@ -22,6 +22,7 @@ import { ProductDetailComponent } from './components/products/productDetail.comp
     declarations: [
         AppComponent,
         NavMenuComponent,
+        ProductsComponent,
         OrdersComponent,
         HomeComponent,
         ArticlesComponent,
@@ -31,8 +32,7 @@ import { ProductDetailComponent } from './components/products/productDetail.comp
         SearchComponent,
         StatisticsComponent,
         SuppliersComponent,
-        ProductDetailComponent,
-        ProductsComponent
+        ProductDetailComponent
     ],
     imports: [
         CommonModule,
@@ -42,7 +42,7 @@ import { ProductDetailComponent } from './components/products/productDetail.comp
             { path: '', redirectTo: 'home', pathMatch: 'full' },
             { path: 'home', component: HomeComponent },
             { path: 'products', component: ProductsComponent },
-            { path: 'products/:id*', component: ProductDetailComponent },
+            { path: 'products/:id', component: ProductDetailComponent },
             { path: 'orders', component: OrdersComponent },
             { path: 'articles', component: ArticlesComponent },
             { path: 'cart', component: CartComponent },

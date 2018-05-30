@@ -9,6 +9,7 @@ import { forEach } from '@angular/router/src/utils/collection';
 
 @Component({
     selector: "productDetail",
+    providers: [Repository],
     templateUrl: "productDetail.component.html"
 })
 export class ProductDetailComponent  {
@@ -23,12 +24,7 @@ export class ProductDetailComponent  {
         let productId = product ? product.id : null;    
         this.router.navigate(['/products', { id: productId}]);
     }
-    get product() {
-        console.log(this.route.url.last.name);
-
-        this.service.getProduct(this.route.snapshot.params["id"]);
-        
-        //this.route.queryParams.subscribe(params => { this.service.getProduct(params["id"]) });
+    get product(): Product | {} {
         return this.service.product;
     }
 }

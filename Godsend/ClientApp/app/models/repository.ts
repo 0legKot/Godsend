@@ -4,6 +4,7 @@ import { HttpClient } from "@angular/common/http"
 import { Observable } from "rxjs/Observable";
 import "rxjs/add/operator/map";
 import "rxjs/add/operator/catch";
+import { retry } from "rxjs/operator/retry";
 
 
 const productsUrl = "api/product";
@@ -15,15 +16,14 @@ const ordersUrl = "/api/order";
 @Injectable()
 export class Repository {
 
-  //  private baseUrl = 'localhost:56440/'
     constructor(private http: HttpClient, @Inject('BASE_URL') private baseUrl: string) {
         this.getProducts();
     }
-
+    b: boolean = false;
     getProduct(id: string|null) {
         if (id!=null)
             this.sendRequest('get', productsUrl + "/all/one?id=" + id)
-            .subscribe(response => this.product = response);
+                .subscribe(response => { this.product = response; console.log("getproductsent"); console.log(response); return response });
     }
 
     getProducts() {
@@ -99,8 +99,10 @@ export class Repository {
         return this.sendRequest<any>('get', "/api/session/" + dataType);
     }
 
-
-    product: Product | {} = {};
+    get productget() {
+         console.log("kill"); console.log(this.product);  return <Product>this.product
+    }
+    product: Product | {};
     products: Product[] = [];
 
 }
