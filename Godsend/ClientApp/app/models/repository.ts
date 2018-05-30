@@ -5,6 +5,7 @@ import { Observable } from "rxjs/Observable";
 import "rxjs/add/operator/map";
 import "rxjs/add/operator/catch";
 import { retry } from "rxjs/operator/retry";
+import { Action } from "rxjs/scheduler/Action";
 
 
 const productsUrl = "api/product";
@@ -20,7 +21,7 @@ export class Repository {
         this.getProducts();
     }
    // b: boolean = false;
-    getProduct(id: string|null, fn?: any) {
+    getProduct(id: string|null, fn: ((_:Product) => any)) {
         if (id!=null)
             this.sendRequest<Product>('get', productsUrl + "/all/one?id=" + id)
                 .subscribe(response => {

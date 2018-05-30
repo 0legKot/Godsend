@@ -28,7 +28,7 @@ export class ProductDetailComponent  {
     prod?: Product;
 
     ngOnInit() {
-        this.service.getProduct(this.route.snapshot.params['id'], (p: any) => this.prod = p);
+        this.service.getProduct(this.route.snapshot.params['id'], p => this.prod = p);
     }
 
     /*get product(): Product | {} {
