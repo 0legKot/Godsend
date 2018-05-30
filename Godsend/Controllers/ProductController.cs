@@ -21,7 +21,13 @@ namespace Godsend.Controllers
         {
             return repository.Products;
         }
-
+        [HttpGet("[action]/one")]
+        public Product All(string id)
+        {
+            Guid tmp;
+            try { tmp=Guid.Parse(id); } catch { }
+            return repository.Products.FirstOrDefault(x=>x.Id==tmp);
+        }
         public IActionResult Index()
         {
             return View();

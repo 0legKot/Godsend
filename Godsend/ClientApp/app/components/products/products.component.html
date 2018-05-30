@@ -12,9 +12,11 @@
         <div class="card-block">
             <span class="card-text p-a-1">{{product.info.description}}</span>
         </div>
+        <a [routerLink]="['/products', product.id]">
+            <span class="badge">{{ product.id }}</span>{{ product.info.name }}
+        </a>
     </div>
 </div>
-
 <ng-template #nodata>
     <h4 class="m-1">Waiting for data...</h4>
 </ng-template>

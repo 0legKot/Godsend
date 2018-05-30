@@ -5,6 +5,7 @@ import { Observable } from "rxjs/Observable";
 import "rxjs/add/operator/map";
 import "rxjs/add/operator/catch";
 
+
 const productsUrl = "api/product";
 const suppliersUrl = "/api/supplier";
 const ordersUrl = "/api/order";
@@ -18,8 +19,9 @@ export class Repository {
         this.getProducts();
     }
 
-    getProduct(id: string) {
-        this.sendRequest(RequestMethod.Get, productsUrl + "/" + id)
+    getProduct(id: string|null) {
+        if (id!=null)
+        this.sendRequest(RequestMethod.Get, productsUrl + "/all/one?id=" + id)
             .subscribe(response => this.product = response);
     }
 
@@ -66,6 +68,7 @@ export class Repository {
             method: verb, url: this.baseUrl+url, body: data
         })).map(response => {
             if (response.headers != null) {
+                console.log(this.baseUrl + url);
                 console.log(response);
                 return response.headers.get("Content-Length") != "0"
                     ? response.json() : null;

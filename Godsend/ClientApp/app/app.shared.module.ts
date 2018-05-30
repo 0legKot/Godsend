@@ -9,6 +9,7 @@ import { NavMenuComponent } from './components/navmenu/navmenu.component';
 import { HomeComponent } from './components/home/home.component';
 import { ProductsComponent } from './components/products/products.component';
 import { OrdersComponent } from './components/orders/orders.component';
+import { ProductDetailComponent } from './components/products/productDetail.component';
 
 @NgModule({
     declarations: [
@@ -16,6 +17,7 @@ import { OrdersComponent } from './components/orders/orders.component';
         NavMenuComponent,
         ProductsComponent,
         OrdersComponent,
+        ProductDetailComponent,
         HomeComponent
     ],
     imports: [
@@ -26,9 +28,13 @@ import { OrdersComponent } from './components/orders/orders.component';
             { path: '', redirectTo: 'home', pathMatch: 'full' },
             { path: 'home', component: HomeComponent },
             { path: 'products', component: ProductsComponent },
+            { path: 'products/:id*', component: ProductDetailComponent },
             { path: 'orders', component: OrdersComponent },
             { path: '**', redirectTo: 'home' }
         ])
+    ],
+    exports: [
+        RouterModule
     ]
 })
 export class AppModuleShared {
