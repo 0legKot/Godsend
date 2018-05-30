@@ -19,11 +19,16 @@ export class Repository {
     constructor(private http: HttpClient, @Inject('BASE_URL') private baseUrl: string) {
         this.getProducts();
     }
-    b: boolean = false;
-    getProduct(id: string|null) {
+   // b: boolean = false;
+    getProduct(id: string|null, fn?: any) {
         if (id!=null)
-            this.sendRequest('get', productsUrl + "/all/one?id=" + id)
-                .subscribe(response => { this.product = response; console.log("getproductsent"); console.log(response); return response });
+            this.sendRequest<Product>('get', productsUrl + "/all/one?id=" + id)
+                .subscribe(response => {
+                    this.product = response;
+                    console.log("getproductsent");
+                    console.log(response);
+                    if (fn) fn(response)
+                });
     }
 
     getProducts() {
@@ -102,7 +107,7 @@ export class Repository {
     get productget() {
          console.log("kill"); console.log(this.product);  return <Product>this.product
     }
-    product: Product | {};
+    product: Product | {} = { };
     products: Product[] = [];
 
 }

@@ -14,10 +14,10 @@ export class ProductsComponent {
     constructor(private repo: Repository) {
     }
     async choose(id: string) {
-        console.log("choose");
+        /*console.log("choose");
         console.log(id);
-        console.log(await this.repo.getProduct("bd52b3c9-bbe7-4f2d-dde9-08d5c270269a"));
-        console.log(this.repo.productget.id);
+        console.log(await this.repo.getProduct("adc1067c-fce7-4bc9-bc51-08d5c2c9ba6a"));
+        console.log(this.repo.productget.id);*/
     }
     get products(): Product[] {
         if (this.repo.products != null && this.repo.products.length > 0) {

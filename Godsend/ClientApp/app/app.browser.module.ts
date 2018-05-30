@@ -20,6 +20,5 @@ export class AppModule {
 }
 
 export function getBaseUrl() {
-    console.log('getting base url');
     return document.getElementsByTagName('base')[0].href;
 }

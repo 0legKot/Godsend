@@ -24,7 +24,14 @@ export class ProductDetailComponent  {
         let productId = product ? product.id : null;    
         this.router.navigate(['/products', { id: productId}]);
     }
-    get product(): Product | {} {
-        return this.service.product;
+
+    prod?: Product;
+
+    ngOnInit() {
+        this.service.getProduct(this.route.snapshot.params['id'], (p: any) => this.prod = p);
     }
+
+    /*get product(): Product | {} {
+        return this.service.product;
+    }*/
 }
