@@ -22,10 +22,10 @@ namespace Godsend.Controllers
             return repository.Products;
         }
         [HttpGet("[action]/{id}")]
-        public Product Detail()
+        public Product Detail(string id)
         {
             Guid tmp;
-            try { tmp=Guid.Parse(Request.Path.Value.Substring(Request.Path.Value.LastIndexOf('/')+1)); } catch { }
+            try { tmp=Guid.Parse(id); } catch { return null; }
             return repository.Products.FirstOrDefault(x=>x.Id==tmp);
         }
         public IActionResult Index()
