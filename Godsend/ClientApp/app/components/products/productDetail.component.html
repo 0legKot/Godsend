@@ -1,10 +1,19 @@
-﻿<h1>detail</h1>
+﻿<h1>Product detail</h1>
 
     <div>
         <label>Id: </label>{{ prod?.id }}
     </div>
     <div>
-        <label>Name: </label>{{ prod?.info?.name }}
+        <label>Name: </label>{{ prod?.info?.name }} 
+    </div>
+    <div>
+        <label>Description: </label>{{ prod?.info?.description }}
+    </div>
+    <div>
+        <label>Watches: </label>{{ prod?.info?.watches }}
+    </div>
+    <div>
+        <label>Rating: </label>{{ prod?.info?.rating }}
     </div>
     <p>
         <button (click)="gotoProducts(prod)">Back</button>

@@ -22,7 +22,7 @@ export class Repository {
    // b: boolean = false;
     getProduct(id: string|null, fn?: any) {
         if (id!=null)
-            this.sendRequest<Product>('get', productsUrl + "/all/one?id=" + id)
+            this.sendRequest<Product>('get', productsUrl + "/detail/" + id)
                 .subscribe(response => {
                     this.product = response;
                     console.log("getproductsent");
