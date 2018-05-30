@@ -29,9 +29,9 @@
 
         <ng-template #loggedout>
             <li>
-            Hello, {{userData.name}}
-            <a (click)="logout()">Log out</a>
-                </li>
+                Hello, {{userData.name}}
+                <a (click)="logout()">Log out</a>
+            </li>
         </ng-template>
 
         <li [routerLinkActive]="['link-active']" class="list-group-item">
@@ -43,18 +43,18 @@
     </ul>
 
     <!--Bottom-->
-    <a (click)="scrollToTop()" class="btn btn-default">Top</a>
-    <ul>
-        <li [routerLinkActive]="['link-active']" class="bg-success">
-            <a [routerLink]="['/consult']">Consult</a>
-        </li>
-    </ul>
-
+    <!--<a (click)="scrollToTop()" class="btn btn-default">Top</a>
+        <ul>
+            <li [routerLinkActive]="['link-active']" class="bg-success">
+                <a [routerLink]="['/consult']">Consult</a>
+            </li>
+        </ul>
+    -->
     <!--while we don't have actual user-->
-    <div>
+    <!--<div>
         For test purposes <br />
         Name <input [(ngModel)]="userData.name" /><br />
         Is admin <input type="checkbox" [(ngModel)]="userData.isAdmin" /><br />
         <button (click)="logout()">Log out</button>
-    </div>
+    </div>-->
 </div>

@@ -21,6 +21,7 @@ li.link-active a:focus {
 ul.hr {
 /* Обнуляем значение отступов */
     margin: 0;
+    float: left;
 }
 
     ul.hr li {
@@ -30,6 +31,7 @@ ul.hr {
 ul.hr1 {
     /* Обнуляем значение отступов */
     margin: 0;
+    float: right;
 }
 
     ul.hr1 li {
