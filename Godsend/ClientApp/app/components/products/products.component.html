@@ -12,7 +12,6 @@
         <div class="card-block">
             <span class="card-text p-a-1">{{product.info.description}}</span>
         </div>
-        <button (click)="choose('ss')">GGGGG</button>
         <a [routerLink]="['/products', product.id]" (click)="choose(product.id)">
             <span class="badge">{{ product.id }}</span>{{ product.info.name }}
         </a>
