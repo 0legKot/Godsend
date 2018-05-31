@@ -7,22 +7,22 @@
         <nav class='main-nav pull-left' [ngClass]="{'block' : showMenuMobile}">
             <ul class="list-unstyled">
                 <li [routerLinkActive]="['link-active']" class="main-nav-item">
-                    <a [routerLink]="['/home']">Home</a>
+                    <a [routerLink]="['/home']" (click)="hideMenu()">Home</a>
                 </li>
                 <li [routerLinkActive]="['link-active']" class="main-nav-item">
-                    <a [routerLink]="['/products']">Products</a>
+                    <a [routerLink]="['/products']" (click)="hideMenu()">Products</a>
                 </li>
                 <li [routerLinkActive]="['link-active']" *ngIf="userData.isAdmin" class="main-nav-item">
-                    <a [routerLink]="['/orders']">Orders</a>
+                    <a [routerLink]="['/orders']" (click)="hideMenu()">Orders</a>
                 </li>
                 <li [routerLinkActive]="['link-active']" *ngIf="userData.name" class="main-nav-item">
-                    <a [routerLink]="['/statistics']">Statistics</a>
+                    <a [routerLink]="['/statistics']" (click)="hideMenu()">Statistics</a>
                 </li>
                 <li [routerLinkActive]="['link-active']" class="main-nav-item">
-                    <a [routerLink]="['/articles']">Articles</a>
+                    <a [routerLink]="['/articles']" (click)="hideMenu()">Articles</a>
                 </li>
                 <li [routerLinkActive]="['link-active']" class="main-nav-item">
-                    <a [routerLink]="['/suppliers']">Suppliers</a>
+                    <a [routerLink]="['/suppliers']" (click)="hideMenu()">Suppliers</a>
                 </li>
             </ul>
         </nav>
