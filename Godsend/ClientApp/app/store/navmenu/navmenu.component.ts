@@ -19,6 +19,11 @@ export class NavMenuComponent {
     slideToggle(): void {
         this.showMenuMobile = !this.showMenuMobile;
     }
+
+    hideMenu(): void {
+        this.showMenuMobile = false;
+    }
+
     logout() {
         this.userData = {};
     }

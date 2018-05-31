@@ -68,9 +68,74 @@ namespace Godsend
 
                 context.SaveChanges();
             }
-                
-                
-            
+
+
+            if (!context.Products.Any(p => p.Info.Name == "Tomato"))
+            {
+                context.Products.AddRange(
+                    new DiscreteProduct
+                    {
+                        Info = new ProductInformation
+                        {
+                            Name = "Aubergine (eggplant)",
+                            Description = "The mad apple",
+                            Rating = Math.PI,
+                            Watches = 3
+                        }
+                    },
+                    new DiscreteProduct
+                    {
+                        Info = new ProductInformation
+                        {
+                            Name = "Tomato",
+                            Description = "The love apple",
+                            Rating = Math.E,
+                            Watches = 13
+                        }
+                    },
+                    new DiscreteProduct
+                    {
+                        Info = new ProductInformation
+                        {
+                            Name = "Peach",
+                            Description = "The persian apple (not really)",
+                            Rating = 4,
+                            Watches = 8
+                        }
+                    },
+                    new DiscreteProduct
+                    {
+                        Info = new ProductInformation
+                        {
+                            Name = "Pommegranate",
+                            Description = "The seedy apple",
+                            Rating = 3.4,
+                            Watches = 6
+                        }
+                    },
+                    new DiscreteProduct
+                    {
+                        Info = new ProductInformation
+                        {
+                            Name = "Melon",
+                            Description = "Apple gourd",
+                            Rating = 2.1,
+                            Watches = 8
+                        }
+                    },
+                    new DiscreteProduct
+                    {
+                        Info = new ProductInformation
+                        {
+                            Name = "Quince",
+                            Description = "Apple of Cydonia",
+                            Rating = 3,
+                            Watches = 1
+                        }
+                    });
+
+                context.SaveChanges(); 
+            }
         }
 
         public IEnumerable<Product> Products => context.Products.Include(x => x.Info);
