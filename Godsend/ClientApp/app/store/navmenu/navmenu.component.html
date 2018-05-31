@@ -4,7 +4,7 @@
             <i class="fa fa-bars" aria-hidden="true"></i>
         </div>
         <!-- Top left -->
-        <nav class='main-nav pull-left' id="_nav">
+        <nav class='main-nav pull-left' [ngClass]="{'block' : showMenuMobile}">
             <ul class="list-unstyled">
                 <li [routerLinkActive]="['link-active']" class="main-nav-item">
                     <a [routerLink]="['/home']">Home</a>

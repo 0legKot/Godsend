@@ -1,6 +1,4 @@
-﻿
-//Incorrect props TODO: correct
-export class Product {
+﻿export class Product {
     constructor(
         public id: string,
         public info: ProductInfo,        

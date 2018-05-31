@@ -13,20 +13,11 @@ export class NavMenuComponent {
     scrollToTop(): void {
         window.scrollTo(0, 0);
     }
-    bool = true;
+
+    showMenuMobile = false;
+
     slideToggle(): void {
-        let tmp = document.getElementById('_nav');
-        if (tmp) {
-            if (this.bool) {
-                tmp.style.display = "block";
-                this.bool = false;
-            }
-            else if (this.bool == false){
-                tmp.style.display = "none";
-                this.bool = true;
-            }
-            console.log(this.bool);
-        }
+        this.showMenuMobile = !this.showMenuMobile;
     }
     logout() {
         this.userData = {};
