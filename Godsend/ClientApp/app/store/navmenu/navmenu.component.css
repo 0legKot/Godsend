@@ -25,54 +25,62 @@
 
 
 header {
-    padding-top: 20px;
+    padding-top: 10px;
+    padding-bottom: 5px;
     width: 100%;
     z-index: 100;
+    background: rgba(241, 169, 20, 0.80);
+    left: 0;
 }
 
 .wrap {
-    max-width: 1200px;
-    padding-left: 50px;
-    padding-right: 50px;
+    max-width: 1400px;
+    padding-left: 20px;
+    padding-right: 20px;
     margin: 0 auto;
 }
 
 /* Highlighting rules for nav menu items */
-li.link-active a,
-li.link-active a:hover,
-li.link-active a:focus {
-    background-color: #4189C7;
-    color: white;
+a {
+ text-decoration: none;
+    color: rgb(87, 61, 7);
+    font-weight: bold;
 }
+    a:hover, .hamburger:hover {
+        color: #ffffff;
+        transition: 300ms;
+    }
 .hamburger {
     color: #000000;
-    font-size: 20px;
+    font-size: 18px;
     display: none;
     cursor: pointer;
+    padding-top: 5px;
 }
 
-.main-nav {
+.main-nav, .main-nav-2 {
     display: block;
+    padding-top: 5px;
+    font-size:18px;
+}
+
+.main-nav-item, .main-nav-item-2 {
+    display: inline-block;
+    padding-right: 5px;
 }
 @media (max-width: 768px) {
     .main-nav {
         display: none;
-        margin-right: 15px;
+        margin-left: 10px;
     }
+    .wrap {
+        padding-left: 5px;
+    } 
     .hamburger {
         display: block;
-        margin-right: 15px;
+        margin-left: 10px;
     }
-}
-.main-nav-2 {
-    display: block;
-}
-.main-nav-item {
-    display: inline-block;
-}
-.main-nav-item-2 {
-    display: inline-block;
-}
-@media (min-width: 768px) {
-    /* On small screens, convert the nav menu to a vertical sidebar */
+    .main-nav-item {
+        display: block !important;
+    }
 }

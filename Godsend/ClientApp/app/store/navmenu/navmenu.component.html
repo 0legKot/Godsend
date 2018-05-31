@@ -1,10 +1,10 @@
 <header class="fixed">
     <div class="wrap">
-        <div class="hamburger pull-left">
+        <div class="hamburger pull-left" (click)="slideToggle()">
             <i class="fa fa-bars" aria-hidden="true"></i>
         </div>
         <!-- Top left -->
-        <nav class='main-nav pull-left'>
+        <nav class='main-nav pull-left' id="_nav">
             <ul class="list-unstyled">
                 <li [routerLinkActive]="['link-active']" class="main-nav-item">
                     <a [routerLink]="['/home']">Home</a>
@@ -56,7 +56,7 @@
 <br />
 <div>
     <!--Bottom-->
-    <a (click)="scrollToTop()" class="btn btn-default">Top</a>
+    <a (click)="scrollToTop()" class="btn btn-default" style="display: none">Top</a>
     <ul>
         <li [routerLinkActive]="['link-active']" class="bg-success">
             <a [routerLink]="['/consult']">Consult</a>
@@ -64,7 +64,7 @@
     </ul>
 
     <!--while we don't have actual user-->
-    <div>
+    <div style="display: none">
         For test purposes <br />
         Name <input [(ngModel)]="userData.name" /><br />
         Is admin <input type="checkbox" [(ngModel)]="userData.isAdmin" /><br />
