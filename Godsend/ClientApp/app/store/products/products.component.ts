@@ -6,7 +6,8 @@ import { Product } from "../../models/product.model";
 
 @Component({
     selector: 'products',
-    templateUrl: './products.component.html'
+    templateUrl: './products.component.html',
+    styleUrls: ['./products.component.css']
 })
 export class ProductsComponent {
     //private selectedId: string;

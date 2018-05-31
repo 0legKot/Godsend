@@ -1,0 +1,28 @@
+﻿.wrap {
+    max-width: 1400px;
+    margin: 0 auto;
+}
+.products {
+    margin-left: 10px;
+    margin-right: 10px;
+}
+@media (max-width: 768px) {
+    .products {
+        margin-left: 30px;
+        margin-right: 30px;
+    }
+}
+    .card {
+        background: #ffffff;
+        height: 360px;
+        display: inline-block;
+        border: solid #beb3b3 0.5px;
+        text-align: center;
+        font-size: 18px;
+        padding-top: 15px;
+    }
+
+        .card:hover {
+            box-shadow: 0px 0px 6px 1px rgba(0, 0, 0, 0.5);
+            z-index: 12;
+        }
