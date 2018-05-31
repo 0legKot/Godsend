@@ -6,20 +6,22 @@
     <div class="wrap">
         <div class='container-fluid'>
             <div class='row products'>
-                <div *ngFor="let product of products" class="col-md-3 col-sm-6  col-xs-12  card card-outline-primary m-1">
-                    <div class="card-header">
-                        <span class="h4">
-                            {{product.info.name}}
-                        </span>
-                        <span class="float-right badge badge-pill badge-primary">
-                            {{product.info.price  | currency:"USD":true }}
-                        </span>
-                    </div>
-                    <div class="card-block">
-                        <span class="card-text p-a-1">{{product.info.description}}</span>
-                    </div>
+                <div *ngFor="let product of products" class="col-lg-3 col-md-4 col-sm-6 col-xs-12  card ">
                     <a [routerLink]="['/products', product.id]" (click)="choose(product.id)">
-                        <span class="badge">{{ product.info.name }}</span>
+                        <div class="card-header">
+                            <span class="h4">
+                                {{product.info.name}}
+                            </span>
+                            <span class="float-right badge badge-pill badge-primary">
+                                {{product.info.price  | currency:"USD":true }}
+                            </span>
+                        </div>
+                        <div class="photo mb-4">
+                            Photo
+                        </div>
+                        <div class="card-block">
+                            <span class="card-text p-a-1">{{product.info.description}}</span>
+                        </div>
                     </a>
                 </div>
             </div>
