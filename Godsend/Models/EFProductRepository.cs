@@ -16,7 +16,7 @@ namespace Godsend
         public EFProductRepository(DataContext ctx, UserManager<IdentityUser> userManager)
         {
             context = ctx;
-            
+
             if (!context.Products.Any())
             {
                 context.Products.Add(new DiscreteProduct
@@ -29,9 +29,48 @@ namespace Godsend
                         Watches = 0
                     }
                 });
-                
+                context.SaveChanges();
+
+            };
+
+            if (!context.Products.Any(p => p.Info.Name == "Potato"))
+            {
+                context.Products.AddRange(new DiscreteProduct
+                {
+                    Info = new ProductInformation
+                    {
+                        Name = "Potato",
+                        Description = "The earth apple",
+                        Rating = 5,
+                        Watches = 4
+                    }
+                },
+                new DiscreteProduct
+                {
+                    Info = new ProductInformation
+                    {
+                        Name = "Orange",
+                        Description = "Chinese apple",
+                        Rating = 13.0 / 3,
+                        Watches = 7
+                    }
+                },
+                new DiscreteProduct
+                {
+                    Info = new ProductInformation
+                    {
+                        Name = "Pineapple",
+                        Description = "Cone-looking apple",
+                        Rating = 1.5,
+                        Watches = 0
+                    }
+                });
+
                 context.SaveChanges();
             }
+                
+                
+            
         }
 
         public IEnumerable<Product> Products => context.Products.Include(x => x.Info);
