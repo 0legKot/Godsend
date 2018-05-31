@@ -12,7 +12,7 @@
 }
 /*Display Values */
 .block {
-    display: block;
+    display: block !important;
 }
 .inline-block {
     display: inline-block;

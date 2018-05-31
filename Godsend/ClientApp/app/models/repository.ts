@@ -4,9 +4,6 @@ import { HttpClient } from "@angular/common/http"
 import { Observable } from "rxjs/Observable";
 import "rxjs/add/operator/map";
 import "rxjs/add/operator/catch";
-import { retry } from "rxjs/operator/retry";
-import { Action } from "rxjs/scheduler/Action";
-
 
 const productsUrl = "api/product";
 const suppliersUrl = "/api/supplier";
@@ -20,9 +17,9 @@ export class Repository {
     constructor(private http: HttpClient, @Inject('BASE_URL') private baseUrl: string) {
         this.getProducts();
     }
-   // b: boolean = false;
-    getProduct(id: string|null, fn: ((_:Product) => any)) {
-        if (id!=null)
+
+    getProduct(id: string, fn: ((_: Product) => any)) {
+        if (id != null) {
             this.sendRequest<Product>('get', productsUrl + "/detail/" + id)
                 .subscribe(response => {
                     this.product = response;
@@ -30,6 +27,7 @@ export class Repository {
                     console.log(response);
                     if (fn) fn(response)
                 });
+        }
     }
 
     getProducts() {
@@ -53,9 +51,7 @@ export class Repository {
                 prod.id = response;
                 this.products.push(prod);
             });
-    }
-
-    
+    }    
 
     replaceProduct(prod: Product) {
         let data = {
@@ -65,9 +61,7 @@ export class Repository {
         };
         this.sendRequest<null>('put', productsUrl + "/" + prod.id, data)
             .subscribe(response => this.getProducts());
-    }
-    
-    
+    }  
 
     private sendRequest<T>(method: string, url: string, data?: any)
         : Observable<T> {
@@ -94,8 +88,6 @@ export class Repository {
             .subscribe(response => this.getProducts());
     }
 
-
-
     storeSessionData(dataType: string, data: any) {
         return this.sendRequest<null>('post', "/api/session/" + dataType, data)
             .subscribe(response => { });
@@ -105,10 +97,6 @@ export class Repository {
         return this.sendRequest<any>('get', "/api/session/" + dataType);
     }
 
-    get productget() {
-         console.log("kill"); console.log(this.product);  return <Product>this.product
-    }
     product: Product | {} = { };
     products: Product[] = [];
-
 }
