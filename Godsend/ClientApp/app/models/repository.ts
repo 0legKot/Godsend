@@ -51,9 +51,7 @@ export class Repository {
                 prod.id = response;
                 this.products.push(prod);
             });
-    }
-
-    
+    }    
 
     replaceProduct(prod: Product) {
         let data = {
