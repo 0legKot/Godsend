@@ -1,9 +1,11 @@
 ﻿import { Product } from "./product.model";
 import { Injectable, Inject } from "@angular/core";
 import { HttpClient } from "@angular/common/http"
-import { Observable } from "rxjs/Observable";
-import "rxjs/add/operator/map";
-import "rxjs/add/operator/catch";
+import { Observable } from "rxjs";
+//import "rxjs/add/operator/map";
+//import 'rxjs/add/operator/toPromise';
+//import "rxjs/add/operator/catch";
+import { map } from "rxjs/internal/operators/";
 
 const productsUrl = "api/product";
 const suppliersUrl = "/api/supplier";
@@ -66,12 +68,12 @@ export class Repository {
     private sendRequest<T>(method: string, url: string, data?: any)
         : Observable<T> {
 
-        return this.http.request<T>(method, url, { body: data, responseType: "json" })
-            .map(response => {
+        return this.http.request<T>(method, url, { body: data, responseType: "json" }).pipe(
+            map(response => {
                 console.log(this.baseUrl + url);
                 console.log(response);
                 return response;
-            });
+            }));
     }
     
     updateProduct(id: string, changes: Map<string, any>) {
