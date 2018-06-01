@@ -16,7 +16,7 @@ export class AuthenticationService {
     authenticated = false;
     name = '';
     password = '';
-    callbackUrl = '';
+    callbackUrl:string;
 
     login(): Observable<boolean> {
         this.authenticated = true;
@@ -24,8 +24,8 @@ export class AuthenticationService {
             map(response => {
                 if (response.ok) {
                     this.authenticated = true;
-                    this.password = '';
-                    this.router.navigateByUrl(this.callbackUrl || '/orders');
+                  this.password = '';
+                  this.router.navigateByUrl(this.callbackUrl );
                 }
                 return this.authenticated;
             }));
