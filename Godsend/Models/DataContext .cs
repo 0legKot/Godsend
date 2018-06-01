@@ -15,7 +15,7 @@ namespace Godsend.Models
         public DbSet<Product> Products { get; set; }
         public DbSet<Supplier> Suppliers { get; set; }
         public DbSet<Order> Orders { get; set; }
-        public DbSet<ProductInformation> ProductInformation { get; set; }
+       // public DbSet<ProductInformation> ProductInformation { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -23,7 +23,7 @@ namespace Godsend.Models
             builder.Entity<DiscreteProduct>();
             builder.Entity<WeightedProduct>();
             builder.Entity<SimpleSupplier>();
-            builder.Entity<ProductInformation>();
+            //builder.Entity<ProductInformation>();
             
             base.OnModelCreating(builder);
         }

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Godsend.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Godsend.Controllers
 {
@@ -47,13 +48,13 @@ namespace Godsend.Controllers
         [HttpGet("products/{term}")]
         public IEnumerable<Product> FindProducts(string term)
         {
-            return context.Products.Where(p => p.Info.Name.ToLower().Contains(term.ToLower()));
+            return context.Products.Include(x=>x.Info).Where(p => p.Info.Name.ToLower().Contains(term.ToLower()));
         }
 
         [HttpGet("suppliers/{term}")]
         public IEnumerable<Supplier> FindSuppliers(string term)
         {
-            return context.Suppliers.Where(s => s.Info.Name.ToLower().Contains(term.ToLower()));
+            return context.Suppliers.Include(x => x.Info).Where(s => s.Info.Name.ToLower().Contains(term.ToLower()));
         }
     }
 
