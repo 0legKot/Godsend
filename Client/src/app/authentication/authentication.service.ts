@@ -5,22 +5,23 @@ import { Router } from '@angular/router';
 // import 'rxjs/add/observable/of';
 import { map, filter, scan } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
+import { DataService } from '../models/data.service';
 // import 'rxjs/add/operator/toPromise';
 
 @Injectable()
 export class AuthenticationService {
 
   constructor(private repo: Repository,
-    private router: Router, private http: HttpClient) { }
+    private router: Router, private data: DataService) { }
 
     authenticated = false;
     name = '';
     password = '';
-    callbackUrl:string;
+    callbackUrl = '';
 
     login(): Observable<boolean> {
         this.authenticated = true;
-        return this.http.post('/api/account/login', { name: this.name, password: this.password }).pipe(
+        return this.data.sendRequest<boolean>('post','api/account/login', { name: this.name, password: this.password }).pipe(
             map(response => {
                 if (response) {
                     this.authenticated = true;

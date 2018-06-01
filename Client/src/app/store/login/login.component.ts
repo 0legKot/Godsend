@@ -6,8 +6,8 @@ import { AuthenticationService } from '../../authentication/authentication.servi
     templateUrl: './login.component.html'
 })
 export class LoginComponent {
-  name: string;
-  pass: string;
+  name: string = '';
+  pass: string = '';
   constructor(private auth:AuthenticationService) { }
   login() {
     this.auth.name = this.name;
