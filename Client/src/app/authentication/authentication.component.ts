@@ -1,14 +1,14 @@
-﻿import { Component } from "@angular/core";
-import { AuthenticationService } from "./authentication.service";
+import { Component } from '@angular/core';
+import { AuthenticationService } from './authentication.service';
 
 @Component({
-    templateUrl: "authentication.component.html"
+    templateUrl: 'authentication.component.html'
 })
 export class AuthenticationComponent {
 
     constructor(public authService: AuthenticationService) { }
 
-    showError: boolean = false;
+    showError = false;
 
     login() {
         this.showError = false;

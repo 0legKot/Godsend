@@ -1,8 +1,8 @@
-﻿import { Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 
-import { Repository } from "../../models/repository";
-import { Product } from "../../models/product.model";
+import { Repository } from '../../models/repository';
+import { Product } from '../../models/product.model';
 
 @Component({
     selector: 'products',
@@ -10,7 +10,7 @@ import { Product } from "../../models/product.model";
     styleUrls: ['./products.component.css']
 })
 export class ProductsComponent {
-    //private selectedId: string;
+    // private selectedId: string;
 
     constructor(private repo: Repository) {
     }

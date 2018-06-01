@@ -1,7 +1,7 @@
-﻿export class Product {
+export class Product {
     constructor(
         public id: string,
-        public info: ProductInfo,        
+        public info: ProductInfo,
     ) { }
 }
 

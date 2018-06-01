@@ -6,15 +6,12 @@ import { Component } from '@angular/core';
     styleUrls: ['./navmenu.component.css']
 })
 export class NavMenuComponent {
-
-    userData: DummyUserData = { name: "Admin", isAdmin: true };
-    
+    userData: DummyUserData = { name: 'Admin', isAdmin: true };
+    showMenuMobile = false;
 
     scrollToTop(): void {
         window.scrollTo(0, 0);
     }
-
-    showMenuMobile = false;
 
     slideToggle(): void {
         this.showMenuMobile = !this.showMenuMobile;
@@ -29,7 +26,7 @@ export class NavMenuComponent {
     }
 }
 
-class DummyUserData {   
+class DummyUserData {
     name?: string;
     isAdmin?: boolean;
 }

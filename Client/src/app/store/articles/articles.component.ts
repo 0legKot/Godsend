@@ -1,4 +1,4 @@
-﻿import { Component } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
     selector: 'articles',
@@ -8,5 +8,5 @@ export class ArticlesComponent {
 
     constructor() { }
 
-    
+
 }

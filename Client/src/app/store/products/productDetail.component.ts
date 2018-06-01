@@ -1,31 +1,29 @@
-﻿//import { switchMap } from 'rxjs/operators';
+// import { switchMap } from 'rxjs/operators';
 import { Component, OnInit, HostBinding } from '@angular/core';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { Observable } from 'rxjs';
 
-import { Product } from "../../models/product.model";
-import { Repository } from "../../models/repository";
+import { Product } from '../../models/product.model';
+import { Repository } from '../../models/repository';
 import { forEach } from '@angular/router/src/utils/collection';
 
 @Component({
-    selector: "productDetail",
+    selector: 'productDetail',
     providers: [Repository],
-    templateUrl: "productDetail.component.html"
+    templateUrl: 'productDetail.component.html'
 })
-export class ProductDetailComponent  {
+export class ProductDetailComponent implements OnInit {
+    prod?: Product;
 
     constructor(
         private route: ActivatedRoute,
         private router: Router,
-        private service: Repository){}
+        private service: Repository) { }
 
-    
     gotoProducts(product: Product) {
-        let productId = product ? product.id : null;    
+        const productId = product ? product.id : null;
         this.router.navigate(['/products', { id: productId}]);
     }
-
-    prod?: Product;
 
     ngOnInit() {
         this.service.getProduct(this.route.snapshot.params['id'], p => this.prod = p);

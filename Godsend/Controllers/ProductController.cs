@@ -21,14 +21,11 @@ namespace Godsend.Controllers
         {
             return repository.Products;
         }
+
         [HttpGet("[action]/{id:Guid}")]
         public Product Detail(Guid id)
         {
             return repository.Products.FirstOrDefault(x=>x.Id==id);
-        }
-        public IActionResult Index()
-        {
-            return View();
         }
     }
 }

@@ -1,6 +1,6 @@
-﻿import { Injectable } from "@angular/core";
-import { Router, ActivatedRouteSnapshot, RouterStateSnapshot } from "@angular/router";
-import { AuthenticationService } from "./authentication.service";
+import { Injectable } from '@angular/core';
+import { Router, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
+import { AuthenticationService } from './authentication.service';
 
 @Injectable()
 export class AuthenticationGuard {
@@ -13,8 +13,8 @@ export class AuthenticationGuard {
         if (this.authService.authenticated) {
             return true;
         } else {
-            this.authService.callbackUrl = "/" + route.url.toString(); // mb /admin
-            this.router.navigateByUrl("/login");
+            this.authService.callbackUrl = '/' + route.url.toString(); // mb /admin
+            this.router.navigateByUrl('/login');
             return false;
         }
     }

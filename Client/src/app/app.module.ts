@@ -4,7 +4,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { AngularFontAwesomeModule } from 'angular-font-awesome'
+import { AngularFontAwesomeModule } from 'angular-font-awesome';
 
 import { AppComponent } from './store/app/app.component';
 import { NavMenuComponent } from './store/navmenu/navmenu.component';
@@ -62,7 +62,7 @@ import { Repository } from './models/repository';
   ],
   providers: [
     Repository,
-    {provide: 'BASE_URL',useValue: 'http://localhost:56440/'}
+    { provide: 'BASE_URL', useValue: 'http://localhost:56440/' }
   ],
   bootstrap: [AppComponent]
 })
