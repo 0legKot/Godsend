@@ -3,13 +3,44 @@ import { HttpClient } from "selenium-webdriver/http";
 import { Product } from "../../models/product.model";
 import { DataService } from "../../models/data.service";
 import { map } from "rxjs/operators";
+import { Supplier } from "../../models/supplier.model";
+
+export const searchType = {
+    all: 0,
+    product: 1,
+    supplier: 2,
+    order: 3
+}
 
 @Injectable()
 export class SearchService {
     constructor(private data: DataService) { }
 
-    public findProducts(name: string, fn: (_: Product[]) => any) {
-        this.data.sendRequest<Product[]>('get', 'api/product/find/' + name)
+    public findProducts(term: string, fn: (_: Product[]) => any) {
+        this.data.sendRequest<Product[]>('get', 'api/search/products/' + term)
             .subscribe(products => fn(products));
     }
+
+    public findSuppliers(term: string, fn: (_: Supplier[]) => any) {
+        this.data.sendRequest<Supplier[]>('get', 'api/search/suppliers/' + term)
+            .subscribe(suppliers => fn(suppliers));
+    }
+
+    public findAll(term: string, fn: (_: AllSearchResult) => any) {
+        this.data.sendRequest<AllSearchResult>('get', 'api/search/all/' + term)
+            .subscribe(result => fn(result));
+    }
+
+    public findByType(type: number, term: string, fn: (_: AllSearchResult) => any) {
+        this.data.sendRequest<AllSearchResult>('get', 'api/search/type/' + type + '/' + term)
+            .subscribe(items => fn(items));
+    }
+
+    
 }
+
+export class AllSearchResult {
+    products?: Product[];
+    suppliers?: Supplier[];
+}
+
