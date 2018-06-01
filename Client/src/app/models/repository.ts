@@ -18,7 +18,7 @@ const ordersUrl = '/api/order';
 export class Repository {
     product: Product | {} = {};
     products: Product[] = [];
-
+  orders: any;
     constructor(private data: DataService) {
         this.getProducts();
     }

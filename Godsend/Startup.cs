@@ -26,6 +26,7 @@ namespace Godsend
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddTransient<IProductRepository, EFProductRepository>();
+            services.AddTransient<IOrderRepository, EFOrderRepository>();
             string connection = Configuration.GetConnectionString("StoreDb");
             services.AddDbContext<DataContext>(options => options.UseSqlServer(connection));
             services.AddAuthentication();
