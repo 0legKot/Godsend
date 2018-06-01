@@ -1,5 +1,5 @@
 ﻿import { Component } from '@angular/core';
-import { SearchService } from './search.service';
+import { SearchService, searchType } from './search.service';
 import { Product } from '../../models/product.model';
 
 @Component({
@@ -15,7 +15,7 @@ export class SearchComponent {
     doSearch() {
         if (this.searchTerm === '') return;
 
-        this.ss.findProducts(this.searchTerm, p => this.searchResult = p);
+        this.ss.findByType(searchType.product, this.searchTerm, p => { console.dir(p); this.searchResult = p.products });
     }
 
 }
