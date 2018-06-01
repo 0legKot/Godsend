@@ -22,7 +22,8 @@ export class AuthenticationService {
 
     login(): void {
         this.authenticated = false;
-         this.data.sendRequest<any>('post','api/account/login', { name: this.name, password: this.password }).subscribe(response => {
+      this.data.sendRequest<any>('post', 'api/account/login', { name: this.name, password: this.password }).subscribe(response => {
+        console.log(response);
            if (response) {
              this.authenticated = true;
              this.name += ' ';
