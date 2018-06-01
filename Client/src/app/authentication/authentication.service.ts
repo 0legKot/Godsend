@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { map, filter, scan } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { DataService } from '../models/data.service';
+//import {catch } from 'rxjs';
 // import 'rxjs/add/operator/toPromise';
 
 @Injectable()
@@ -19,27 +20,28 @@ export class AuthenticationService {
     password = '';
     callbackUrl = '';
 
-    login(): Observable<boolean> {
-        this.authenticated = true;
-        return this.data.sendRequest<boolean>('post','api/account/login', { name: this.name, password: this.password }).pipe(
-            map(response => {
-                if (response) {
-                    this.authenticated = true;
-                  this.password = '';
-                  this.router.navigateByUrl(this.callbackUrl );
-                }
-                return this.authenticated;
-            }));
-            // .catch(e => {
-            //     this.authenticated = false;
-            //     return Observable.of(false);
-            // });
+    login(): void {
+        this.authenticated = false;
+         this.data.sendRequest<any>('post','api/account/login', { name: this.name, password: this.password }).subscribe(response => {
+           if (response) {
+             this.authenticated = true;
+             this.name += ' ';
+             this.password = '';
+             this.router.navigateByUrl(this.callbackUrl);
+           }
+           else { this.authenticated = false; this.name = ''; console.log("login fail"); }
+           })
+             //.catch(e => {
+             //    this.authenticated = false;
+             //  this.name = '';
+             //});
 
     }
 
     logout() {
-        this.authenticated = false;
-        this.http.post('/api/account/logout', null).subscribe(respone => { });
+      this.authenticated = false;
+      this.name = ''; 
+      this.data.sendRequest('post','/api/account/logout').subscribe(respone => { });
         this.router.navigateByUrl('/login');
     }
 }

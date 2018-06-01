@@ -1,10 +1,12 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
+using Godsend.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Godsend.Controllers
 {
+    [Route("api/[controller]")]
     public class AccountController : Controller
     {
         private UserManager<IdentityUser> userManager;
@@ -43,17 +45,16 @@ namespace Godsend.Controllers
             return View(creds);
         }
 
-        [HttpPost]
+        [HttpPost("[action]")]
         public async Task<IActionResult> Logout(string redirectUrl)
         {
             await signInManager.SignOutAsync();
-            return Redirect(redirectUrl ?? "/");
+            return Ok();
         }
 
-        [HttpPost("/api/account/login")]
+        [HttpPost("[action]")]
         public async Task<IActionResult> Login([FromBody] LoginViewModel creds)
         {
-            return Ok();
             if (ModelState.IsValid && await DoLogin(creds))
             {
                 return Ok();
@@ -61,15 +62,9 @@ namespace Godsend.Controllers
             return BadRequest();
         }
 
-        [HttpPost("/api/account/logout")]
-        public async Task<IActionResult> Logout()
-        {
-            await signInManager.SignOutAsync();
-            return Ok();
-        }
-
         private async Task<bool> DoLogin(LoginViewModel creds)
         {
+            await IdentitySeedData.EnsurePopulated(userManager);
             IdentityUser user = await userManager.FindByNameAsync(creds.Name);
             if (user != null)
             {

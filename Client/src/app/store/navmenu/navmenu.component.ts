@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { AuthenticationService } from '../../authentication/authentication.service';
 
 @Component({
     selector: 'nav-menu',
@@ -7,8 +8,8 @@ import { Component } from '@angular/core';
 })
 export class NavMenuComponent {
     userData: DummyUserData = { name: 'Admin', isAdmin: true };
-    showMenuMobile = false;
-
+  showMenuMobile = false;
+  constructor(private auth: AuthenticationService) { }
     scrollToTop(): void {
         window.scrollTo(0, 0);
     }
@@ -19,10 +20,11 @@ export class NavMenuComponent {
 
     hideMenu(): void {
         this.showMenuMobile = false;
-    }
-
-    logout() {
-        this.userData = {};
+  }
+  get name() { return this.auth.name; }
+  get isLogged() { return this.auth.authenticated; }
+  logout() {
+    this.auth.logout();
     }
 }
 

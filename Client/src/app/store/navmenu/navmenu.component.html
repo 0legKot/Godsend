@@ -28,25 +28,23 @@
         </nav>
         <!-- Top right -->
         <nav class="main-nav-2 pull-right">
-            <ul class="list-unstyled">
-                <li [routerLinkActive]="['link-active']" *ngIf="!userData.name; else loggedout" class="main-nav-item-2">
-                    <a [routerLink]="['/login']">Login</a>
-                </li>
+          <ul class="list-unstyled">
+            <li [routerLinkActive]="['link-active']" *ngIf="!userData.name; else loggedout" class="main-nav-item-2">
+              <a [routerLink]="['/login']">Login</a>
+            </li>
+              <li *ngIf="isLogged; else elseBlock" class="main-nav-item-2">
+                <fa name="user"></fa> {{name}}
+                <a (click)="logout()">Log out</a>
+              </li>
+            <ng-template #elseBlock>Login</ng-template>
 
-                <ng-template #loggedout>
-                    <li class="main-nav-item-2">
-                        <fa name="user"></fa> {{userData.name}}
-                        <a (click)="logout()">Log out</a>
-                    </li>
-                </ng-template>
-
-                <li [routerLinkActive]="['link-active']" class="main-nav-item-2">
-                    <a [routerLink]="['/search']"><fa name="search"></fa></a>
-                </li>
-                <li [routerLinkActive]="['link-active']" class="main-nav-item-2">
-                    <a [routerLink]="['/cart']"><fa name="cart-plus"></fa></a>
-                </li>
-            </ul>
+            <li [routerLinkActive]="['link-active']" class="main-nav-item-2">
+              <a [routerLink]="['/search']"><fa name="search"></fa></a>
+            </li>
+            <li [routerLinkActive]="['link-active']" class="main-nav-item-2">
+              <a [routerLink]="['/cart']"><fa name="cart-plus"></fa></a>
+            </li>
+          </ul>
         </nav>
     </div>
 </header>
