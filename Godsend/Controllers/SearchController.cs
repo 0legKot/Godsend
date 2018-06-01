@@ -31,7 +31,7 @@ namespace Godsend.Controllers
                 case SearchType.Suppliers:
                     return new AllSearchResult { Suppliers = FindSuppliers(term) };
                 default:
-                    throw new ArgumentException("Invalid type");
+                    return null;
             }
         }
 
