@@ -17,35 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <!-- Files not to publish (note that the 'dist' subfolders are re-added below) -->
-    <Content Remove="ClientApp\**" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Remove="ClientApp\app\admin\admin.component.ts" />
-    <None Remove="ClientApp\app\admin\admin.module.ts" />
-    <None Remove="ClientApp\app\authentication\authentication.component.ts" />
-    <None Remove="ClientApp\app\authentication\authentication.guard.ts" />
-    <None Remove="ClientApp\app\authentication\authentication.module.ts" />
-    <None Remove="ClientApp\app\authentication\authentication.service.ts" />
-    <None Remove="ClientApp\app\admin\orders\orders.component.ts" />
-    <None Remove="ClientApp\app\store\products\products.component.ts" />
-    <None Remove="ClientApp\app\models\product.model.ts" />
-    <None Remove="ClientApp\app\models\repository.ts" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <TypeScriptCompile Include="ClientApp\app\admin\admin.component.ts" />
-    <TypeScriptCompile Include="ClientApp\app\admin\admin.module.ts" />
-    <TypeScriptCompile Include="ClientApp\app\authentication\authentication.component.ts" />
-    <TypeScriptCompile Include="ClientApp\app\authentication\authentication.guard.ts" />
-    <TypeScriptCompile Include="ClientApp\app\authentication\authentication.module.ts" />
-    <TypeScriptCompile Include="ClientApp\app\authentication\authentication.service.ts" />
-    <TypeScriptCompile Include="ClientApp\app\admin\orders\orders.component.ts" />
-    <TypeScriptCompile Include="ClientApp\app\store\products\productDetail.component.ts" />
-    <TypeScriptCompile Include="ClientApp\app\store\products\products.component.ts" />
-    <TypeScriptCompile Include="ClientApp\app\models\product.model.ts" />
-    <TypeScriptCompile Include="ClientApp\app\models\repository.ts" />
+    <Folder Include="wwwroot\" />
   </ItemGroup>
 
   <Target Name="DebugRunWebpack" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('wwwroot\dist') ">

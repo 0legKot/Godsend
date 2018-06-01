@@ -1,0 +1,55 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="src\app\admin\admin.component.ts" />
+    <None Remove="src\app\admin\admin.module.ts" />
+    <None Remove="src\app\admin\orders\orders.component.ts" />
+    <None Remove="src\app\authentication\authentication.component.ts" />
+    <None Remove="src\app\authentication\authentication.guard.ts" />
+    <None Remove="src\app\authentication\authentication.module.ts" />
+    <None Remove="src\app\authentication\authentication.service.ts" />
+    <None Remove="src\app\models\product.model.ts" />
+    <None Remove="src\app\models\repository.ts" />
+    <None Remove="src\app\store\products\productDetail.component.ts" />
+    <None Remove="src\app\store\products\products.component.ts" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="npm-shrinkwrap.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.6" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <TypeScriptCompile Include="src\app\admin\admin.component.ts" />
+    <TypeScriptCompile Include="src\app\admin\admin.module.ts" />
+    <TypeScriptCompile Include="src\app\admin\orders\orders.component.ts" />
+    <TypeScriptCompile Include="src\app\authentication\authentication.component.ts" />
+    <TypeScriptCompile Include="src\app\authentication\authentication.guard.ts" />
+    <TypeScriptCompile Include="src\app\authentication\authentication.module.ts" />
+    <TypeScriptCompile Include="src\app\authentication\authentication.service.ts" />
+    <TypeScriptCompile Include="src\app\models\product.model.ts" />
+    <TypeScriptCompile Include="src\app\models\repository.ts" />
+    <TypeScriptCompile Include="src\app\store\products\productDetail.component.ts" />
+    <TypeScriptCompile Include="src\app\store\products\products.component.ts" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="package-lock.json">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="package.json">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="tsconfig.json">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+  </ItemGroup>
+
+</Project>
