@@ -53,6 +53,7 @@ namespace Godsend.Controllers
         [HttpPost("/api/account/login")]
         public async Task<IActionResult> Login([FromBody] LoginViewModel creds)
         {
+            return Ok();
             if (ModelState.IsValid && await DoLogin(creds))
             {
                 return Ok();

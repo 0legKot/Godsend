@@ -20,7 +20,8 @@ import { StatisticsComponent } from './store/statistics/statistics.component';
 import { SuppliersComponent } from './store/suppliers/suppliers.component';
 import { ProductDetailComponent } from './store/products/productDetail.component';
 import { Repository } from './models/repository';
-
+import { AuthenticationGuard } from './authentication/authentication.guard';
+import { AuthenticationService } from './authentication/authentication.service';
 
 @NgModule({
   declarations: [
@@ -49,7 +50,7 @@ import { Repository } from './models/repository';
       { path: 'home', component: HomeComponent },
       { path: 'products', component: ProductsComponent },
       { path: 'products/:id', component: ProductDetailComponent },
-      { path: 'orders', component: OrdersComponent },
+      { path: 'orders', component: OrdersComponent, canActivate: [AuthenticationGuard] },
       { path: 'articles', component: ArticlesComponent },
       { path: 'cart', component: CartComponent },
       { path: 'consult', component: ConsultComponent },
@@ -61,7 +62,7 @@ import { Repository } from './models/repository';
     ])
   ],
   providers: [
-    Repository,
+    Repository, AuthenticationGuard, AuthenticationService,
     { provide: 'BASE_URL', useValue: 'http://localhost:56440/' }
   ],
   bootstrap: [AppComponent]
