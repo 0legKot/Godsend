@@ -19,13 +19,8 @@ namespace Godsend.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            return Ok();
         }
 
-        public IActionResult Error()
-        {
-            ViewData["RequestId"] = Activity.Current?.Id ?? HttpContext.TraceIdentifier;
-            return View();
-        }
     }
 }

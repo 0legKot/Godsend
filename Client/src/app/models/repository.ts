@@ -1,4 +1,4 @@
-﻿import { Product } from "./product.model";
+import { Product } from "./product.model";
 import { Injectable, Inject } from "@angular/core";
 import { HttpClient } from "@angular/common/http"
 import { Observable } from "rxjs";
@@ -68,7 +68,7 @@ export class Repository {
     private sendRequest<T>(method: string, url: string, data?: any)
         : Observable<T> {
 
-        return this.http.request<T>(method, url, { body: data, responseType: "json" }).pipe(
+        return this.http.request<T>(method, this.baseUrl + url, { body: data, responseType: "json" }).pipe(
             map(response => {
                 console.log(this.baseUrl + url);
                 console.log(response);
