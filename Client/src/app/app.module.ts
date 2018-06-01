@@ -22,6 +22,8 @@ import { ProductDetailComponent } from './store/products/productDetail.component
 import { Repository } from './models/repository';
 import { AuthenticationGuard } from './authentication/authentication.guard';
 import { AuthenticationService } from './authentication/authentication.service';
+import { DataService } from './models/data.service';
+import { SearchService } from './store/search/search.service';
 
 @NgModule({
   declarations: [
@@ -62,8 +64,12 @@ import { AuthenticationService } from './authentication/authentication.service';
     ])
   ],
   providers: [
-    Repository, AuthenticationGuard, AuthenticationService,
-    { provide: 'BASE_URL', useValue: 'http://localhost:56440/' }
+      Repository,
+      AuthenticationGuard,
+      AuthenticationService,
+      DataService,
+      SearchService,
+      { provide: 'BASE_URL', useValue: 'http://localhost:56440/' }
   ],
   bootstrap: [AppComponent]
 })

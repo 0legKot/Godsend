@@ -27,5 +27,12 @@ namespace Godsend.Controllers
         {
             return repository.Products.FirstOrDefault(x=>x.Id==id);
         }
+
+        // todo make procedure
+        [HttpGet("[action]/{term}")]
+        public IEnumerable<Product> Find(string term)
+        {
+            return repository.Products.Where(p => p.Info.Name.ToLower().Contains(term.ToLower()));
+        }
     }
 }

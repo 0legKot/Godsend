@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
 // import 'rxjs/add/operator/toPromise';
 // import 'rxjs/add/operator/catch';
 import { map } from 'rxjs/internal/operators/';
+import { DataService } from './data.service';
 
 const productsUrl = 'api/product';
 const suppliersUrl = '/api/supplier';
@@ -18,13 +19,13 @@ export class Repository {
     product: Product | {} = {};
     products: Product[] = [];
 
-    constructor(private http: HttpClient, @Inject('BASE_URL') private baseUrl: string) {
+    constructor(private data: DataService) {
         this.getProducts();
     }
 
     getProduct(id: string, fn: ((_: Product) => any)) {
         if (id != null) {
-            this.sendRequest<Product>('get', productsUrl + '/detail/' + id)
+            this.data.sendRequest<Product>('get', productsUrl + '/detail/' + id)
                 .subscribe(response => {
                     this.product = response;
                     console.log('getproductsent');
@@ -39,7 +40,7 @@ export class Repository {
     getProducts() {
         const url = productsUrl;
 
-        this.sendRequest<Product[]>('get', url + '/all')
+        this.data.sendRequest<Product[]>('get', url + '/all')
             .subscribe(response => {
             this.products = response;
         });
@@ -51,7 +52,7 @@ export class Repository {
             description: prod.info.description
         };
 
-        this.sendRequest<string>('post', productsUrl, data)
+        this.data.sendRequest<string>('post', productsUrl, data)
             .subscribe(response => {
                 prod.id = response;
                 this.products.push(prod);
@@ -63,42 +64,33 @@ export class Repository {
             name: prod.info.name,
             description: prod.info.description
         };
-        this.sendRequest<null>('put', productsUrl + '/' + prod.id, data)
+        this.data.sendRequest<null>('put', productsUrl + '/' + prod.id, data)
             .subscribe(response => this.getProducts());
     }
 
-    private sendRequest<T>(method: string, url: string, data?: any)
-        : Observable<T> {
-        return this.http.request<T>(method, this.baseUrl + url, { body: data, responseType: 'json' }).pipe(
-            map(response => {
-                console.log(this.baseUrl + url);
-                console.log(response);
-                return response;
-            }));
-    }
+    
 
     updateProduct(id: string, changes: Map<string, any>) {
         const patch: any[] = [];
         changes.forEach((value, key) =>
             patch.push({ op: 'replace', path: key, value: value }));
 
-        this.sendRequest<null>('patch', productsUrl + '/' + id, patch)
+        this.data.sendRequest<null>('patch', productsUrl + '/' + id, patch)
             .subscribe(response => this.getProducts());
     }
 
     deleteProduct(id: string) {
-        this.sendRequest<null>('delete', productsUrl + '/' + id)
+        this.data.sendRequest<null>('delete', productsUrl + '/' + id)
             .subscribe(response => this.getProducts());
     }
 
     storeSessionData(dataType: string, data: any) {
-        return this.sendRequest<null>('post', '/api/session/' + dataType, data)
+        return this.data.sendRequest<null>('post', '/api/session/' + dataType, data)
             .subscribe(response => { });
     }
 
     getSessionData(dataType: string): Observable<any> {
-        return this.sendRequest<any>('get', '/api/session/' + dataType);
+        return this.data.sendRequest<any>('get', '/api/session/' + dataType);
     }
-
 
 }

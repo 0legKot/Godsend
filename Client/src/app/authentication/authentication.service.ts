@@ -22,7 +22,7 @@ export class AuthenticationService {
         this.authenticated = true;
         return this.http.post('/api/account/login', { name: this.name, password: this.password }).pipe(
             map(response => {
-                if (response.ok) {
+                if (response) {
                     this.authenticated = true;
                     this.password = '';
                     this.router.navigateByUrl(this.callbackUrl || '/orders');
