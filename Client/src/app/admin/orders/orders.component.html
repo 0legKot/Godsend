@@ -13,7 +13,7 @@
         <td>{{o.customer.userName}}</td>
         <td>{{o.ordered}}</td>
         <td>{{status[o.status] || 'Unknown'}}</td>
-        <td>{{o.discreteItems}}</td>
+        <td>{{getProdInfo(o.discreteItems)}}</td>
         <td>{{o.done}}</td>
     </tr>
 </table>

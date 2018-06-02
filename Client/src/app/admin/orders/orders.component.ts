@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Repository } from '../../models/repository';
 import { DataService } from '../../models/data.service';
-import { Order, status } from '../../models/order.model';
+import { Order, status, OrderPartDiscrete } from '../../models/order.model';
+import { forEach } from '@angular/router/src/utils/collection';
 
 @Component({
     selector: 'orders',
@@ -16,16 +17,13 @@ export class OrdersComponent implements OnInit {
     ngOnInit() {
         this.repo.getOrders(o => this.orders = o);
     }
+    //rework
+    getProdInfo(arDProd: OrderPartDiscrete[]): string[] {
+        let res: string[] = [];
+        for (let p of arDProd)
+            res.push(p.product.info.name);
+        return res;
+    }
 
-
-
-    /* get orders(): any[] { // Order[] {
-        //this.dataService.sendRequest<any>('get', "api/order/all")
-        // .subscribe(response => {
-        //   return [];
-        // });
-       return ['1','2','3'];
-       // this.repo.orders;
-       }*/
 
 }
