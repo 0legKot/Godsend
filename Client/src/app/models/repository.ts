@@ -18,9 +18,10 @@ const ordersUrl = '/api/order';
 export class Repository {
     product: Product | {} = {};
     products: Product[] = [];
-  orders: any;
+    orders: any;
+
     constructor(private data: DataService) {
-        this.getProducts();
+
     }
 
     getProduct(id: string, fn: ((_: Product) => any)) {
@@ -37,12 +38,13 @@ export class Repository {
         }
     }
 
-    getProducts() {
+    getProducts(fn?: (_:Product[]) => any) {
         const url = productsUrl;
 
         this.data.sendRequest<Product[]>('get', url + '/all')
             .subscribe(response => {
-            this.products = response;
+                if (fn) { fn(response); }
+                this.products = response;
         });
     }
 

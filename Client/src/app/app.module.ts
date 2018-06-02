@@ -24,6 +24,7 @@ import { AuthenticationGuard } from './authentication/authentication.guard';
 import { AuthenticationService } from './authentication/authentication.service';
 import { DataService } from './models/data.service';
 import { SearchService } from './store/search/search.service';
+import { SearchInlineComponent } from './store/search/search.inline.component';
 
 @NgModule({
   declarations: [
@@ -39,7 +40,8 @@ import { SearchService } from './store/search/search.service';
     SearchComponent,
     StatisticsComponent,
     SuppliersComponent,
-    ProductDetailComponent
+    ProductDetailComponent,
+    SearchInlineComponent
   ],
   imports: [
     CommonModule,
