@@ -48,7 +48,7 @@ namespace Godsend.Controllers
         [HttpGet("products/{term}")]
         public IEnumerable<Product> FindProducts(string term)
         {
-            return context.Products.Include(x=>x.Info).Where(p => p.Info.Name.ToLower().Contains(term.ToLower()));
+            return context.Products.Include(x => x.Info).Where(p => p.Info.Name.ToLower().Contains(term.ToLower()));
         }
 
         [HttpGet("suppliers/{term}")]

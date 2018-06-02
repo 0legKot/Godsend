@@ -7,6 +7,7 @@ import { Observable } from 'rxjs';
 // import 'rxjs/add/operator/catch';
 import { map } from 'rxjs/internal/operators/';
 import { DataService } from './data.service';
+import { Order } from './order.model';
 
 const productsUrl = 'api/product';
 const suppliersUrl = '/api/supplier';
@@ -39,13 +40,16 @@ export class Repository {
     }
 
     getProducts(fn?: (_:Product[]) => any) {
-        const url = productsUrl;
-
-        this.data.sendRequest<Product[]>('get', url + '/all')
+        this.data.sendRequest<Product[]>('get', productsUrl + '/all')
             .subscribe(response => {
                 if (fn) { fn(response); }
                 this.products = response;
         });
+    }
+
+    getOrders(fn: (_: Order[]) => any) {
+        this.data.sendRequest<Order[]>('get', ordersUrl + '/all')
+            .subscribe(orders => fn(orders));
     }
 
     createProduct(prod: Product) {

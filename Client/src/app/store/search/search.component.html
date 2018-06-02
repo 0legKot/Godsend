@@ -1,6 +1,6 @@
 ﻿<h1>Search</h1>
 
-<input [(ngModel)]="searchTerm" (keyup.enter)="doSearch()" placeholder="Kinda working for products" />
+<input [(ngModel)]="searchTerm" (keyup.enter)="doSearch()" placeholder="Type here" />
 <button (click)="doSearch()">Search</button>
 
 <div *ngIf="searchResult?.length > 0">

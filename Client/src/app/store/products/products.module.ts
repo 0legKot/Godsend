@@ -16,7 +16,6 @@ import { Repository } from '../../models/repository';
     declarations: [
         ProductsComponent,
         ProductDetailComponent
-    ],
-    providers: [Repository]
+    ]
 })
 export class ProductsModule { }

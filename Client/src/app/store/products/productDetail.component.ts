@@ -9,7 +9,6 @@ import { forEach } from '@angular/router/src/utils/collection';
 
 @Component({
     selector: 'productDetail',
-    providers: [Repository],
     templateUrl: 'productDetail.component.html'
 })
 export class ProductDetailComponent implements OnInit {

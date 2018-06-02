@@ -12,11 +12,11 @@ namespace Godsend.Models
         private DataContext context;
         public EFOrderRepository(DataContext ctx, UserManager<IdentityUser> userManager)
         {
-            ctx = context;
-            if (!ctx.Orders.Any()) {
-                ctx.Orders.Add(new SimpleOrder { Customer = userManager.Users.FirstOrDefault(), Done=new DateTime(), Ordered=new DateTime(), Status=Status.Ready
+            context = ctx;
+            if (!context.Orders.Any()) {
+                context.Orders.Add(new SimpleOrder { Customer = userManager.Users.FirstOrDefault(), Done=new DateTime(), Ordered=new DateTime(), Status=Status.Ready
                   });
-                ctx.SaveChanges();
+                context.SaveChanges();
             }
 
         }
