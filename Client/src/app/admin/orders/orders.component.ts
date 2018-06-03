@@ -17,7 +17,19 @@ export class OrdersComponent implements OnInit {
     ngOnInit() {
         this.repo.getOrders(o => this.orders = o);
     }
-    //rework
+    cancel(id: string) {
+        this.repo.changeStatus(id,2);
+        this.repo.getOrders(o => this.orders = o);
+    }
+    shipped(id: string) {
+        this.repo.changeStatus(id, 1);
+        this.repo.getOrders(o => this.orders = o);
+    }
+    delete(id: string) {
+        this.repo.deleteOrder(id);
+        this.repo.getOrders(o => this.orders = o);
+    }
+    //TODO:rework
     getProdInfo(arDProd: OrderPartDiscrete[]): string[] {
         let res: string[] = [];
         for (let p of arDProd)

@@ -12,5 +12,6 @@ namespace Godsend.Models
         void SaveOrder(Order order);
 
         Order DeleteOrder(Guid orderID);
+        void ChangeStatus(Guid orderID,int status);
     }
 }

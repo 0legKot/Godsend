@@ -7,20 +7,9 @@
 .pull-left {
     float: left;
 }
+
 .pull-right {
     float: right;
-}
-/*Display Values */
-.block {
-    display: block !important;
-}
-.inline-block {
-    display: inline-block;
-}
-/*Aligning Elements */
-.center {
-    margin: 0 auto;
-    text-align: center;
 }
 
 
@@ -29,8 +18,9 @@ header {
     padding-bottom: 5px;
     width: 100%;
     z-index: 100;
-    background: rgba(241, 169, 20, 0.80);
+    background: rgba(32, 120, 19, 0.85);
     left: 0;
+    font-size: 18px;
 }
 
 .wrap {
@@ -42,14 +32,16 @@ header {
 
 /* Highlighting rules for nav menu items */
 a {
- text-decoration: none;
-    color: rgb(87, 61, 7);
+    text-decoration: none;
+    color: rgb(6, 48, 0);
     font-weight: bold;
 }
+
     a:hover, .hamburger:hover {
         color: #ffffff;
         transition: 300ms;
     }
+
 .hamburger {
     color: #000000;
     font-size: 18px;
@@ -61,25 +53,29 @@ a {
 .main-nav, .main-nav-2 {
     display: block;
     padding-top: 5px;
-    font-size:18px;
+    font-size: 18px;
 }
 
 .main-nav-item, .main-nav-item-2 {
     display: inline-block;
     padding-right: 5px;
 }
+
 @media (max-width: 768px) {
     .main-nav {
         display: none;
         margin-left: 10px;
     }
+
     .wrap {
         padding-left: 5px;
-    } 
+    }
+
     .hamburger {
         display: block;
         margin-left: 10px;
     }
+
     .main-nav-item {
         display: block !important;
     }

@@ -15,6 +15,9 @@
         <td>{{status[o.status] || 'Unknown'}}</td>
         <td>{{getProdInfo(o.discreteItems)}}</td>
         <td>{{o.done}}</td>
+        <td (click)="cancel(o.id)">Cancel</td>
+        <td (click)="shipped(o.id)">Mark shipped</td>
+        <td (click)="delete(o.id)">Delete</td>
     </tr>
 </table>
     <ng-template #nodata>

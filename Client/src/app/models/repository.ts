@@ -1,4 +1,4 @@
-import { Product } from './product.model';
+import { Product, ProductInfo } from './product.model';
 import { Injectable, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
@@ -8,29 +8,62 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/internal/operators/';
 import { DataService } from './data.service';
 import { Order } from './order.model';
+import { Supplier } from './supplier.model';
+import { Type } from '@angular/core';
+import { Entity } from './entity';
 
 const productsUrl = 'api/product';
-const suppliersUrl = '/api/supplier';
-const ordersUrl = '/api/order';
-
+const ordersUrl = 'api/order';
+const suppliersUrl = 'api/supplier';
 // TODO: rework
 
 @Injectable()
 export class Repository {
     product: Product | {} = {};
     products: Product[] = [];
-    orders: any;
+    orders: Order[] = [];
+    order: Order | {} = {};
+    suppliers: Supplier[] = [];
+    supplier: Supplier | {} = {};
+
+    
 
     constructor(private data: DataService) {
-
     }
 
-    getProduct(id: string, fn: ((_: Product) => any)) {
+    //getProduct(id: string, fn: ((_: Product) => any)) {
+    //    if (id != null) {
+    //        this.data.sendRequest<Product>('get', productsUrl + '/detail/' + id)
+    //            .subscribe(response => {
+    //                this.product = response;
+    //                console.log(response);
+    //                if (fn) {
+    //                    fn(response);
+    //                }
+    //            });
+    //    }
+    //}
+
+    setEntity<T>(val: T) {
+        switch (typeof(val)) {
+            case typeof (Product): this.product = val;
+            case typeof (Supplier): this.supplier = val;
+            case typeof (Order): this.order = val;
+            default: return;
+        }
+    }
+
+    getEntity<T>(id: string, fn: ((_: T) => any),clas:string) {
         if (id != null) {
-            this.data.sendRequest<Product>('get', productsUrl + '/detail/' + id)
+            let url = "";
+            switch (clas.toLowerCase()) {
+                case "product": url = productsUrl; break;
+                case "order": url = ordersUrl; break;
+                case "supplier": url = suppliersUrl; break;
+            }
+            this.data.sendRequest<T>('get', url + '/detail/' + id)
                 .subscribe(response => {
-                    this.product = response;
-                    console.log('getproductsent');
+                    this.setEntity<T>(response);
                     console.log(response);
                     if (fn) {
                         fn(response);
@@ -38,18 +71,35 @@ export class Repository {
                 });
         }
     }
-
+    changeStatus(id: string, status: number) {
+        this.data.sendRequest<Product[]>('patch', ordersUrl + '/changeStatus/'+id+'/'+status)
+            .subscribe(response => this.getOrders());
+    }
+    deleteOrder(id: string) {
+        this.data.sendRequest<null>('delete', ordersUrl + '/' + id)
+            .subscribe(response => this.getOrders());
+    }
+    //get Entities<T>(clas:string,fn?: (_: T[]) => any) {
+    //}
     getProducts(fn?: (_:Product[]) => any) {
         this.data.sendRequest<Product[]>('get', productsUrl + '/all')
             .subscribe(response => {
-                if (fn) { fn(response); }
+                if (fn) {
+                    console.log(response);
+                    fn(response);
+                }
                 this.products = response;
         });
     }
 
-    getOrders(fn: (_: Order[]) => any) {
+    getOrders(fn?: (_: Order[]) => any) {
         this.data.sendRequest<Order[]>('get', ordersUrl + '/all')
-            .subscribe(orders => fn(orders));
+            .subscribe(orders => {
+                if (fn) {
+                    fn(orders);
+                }
+                this.orders = orders;
+            });
     }
 
     createProduct(prod: Product) {

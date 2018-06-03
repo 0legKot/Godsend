@@ -22,6 +22,28 @@ namespace Godsend.Controllers
             return repository.Orders;
         }
 
+        [HttpPatch("[action]/{id:Guid}/{status:int}")]
+        public IActionResult ChangeStatus(Guid id, int status)
+        {
+            try
+            {
+                repository.ChangeStatus(id, status);
+                return Ok();
+            }
+            catch { return BadRequest(); }
+        }
+
+        [HttpDelete("[action]/{id:Guid}")]
+        public IActionResult Delete(Guid id, byte status)
+        {
+            try
+            {
+                repository.DeleteOrder(id);
+                return Ok();
+            }
+            catch { return BadRequest(); }
+        }
+
         [HttpGet("[action]/{id:Guid}")]
         public Order Detail(Guid id)
         {

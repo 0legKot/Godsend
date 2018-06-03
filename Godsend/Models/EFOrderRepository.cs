@@ -30,13 +30,18 @@ namespace Godsend.Models
 
         }
         //TODO rework
-        //not full is returned
-        public IEnumerable<Order> Orders => context.Orders.Include(x => x.Customer).Include(o=>o.DiscreteItems).ThenInclude(di=>di.Product).ThenInclude(di => di.Info).Include(o=>o.WeightedItems);
 
+        public IEnumerable<Order> Orders => context.Orders
+            .Include(x => x.Customer)
+            .Include(o=>o.DiscreteItems).ThenInclude(di=>di.Product).ThenInclude(di => di.Info)
+            .Include(o => o.DiscreteItems).ThenInclude(di => di.Supplier).ThenInclude(s => s.Info)
+            .Include(o=>o.WeightedItems).ThenInclude(wi=>wi.Product).ThenInclude(p=>p.Info)
+            .Include(o=>o.WeightedItems).ThenInclude(wi=>wi.Supplier).ThenInclude(s=>s.Info);
+        
         public void SaveOrder(Order order)
         {
 
-            Order dbEntry = context.Orders.FirstOrDefault(p => p.Id == order.Id);
+            Order dbEntry = GetOrder(order.Id);
             if (dbEntry != null)
             {
                 //TODO: implement IClonable
@@ -51,14 +56,29 @@ namespace Godsend.Models
 
         public Order DeleteOrder(Guid orderId)
         {
-            Order dbEntry = context.Orders
-                .FirstOrDefault(p => p.Id == orderId);
+            Order dbEntry = GetOrder(orderId);
             if (dbEntry != null)
             {
                 context.Orders.Remove(dbEntry);
                 context.SaveChanges();
             }
             return dbEntry;
+        }
+
+        public void ChangeStatus(Guid orderId,int status)
+        {
+            Order dbEntry = GetOrder(orderId);
+            if (dbEntry != null)
+            {
+                dbEntry.Status =(Status) status;
+            }
+
+            context.SaveChanges();
+        }
+
+        private Order GetOrder(Guid orderID)
+        {
+            return context.Orders.FirstOrDefault(p => p.Id == orderID);
         }
     }
 }
