@@ -11,6 +11,6 @@ namespace Godsend.Models
 
         void SaveSupplier(Supplier supplier);
 
-        Product DeleteSupplier(Guid supplierID);
+        void DeleteSupplier(Guid supplierID);
     }
 }

@@ -7,7 +7,7 @@ namespace Godsend.Models
 {
     public class SupplierInformation: Information
     {
-        Location Location { get; set; }
+        public Location Location { get; set; }
         //public IEnumerable<IProduct> Products { get; set; }
     }
 }

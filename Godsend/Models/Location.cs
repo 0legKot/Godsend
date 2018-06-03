@@ -1,7 +1,10 @@
-﻿namespace Godsend.Models
+﻿using System;
+
+namespace Godsend.Models
 {
     public class Location
     {
-        string Address { get; set; }
+        public Guid Id { get; set; } = Guid.NewGuid();
+        public string Address { get; set; }
     }
 }
