@@ -4,13 +4,13 @@ import { Supplier } from '../../models/supplier.model';
 import { OnInit } from '@angular/core';
 
 @Component({
-    selector: 'suppliers',
+    selector: 'godsend-suppliers',
     templateUrl: './suppliers.component.html'
 })
-export class SuppliersComponent implements OnInit{
+export class SuppliersComponent implements OnInit {
     suppliers: Supplier[] = [];
     constructor(private repo: Repository)  { }
     ngOnInit() {
-        this.repo.getEntities<Supplier>("supplier", s => this.suppliers = s);
+        this.repo.getEntities<Supplier>('supplier', s => this.suppliers = s);
     }
 }

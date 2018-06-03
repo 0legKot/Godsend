@@ -9,7 +9,6 @@ import { AngularFontAwesomeModule } from 'angular-font-awesome';
 import { AppComponent } from './store/app/app.component';
 import { NavMenuComponent } from './store/navmenu/navmenu.component';
 import { HomeComponent } from './store/home/home.component';
-import { ProductsComponent } from './store/products/products.component';
 import { OrdersComponent } from './admin/orders/orders.component';
 import { ArticlesComponent } from './store/articles/articles.component';
 import { CartComponent } from './store/cart/cart.component';
@@ -17,21 +16,23 @@ import { ConsultComponent } from './store/consult/consult.component';
 import { LoginComponent } from './store/login/login.component';
 import { SearchComponent } from './store/search/search.component';
 import { StatisticsComponent } from './store/statistics/statistics.component';
-import { SuppliersComponent } from './store/suppliers/suppliers.component';
-import { ProductDetailComponent } from './store/products/productDetail.component';
 import { Repository } from './models/repository';
 import { AuthenticationGuard } from './authentication/authentication.guard';
 import { AuthenticationService } from './authentication/authentication.service';
 import { DataService } from './models/data.service';
 import { SearchService } from './store/search/search.service';
-import { SearchInlineComponent } from './store/search/search.inline.component';
-import { SupplierDetailComponent } from './store/suppliers/suppliersDetail.component';
+import { SearchInlineComponent } from './store/search/search-inline.component';
+import { ProductsModule } from './store/products/products.module';
+import { SuppliersModule } from './store/suppliers/suppliers.module';
+import { ProductsComponent } from './store/products/products.component';
+import { ProductDetailComponent } from './store/products/product-detail.component';
+import { SuppliersComponent } from './store/suppliers/suppliers.component';
+import { SupplierDetailComponent } from './store/suppliers/supplier-detail.component';
 
 @NgModule({
     declarations: [
         AppComponent,
         NavMenuComponent,
-        ProductsComponent,
         OrdersComponent,
         HomeComponent,
         ArticlesComponent,
@@ -40,9 +41,10 @@ import { SupplierDetailComponent } from './store/suppliers/suppliersDetail.compo
         LoginComponent,
         SearchComponent,
         StatisticsComponent,
-        SuppliersComponent,
-        ProductDetailComponent,
         SearchInlineComponent,
+        ProductsComponent,
+        ProductDetailComponent,
+        SuppliersComponent,
         SupplierDetailComponent
     ],
     imports: [

@@ -17,11 +17,11 @@
     <None Remove="src\app\models\order.model.ts" />
     <None Remove="src\app\models\product.model.ts" />
     <None Remove="src\app\models\repository.ts" />
-    <None Remove="src\app\store\products\productDetail.component.ts" />
+    <None Remove="src\app\store\products\product-detail.component.ts" />
     <None Remove="src\app\store\products\products.component.ts" />
     <None Remove="src\app\store\search\search.base.component.ts" />
+    <None Remove="src\app\store\suppliers\supplier-detail.component.ts" />
     <None Remove="src\app\store\suppliers\suppliers.module.ts" />
-    <None Remove="src\app\store\suppliers\suppliersDetail.component.ts" />
   </ItemGroup>
 
   <ItemGroup>
@@ -44,11 +44,11 @@
     <TypeScriptCompile Include="src\app\models\order.model.ts" />
     <TypeScriptCompile Include="src\app\models\product.model.ts" />
     <TypeScriptCompile Include="src\app\models\repository.ts" />
-    <TypeScriptCompile Include="src\app\store\products\productDetail.component.ts" />
+    <TypeScriptCompile Include="src\app\store\products\product-detail.component.ts" />
     <TypeScriptCompile Include="src\app\store\products\products.component.ts" />
     <TypeScriptCompile Include="src\app\store\search\search.base.component.ts" />
     <TypeScriptCompile Include="src\app\store\suppliers\suppliers.module.ts" />
-    <TypeScriptCompile Include="src\app\store\suppliers\suppliersDetail.component.ts" />
+    <TypeScriptCompile Include="src\app\store\suppliers\supplier-detail.component.ts" />
   </ItemGroup>
 
   <ItemGroup>

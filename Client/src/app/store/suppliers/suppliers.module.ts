@@ -5,7 +5,7 @@ import { FormsModule } from '@angular/forms';
 
 import { Repository } from '../../models/repository';
 import { SuppliersComponent } from './suppliers.component';
-import { SupplierDetailComponent } from './suppliersDetail.component';
+import { SupplierDetailComponent } from './supplier-detail.component';
 
 @NgModule({
     imports: [

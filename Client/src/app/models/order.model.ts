@@ -1,11 +1,11 @@
-﻿import { Product } from "./product.model";
-import { Supplier } from "./supplier.model";
+﻿import { Product } from './product.model';
+import { Supplier } from './supplier.model';
 
-export const status = [
+export const orderStatus = [
     'Ready', // 0
     'Shipped', // 1
     'Cancelled' // 2
-]
+];
 
 export class Order {
     constructor(
@@ -39,7 +39,6 @@ export class OrderPartDiscrete extends OrderPart {
         id: string,
         product: Product,
         supplier: Supplier
-        
     ) {
         super(id, product, supplier);
     }

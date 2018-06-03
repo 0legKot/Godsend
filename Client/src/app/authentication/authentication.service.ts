@@ -6,7 +6,7 @@ import { Router } from '@angular/router';
 import { map, filter, scan } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { DataService } from '../models/data.service';
-//import {catch } from 'rxjs';
+// import {catch } from 'rxjs';
 // import 'rxjs/add/operator/toPromise';
 
 @Injectable()
@@ -22,27 +22,29 @@ export class AuthenticationService {
 
     login(): void {
         this.authenticated = false;
-      this.data.sendRequest<any>('post', 'api/account/login', { name: this.name, password: this.password }).subscribe(response => {
-        console.log(response);
-           if (response) {
-             this.authenticated = true;
-             this.name += ' ';
-             this.password = '';
-             this.router.navigateByUrl(this.callbackUrl);
-           }
-           else { this.authenticated = false; this.name = ''; console.log("login fail"); }
-           })
-             //.catch(e => {
-             //    this.authenticated = false;
-             //  this.name = '';
-             //});
-
+        this.data.sendRequest<any>('post', 'api/account/login', { name: this.name, password: this.password }).subscribe(response => {
+            console.log(response);
+            if (response) {
+                this.authenticated = true;
+                this.name += ' ';
+                this.password = '';
+                this.router.navigateByUrl(this.callbackUrl);
+            } else {
+                this.authenticated = false;
+                this.name = '';
+                console.log('login fail');
+            }
+        });
+        // .catch(e => {
+        //     this.authenticated = false;
+        //     this.name = '';
+        // });
     }
 
     logout() {
-      this.authenticated = false;
-      this.name = ''; 
-      this.data.sendRequest('post','/api/account/logout').subscribe(respone => { });
+        this.authenticated = false;
+        this.name = '';
+        this.data.sendRequest('post', '/api/account/logout').subscribe(response => { });
         this.router.navigateByUrl('/login');
     }
 }

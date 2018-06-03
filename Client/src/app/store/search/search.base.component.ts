@@ -1,6 +1,6 @@
-﻿import { OnInit } from "@angular/core";
-import { FormControl } from "@angular/forms";
-import { debounceTime, distinctUntilChanged } from "rxjs/operators";
+﻿import { OnInit } from '@angular/core';
+import { FormControl } from '@angular/forms';
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
 export abstract class SearchBaseComponent implements OnInit {
     protected searchField!: FormControl;
@@ -10,7 +10,7 @@ export abstract class SearchBaseComponent implements OnInit {
         this.searchField.valueChanges
             .pipe(debounceTime(400))
             .pipe(distinctUntilChanged())
-            .subscribe(term => this.doSearch(term))
+            .subscribe(term => this.doSearch(term));
     }
 
     abstract doSearch(term: string): void;

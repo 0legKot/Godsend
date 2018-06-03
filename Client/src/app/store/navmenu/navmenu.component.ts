@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { AuthenticationService } from '../../authentication/authentication.service';
 
 @Component({
-    selector: 'nav-menu',
+    selector: 'godsend-nav-menu',
     templateUrl: './navmenu.component.html',
     styleUrls: ['./navmenu.component.css']
 })

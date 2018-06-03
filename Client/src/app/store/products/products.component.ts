@@ -6,7 +6,7 @@ import { Product } from '../../models/product.model';
 import { searchType } from '../search/search.service';
 
 @Component({
-    selector: 'products',
+    selector: 'godsend-products',
     templateUrl: './products.component.html',
     styleUrls: ['./products.component.css']
 })
@@ -20,7 +20,7 @@ export class ProductsComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.repo.getEntities<Product>("product",res => this.products = res);
+        this.repo.getEntities<Product>('product', res => this.products = res);
     }
 
 }

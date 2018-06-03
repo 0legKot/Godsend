@@ -1,7 +1,7 @@
 ﻿<h1>Products</h1>
 <br />
 <br />
-<search-inline [type]="type" (onResult)="products = $event.products"></search-inline>
+<godsend-search-inline [type]="type" (result)="products = $event.products"></godsend-search-inline>
 <br />
 <div *ngIf="products?.length > 0; else nodata">
     <div class="wrap">

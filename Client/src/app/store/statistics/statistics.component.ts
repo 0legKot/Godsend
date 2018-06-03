@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
 @Component({
-    selector: 'statistics',
+    selector: 'godsend-statistics',
     templateUrl: './statistics.component.html'
 })
 export class StatisticsComponent {

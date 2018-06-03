@@ -1,16 +1,16 @@
-﻿import { Injectable, Inject } from "@angular/core";
-import { HttpClient } from "selenium-webdriver/http";
-import { Product } from "../../models/product.model";
-import { DataService } from "../../models/data.service";
-import { map } from "rxjs/operators";
-import { Supplier } from "../../models/supplier.model";
+﻿import { Injectable, Inject } from '@angular/core';
+import { HttpClient } from 'selenium-webdriver/http';
+import { Product } from '../../models/product.model';
+import { DataService } from '../../models/data.service';
+import { map } from 'rxjs/operators';
+import { Supplier } from '../../models/supplier.model';
 
 export const searchType = {
     all: 0,
     product: 1,
     supplier: 2,
     order: 3
-}
+};
 
 @Injectable()
 export class SearchService {
@@ -35,8 +35,6 @@ export class SearchService {
         this.data.sendRequest<AllSearchResult>('get', 'api/search/type/' + type + '/' + term)
             .subscribe(items => fn(items));
     }
-
-    
 }
 
 export class AllSearchResult {

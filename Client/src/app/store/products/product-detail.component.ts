@@ -8,8 +8,8 @@ import { Repository } from '../../models/repository';
 import { forEach } from '@angular/router/src/utils/collection';
 
 @Component({
-    selector: 'productDetail',
-    templateUrl: 'productDetail.component.html'
+    selector: 'godsend-product-detail',
+    templateUrl: 'product-detail.component.html'
 })
 export class ProductDetailComponent implements OnInit {
     prod?: Product;
@@ -25,7 +25,7 @@ export class ProductDetailComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.service.getEntity<Product>(this.route.snapshot.params['id'], p => this.prod = p, "product");
+        this.service.getEntity<Product>(this.route.snapshot.params['id'], p => this.prod = p, 'product');
     }
 
     /*get product(): Product | {} {

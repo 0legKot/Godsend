@@ -9,8 +9,8 @@ import { forEach } from '@angular/router/src/utils/collection';
 import { Supplier } from '../../models/supplier.model';
 
 @Component({
-    selector: 'suppliersDetail',
-    templateUrl: 'suppliersDetail.component.html'
+    selector: 'godsend-supplier-detail',
+    templateUrl: 'supplier-detail.component.html'
 })
 export class SupplierDetailComponent implements OnInit {
     supp?: Supplier;
@@ -26,7 +26,7 @@ export class SupplierDetailComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.service.getEntity<Supplier>(this.route.snapshot.params['id'], s => this.supp = s, "supplier");
+        this.service.getEntity<Supplier>(this.route.snapshot.params['id'], s => this.supp = s, 'supplier');
     }
 
 }

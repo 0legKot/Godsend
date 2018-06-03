@@ -11,26 +11,19 @@
 .pull-right {
     float: right;
 }
-/*Display Values */
-.block {
-    display: block !important;
-}
 
-.inline-block {
-    display: inline-block;
-}
 /*Aligning Elements */
 .center {
     margin: 0 auto;
     text-align: center;
 }
 
-
 header {
     padding-top: 10px;
     padding-bottom: 5px;
     width: 100%;
     z-index: 100;
+
     background: rgba(32, 120, 19, 0.85);
     left: 0;
     font-size: 18px;
@@ -50,10 +43,10 @@ a {
     font-weight: bold;
 }
 
-    a:hover, .hamburger:hover {
-        color: #ffffff;
-        transition: 300ms;
-    }
+a:hover, .hamburger:hover {
+    color: #ffffff;
+    transition: 300ms;
+}
 
 .hamburger {
     color: #000000;
@@ -90,6 +83,11 @@ a {
     }
 
     .main-nav-item {
-        display: block !important;
+        display: block;
     }
+}
+
+/* Must come after .main-nav to override it */
+.block {
+    display: block;
 }

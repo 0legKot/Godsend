@@ -4,7 +4,7 @@ import { Product } from '../../models/product.model';
 import { SearchBaseComponent } from './search.base.component';
 
 @Component({
-    selector: 'search',
+    selector: 'godsend-search',
     templateUrl: './search.component.html'
 })
 export class SearchComponent extends SearchBaseComponent implements OnInit {
@@ -17,7 +17,10 @@ export class SearchComponent extends SearchBaseComponent implements OnInit {
     }
 
     doSearch(term: string) {
-        this.ss.findByType(searchType.all, term, res => { console.dir(res); this.searchResult = res });
+        this.ss.findByType(searchType.all, term, res => {
+            console.dir(res);
+            this.searchResult = res;
+        });
     }
 
 }
