@@ -17,7 +17,7 @@ export class ProductDetailComponent implements OnInit {
     constructor(
         private route: ActivatedRoute,
         private router: Router,
-        private service: Repository) { }
+        private service: Repository) {  }
 
     gotoProducts(product: Product) {
         const productId = product ? product.id : null;

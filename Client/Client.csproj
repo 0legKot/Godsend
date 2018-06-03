@@ -20,6 +20,8 @@
     <None Remove="src\app\store\products\productDetail.component.ts" />
     <None Remove="src\app\store\products\products.component.ts" />
     <None Remove="src\app\store\search\search.base.component.ts" />
+    <None Remove="src\app\store\suppliers\suppliers.module.ts" />
+    <None Remove="src\app\store\suppliers\suppliersDetail.component.ts" />
   </ItemGroup>
 
   <ItemGroup>
@@ -45,6 +47,8 @@
     <TypeScriptCompile Include="src\app\store\products\productDetail.component.ts" />
     <TypeScriptCompile Include="src\app\store\products\products.component.ts" />
     <TypeScriptCompile Include="src\app\store\search\search.base.component.ts" />
+    <TypeScriptCompile Include="src\app\store\suppliers\suppliers.module.ts" />
+    <TypeScriptCompile Include="src\app\store\suppliers\suppliersDetail.component.ts" />
   </ItemGroup>
 
   <ItemGroup>

@@ -21,22 +21,6 @@ export class ProductsComponent implements OnInit {
 
     ngOnInit() {
         this.repo.getEntities<Product>("product",res => this.products = res);
-        //this.repo.getProducts(res => this.products = res);
     }
-
-    choose(id: string): void {
-
-    }
-
-
-    /*get products(): Product[] {
-        if (this.repo.products != null && this.repo.products.length > 0) {
-            return this.repo.products;
-        }
-        return [];
-    }*/
-
-
-
 
 }

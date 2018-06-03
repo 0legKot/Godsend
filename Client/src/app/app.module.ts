@@ -25,55 +25,58 @@ import { AuthenticationService } from './authentication/authentication.service';
 import { DataService } from './models/data.service';
 import { SearchService } from './store/search/search.service';
 import { SearchInlineComponent } from './store/search/search.inline.component';
+import { SupplierDetailComponent } from './store/suppliers/suppliersDetail.component';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    NavMenuComponent,
-    ProductsComponent,
-    OrdersComponent,
-    HomeComponent,
-    ArticlesComponent,
-    CartComponent,
-    ConsultComponent,
-    LoginComponent,
-    SearchComponent,
-    StatisticsComponent,
-    SuppliersComponent,
-    ProductDetailComponent,
-    SearchInlineComponent
-  ],
-  imports: [
-    CommonModule,
-    HttpClientModule,
-      FormsModule,
-    ReactiveFormsModule,
-    BrowserModule,
-    AngularFontAwesomeModule,
-    RouterModule.forRoot([
-      { path: '', redirectTo: 'home', pathMatch: 'full' },
-      { path: 'home', component: HomeComponent },
-      { path: 'products', component: ProductsComponent },
-      { path: 'products/:id', component: ProductDetailComponent },
-      { path: 'orders', component: OrdersComponent, canActivate: [AuthenticationGuard] },
-      { path: 'articles', component: ArticlesComponent },
-      { path: 'cart', component: CartComponent },
-      { path: 'consult', component: ConsultComponent },
-      { path: 'login', component: LoginComponent },
-      { path: 'search', component: SearchComponent },
-      { path: 'statistics', component: StatisticsComponent },
-      { path: 'suppliers', component: SuppliersComponent },
-      { path: '**', redirectTo: 'home' }
-    ])
-  ],
-  providers: [
-      Repository,
-      AuthenticationGuard,
-      AuthenticationService,
-      DataService,
-      SearchService,
-      { provide: 'BASE_URL', useValue: 'http://localhost:56440/' }
-  ],
-  bootstrap: [AppComponent]
+    declarations: [
+        AppComponent,
+        NavMenuComponent,
+        ProductsComponent,
+        OrdersComponent,
+        HomeComponent,
+        ArticlesComponent,
+        CartComponent,
+        ConsultComponent,
+        LoginComponent,
+        SearchComponent,
+        StatisticsComponent,
+        SuppliersComponent,
+        ProductDetailComponent,
+        SearchInlineComponent,
+        SupplierDetailComponent
+    ],
+    imports: [
+        CommonModule,
+        HttpClientModule,
+        FormsModule,
+        ReactiveFormsModule,
+        BrowserModule,
+        AngularFontAwesomeModule,
+        RouterModule.forRoot([
+            { path: '', redirectTo: 'home', pathMatch: 'full' },
+            { path: 'home', component: HomeComponent },
+            { path: 'products', component: ProductsComponent },
+            { path: 'products/:id', component: ProductDetailComponent },
+            { path: 'suppliers', component: SuppliersComponent },
+            { path: 'suppliers/:id', component: SupplierDetailComponent },
+            { path: 'orders', component: OrdersComponent, canActivate: [AuthenticationGuard] },
+            { path: 'articles', component: ArticlesComponent },
+            { path: 'cart', component: CartComponent },
+            { path: 'consult', component: ConsultComponent },
+            { path: 'login', component: LoginComponent },
+            { path: 'search', component: SearchComponent },
+            { path: 'statistics', component: StatisticsComponent },
+            { path: '**', redirectTo: 'home' }
+        ])
+    ],
+    providers: [
+        Repository,
+        AuthenticationGuard,
+        AuthenticationService,
+        DataService,
+        SearchService,
+        { provide: 'BASE_URL', useValue: 'http://localhost:56440/' }
+    ],
+    bootstrap: [AppComponent]
 })
 export class AppModule { }

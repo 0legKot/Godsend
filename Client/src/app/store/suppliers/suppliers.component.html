@@ -1,13 +1,15 @@
 ﻿<h1>Suppliers</h1>
 <div *ngIf="suppliers?.length > 0; else nodata">
     <div *ngFor="let s of suppliers">
-        <span class="h4">
-            {{s.id}}
-        </span>
-        <span class="h4">
-            {{s.info.name}}
-        </span>
-        <br/>
+        <a [routerLink]="['/suppliers', s.id]">
+            <span class="h4">
+                {{s.id}}
+            </span>
+            <span class="h4">
+                {{s.info.name}}
+            </span>
+            <br />
+        </a>
     </div>
 </div>
 
