@@ -81,13 +81,17 @@ export class Repository {
                 });
         }
     }
-    changeStatus(id: string, status: number) {
-        this.data.sendRequest<Product[]>('patch', ordersUrl + '/changeStatus/'+id+'/'+status)
-            .subscribe(response => this.getOrders());
+    changeStatus(id: string, status: number, fn?: ((_: Order[]) => any)) {
+        this.data.sendRequest<Order[]>('patch', ordersUrl + '/changeStatus/' + id + '/' + status)
+            .subscribe(response => {
+                this.getOrders(fn);
+            });
     }
-    deleteOrder(id: string) {
-        this.data.sendRequest<null>('delete', ordersUrl + '/delete/' + id)
-            .subscribe(response => this.getOrders());
+    deleteOrder(id: string, fn?: ((_: Order[]) => any)) {
+        this.data.sendRequest<Order[]>('delete', ordersUrl + '/delete/' + id)
+            .subscribe(response => {
+                this.getOrders(fn);
+            });
     }
     getEntities<T>(clas: string, fn?: (_: T[]) => any) {
         let url = this.getUrl(clas);

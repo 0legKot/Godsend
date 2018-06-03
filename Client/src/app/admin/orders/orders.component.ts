@@ -18,16 +18,13 @@ export class OrdersComponent implements OnInit {
         this.repo.getOrders(o => this.orders = o);
     }
     cancel(id: string) {
-        this.repo.changeStatus(id,2);
-        this.repo.getOrders(o => this.orders = o);
+        this.repo.changeStatus(id, 2, res => this.orders = res);
     }
     shipped(id: string) {
-        this.repo.changeStatus(id, 1);
-        this.repo.getOrders(o => this.orders = o);
+        this.repo.changeStatus(id, 1, res => this.orders = res));
     }
     delete(id: string) {
-        this.repo.deleteOrder(id);
-        this.repo.getOrders(o => this.orders = o);
+        this.repo.deleteOrder(id, res => this.orders = res);
     }
     //TODO:rework
     getProdInfo(arDProd: OrderPartDiscrete[]): string[] {
