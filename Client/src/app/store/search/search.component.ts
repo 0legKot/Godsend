@@ -1,21 +1,23 @@
-﻿import { Component } from '@angular/core';
-import { SearchService, searchType } from './search.service';
+﻿import { Component, OnInit } from '@angular/core';
+import { SearchService, searchType, AllSearchResult } from './search.service';
 import { Product } from '../../models/product.model';
+import { SearchBaseComponent } from './search.base.component';
 
 @Component({
     selector: 'search',
     templateUrl: './search.component.html'
 })
-export class SearchComponent {
-    searchTerm: string = '';
-    searchResult?: Product[];
+export class SearchComponent extends SearchBaseComponent implements OnInit {
+    searchResult?: AllSearchResult;
 
-    constructor(private ss: SearchService) { }
+    constructor(private ss: SearchService) { super(); }
 
-    doSearch() {
-        if (this.searchTerm === '') return;
+    ngOnInit() {
+        super.ngOnInit();
+    }
 
-        this.ss.findByType(searchType.product, this.searchTerm, p => { console.dir(p); this.searchResult = p.products });
+    doSearch(term: string) {
+        this.ss.findByType(searchType.all, term, res => { console.dir(res); this.searchResult = res });
     }
 
 }

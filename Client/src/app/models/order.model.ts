@@ -34,7 +34,8 @@ export class OrderPart {
 }
 
 export class OrderPartDiscrete extends OrderPart {
-    constructor(quantity: number,
+    constructor(
+        quantity: number,
         id: string,
         product: Product,
         supplier: Supplier
