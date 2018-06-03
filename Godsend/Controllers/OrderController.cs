@@ -34,14 +34,14 @@ namespace Godsend.Controllers
         }
 
         [HttpDelete("[action]/{id:Guid}")]
-        public IActionResult Delete(Guid id, byte status)
+        public IActionResult Delete(Guid id)
         {
             try
             {
                 repository.DeleteOrder(id);
                 return Ok();
             }
-            catch { return BadRequest(); }
+            catch(Exception e) { return BadRequest(); }
         }
 
         [HttpGet("[action]/{id:Guid}")]

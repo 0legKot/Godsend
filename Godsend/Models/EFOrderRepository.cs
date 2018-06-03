@@ -17,7 +17,7 @@ namespace Godsend.Models
                 IList<OrderPartDiscrete> orderPartDiscretes = new List<OrderPartDiscrete>();
                 foreach (var p in ctx.Products.Include(p=>p.Info).Where(p => typeof(DiscreteProduct) == p.GetType()))
                     orderPartDiscretes.Add(new OrderPartDiscrete { Quantity=p.Info.Watches*5,Product=p });
-                    context.Orders.Add(
+                context.Orders.Add(
                     new SimpleOrder {
                         Customer = userManager.Users.FirstOrDefault(),
                         Done =new DateTime(1000),
@@ -25,6 +25,15 @@ namespace Godsend.Models
                         Status =Status.Ready,
                         DiscreteItems =orderPartDiscretes
                     });
+                context.Orders.Add(
+                   new SimpleOrder
+                   {
+                       Customer = userManager.Users.FirstOrDefault(),
+                       Done = new DateTime(2014,2,2),
+                       Ordered = new DateTime(2013,2,3),
+                       Status = Status.Ready,
+                       DiscreteItems = orderPartDiscretes
+                   });
                 context.SaveChanges();
             }
 
@@ -78,7 +87,13 @@ namespace Godsend.Models
 
         private Order GetOrder(Guid orderID)
         {
-            return context.Orders.FirstOrDefault(p => p.Id == orderID);
+            return context.Orders
+            .Include(x => x.Customer)
+            .Include(o => o.DiscreteItems).ThenInclude(di => di.Product).ThenInclude(di => di.Info)
+            .Include(o => o.DiscreteItems).ThenInclude(di => di.Supplier).ThenInclude(s => s.Info)
+            .Include(o => o.WeightedItems).ThenInclude(wi => wi.Product).ThenInclude(p => p.Info)
+            .Include(o => o.WeightedItems).ThenInclude(wi => wi.Supplier).ThenInclude(s => s.Info)
+            .FirstOrDefault(p => p.Id == orderID);
         }
     }
 }

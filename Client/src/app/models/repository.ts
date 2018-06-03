@@ -52,15 +52,25 @@ export class Repository {
             default: return;
         }
     }
-
+    setEntites<T>(clas: string, val: T[]) {
+        switch (clas) {
+            //case "product": this.products = val;
+            //case "order": this.suppliers = val;
+            case "supplier": this.orders = val;
+            default: return;
+        }
+    }
+    getUrl(clas: string): string {
+        switch (clas.toLowerCase()) {
+            case "product": return productsUrl; 
+            case "order": return ordersUrl;
+            case "supplier": return suppliersUrl; 
+        }
+        return "";
+    }
     getEntity<T>(id: string, fn: ((_: T) => any),clas:string) {
         if (id != null) {
-            let url = "";
-            switch (clas.toLowerCase()) {
-                case "product": url = productsUrl; break;
-                case "order": url = ordersUrl; break;
-                case "supplier": url = suppliersUrl; break;
-            }
+            let url = this.getUrl(clas);
             this.data.sendRequest<T>('get', url + '/detail/' + id)
                 .subscribe(response => {
                     this.setEntity<T>(response);
@@ -76,11 +86,20 @@ export class Repository {
             .subscribe(response => this.getOrders());
     }
     deleteOrder(id: string) {
-        this.data.sendRequest<null>('delete', ordersUrl + '/' + id)
+        this.data.sendRequest<null>('delete', ordersUrl + '/delete/' + id)
             .subscribe(response => this.getOrders());
     }
-    //get Entities<T>(clas:string,fn?: (_: T[]) => any) {
-    //}
+    getEntities<T>(clas: string, fn?: (_: T[]) => any) {
+        let url = this.getUrl(clas);
+        this.data.sendRequest<T[]>('get', url + '/all')
+            .subscribe(response => {
+                if (fn) {
+                    console.log(response);
+                    fn(response);
+                }
+                this.setEntites<T>(clas,response);
+            });
+    }
     getProducts(fn?: (_:Product[]) => any) {
         this.data.sendRequest<Product[]>('get', productsUrl + '/all')
             .subscribe(response => {

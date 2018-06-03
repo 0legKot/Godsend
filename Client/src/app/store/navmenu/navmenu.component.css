@@ -11,6 +11,19 @@
 .pull-right {
     float: right;
 }
+/*Display Values */
+.block {
+    display: block !important;
+}
+
+.inline-block {
+    display: inline-block;
+}
+/*Aligning Elements */
+.center {
+    margin: 0 auto;
+    text-align: center;
+}
 
 
 header {
