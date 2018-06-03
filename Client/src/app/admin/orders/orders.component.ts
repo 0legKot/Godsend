@@ -21,7 +21,7 @@ export class OrdersComponent implements OnInit {
         this.repo.changeStatus(id, 2, res => this.orders = res);
     }
     shipped(id: string) {
-        this.repo.changeStatus(id, 1, res => this.orders = res));
+        this.repo.changeStatus(id, 1, res => this.orders = res);
     }
     delete(id: string) {
         this.repo.deleteOrder(id, res => this.orders = res);

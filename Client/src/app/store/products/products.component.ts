@@ -20,7 +20,8 @@ export class ProductsComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.repo.getProducts(res => this.products = res);
+        this.repo.getEntities<Product>("product",res => this.products = res);
+        //this.repo.getProducts(res => this.products = res);
     }
 
     choose(id: string): void {

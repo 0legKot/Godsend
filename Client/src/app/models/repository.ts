@@ -54,9 +54,9 @@ export class Repository {
     }
     setEntites<T>(clas: string, val: T[]) {
         switch (clas) {
-            //case "product": this.products = val;
-            //case "order": this.suppliers = val;
-            case "supplier": this.orders = val;
+            case "product": this.products = val;
+            case "order": this.orders = val;
+            case "supplier": this.suppliers = val;
             default: return;
         }
     }
