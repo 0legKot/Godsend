@@ -1,2 +1,1 @@
-<input [(ngModel)]="searchTerm" placeholder="type here" (keyup.enter)="doSearch()"/>
-<button (click)="doSearch()">Search</button>
+<input [formControl]="searchField" placeholder="type here"/>

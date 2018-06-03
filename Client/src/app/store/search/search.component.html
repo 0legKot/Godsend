@@ -1,13 +1,12 @@
 ﻿<h1>Search</h1>
 
-<input [(ngModel)]="searchTerm" (keyup.enter)="doSearch()" placeholder="Type here" />
-<button (click)="doSearch()">Search</button>
+<input [formControl]="searchField" placeholder="Type here" />
 
-<div *ngIf="searchResult?.length > 0">
+<div *ngIf="searchResult?.products?.length > 0">
     <div class="wrap">
         <div class='container-fluid'>
             <div class='row products'>
-                <div *ngFor="let product of searchResult" class="col-lg-3 col-md-4 col-sm-6 col-xs-12  card ">
+                <div *ngFor="let product of searchResult.products" class="col-lg-3 col-md-4 col-sm-6 col-xs-12  card ">
                     <a [routerLink]="['/products', product.id]">
                         <div class="card-header">
                             <span class="h4">

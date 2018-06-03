@@ -19,7 +19,7 @@ namespace Godsend.Controllers
             this.context = context;
         }
 
-        [HttpGet("type/{t:int}/{term}")]
+        [HttpGet("type/{t:int}/{term?}")]
         public AllSearchResult Find(SearchType t, string term)
         {
             switch (t)
@@ -35,7 +35,7 @@ namespace Godsend.Controllers
             }
         }
 
-        [HttpGet("all/{term}")]
+        [HttpGet("all/{term?}")]
         public AllSearchResult FindAll(string term)
         {
             return new AllSearchResult
@@ -45,16 +45,20 @@ namespace Godsend.Controllers
             };
         }
 
-        [HttpGet("products/{term}")]
+        [HttpGet("products/{term?}")]
         public IEnumerable<Product> FindProducts(string term)
         {
-            return context.Products.Include(x => x.Info).Where(p => p.Info.Name.ToLower().Contains(term.ToLower()));
+            return String.IsNullOrWhiteSpace(term) 
+                ? context.Products.Include(x => x.Info)
+                : context.Products.Include(x => x.Info).Where(p => p.Info.Name.ToLower().Contains(term.ToLower()));
         }
 
-        [HttpGet("suppliers/{term}")]
+        [HttpGet("suppliers/{term?}")]
         public IEnumerable<Supplier> FindSuppliers(string term)
         {
-            return context.Suppliers.Include(x => x.Info).Where(s => s.Info.Name.ToLower().Contains(term.ToLower()));
+            return String.IsNullOrWhiteSpace(term)
+                ? context.Suppliers.Include(x => x.Info)
+                : context.Suppliers.Include(x => x.Info).Where(s => s.Info.Name.ToLower().Contains(term.ToLower()));
         }
     }
 
