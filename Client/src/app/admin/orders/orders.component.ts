@@ -15,13 +15,13 @@ export class OrdersComponent implements OnInit {
     constructor(private repo: Repository) { }
 
     ngOnInit() {
-        this.repo.getOrders(o => this.orders = o);
+        this.repo.getEntities < Order>("order",o => this.orders = o);
     }
     cancel(id: string) {
-        this.repo.changeStatus(id, 2, res => this.orders = res);
+        this.repo.changeOrderStatus(id, 2, res => this.orders = res);
     }
     shipped(id: string) {
-        this.repo.changeStatus(id, 1, res => this.orders = res);
+        this.repo.changeOrderStatus(id, 1, res => this.orders = res);
     }
     delete(id: string) {
         this.repo.deleteOrder(id, res => this.orders = res);

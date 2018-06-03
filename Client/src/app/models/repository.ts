@@ -31,18 +31,6 @@ export class Repository {
     constructor(private data: DataService) {
     }
 
-    //getProduct(id: string, fn: ((_: Product) => any)) {
-    //    if (id != null) {
-    //        this.data.sendRequest<Product>('get', productsUrl + '/detail/' + id)
-    //            .subscribe(response => {
-    //                this.product = response;
-    //                console.log(response);
-    //                if (fn) {
-    //                    fn(response);
-    //                }
-    //            });
-    //    }
-    //}
 
     setEntity<T>(val: T) {
         switch (typeof(val)) {
@@ -54,9 +42,9 @@ export class Repository {
     }
     setEntites<T>(clas: string, val: T[]) {
         switch (clas) {
-            case "product": this.products = val;
+            case "product": this.products = <any[]>val;
             case "order": this.orders = val;
-            case "supplier": this.suppliers = val;
+            case "supplier": this.suppliers = <any[]>val;
             default: return;
         }
     }
@@ -81,16 +69,16 @@ export class Repository {
                 });
         }
     }
-    changeStatus(id: string, status: number, fn?: ((_: Order[]) => any)) {
+    changeOrderStatus(id: string, status: number, fn?: ((_: Order[]) => any)) {
         this.data.sendRequest<Order[]>('patch', ordersUrl + '/changeStatus/' + id + '/' + status)
             .subscribe(response => {
-                this.getOrders(fn);
+                this.getEntities<Order>("order",fn);
             });
     }
     deleteOrder(id: string, fn?: ((_: Order[]) => any)) {
         this.data.sendRequest<Order[]>('delete', ordersUrl + '/delete/' + id)
             .subscribe(response => {
-                this.getOrders(fn);
+                this.getEntities<Order>("order", fn);
             });
     }
     getEntities<T>(clas: string, fn?: (_: T[]) => any) {
@@ -102,26 +90,6 @@ export class Repository {
                     fn(response);
                 }
                 this.setEntites<T>(clas,response);
-            });
-    }
-    getProducts(fn?: (_:Product[]) => any) {
-        this.data.sendRequest<Product[]>('get', productsUrl + '/all')
-            .subscribe(response => {
-                if (fn) {
-                    console.log(response);
-                    fn(response);
-                }
-                this.products = response;
-        });
-    }
-
-    getOrders(fn?: (_: Order[]) => any) {
-        this.data.sendRequest<Order[]>('get', ordersUrl + '/all')
-            .subscribe(orders => {
-                if (fn) {
-                    fn(orders);
-                }
-                this.orders = orders;
             });
     }
 
@@ -144,7 +112,7 @@ export class Repository {
             description: prod.info.description
         };
         this.data.sendRequest<null>('put', productsUrl + '/' + prod.id, data)
-            .subscribe(response => this.getProducts());
+            .subscribe(response => this.getEntities < Product>('product'));
     }
 
     
@@ -155,12 +123,12 @@ export class Repository {
             patch.push({ op: 'replace', path: key, value: value }));
 
         this.data.sendRequest<null>('patch', productsUrl + '/' + id, patch)
-            .subscribe(response => this.getProducts());
+            .subscribe(response => this.getEntities<Product>('product'));
     }
 
     deleteProduct(id: string) {
         this.data.sendRequest<null>('delete', productsUrl + '/' + id)
-            .subscribe(response => this.getProducts());
+            .subscribe(response => this.getEntities<Product>('product'));
     }
 
     storeSessionData(dataType: string, data: any) {
