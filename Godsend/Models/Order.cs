@@ -1,12 +1,12 @@
-﻿using Microsoft.AspNetCore.Identity;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace Godsend.Models
+﻿namespace Godsend.Models
 {
+    using System;
+    using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
+    using System.Linq;
+    using System.Threading.Tasks;
+    using Microsoft.AspNetCore.Identity;
+
     public enum Status
     {
         Ready = 0,
@@ -55,5 +55,3 @@ namespace Godsend.Models
         public double Weight { get; set; }
     }
 }
-
-

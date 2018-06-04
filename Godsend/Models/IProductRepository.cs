@@ -1,9 +1,9 @@
-﻿using Godsend.Models;
-using System;
-using System.Collections.Generic;
-
-namespace Godsend
+﻿namespace Godsend
 {
+    using System;
+    using System.Collections.Generic;
+    using Godsend.Models;
+
     public interface IProductRepository
     {
         IEnumerable<Product> Products { get; }

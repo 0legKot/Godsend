@@ -1,12 +1,16 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿// <copyright file="EFOrderRepository.cs" company="Godsend Team">
+// Copyright (c) Godsend Team. All rights reserved.
+// </copyright>
 
 namespace Godsend.Models
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
+    using Microsoft.AspNetCore.Identity;
+    using Microsoft.EntityFrameworkCore;
+
     public class EFOrderRepository : IOrderRepository
     {
         private DataContext context;

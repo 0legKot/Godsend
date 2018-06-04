@@ -1,13 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Godsend.Models;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+﻿// <copyright file="SearchController.cs" company="Godsend Team">
+// Copyright (c) Godsend Team. All rights reserved.
+// </copyright>
 
 namespace Godsend.Controllers
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
+    using Godsend.Models;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.EntityFrameworkCore;
+
     public enum SearchType
     {
         All = 0,
@@ -69,14 +73,5 @@ namespace Godsend.Controllers
                 ? context.Suppliers.Include(x => x.Info)
                 : context.Suppliers.Include(x => x.Info).Where(s => s.Info.Name.ToLower().Contains(term.ToLower()));
         }
-    }
-
-    public class AllSearchResult
-    {
-        public IEnumerable<Product> Products { get; set; } = null;
-
-        public IEnumerable<Supplier> Suppliers { get; set; } = null;
-
-// public IEnumerable<Order> Orders { get; set; }
     }
 }
