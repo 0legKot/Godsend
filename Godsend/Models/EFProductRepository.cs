@@ -8,11 +8,12 @@ using System.Threading.Tasks;
 
 namespace Godsend
 {
-    public class EFProductRepository: IProductRepository
+    public class EFProductRepository : IProductRepository
     {
         private DataContext context;
         private const string adminUser = "Admin";
         private const string adminPassword = "Secret123$";
+
         public EFProductRepository(DataContext ctx, UserManager<IdentityUser> userManager)
         {
             context = ctx;
@@ -30,8 +31,8 @@ namespace Godsend
                     }
                 });
                 context.SaveChanges();
-
-            };
+            }
+;
 
             if (!context.Products.Any(p => p.Info.Name == "Potato"))
             {
@@ -134,7 +135,7 @@ namespace Godsend
                         }
                     });
 
-                context.SaveChanges(); 
+                context.SaveChanges();
             }
         }
 
@@ -142,18 +143,20 @@ namespace Godsend
 
         public void SaveProduct(Product product)
         {
-           
             Product dbEntry = context.Products.FirstOrDefault(p => p.Id == product.Id);
             if (dbEntry != null)
             {
-                //TODO: implement IClonable
+                // TODO: implement IClonable
                 dbEntry.Info.Name = product.Info.Name;
                 dbEntry.Info.Description = product.Info.Description;
                 dbEntry.Info.Watches = product.Info.Watches;
                 dbEntry.Info.Rating = product.Info.Rating;
             }
-            else context.Add(product);
-            
+            else
+            {
+                context.Add(product);
+            }
+
             context.SaveChanges();
         }
 
@@ -166,6 +169,7 @@ namespace Godsend
                 context.Products.Remove(dbEntry);
                 context.SaveChanges();
             }
+
             return dbEntry;
         }
     }

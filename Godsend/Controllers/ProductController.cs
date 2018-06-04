@@ -10,7 +10,8 @@ namespace Godsend.Controllers
     [Route("api/[controller]")]
     public class ProductController : Controller
     {
-        IProductRepository repository;
+        private IProductRepository repository;
+
         public ProductController(IProductRepository repo)
         {
             repository = repo;
@@ -25,7 +26,7 @@ namespace Godsend.Controllers
         [HttpGet("[action]/{id:Guid}")]
         public Product Detail(Guid id)
         {
-            return repository.Products.FirstOrDefault(x=>x.Id==id);
+            return repository.Products.FirstOrDefault(x => x.Id == id);
         }
     }
 }

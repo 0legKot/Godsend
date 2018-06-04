@@ -8,6 +8,15 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Godsend.Controllers
 {
+    public enum SearchType
+    {
+        All = 0,
+        Products = 1,
+        Suppliers = 2,
+
+        // Orders = 3
+    }
+
     // todo make procedure
     [Route("api/[controller]")]
     public class SearchController : Controller
@@ -48,7 +57,7 @@ namespace Godsend.Controllers
         [HttpGet("products/{term?}")]
         public IEnumerable<Product> FindProducts(string term)
         {
-            return String.IsNullOrWhiteSpace(term) 
+            return string.IsNullOrWhiteSpace(term)
                 ? context.Products.Include(x => x.Info)
                 : context.Products.Include(x => x.Info).Where(p => p.Info.Name.ToLower().Contains(term.ToLower()));
         }
@@ -56,24 +65,18 @@ namespace Godsend.Controllers
         [HttpGet("suppliers/{term?}")]
         public IEnumerable<Supplier> FindSuppliers(string term)
         {
-            return String.IsNullOrWhiteSpace(term)
+            return string.IsNullOrWhiteSpace(term)
                 ? context.Suppliers.Include(x => x.Info)
                 : context.Suppliers.Include(x => x.Info).Where(s => s.Info.Name.ToLower().Contains(term.ToLower()));
         }
     }
 
-    public enum SearchType
-    {
-        All = 0,
-        Products = 1,
-        Suppliers = 2,
-//        Orders = 3
-    }
-
     public class AllSearchResult
     {
         public IEnumerable<Product> Products { get; set; } = null;
+
         public IEnumerable<Supplier> Suppliers { get; set; } = null;
-//        public IEnumerable<Order> Orders { get; set; }
+
+// public IEnumerable<Order> Orders { get; set; }
     }
 }

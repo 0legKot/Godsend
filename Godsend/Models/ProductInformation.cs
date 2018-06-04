@@ -8,6 +8,7 @@ namespace Godsend.Models
     public class ProductInformation : Information
     {
         public string Description { get; set; }
-        //public IEnumerable<ISupplier> Suppliers { get; set; }
+
+        // public IEnumerable<ISupplier> Suppliers { get; set; }
     }
 }

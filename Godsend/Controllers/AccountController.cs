@@ -30,7 +30,6 @@ namespace Godsend.Controllers
         public async Task<IActionResult> Login(LoginViewModel creds,
                 string returnUrl)
         {
-
             if (ModelState.IsValid)
             {
                 if (await DoLogin(creds))
@@ -42,6 +41,7 @@ namespace Godsend.Controllers
                     ModelState.AddModelError("", "Invalid username or password");
                 }
             }
+
             return View(creds);
         }
 
@@ -59,6 +59,7 @@ namespace Godsend.Controllers
             {
                 return true;
             }
+
             return false;
         }
 
@@ -74,6 +75,7 @@ namespace Godsend.Controllers
                         false, false);
                 return result.Succeeded;
             }
+
             return false;
         }
     }
@@ -82,6 +84,7 @@ namespace Godsend.Controllers
     {
         [Required]
         public string Name { get; set; }
+
         [Required]
         public string Password { get; set; }
     }

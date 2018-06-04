@@ -8,8 +8,9 @@ namespace Godsend.Models
     public abstract class Supplier
     {
         public Guid Id { get; set; }
-        public SupplierInformation Info { get; set; }
 
+        public SupplierInformation Info { get; set; }
     }
+
     public class SimpleSupplier : Supplier { }
 }

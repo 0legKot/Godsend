@@ -35,7 +35,8 @@ namespace Godsend
                 .AddEntityFrameworkStores<DataContext>()
                 .AddDefaultTokenProviders();
             services.AddMvc();
-            //To do
+
+            // To do
             services.AddCors(o => o.AddPolicy("GodsendPolicy", builder =>
             {
                 builder.AllowAnyOrigin()
@@ -61,7 +62,6 @@ namespace Godsend
 
             app.UseAuthentication();
             app.UseMvc();
-
         }
     }
 }

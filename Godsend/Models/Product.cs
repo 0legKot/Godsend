@@ -7,17 +7,16 @@ namespace Godsend.Models
 {
     public abstract class Product
     {
-        public Guid Id { get; set; } 
+        public Guid Id { get; set; }
+
         public ProductInformation Info { get; set;}
     }
 
     public class DiscreteProduct : Product
     {
-
     }
 
     public class WeightedProduct : Product
     {
-
     }
 }

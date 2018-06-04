@@ -10,7 +10,8 @@ namespace Godsend.Controllers
     [Route("api/[controller]")]
     public class OrderController : Controller
     {
-        IOrderRepository repository;
+        private IOrderRepository repository;
+
         public OrderController(IOrderRepository repo)
         {
             repository = repo;
@@ -30,7 +31,10 @@ namespace Godsend.Controllers
                 repository.ChangeStatus(id, status);
                 return Ok();
             }
-            catch { return BadRequest(); }
+            catch
+            {
+                return BadRequest();
+            }
         }
 
         [HttpDelete("[action]/{id:Guid}")]
@@ -41,7 +45,10 @@ namespace Godsend.Controllers
                 repository.DeleteOrder(id);
                 return Ok();
             }
-            catch(Exception e) { return BadRequest(); }
+            catch (Exception e)
+            {
+                return BadRequest();
+            }
         }
 
         [HttpGet("[action]/{id:Guid}")]

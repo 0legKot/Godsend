@@ -10,7 +10,8 @@ namespace Godsend.Controllers
     [Route("api/[controller]")]
     public class SupplierController : Controller
     {
-        ISupplierRepository repository;
+        private ISupplierRepository repository;
+
         public SupplierController(ISupplierRepository repo)
         {
             repository = repo;
