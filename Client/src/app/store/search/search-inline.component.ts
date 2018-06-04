@@ -12,7 +12,7 @@ export class SearchInlineComponent extends SearchBaseComponent implements OnInit
     type: number = searchType.all;
 
     @Output()
-    result = new EventEmitter<AllSearchResult>();
+    readonly found = new EventEmitter<AllSearchResult>();
 
     constructor(private ss: SearchService) { super(); }
 
@@ -21,6 +21,6 @@ export class SearchInlineComponent extends SearchBaseComponent implements OnInit
     }
 
     doSearch(term: string): void {
-        this.ss.findByType(this.type, term, res => this.result.emit(res));
+        this.ss.findByType(this.type, term, res => this.found.emit(res));
     }
 }

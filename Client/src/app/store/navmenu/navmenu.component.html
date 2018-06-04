@@ -33,7 +33,7 @@
               <a [routerLink]="['/login']">Login</a>
             </li>
               <li *ngIf="isLogged; else elseBlock" class="main-nav-item-2">
-                <fa name="user"></fa> {{name}}
+                <fa name="user"></fa> {{ name }}
                 <a (click)="logout()">Log out</a>
               </li>
             <ng-template #elseBlock>Login</ng-template>

@@ -4,7 +4,8 @@ import { AuthenticationService } from '../authentication/authentication.service'
 import { Product } from '../models/product.model';
 
 @Component({
-    templateUrl: 'admin.component.html'
+    templateUrl: 'admin.component.html',
+    selector: 'godsend-admin'
 })
 export class AdminComponent {
 

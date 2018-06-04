@@ -2,7 +2,8 @@ import { Component } from '@angular/core';
 import { AuthenticationService } from './authentication.service';
 
 @Component({
-    templateUrl: 'authentication.component.html'
+    templateUrl: 'authentication.component.html',
+    selector: 'godsend-auth'
 })
 export class AuthenticationComponent {
 

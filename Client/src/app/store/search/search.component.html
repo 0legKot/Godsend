@@ -10,17 +10,17 @@
                     <a [routerLink]="['/products', product.id]">
                         <div class="card-header">
                             <span class="h4">
-                                {{product.info.name}}
+                                {{ product.info.name }}
                             </span>
                             <span class="float-right badge badge-pill badge-primary">
-                                {{product.info.price  | currency:"USD":true }}
+                                {{ product.info.price  | currency:"USD":true }}
                             </span>
                         </div>
                         <div class="photo mb-4">
                             Photo
                         </div>
                         <div class="card-block">
-                            <span class="card-text p-a-1">{{product.info.description}}</span>
+                            <span class="card-text p-a-1">{{ product.info.description }}</span>
                         </div>
                     </a>
                 </div>
