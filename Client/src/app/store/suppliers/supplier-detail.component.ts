@@ -26,7 +26,7 @@ export class SupplierDetailComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.service.getEntity<Supplier>(this.route.snapshot.params['id'], s => this.supp = s, 'supplier');
+        this.service.getEntity<Supplier>(this.route.snapshot.params.id, s => this.supp = s, 'supplier');
     }
 
 }
