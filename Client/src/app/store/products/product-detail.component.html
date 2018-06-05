@@ -1,20 +1,37 @@
 ﻿<h1>Product detail</h1>
+<br />
+<br />
+<br />
+<div class="wrap">
+    <div class='container-fluid'>
+        <div class='row'>
+            <div class='col-lg-3 col-md-4 col-sm-6 col-xs-12 products'>
+                <div class="prod-name">{{ prod?.info?.name }}</div>
+                <div class="photo">
+                </div>
+                <div class="rating">
+                    <p [ngStyle]="{'color': prod?.info?.rating  >= 0.5 ? '#d9b400' : 'grey' }"><fa name="star"></fa></p>
+                    <p [ngStyle]="{'color': prod?.info?.rating  >= 1.5 ? '#d9b400' : 'grey' }"><fa name="star"></fa></p>
+                    <p [ngStyle]="{'color': prod?.info?.rating  >= 2.5 ? '#d9b400' : 'grey' }"><fa name="star"></fa></p>
+                    <p [ngStyle]="{'color': prod?.info?.rating  >= 3.5 ? '#d9b400' : 'grey' }"><fa name="star"></fa></p>
+                    <p [ngStyle]="{'color': prod?.info?.rating  >= 4.5 ? '#d9b400' : 'grey' }"><fa name="star"></fa></p>
+                </div>
+            </div>
+            <div class='col-lg-7 col-md-6 col-sm-5 col-xs-12 products prod-info'>
+                <div>
+                    <label>Id: </label>{{ prod?.id }}
+                </div>
+                <div>
+                    <label>Description: </label>{{ prod?.info?.description }}
+                </div>
+                <div>
+                    <label>Watches: </label>{{ prod?.info?.watches }}
+                </div>
+                <p>
+                    <button (click)="gotoProducts(prod)">Back</button>
+                </p>
 
-    <div>
-        <label>Id: </label>{{ prod?.id }}
+            </div>
+        </div>
     </div>
-    <div>
-        <label>Name: </label>{{ prod?.info?.name }} 
-    </div>
-    <div>
-        <label>Description: </label>{{ prod?.info?.description }}
-    </div>
-    <div>
-        <label>Watches: </label>{{ prod?.info?.watches }}
-    </div>
-    <div>
-        <label>Rating: </label>{{ prod?.info?.rating }}
-    </div>
-    <p>
-        <button (click)="gotoProducts(prod)">Back</button>
-    </p>
+</div>

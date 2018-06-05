@@ -9,7 +9,8 @@ import { forEach } from '@angular/router/src/utils/collection';
 
 @Component({
     selector: 'godsend-product-detail',
-    templateUrl: 'product-detail.component.html'
+    templateUrl: 'product-detail.component.html',
+    styleUrls: ['./product-detail.component.css']
 })
 export class ProductDetailComponent implements OnInit {
     prod?: Product;
