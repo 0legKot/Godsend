@@ -28,32 +28,34 @@ import { ProductsComponent } from './store/products/products.component';
 import { ProductDetailComponent } from './store/products/product-detail.component';
 import { SuppliersComponent } from './store/suppliers/suppliers.component';
 import { SupplierDetailComponent } from './store/suppliers/supplier-detail.component';
+import { StarsComponent } from './store/stars/stars.component';
 
 @NgModule({
     declarations: [
         AppComponent,
-        NavMenuComponent,
-        OrdersComponent,
-        HomeComponent,
         ArticlesComponent,
         CartComponent,
         ConsultComponent,
+        HomeComponent,
         LoginComponent,
-        SearchComponent,
-        StatisticsComponent,
-        SearchInlineComponent,
-        ProductsComponent,
+        NavMenuComponent,
+        OrdersComponent,
         ProductDetailComponent,
-        SuppliersComponent,
-        SupplierDetailComponent
+        ProductsComponent,
+        SearchComponent,
+        SearchInlineComponent,
+        StarsComponent,
+        StatisticsComponent,
+        SupplierDetailComponent,
+        SuppliersComponent
     ],
     imports: [
-        CommonModule,
-        HttpClientModule,
-        FormsModule,
-        ReactiveFormsModule,
-        BrowserModule,
         AngularFontAwesomeModule,
+        BrowserModule,
+        CommonModule,
+        FormsModule,
+        HttpClientModule,
+        ReactiveFormsModule,
         RouterModule.forRoot([
             { path: '', redirectTo: 'home', pathMatch: 'full' },
             { path: 'home', component: HomeComponent },

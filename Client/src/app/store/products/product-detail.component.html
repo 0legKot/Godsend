@@ -10,11 +10,12 @@
                 <div class="photo">
                 </div>
                 <div class="rating">
-                    <p [ngStyle]="{'color': prod?.info?.rating  >= 0.5 ? '#d9b400' : 'grey' }"><fa name="star"></fa></p>
+                    <!--<p [ngStyle]="{'color': prod?.info?.rating  >= 0.5 ? '#d9b400' : 'grey' }"><fa name="star"></fa></p>
                     <p [ngStyle]="{'color': prod?.info?.rating  >= 1.5 ? '#d9b400' : 'grey' }"><fa name="star"></fa></p>
                     <p [ngStyle]="{'color': prod?.info?.rating  >= 2.5 ? '#d9b400' : 'grey' }"><fa name="star"></fa></p>
                     <p [ngStyle]="{'color': prod?.info?.rating  >= 3.5 ? '#d9b400' : 'grey' }"><fa name="star"></fa></p>
-                    <p [ngStyle]="{'color': prod?.info?.rating  >= 4.5 ? '#d9b400' : 'grey' }"><fa name="star"></fa></p>
+                    <p [ngStyle]="{'color': prod?.info?.rating  >= 4.5 ? '#d9b400' : 'grey' }"><fa name="star"></fa></p>-->
+                    <godsend-stars [value]="prod?.info?.rating"></godsend-stars>
                 </div>
             </div>
             <div class='col-lg-7 col-md-6 col-sm-5 col-xs-12 products prod-info'>

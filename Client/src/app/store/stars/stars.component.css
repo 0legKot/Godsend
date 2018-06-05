@@ -1,0 +1,44 @@
+.stars {
+    position: relative;
+    margin: -5px;
+    width: auto;
+    height: auto;
+    line-height: 100%;
+    display: inline-block;
+}
+
+.stars-rated, .stars-all, .links {
+    left: 0px;
+    top: 0px;
+    cursor: default;
+}
+
+.stars-rated {
+    position: absolute;
+    color: #FFC107;
+    z-index: 1;
+    overflow: hidden;
+}
+
+.stars-all {
+    position: relative;
+    color: #aaa;
+}
+
+.links {
+    position: absolute;
+}
+
+.links a {
+    color: transparent;
+    position: relative;
+    z-index: 2;
+}
+
+.links:hover > A {
+    color: #FFC107;
+}
+
+.links a:hover ~ a {
+    color: #aaa;
+}

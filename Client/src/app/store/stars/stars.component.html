@@ -1,0 +1,7 @@
+﻿<div class="stars" [ngStyle]="{'font-size.px' : size}">
+    <div class="links" *ngIf="!readOnly">
+        <a *ngFor="let ratingAlias of ratingAliases; let index=index" (click)="onValueChanged(index + 1)" [attr.title]="ratingAlias">★</a>
+    </div>
+    <div class="stars-rated" [attr.title]="value" [style.width.%]="value * 20">★★★★★</div>
+    <div class="stars-all" [attr.title]="value">★★★★★</div>
+</div>
