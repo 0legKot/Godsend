@@ -4,10 +4,24 @@ using System.Linq;
 using System.Threading.Tasks;
 using Godsend.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ApplicationModels;
 
 namespace Godsend.Controllers
 {
-    //TODO
+    [AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = true)]
+    public class GenericControllerNameAttribute : Attribute, IControllerModelConvention
+    {
+        public void Apply(ControllerModel controller)
+        {
+            if (controller.ControllerType.GetGenericTypeDefinition() == typeof(EntityController<>))
+            {
+                var entityType = controller.ControllerType.GenericTypeArguments[0];
+                controller.ControllerName = entityType.Name;
+            }
+        }
+    }
+
+    [GenericControllerName]
     public abstract class EntityController<IEntity> : Controller
     {
         protected IRepository<IEntity> repository;
