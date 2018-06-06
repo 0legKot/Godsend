@@ -5,10 +5,10 @@ using System.Threading.Tasks;
 
 namespace Godsend.Models
 {
-    public class Wrapper<T>
+    public class StringWrapper
     {
         public Guid Id { get; set; }
 
-        public T Value { get; set; }
+        public string Value { get; set; }
     }
 }

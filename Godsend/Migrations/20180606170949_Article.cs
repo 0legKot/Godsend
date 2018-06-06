@@ -51,7 +51,7 @@ namespace Godsend.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Wrapper<string>",
+                name: "StringWrapper<string>",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
@@ -81,7 +81,7 @@ namespace Godsend.Migrations
 
             migrationBuilder.CreateIndex(
                 name: "IX_Wrapper<string>_ArticleInformationId",
-                table: "Wrapper<string>",
+                table: "StringWrapper<string>",
                 column: "ArticleInformationId");
         }
 
@@ -91,7 +91,7 @@ namespace Godsend.Migrations
                 name: "Articles");
 
             migrationBuilder.DropTable(
-                name: "Wrapper<string>");
+                name: "StringWrapper<string>");
 
             migrationBuilder.DropTable(
                 name: "ArticleInformation");

@@ -13,7 +13,7 @@
 
         public DateTime Created { get; set; }
 
-        public IEnumerable<Wrapper<string>> EFTags { get; set; }
+        public IEnumerable<StringWrapper> EFTags { get; set; }
 
         [NotMapped]
         public IEnumerable<string> Tags
