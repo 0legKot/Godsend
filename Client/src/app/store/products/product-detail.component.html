@@ -2,7 +2,10 @@
 <br />
 <br />
 <br />
-<div class="wrap">
+<div class="wrap rel">
+    <br />
+    <br />
+
     <div class='container-fluid'>
         <div class='row'>
             <div class='col-lg-3 col-md-4 col-sm-6 col-xs-12 products'>
@@ -10,29 +13,21 @@
                 <div class="photo">
                 </div>
                 <div class="rating">
-                    <!--<p [ngStyle]="{'color': prod?.info?.rating  >= 0.5 ? '#d9b400' : 'grey' }"><fa name="star"></fa></p>
-                    <p [ngStyle]="{'color': prod?.info?.rating  >= 1.5 ? '#d9b400' : 'grey' }"><fa name="star"></fa></p>
-                    <p [ngStyle]="{'color': prod?.info?.rating  >= 2.5 ? '#d9b400' : 'grey' }"><fa name="star"></fa></p>
-                    <p [ngStyle]="{'color': prod?.info?.rating  >= 3.5 ? '#d9b400' : 'grey' }"><fa name="star"></fa></p>
-                    <p [ngStyle]="{'color': prod?.info?.rating  >= 4.5 ? '#d9b400' : 'grey' }"><fa name="star"></fa></p>-->
                     <godsend-stars [value]="prod?.info?.rating"></godsend-stars>
+                    <p class="pull-right" [ngStyle]="{'color': '#003e09' }"><fa name="eye"></fa> : {{ prod?.info?.watches }}</p>
                 </div>
             </div>
-            <div class='col-lg-7 col-md-6 col-sm-5 col-xs-12 products prod-info'>
-                <div>
-                    <label>Id: </label>{{ prod?.id }}
+            <div class='col-lg-7 col-md-6 col-sm-5 col-xs-12 products rel'>
+                <div class="prod-info">
+                    <div>
+                        <label>Description: </label>
+                        <p>{{ prod?.info?.description }}</p>
+                    </div>
                 </div>
-                <div>
-                    <label>Description: </label>{{ prod?.info?.description }}
-                </div>
-                <div>
-                    <label>Watches: </label>{{ prod?.info?.watches }}
-                </div>
-                <p>
-                    <button (click)="gotoProducts(prod)">Back</button>
-                </p>
-
             </div>
         </div>
+    </div>
+    <div class="back-btn" (click)="gotoProducts(prod)">
+        <fa name="long-arrow-left"></fa> Back to products
     </div>
 </div>
