@@ -29,11 +29,13 @@ import { ProductDetailComponent } from './store/products/product-detail.componen
 import { SuppliersComponent } from './store/suppliers/suppliers.component';
 import { SupplierDetailComponent } from './store/suppliers/supplier-detail.component';
 import { StarsComponent } from './store/stars/stars.component';
+import { ArticleDetailComponent } from './store/articles/article-detail.component';
 
 @NgModule({
     declarations: [
         AppComponent,
         ArticlesComponent,
+        ArticleDetailComponent,
         CartComponent,
         ConsultComponent,
         HomeComponent,
@@ -65,6 +67,7 @@ import { StarsComponent } from './store/stars/stars.component';
             { path: 'suppliers/:id', component: SupplierDetailComponent },
             { path: 'orders', component: OrdersComponent, canActivate: [AuthenticationGuard] },
             { path: 'articles', component: ArticlesComponent },
+            {path: 'article/:id', component: ArticleDetailComponent},
             { path: 'cart', component: CartComponent },
             { path: 'consult', component: ConsultComponent },
             { path: 'login', component: LoginComponent },

@@ -5,10 +5,8 @@
     using System.Linq;
     using System.Threading.Tasks;
     using Godsend.Models;
-    using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
 
-    [Produces("application/json")]
     [Route("api/[controller]")]
     public class ArticleController : Controller
     {
@@ -25,7 +23,7 @@
             return repository.Articles.Select(a => a.Info);
         }
 
-        [HttpGet("[action]/{id:Guid}")]
+        [HttpGet("[action]/{infoId:Guid}")]
         public Article Detail(Guid infoId)
         {
             return repository.Articles.FirstOrDefault(x => x.Info.Id == infoId);

@@ -73,7 +73,8 @@ This is a pretty simple and straightforward diet you will ever try. It involves 
         }
 
 
-        public IEnumerable<Article> Articles => this.context.Articles.Include(a => a.Info);
+        public IEnumerable<Article> Articles => this.context.Articles.Include(a => a.Info).ThenInclude(a => a.Author)
+            .Include(a => a.Info).ThenInclude(a => a.EFTags);
 
         public void DeleteArticle(Guid articleId)
         {

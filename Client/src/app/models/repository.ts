@@ -11,10 +11,14 @@ import { Order } from './order.model';
 import { Supplier } from './supplier.model';
 import { Type } from '@angular/core';
 import { Entity } from './entity';
+import { ArticleInfo, Article } from './article.model';
+
+type supportedClass = 'article' | 'product' | 'supplier' | 'order';
 
 const productsUrl = 'api/product';
 const ordersUrl = 'api/order';
 const suppliersUrl = 'api/supplier';
+const articlesUrl = 'api/article';
 // TODO: rework
 
 @Injectable()
@@ -25,6 +29,8 @@ export class Repository {
     order: Order | {} = {};
     suppliers: Supplier[] = [];
     supplier: Supplier | {} = {};
+    articles: ArticleInfo[] = [];
+    article: Article | {} = {};
 
     constructor(private data: DataService) {
     }
@@ -43,7 +49,7 @@ export class Repository {
             default: return;
         }
     }
-    setEntites<T>(clas: string, val: T[]) {
+    setEntites<T>(clas: supportedClass, val: T[]) {
         switch (clas) {
             case 'product':
                 this.products = <any>val;
@@ -54,20 +60,23 @@ export class Repository {
             case 'supplier':
                 this.suppliers = <any>val;
                 break;
-            default: return;
+            case 'article':
+                this.articles = val;
+                break;
         }
     }
 
-    getUrl(clas: string): string {
-        switch (clas.toLowerCase()) {
+    getUrl(clas: supportedClass): string {
+        switch (clas) {
             case 'product': return productsUrl;
             case 'order': return ordersUrl;
             case 'supplier': return suppliersUrl;
+            case 'article': return articlesUrl;
         }
         return '';
     }
 
-    getEntity<T>(id: string, fn: ((_: T) => any), clas: string) {
+    getEntity<T>(id: string, fn: ((_: T) => any), clas: supportedClass) {
         if (id != null) {
             const url = this.getUrl(clas);
             this.data.sendRequest<T>('get', url + '/detail/' + id)
@@ -94,7 +103,7 @@ export class Repository {
             });
     }
 
-    getEntities<T>(clas: string, fn?: (_: T[]) => any) {
+    getEntities<T>(clas: supportedClass, fn?: (_: T[]) => any) {
         const url = this.getUrl(clas);
         this.data.sendRequest<T[]>('get', url + '/all')
             .subscribe(response => {
@@ -149,5 +158,7 @@ export class Repository {
     getSessionData(dataType: string): Observable<any> {
         return this.data.sendRequest<any>('get', '/api/session/' + dataType);
     }
+
+
 
 }

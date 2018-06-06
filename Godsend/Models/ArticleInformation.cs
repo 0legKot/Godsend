@@ -18,8 +18,8 @@
         [NotMapped]
         public IEnumerable<string> Tags
         {
-            get => this.EFTags.Select(x => x.Value);
-            set => this.EFTags = value.Select(s => new Wrapper<string> { Id = Guid.NewGuid(), Value = s });
+            get => this.EFTags?.Select(x => x.Value)?.ToArray();
+            set => this.EFTags = value?.Select(s => new Wrapper<string> { Id = Guid.NewGuid(), Value = s }).ToArray();
         }
     }
 }
