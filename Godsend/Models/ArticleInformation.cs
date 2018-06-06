@@ -13,13 +13,13 @@
 
         public DateTime Created { get; set; }
 
-        public IEnumerable<Wrapper<string>> EFTags { get; set; }
+        public IEnumerable<StringWrapper> EFTags { get; set; }
 
         [NotMapped]
         public IEnumerable<string> Tags
         {
-            get => this.EFTags.Select(x => x.Value);
-            set => this.EFTags = value.Select(s => new Wrapper<string> { Id = Guid.NewGuid(), Value = s });
+            get => EFTags.Select(x => x.Value);
+            set => EFTags = value.Select(s => new StringWrapper { Id = Guid.NewGuid(), Value = s });
         }
     }
 }
