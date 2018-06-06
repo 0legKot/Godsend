@@ -16,53 +16,53 @@
             repository = repo;
         }
 
-        [HttpGet("[action]")]
-        public IEnumerable<Product> All()
-        {
-            return repository.Entities;
-        }
+        //[HttpGet("[action]")]
+        //public IEnumerable<Product> All()
+        //{
+        //    return repository.Entities;
+        //}
 
-        [HttpDelete("[action]/{id:Guid}")]
-        public IActionResult Delete([FromBody]Guid id)
-        {
-            try
-            {
-                repository.DeleteEntity(id);
-                return Ok();
-            }
-            catch (Exception e)
-            {
-                return BadRequest();
-            }
-        }
+        //[HttpDelete("[action]/{id:Guid}")]
+        //public IActionResult Delete([FromBody]Guid id)
+        //{
+        //    try
+        //    {
+        //        repository.DeleteEntity(id);
+        //        return Ok();
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        return BadRequest();
+        //    }
+        //}
 
-        [HttpPost("[action]/{id:Guid}")]
-        public IActionResult CreateOrUpdate([FromBody]Product product)
-        {
-            try
-            {
-                repository.SaveEntity(product);
-                return Ok();
-            }
-            catch { return BadRequest(); }
-        }
+        //[HttpPost("[action]/{id:Guid}")]
+        //public IActionResult CreateOrUpdate([FromBody]Product product)
+        //{
+        //    try
+        //    {
+        //        repository.SaveEntity(product);
+        //        return Ok();
+        //    }
+        //    catch { return BadRequest(); }
+        //}
 
-        [HttpPatch("[action]/{id:Guid}")]
-        public IActionResult Edit([FromBody]Product product)
-        {
-            return CreateOrUpdate(product);
-        }
+        //[HttpPatch("[action]/{id:Guid}")]
+        //public IActionResult Edit([FromBody]Product product)
+        //{
+        //    return CreateOrUpdate(product);
+        //}
 
-        [HttpPut("[action]/{id:Guid}")]
-        public IActionResult Create([FromBody]Product product)
-        {
-            return CreateOrUpdate(product);
-        }
+        //[HttpPut("[action]/{id:Guid}")]
+        //public IActionResult Create([FromBody]Product product)
+        //{
+        //    return CreateOrUpdate(product);
+        //}
 
-        [HttpGet("[action]/{id:Guid}")]
-        public Product Detail(Guid id)
-        {
-            return repository.Entities.FirstOrDefault(x => x.Id == id);
-        }
+        //[HttpGet("[action]/{id:Guid}")]
+        //public Product Detail(Guid id)
+        //{
+        //    return repository.Entities.FirstOrDefault(x => x.Id == id);
+        //}
     }
 }
