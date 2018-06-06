@@ -5,18 +5,16 @@
     using System.Linq;
     using System.Threading.Tasks;
 
-    public abstract class Product
+    public class Article
     {
         public Guid Id { get; set; }
 
-        public ProductInformation Info { get; set; }
+        public string Content { get; set; }
+
+        public ArticleInformation Info { get; set; }
     }
 
-    public class DiscreteProduct : Product
-    {
-    }
-
-    public class WeightedProduct : Product
+    public class SimpleArticle : Article
     {
     }
 }

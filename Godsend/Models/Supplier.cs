@@ -12,5 +12,7 @@
         public SupplierInformation Info { get; set; }
     }
 
-    public class SimpleSupplier : Supplier { }
+    public class SimpleSupplier : Supplier
+    {
+    }
 }

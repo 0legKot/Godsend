@@ -11,7 +11,9 @@
     public class DataContext : IdentityDbContext<IdentityUser>
     {
         public DataContext(DbContextOptions<DataContext> options)
-               : base(options) { }
+               : base(options)
+        {
+        }
 
         public DbSet<Product> Products { get; set; }
 
@@ -19,13 +21,17 @@
 
         public DbSet<Order> Orders { get; set; }
 
+        public DbSet<Article> Articles { get; set; }
+
        // public DbSet<ProductInformation> ProductInformation { get; set; }
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.Entity<SimpleOrder>();
             builder.Entity<DiscreteProduct>();
             builder.Entity<WeightedProduct>();
+            builder.Entity<SimpleArticle>();
             builder.Entity<SimpleSupplier>();
+
 
             // builder.Entity<ProductInformation>();
             base.OnModelCreating(builder);

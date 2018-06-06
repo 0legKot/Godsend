@@ -1,4 +1,8 @@
-﻿namespace Godsend.Models
+﻿// <copyright file="Order.cs" company="Godsend Team">
+// Copyright (c) Godsend Team. All rights reserved.
+// </copyright>
+
+namespace Godsend.Models
 {
     using System;
     using System.Collections.Generic;
@@ -33,7 +37,9 @@
         public DateTime? Done { get; set; }
     }
 
-    public class SimpleOrder : Order { }
+    public class SimpleOrder : Order
+    {
+    }
 
     public abstract class OrderPart
     {

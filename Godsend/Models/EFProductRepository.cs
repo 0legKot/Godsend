@@ -10,9 +10,9 @@
 
     public class EFProductRepository : IProductRepository
     {
-        private DataContext context;
         private const string adminUser = "Admin";
         private const string adminPassword = "Secret123$";
+        private DataContext context;
 
         public EFProductRepository(DataContext ctx, UserManager<IdentityUser> userManager)
         {
@@ -32,7 +32,6 @@
                 });
                 context.SaveChanges();
             }
-;
 
             if (!context.Products.Any(p => p.Info.Name == "Potato"))
             {
@@ -69,7 +68,6 @@
 
                 context.SaveChanges();
             }
-
 
             if (!context.Products.Any(p => p.Info.Name == "Tomato"))
             {
