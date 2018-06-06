@@ -1,0 +1,26 @@
+﻿<h1>Article detail</h1>
+<div *ngIf="article?.info != null">
+    <h2>{{article?.id}}</h2>
+    <span class="h4">
+        Title: {{ article.info.name }}
+    </span><br />
+    <span class="h4">
+        Author: {{ article.info.author?.userName }}
+    </span><br />
+    <span class="h4">
+        Created: {{ article.info.created }}
+    </span><br />
+    <span class="h4">
+        Rating: {{ article.info.rating }}
+    </span><br />
+    <span class="h4">
+        Watches: {{ article.info.watches }}
+    </span><br />
+    <span class="h4" [innerHtml]="article.content"></span><br /><br />
+    <span class="h4" *ngFor="let hash of article.info.tags">
+        #{{ hash }}&nbsp;
+    </span>
+</div>
+<p>
+    <button (click)="gotoArticles(article)">Back</button>
+</p>

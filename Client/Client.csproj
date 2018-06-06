@@ -13,10 +13,12 @@
     <None Remove="src\app\authentication\authentication.guard.ts" />
     <None Remove="src\app\authentication\authentication.module.ts" />
     <None Remove="src\app\authentication\authentication.service.ts" />
+    <None Remove="src\app\models\article.model.ts" />
     <None Remove="src\app\models\entity.ts" />
     <None Remove="src\app\models\order.model.ts" />
     <None Remove="src\app\models\product.model.ts" />
     <None Remove="src\app\models\repository.ts" />
+    <None Remove="src\app\store\articles\article-detail.component.ts" />
     <None Remove="src\app\store\products\product-detail.component.ts" />
     <None Remove="src\app\store\products\products.component.ts" />
     <None Remove="src\app\store\search\search.base.component.ts" />
@@ -41,9 +43,11 @@
     <TypeScriptCompile Include="src\app\authentication\authentication.module.ts" />
     <TypeScriptCompile Include="src\app\authentication\authentication.service.ts" />
     <TypeScriptCompile Include="src\app\models\entity.ts" />
+    <TypeScriptCompile Include="src\app\models\article.model.ts" />
     <TypeScriptCompile Include="src\app\models\order.model.ts" />
     <TypeScriptCompile Include="src\app\models\product.model.ts" />
     <TypeScriptCompile Include="src\app\models\repository.ts" />
+    <TypeScriptCompile Include="src\app\store\articles\article-detail.component.ts" />
     <TypeScriptCompile Include="src\app\store\products\product-detail.component.ts" />
     <TypeScriptCompile Include="src\app\store\products\products.component.ts" />
     <TypeScriptCompile Include="src\app\store\search\search.base.component.ts" />
