@@ -5,12 +5,8 @@
     using System.Linq;
     using System.Threading.Tasks;
 
-    public interface ISupplierRepository
+    public interface ISupplierRepository:IRepository<Supplier>
     {
-        IEnumerable<Supplier> Suppliers { get; }
 
-        void SaveSupplier(Supplier supplier);
-
-        void DeleteSupplier(Guid supplierID);
     }
 }

@@ -73,16 +73,46 @@ This is a pretty simple and straightforward diet you will ever try. It involves 
         }
 
 
-        public IEnumerable<Article> Articles => this.context.Articles.Include(a => a.Info);
+        public IEnumerable<Article> Entities => context.Articles.Include(a => a.Info);
 
-        public void DeleteArticle(Guid articleId)
+
+        public void DeleteEntity(Guid entityId)
         {
-            throw new NotImplementedException();
+            Article dbEntry = GetEntity(entityId);
+            if (dbEntry != null)
+            {
+                context.Articles.Remove(dbEntry);
+                context.SaveChanges();
+            }
         }
 
-        public void SaveArticle(Article article)
+        public Article GetEntity(Guid entityId)
         {
-            throw new NotImplementedException();
+            return context.Articles.FirstOrDefault(a=>a.Id==entityId);
+        }
+
+        public bool IsFirst(Article entity)
+        {
+            return !context.Articles.Any(a=>a.Id==entity.Id);
+        }
+
+        public void SaveEntity(Article entity)
+        {
+            Article dbEntry = GetEntity(entity.Id);
+            if (dbEntry != null)
+            {
+                // TODO: implement IClonable
+                dbEntry.Info.Name = entity.Info.Name;
+
+                // dbEntry.Status = supplier.Status;
+                // ....
+            }
+            else
+            {
+                context.Add(entity);
+            }
+
+            context.SaveChanges();
         }
     }
 }

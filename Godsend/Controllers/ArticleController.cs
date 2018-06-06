@@ -10,7 +10,7 @@
 
     [Produces("application/json")]
     [Route("api/[controller]")]
-    public class ArticleController : Controller
+    public class ArticleController : EntityController<Article>
     {
         private IArticleRepository repository;
 
@@ -22,13 +22,13 @@
         [HttpGet("[action]")]
         public IEnumerable<ArticleInformation> All()
         {
-            return repository.Articles.Select(a => a.Info);
+            return repository.Entities.Select(a => a.Info);
         }
 
         [HttpGet("[action]/{id:Guid}")]
         public Article Detail(Guid infoId)
         {
-            return repository.Articles.FirstOrDefault(x => x.Info.Id == infoId);
+            return repository.Entities.FirstOrDefault(x => x.Info.Id == infoId);
         }
     }
 

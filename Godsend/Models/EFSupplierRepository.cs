@@ -44,11 +44,12 @@ namespace Godsend.Models
             }
         }
 
-        public IEnumerable<Supplier> Suppliers => context.Suppliers.Include(s => s.Info).ThenInclude(i => i.Location);
 
-        public void DeleteSupplier(Guid supplierID)
+        public IEnumerable<Supplier> Entities => context.Suppliers.Include(s => s.Info).ThenInclude(i => i.Location);
+
+        public void DeleteEntity(Guid entityId)
         {
-            Supplier dbEntry = GetSupplier(supplierID);
+            Supplier dbEntry = GetEntity(entityId);
             if (dbEntry != null)
             {
                 context.Suppliers.Remove(dbEntry);
@@ -56,28 +57,36 @@ namespace Godsend.Models
             }
         }
 
-        public void SaveSupplier(Supplier supplier)
+
+        public bool IsFirst(Supplier entity)
         {
-            Supplier dbEntry = GetSupplier(supplier.Id);
+            return !context.Suppliers.Any(s => s.Id == entity.Id);
+        }
+
+        public void SaveEntity(Supplier entity)
+        {
+            Supplier dbEntry = GetEntity(entity.Id);
             if (dbEntry != null)
             {
                 // TODO: implement IClonable
-                dbEntry.Info.Name = supplier.Info.Name;
+                dbEntry.Info.Name = entity.Info.Name;
 
                 // dbEntry.Status = supplier.Status;
                 // ....
             }
             else
             {
-                context.Add(supplier);
+                context.Add(entity);
             }
 
             context.SaveChanges();
         }
 
-        private Supplier GetSupplier(Guid supplierID)
+
+         public Supplier GetEntity(Guid entityId)
         {
-            return context.Suppliers.Include(s => s.Info).ThenInclude(i => i.Location).FirstOrDefault(s => s.Id == supplierID);
+            return context.Suppliers.Include(s => s.Info).ThenInclude(i => i.Location).FirstOrDefault(s => s.Id == entityId);
         }
+
     }
 }

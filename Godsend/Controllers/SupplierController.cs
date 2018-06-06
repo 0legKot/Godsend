@@ -12,9 +12,8 @@ namespace Godsend.Controllers
     using Microsoft.AspNetCore.Mvc;
 
     [Route("api/[controller]")]
-    public class SupplierController : Controller
+    public class SupplierController : EntityController<Supplier>
     {
-        private ISupplierRepository repository;
 
         public SupplierController(ISupplierRepository repo)
         {
@@ -24,13 +23,49 @@ namespace Godsend.Controllers
         [HttpGet("[action]")]
         public IEnumerable<Supplier> All()
         {
-            return repository.Suppliers;
+            return repository.Entities;
+        }
+        [HttpDelete("[action]/{id:Guid}")]
+        public IActionResult Delete([FromBody]Guid id)
+        {
+            try
+            {
+                repository.DeleteEntity(id);
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                return BadRequest();
+            }
+        }
+
+        [HttpPost("[action]/{id:Guid}")]
+        public IActionResult CreateOrUpdate([FromBody]Supplier supplier)
+        {
+            try
+            {
+                repository.SaveEntity(supplier);
+                return Ok();
+            }
+            catch { return BadRequest(); }
+        }
+
+        [HttpPatch("[action]/{id:Guid}")]
+        public IActionResult Edit([FromBody]Supplier supplier)
+        {
+            return CreateOrUpdate(supplier);
+        }
+
+        [HttpPut("[action]/{id:Guid}")]
+        public IActionResult Create([FromBody]Supplier supplier)
+        {
+            return CreateOrUpdate(supplier);
         }
 
         [HttpGet("[action]/{id:Guid}")]
         public Supplier Detail(Guid id)
         {
-            return repository.Suppliers.FirstOrDefault(x => x.Id == id);
+            return repository.Entities.FirstOrDefault(x => x.Id == id);
         }
     }
 }

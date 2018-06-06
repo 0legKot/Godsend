@@ -137,38 +137,49 @@
             }
         }
 
-        public IEnumerable<Product> Products => context.Products.Include(x => x.Info);
 
-        public void SaveProduct(Product product)
+        public IEnumerable<Product> Entities => context.Products.Include(x => x.Info);
+
+
+        public void SaveEntity(Product entity)
         {
-            Product dbEntry = context.Products.FirstOrDefault(p => p.Id == product.Id);
+            Product dbEntry = context.Products.FirstOrDefault(p => p.Id == entity.Id);
             if (dbEntry != null)
             {
                 // TODO: implement IClonable
-                dbEntry.Info.Name = product.Info.Name;
-                dbEntry.Info.Description = product.Info.Description;
-                dbEntry.Info.Watches = product.Info.Watches;
-                dbEntry.Info.Rating = product.Info.Rating;
+                dbEntry.Info.Name = entity.Info.Name;
+                dbEntry.Info.Description = entity.Info.Description;
+                dbEntry.Info.Watches = entity.Info.Watches;
+                dbEntry.Info.Rating = entity.Info.Rating;
             }
             else
             {
-                context.Add(product);
+                context.Add(entity);
             }
 
             context.SaveChanges();
         }
 
-        public Product DeleteProduct(Guid productID)
+        public void DeleteEntity(Guid entityId)
         {
             Product dbEntry = context.Products
-                .FirstOrDefault(p => p.Id == productID);
+               .FirstOrDefault(p => p.Id == entityId);
             if (dbEntry != null)
             {
                 context.Products.Remove(dbEntry);
                 context.SaveChanges();
             }
 
-            return dbEntry;
+        }
+
+        public bool IsFirst(Product entity)
+        {
+            return !context.Products.Any(p => p.Id == entity.Id);
+        }
+
+        public Product GetEntity(Guid entityId)
+        {
+            return context.Products.FirstOrDefault(p => p.Id == entityId);
         }
     }
 }

@@ -4,12 +4,8 @@
     using System.Collections.Generic;
     using Godsend.Models;
 
-    public interface IProductRepository
+    public interface IProductRepository : IRepository<Product>
     {
-        IEnumerable<Product> Products { get; }
 
-        void SaveProduct(Product product);
-
-        Product DeleteProduct(Guid productID);
     }
 }

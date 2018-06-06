@@ -55,6 +55,28 @@ namespace Godsend.Controllers
             }
         }
 
+        [HttpPost("[action]/{id:Guid}")]
+        public IActionResult CreateOrUpdate([FromBody]Order order)
+        {
+            try
+            {
+                repository.SaveOrder(order);
+                return Ok();
+            }
+            catch { return BadRequest(); }
+        }
+
+        [HttpPatch("[action]/{id:Guid}")]
+        public IActionResult Edit([FromBody]Order order)
+        {
+            return CreateOrUpdate(order);
+        }
+
+        [HttpPut("[action]/{id:Guid}")]
+        public IActionResult Create([FromBody]Order order)
+        {
+            return CreateOrUpdate(order);
+        }
         [HttpGet("[action]/{id:Guid}")]
         public Order Detail(Guid id)
         {

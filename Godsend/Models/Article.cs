@@ -5,13 +5,15 @@
     using System.Linq;
     using System.Threading.Tasks;
 
-    public class Article
+    public class Article:IEntity
     {
         public Guid Id { get; set; }
 
         public string Content { get; set; }
 
         public ArticleInformation Info { get; set; }
+
+        public Information EntityInformation { get => Info; set { Info = value as ArticleInformation; } }
     }
 
     public class SimpleArticle : Article

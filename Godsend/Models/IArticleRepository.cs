@@ -5,12 +5,7 @@
     using System.Linq;
     using System.Threading.Tasks;
 
-    public interface IArticleRepository
+    public interface IArticleRepository:IRepository<Article>
     {
-        IEnumerable<Article> Articles { get; }
-
-        void SaveArticle(Article article);
-
-        void DeleteArticle(Guid articleId);
     }
 }
