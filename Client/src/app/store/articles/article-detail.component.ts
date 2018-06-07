@@ -19,7 +19,8 @@ export class ArticleDetailComponent implements OnInit {
         private service: Repository) {  }
 
     gotoArticles(article: Article) {
-        const articleId = article ? article.id : null;
+        // smth wrong with article here
+        const articleId = article ? (<any>article).id : null;
         this.router.navigate(['/articles', { id: articleId }]);
     }
 
