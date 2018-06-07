@@ -104,6 +104,12 @@ namespace Godsend.Controllers
         {
             return repository.Orders.FirstOrDefault(x => x.Id == id);
         }
+
+        [HttpDelete("[action]/{id:Guid}")]
+        public IActionResult Delete(Guid id)
+        {
+            return (repository.DeleteOrder(id) != null) ? (IActionResult)Ok() : BadRequest();
+        }
     }
 
     public class OrderFromNg
