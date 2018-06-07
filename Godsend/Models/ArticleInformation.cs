@@ -10,7 +10,11 @@
 
     public class ArticleInformation : Information
     {
-        public IdentityUser Author { get; set; }
+        [JsonIgnore]
+        public IdentityUser EFAuthor { get; set; }
+
+        [NotMapped]
+        public ClientUser Author { get => new ClientUser { Id = EFAuthor.Id, Name = EFAuthor.UserName }; }
 
         public DateTime Created { get; set; }
 

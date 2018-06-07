@@ -29,7 +29,7 @@ namespace Godsend.Models
                 context.Orders.Add(
                     new SimpleOrder
                     {
-                        Customer = context.Users.FirstOrDefault(),
+                        EFCustomer = context.Users.FirstOrDefault(),
                         Done = new DateTime(1000),
                         Ordered = new DateTime(100),
                         Status = Status.Ready,
@@ -38,7 +38,7 @@ namespace Godsend.Models
                 context.Orders.Add(
                    new SimpleOrder
                    {
-                       Customer = context.Users.FirstOrDefault(),
+                       EFCustomer = context.Users.FirstOrDefault(),
                        Done = new DateTime(2014, 2, 2),
                        Ordered = new DateTime(2013, 2, 3),
                        Status = Status.Ready,
@@ -50,7 +50,7 @@ namespace Godsend.Models
 
         // TODO rework
         public IEnumerable<Order> Orders => context.Orders
-            .Include(x => x.Customer)
+            .Include(x => x.EFCustomer)
             .Include(o => o.DiscreteItems).ThenInclude(di => di.Product).ThenInclude(di => di.Info)
             .Include(o => o.DiscreteItems).ThenInclude(di => di.Supplier).ThenInclude(s => s.Info)
             .Include(o => o.WeightedItems).ThenInclude(wi => wi.Product).ThenInclude(p => p.Info)
@@ -62,7 +62,7 @@ namespace Godsend.Models
             if (dbEntry != null)
             {
                 // TODO: implement IClonable
-                dbEntry.Customer = order.Customer;
+                dbEntry.EFCustomer = order.EFCustomer;
                 dbEntry.Status = order.Status;
 
                 // ....
@@ -101,7 +101,7 @@ namespace Godsend.Models
         private Order GetOrder(Guid orderID)
         {
             return context.Orders
-            .Include(x => x.Customer)
+            .Include(x => x.EFCustomer)
             .Include(o => o.DiscreteItems).ThenInclude(di => di.Product).ThenInclude(di => di.Info)
             .Include(o => o.DiscreteItems).ThenInclude(di => di.Supplier).ThenInclude(s => s.Info)
             .Include(o => o.WeightedItems).ThenInclude(wi => wi.Product).ThenInclude(p => p.Info)
