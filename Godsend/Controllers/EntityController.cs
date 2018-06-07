@@ -1,17 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Godsend.Models;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ApplicationModels;
-
-namespace Godsend.Controllers
+﻿namespace Godsend.Controllers
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
+    using Godsend.Models;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Mvc.ApplicationModels;
 
     public abstract class EntityController<TEntity> : Controller
     {
         protected IRepository<TEntity> repository;
+
         [HttpGet("[action]")]
         public virtual IEnumerable<TEntity> All()
         {
@@ -40,7 +40,10 @@ namespace Godsend.Controllers
                 repository.SaveEntity(entity);
                 return Ok();
             }
-            catch { return BadRequest(); }
+            catch
+            {
+                return BadRequest();
+            }
         }
 
         [HttpPatch("[action]/{id:Guid}")]

@@ -55,10 +55,12 @@ namespace Godsend.Models
 
         [JsonIgnore]
         public Guid ProductId { get; set; }
+
         public Product Product { get; set; }
 
         [JsonIgnore]
         public Guid SupplierId { get; set; }
+
         public Supplier Supplier { get; set; }
     }
 

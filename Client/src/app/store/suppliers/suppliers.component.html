@@ -5,16 +5,16 @@
 <br />
 <div *ngIf="suppliers?.length > 0; else nodata">
     <div class="wrap">
-        <!--<div id="stic-search">
+        <div id="stic-search">
            <div class="search">
                <p class="inline-block">
-                  <godsend-search-inline [type]="type" (found)="products = $event.products"></godsend-search-inline>
+                  <godsend-search-inline [type]="type" (found)="suppliers = $event.suppliers"></godsend-search-inline>
             </p>
             <p class="inline-block">
                 <fa name="search"></fa>
             </p>
         </div>
-            </div>-->
+            </div>
         <br />
         <div class='container-fluid'>
             <div class='row suppliers'>

@@ -3,6 +3,7 @@
 <input [formControl]="searchField" placeholder="Type here" />
 
 <div *ngIf="searchResult?.products?.length > 0">
+    <h4>Products</h4>
     <div class="wrap">
         <div class='container-fluid'>
             <div class='row products'>
@@ -21,6 +22,34 @@
                         </div>
                         <div class="card-block">
                             <span class="card-text p-a-1">{{ product.info.description }}</span>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<div *ngIf="searchResult?.suppliers?.length > 0">
+    <h4>Suppliers</h4>
+    <div class="wrap">
+        <div class='container-fluid'>
+            <div class='row suppliers'>
+                <div *ngFor="let s of searchResult.suppliers" class="col-lg-3 col-md-4 col-sm-6 col-xs-12  card ">
+                    <a [routerLink]="['/suppliers', s.id]">
+                        <div class="card-header">
+                            <span class="h4">
+                                {{ s.info.name }}
+                            </span>
+                        </div>
+                        <div class="photo mb-4">
+                            Photo
+                        </div>
+                        <div class="rating">
+                            <p class="pull-right" [ngStyle]="{'color': '#003e09' }"><fa name="eye"></fa> : {{ s.info.watches }}</p>
+                        </div>
+                        <div class="rating">
+                            <godsend-stars [value]="s.info.rating"></godsend-stars>
                         </div>
                     </a>
                 </div>

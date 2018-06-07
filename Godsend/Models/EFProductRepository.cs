@@ -35,7 +35,8 @@
 
             if (!context.Products.Any(p => p.Info.Name == "Potato"))
             {
-                context.Products.AddRange(new DiscreteProduct
+                context.Products.AddRange(
+                    new DiscreteProduct
                 {
                     Info = new ProductInformation
                     {
@@ -199,7 +200,6 @@
                 var products = context.Products.ToArray();
                 var suppliers = context.Suppliers.ToArray();
 
-
                 for (int i = 0; i < context.Products.Count(); ++i)
                 {
                     context.LinkProductsSuppliers.Add(
@@ -223,7 +223,6 @@
         }
 
         public IEnumerable<Product> Entities => context.Products.Include(x => x.Info);
-
 
         public void SaveEntity(Product entity)
         {
@@ -253,7 +252,6 @@
                 context.Products.Remove(dbEntry);
                 context.SaveChanges();
             }
-
         }
 
         public bool IsFirst(Product entity)
@@ -263,7 +261,7 @@
 
         public Product GetEntity(Guid entityId)
         {
-            return context.Products.Include(p=>p.Info).FirstOrDefault(p => p.Id == entityId);
+            return context.Products.Include(p => p.Info).FirstOrDefault(p => p.Id == entityId);
         }
 
         public ProductWithSuppliers GetProductWithSuppliers(Guid productId)
@@ -271,8 +269,9 @@
             var tmp = context.LinkProductsSuppliers
                     .Include(ps => ps.Supplier)
                     .ThenInclude(s => s.Info)
-                    .Include(ps=>ps.Supplier)
+                    .Include(ps => ps.Supplier)
                     .ThenInclude(x => x.Info.Location).ToList();
+
             // PROBLEM Supplier info is null
             return new ProductWithSuppliers
             {

@@ -43,7 +43,7 @@ namespace Godsend.Models
                 context.SaveChanges();
             }
 
-            if(!context.Suppliers.Any(s => s.Info.Name == "Apple Inc."))
+            if (!context.Suppliers.Any(s => s.Info.Name == "Apple Inc."))
             {
                 context.Suppliers.AddRange(
                     new SimpleSupplier
@@ -150,7 +150,6 @@ namespace Godsend.Models
             }
         }
 
-
         public IEnumerable<Supplier> Entities => context.Suppliers.Include(s => s.Info).ThenInclude(i => i.Location);
 
         public void DeleteEntity(Guid entityId)
@@ -162,7 +161,6 @@ namespace Godsend.Models
                 context.SaveChanges();
             }
         }
-
 
         public bool IsFirst(Supplier entity)
         {
@@ -188,11 +186,9 @@ namespace Godsend.Models
             context.SaveChanges();
         }
 
-
          public Supplier GetEntity(Guid entityId)
         {
             return context.Suppliers.Include(s => s.Info).ThenInclude(i => i.Location).FirstOrDefault(s => s.Id == entityId);
         }
-
     }
 }
