@@ -179,7 +179,7 @@
 
         public Product GetEntity(Guid entityId)
         {
-            return context.Products.FirstOrDefault(p => p.Id == entityId);
+            return context.Products.Include(x => x.Info).FirstOrDefault(p => p.Id == entityId);
         }
     }
 }
