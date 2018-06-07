@@ -1,9 +1,11 @@
-﻿.rel{
-    position:relative;
+﻿.rel {
+    position: relative;
 }
+
 .inline-block {
     display: inline-block;
 }
+
 a, a:active, a:focus, a:visited {
     text-decoration: none;
     color: #171212;
@@ -18,7 +20,7 @@ h1 {
     margin: 0 auto;
 }
 
-.products {
+.suppliers {
     margin-left: 10px;
     margin-right: 10px;
 }
@@ -30,16 +32,18 @@ h1 {
     margin-top: 25px;
 }
 
-.prod-info {
+.supp-info {
     position: absolute;
     top: 20%;
 }
-    .prod-info label {
+
+    .supp-info label {
         font-size: 18px;
         font-weight: bold;
         color: #210300;
     }
-.prod-name {
+
+.supp-name {
     font-size: 25px;
     color: #003e09;
     border-bottom: solid #003e09 2px;
@@ -48,49 +52,29 @@ h1 {
 .rating {
     margin-top: 15px;
 }
+
 .back-btn {
-   position: absolute;
-   right: 60px;
-   top: 0;
-   cursor: pointer;
-}
-    .rating p {
-        display: inline-block;
-        font-size: 18px;
-    }
-.buy {
-    margin-top: 25px;
-    margin-bottom:25px;
-    font-weight: 500;
-    color: #ffffff;
-    padding-top:12px;
-    padding-left:12px;
-    border-radius: 5px;
-    background: rgb(64,199,129);
-    box-shadow: 0 -3px rgb(53,167,110) inset;
-    transition: 0.2s;
-}
-.buy:hover {
-    background: rgb(53, 167, 110);
+    position: absolute;
+    right: 60px;
+    top: 0;
     cursor: pointer;
 }
-    .buy:active {
-        background: rgb(33,147,90);
-        box-shadow: 0 3px rgb(33,147,90) inset;
-    }
-    .buy > p{
-        margin-right: 10px;
-        font-size: 20px;
-    }
+
+.rating p {
+    display: inline-block;
+    font-size: 18px;
+}
+
+
 @media (max-width: 568px) {
-   
-        .products {
+
+    .suppliers {
         margin-left: 40px;
         margin-right: 40px;
         margin-bottom: 10px;
     }
 
-    .prod-info {
+    .supp-info {
         margin-top: 10px;
     }
 }
@@ -99,7 +83,8 @@ h1 {
     .back-btn {
         right: 30px;
     }
-    .products {
+
+    .suppliers {
         margin-left: 15px;
         margin-right: 15px;
     }
