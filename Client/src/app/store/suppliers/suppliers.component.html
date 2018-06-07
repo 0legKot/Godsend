@@ -1,18 +1,49 @@
 ﻿<h1>Suppliers</h1>
+<br />
+<br />
+
+<br />
 <div *ngIf="suppliers?.length > 0; else nodata">
-    <div *ngFor="let s of suppliers">
-        <a [routerLink]="['/suppliers', s.id]">
-            <span class="h4">
-                {{ s.id }}
-            </span>
-            <span class="h4">
-                {{ s.info.name }}
-            </span>
-            <br />
-        </a>
+    <div class="wrap">
+        <!--<div id="stic-search">
+           <div class="search">
+               <p class="inline-block">
+                  <godsend-search-inline [type]="type" (found)="products = $event.products"></godsend-search-inline>
+            </p>
+            <p class="inline-block">
+                <fa name="search"></fa>
+            </p>
+        </div>
+            </div>-->
+        <br />
+        <div class='container-fluid'>
+            <div class='row suppliers'>
+                <div *ngFor="let s of suppliers" class="col-lg-3 col-md-4 col-sm-6 col-xs-12  card ">
+                    <a [routerLink]="['/suppliers', s.id]">
+                        <div class="card-header">
+                            <span class="h4">
+                                {{ s.info.name }}
+                            </span>
+                        </div>
+                        <div class="photo mb-4">
+                            Photo
+                        </div>
+                        <div class="rating">
+                            <p class="pull-right" [ngStyle]="{'color': '#003e09' }"><fa name="eye"></fa> : {{ s.info.watches }}</p>
+                        </div>
+                        <div class="rating">
+                            <godsend-stars [value]="s.info.rating"></godsend-stars>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+        </div>
     </div>
 </div>
 
 <ng-template #nodata>
-    <h4 class="m-1">Waiting for data...</h4>
+    <div class="center"> <h4 class="m-1">Waiting for data...</h4></div>
 </ng-template>
+
+
