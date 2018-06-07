@@ -16,7 +16,7 @@ export class CartService {
 
     checkout() {
         const ord = new Order('', this.cart.customer, this.cart.discreteItems, this.cart.weightedItems, '', 0);
-        //this.repo.createOrder(ord);
+        this.repo.createOrder(ord);
     }
 
     addToCart(product: OrderPart, quantity: number = 1) {

@@ -12,8 +12,12 @@ export class CartComponent {
         this.parts = this.cart.cart.discreteItems;
     }
 
+    checkout() {
+        this.cart.checkout();
+    }
+
     getParts(): OrderPart[] {
-        console.log(this.cart.cart.discreteItems);
+
         return this.parts;
     }
 }

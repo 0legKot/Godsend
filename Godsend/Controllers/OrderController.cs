@@ -41,11 +41,12 @@ namespace Godsend.Controllers
             }
         }
 
-        [HttpPost("[action]/{id:Guid}")]
-        public IActionResult CreateOrUpdate([FromBody]Order order)
+        [HttpPost("[action]")]
+        public IActionResult CreateOrUpdate(Order order)
         {
             try
             {
+                order.Id = Guid.NewGuid();
                 repository.SaveOrder(order);
                 return Ok();
             }

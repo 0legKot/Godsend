@@ -120,7 +120,7 @@ export class Repository {
             weightedItems: ord.weightedItems
         };
 
-        this.data.sendRequest<string>('post', ordersUrl, data)
+        this.data.sendRequest<string>('post', ordersUrl +'/CreateOrUpdate', data)
             .subscribe(response => {
                 ord.id = response;
                 this.orders.push(ord);
