@@ -28,22 +28,31 @@ h1 {
     }
     
 #stic-search {
-    position: -webkit-sticky;
-    position: -moz-sticky;
-    position: -ms-sticky;
-    position: -o-sticky;
-    position: sticky;
-    top: 68px;
-    text-align:center;
     z-index: 1000;
-    width:100%;
-    background: #ffffff;
+    background: rgba(255, 255, 255, 0.9);
+}
+.search {
+    margin: 0 auto;
+    text-align: center;
+    border-bottom: solid green 2px;
 }
 
-#stic-search div {
+#stic-search p {
     margin-top: 15px;
     margin-bottom: 15px;
     margin-left: 10px;
+}
+@media (min-height: 500px){
+    #stic-search {
+        position: -webkit-sticky;
+        position: -moz-sticky;
+        position: -ms-sticky;
+        position: -o-sticky;
+        position: sticky;
+        top: 68px;
+        z-index: 1000;
+        background: rgba(255, 255, 255, 0.9);
+    }
 }
 .wrap {
     max-width: 1400px;
