@@ -30,6 +30,8 @@ import { SuppliersComponent } from './store/suppliers/suppliers.component';
 import { SupplierDetailComponent } from './store/suppliers/supplier-detail.component';
 import { StarsComponent } from './store/stars/stars.component';
 import { ArticleDetailComponent } from './store/articles/article-detail.component';
+import { Cart } from './models/cart.model';
+import { CartService } from './models/cart.service';
 
 @NgModule({
     declarations: [
@@ -67,7 +69,7 @@ import { ArticleDetailComponent } from './store/articles/article-detail.componen
             { path: 'suppliers/:id', component: SupplierDetailComponent },
             { path: 'orders', component: OrdersComponent, canActivate: [AuthenticationGuard] },
             { path: 'articles', component: ArticlesComponent },
-            {path: 'article/:id', component: ArticleDetailComponent},
+            { path: 'article/:id', component: ArticleDetailComponent},
             { path: 'cart', component: CartComponent },
             { path: 'consult', component: ConsultComponent },
             { path: 'login', component: LoginComponent },
@@ -82,6 +84,7 @@ import { ArticleDetailComponent } from './store/articles/article-detail.componen
         AuthenticationService,
         DataService,
         SearchService,
+        CartService,
         { provide: 'BASE_URL', useValue: 'http://localhost:56440/' }
     ],
     bootstrap: [AppComponent]

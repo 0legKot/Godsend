@@ -1,4 +1,15 @@
 ﻿<h1>Shopping cart</h1>
+<div *ngIf="parts?.length > 0; else nodata">
+    <div *ngFor="let part of getParts()">
+        <span class="h4">
+            {{ part.id }}
+        </span>
+        <span class="h4">
+            {{part.product.info.name }}
+        </span>
+        <br />
+    </div>
+</div>
 
 
 <ng-template #nodata>

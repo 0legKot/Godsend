@@ -1,5 +1,5 @@
 ﻿import { IdentityUser } from "./user.model";
-import { OrderPartDiscrete, OrderPartWeighted } from "./order.model";
+import { OrderPartDiscrete, OrderPartWeighted, OrderPart } from "./order.model";
 
 export class Cart {
     constructor(
@@ -8,5 +8,5 @@ export class Cart {
         public discreteItems: OrderPartDiscrete[],
         public weightedItems: OrderPartWeighted[],
         public ordered: string
-) { }
+    ) { }
 }
