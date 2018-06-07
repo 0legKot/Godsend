@@ -17,5 +17,10 @@ export class CartService {
     addToCart(part: OrderPartDiscreteSend | OrderPartWeightedSend) {
         if (isDiscrete(part)) this.cart.discreteItems.push(part);
         else this.cart.weightedItems.push(part);
-    }    
+    }
+
+    removeFromCart(part: OrderPartDiscreteSend | OrderPartWeightedSend) {
+        if (isDiscrete(part)) this.cart.discreteItems = this.cart.discreteItems.filter(p => p !== part);
+        else this.cart.weightedItems = this.cart.weightedItems.filter(p => p !== part);
+    }
 }
