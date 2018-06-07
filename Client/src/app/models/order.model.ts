@@ -10,13 +10,13 @@ export const orderStatus = [
 
 export class Order {
     constructor(
-        id: string,
-        customer: IdentityUser,
-        discreteItems: OrderPartDiscrete[],
-        weightedItems: OrderPartWeighted[],
-        ordered: string,
-        status: number,
-        done?: string) { }
+        public id: string,
+        public customer: IdentityUser,
+        public discreteItems: OrderPartDiscrete[],
+        public weightedItems: OrderPartWeighted[],
+        public ordered: string,
+        public status: number,
+        public done?: string) { }
 }
 
 

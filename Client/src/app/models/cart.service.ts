@@ -9,6 +9,10 @@ export class CartService {
         return (num ^ 0) === num;
     }
 
+    checkout() {
+
+    }
+
     addToCart(product: OrderPart, quantity: number = 1) {
         if (this.isInteger(quantity))
             this.cart.discreteItems.push(product);

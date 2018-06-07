@@ -54,7 +54,7 @@ export class Repository {
                 this.products = <any>val;
                 break;
             case 'order':
-                this.orders = val;
+                this.orders = <any>val;
                 break;
             case 'supplier':
                 this.suppliers = <any>val;
@@ -72,7 +72,7 @@ export class Repository {
             case 'supplier': return suppliersUrl;
             case 'article': return articlesUrl;
         }
-        return '';
+        return 'urlNotDetected';
     }
 
     getEntity<T>(id: string, fn: ((_: T) => any), clas: supportedClass) {
@@ -110,6 +110,20 @@ export class Repository {
                     fn(response);
                 }
                 this.setEntites<T>(clas, response);
+            });
+    }
+
+    createOrder(ord: Order) {
+        const data = {
+            customer: "",
+            discreteItems: ord.discreteItems,
+            weightedItems: ord.weightedItems
+        };
+
+        this.data.sendRequest<string>('post', ordersUrl, data)
+            .subscribe(response => {
+                ord.id = response;
+                this.orders.push(ord);
             });
     }
 
