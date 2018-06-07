@@ -47,6 +47,7 @@ a {
 a:hover, .hamburger:hover {
     color: #ffffff !important;
     transition: 300ms;
+    cursor: pointer;
 }
 
 .hamburger {

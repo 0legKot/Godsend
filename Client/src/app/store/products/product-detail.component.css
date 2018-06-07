@@ -72,6 +72,7 @@ h1 {
 }
 .buy:hover {
     background: rgb(53, 167, 110);
+    cursor: pointer;
 }
     .buy:active {
         background: rgb(33,147,90);
