@@ -41,20 +41,6 @@ namespace Godsend.Controllers
             }
         }
 
-        [HttpDelete("[action]/{id:Guid}")]
-        public IActionResult Delete(Guid id)
-        {
-            try
-            {
-                repository.DeleteOrder(id);
-                return Ok();
-            }
-            catch (Exception e)
-            {
-                return BadRequest();
-            }
-        }
-
         [HttpPost("[action]/{id:Guid}")]
         public IActionResult CreateOrUpdate([FromBody]Order order)
         {
