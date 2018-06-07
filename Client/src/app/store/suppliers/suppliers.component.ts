@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Repository } from '../../models/repository';
+import { RepositoryService } from '../../services/repository.service';
 import { Supplier } from '../../models/supplier.model';
 import { OnInit } from '@angular/core';
 
@@ -9,7 +9,7 @@ import { OnInit } from '@angular/core';
 })
 export class SuppliersComponent implements OnInit {
     suppliers: Supplier[] = [];
-    constructor(private repo: Repository)  { }
+    constructor(private repo: RepositoryService)  { }
     ngOnInit() {
         this.repo.getEntities<Supplier>('supplier', s => this.suppliers = s);
     }

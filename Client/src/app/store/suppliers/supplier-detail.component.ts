@@ -4,7 +4,7 @@ import { Component, OnInit, HostBinding } from '@angular/core';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { Observable } from 'rxjs';
 
-import { Repository } from '../../models/repository';
+import { RepositoryService } from '../../services/repository.service';
 import { forEach } from '@angular/router/src/utils/collection';
 import { Supplier } from '../../models/supplier.model';
 
@@ -18,7 +18,7 @@ export class SupplierDetailComponent implements OnInit {
     constructor(
         private route: ActivatedRoute,
         private router: Router,
-        private service: Repository) {  }
+        private service: RepositoryService) {  }
 
     gotoSuppliers(supplier: Supplier) {
         const supplierId = supplier ? supplier.id : null;

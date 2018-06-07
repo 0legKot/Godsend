@@ -3,7 +3,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 
-import { Repository } from '../../models/repository';
+import { RepositoryService } from '../../services/repository.service';
 import { Article } from '../../models/article.model';
 
 @Component({
@@ -16,7 +16,7 @@ export class ArticleDetailComponent implements OnInit {
     constructor(
         private route: ActivatedRoute,
         private router: Router,
-        private service: Repository) {  }
+        private service: RepositoryService) {  }
 
     gotoArticles(article: Article) {
         // smth wrong with article here

@@ -16,10 +16,10 @@ import { ConsultComponent } from './store/consult/consult.component';
 import { LoginComponent } from './store/login/login.component';
 import { SearchComponent } from './store/search/search.component';
 import { StatisticsComponent } from './store/statistics/statistics.component';
-import { Repository } from './models/repository';
+import { RepositoryService } from './services/repository.service';
 import { AuthenticationGuard } from './authentication/authentication.guard';
 import { AuthenticationService } from './authentication/authentication.service';
-import { DataService } from './models/data.service';
+import { DataService } from './services/data.service';
 import { SearchService } from './store/search/search.service';
 import { SearchInlineComponent } from './store/search/search-inline.component';
 import { ProductsModule } from './store/products/products.module';
@@ -31,7 +31,7 @@ import { SupplierDetailComponent } from './store/suppliers/supplier-detail.compo
 import { StarsComponent } from './store/stars/stars.component';
 import { ArticleDetailComponent } from './store/articles/article-detail.component';
 import { Cart } from './models/cart.model';
-import { CartService } from './models/cart.service';
+import { CartService } from './services/cart.service';
 
 @NgModule({
     declarations: [
@@ -80,7 +80,7 @@ import { CartService } from './models/cart.service';
     ],
     providers: [
         CartService,
-        Repository,
+        RepositoryService,
         AuthenticationGuard,
         AuthenticationService,
         DataService,

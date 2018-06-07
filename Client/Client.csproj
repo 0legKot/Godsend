@@ -46,10 +46,10 @@
     <TypeScriptCompile Include="src\app\authentication\authentication.service.ts" />
     <TypeScriptCompile Include="src\app\models\cart.model.ts" />
     <TypeScriptCompile Include="src\app\models\article.model.ts" />
-    <TypeScriptCompile Include="src\app\models\cart.service.ts" />
+    <TypeScriptCompile Include="src\app\services\cart.service.ts" />
     <TypeScriptCompile Include="src\app\models\order.model.ts" />
     <TypeScriptCompile Include="src\app\models\product.model.ts" />
-    <TypeScriptCompile Include="src\app\models\repository.ts" />
+    <TypeScriptCompile Include="src\app\services\repository.service.ts" />
     <TypeScriptCompile Include="src\app\models\user.model.ts" />
     <TypeScriptCompile Include="src\app\store\articles\article-detail.component.ts" />
     <TypeScriptCompile Include="src\app\store\products\product-detail.component.ts" />

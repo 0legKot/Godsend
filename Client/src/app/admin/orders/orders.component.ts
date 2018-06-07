@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Repository } from '../../models/repository';
-import { DataService } from '../../models/data.service';
+import { RepositoryService } from '../../services/repository.service';
+import { DataService } from '../../services/data.service';
 import { Order, orderStatus, OrderPartDiscrete } from '../../models/order.model';
 import { forEach } from '@angular/router/src/utils/collection';
 
@@ -12,7 +12,7 @@ export class OrdersComponent implements OnInit {
     orders?: Order[];
     status = orderStatus;
 
-    constructor(private repo: Repository) { }
+    constructor(private repo: RepositoryService) { }
 
     ngOnInit() {
         this.repo.getEntities < Order>('order', o => this.orders = o);

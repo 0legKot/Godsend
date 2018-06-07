@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Repository } from '../models/repository';
+import { RepositoryService } from '../services/repository.service';
 import { AuthenticationService } from '../authentication/authentication.service';
 import { Product } from '../models/product.model';
 
@@ -9,7 +9,7 @@ import { Product } from '../models/product.model';
 })
 export class AdminComponent {
 
-    constructor(private repo: Repository,
+    constructor(private repo: RepositoryService,
         public authService: AuthenticationService) {
         this.repo.getEntities < Product>('product');
         // this.repo.getOrders();

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 
-import { Repository } from '../../models/repository';
+import { RepositoryService } from '../../services/repository.service';
 import { Product } from '../../models/product.model';
 import { searchType } from '../search/search.service';
 
@@ -16,7 +16,7 @@ export class ProductsComponent implements OnInit {
 
     products?: Product[];
 
-    constructor(private repo: Repository) {
+    constructor(private repo: RepositoryService) {
     }
 
     ngOnInit() {

@@ -1,7 +1,7 @@
 ﻿import { Injectable, Inject } from '@angular/core';
 import { HttpClient } from 'selenium-webdriver/http';
 import { Product } from '../../models/product.model';
-import { DataService } from '../../models/data.service';
+import { DataService } from '../../services/data.service';
 import { map } from 'rxjs/operators';
 import { Supplier } from '../../models/supplier.model';
 

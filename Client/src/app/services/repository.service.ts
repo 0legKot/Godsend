@@ -1,4 +1,4 @@
-import { Product, ProductInfo } from './product.model';
+import { Product, ProductInfo } from '../models/product.model';
 import { Injectable, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
@@ -7,11 +7,11 @@ import { Observable } from 'rxjs';
 // import 'rxjs/add/operator/catch';
 import { map } from 'rxjs/internal/operators/';
 import { DataService } from './data.service';
-import { Order } from './order.model';
-import { Supplier } from './supplier.model';
+import { Order } from '../models/order.model';
+import { Supplier } from '../models/supplier.model';
 import { Type } from '@angular/core';
-import { ArticleInfo, Article } from './article.model';
-import { Cart } from './cart.model';
+import { ArticleInfo, Article } from '../models/article.model';
+import { Cart } from '../models/cart.model';
 
 type supportedClass = 'article' | 'product' | 'supplier' | 'order';
 
@@ -22,7 +22,7 @@ const articlesUrl = 'api/article';
 // TODO: rework
 
 @Injectable()
-export class Repository {
+export class RepositoryService {
     product: Product | {} = {};
     products: Product[] = [];
     orders: Order[] = [];

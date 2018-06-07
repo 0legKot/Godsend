@@ -4,9 +4,9 @@ import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { Observable } from 'rxjs';
 
 import { Product } from '../../models/product.model';
-import { Repository } from '../../models/repository';
+import { RepositoryService } from '../../services/repository.service';
 import { forEach } from '@angular/router/src/utils/collection';
-import { CartService } from '../../models/cart.service';
+import { CartService } from '../../services/cart.service';
 import { OrderPartDiscrete } from '../../models/order.model';
 import { OrderPartDiscreteSend, guidZero } from '../../models/cart.model';
 
@@ -21,7 +21,7 @@ export class ProductDetailComponent implements OnInit {
     constructor(
         private route: ActivatedRoute,
         private router: Router,
-        private service: Repository,
+        private service: RepositoryService,
         private cart: CartService) { }
 
     gotoProducts(product: Product) {
