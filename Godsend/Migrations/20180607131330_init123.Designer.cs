@@ -12,8 +12,8 @@ using System;
 namespace Godsend.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20180607055955_my322x")]
-    partial class my322x
+    [Migration("20180607131330_init123")]
+    partial class init123
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

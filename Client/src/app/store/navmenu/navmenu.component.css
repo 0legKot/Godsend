@@ -19,12 +19,11 @@
 }
 
 header {
-    padding-top: 10px;
+    padding-top: 15px;
     padding-bottom: 5px;
     width: 100%;
     z-index: 100;
-
-    background: rgb(32, 120, 19);
+    background: #228B22;
     left: 0;
     font-size: 18px;
 }
@@ -41,7 +40,7 @@ header li {
 /* Highlighting rules for nav menu items */
 a {
     text-decoration: none;
-    color: rgb(6, 48, 0);
+    color: #014129;
     font-weight: bold;
 }
 

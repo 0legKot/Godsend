@@ -61,16 +61,15 @@ namespace Godsend.Controllers
                     DiscreteItems = data.DiscreteItems?.Select(item => new OrderPartDiscrete
                     {
                         Id = Guid.NewGuid(),
-                        // finding the product to save only id anyway?
-                        Product = prodRepo.GetEntity(item.ProductId),
-                        Supplier = supRepo.GetEntity(item.SupplierId),
+                        ProductId = item.ProductId,
+                        SupplierId = item.SupplierId == Guid.Empty ? supRepo.Entities.FirstOrDefault().Id : item.SupplierId,
                         Quantity = item.Quantity
                     }).ToArray(),
                     WeightedItems = data.WeightedItems?.Select(item => new OrderPartWeighted
                     {
                         Id = Guid.NewGuid(),
-                        Product = prodRepo.GetEntity(item.ProductId),
-                        Supplier = supRepo.GetEntity(item.SupplierId),
+                        ProductId = item.ProductId,
+                        SupplierId = item.SupplierId == Guid.Empty ? supRepo.Entities.FirstOrDefault().Id : item.SupplierId,
                         Weight = item.Weight
                     }).ToArray(),
                     Id = Guid.NewGuid(),

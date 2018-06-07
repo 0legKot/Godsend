@@ -1,6 +1,9 @@
 ﻿.rel{
     position:relative;
 }
+.inline-block {
+    display: inline-block;
+}
 a, a:active, a:focus, a:visited {
     text-decoration: none;
     color: #171212;
@@ -55,7 +58,28 @@ h1 {
         display: inline-block;
         font-size: 18px;
     }
-
+.buy {
+    margin-top: 25px;
+    font-weight: 500;
+    color: #ffffff;
+    padding-top:12px;
+    padding-left:12px;
+    border-radius: 5px;
+    background: rgb(64,199,129);
+    box-shadow: 0 -3px rgb(53,167,110) inset;
+    transition: 0.2s;
+}
+.buy:hover {
+    background: rgb(53, 167, 110);
+}
+    .buy:active {
+        background: rgb(33,147,90);
+        box-shadow: 0 3px rgb(33,147,90) inset;
+    }
+    .buy > p{
+        margin-right: 10px;
+        font-size: 20px;
+    }
 @media (max-width: 568px) {
    
         .products {

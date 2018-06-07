@@ -10,6 +10,7 @@ namespace Godsend.Models
     using System.Linq;
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Identity;
+    using Newtonsoft.Json;
 
     public enum Status
     {
@@ -47,8 +48,12 @@ namespace Godsend.Models
         [Key]
         public Guid Id { get; set; }
 
+        [JsonIgnore]
+        public Guid ProductId { get; set; }
         public Product Product { get; set; }
 
+        [JsonIgnore]
+        public Guid SupplierId { get; set; }
         public Supplier Supplier { get; set; }
     }
 

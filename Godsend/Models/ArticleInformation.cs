@@ -6,6 +6,7 @@
     using System.Linq;
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Identity;
+    using Newtonsoft.Json;
 
     public class ArticleInformation : Information
     {
@@ -13,6 +14,7 @@
 
         public DateTime Created { get; set; }
 
+        [JsonIgnore]
         public IEnumerable<StringWrapper> EFTags { get; set; }
 
         [NotMapped]

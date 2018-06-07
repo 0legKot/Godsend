@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Godsend.Migrations
 {
-    public partial class Rework : Migration
+    public partial class ForeignKey : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

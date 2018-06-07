@@ -1,7 +1,14 @@
 ﻿<h1>Products</h1>
 <br />
 <br />
-<godsend-search-inline [type]="type" (found)="products = $event.products"></godsend-search-inline>
+<div id="stic-search" >
+    <div class="inline-block">
+        <godsend-search-inline [type]="type" (found)="products = $event.products"></godsend-search-inline>
+    </div>
+    <div class="inline-block">
+    <fa name="search"></fa>
+    </div>
+</div>
 <br />
 <div *ngIf="products?.length > 0; else nodata">
     <div class="wrap">
@@ -30,6 +37,7 @@
         </div>
     </div>
 </div>
-<ng-template #nodata>
-    <h4 class="m-1">Waiting for data...</h4>
+
+    <ng-template #nodata>
+        <div class="center"> <h4 class="m-1">Waiting for data...</h4></div>
 </ng-template>
