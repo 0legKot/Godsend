@@ -16,7 +16,17 @@ a, a:active, a:focus, a:visited {
 h1 {
     text-align: center;
 }
-
+.rating {
+    display:inline-block;
+    width: 100%;
+    margin-bottom:10px;
+}
+    .rating p {
+        display: inline-block;
+        font-size: 18px;
+        margin-bottom: 0;
+    }
+    
 #stic-search {
     position: -webkit-sticky;
     position: -moz-sticky;
@@ -52,6 +62,7 @@ h1 {
     font-size: 18px;
     padding-top: 15px;
     padding-bottom: 20px;
+    word-wrap: normal;
 }
 
     .card:hover {
