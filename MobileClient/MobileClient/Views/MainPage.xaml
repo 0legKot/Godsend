@@ -25,5 +25,16 @@
                 <views:AboutPage />
             </x:Arguments>
         </NavigationPage>
+        
+        <NavigationPage Title ="Hello">
+            <NavigationPage.Icon>
+                <OnPlatform x:TypeArguments="FileImageSource">
+                    <On Platform ="iOS" Value ="stop.png"/>
+                </OnPlatform>
+            </NavigationPage.Icon>
+            <x:Arguments>
+                <views:HelloWorldPage/>
+            </x:Arguments>
+        </NavigationPage>
     </TabbedPage.Children>
 </TabbedPage>
