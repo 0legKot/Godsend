@@ -5,8 +5,7 @@
     using System.Linq;
     using System.Threading.Tasks;
 
-    public interface ISupplierRepository:IRepository<Supplier>
+    public interface ISupplierRepository: IRepository<Supplier>
     {
-
     }
 }

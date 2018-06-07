@@ -14,20 +14,19 @@ namespace Godsend.Controllers
     [Route("api/[controller]")]
     public class SupplierController : EntityController<Supplier>
     {
-
         public SupplierController(ISupplierRepository repo)
         {
             repository = repo;
         }
 
-        //[HttpGet("[action]")]
-        //public IEnumerable<Supplier> All()
-        //{
+        // [HttpGet("[action]")]
+        // public IEnumerable<Supplier> All()
+        // {
         //    return repository.Entities;
-        //}
-        //[HttpDelete("[action]/{id:Guid}")]
-        //public IActionResult Delete([FromBody]Guid id)
-        //{
+        // }
+        // [HttpDelete("[action]/{id:Guid}")]
+        // public IActionResult Delete([FromBody]Guid id)
+        // {
         //    try
         //    {
         //        repository.DeleteEntity(id);
@@ -37,31 +36,30 @@ namespace Godsend.Controllers
         //    {
         //        return BadRequest();
         //    }
-        //}
+        // }
 
-        //[HttpPost("[action]/{id:Guid}")]
-        //public IActionResult CreateOrUpdate([FromBody]Supplier supplier)
-        //{
+        // [HttpPost("[action]/{id:Guid}")]
+        // public IActionResult CreateOrUpdate([FromBody]Supplier supplier)
+        // {
         //    try
         //    {
         //        repository.SaveEntity(supplier);
         //        return Ok();
         //    }
         //    catch { return BadRequest(); }
-        //}
+        // }
 
-        //[HttpPatch("[action]/{id:Guid}")]
-        //public IActionResult Edit([FromBody]Supplier supplier)
-        //{
+        // [HttpPatch("[action]/{id:Guid}")]
+        // public IActionResult Edit([FromBody]Supplier supplier)
+        // {
         //    return CreateOrUpdate(supplier);
-        //}
+        // }
 
-        //[HttpPut("[action]/{id:Guid}")]
-        //public IActionResult Create([FromBody]Supplier supplier)
-        //{
+        // [HttpPut("[action]/{id:Guid}")]
+        // public IActionResult Create([FromBody]Supplier supplier)
+        // {
         //    return CreateOrUpdate(supplier);
-        //}
-
+        // }
         [HttpGet("[action]/{id:Guid}")]
         public Supplier Detail(Guid id)
         {

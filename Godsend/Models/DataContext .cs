@@ -34,7 +34,6 @@
             builder.Entity<SimpleArticle>();
             builder.Entity<SimpleSupplier>();
 
-
             // builder.Entity<ProductInformation>();
             base.OnModelCreating(builder);
         }

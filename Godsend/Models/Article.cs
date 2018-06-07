@@ -1,12 +1,12 @@
 ﻿namespace Godsend.Models
 {
-    using Newtonsoft.Json;
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
+    using Newtonsoft.Json;
 
-    public class Article:IEntity
+    public class Article: IEntity
     {
         public Guid Id { get; set; }
 
@@ -15,7 +15,10 @@
         public ArticleInformation Info { get; set; }
 
         [JsonIgnore]
-        public Information EntityInformation { get => Info; set { Info = value as ArticleInformation; } }
+        public Information EntityInformation
+        {
+            get => Info; set { Info = value as ArticleInformation; }
+        }
     }
 
     public class SimpleArticle : Article

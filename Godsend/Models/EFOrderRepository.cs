@@ -93,6 +93,10 @@ namespace Godsend.Models
             if (dbEntry != null)
             {
                 dbEntry.Status = (Status)status;
+                if ((Status)status == Status.Shipped)
+                {
+                    dbEntry.Done = DateTime.Now;
+                }
             }
 
             context.SaveChanges();

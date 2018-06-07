@@ -32,6 +32,7 @@
                             Created = DateTime.Now,
                             Rating = 4.7,
                             Id = Guid.NewGuid(),
+
                             // Title?
                             Name = "The Three Apples that changed the World",
                             Watches = 17995730,
@@ -143,10 +144,8 @@ This is a pretty simple and straightforward diet you will ever try. It involves 
             this.context.SaveChanges();
         }
 
-
         public IEnumerable<Article> Entities => context.Articles.Include(a => a.Info).ThenInclude(a => a.EFAuthor)
             .Include(a => a.Info).ThenInclude(a => a.EFTags);
-
 
         public void DeleteEntity(Guid entityId)
         {
@@ -160,12 +159,12 @@ This is a pretty simple and straightforward diet you will ever try. It involves 
 
         public Article GetEntity(Guid entityId)
         {
-            return context.Articles.FirstOrDefault(a=>a.Id==entityId);
+            return context.Articles.FirstOrDefault(a => a.Id == entityId);
         }
 
         public bool IsFirst(Article entity)
         {
-            return !context.Articles.Any(a=>a.Id==entity.Id);
+            return !context.Articles.Any(a => a.Id == entity.Id);
         }
 
         public void SaveEntity(Article entity)

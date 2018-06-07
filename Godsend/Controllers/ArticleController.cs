@@ -8,6 +8,7 @@
     using Microsoft.AspNetCore.Mvc;
 
     [Route("api/[controller]")]
+
     // Now different because of splitting to Article and ArticleInformation
     public class ArticleController// : EntityController<Article>
     {
@@ -30,5 +31,4 @@
             return repository.Entities.FirstOrDefault(x => x.Info.Id == infoId);
         }
     }
-
 }
