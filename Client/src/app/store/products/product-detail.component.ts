@@ -18,6 +18,12 @@ export class ProductDetailComponent implements OnInit {
 
     selectedSupplier?: SupplierAndPrice;
 
+    quantity = 1;
+
+    get price(): string {
+        return this.selectedSupplier ? (this.selectedSupplier.price * this.quantity).toFixed(2) : '';
+    }
+
     constructor(
         private route: ActivatedRoute,
         private router: Router,
@@ -30,7 +36,7 @@ export class ProductDetailComponent implements OnInit {
     }
     buy() {
         const op: OrderPartDiscreteSend = {
-            quantity: 1,
+            quantity: this.quantity,
             productId: this.data && this.data.product ? this.data.product.id  : guidZero,
             supplierId: this.selectedSupplier && this.selectedSupplier.supplier ? this.selectedSupplier.supplier.id : guidZero 
         }
