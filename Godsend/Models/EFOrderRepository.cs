@@ -23,13 +23,13 @@ namespace Godsend.Models
                 IList<OrderPartDiscrete> orderPartDiscretes = new List<OrderPartDiscrete>();
                 foreach (var p in ctx.Products.Include(p => p.Info).Where(p => typeof(DiscreteProduct) == p.GetType()))
                 {
-                    orderPartDiscretes.Add(new OrderPartDiscrete { Quantity = p.Info.Watches * 5, Product = p });
+                    orderPartDiscretes.Add(new OrderPartDiscrete { Quantity = p.Info.Watches * 5, Product = p, Supplier = context.Suppliers.FirstOrDefault() });
                 }
 
                 context.Orders.Add(
                     new SimpleOrder
                     {
-                        Customer = userManager.Users.FirstOrDefault(),
+                        Customer = context.Users.FirstOrDefault(),
                         Done = new DateTime(1000),
                         Ordered = new DateTime(100),
                         Status = Status.Ready,
@@ -38,7 +38,7 @@ namespace Godsend.Models
                 context.Orders.Add(
                    new SimpleOrder
                    {
-                       Customer = userManager.Users.FirstOrDefault(),
+                       Customer = context.Users.FirstOrDefault(),
                        Done = new DateTime(2014, 2, 2),
                        Ordered = new DateTime(2013, 2, 3),
                        Status = Status.Ready,

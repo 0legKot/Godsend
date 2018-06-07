@@ -10,7 +10,7 @@
     </tr>
     <tr *ngFor="let o of orders">
         <td>{{ o.id }}</td>
-        <td>{{ o.customer.userName }}</td>
+        <td>{{ o.customer?.userName }}</td>
         <td>{{ o.ordered }}</td>
         <td>{{ status[o.status] || 'Unknown' }}</td>
         <td>{{ getProdInfo(o.discreteItems) }}</td>
