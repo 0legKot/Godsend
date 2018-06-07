@@ -36,7 +36,7 @@
                 <fa name="user"></fa> {{ name }}
                 <a (click)="logout()">Log out</a>
               </li>
-            <ng-template #elseBlock>Login</ng-template>
+            <ng-template #elseBlock> <a [routerLink]="['/login']">Login</a></ng-template>
 
             <li [routerLinkActive]="['link-active']" class="main-nav-item-2">
               <a [routerLink]="['/search']"><fa name="search"></fa></a>
@@ -60,13 +60,5 @@
             <a [routerLink]="['/consult']">Consult</a>
         </li>
     </ul>
-
-    <!--while we don't have actual user-->
-    <div style="display: none">
-        For test purposes <br />
-        Name <input [(ngModel)]="userData.name" /><br />
-        Is admin <input type="checkbox" [(ngModel)]="userData.isAdmin" /><br />
-        <button (click)="logout()">Log out</button>
-    </div>
 
 </div>
