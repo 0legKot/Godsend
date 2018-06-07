@@ -8,31 +8,18 @@ using Microsoft.AspNetCore.Mvc.ApplicationModels;
 
 namespace Godsend.Controllers
 {
-    //[AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = true)]
-    //public class GenericControllerNameAttribute : Attribute, IControllerModelConvention
-    //{
-    //    public void Apply(ControllerModel controller)
-    //    {
-    //        if (controller.ControllerType.GetGenericTypeDefinition() == typeof(EntityController<>))
-    //        {
-    //            var entityType = controller.ControllerType.GenericTypeArguments[0];
-    //            controller.ControllerName = entityType.Name;
-    //        }
-    //    }
-    //}
 
-    //[GenericControllerName]
-    public abstract class EntityController<IEntity> : Controller
+    public abstract class EntityController<TEntity> : Controller
     {
-        protected IRepository<IEntity> repository;
+        protected IRepository<TEntity> repository;
         [HttpGet("[action]")]
-        public IEnumerable<IEntity> All()
+        public virtual IEnumerable<TEntity> All()
         {
             return repository.Entities;
         }
 
         [HttpDelete("[action]/{id:Guid}")]
-        public IActionResult Delete([FromBody]Guid id)
+        public virtual IActionResult Delete([FromBody]Guid id)
         {
             try
             {
@@ -46,7 +33,7 @@ namespace Godsend.Controllers
         }
 
         [HttpPost("[action]/{id:Guid}")]
-        public IActionResult CreateOrUpdate([FromBody]IEntity entity)
+        public virtual IActionResult CreateOrUpdate([FromBody]TEntity entity)
         {
             try
             {
@@ -57,19 +44,19 @@ namespace Godsend.Controllers
         }
 
         [HttpPatch("[action]/{id:Guid}")]
-        public IActionResult Edit([FromBody]IEntity entity)
+        public virtual IActionResult Edit([FromBody]TEntity entity)
         {
             return CreateOrUpdate(entity);
         }
 
         [HttpPut("[action]/{id:Guid}")]
-        public IActionResult Create([FromBody]IEntity entity)
+        public virtual IActionResult Create([FromBody]TEntity entity)
         {
             return CreateOrUpdate(entity);
         }
 
         [HttpGet("[action]/{id:Guid}")]
-        public IEntity Detail(Guid id)
+        public virtual TEntity Detail(Guid id)
         {
             return repository.GetEntity(id);
         }

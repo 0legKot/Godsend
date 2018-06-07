@@ -8,7 +8,8 @@
     using Microsoft.AspNetCore.Mvc;
 
     [Route("api/[controller]")]
-    public class ArticleController : EntityController<Article>
+    // Now different because of splitting to Article and ArticleInformation
+    public class ArticleController// : EntityController<Article>
     {
         private IArticleRepository repository;
 
