@@ -1,12 +1,12 @@
 ﻿<h1>Products</h1>
 <br />
 <br />
-<div id="stic-search" >
+<div id="stic-search">
     <div class="inline-block">
         <godsend-search-inline [type]="type" (found)="products = $event.products"></godsend-search-inline>
     </div>
     <div class="inline-block">
-    <fa name="search"></fa>
+        <fa name="search"></fa>
     </div>
 </div>
 <br />
@@ -15,7 +15,7 @@
         <div class='container-fluid'>
             <div class='row products'>
                 <div *ngFor="let product of products" class="col-lg-3 col-md-4 col-sm-6 col-xs-12  card ">
-                    <a [routerLink]="['/products', product.id]" >
+                    <a [routerLink]="['/products', product.id]">
                         <div class="card-header">
                             <span class="h4">
                                 {{ product.info.name }}
@@ -26,6 +26,12 @@
                         </div>
                         <div class="photo mb-4">
                             Photo
+                        </div>
+                        <div class="rating">
+                            <p class="pull-right" [ngStyle]="{'color': '#003e09' }"><fa name="eye"></fa> : {{ product.info.watches }}</p>
+                        </div>
+                        <div class="rating">
+                            <godsend-stars [value]="product.info.rating"></godsend-stars>
                         </div>
                         <div class="card-block">
                             <span class="card-text p-a-1">{{ product.info.description }}</span>
@@ -38,6 +44,6 @@
     </div>
 </div>
 
-    <ng-template #nodata>
-        <div class="center"> <h4 class="m-1">Waiting for data...</h4></div>
+<ng-template #nodata>
+    <div class="center"> <h4 class="m-1">Waiting for data...</h4></div>
 </ng-template>
