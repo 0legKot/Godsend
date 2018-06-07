@@ -12,80 +12,15 @@ using System;
 namespace Godsend.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20180606191740_my322")]
+    partial class my322
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "2.0.2-rtm-10011")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-            modelBuilder.Entity("Godsend.Models.Article", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("Content");
-
-                    b.Property<string>("Discriminator")
-                        .IsRequired();
-
-                    b.Property<Guid?>("EntityInformationId");
-
-                    b.Property<Guid?>("InfoId");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("EntityInformationId");
-
-                    b.HasIndex("InfoId");
-
-                    b.ToTable("Articles");
-
-                    b.HasDiscriminator<string>("Discriminator").HasValue("Article");
-                });
-
-            modelBuilder.Entity("Godsend.Models.Information", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("Discriminator")
-                        .IsRequired();
-
-                    b.Property<string>("Name");
-
-                    b.Property<double>("Rating");
-
-                    b.Property<int>("Watches");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Information");
-
-                    b.HasDiscriminator<string>("Discriminator").HasValue("Information");
-                });
-
-            modelBuilder.Entity("Godsend.Models.LinkProductsSuppliers", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<decimal>("Price");
-
-                    b.Property<Guid>("ProductId");
-
-                    b.Property<Guid>("SupplierId");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ProductId");
-
-                    b.HasIndex("SupplierId");
-
-                    b.ToTable("LinkProductsSuppliers");
-                });
 
             modelBuilder.Entity("Godsend.Models.Location", b =>
                 {
@@ -104,12 +39,12 @@ namespace Godsend.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<string>("CustomerId");
+
                     b.Property<string>("Discriminator")
                         .IsRequired();
 
                     b.Property<DateTime?>("Done");
-
-                    b.Property<string>("EFCustomerId");
 
                     b.Property<DateTime>("Ordered");
 
@@ -117,7 +52,7 @@ namespace Godsend.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("EFCustomerId");
+                    b.HasIndex("CustomerId");
 
                     b.ToTable("Orders");
 
@@ -131,11 +66,11 @@ namespace Godsend.Migrations
 
                     b.Property<Guid?>("OrderId");
 
-                    b.Property<Guid>("ProductId");
+                    b.Property<Guid?>("ProductId");
 
                     b.Property<int>("Quantity");
 
-                    b.Property<Guid>("SupplierId");
+                    b.Property<Guid?>("SupplierId");
 
                     b.HasKey("Id");
 
@@ -155,9 +90,9 @@ namespace Godsend.Migrations
 
                     b.Property<Guid?>("OrderId");
 
-                    b.Property<Guid>("ProductId");
+                    b.Property<Guid?>("ProductId");
 
-                    b.Property<Guid>("SupplierId");
+                    b.Property<Guid?>("SupplierId");
 
                     b.Property<double>("Weight");
 
@@ -180,13 +115,9 @@ namespace Godsend.Migrations
                     b.Property<string>("Discriminator")
                         .IsRequired();
 
-                    b.Property<Guid?>("EntityInformationId");
-
                     b.Property<Guid?>("InfoId");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("EntityInformationId");
 
                     b.HasIndex("InfoId");
 
@@ -195,20 +126,22 @@ namespace Godsend.Migrations
                     b.HasDiscriminator<string>("Discriminator").HasValue("Product");
                 });
 
-            modelBuilder.Entity("Godsend.Models.StringWrapper", b =>
+            modelBuilder.Entity("Godsend.Models.ProductInformation", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<Guid?>("ArticleInformationId");
+                    b.Property<string>("Description");
 
-                    b.Property<string>("Value");
+                    b.Property<string>("Name");
+
+                    b.Property<double>("Rating");
+
+                    b.Property<int>("Watches");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ArticleInformationId");
-
-                    b.ToTable("StringWrapper");
+                    b.ToTable("ProductInformation");
                 });
 
             modelBuilder.Entity("Godsend.Models.Supplier", b =>
@@ -219,19 +152,35 @@ namespace Godsend.Migrations
                     b.Property<string>("Discriminator")
                         .IsRequired();
 
-                    b.Property<Guid?>("EntityInformationId");
-
                     b.Property<Guid?>("InfoId");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("EntityInformationId");
 
                     b.HasIndex("InfoId");
 
                     b.ToTable("Suppliers");
 
                     b.HasDiscriminator<string>("Discriminator").HasValue("Supplier");
+                });
+
+            modelBuilder.Entity("Godsend.Models.SupplierInformation", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<Guid?>("LocationId");
+
+                    b.Property<string>("Name");
+
+                    b.Property<double>("Rating");
+
+                    b.Property<int>("Watches");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("LocationId");
+
+                    b.ToTable("SupplierInformation");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -393,55 +342,6 @@ namespace Godsend.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("Godsend.Models.SimpleArticle", b =>
-                {
-                    b.HasBaseType("Godsend.Models.Article");
-
-
-                    b.ToTable("SimpleArticle");
-
-                    b.HasDiscriminator().HasValue("SimpleArticle");
-                });
-
-            modelBuilder.Entity("Godsend.Models.ArticleInformation", b =>
-                {
-                    b.HasBaseType("Godsend.Models.Information");
-
-                    b.Property<DateTime>("Created");
-
-                    b.Property<string>("EFAuthorId");
-
-                    b.HasIndex("EFAuthorId");
-
-                    b.ToTable("ArticleInformation");
-
-                    b.HasDiscriminator().HasValue("ArticleInformation");
-                });
-
-            modelBuilder.Entity("Godsend.Models.ProductInformation", b =>
-                {
-                    b.HasBaseType("Godsend.Models.Information");
-
-                    b.Property<string>("Description");
-
-                    b.ToTable("ProductInformation");
-
-                    b.HasDiscriminator().HasValue("ProductInformation");
-                });
-
-            modelBuilder.Entity("Godsend.Models.SupplierInformation", b =>
-                {
-                    b.HasBaseType("Godsend.Models.Information");
-
-                    b.Property<Guid?>("LocationId");
-
-                    b.HasIndex("LocationId");
-
-                    b.ToTable("SupplierInformation");
-
-                    b.HasDiscriminator().HasValue("SupplierInformation");
-                });
-
             modelBuilder.Entity("Godsend.Models.SimpleOrder", b =>
                 {
                     b.HasBaseType("Godsend.Models.Order");
@@ -482,35 +382,11 @@ namespace Godsend.Migrations
                     b.HasDiscriminator().HasValue("SimpleSupplier");
                 });
 
-            modelBuilder.Entity("Godsend.Models.Article", b =>
-                {
-                    b.HasOne("Godsend.Models.Information", "EntityInformation")
-                        .WithMany()
-                        .HasForeignKey("EntityInformationId");
-
-                    b.HasOne("Godsend.Models.ArticleInformation", "Info")
-                        .WithMany()
-                        .HasForeignKey("InfoId");
-                });
-
-            modelBuilder.Entity("Godsend.Models.LinkProductsSuppliers", b =>
-                {
-                    b.HasOne("Godsend.Models.Product", "Product")
-                        .WithMany()
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("Godsend.Models.Supplier", "Supplier")
-                        .WithMany()
-                        .HasForeignKey("SupplierId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
             modelBuilder.Entity("Godsend.Models.Order", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "EFCustomer")
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "Customer")
                         .WithMany()
-                        .HasForeignKey("EFCustomerId");
+                        .HasForeignKey("CustomerId");
                 });
 
             modelBuilder.Entity("Godsend.Models.OrderPartDiscrete", b =>
@@ -521,13 +397,11 @@ namespace Godsend.Migrations
 
                     b.HasOne("Godsend.Models.Product", "Product")
                         .WithMany()
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("ProductId");
 
                     b.HasOne("Godsend.Models.Supplier", "Supplier")
                         .WithMany()
-                        .HasForeignKey("SupplierId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("SupplierId");
                 });
 
             modelBuilder.Entity("Godsend.Models.OrderPartWeighted", b =>
@@ -538,42 +412,32 @@ namespace Godsend.Migrations
 
                     b.HasOne("Godsend.Models.Product", "Product")
                         .WithMany()
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("ProductId");
 
                     b.HasOne("Godsend.Models.Supplier", "Supplier")
                         .WithMany()
-                        .HasForeignKey("SupplierId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("SupplierId");
                 });
 
             modelBuilder.Entity("Godsend.Models.Product", b =>
                 {
-                    b.HasOne("Godsend.Models.Information", "EntityInformation")
-                        .WithMany()
-                        .HasForeignKey("EntityInformationId");
-
                     b.HasOne("Godsend.Models.ProductInformation", "Info")
                         .WithMany()
                         .HasForeignKey("InfoId");
                 });
 
-            modelBuilder.Entity("Godsend.Models.StringWrapper", b =>
-                {
-                    b.HasOne("Godsend.Models.ArticleInformation")
-                        .WithMany("EFTags")
-                        .HasForeignKey("ArticleInformationId");
-                });
-
             modelBuilder.Entity("Godsend.Models.Supplier", b =>
                 {
-                    b.HasOne("Godsend.Models.Information", "EntityInformation")
-                        .WithMany()
-                        .HasForeignKey("EntityInformationId");
-
                     b.HasOne("Godsend.Models.SupplierInformation", "Info")
                         .WithMany()
                         .HasForeignKey("InfoId");
+                });
+
+            modelBuilder.Entity("Godsend.Models.SupplierInformation", b =>
+                {
+                    b.HasOne("Godsend.Models.Location", "Location")
+                        .WithMany()
+                        .HasForeignKey("LocationId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -619,20 +483,6 @@ namespace Godsend.Migrations
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("Godsend.Models.ArticleInformation", b =>
-                {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "EFAuthor")
-                        .WithMany()
-                        .HasForeignKey("EFAuthorId");
-                });
-
-            modelBuilder.Entity("Godsend.Models.SupplierInformation", b =>
-                {
-                    b.HasOne("Godsend.Models.Location", "Location")
-                        .WithMany()
-                        .HasForeignKey("LocationId");
                 });
 #pragma warning restore 612, 618
         }

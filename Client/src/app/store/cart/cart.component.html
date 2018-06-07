@@ -5,7 +5,13 @@
             {{ part.productId }}
         </span>
         <span class="h4">
-            {{part.supplierId }}
+            {{ part.supplierId }}
+        </span>
+        <span class="h4">
+            {{ part.quantity }}
+        </span>
+        <span class="h4" (click)="delete(part)">
+            DELETE
         </span>
         <br />
     </div>

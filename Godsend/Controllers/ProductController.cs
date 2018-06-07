@@ -62,7 +62,7 @@
         [HttpGet("[action]/{id:Guid}")]
         public new ProductWithSuppliers Detail(Guid id)
         {
-            return ((IProductRepository)repository).GetProductWithSuppliers(id);
+            return (repository as IProductRepository)?.GetProductWithSuppliers(id);
         }
     }
 }

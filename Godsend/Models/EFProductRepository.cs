@@ -268,12 +268,16 @@
 
         public ProductWithSuppliers GetProductWithSuppliers(Guid productId)
         {
+            var tmp = context.LinkProductsSuppliers
+                    .Include(ps => ps.Supplier)
+                    .ThenInclude(s => s.Info)
+                    .Include(ps=>ps.Supplier)
+                    .ThenInclude(x => x.Info.Location).ToList();
             // PROBLEM Supplier info is null
             return new ProductWithSuppliers
             {
                 Product = GetEntity(productId),
-                Suppliers = context.LinkProductsSuppliers
-                    .Include(x => x.Supplier).ThenInclude(x => x.Info).ThenInclude(x => x.Location)
+                Suppliers = tmp
                     .Where(link => link.ProductId == productId)
                     .Select(link => new SupplierAndPrice { Supplier = link.Supplier, Price = link.Price })
                     .ToArray()
