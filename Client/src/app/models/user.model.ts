@@ -1,6 +1,6 @@
 ﻿export class IdentityUser {
     constructor(
-        id: string,
-        userName: string
+        public id: string,
+        public name: string
     ) { }
 }

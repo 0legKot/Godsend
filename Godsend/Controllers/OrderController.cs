@@ -56,7 +56,7 @@ namespace Godsend.Controllers
             {
                 Order o = new SimpleOrder
                 {
-                    Customer = context.Users.FirstOrDefault(),
+                    EFCustomer = context.Users.FirstOrDefault(),
                     Ordered = DateTime.Now,
                     DiscreteItems = data.DiscreteItems?.Select(item => new OrderPartDiscrete
                     {

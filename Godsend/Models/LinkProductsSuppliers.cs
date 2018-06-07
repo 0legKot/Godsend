@@ -7,6 +7,8 @@
 
     public class LinkProductsSuppliers
     {
+        public Guid Id { get; set; }
+
         public Supplier Supplier { get; set; }
 
         public Product Product { get; set; }

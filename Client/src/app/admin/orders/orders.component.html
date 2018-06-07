@@ -10,11 +10,11 @@
     </tr>
     <tr *ngFor="let o of orders">
         <td>{{ o.id }}</td>
-        <td>{{ o.customer?.userName }}</td>
+        <td>{{ o.customer?.name }}</td>
         <td>{{ o.ordered }}</td>
         <td>{{ status[o.status] || 'Unknown' }}</td>
         <td>{{ getProdInfo(o.discreteItems) }}</td>
-        <td>{{ o.done }}</td>
+        <td>{{ o.done || 'Not done yet' }}</td>
         <td (click)="cancel(o.id)">Cancel</td>
         <td (click)="shipped(o.id)">Mark shipped</td>
         <td (click)="delete(o.id)">Delete</td>

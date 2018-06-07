@@ -28,7 +28,7 @@
 <br>The third and the last apple in our story is the one that we so dearly love.Apple, the most valuable company of the world is reigning in the global market of Smart Phones and Personal Computers for the past decade or so.A tiny computer company that started in a garage by two college dropouts somehow managed to gain a valuation of over 220 Billion dollars.The origin of the name of this awe - inspiring company is a curious story in itself.One of the founders of the company, Steve Jobs was a vegetarian and Apple was one of his fruitarian diets.He thought of the name as something fun, spirited and not intimidating.So for the namesake, the name remained which now with its half - eaten logo has been the dream brand for half of the population on earth.Whether it is it’s perfectly crafted body or its aesthetic beauty defined by its consumer electronic products, apple has deservedly been the most valuable company.The Iphone, Ipads, and Macbooks are synonymous to wealth, style, and fashion.The craze for these painstakingly designed gadgets has increased tremendously and thus apple has been ruling the smart electronics market for quite a long time.Sometimes I wonder if this was the apple that was specified in the saying “An apple a day keeps the doctor away” because getting an apple product is no less than recovering from a grave illness these days. And yet among these revolutionary products, there will always be a half eaten apple conjuring it’s confusing yet inspiring story whose legacy shall remain as long as the future of mankind.",
                         Info = new ArticleInformation
                         {
-                            Author = context.Users.FirstOrDefault(),
+                            EFAuthor = context.Users.FirstOrDefault(),
                             Created = DateTime.Now,
                             Rating = 4.7,
                             Id = Guid.NewGuid(),
@@ -58,7 +58,7 @@ This is a pretty simple and straightforward diet you will ever try. It involves 
 <br><b><i>Enjoy!</i></b>",
                         Info = new ArticleInformation
                         {
-                            Author = context.Users.FirstOrDefault(),
+                            EFAuthor = context.Users.FirstOrDefault(),
                             Id = Guid.NewGuid(),
                             Name = "7 Day Apple Diet Plan",
                             Created = DateTime.Now,
@@ -91,7 +91,7 @@ This is a pretty simple and straightforward diet you will ever try. It involves 
 <br>Read more: https://www.smithsonianmag.com/arts-culture/why-do-students-give-teachers-apples-and-more-from-the-fruits-juicy-past-26381703/#ftOr5mifKGtu1Q1E.99",
                         Info = new ArticleInformation
                         {
-                            Author = context.Users.FirstOrDefault(),
+                            EFAuthor = context.Users.FirstOrDefault(),
                             Created = DateTime.Now,
                             Name = "Why Do Students Give Teachers Apples and More from the Fruit’s Juicy Past",
                             Rating = 3.6,
@@ -104,7 +104,7 @@ This is a pretty simple and straightforward diet you will ever try. It involves 
                         Content = ".",
                         Info = new ArticleInformation
                         {
-                            Author = context.Users.FirstOrDefault(),
+                            EFAuthor = context.Users.FirstOrDefault(),
                             Created = DateTime.Now,
                             Name = "Empty Article",
                             Rating = 1,
@@ -117,7 +117,7 @@ This is a pretty simple and straightforward diet you will ever try. It involves 
                         Content = "42",
                         Info = new ArticleInformation
                         {
-                            Author = context.Users.FirstOrDefault(),
+                            EFAuthor = context.Users.FirstOrDefault(),
                             Created = DateTime.Now,
                             Name = "The Answer to the Ultimate Question of Life, the Universe, and Everything",
                             Rating = 5,
@@ -130,7 +130,7 @@ This is a pretty simple and straightforward diet you will ever try. It involves 
                         Content = "Please answer us in the comments",
                         Info = new ArticleInformation
                         {
-                            Author = context.Users.FirstOrDefault(),
+                            EFAuthor = context.Users.FirstOrDefault(),
                             Created = DateTime.Now,
                             Name = "Apple or Android - which is better?",
                             Rating = 1.1,
@@ -144,7 +144,7 @@ This is a pretty simple and straightforward diet you will ever try. It involves 
         }
 
 
-        public IEnumerable<Article> Entities => context.Articles.Include(a => a.Info).ThenInclude(a => a.Author)
+        public IEnumerable<Article> Entities => context.Articles.Include(a => a.Info).ThenInclude(a => a.EFAuthor)
             .Include(a => a.Info).ThenInclude(a => a.EFTags);
 
 

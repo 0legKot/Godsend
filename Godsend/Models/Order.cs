@@ -7,6 +7,7 @@ namespace Godsend.Models
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
+    using System.ComponentModel.DataAnnotations.Schema;
     using System.Linq;
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Identity;
@@ -26,7 +27,11 @@ namespace Godsend.Models
     {
         public Guid Id { get; set; } = Guid.NewGuid();
 
-        public IdentityUser Customer { get; set; }
+        [JsonIgnore]
+        public IdentityUser EFCustomer { get; set; }
+
+        [NotMapped]
+        public ClientUser Customer { get => new ClientUser { Id = EFCustomer.Id, Name = EFCustomer.UserName }; }
 
         public IEnumerable<OrderPartDiscrete> DiscreteItems { get; set; }
 
