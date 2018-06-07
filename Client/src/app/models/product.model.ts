@@ -1,3 +1,5 @@
+import { Supplier } from "./supplier.model";
+
 export class Product {
     constructor(
         public id: string,
@@ -12,5 +14,19 @@ export class ProductInfo {
         public name: string,
         public watches: number,
         public rating: number
+    ) { }
+}
+
+export class ProductWithSuppliers {
+    constructor(
+        public product: Product,
+        public suppliers: SupplierAndPrice[]
+    ) { }
+}
+
+export class SupplierAndPrice {
+    constructor(
+        public supplier: Supplier,
+        public price: number
     ) { }
 }

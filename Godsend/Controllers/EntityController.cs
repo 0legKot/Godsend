@@ -55,10 +55,10 @@ namespace Godsend.Controllers
             return CreateOrUpdate(entity);
         }
 
-        [HttpGet("[action]/{id:Guid}")]
+        /*[HttpGet("[action]/{id:Guid}")]
         public virtual TEntity Detail(Guid id)
         {
             return repository.GetEntity(id);
-        }
+        }*/
     }
 }

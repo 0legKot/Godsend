@@ -190,8 +190,37 @@
                 });
                 context.SaveChanges();
             }
-        }
 
+            if (!context.LinkProductsSuppliers.Any())
+            {
+                var seedSuppliers = new EFSupplierRepository(context);
+
+                // elementAt throws not supported exception
+                var products = context.Products.ToArray();
+                var suppliers = context.Suppliers.ToArray();
+
+
+                for (int i = 0; i < context.Products.Count(); ++i)
+                {
+                    context.LinkProductsSuppliers.Add(
+                        new LinkProductsSuppliers
+                        {
+                            Product = products[i],
+                            Supplier = suppliers[i % context.Suppliers.Count()],
+                            Price = (decimal)((i + 1) * 100.1)
+                        });
+                }
+
+                context.LinkProductsSuppliers.Add(
+                new LinkProductsSuppliers
+                {
+                    Product = products[0],
+                    Supplier = suppliers[0],
+                    Price = 50
+                });
+                context.SaveChanges();
+            }
+        }
 
         public IEnumerable<Product> Entities => context.Products.Include(x => x.Info);
 
@@ -235,6 +264,20 @@
         public Product GetEntity(Guid entityId)
         {
             return context.Products.Include(p=>p.Info).FirstOrDefault(p => p.Id == entityId);
+        }
+
+        public ProductWithSuppliers GetProductWithSuppliers(Guid productId)
+        {
+            // PROBLEM Supplier info is null
+            return new ProductWithSuppliers
+            {
+                Product = GetEntity(productId),
+                Suppliers = context.LinkProductsSuppliers
+                    .Include(x => x.Supplier).ThenInclude(x => x.Info).ThenInclude(x => x.Location)
+                    .Where(link => link.ProductId == productId)
+                    .Select(link => new SupplierAndPrice { Supplier = link.Supplier, Price = link.Price })
+                    .ToArray()
+            };
         }
     }
 }

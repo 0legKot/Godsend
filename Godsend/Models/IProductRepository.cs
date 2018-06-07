@@ -6,6 +6,6 @@
 
     public interface IProductRepository : IRepository<Product>
     {
-
+        ProductWithSuppliers GetProductWithSuppliers(Guid productId);
     }
 }

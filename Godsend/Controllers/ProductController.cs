@@ -59,10 +59,10 @@
         //    return CreateOrUpdate(product);
         //}
 
-        //[HttpGet("[action]/{id:Guid}")]
-        //public Product Detail(Guid id)
-        //{
-        //    return repository.Entities.FirstOrDefault(x => x.Id == id);
-        //}
+        [HttpGet("[action]/{id:Guid}")]
+        public new ProductWithSuppliers Detail(Guid id)
+        {
+            return ((IProductRepository)repository).GetProductWithSuppliers(id);
+        }
     }
 }

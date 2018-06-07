@@ -23,4 +23,18 @@
     public class WeightedProduct : Product
     {
     }
+
+    public class ProductWithSuppliers
+    {
+        public Product Product { get; set; }
+
+        public IEnumerable<SupplierAndPrice> Suppliers { get; set; }
+    }
+
+    public class SupplierAndPrice
+    {
+        public Supplier Supplier { get; set; }
+
+        public decimal Price { get; set; }
+    }
 }

@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 
-import { Product } from '../../models/product.model';
+import { Product, ProductWithSuppliers, SupplierAndPrice } from '../../models/product.model';
 import { RepositoryService } from '../../services/repository.service';
 import { CartService } from '../../services/cart.service';
 import { OrderPartDiscreteSend, guidZero } from '../../models/cart.model';
@@ -14,7 +14,9 @@ import { OrderPartDiscreteSend, guidZero } from '../../models/cart.model';
     styleUrls: ['./product-detail.component.css']
 })
 export class ProductDetailComponent implements OnInit {
-    prod?: Product;
+    data?: ProductWithSuppliers;
+
+    selectedSupplier?: SupplierAndPrice;
 
     constructor(
         private route: ActivatedRoute,
@@ -28,14 +30,17 @@ export class ProductDetailComponent implements OnInit {
     }
     buy() {
         const op: OrderPartDiscreteSend = {
-            quantity:1,
-            productId: this.prod ? this.prod.id : guidZero,
-            supplierId: guidZero
+            quantity: 1,
+            productId: this.data && this.data.product ? this.data.product.id  : guidZero,
+            supplierId: this.selectedSupplier && this.selectedSupplier.supplier ? this.selectedSupplier.supplier.id : guidZero 
         }
         this.cart.addToCart(op);
     }
     ngOnInit() {
-        this.service.getEntity<Product>(this.route.snapshot.params.id, p => this.prod = p, 'product');
+        this.service.getEntity<ProductWithSuppliers>(this.route.snapshot.params.id, p => {
+            this.data = p;
+            this.selectedSupplier = p.suppliers[0];
+        }, 'product');
     }
 
     /*get product(): Product | {} {
