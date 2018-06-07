@@ -13,5 +13,6 @@ export class CartService {
         if (this.isInteger(quantity))
             this.cart.discreteItems.push(product);
         else this.cart.weightedItems.push(product);
+
     }
 }

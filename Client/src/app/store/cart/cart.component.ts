@@ -7,9 +7,13 @@ import { OrderPart } from '../../models/order.model';
     templateUrl: './cart.component.html'
 })
 export class CartComponent {
-    constructor(private cart: CartService) { }
     parts: OrderPart[];
+    constructor(private cart: CartService) {
+        this.parts = this.cart.cart.discreteItems;
+    }
+
     getParts(): OrderPart[] {
+        console.log(this.cart.cart.discreteItems);
         return this.parts;
     }
 }
