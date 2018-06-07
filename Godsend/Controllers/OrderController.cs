@@ -62,15 +62,15 @@ namespace Godsend.Controllers
                     {
                         Id = Guid.NewGuid(),
                         // finding the product to save only id anyway?
-                        Product = prodRepo.GetEntity(item.Product),
-                        Supplier = supRepo.GetEntity(item.Supplier),
+                        Product = prodRepo.GetEntity(item.ProductId),
+                        Supplier = supRepo.GetEntity(item.SupplierId),
                         Quantity = item.Quantity
                     }).ToArray(),
                     WeightedItems = data.WeightedItems?.Select(item => new OrderPartWeighted
                     {
                         Id = Guid.NewGuid(),
-                        Product = prodRepo.GetEntity(item.Product),
-                        Supplier = supRepo.GetEntity(item.Supplier),
+                        Product = prodRepo.GetEntity(item.ProductId),
+                        Supplier = supRepo.GetEntity(item.SupplierId),
                         Weight = item.Weight
                     }).ToArray(),
                     Id = Guid.NewGuid(),
@@ -121,9 +121,9 @@ namespace Godsend.Controllers
 
     public abstract class OrderPartNg
     {
-        public Guid Product { get; set; }
+        public Guid ProductId { get; set; }
 
-        public Guid Supplier { get; set; }
+        public Guid SupplierId { get; set; }
     }
 
     public class OrderPartDiscreteNg : OrderPartNg

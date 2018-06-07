@@ -12,16 +12,16 @@ export class Cart {
 
 export class OrderPartSend {
     constructor(
-        productId: string,
-        supplierId: string
+        public productId: string,
+        public supplierId: string
     ) { }
 }
 
 export class OrderPartDiscreteSend extends OrderPartSend {
     constructor(
-        quantity: number,
-        productId: string,
-        supplierId: string
+        public quantity: number,
+        public productId: string,
+        public supplierId: string
     ) {
         super(productId, supplierId);
     }
@@ -29,10 +29,14 @@ export class OrderPartDiscreteSend extends OrderPartSend {
 
 export class OrderPartWeightedSend extends OrderPartSend {
     constructor(
-        weight: number,
-        productId: string,
-        supplierId: string
+        public weight: number,
+        public productId: string,
+        public supplierId: string
     ) {
         super(productId, supplierId);
     }
+}
+
+export function isDiscrete(part: OrderPartDiscreteSend | OrderPartWeightedSend): part is OrderPartDiscreteSend {
+    return ((<OrderPartDiscreteSend>part).quantity !== undefined);
 }

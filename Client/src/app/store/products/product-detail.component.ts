@@ -1,13 +1,11 @@
 // import { switchMap } from 'rxjs/operators';
-import { Component, OnInit, HostBinding } from '@angular/core';
-import { Router, ActivatedRoute, ParamMap } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 
 import { Product } from '../../models/product.model';
 import { RepositoryService } from '../../services/repository.service';
-import { forEach } from '@angular/router/src/utils/collection';
 import { CartService } from '../../services/cart.service';
-import { OrderPartDiscrete } from '../../models/order.model';
 import { OrderPartDiscreteSend, guidZero } from '../../models/cart.model';
 
 @Component({
@@ -31,8 +29,8 @@ export class ProductDetailComponent implements OnInit {
     buy() {
         const op: OrderPartDiscreteSend = {
             quantity:1,
-            product: this.prod? this.prod.id : guidZero,
-            supplier: guidZero
+            productId: this.prod ? this.prod.id : guidZero,
+            supplierId: guidZero
         }
         this.cart.addToCart(op);
     }
