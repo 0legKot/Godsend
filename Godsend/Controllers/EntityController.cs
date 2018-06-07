@@ -8,20 +8,20 @@ using Microsoft.AspNetCore.Mvc.ApplicationModels;
 
 namespace Godsend.Controllers
 {
-    [AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = true)]
-    public class GenericControllerNameAttribute : Attribute, IControllerModelConvention
-    {
-        public void Apply(ControllerModel controller)
-        {
-            if (controller.ControllerType.GetGenericTypeDefinition() == typeof(EntityController<>))
-            {
-                var entityType = controller.ControllerType.GenericTypeArguments[0];
-                controller.ControllerName = entityType.Name;
-            }
-        }
-    }
+    //[AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = true)]
+    //public class GenericControllerNameAttribute : Attribute, IControllerModelConvention
+    //{
+    //    public void Apply(ControllerModel controller)
+    //    {
+    //        if (controller.ControllerType.GetGenericTypeDefinition() == typeof(EntityController<>))
+    //        {
+    //            var entityType = controller.ControllerType.GenericTypeArguments[0];
+    //            controller.ControllerName = entityType.Name;
+    //        }
+    //    }
+    //}
 
-    [GenericControllerName]
+    //[GenericControllerName]
     public abstract class EntityController<IEntity> : Controller
     {
         protected IRepository<IEntity> repository;
