@@ -10,7 +10,8 @@ import { Supplier } from '../../models/supplier.model';
 
 @Component({
     selector: 'godsend-supplier-detail',
-    templateUrl: 'supplier-detail.component.html'
+    templateUrl: 'supplier-detail.component.html',
+    styleUrls: ['./supplier-detail.component.css']
 })
 export class SupplierDetailComponent implements OnInit {
     supp?: Supplier;

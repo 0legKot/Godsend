@@ -5,7 +5,8 @@ import { OnInit } from '@angular/core';
 
 @Component({
     selector: 'godsend-suppliers',
-    templateUrl: './suppliers.component.html'
+    templateUrl: './suppliers.component.html',
+    styleUrls: ['./suppliers.component.css']
 })
 export class SuppliersComponent implements OnInit {
     suppliers: Supplier[] = [];

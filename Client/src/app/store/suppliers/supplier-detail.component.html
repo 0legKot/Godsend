@@ -1,6 +1,33 @@
 ﻿<h1>Supplier detail</h1>
-<h2>{{ supp?.id }}</h2>
-<h2>{{ supp?.info?.name }}</h2>
-<p>
-    <button (click)="gotoSuppliers(supp)">Back</button>
-</p>
+<br />
+<br />
+<br />
+<div class="wrap rel">
+    <br />
+    <br />
+
+    <div class='container-fluid'>
+        <div class='row'>
+            <div class='col-lg-3 col-md-4 col-sm-6 col-xs-12 suppliers'>
+                <div class="supp-name">{{ supp?.info?.name }}</div>
+                <div class="photo">
+                </div>
+                <div class="rating">
+                    <godsend-stars [value]="supp?.info?.rating"></godsend-stars>
+                    <p class="pull-right" [ngStyle]="{'color': '#003e09' }"><fa name="eye"></fa> : {{ supp?.info?.watches }}</p>
+                </div>
+            </div>
+            <div class='col-lg-7 col-md-6 col-sm-5 col-xs-12 suppliers rel'>
+                <div class="supp-info">
+                    <div>
+                        <label>Description: </label>
+                        <p>Some text</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="back-btn" (click)="gotoSuppliers(supp)">
+        <fa name="long-arrow-left"></fa> Back to suppliers
+    </div>
+</div>
