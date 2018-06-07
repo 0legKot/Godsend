@@ -115,11 +115,6 @@ export class RepositoryService {
     }
 
     createOrder(cart: Cart) {
-        /*const data = {
-            customer: 'test',
-            discreteItems: ord.discreteItems,
-            weightedItems: ord.weightedItems
-        };*/
 
         console.dir(cart);
 
