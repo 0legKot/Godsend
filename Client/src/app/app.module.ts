@@ -79,12 +79,13 @@ import { CartService } from './models/cart.service';
         ])
     ],
     providers: [
+        CartService,
         Repository,
         AuthenticationGuard,
         AuthenticationService,
         DataService,
         SearchService,
-        CartService,
+        
         { provide: 'BASE_URL', useValue: 'http://localhost:56440/' }
     ],
     bootstrap: [AppComponent]
