@@ -15,7 +15,8 @@ namespace Godsend.Models
     {
         Ready = 0,
         Shipped = 1,
-        Cancelled = 2
+        Cancelled = 2,
+        Processing = 3,
 
             // ...
     }

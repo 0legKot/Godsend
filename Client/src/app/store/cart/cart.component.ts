@@ -1,23 +1,23 @@
 import { Component } from '@angular/core';
 import { CartService } from '../../models/cart.service';
 import { OrderPart } from '../../models/order.model';
+import { OrderPartSend } from '../../models/cart.model';
 
 @Component({
     selector: 'godsend-cart',
     templateUrl: './cart.component.html'
 })
 export class CartComponent {
-    parts: OrderPart[];
-    constructor(private cart: CartService) {
-        this.parts = this.cart.cart.discreteItems;
+   // parts: OrderPartSend[];
+    constructor(private cartService: CartService) {
+
     }
 
     checkout() {
-        this.cart.checkout();
+        this.cartService.checkout();
     }
 
-    getParts(): OrderPart[] {
-
-        return this.parts;
+    get parts(): OrderPartSend[] {
+        return this.cartService.cart.discreteItems;
     }
 }

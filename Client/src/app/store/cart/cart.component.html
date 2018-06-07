@@ -1,11 +1,11 @@
 ﻿<h1>Shopping cart</h1>
 <div *ngIf="parts?.length > 0; else nodata">
-    <div *ngFor="let part of getParts()">
+    <div *ngFor="let part of parts">
         <span class="h4">
-            {{ part.id }}
+            {{ part.product }}
         </span>
         <span class="h4">
-            {{part.product.info.name }}
+            {{part.supplier }}
         </span>
         <br />
     </div>
@@ -13,5 +13,5 @@
 <button (click)="checkout()">Checkout</button>
 
 <ng-template #nodata>
-    <h4 class="m-1">Waiting for data...</h4>
+    <h4 class="m-1">No orders</h4>
 </ng-template>

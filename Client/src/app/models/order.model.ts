@@ -5,7 +5,8 @@ import { IdentityUser } from './user.model';
 export const orderStatus = [
     'Ready', // 0
     'Shipped', // 1
-    'Cancelled' // 2
+    'Cancelled', // 2
+    'Processing' //3
 ];
 
 export class Order {

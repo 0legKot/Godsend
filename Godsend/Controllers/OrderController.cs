@@ -9,16 +9,23 @@ namespace Godsend.Controllers
     using System.Linq;
     using System.Threading.Tasks;
     using Godsend.Models;
+    using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
 
     [Route("api/[controller]")]
     public class OrderController : Controller
     {
         private IOrderRepository repository;
+        private IProductRepository prodRepo;
+        private ISupplierRepository supRepo;
+        private DataContext context;
 
-        public OrderController(IOrderRepository repo)
+        public OrderController(IOrderRepository repo, IProductRepository prodRepo, ISupplierRepository supRepo, DataContext context)
         {
             repository = repo;
+            this.prodRepo = prodRepo;
+            this.supRepo = supRepo;
+            this.context = context;
         }
 
         [HttpGet("[action]")]
@@ -42,32 +49,84 @@ namespace Godsend.Controllers
         }
 
         [HttpPost("[action]")]
-        public IActionResult CreateOrUpdate(Order order)
+       // public IActionResult CreateOrUpdate([FromBody]Newtonsoft.Json.Linq.JToken jdata)
+        public IActionResult CreateOrUpdate([FromBody]OrderFromNg data)
         {
             try
             {
-                order.Id = Guid.NewGuid();
-                repository.SaveOrder(order);
-                return Ok();
+                Order o = new SimpleOrder
+                {
+                    Customer = context.Users.FirstOrDefault(),
+                    Ordered = DateTime.Now,
+                    DiscreteItems = data.DiscreteItems?.Select(item => new OrderPartDiscrete
+                    {
+                        Id = Guid.NewGuid(),
+                        // finding the product to save only id anyway?
+                        Product = prodRepo.GetEntity(item.Product),
+                        Supplier = supRepo.GetEntity(item.Supplier),
+                        Quantity = item.Quantity
+                    }).ToArray(),
+                    WeightedItems = data.WeightedItems?.Select(item => new OrderPartWeighted
+                    {
+                        Id = Guid.NewGuid(),
+                        Product = prodRepo.GetEntity(item.Product),
+                        Supplier = supRepo.GetEntity(item.Supplier),
+                        Weight = item.Weight
+                    }).ToArray(),
+                    Id = Guid.NewGuid(),
+                    Status = Status.Processing
+                };
+
+                repository.SaveOrder(o);
+               /* order.Id = Guid.NewGuid();
+                repository.SaveOrder(order);*/
+                return Ok(o);
             }
-            catch { return BadRequest(); }
+            catch (Exception ex)
+            {
+                return BadRequest();
+            }
         }
 
-        [HttpPatch("[action]/{id:Guid}")]
-        public IActionResult Edit([FromBody]Order order)
+       /* [HttpPatch("[action]/{id:Guid}")]
+        public IActionResult Edit([FromBody]OrderFromNg order)
         {
             return CreateOrUpdate(order);
         }
 
         [HttpPut("[action]/{id:Guid}")]
-        public IActionResult Create([FromBody]Order order)
+        public IActionResult Create([FromBody]OrderFromNg order)
         {
             return CreateOrUpdate(order);
-        }
+        }*/
         [HttpGet("[action]/{id:Guid}")]
         public Order Detail(Guid id)
         {
             return repository.Orders.FirstOrDefault(x => x.Id == id);
         }
+    }
+
+    public class OrderFromNg
+    {
+        public OrderPartDiscreteNg[] DiscreteItems { get; set; }
+
+        public OrderPartWeightedNg[] WeightedItems { get; set; }
+    }
+
+    public abstract class OrderPartNg
+    {
+        public Guid Product { get; set; }
+
+        public Guid Supplier { get; set; }
+    }
+
+    public class OrderPartDiscreteNg : OrderPartNg
+    {
+        public int Quantity { get; set; }
+    }
+
+    public class OrderPartWeightedNg : OrderPartNg
+    {
+        public double Weight { get; set; }
     }
 }

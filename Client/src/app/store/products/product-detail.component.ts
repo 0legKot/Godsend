@@ -8,6 +8,7 @@ import { Repository } from '../../models/repository';
 import { forEach } from '@angular/router/src/utils/collection';
 import { CartService } from '../../models/cart.service';
 import { OrderPartDiscrete } from '../../models/order.model';
+import { OrderPartDiscreteSend, guidZero } from '../../models/cart.model';
 
 @Component({
     selector: 'godsend-product-detail',
@@ -28,13 +29,12 @@ export class ProductDetailComponent implements OnInit {
         this.router.navigate(['/products', { id: productId}]);
     }
     buy() {
-        const op: OrderPartDiscrete = {
+        const op: OrderPartDiscreteSend = {
             quantity:1,
-            id:'',
-            product: this.prod,
-            supplier: ''
+            product: this.prod? this.prod.id : guidZero,
+            supplier: guidZero
         }
-        this.cart.addToCart(op, 1);
+        this.cart.addToCart(op);
     }
     ngOnInit() {
         this.service.getEntity<Product>(this.route.snapshot.params.id, p => this.prod = p, 'product');

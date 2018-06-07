@@ -11,6 +11,7 @@ import { Order } from './order.model';
 import { Supplier } from './supplier.model';
 import { Type } from '@angular/core';
 import { ArticleInfo, Article } from './article.model';
+import { Cart } from './cart.model';
 
 type supportedClass = 'article' | 'product' | 'supplier' | 'order';
 
@@ -113,17 +114,18 @@ export class Repository {
             });
     }
 
-    createOrder(ord: Order) {
-        const data = {
-            customer: "",
+    createOrder(cart: Cart) {
+        /*const data = {
+            customer: 'test',
             discreteItems: ord.discreteItems,
             weightedItems: ord.weightedItems
-        };
+        };*/
 
-        this.data.sendRequest<string>('post', ordersUrl +'/CreateOrUpdate', data)
+        console.dir(cart);
+
+        this.data.sendRequest<Order>('post', ordersUrl +'/createOrUpdate', cart)
             .subscribe(response => {
-                ord.id = response;
-                this.orders.push(ord);
+                this.orders.push(response);
             });
     }
 
