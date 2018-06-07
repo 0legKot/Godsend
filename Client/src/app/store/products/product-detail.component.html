@@ -23,13 +23,15 @@
                         <label>Description: </label>
                         <p>{{ prod?.info?.description }}</p>
                     </div>
+                    <div class="buy" (click)="buy()">
+                        <p class="inline-block"><fa name="cart-arrow-down"></fa></p>
+                        <p class="inline-block">Buy!</p>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-    <div (click)="buy()">
-        <fa name="long-arrow-left"></fa> Buy
-    </div>
+    
     <div class="back-btn" (click)="gotoProducts(prod)">
         <fa name="long-arrow-left"></fa> Back to products
     </div>

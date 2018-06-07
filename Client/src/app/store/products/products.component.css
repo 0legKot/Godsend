@@ -1,7 +1,13 @@
 ﻿.rel {
     position: relative;
 }
-
+.inline-block{
+    display: inline-block;
+}
+.center {
+    margin: 0 auto;
+    text-align: center;
+}
 a, a:active, a:focus, a:visited {
     text-decoration: none;
     color: #171212;
@@ -11,6 +17,24 @@ h1 {
     text-align: center;
 }
 
+#stic-search {
+    position: -webkit-sticky;
+    position: -moz-sticky;
+    position: -ms-sticky;
+    position: -o-sticky;
+    position: sticky;
+    top: 68px;
+    text-align:center;
+    z-index: 1000;
+    width:100%;
+    background: #ffffff;
+}
+
+#stic-search div {
+    margin-top: 15px;
+    margin-bottom: 15px;
+    margin-left: 10px;
+}
 .wrap {
     max-width: 1400px;
     margin: 0 auto;
@@ -23,12 +47,11 @@ h1 {
 
 .card {
     background: #ffffff;
-    height: 460px;
     display: inline-block;
     text-align: center;
     font-size: 18px;
-    margin: 0;
     padding-top: 15px;
+    padding-bottom: 20px;
 }
 
     .card:hover {
