@@ -69,6 +69,77 @@ This is a pretty simple and straightforward diet you will ever try. It involves 
                     });
             }
 
+            if (!this.context.Articles.Any(a => a.Info.Name == "Empty Article"))
+            {
+                this.context.Articles.AddRange(
+                    new Article
+                    {
+                        Content = @"The apple, that innocent bud of an Americana autumn, has pulled off one of the greatest cons of all time. As students across the country prepare to greet a new school year and teacher with a polished bit of produce, the apple cements its place in the patriotic foods pantheon despite its dodgy past.
+<br>The apple was long associated with the downfall of man, but has managed to do pretty well for itself since. Illustration from Eve’s Diary, written by Mark Twain.
+<br>A clever bit of biology, well documented in Michael Pollan’s Botany of Desire, and a tireless cheer campaign of fall orchard visits and doctor-endorsed slogans saved the apple from its bitter beginnings in early America. Though its standing in society today is rivaled only by bald eagles and baseball, the apple’s journey to ubiquity was tumultuous.
+<br>Stretching back to the hills of Kazakhstan, early apples were a far cry from today’s sweet, fleshy varieties. As Pollan explains, sweetness is a rarity in nature. Apples benefitted from being bitter and sometimes poisonous because it allowed the seeds to spread unmolested. Because each seed has the genetic content of a radically different tree, the fruit came in countless forms, “from large purplish softballs to knobby green clusters.”
+<br>When the apple came to the American colonies, it was still a long way from a sweet treat. Bitter but easy to grow, the produce made excellent hard cider. In a time when water was considered more dangerous than consuming alcohol, hard cider was a daily indulgence. Its distilled cousin, applejack, also became popular, according to documentation from Colonial Williamsburg.
+<br>As anyone who grew up in the Ohio River Valley knows, the greatest champion of the fruit was a wandering missionary named John Chapman, or Johnny Appleseed. Pennsylvania, Ohio, Indiana and beyond bloomed in the wake of his visits. He was opposed to grafting, the practice of inserting “a section of a stem with leaf buds is inserted into the stock of a tree” to reproduce the same type of apples from the first tree, as described by the University of Minnesota.
+<br>Without the human intervention, however, apples remained overwhelmingly bitter and when an anti-alcohol fervor swept the nation in the late 19th century, the plant’s fate was in peril. One of the fiercest of opponents, temperance supporter and axe-wielding activist Carrie Nation, went after both growers and bars, leaving a wake of destruction in her path. Nation was arrested 30 times in a ten-year span for vandalism in the name of her movement, according to PBS.
+<br>“But with the help of early public relations pioneers crafting slogans such as “an apple a day keeps the doctor away,” the plant quickly reinvented itself as a healthy foodstuff,” according to the PBS production of Pollan’s work.
+<br>Elizabeth Mary Wright’s 1913 book, Rustic Speech and Folk-lore, recorded the use of apples as part of common kitchen cures. “For example,” she writes, “Ait a happle avore gwain to bed, An’ you’ll make the doctor beg his bread…or as the more popular version runs: An apple a day Keeps the doctor away.”
+<br>An advertisement from the early 20th century extols the healthful virtues of Washington apples. Courtesy of the National Museum of American History, Smithsonian Institution
+<br>Free to produce a socially acceptable fruit, growers raced to develop sweet, edible varieties that would replace the plant’s previous life. Shaking its association with hard cider and reckless imbibing, the apple found a place in one of the most faultless places of American society: the schoolhouse.
+<br>Held up as the paragon of moral fastidiousness, teachers, particularly on the frontier, frequently received sustenance from their pupils. “Families whose children attended schools were often responsible for housing and feeding frontier teachers,” according to a PBS special, titled “Frontier House, Frontier Life.” An apple could show appreciation for a teacher sometimes in charge of more than 50 students.
+<br>Apples continued to be a favorite way to curry favor even after the practical purpose of feeding teachers disappeared. Bing Crosby’s 1939 “An Apple for the Teacher,” explains the persuasive allure of the fruit. “An apple for the teacher will always do the trick,” sings Crosby, “when you don’t know your lesson in arithmetic.”
+<br>By the time American scholar Jan Harold Brunvand published his book, The Study of American Folklore, in 1968, the phrase “apple-polisher” was more or less shorthand for brown-nosing suck-up. With cutting-edge technology in classrooms seen as an academic advantage, many teachers may be asking for a completely different kind of apple: not a Red Delicious or Granny Smith but an iPad.
+<br>Read more: https://www.smithsonianmag.com/arts-culture/why-do-students-give-teachers-apples-and-more-from-the-fruits-juicy-past-26381703/#ftOr5mifKGtu1Q1E.99",
+                        Info = new ArticleInformation
+                        {
+                            Author = context.Users.FirstOrDefault(),
+                            Created = DateTime.Now,
+                            Name = "Why Do Students Give Teachers Apples and More from the Fruit’s Juicy Past",
+                            Rating = 3.6,
+                            Watches = 15,
+                            Tags = new[] { "Apple" }
+                        }
+                    },
+                    new Article
+                    {
+                        Content = ".",
+                        Info = new ArticleInformation
+                        {
+                            Author = context.Users.FirstOrDefault(),
+                            Created = DateTime.Now,
+                            Name = "Empty Article",
+                            Rating = 1,
+                            Watches = 5,
+                            Tags = new string[0]
+                        }
+                    },
+                    new Article
+                    {
+                        Content = "42",
+                        Info = new ArticleInformation
+                        {
+                            Author = context.Users.FirstOrDefault(),
+                            Created = DateTime.Now,
+                            Name = "The Answer to the Ultimate Question of Life, the Universe, and Everything",
+                            Rating = 5,
+                            Watches = 42,
+                            Tags = new[] { "Life", "Universe" }
+                        }
+                    },
+                    new Article
+                    {
+                        Content = "Please answer us in the comments",
+                        Info = new ArticleInformation
+                        {
+                            Author = context.Users.FirstOrDefault(),
+                            Created = DateTime.Now,
+                            Name = "Apple or Android - which is better?",
+                            Rating = 1.1,
+                            Watches = 66,
+                            Tags = new[] { "Apple", "Android" }
+                        }
+                    });
+            }
+
             this.context.SaveChanges();
         }
 

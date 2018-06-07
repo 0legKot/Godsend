@@ -135,6 +135,61 @@
 
                 context.SaveChanges();
             }
+
+            if (!context.Products.Any(p => p.Info.Name == "iPhone"))
+            {
+                context.Products.AddRange(new DiscreteProduct
+                {
+                    Info = new ProductInformation
+                    {
+                        Name = "iPhone",
+                        Description = "Another kind of apple",
+                        Rating = 4.99,
+                        Watches = 13
+                    }
+                },
+                new DiscreteProduct
+                {
+                    Info = new ProductInformation
+                    {
+                        Name = "Apple juice",
+                        Description = "Insides of an apple squeezed to death",
+                        Rating = 4.3,
+                        Watches = 4
+                    }
+                },
+                new DiscreteProduct
+                {
+                    Info = new ProductInformation
+                    {
+                        Name = "Applejack",
+                        Description = "Fermented juice of apples",
+                        Rating = 4,
+                        Watches = 132
+                    }
+                },
+                new DiscreteProduct
+                {
+                    Info = new ProductInformation
+                    {
+                        Name = "Apple zephyr",
+                        Description = "Marshmallow made from apples",
+                        Rating = 3.3,
+                        Watches = 123
+                    }
+                },
+                new DiscreteProduct
+                {
+                    Info = new ProductInformation
+                    {
+                        Name = "Opel Zafira",
+                        Description = ".",
+                        Rating = 3,
+                        Watches = 3
+                    }
+                });
+                context.SaveChanges();
+            }
         }
 
 
