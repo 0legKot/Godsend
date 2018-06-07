@@ -2,12 +2,13 @@
 import { Cart } from "./cart.model";
 import { IdentityUser } from "./user.model";
 import { Repository } from "./repository";
+import { Injectable } from "@angular/core";
 
+@Injectable()
 export class CartService {
     cart: Cart = new Cart('', new IdentityUser('', ''), new Array<OrderPartDiscrete>(), new Array<OrderPartWeighted>(), "");
 
-    //PROBLEM
-    constructor(/*private repo: Repository*/) { }
+    constructor(private repo: Repository) {}
 
     isInteger(num: number) {
         return (num ^ 0) === num;
