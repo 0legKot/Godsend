@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { RepositoryService } from '../../services/repository.service';
 import { Supplier } from '../../models/supplier.model';
 import { OnInit } from '@angular/core';
+import { searchType } from '../search/search.service';
 
 @Component({
     selector: 'godsend-suppliers',
@@ -9,6 +10,7 @@ import { OnInit } from '@angular/core';
     styleUrls: ['./suppliers.component.css']
 })
 export class SuppliersComponent implements OnInit {
+    type = searchType.supplier;
     suppliers: Supplier[] = [];
     constructor(private repo: RepositoryService)  { }
     ngOnInit() {
