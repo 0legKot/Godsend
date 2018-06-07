@@ -10,7 +10,6 @@ import { DataService } from './data.service';
 import { Order } from './order.model';
 import { Supplier } from './supplier.model';
 import { Type } from '@angular/core';
-import { Entity } from './entity';
 import { ArticleInfo, Article } from './article.model';
 
 type supportedClass = 'article' | 'product' | 'supplier' | 'order';

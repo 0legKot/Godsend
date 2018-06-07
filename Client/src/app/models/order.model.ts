@@ -1,5 +1,6 @@
 ﻿import { Product } from './product.model';
 import { Supplier } from './supplier.model';
+import { IdentityUser } from './user.model';
 
 export const orderStatus = [
     'Ready', // 0
@@ -18,12 +19,7 @@ export class Order {
         done?: string) { }
 }
 
-export class IdentityUser {
-    constructor(
-        id: string,
-        userName: string
-    ) { }
-}
+
 
 export class OrderPart {
     constructor(
