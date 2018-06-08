@@ -11,7 +11,7 @@ import { Order } from '../models/order.model';
 import { Supplier } from '../models/supplier.model';
 import { Type } from '@angular/core';
 import { ArticleInfo, Article } from '../models/article.model';
-import { Cart } from '../models/cart.model';
+import { Cart, CartView, OrderPartDiscreteSend, OrderPartWeightedSend } from '../models/cart.model';
 
 type supportedClass = 'article' | 'product' | 'supplier' | 'order';
 
@@ -114,9 +114,12 @@ export class RepositoryService {
             });
     }
 
-    createOrder(cart: Cart) {
+    createOrder(cartView: CartView) {
 
-        console.dir(cart);
+        console.dir(cartView);
+
+        const cart = new Cart(cartView.discreteItems.map(opdv => new OrderPartDiscreteSend(opdv.quantity, opdv.product.id, opdv.supplier.id)),
+            cartView.weightedItems.map(opwv => new OrderPartWeightedSend(opwv.weight, opwv.product.id, opwv.supplier.id)));
 
         this.data.sendRequest<Order>('post', ordersUrl +'/createOrUpdate', cart)
             .subscribe(response => {

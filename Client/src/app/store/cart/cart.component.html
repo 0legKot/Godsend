@@ -1,14 +1,23 @@
 ﻿<h1>Shopping cart</h1>
-<div *ngIf="parts?.length > 0; else nodata">
-    <div *ngFor="let part of parts">
+<div *ngIf="discreteParts?.length > 0; else nodata">
+    <div *ngFor="let part of discreteParts">
         <span class="h4">
-            {{ part.productId }}
+            {{ part.product.info.name }}
         </span>
         <span class="h4">
-            {{ part.supplierId }}
+            {{ part.supplier.info.name }}
         </span>
         <span class="h4">
             {{ part.quantity }}
+        </span>
+        <span class="h4">
+            $ {{ part.quantity * part.price }}
+        </span>
+        <span class="h4" (click)="increment(part)">
+            INCREMENT
+        </span>
+        <span class="h4" (click)="decrement(part)">
+            DECREMENT
         </span>
         <span class="h4" (click)="delete(part)">
             DELETE

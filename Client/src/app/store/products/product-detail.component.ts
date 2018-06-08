@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
 import { Product, ProductWithSuppliers, SupplierAndPrice } from '../../models/product.model';
 import { RepositoryService } from '../../services/repository.service';
 import { CartService } from '../../services/cart.service';
-import { OrderPartDiscreteSend, guidZero } from '../../models/cart.model';
+import { OrderPartDiscreteSend, guidZero, OrderPartDiscreteView } from '../../models/cart.model';
 
 @Component({
     selector: 'godsend-product-detail',
@@ -39,10 +39,18 @@ export class ProductDetailComponent implements OnInit {
         this.gotoProducts();
     }
     buy() {
-        const op: OrderPartDiscreteSend = {
+        // Todo make button disabled if no data?
+
+        if (this.data == null || this.selectedSupplier == null) {
+            console.log('ERROR: no data');
+            return;
+        }
+
+        const op: OrderPartDiscreteView = {
             quantity: this.quantity,
-            productId: this.data && this.data.product ? this.data.product.id  : guidZero,
-            supplierId: this.selectedSupplier && this.selectedSupplier.supplier ? this.selectedSupplier.supplier.id : guidZero 
+            product: this.data.product,
+            supplier: this.selectedSupplier.supplier,
+            price: this.selectedSupplier.price
         }
         this.cart.addToCart(op);
     }
