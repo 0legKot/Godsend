@@ -14,8 +14,10 @@ export class ProductsComponent implements OnInit {
     // private selectedId: string;
     type = searchType.product;
 
+    searchProducts?: ProductInfo[];
+
     get products(): ProductInfo[] | {} {
-        return this.repo.products;
+        return this.searchProducts || this.repo.products;
     };
 
     createProduct(descr: string, name: string) {
@@ -24,8 +26,7 @@ export class ProductsComponent implements OnInit {
     }
 
     onFound(products: ProductInfo[]) {
-        console.log('found');
-        console.dir(products);
+        this.searchProducts = products;
         // do something with search
     }
 

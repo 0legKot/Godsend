@@ -12,16 +12,19 @@ import { searchType } from '../search/search.service';
 export class SuppliersComponent implements OnInit {
     type = searchType.supplier;
 
-    suppliers: SupplierInfo[] = [];
+    searchSuppliers: SupplierInfo[] = [];
+
+    get suppliers() {
+        return this.searchSuppliers || this.repo.suppliers;
+    }
 
     constructor(private repo: RepositoryService) { }
 
     ngOnInit() {
-        this.repo.getEntities<SupplierInfo>('supplier', s => this.suppliers = s);
+        this.repo.getEntities<SupplierInfo>('supplier');
     }
 
     onFound(suppliers: SupplierInfo[]) {
-        console.log('found');
-        console.dir(suppliers);
+        this.searchSuppliers = suppliers;
     }
 }
