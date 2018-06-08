@@ -222,13 +222,13 @@
             }
         }
 
-        public IEnumerable<DiscreteProduct> Entities => getProductsFromContext().Include(x=>x.Info);
+        public IEnumerable<DiscreteProduct> Entities => GetProductsFromContext().Include(x=>x.Info);
 
         public IEnumerable<Information> EntitiesInfo => Entities.Select(p => p.Info).ToArray();
 
         public void SaveEntity(DiscreteProduct entity)
         {
-            DiscreteProduct dbEntry = getProductsFromContext()
+            DiscreteProduct dbEntry = GetProductsFromContext()
                 .FirstOrDefault(p => p.Id == entity.Id);
             if (dbEntry != null)
             {
@@ -248,7 +248,7 @@
 
         public void DeleteEntity(Guid entityId)
         {
-            DiscreteProduct dbEntry = getProductsFromContext()
+            DiscreteProduct dbEntry = GetProductsFromContext()
                .FirstOrDefault(p => p.Id == entityId);
             if (dbEntry != null)
             {
@@ -264,10 +264,19 @@
 
         public DiscreteProduct GetEntity(Guid entityId)
         {
-            return getProductsFromContext().Include(p => p.Info).FirstOrDefault(p => p.Id == entityId);
+            return GetProductsFromContext().Include(p => p.Info).FirstOrDefault(p => p.Id == entityId);
         }
 
-        private IQueryable<DiscreteProduct> getProductsFromContext()
+        public void Watch(DiscreteProduct prod)
+        {
+            if (prod != null)
+            {
+                ++prod.Info.Watches;
+                context.SaveChanges();
+            }
+        }
+
+        private IQueryable<DiscreteProduct> GetProductsFromContext()
         {
             return context.Products.OfType<DiscreteProduct>();
         }

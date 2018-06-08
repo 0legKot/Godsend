@@ -159,6 +159,15 @@ This is a pretty simple and straightforward diet you will ever try. It involves 
             }
         }
 
+        public void Watch(Article art)
+        {
+            if (art != null)
+            {
+                ++art.Info.Watches;
+                context.SaveChanges();
+            }
+        }
+
         public Article GetEntity(Guid entityId)
         {
             return context.Articles.FirstOrDefault(a => a.Id == entityId);

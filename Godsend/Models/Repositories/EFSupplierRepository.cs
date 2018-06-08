@@ -169,6 +169,15 @@ namespace Godsend.Models
             return !context.Suppliers.Any(s => s.Id == entity.Id);
         }
 
+        public void Watch(Supplier sup)
+        {
+            if (sup != null)
+            {
+                ++sup.Info.Watches;
+                context.SaveChanges();
+            }
+        }
+
         public void SaveEntity(Supplier entity)
         {
             Supplier dbEntry = GetEntity(entity.Id);
@@ -191,6 +200,11 @@ namespace Godsend.Models
          public Supplier GetEntity(Guid entityId)
         {
             return context.Suppliers.Include(s => s.Info).ThenInclude(i => i.Location).FirstOrDefault(s => s.Id == entityId);
+        }
+
+        public Supplier GetEntityByInfoId(Guid infoId)
+        {
+            return context.Suppliers.Include(s => s.Info).ThenInclude(i => i.Location).FirstOrDefault(s => s.Info.Id == infoId);
         }
     }
 }

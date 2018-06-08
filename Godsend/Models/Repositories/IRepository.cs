@@ -18,5 +18,7 @@
         void DeleteEntity(Guid entityId);
 
         bool IsFirst(IEntity entity);
+
+        void Watch(IEntity entity);
     }
 }

@@ -28,7 +28,9 @@
         [HttpGet("[action]/{infoId:Guid}")]
         public Article Detail(Guid infoId)
         {
-            return repository.Entities.FirstOrDefault(x => x.Info.Id == infoId);
+            var article = repository.Entities.FirstOrDefault(x => x.Info.Id == infoId);
+            repository.Watch(article);
+            return article;
         }
     }
 }
