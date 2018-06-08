@@ -17,7 +17,7 @@ export class CartService {
     addToCart(part: OrderPartDiscreteView | OrderPartWeightedView) {
         if (isDiscrete(part)) {
             const repeat = this.cart.discreteItems.find(opdv => opdv.product === part.product && opdv.supplier === part.supplier && opdv.price === part.price);
-            if (repeat)++repeat.quantity;
+            if (repeat) repeat.quantity += part.quantity;
             else this.cart.discreteItems.push(part);
         }
         else {
