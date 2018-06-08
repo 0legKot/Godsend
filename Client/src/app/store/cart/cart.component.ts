@@ -14,6 +14,12 @@ export class CartComponent {
 
     }
 
+    get totalPrice(): string {
+        return (this.discreteParts.reduce((prev, cur) => prev + cur.price * cur.quantity, 0) +
+            this.weightedParts.reduce((prev, cur) => prev + cur.price * cur.weight, 0))
+            .toFixed(2);
+    }
+
     checkout() {
         this.cartService.checkout();
     }

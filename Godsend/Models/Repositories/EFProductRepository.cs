@@ -275,10 +275,13 @@
         public ProductWithSuppliers GetProductWithSuppliers(Guid productInfoId)
         {
             var tmp = context.LinkProductsSuppliers
+                    .Include(ps => ps.Product)
+                    .ThenInclude(s => s.Info)
                     .Include(ps => ps.Supplier)
                     .ThenInclude(s => s.Info)
                     .Include(ps => ps.Supplier)
-                    .ThenInclude(x => x.Info.Location);
+                    .ThenInclude(x => x.Info.Location)
+                    .ToArray();
 
             return new ProductWithSuppliers
             {

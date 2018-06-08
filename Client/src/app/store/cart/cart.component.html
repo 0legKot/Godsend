@@ -1,4 +1,11 @@
-﻿<h1>Shopping cart</h1>
+﻿<style>
+    .h4 {
+        user-select: none;
+    }
+
+</style>
+
+<h1>Shopping cart</h1>
 <div *ngIf="discreteParts?.length > 0; else nodata">
     <div *ngFor="let part of discreteParts">
         <span class="h4">
@@ -11,7 +18,7 @@
             {{ part.quantity }}
         </span>
         <span class="h4">
-            $ {{ part.quantity * part.price }}
+            $ {{ (part.quantity * part.price).toFixed(2) }}
         </span>
         <span class="h4" (click)="increment(part)">
             INCREMENT
@@ -24,6 +31,7 @@
         </span>
         <br />
     </div>
+    <span>Total: {{ totalPrice }}</span>
 </div>
 <button (click)="checkout()">Checkout</button>
 
