@@ -20,7 +20,8 @@ export class SearchInlineComponent extends SearchBaseComponent implements OnInit
         super.ngOnInit();
     }
 
-    doSearch(term: string): void {
+    doSearch(term?: string): void {
+        if (term == null) term = <string>this.searchField.value;
         this.ss.findByType(this.type, term, res => this.found.emit(res));
     }
 }

@@ -127,7 +127,7 @@ export class RepositoryService {
             });
     }
 
-    createProduct(prod: Product) {
+    createProduct(prod: Product, fn?: (_:ProductInfo) => any) {
         const dataBody = {
             
             info: {
@@ -140,6 +140,7 @@ export class RepositoryService {
             .subscribe(response => {
                 prod.info.id = response;
                 this.products.push(prod.info);
+                if (fn) fn(prod.info);
             });
     }
 

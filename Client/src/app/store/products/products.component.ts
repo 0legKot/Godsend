@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 
 import { RepositoryService } from '../../services/repository.service';
 import { Product, ProductInfo } from '../../models/product.model';
 import { searchType } from '../search/search.service';
+import { SearchInlineComponent } from '../search/search-inline.component';
 
 @Component({
     selector: 'godsend-products',
@@ -15,6 +16,10 @@ export class ProductsComponent implements OnInit {
     type = searchType.product;
 
     searchProducts?: ProductInfo[];
+    templateText = 'Waiting for data...';
+
+    @ViewChild(SearchInlineComponent)
+    searchInline!: SearchInlineComponent;
 
     get products(): ProductInfo[] | {} {
         return this.searchProducts || this.repo.products;
@@ -22,12 +27,12 @@ export class ProductsComponent implements OnInit {
 
     createProduct(descr: string, name: string) {
         var prod = new Product('', new ProductInfo('', descr, name,0,0))
-        this.repo.createProduct(prod);
+        this.repo.createProduct(prod, () => this.searchInline.doSearch());
     }
 
     onFound(products: ProductInfo[]) {
+        this.templateText = 'Not found';
         this.searchProducts = products;
-        // do something with search
     }
 
     constructor(private repo: RepositoryService) {

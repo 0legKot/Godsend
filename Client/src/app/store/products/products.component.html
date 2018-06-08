@@ -3,7 +3,7 @@
 <br />
 <a (click)="createProduct('it is test product','Test product2')">Create!!</a>
 <br />
-<div *ngIf="products?.length > 0; else nodata">
+<div>
     <div class="wrap">
         <div id="stic-search">
             <div class="search">
@@ -16,7 +16,7 @@
             </div>
         </div>
         <br />
-        <div class='container-fluid'>
+        <div class='container-fluid' *ngIf="products?.length > 0; else nodata">
             <div class='row products'>
                 <div *ngFor="let productInfo of products" class="col-lg-3 col-md-4 col-sm-6 col-xs-12  card ">
                     <a [routerLink]="['/products', productInfo.id]">
@@ -49,5 +49,5 @@
 </div>
 
 <ng-template #nodata>
-    <div class="center"> <h4 class="m-1">Waiting for data...</h4></div>
+    <div class="center"> <h4 class="m-1">{{ templateText }}</h4></div>
 </ng-template>

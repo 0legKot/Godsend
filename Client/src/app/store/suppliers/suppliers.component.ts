@@ -12,7 +12,7 @@ import { searchType } from '../search/search.service';
 export class SuppliersComponent implements OnInit {
     type = searchType.supplier;
 
-    searchSuppliers: SupplierInfo[] = [];
+    searchSuppliers?: SupplierInfo[];
 
     get suppliers() {
         return this.searchSuppliers || this.repo.suppliers;
