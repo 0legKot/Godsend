@@ -3,7 +3,7 @@
 <br />
 
 <br />
-<div *ngIf="suppliers?.length > 0; else nodata">
+<div >
     <div class="wrap">
         <div id="stic-search">
            <div class="search">
@@ -16,7 +16,7 @@
         </div>
             </div>
         <br />
-        <div class='container-fluid'>
+        <div class='container-fluid' *ngIf="suppliers?.length > 0; else nodata">
             <div class='row suppliers'>
                 <div *ngFor="let supplierInfo of suppliers" class="col-lg-3 col-md-4 col-sm-6 col-xs-12  card ">
                     <a [routerLink]="['/suppliers', supplierInfo.id]">
@@ -43,7 +43,7 @@
 </div>
 
 <ng-template #nodata>
-    <div class="center"> <h4 class="m-1">Waiting for data...</h4></div>
+    <div class="center"> <h4 class="m-1">{{ templateText }}</h4></div>
 </ng-template>
 
 

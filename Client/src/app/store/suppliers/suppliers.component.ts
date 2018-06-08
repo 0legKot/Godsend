@@ -13,6 +13,7 @@ export class SuppliersComponent implements OnInit {
     type = searchType.supplier;
 
     searchSuppliers?: SupplierInfo[];
+    templateText = 'Waiting for data...';
 
     get suppliers() {
         return this.searchSuppliers || this.repo.suppliers;
@@ -25,6 +26,7 @@ export class SuppliersComponent implements OnInit {
     }
 
     onFound(suppliers: SupplierInfo[]) {
+        this.templateText = 'Not found';
         this.searchSuppliers = suppliers;
     }
 }
