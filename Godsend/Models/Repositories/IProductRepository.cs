@@ -6,6 +6,6 @@
 
     public interface IProductRepository : IRepository<DiscreteProduct>
     {
-        ProductWithSuppliers GetProductWithSuppliers(Guid productId);
+        ProductWithSuppliers GetProductWithSuppliers(Guid productInfoId);
     }
 }

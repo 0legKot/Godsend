@@ -15,7 +15,8 @@
         [JsonIgnore]
         public Information EntityInformation
         {
-            get => Info; set { Info = value as SupplierInformation; }
+            get => Info;
+            set => Info = value as SupplierInformation;
         }
     }
 

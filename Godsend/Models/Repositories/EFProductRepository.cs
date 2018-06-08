@@ -224,6 +224,8 @@
 
         public IEnumerable<DiscreteProduct> Entities => getProductsFromContext().Include(x=>x.Info);
 
+        public IEnumerable<Information> EntitiesInfo => Entities.Select(p => p.Info).ToArray();
+
         public void SaveEntity(DiscreteProduct entity)
         {
             DiscreteProduct dbEntry = getProductsFromContext()
@@ -267,22 +269,22 @@
 
         private IQueryable<DiscreteProduct> getProductsFromContext()
         {
-            return context.Products.Where(x=>x is DiscreteProduct).Select(x =>  (DiscreteProduct) x);
+            return context.Products.OfType<DiscreteProduct>();
         }
 
-        public ProductWithSuppliers GetProductWithSuppliers(Guid productId)
+        public ProductWithSuppliers GetProductWithSuppliers(Guid productInfoId)
         {
             var tmp = context.LinkProductsSuppliers
                     .Include(ps => ps.Supplier)
                     .ThenInclude(s => s.Info)
                     .Include(ps => ps.Supplier)
-                    .ThenInclude(x => x.Info.Location).ToList();
+                    .ThenInclude(x => x.Info.Location);
 
             return new ProductWithSuppliers
             {
-                Product = GetEntity(productId),
+                Product = context.Products.Include(p => p.Info).FirstOrDefault(p => p.Info.Id == productInfoId),
                 Suppliers = tmp
-                    .Where(link => link.ProductId == productId)
+                    .Where(link => link.Product.Info.Id == productInfoId)
                     .Select(link => new SupplierAndPrice { Supplier = link.Supplier, Price = link.Price })
                     .ToArray()
             };

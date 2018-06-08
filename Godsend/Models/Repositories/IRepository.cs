@@ -7,9 +7,11 @@
 
     public interface IRepository<IEntity>
     {
-        IEntity GetEntity(Guid entityId);
-
         IEnumerable<IEntity> Entities { get; }
+
+        IEnumerable<Information> EntitiesInfo { get; }
+
+        IEntity GetEntity(Guid entityId);
 
         void SaveEntity(IEntity entity);
 

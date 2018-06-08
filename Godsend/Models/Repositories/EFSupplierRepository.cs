@@ -152,6 +152,8 @@ namespace Godsend.Models
 
         public IEnumerable<Supplier> Entities => context.Suppliers.Include(s => s.Info).ThenInclude(i => i.Location);
 
+        public IEnumerable<Information> EntitiesInfo => Entities.Select(s => s.Info).ToArray();
+
         public void DeleteEntity(Guid entityId)
         {
             Supplier dbEntry = GetEntity(entityId);

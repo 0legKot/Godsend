@@ -7,8 +7,6 @@
 
     public interface IEntity
     {
-        Guid Id { get; set; }
-
         Information EntityInformation { get; set; }
     }
 }

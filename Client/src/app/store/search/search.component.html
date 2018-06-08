@@ -2,26 +2,26 @@
 
 <input [formControl]="searchField" placeholder="Type here" />
 
-<div *ngIf="searchResult?.products?.length > 0">
+<div *ngIf="searchResult?.productsInfo?.length > 0">
     <h4>Products</h4>
     <div class="wrap">
         <div class='container-fluid'>
             <div class='row products'>
-                <div *ngFor="let product of searchResult.products" class="col-lg-3 col-md-4 col-sm-6 col-xs-12  card ">
-                    <a [routerLink]="['/products', product.id]">
+                <div *ngFor="let productInfo of searchResult.productsInfo" class="col-lg-3 col-md-4 col-sm-6 col-xs-12  card ">
+                    <a [routerLink]="['/products', productInfo.id]">
                         <div class="card-header">
                             <span class="h4">
-                                {{ product.info.name }}
+                                {{ productInfo.name }}
                             </span>
                             <span class="float-right badge badge-pill badge-primary">
-                                {{ product.info.price  | currency:"USD":true }}
+                                {{ productInfo.price  | currency:"USD":true }}
                             </span>
                         </div>
                         <div class="photo mb-4">
                             Photo
                         </div>
                         <div class="card-block">
-                            <span class="card-text p-a-1">{{ product.info.description }}</span>
+                            <span class="card-text p-a-1">{{ productInfo.description }}</span>
                         </div>
                     </a>
                 </div>
@@ -30,26 +30,26 @@
         </div>
     </div>
 </div>
-<div *ngIf="searchResult?.suppliers?.length > 0">
+<div *ngIf="searchResult?.suppliersInfo?.length > 0">
     <h4>Suppliers</h4>
     <div class="wrap">
         <div class='container-fluid'>
             <div class='row suppliers'>
-                <div *ngFor="let s of searchResult.suppliers" class="col-lg-3 col-md-4 col-sm-6 col-xs-12  card ">
-                    <a [routerLink]="['/suppliers', s.id]">
+                <div *ngFor="let supplierInfo of searchResult.suppliersInfo" class="col-lg-3 col-md-4 col-sm-6 col-xs-12  card ">
+                    <a [routerLink]="['/suppliers', supplierInfo.id]">
                         <div class="card-header">
                             <span class="h4">
-                                {{ s.info.name }}
+                                {{ supplierInfo.name }}
                             </span>
                         </div>
                         <div class="photo mb-4">
                             Photo
                         </div>
                         <div class="rating">
-                            <p class="pull-right" [ngStyle]="{'color': '#003e09' }"><fa name="eye"></fa> : {{ s.info.watches }}</p>
+                            <p class="pull-right" [ngStyle]="{'color': '#003e09' }"><fa name="eye"></fa> : {{ supplierInfo.watches }}</p>
                         </div>
                         <div class="rating">
-                            <godsend-stars [value]="s.info.rating"></godsend-stars>
+                            <godsend-stars [value]="supplierInfo.rating"></godsend-stars>
                         </div>
                     </a>
                 </div>

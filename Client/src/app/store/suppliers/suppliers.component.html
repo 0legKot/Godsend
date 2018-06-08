@@ -8,7 +8,7 @@
         <div id="stic-search">
            <div class="search">
                <p class="inline-block">
-                  <godsend-search-inline [type]="type" (found)="suppliers = $event.suppliers"></godsend-search-inline>
+                  <godsend-search-inline [type]="type" (found)="suppliers = onFound($event.suppliersInfo)"></godsend-search-inline>
             </p>
             <p class="inline-block">
                 <fa name="search"></fa>
@@ -18,21 +18,21 @@
         <br />
         <div class='container-fluid'>
             <div class='row suppliers'>
-                <div *ngFor="let s of suppliers" class="col-lg-3 col-md-4 col-sm-6 col-xs-12  card ">
-                    <a [routerLink]="['/suppliers', s.id]">
+                <div *ngFor="let supplierInfo of suppliers" class="col-lg-3 col-md-4 col-sm-6 col-xs-12  card ">
+                    <a [routerLink]="['/suppliers', supplierInfo.id]">
                         <div class="card-header">
                             <span class="h4">
-                                {{ s.info.name }}
+                                {{ supplierInfo.name }}
                             </span>
                         </div>
                         <div class="photo mb-4">
                             <img src="../../../assets/simpleApple.jpg" />
                         </div>
                         <div class="rating">
-                            <p class="pull-right" [ngStyle]="{'color': '#003e09' }"><fa name="eye"></fa> : {{ s.info.watches }}</p>
+                            <p class="pull-right" [ngStyle]="{'color': '#003e09' }"><fa name="eye"></fa> : {{ supplierInfo.watches }}</p>
                         </div>
                         <div class="rating">
-                            <godsend-stars [value]="s.info.rating"></godsend-stars>
+                            <godsend-stars [value]="supplierInfo.rating"></godsend-stars>
                         </div>
                     </a>
                 </div>

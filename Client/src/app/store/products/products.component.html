@@ -8,7 +8,7 @@
         <div id="stic-search">
             <div class="search">
                 <p class="inline-block">
-                    <godsend-search-inline [type]="type" (found)="products = $event.products"></godsend-search-inline>
+                    <godsend-search-inline [type]="type" (found)="onFound($event.productsInfo)"></godsend-search-inline>
                 </p>
                 <p class="inline-block">
                     <fa name="search"></fa>
@@ -18,27 +18,27 @@
         <br />
         <div class='container-fluid'>
             <div class='row products'>
-                <div *ngFor="let product of products" class="col-lg-3 col-md-4 col-sm-6 col-xs-12  card ">
-                    <a [routerLink]="['/products', product.id]">
+                <div *ngFor="let productInfo of products" class="col-lg-3 col-md-4 col-sm-6 col-xs-12  card ">
+                    <a [routerLink]="['/products', productInfo.id]">
                         <div class="card-header">
                             <span class="h4">
-                                {{ product.info.name }}
+                                {{ productInfo.name }}
                             </span>
                             <span class="float-right badge badge-pill badge-primary">
-                                {{ product.info.price  | currency:"USD":true }}
+                                {{ productInfo.price  | currency:"USD":true }}
                             </span>
                         </div>
                         <div class="photo mb-4">
                             <img src="../../../assets/simpleApple.jpg" />
                         </div>
                         <div class="rating">
-                            <p class="pull-right" [ngStyle]="{'color': '#003e09' }"><fa name="eye"></fa> : {{ product.info.watches }}</p>
+                            <p class="pull-right" [ngStyle]="{'color': '#003e09' }"><fa name="eye"></fa> : {{ productInfo.watches }}</p>
                         </div>
                         <div class="rating">
-                            <godsend-stars [value]="product.info.rating"></godsend-stars>
+                            <godsend-stars [value]="productInfo.rating"></godsend-stars>
                         </div>
                         <div class="card-block">
-                            <span class="card-text p-a-1">{{ product.info.description }}</span>
+                            <span class="card-text p-a-1">{{ productInfo.description }}</span>
                         </div>
                     </a>
                 </div>

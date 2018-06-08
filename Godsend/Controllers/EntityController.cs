@@ -8,14 +8,15 @@
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.ApplicationModels;
 
-    public abstract class EntityController<TEntity> : Controller where TEntity:IEntity
+    public abstract class EntityController<TEntity> : Controller
+        where TEntity : IEntity
     {
         protected IRepository<TEntity> repository;
 
         [HttpGet("[action]")]
-        public virtual IEnumerable<TEntity> All()
+        public virtual IEnumerable<Information> All()
         {
-            return repository.Entities;
+            return repository.EntitiesInfo;
         }
 
         [HttpDelete("[action]/{id:Guid}")]
@@ -39,7 +40,7 @@
             {
                 entity.EntityInformation.Id = Guid.NewGuid();
                 repository.SaveEntity(entity);
-                return Ok(entity.Id);
+                return Ok(entity.EntityInformation.Id);
             }
             catch
             {

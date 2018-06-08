@@ -63,7 +63,7 @@ namespace Godsend.Controllers
         [HttpGet("[action]/{id:Guid}")]
         public Supplier Detail(Guid id)
         {
-            return repository.Entities.FirstOrDefault(x => x.Id == id);
+            return repository.Entities.FirstOrDefault(x => x.Info.Id == id);
         }
     }
 }

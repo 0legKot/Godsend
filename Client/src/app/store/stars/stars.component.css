@@ -5,6 +5,7 @@
     height: auto;
     line-height: 100%;
     display: inline-block;
+    word-wrap: normal;
 }
 
 .stars-rated, .stars-all, .links {

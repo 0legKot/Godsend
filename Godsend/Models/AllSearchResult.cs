@@ -12,11 +12,11 @@ namespace Godsend.Controllers
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;
 
-    public class AllSearchResult
+    public struct AllSearchResult
     {
-        public IEnumerable<Product> Products { get; set; } = null;
+        public IEnumerable<ProductInformation> ProductsInfo { get; set; }
 
-        public IEnumerable<Supplier> Suppliers { get; set; } = null;
+        public IEnumerable<SupplierInformation> SuppliersInfo { get; set; }
 
 // public IEnumerable<Order> Orders { get; set; }
     }

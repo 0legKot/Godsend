@@ -10,20 +10,20 @@
     [Route("api/[controller]")]
 
     // Now different because of splitting to Article and ArticleInformation
-    public class ArticleController// : EntityController<Article>
+    public class ArticleController : EntityController<Article>
     {
-        private IArticleRepository repository;
+        //private IArticleRepository repository;
 
         public ArticleController(IArticleRepository repository)
         {
             this.repository = repository;
         }
 
-        [HttpGet("[action]")]
+        /*[HttpGet("[action]")]
         public IEnumerable<ArticleInformation> All()
         {
             return repository.Entities.Select(a => a.Info);
-        }
+        }*/
 
         [HttpGet("[action]/{infoId:Guid}")]
         public Article Detail(Guid infoId)

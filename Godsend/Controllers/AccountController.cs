@@ -30,41 +30,41 @@ namespace Godsend.Controllers
             signInManager = signInMgr;
         }
 
-        /// <summary>
-        /// Do login
-        /// </summary>
-        /// <param name="returnUrl">Return url</param>
-        /// <returns>View</returns>
-        [HttpGet]
-        public IActionResult Login(string returnUrl)
-        {
-            ViewBag.returnUrl = returnUrl;
-            return View();
-        }
+        /////// <summary>
+        /////// Do login
+        /////// </summary>
+        /////// <param name="returnUrl">Return url</param>
+        /////// <returns>View</returns>
+        ////[HttpGet]
+        ////public IActionResult Login(string returnUrl)
+        ////{
+        ////    ViewBag.returnUrl = returnUrl;
+        ////    return View();
+        ////}
 
-        /// <summary>
-        /// Do login
-        /// </summary>
-        /// <param name="creds">Credentials</param>
-        /// <param name="returnUrl">Return url</param>
-        /// <returns>View or redirect</returns>
-        [HttpPost]
-        public async Task<IActionResult> Login(LoginViewModel creds, string returnUrl)
-        {
-            if (ModelState.IsValid)
-            {
-                if (await DoLogin(creds))
-                {
-                    return Redirect(returnUrl ?? "/");
-                }
-                else
-                {
-                    ModelState.AddModelError(string.Empty, "Invalid username or password");
-                }
-            }
+        /////// <summary>
+        /////// Do login
+        /////// </summary>
+        /////// <param name="creds">Credentials</param>
+        /////// <param name="returnUrl">Return url</param>
+        /////// <returns>View or redirect</returns>
+        ////[HttpPost]
+        ////public async Task<IActionResult> Login(LoginViewModel creds, string returnUrl)
+        ////{
+        ////    if (ModelState.IsValid)
+        ////    {
+        ////        if (await DoLogin(creds))
+        ////        {
+        ////            return Redirect(returnUrl ?? "/");
+        ////        }
+        ////        else
+        ////        {
+        ////            ModelState.AddModelError(string.Empty, "Invalid username or password");
+        ////        }
+        ////    }
 
-            return View(creds);
-        }
+        ////    return View(creds);
+        ////}
 
         /// <summary>
         /// Do logout

@@ -14,7 +14,7 @@ export class ProductsComponent implements OnInit {
     // private selectedId: string;
     type = searchType.product;
 
-    get products(): Product[] | {} {
+    get products(): ProductInfo[] | {} {
         return this.repo.products;
     };
 
@@ -23,11 +23,17 @@ export class ProductsComponent implements OnInit {
         this.repo.createProduct(prod);
     }
 
+    onFound(products: ProductInfo[]) {
+        console.log('found');
+        console.dir(products);
+        // do something with search
+    }
+
     constructor(private repo: RepositoryService) {
     }
 
     ngOnInit() {
-        this.repo.getEntities<Product>('product'/*, res => this.products = res*/);
+        this.repo.getEntities<ProductInfo>('product'/*, res => this.products = res*/);
     }
 
 }

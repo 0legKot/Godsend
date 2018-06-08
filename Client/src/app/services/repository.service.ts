@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/internal/operators/';
 import { DataService } from './data.service';
 import { Order } from '../models/order.model';
-import { Supplier } from '../models/supplier.model';
+import { Supplier, SupplierInfo } from '../models/supplier.model';
 import { Type } from '@angular/core';
 import { ArticleInfo, Article } from '../models/article.model';
 import { Cart, CartView, OrderPartDiscreteSend, OrderPartWeightedSend } from '../models/cart.model';
@@ -24,10 +24,10 @@ const articlesUrl = 'api/article';
 @Injectable()
 export class RepositoryService {
     product: Product | {} = {};
-    products: Product[] = [];
+    products: ProductInfo[] = [];
     orders: Order[] = [];
     order: Order | {} = {};
-    suppliers: Supplier[] = [];
+    suppliers: SupplierInfo[] = [];
     supplier: Supplier | {} = {};
     articles: ArticleInfo[] = [];
     article: Article | {} = {};
@@ -138,8 +138,8 @@ export class RepositoryService {
 
         this.data.sendRequest<string>('post', productsUrl + '/CreateOrUpdate', dataBody)
             .subscribe(response => {
-                prod.id = response;
-                this.products.push(prod);
+                prod.info.id = response;
+                this.products.push(prod.info);
             });
     }
 

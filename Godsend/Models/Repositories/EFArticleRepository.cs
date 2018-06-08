@@ -147,6 +147,8 @@ This is a pretty simple and straightforward diet you will ever try. It involves 
         public IEnumerable<Article> Entities => context.Articles.Include(a => a.Info).ThenInclude(a => a.EFAuthor)
             .Include(a => a.Info).ThenInclude(a => a.EFTags);
 
+        public IEnumerable<Information> EntitiesInfo => Entities.Select(a => a.Info).ToArray();
+
         public void DeleteEntity(Guid entityId)
         {
             Article dbEntry = GetEntity(entityId);

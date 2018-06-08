@@ -1,9 +1,9 @@
 ﻿import { Injectable, Inject } from '@angular/core';
 import { HttpClient } from 'selenium-webdriver/http';
-import { Product } from '../../models/product.model';
+import { Product, ProductInfo } from '../../models/product.model';
 import { DataService } from '../../services/data.service';
 import { map } from 'rxjs/operators';
-import { Supplier } from '../../models/supplier.model';
+import { Supplier, SupplierInfo } from '../../models/supplier.model';
 
 export const searchType = {
     all: 0,
@@ -38,7 +38,7 @@ export class SearchService {
 }
 
 export class AllSearchResult {
-    products?: Product[];
-    suppliers?: Supplier[];
+    productsInfo?: ProductInfo[];
+    suppliersInfo?: SupplierInfo[];
 }
 

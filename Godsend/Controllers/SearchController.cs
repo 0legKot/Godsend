@@ -40,11 +40,12 @@ namespace Godsend.Controllers
                 case SearchType.All:
                     return FindAll(term);
                 case SearchType.Products:
-                    return new AllSearchResult { Products = FindProducts(term) };
+                    return new AllSearchResult { ProductsInfo = FindProducts(term) };
                 case SearchType.Suppliers:
-                    return new AllSearchResult { Suppliers = FindSuppliers(term) };
+                    return new AllSearchResult { SuppliersInfo = FindSuppliers(term) };
                 default:
-                    return null;
+                    return new AllSearchResult { }; // Because failing silently is better than knowing there is a mistake
+
             }
         }
 
@@ -53,25 +54,25 @@ namespace Godsend.Controllers
         {
             return new AllSearchResult
             {
-                Products = FindProducts(term),
-                Suppliers = FindSuppliers(term)
+                ProductsInfo = FindProducts(term),
+                SuppliersInfo = FindSuppliers(term)
             };
         }
 
         [HttpGet("products/{term?}")]
-        public IEnumerable<Product> FindProducts(string term)
+        public IEnumerable<ProductInformation> FindProducts(string term)
         {
             return string.IsNullOrWhiteSpace(term)
-                ? context.Products.Include(x => x.Info)
-                : context.Products.Include(x => x.Info).Where(p => p.Info.Name.ToLower().Contains(term.ToLower()));
+                ? context.Products.Include(x => x.Info).Select(p => p.Info)
+                : context.Products.Include(x => x.Info).Select(p => p.Info).Where(pi => pi.Name.ToLower().Contains(term.ToLower()));
         }
 
         [HttpGet("suppliers/{term?}")]
-        public IEnumerable<Supplier> FindSuppliers(string term)
+        public IEnumerable<SupplierInformation> FindSuppliers(string term)
         {
             return string.IsNullOrWhiteSpace(term)
-                ? context.Suppliers.Include(x => x.Info)
-                : context.Suppliers.Include(x => x.Info).Where(s => s.Info.Name.ToLower().Contains(term.ToLower()));
+                ? context.Suppliers.Include(x => x.Info).ThenInclude(x => x.Location).Include(x => x.Info.Location).Include(x => x.Info).ThenInclude(x => x.Location).Select(s => s.Info).ToArray()
+                : context.Suppliers.Include(x => x.Info).ThenInclude(x => x.Location).Include(x => x.Info.Location).Include(x => x.Info).ThenInclude(x => x.Location).Select(s => s.Info).Include(x => x.Location).Where(si => si.Name.ToLower().Contains(term.ToLower())).ToArray();
         }
     }
 }
