@@ -19,7 +19,7 @@
         }
 
         [HttpDelete("[action]/{id:Guid}")]
-        public virtual IActionResult Delete([FromBody]Guid id)
+        public virtual IActionResult Delete(Guid id)
         {
             try
             {
@@ -39,7 +39,7 @@
             {
                 entity.EntityInformation.Id = Guid.NewGuid();
                 repository.SaveEntity(entity);
-                return Ok(entity.EntityInformation.Id);
+                return Ok(entity.Id);
             }
             catch
             {

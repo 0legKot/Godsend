@@ -30,12 +30,13 @@ export class ProductDetailComponent implements OnInit {
         private service: RepositoryService,
         private cart: CartService) { }
 
-    gotoProducts(product: Product) {
+    gotoProducts(product?: Product) {
         const productId = product ? product.id : null;
         this.router.navigate(['/products', { id: productId}]);
     }
     deleteProduct() {
         this.service.deleteProduct(this.data ? this.data.product.id : '');
+        this.gotoProducts();
     }
     buy() {
         const op: OrderPartDiscreteSend = {
