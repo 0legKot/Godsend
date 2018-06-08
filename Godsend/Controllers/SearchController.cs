@@ -63,25 +63,24 @@ namespace Godsend.Controllers
         public IEnumerable<ProductInformation> FindProducts(string term)
         {
             return string.IsNullOrWhiteSpace(term)
-                ? context.Products.Include(x => x.Info).Select(p => p.Info)
-                : context.Products.Include(x => x.Info).Select(p => p.Info).Where(pi => pi.Name.ToLower().Contains(term.ToLower()));
+                ? context.Products
+                    .Select(p => p.Info)
+                : context.Products
+                    .Select(p => p.Info)
+                    .Where(pi => pi.Name.ToLower().Contains(term.ToLower()));
         }
 
         [HttpGet("suppliers/{term?}")]
         public IEnumerable<SupplierInformation> FindSuppliers(string term)
         {
-            var a = string.IsNullOrWhiteSpace(term)
+            return string.IsNullOrWhiteSpace(term)
                 ? context.Suppliers
                     .Select(s => s.Info)
                     .Include(i => i.Location)
-                    .ToArray()
                 : context.Suppliers
                     .Select(s => s.Info)
                     .Where(si => si.Name.ToLower().Contains(term.ToLower()))
-                    .Include(i => i.Location)
-                    .ToArray();
-
-            return a;
+                    .Include(i => i.Location);
         }
     }
 }
