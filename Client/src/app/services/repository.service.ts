@@ -159,7 +159,7 @@ export class RepositoryService {
     }
 
     deleteProduct(id: string) {
-        this.data.sendRequest<null>('delete', productsUrl + '/' + id)
+        this.data.sendRequest<null>('delete', productsUrl + '/delete/' + id)
             .subscribe(response => this.getEntities<Product>('product'));
     }
 

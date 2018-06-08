@@ -34,6 +34,9 @@ export class ProductDetailComponent implements OnInit {
         const productId = product ? product.id : null;
         this.router.navigate(['/products', { id: productId}]);
     }
+    deleteProduct() {
+        this.service.deleteProduct(this.data ? this.data.product.id : '');
+    }
     buy() {
         const op: OrderPartDiscreteSend = {
             quantity: this.quantity,

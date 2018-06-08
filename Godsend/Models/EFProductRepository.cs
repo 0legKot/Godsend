@@ -238,7 +238,7 @@
             }
             else
             {
-                context.Add(entity);
+                context.Products.Add(entity);
             }
 
             context.SaveChanges();
@@ -278,7 +278,6 @@
                     .Include(ps => ps.Supplier)
                     .ThenInclude(x => x.Info.Location).ToList();
 
-            // PROBLEM Supplier info is null
             return new ProductWithSuppliers
             {
                 Product = GetEntity(productId),
