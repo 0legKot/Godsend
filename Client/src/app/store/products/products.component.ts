@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 
 import { RepositoryService } from '../../services/repository.service';
-import { Product } from '../../models/product.model';
+import { Product, ProductInfo } from '../../models/product.model';
 import { searchType } from '../search/search.service';
 
 @Component({
@@ -15,7 +15,10 @@ export class ProductsComponent implements OnInit {
     type = searchType.product;
 
     products?: Product[];
-
+    createProduct(descr: string, name: string) {
+        var prod = new Product('', new ProductInfo('', descr, name,0,0))
+        this.repo.createProduct(prod);
+    }
     constructor(private repo: RepositoryService) {
     }
 

@@ -125,12 +125,15 @@ export class RepositoryService {
     }
 
     createProduct(prod: Product) {
-        const data = {
-            name: prod.info.name,
-            description: prod.info.description
+        const dataBody = {
+            
+            info: {
+                name: prod.info.name,
+                description: prod.info.description
+            }
         };
 
-        this.data.sendRequest<string>('post', productsUrl, data)
+        this.data.sendRequest<string>('post', productsUrl + '/CreateOrUpdate', dataBody)
             .subscribe(response => {
                 prod.id = response;
                 this.products.push(prod);

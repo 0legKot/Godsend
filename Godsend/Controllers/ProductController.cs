@@ -8,7 +8,7 @@
     using Microsoft.AspNetCore.Mvc;
 
     [Route("api/[controller]")]
-    public class ProductController : EntityController<Product>
+    public class ProductController : EntityController<DiscreteProduct>
     {
         public ProductController(IProductRepository repo)
         {

@@ -8,7 +8,7 @@
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.ApplicationModels;
 
-    public abstract class EntityController<TEntity> : Controller
+    public abstract class EntityController<TEntity> : Controller where TEntity:IEntity
     {
         protected IRepository<TEntity> repository;
 
@@ -32,11 +32,12 @@
             }
         }
 
-        [HttpPost("[action]/{id:Guid}")]
+        [HttpPost("[action]")]
         public virtual IActionResult CreateOrUpdate([FromBody]TEntity entity)
         {
             try
             {
+                entity.EntityInformation.Id = Guid.NewGuid();
                 repository.SaveEntity(entity);
                 return Ok();
             }

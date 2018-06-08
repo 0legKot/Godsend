@@ -13,15 +13,23 @@
         <td>{{ o.customer?.name }}</td>
         <td>{{ o.ordered }}</td>
         <td>{{ status[o.status] || 'Unknown' }}</td>
-        <td><div *ngFor="let item of o.discreteItems">
+        <td>
+            <div *ngFor="let item of o.discreteItems">
                 <span>{{item.product?.info?.name}}</span>
                 <span *ngIf="item.quantity != 1"> x {{item.quantity}}</span>
                 <span *ngIf="!last">,</span>
-            </div></td>
+            </div>
+        </td>
+        <td>
+            <div *ngFor="let item of o.weightedItems">
+                <span>{{item.product?.info?.name}}</span>
+                <span *ngIf="item.quantity != 1"> x {{item.quantity}}</span>
+                <span *ngIf="!last">,</span>
+            </div>
+        </td>
         <td>{{ o.done || 'Not done yet' }}</td>
         <td (click)="cancel(o.id)">Cancel</td>
         <td (click)="shipped(o.id)">Mark shipped</td>
-        <td (click)="delete(o.id)">Delete</td>
     </tr>
 </table>
     <ng-template #nodata>

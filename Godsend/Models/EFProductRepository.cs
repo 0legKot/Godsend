@@ -222,11 +222,12 @@
             }
         }
 
-        public IEnumerable<Product> Entities => context.Products.Include(x => x.Info);
+        public IEnumerable<DiscreteProduct> Entities => getProductsFromContext().Include(x=>x.Info);
 
-        public void SaveEntity(Product entity)
+        public void SaveEntity(DiscreteProduct entity)
         {
-            Product dbEntry = context.Products.FirstOrDefault(p => p.Id == entity.Id);
+            DiscreteProduct dbEntry = getProductsFromContext()
+                .FirstOrDefault(p => p.Id == entity.Id);
             if (dbEntry != null)
             {
                 // TODO: implement IClonable
@@ -245,7 +246,7 @@
 
         public void DeleteEntity(Guid entityId)
         {
-            Product dbEntry = context.Products
+            DiscreteProduct dbEntry = getProductsFromContext()
                .FirstOrDefault(p => p.Id == entityId);
             if (dbEntry != null)
             {
@@ -254,14 +255,19 @@
             }
         }
 
-        public bool IsFirst(Product entity)
+        public bool IsFirst(DiscreteProduct entity)
         {
             return !context.Products.Any(p => p.Id == entity.Id);
         }
 
-        public Product GetEntity(Guid entityId)
+        public DiscreteProduct GetEntity(Guid entityId)
         {
-            return context.Products.Include(p => p.Info).FirstOrDefault(p => p.Id == entityId);
+            return getProductsFromContext().Include(p => p.Info).FirstOrDefault(p => p.Id == entityId);
+        }
+
+        private IQueryable<DiscreteProduct> getProductsFromContext()
+        {
+            return context.Products.Where(x=>x is DiscreteProduct).Select(x =>  (DiscreteProduct) x);
         }
 
         public ProductWithSuppliers GetProductWithSuppliers(Guid productId)
