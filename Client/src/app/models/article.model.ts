@@ -1,8 +1,5 @@
 ﻿import { IdentityUser } from "./user.model";
 
-//import { exec } from "child_process";
-
-
 export class Article {
     constructor(
         id: string,

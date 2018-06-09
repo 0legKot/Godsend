@@ -7,9 +7,8 @@ import { AuthenticationService } from '../../authentication/authentication.servi
     styleUrls: ['./navmenu.component.css']
 })
 export class NavMenuComponent {
-    userData: DummyUserData = { name: 'Admin', isAdmin: true };
-  showMenuMobile = false;
-  constructor(private auth: AuthenticationService) { }
+    showMenuMobile = false;
+    constructor(private auth: AuthenticationService) { }
     scrollToTop(): void {
         window.scrollTo(0, 0);
     }
@@ -20,15 +19,10 @@ export class NavMenuComponent {
 
     hideMenu(): void {
         this.showMenuMobile = false;
-  }
-  get name() { return this.auth.name; }
-  get isLogged() { return this.auth.authenticated; }
-  logout() {
-    this.auth.logout();
     }
-}
-
-class DummyUserData {
-    name?: string;
-    isAdmin?: boolean;
+    get name() { return this.auth.name; }
+    get isLogged() { return this.auth.authenticated; }
+    logout() {
+        this.auth.logout();
+    }
 }

@@ -20,8 +20,6 @@ export class Order {
         public done?: string) { }
 }
 
-
-
 export class OrderPart {
     constructor(
         id: string,

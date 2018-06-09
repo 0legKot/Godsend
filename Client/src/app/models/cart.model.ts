@@ -1,5 +1,4 @@
 ﻿import { IdentityUser } from "./user.model";
-import { OrderPartDiscrete, OrderPartWeighted, OrderPart } from "./order.model";
 import { Product } from "./product.model";
 import { Supplier } from "./supplier.model";
 

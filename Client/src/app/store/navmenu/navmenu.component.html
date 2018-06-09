@@ -12,10 +12,10 @@
                 <li [routerLinkActive]="['link-active']" class="main-nav-item">
                     <a [routerLink]="['/products']" (click)="hideMenu()">Products</a>
                 </li>
-                <li [routerLinkActive]="['link-active']" *ngIf="userData.isAdmin" class="main-nav-item">
+                <li [routerLinkActive]="['link-active']" class="main-nav-item">
                     <a [routerLink]="['/orders']" (click)="hideMenu()">Orders</a>
                 </li>
-                <li [routerLinkActive]="['link-active']" *ngIf="userData.name" class="main-nav-item">
+                <li [routerLinkActive]="['link-active']" class="main-nav-item">
                     <a [routerLink]="['/statistics']" (click)="hideMenu()">Statistics</a>
                 </li>
                 <li [routerLinkActive]="['link-active']" class="main-nav-item">
@@ -29,9 +29,6 @@
         <!-- Top right -->
         <nav class="main-nav-2 pull-right">
             <ul class="list-unstyled">
-                <li [routerLinkActive]="['link-active']" *ngIf="!userData.name; else loggedout" class="main-nav-item-2">
-                    <a [routerLink]="['/login']">Login</a>
-                </li>
                 <li *ngIf="isLogged; else elseBlock" class="main-nav-item-2">
                     <fa name="user"></fa> {{ name }}
                     <a (click)="logout()">Log out</a>
@@ -64,13 +61,4 @@
             <a [routerLink]="['/consult']">Consult</a>
         </li>
     </ul>
-
-    <!--while we don't have actual user-->
-    <div style="display: none">
-        For test purposes <br />
-        Name <input [(ngModel)]="userData.name" /><br />
-        Is admin <input type="checkbox" [(ngModel)]="userData.isAdmin" /><br />
-        <button (click)="logout()">Log out</button>
-    </div>
-
 </div>
