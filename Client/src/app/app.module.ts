@@ -3,7 +3,6 @@ import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { CommonModule } from '@angular/common';
 import { AngularFontAwesomeModule } from 'angular-font-awesome';
 
 import { AppComponent } from './store/app/app.component';
@@ -16,10 +15,7 @@ import { ConsultComponent } from './store/consult/consult.component';
 import { LoginComponent } from './store/login/login.component';
 import { SearchComponent } from './store/search/search.component';
 import { StatisticsComponent } from './store/statistics/statistics.component';
-import { RepositoryService } from './services/repository.service';
 import { AuthenticationGuard } from './authentication/authentication.guard';
-import { AuthenticationService } from './authentication/authentication.service';
-import { DataService } from './services/data.service';
 import { SearchService } from './store/search/search.service';
 import { SearchInlineComponent } from './store/search/search-inline.component';
 import { ProductsModule } from './store/products/products.module';
@@ -30,8 +26,6 @@ import { SuppliersComponent } from './store/suppliers/suppliers.component';
 import { SupplierDetailComponent } from './store/suppliers/supplier-detail.component';
 import { StarsComponent } from './store/stars/stars.component';
 import { ArticleDetailComponent } from './store/articles/article-detail.component';
-import { Cart } from './models/cart.model';
-import { CartService } from './services/cart.service';
 import { ProductCardComponent } from './store/products/product-card.component';
 import { SupplierCardComponent } from './store/suppliers/supplier-card.component';
 
@@ -60,7 +54,6 @@ import { SupplierCardComponent } from './store/suppliers/supplier-card.component
     imports: [
         AngularFontAwesomeModule,
         BrowserModule,
-        CommonModule,
         FormsModule,
         HttpClientModule,
         ReactiveFormsModule,
@@ -83,13 +76,7 @@ import { SupplierCardComponent } from './store/suppliers/supplier-card.component
         ])
     ],
     providers: [
-        CartService,
-        RepositoryService,
-        AuthenticationGuard,
-        AuthenticationService,
-        DataService,
-        SearchService,
-        
+        SearchService,        
         { provide: 'BASE_URL', useValue: 'http://localhost:56440/' }
     ],
     bootstrap: [AppComponent]

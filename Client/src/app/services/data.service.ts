@@ -5,7 +5,9 @@ import { map } from 'rxjs/internal/operators';
 
 type allowedMethod = 'get' | 'post' | 'put' | 'patch' | 'delete';
 
-@Injectable()
+@Injectable({
+    providedIn: 'root'
+})
 export class DataService {
     constructor(private http: HttpClient, @Inject('BASE_URL') private baseUrl: string) { }
 

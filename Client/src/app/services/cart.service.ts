@@ -3,7 +3,9 @@ import { IdentityUser } from "../models/user.model";
 import { RepositoryService } from "./repository.service";
 import { Injectable } from "@angular/core";
 
-@Injectable()
+@Injectable({
+    providedIn: 'root'
+})
 export class CartService {
     cart: CartView = new CartView([], []);
 

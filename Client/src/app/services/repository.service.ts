@@ -21,7 +21,9 @@ const suppliersUrl = 'api/supplier';
 const articlesUrl = 'api/article';
 // TODO: rework
 
-@Injectable()
+@Injectable({
+    providedIn: 'root'
+})
 export class RepositoryService {
     product: Product | {} = {};
     products: ProductInfo[] = [];

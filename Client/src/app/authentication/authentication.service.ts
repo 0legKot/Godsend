@@ -1,19 +1,13 @@
 import { Injectable } from '@angular/core';
-import { RepositoryService } from '../services/repository.service';
-import { Observable, Subject, asapScheduler, pipe, of, from, interval, merge, fromEvent } from 'rxjs';
+import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
-// import 'rxjs/add/observable/of';
-import { map, filter, scan } from 'rxjs/operators';
-import { HttpClient } from '@angular/common/http';
 import { DataService } from '../services/data.service';
-// import {catch } from 'rxjs';
-// import 'rxjs/add/operator/toPromise';
 
-@Injectable()
+@Injectable({
+    providedIn: 'root'
+})
 export class AuthenticationService {
-
-  constructor(private repo: RepositoryService,
-    private router: Router, private data: DataService) { }
+    constructor(private router: Router, private data: DataService) { }
 
     authenticated = false;
     name = '';
