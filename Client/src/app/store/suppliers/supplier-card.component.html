@@ -1,0 +1,16 @@
+﻿<a [routerLink]="['/suppliers', supplierInfo.id]">
+    <div class="card-header">
+        <span class="h4">
+            {{ supplierInfo.name }}
+        </span>
+    </div>
+    <div class="photo mb-4">
+        <img src="../../../assets/simpleApple.jpg" />
+    </div>
+    <div class="rating">
+        <p class="pull-right" [ngStyle]="{'color': '#003e09' }"><fa name="eye"></fa> : {{ supplierInfo.watches }}</p>
+    </div>
+    <div class="rating">
+        <godsend-stars [value]="supplierInfo.rating"></godsend-stars>
+    </div>
+</a>

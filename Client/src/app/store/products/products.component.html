@@ -19,28 +19,7 @@
         <div class='container-fluid' *ngIf="products?.length > 0; else nodata">
             <div class='row products'>
                 <div *ngFor="let productInfo of products" class="col-lg-3 col-md-4 col-sm-6 col-xs-12  card ">
-                    <a [routerLink]="['/products', productInfo.id]">
-                        <div class="card-header">
-                            <span class="h4">
-                                {{ productInfo.name }}
-                            </span>
-                            <span class="float-right badge badge-pill badge-primary">
-                                {{ productInfo.price  | currency:"USD":true }}
-                            </span>
-                        </div>
-                        <div class="photo mb-4">
-                            <img src="../../../assets/simpleApple.jpg" />
-                        </div>
-                        <div class="rating">
-                            <p class="pull-right" [ngStyle]="{'color': '#003e09' }"><fa name="eye"></fa> : {{ productInfo.watches }}</p>
-                        </div>
-                        <div class="rating">
-                            <godsend-stars [value]="productInfo.rating"></godsend-stars>
-                        </div>
-                        <div class="card-block">
-                            <span class="card-text p-a-1">{{ productInfo.description }}</span>
-                        </div>
-                    </a>
+                    <godsend-product-card [productInfo]="productInfo"></godsend-product-card>
                 </div>
             </div>
 

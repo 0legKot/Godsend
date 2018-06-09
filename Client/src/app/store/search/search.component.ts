@@ -5,7 +5,11 @@ import { SearchBaseComponent } from './search.base.component';
 
 @Component({
     selector: 'godsend-search',
-    templateUrl: './search.component.html'
+    templateUrl: './search.component.html',
+    styleUrls: [
+        '../suppliers/suppliers.component.css',
+        '../products/products.component.css'
+    ]
 })
 export class SearchComponent extends SearchBaseComponent implements OnInit {
     searchResult?: AllSearchResult;

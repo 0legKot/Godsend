@@ -8,22 +8,7 @@
         <div class='container-fluid'>
             <div class='row products'>
                 <div *ngFor="let productInfo of searchResult.productsInfo" class="col-lg-3 col-md-4 col-sm-6 col-xs-12  card ">
-                    <a [routerLink]="['/products', productInfo.id]">
-                        <div class="card-header">
-                            <span class="h4">
-                                {{ productInfo.name }}
-                            </span>
-                            <span class="float-right badge badge-pill badge-primary">
-                                {{ productInfo.price  | currency:"USD":true }}
-                            </span>
-                        </div>
-                        <div class="photo mb-4">
-                            Photo
-                        </div>
-                        <div class="card-block">
-                            <span class="card-text p-a-1">{{ productInfo.description }}</span>
-                        </div>
-                    </a>
+                    <godsend-product-card [productInfo]="productInfo"></godsend-product-card>
                 </div>
             </div>
 
@@ -36,22 +21,7 @@
         <div class='container-fluid'>
             <div class='row suppliers'>
                 <div *ngFor="let supplierInfo of searchResult.suppliersInfo" class="col-lg-3 col-md-4 col-sm-6 col-xs-12  card ">
-                    <a [routerLink]="['/suppliers', supplierInfo.id]">
-                        <div class="card-header">
-                            <span class="h4">
-                                {{ supplierInfo.name }}
-                            </span>
-                        </div>
-                        <div class="photo mb-4">
-                            Photo
-                        </div>
-                        <div class="rating">
-                            <p class="pull-right" [ngStyle]="{'color': '#003e09' }"><fa name="eye"></fa> : {{ supplierInfo.watches }}</p>
-                        </div>
-                        <div class="rating">
-                            <godsend-stars [value]="supplierInfo.rating"></godsend-stars>
-                        </div>
-                    </a>
+                    <godsend-supplier-card [supplierInfo]="supplierInfo"></godsend-supplier-card>
                 </div>
             </div>
 

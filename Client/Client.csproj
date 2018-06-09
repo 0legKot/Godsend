@@ -21,6 +21,7 @@
     <None Remove="src\app\models\repository.ts" />
     <None Remove="src\app\models\user.model.ts" />
     <None Remove="src\app\store\articles\article-detail.component.ts" />
+    <None Remove="src\app\store\products\product-card.component.js" />
     <None Remove="src\app\store\products\product-detail.component.ts" />
     <None Remove="src\app\store\products\products.component.ts" />
     <None Remove="src\app\store\search\search.base.component.ts" />

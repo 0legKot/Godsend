@@ -1,0 +1,23 @@
+﻿<a [routerLink]="['/products', productInfo.id]">
+    <div class="card-header">
+        <span class="h4">
+            {{ productInfo.name }}
+        </span>
+        <span class="float-right badge badge-pill badge-primary">
+            {{ productInfo.price  | currency:"USD":true }}
+        </span>
+    </div>
+    <div class="photo mb-4">
+        <img src="../../../assets/simpleApple.jpg" />
+    </div>
+    <div class="rating">
+        <p class="pull-right" [ngStyle]="{'color': '#003e09' }"><fa name="eye"></fa> : {{ productInfo.watches }}</p>
+    </div>
+    <div class="rating">
+        <godsend-stars [value]="productInfo.rating"></godsend-stars>
+    </div>
+    <div class="card-block">
+        <span class="card-text p-a-1">{{ productInfo.description }}</span>
+    </div>
+</a>
+

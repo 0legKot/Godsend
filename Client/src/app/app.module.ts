@@ -32,6 +32,8 @@ import { StarsComponent } from './store/stars/stars.component';
 import { ArticleDetailComponent } from './store/articles/article-detail.component';
 import { Cart } from './models/cart.model';
 import { CartService } from './services/cart.service';
+import { ProductCardComponent } from './store/products/product-card.component';
+import { SupplierCardComponent } from './store/suppliers/supplier-card.component';
 
 @NgModule({
     declarations: [
@@ -45,12 +47,14 @@ import { CartService } from './services/cart.service';
         NavMenuComponent,
         OrdersComponent,
         ProductDetailComponent,
+        ProductCardComponent,
         ProductsComponent,
         SearchComponent,
         SearchInlineComponent,
         StarsComponent,
         StatisticsComponent,
         SupplierDetailComponent,
+        SupplierCardComponent,
         SuppliersComponent
     ],
     imports: [
