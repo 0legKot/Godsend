@@ -1,4 +1,4 @@
-import { Supplier } from "./supplier.model";
+import { Supplier } from './supplier.model';
 
 export class Product {
     constructor(

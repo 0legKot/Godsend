@@ -51,7 +51,7 @@ export class ProductDetailComponent implements OnInit {
             product: this.data.product,
             supplier: this.selectedSupplier.supplier,
             price: this.selectedSupplier.price
-        }
+        };
         this.cart.addToCart(op);
     }
     ngOnInit() {

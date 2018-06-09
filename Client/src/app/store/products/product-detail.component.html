@@ -37,12 +37,12 @@
 
 
     <select [(ngModel)]="selectedSupplier" *ngIf="data != null">
-        <option *ngFor="let s of data?.suppliers" [ngValue]="s">{{s.supplier?.info?.name}} for {{s.price}}</option>
+        <option *ngFor="let s of data?.suppliers" [ngValue]="s">{{ s.supplier?.info?.name }} for {{ s.price }}</option>
     </select>
     <br />
     <label>Quantity: </label><input type="number" min="1" step="1" [(ngModel)]="quantity" />
     <br />
-    <span>From {{selectedSupplier?.supplier?.info?.name}}, for {{price}}</span>
+    <span>From {{ selectedSupplier?.supplier?.info?.name }}, for {{ price }}</span>
 
 
 

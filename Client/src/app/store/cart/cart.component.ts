@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { CartService } from '../../services/cart.service';
 import { OrderPart } from '../../models/order.model';
-import { OrderPartSend, OrderPartWeightedSend, OrderPartDiscreteSend, OrderPartDiscreteView, OrderPartWeightedView } from '../../models/cart.model';
+import { OrderPartDiscreteView, OrderPartWeightedView } from '../../models/cart.model';
 import { retry } from 'rxjs/operators';
 
 @Component({
@@ -35,15 +35,18 @@ export class CartComponent {
     }
 
     delete(part: OrderPartDiscreteView | OrderPartWeightedView) {
-        this.cartService.removeFromCart(part)
+        this.cartService.removeFromCart(part);
     }
 
     increment(part: OrderPartDiscreteView) {
-        ++part.quantity; //max?
+        ++part.quantity;
     }
 
     decrement(part: OrderPartDiscreteView) {
-        if (part.quantity <= 0) return;
-        --part.quantity;
+        if (part.quantity <= 0) {
+            this.delete(part);
+        } else {
+            --part.quantity;
+        }
     }
 }

@@ -1,6 +1,6 @@
-﻿import { IdentityUser } from "./user.model";
-import { Product } from "./product.model";
-import { Supplier } from "./supplier.model";
+﻿import { IdentityUser } from './user.model';
+import { Product } from './product.model';
+import { Supplier } from './supplier.model';
 
 export const guidZero = '00000000-0000-0000-0000-000000000000';
 

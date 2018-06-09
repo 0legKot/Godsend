@@ -6,7 +6,7 @@ export const orderStatus = [
     'Ready', // 0
     'Shipped', // 1
     'Cancelled', // 2
-    'Processing' //3
+    'Processing' // 3
 ];
 
 export class Order {

@@ -15,16 +15,14 @@
         <td>{{ status[o.status] || 'Unknown' }}</td>
         <td>
             <div *ngFor="let item of o.discreteItems">
-                <span>{{item.product?.info?.name}}</span>
-                <span *ngIf="item.quantity != 1"> x {{item.quantity}}</span>
-                <span *ngIf="!last">,</span>
+                <span>{{ item.product?.info?.name }}</span>
+                <span *ngIf="item.quantity != 1"> x {{ item.quantity }}</span>
             </div>
         </td>
         <td>
             <div *ngFor="let item of o.weightedItems">
-                <span>{{item.product?.info?.name}}</span>
-                <span *ngIf="item.quantity != 1"> x {{item.quantity}}</span>
-                <span *ngIf="!last">,</span>
+                <span>{{ item.product?.info?.name }}</span>
+                <span> x {{ item.weight }}</span>
             </div>
         </td>
         <td>{{ o.done || 'Not done yet' }}</td>

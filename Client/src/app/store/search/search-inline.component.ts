@@ -21,7 +21,9 @@ export class SearchInlineComponent extends SearchBaseComponent implements OnInit
     }
 
     doSearch(term?: string): void {
-        if (term == null) term = <string>(this.searchField.value || '');
+        if (term == null) {
+            term = <string>(this.searchField.value || '');
+        }
         this.ss.findByType(this.type, term, res => this.found.emit(res));
     }
 }

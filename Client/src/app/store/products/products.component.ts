@@ -23,10 +23,11 @@ export class ProductsComponent implements OnInit {
 
     get products(): ProductInfo[] | {} {
         return this.searchProducts || this.repo.products;
-    };
+    }
 
     createProduct(descr: string, name: string) {
-        var prod = new Product('', new ProductInfo('', descr, name,0,0))
+        // TODO create interface with oly relevant info
+        const prod = new Product('', new ProductInfo('', descr, name, 0, 0));
         this.repo.createProduct(prod, () => this.searchInline.doSearch());
     }
 

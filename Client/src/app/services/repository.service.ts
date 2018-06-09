@@ -114,18 +114,19 @@ export class RepositoryService {
 
         console.dir(cartView);
 
-        const cart = new Cart(cartView.discreteItems.map(opdv => new OrderPartDiscreteSend(opdv.quantity, opdv.product.id, opdv.supplier.id)),
-            cartView.weightedItems.map(opwv => new OrderPartWeightedSend(opwv.weight, opwv.product.id, opwv.supplier.id)));
+        const cart = new Cart(
+            cartView.discreteItems.map(opdv => new OrderPartDiscreteSend(opdv.quantity, opdv.product.id, opdv.supplier.id)),
+            cartView.weightedItems.map(opwv => new OrderPartWeightedSend(opwv.weight, opwv.product.id, opwv.supplier.id))
+        );
 
-        this.data.sendRequest<Order>('post', ordersUrl +'/createOrUpdate', cart)
+        this.data.sendRequest<Order>('post', ordersUrl + '/createOrUpdate', cart)
             .subscribe(response => {
                 this.orders.push(response);
             });
     }
 
-    createProduct(prod: Product, fn?: (_:ProductInfo) => any) {
+    createProduct(prod: Product, fn?: (_: ProductInfo) => any) {
         const dataBody = {
-            
             info: {
                 name: prod.info.name,
                 description: prod.info.description
@@ -136,7 +137,9 @@ export class RepositoryService {
             .subscribe(response => {
                 prod.info.id = response;
                 this.products.push(prod.info);
-                if (fn) fn(prod.info);
+                if (fn) {
+                    fn(prod.info);
+                }
             });
     }
 

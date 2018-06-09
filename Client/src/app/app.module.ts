@@ -76,7 +76,7 @@ import { SupplierCardComponent } from './store/suppliers/supplier-card.component
         ])
     ],
     providers: [
-        SearchService,        
+        SearchService,
         { provide: 'BASE_URL', useValue: 'http://localhost:56440/' }
     ],
     bootstrap: [AppComponent]
