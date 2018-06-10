@@ -23,6 +23,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\HelloWorldViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\ItemDetailViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\ItemsViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\ProductsViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Views\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -41,6 +42,10 @@
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Views\HelloWorldPage.xaml.cs">
       <DependentUpon>HelloWorldPage.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Views\ProductsPage.xaml.cs">
+      <DependentUpon>ProductsPage.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
@@ -75,6 +80,10 @@
     <Page Include="$(MSBuildThisFileDirectory)Views\Page2.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\ProductsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </EmbeddedResource>
     <Page Include="$(MSBuildThisFileDirectory)Views\View1.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
