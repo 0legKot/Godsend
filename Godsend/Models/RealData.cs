@@ -5,10 +5,11 @@ using System.Threading.Tasks;
 
 namespace Godsend.Models
 {
-    public class Data
+    public class RealData
     {
         public int Id { get; set; }
-        public Data Cell { get; set; }
-        public PrimitiveData RealData { get; set; }
+        public Column BaseColumn { get; set; }
+        public RealData Cell { get; set; }
+        public PrimitiveData Value { get; set; }
     }
 }

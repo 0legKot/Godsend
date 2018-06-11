@@ -9,6 +9,6 @@ namespace Godsend.Models
     {
         public int Id { get; set; }
         public Directory Base { get; set; }
-        public IEnumerable<Column> Columns { get; set; }
+        public string Name { get; set; }
     }
 }

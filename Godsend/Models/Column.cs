@@ -8,6 +8,7 @@ namespace Godsend.Models
     public class Column
     {
         public int Id { get; set; }
-        public IEnumerable<Data> Cells { get; set; }
+        public Directory BaseClass{get; set; }
+
     }
 }

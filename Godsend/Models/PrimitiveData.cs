@@ -5,9 +5,10 @@ using System.Threading.Tasks;
 
 namespace Godsend.Models
 {
-    public class PrimitiveData : Data
+    public class PrimitiveData : RealData
     {
         public int Id { get; set; }
-        public ValueType RealData { get; set; }
+        //string=any value, needed different class for every
+        public string RealData { get; set; }
     }
 }
