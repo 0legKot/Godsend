@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Godsend.Models
 {
-    public class PrimitiveData : RealData
+    public class PrimitiveData : Cell
     {
         public int Id { get; set; }
         //string=any value, needed different class for every

@@ -23,7 +23,7 @@
 
         public DbSet<Article> Articles { get; set; }
 
-        public DbSet<RealData> AllData { get; set; }
+        public DbSet<Cell> Values { get; set; }
 
         public DbSet<LinkProductsSuppliers> LinkProductsSuppliers { get; set; }
 
