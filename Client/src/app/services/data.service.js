@@ -27,7 +27,9 @@ var DataService = /** @class */ (function () {
         }));
     };
     DataService = __decorate([
-        Injectable(),
+        Injectable({
+            providedIn: 'root'
+        }),
         __param(1, Inject('BASE_URL')),
         __metadata("design:paramtypes", [HttpClient, String])
     ], DataService);

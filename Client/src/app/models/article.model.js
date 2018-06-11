@@ -1,4 +1,3 @@
-//import { exec } from "child_process";
 var Article = /** @class */ (function () {
     function Article(id, content, info) {
     }

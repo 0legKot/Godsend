@@ -9,7 +9,6 @@ import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { CommonModule } from '@angular/common';
 import { AngularFontAwesomeModule } from 'angular-font-awesome';
 import { AppComponent } from './store/app/app.component';
 import { NavMenuComponent } from './store/navmenu/navmenu.component';
@@ -21,10 +20,7 @@ import { ConsultComponent } from './store/consult/consult.component';
 import { LoginComponent } from './store/login/login.component';
 import { SearchComponent } from './store/search/search.component';
 import { StatisticsComponent } from './store/statistics/statistics.component';
-import { RepositoryService } from './services/repository.service';
 import { AuthenticationGuard } from './authentication/authentication.guard';
-import { AuthenticationService } from './authentication/authentication.service';
-import { DataService } from './services/data.service';
 import { SearchService } from './store/search/search.service';
 import { SearchInlineComponent } from './store/search/search-inline.component';
 import { ProductsComponent } from './store/products/products.component';
@@ -33,7 +29,8 @@ import { SuppliersComponent } from './store/suppliers/suppliers.component';
 import { SupplierDetailComponent } from './store/suppliers/supplier-detail.component';
 import { StarsComponent } from './store/stars/stars.component';
 import { ArticleDetailComponent } from './store/articles/article-detail.component';
-import { CartService } from './services/cart.service';
+import { ProductCardComponent } from './store/products/product-card.component';
+import { SupplierCardComponent } from './store/suppliers/supplier-card.component';
 var AppModule = /** @class */ (function () {
     function AppModule() {
     }
@@ -50,18 +47,19 @@ var AppModule = /** @class */ (function () {
                 NavMenuComponent,
                 OrdersComponent,
                 ProductDetailComponent,
+                ProductCardComponent,
                 ProductsComponent,
                 SearchComponent,
                 SearchInlineComponent,
                 StarsComponent,
                 StatisticsComponent,
                 SupplierDetailComponent,
+                SupplierCardComponent,
                 SuppliersComponent
             ],
             imports: [
                 AngularFontAwesomeModule,
                 BrowserModule,
-                CommonModule,
                 FormsModule,
                 HttpClientModule,
                 ReactiveFormsModule,
@@ -84,11 +82,6 @@ var AppModule = /** @class */ (function () {
                 ])
             ],
             providers: [
-                CartService,
-                RepositoryService,
-                AuthenticationGuard,
-                AuthenticationService,
-                DataService,
                 SearchService,
                 { provide: 'BASE_URL', useValue: 'http://localhost:56440/' }
             ],

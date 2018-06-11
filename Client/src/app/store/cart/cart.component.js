@@ -14,18 +14,47 @@ var CartComponent = /** @class */ (function () {
     function CartComponent(cartService) {
         this.cartService = cartService;
     }
+    Object.defineProperty(CartComponent.prototype, "totalPrice", {
+        get: function () {
+            return (this.discreteParts.reduce(function (prev, cur) { return prev + cur.price * cur.quantity; }, 0) +
+                this.weightedParts.reduce(function (prev, cur) { return prev + cur.price * cur.weight; }, 0))
+                .toFixed(2);
+        },
+        enumerable: true,
+        configurable: true
+    });
     CartComponent.prototype.checkout = function () {
         this.cartService.checkout();
     };
-    Object.defineProperty(CartComponent.prototype, "parts", {
+    Object.defineProperty(CartComponent.prototype, "discreteParts", {
         get: function () {
+            console.log('getting discrete');
+            console.dir(this.cartService.cart.discreteItems);
             return this.cartService.cart.discreteItems;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(CartComponent.prototype, "weightedParts", {
+        get: function () {
+            return this.cartService.cart.weightedItems;
         },
         enumerable: true,
         configurable: true
     });
     CartComponent.prototype.delete = function (part) {
         this.cartService.removeFromCart(part);
+    };
+    CartComponent.prototype.increment = function (part) {
+        ++part.quantity;
+    };
+    CartComponent.prototype.decrement = function (part) {
+        if (part.quantity <= 0) {
+            this.delete(part);
+        }
+        else {
+            --part.quantity;
+        }
     };
     CartComponent = __decorate([
         Component({

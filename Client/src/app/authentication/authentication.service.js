@@ -8,14 +8,10 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 import { Injectable } from '@angular/core';
-import { RepositoryService } from '../services/repository.service';
 import { Router } from '@angular/router';
 import { DataService } from '../services/data.service';
-// import {catch } from 'rxjs';
-// import 'rxjs/add/operator/toPromise';
 var AuthenticationService = /** @class */ (function () {
-    function AuthenticationService(repo, router, data) {
-        this.repo = repo;
+    function AuthenticationService(router, data) {
         this.router = router;
         this.data = data;
         this.authenticated = false;
@@ -52,9 +48,10 @@ var AuthenticationService = /** @class */ (function () {
         this.router.navigateByUrl('/login');
     };
     AuthenticationService = __decorate([
-        Injectable(),
-        __metadata("design:paramtypes", [RepositoryService,
-            Router, DataService])
+        Injectable({
+            providedIn: 'root'
+        }),
+        __metadata("design:paramtypes", [Router, DataService])
     ], AuthenticationService);
     return AuthenticationService;
 }());

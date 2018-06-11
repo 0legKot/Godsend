@@ -7,19 +7,43 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { RepositoryService } from '../../services/repository.service';
+import { Product, ProductInfo } from '../../models/product.model';
 import { searchType } from '../search/search.service';
+import { SearchInlineComponent } from '../search/search-inline.component';
 var ProductsComponent = /** @class */ (function () {
     function ProductsComponent(repo) {
         this.repo = repo;
         // private selectedId: string;
         this.type = searchType.product;
+        this.templateText = 'Waiting for data...';
+        this.searchInline = !;
     }
-    ProductsComponent.prototype.ngOnInit = function () {
+    Object.defineProperty(ProductsComponent.prototype, "products", {
+        get: function () {
+            return this.searchProducts || this.repo.products;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    ProductsComponent.prototype.createProduct = function (descr, name) {
         var _this = this;
-        this.repo.getEntities('product', function (res) { return _this.products = res; });
+        // TODO create interface with oly relevant info
+        var prod = new Product('', new ProductInfo('', descr, name, 0, 0));
+        this.repo.createProduct(prod, function () { return _this.searchInline.doSearch(); });
     };
+    ProductsComponent.prototype.onFound = function (products) {
+        this.templateText = 'Not found';
+        this.searchProducts = products;
+    };
+    ProductsComponent.prototype.ngOnInit = function () {
+        this.repo.getEntities('product' /*, res => this.products = res*/);
+    };
+    __decorate([
+        ViewChild(SearchInlineComponent),
+        __metadata("design:type", Object)
+    ], ProductsComponent.prototype, "searchInline", void 0);
     ProductsComponent = __decorate([
         Component({
             selector: 'godsend-products',

@@ -34,6 +34,9 @@ var SearchInlineComponent = /** @class */ (function (_super) {
     };
     SearchInlineComponent.prototype.doSearch = function (term) {
         var _this = this;
+        if (term == null) {
+            term = (this.searchField.value || '');
+        }
         this.ss.findByType(this.type, term, function (res) { return _this.found.emit(res); });
     };
     __decorate([

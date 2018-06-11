@@ -14,11 +14,21 @@ var SuppliersComponent = /** @class */ (function () {
     function SuppliersComponent(repo) {
         this.repo = repo;
         this.type = searchType.supplier;
-        this.suppliers = [];
+        this.templateText = 'Waiting for data...';
     }
+    Object.defineProperty(SuppliersComponent.prototype, "suppliers", {
+        get: function () {
+            return this.searchSuppliers || this.repo.suppliers;
+        },
+        enumerable: true,
+        configurable: true
+    });
     SuppliersComponent.prototype.ngOnInit = function () {
-        var _this = this;
-        this.repo.getEntities('supplier', function (s) { return _this.suppliers = s; });
+        this.repo.getEntities('supplier');
+    };
+    SuppliersComponent.prototype.onFound = function (suppliers) {
+        this.templateText = 'Not found';
+        this.searchSuppliers = suppliers;
     };
     SuppliersComponent = __decorate([
         Component({

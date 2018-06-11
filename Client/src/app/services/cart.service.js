@@ -7,32 +7,48 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-import { Cart, isDiscrete } from "../models/cart.model";
-import { RepositoryService } from "./repository.service";
-import { Injectable } from "@angular/core";
+import { isDiscrete, CartView } from '../models/cart.model';
+import { RepositoryService } from './repository.service';
+import { Injectable } from '@angular/core';
 var CartService = /** @class */ (function () {
     function CartService(repo) {
         this.repo = repo;
-        this.cart = new Cart(new Array(), new Array());
+        this.cart = new CartView([], []);
     }
     CartService.prototype.checkout = function () {
-        //const ord = new Order('', this.cart.customer, this.cart.discreteItems, this.cart.weightedItems, '', 0);
+        // const ord = new Order('', this.cart.customer, this.cart.discreteItems, this.cart.weightedItems, '', 0);
         this.repo.createOrder(this.cart);
     };
     CartService.prototype.addToCart = function (part) {
-        if (isDiscrete(part))
-            this.cart.discreteItems.push(part);
-        else
+        if (isDiscrete(part)) {
+            var repeat = this.cart.discreteItems.find(function (opdv) {
+                return opdv.product === part.product && opdv.supplier === part.supplier && opdv.price === part.price;
+            });
+            if (repeat) {
+                repeat.quantity += part.quantity;
+            }
+            else {
+                this.cart.discreteItems.push(part);
+            }
+        }
+        else {
             this.cart.weightedItems.push(part);
+        }
+        console.log('added');
+        console.dir(this.cart);
     };
     CartService.prototype.removeFromCart = function (part) {
-        if (isDiscrete(part))
+        if (isDiscrete(part)) {
             this.cart.discreteItems = this.cart.discreteItems.filter(function (p) { return p !== part; });
-        else
+        }
+        else {
             this.cart.weightedItems = this.cart.weightedItems.filter(function (p) { return p !== part; });
+        }
     };
     CartService = __decorate([
-        Injectable(),
+        Injectable({
+            providedIn: 'root'
+        }),
         __metadata("design:paramtypes", [RepositoryService])
     ], CartService);
     return CartService;

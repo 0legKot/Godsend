@@ -12,7 +12,7 @@ export var orderStatus = [
     'Ready',
     'Shipped',
     'Cancelled',
-    'Processing' //3
+    'Processing' // 3
 ];
 var Order = /** @class */ (function () {
     function Order(id, customer, discreteItems, weightedItems, ordered, status, done) {

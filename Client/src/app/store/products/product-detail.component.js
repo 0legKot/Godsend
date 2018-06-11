@@ -12,7 +12,6 @@ import { Component } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { RepositoryService } from '../../services/repository.service';
 import { CartService } from '../../services/cart.service';
-import { guidZero } from '../../models/cart.model';
 var ProductDetailComponent = /** @class */ (function () {
     function ProductDetailComponent(route, router, service, cart) {
         this.route = route;
@@ -32,11 +31,21 @@ var ProductDetailComponent = /** @class */ (function () {
         var productId = product ? product.id : null;
         this.router.navigate(['/products', { id: productId }]);
     };
+    ProductDetailComponent.prototype.deleteProduct = function () {
+        this.service.deleteProduct(this.data ? this.data.product.id : '');
+        this.gotoProducts();
+    };
     ProductDetailComponent.prototype.buy = function () {
+        // Todo make button disabled if no data?
+        if (this.data == null || this.selectedSupplier == null) {
+            console.log('ERROR: no data');
+            return;
+        }
         var op = {
             quantity: this.quantity,
-            productId: this.data && this.data.product ? this.data.product.id : guidZero,
-            supplierId: this.selectedSupplier && this.selectedSupplier.supplier ? this.selectedSupplier.supplier.id : guidZero
+            product: this.data.product,
+            supplier: this.selectedSupplier.supplier,
+            price: this.selectedSupplier.price
         };
         this.cart.addToCart(op);
     };

@@ -40,7 +40,11 @@ var SearchComponent = /** @class */ (function (_super) {
     SearchComponent = __decorate([
         Component({
             selector: 'godsend-search',
-            templateUrl: './search.component.html'
+            templateUrl: './search.component.html',
+            styleUrls: [
+                '../suppliers/suppliers.component.css',
+                '../products/products.component.css'
+            ]
         }),
         __metadata("design:paramtypes", [SearchService])
     ], SearchComponent);

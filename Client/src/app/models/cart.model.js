@@ -17,6 +17,14 @@ var Cart = /** @class */ (function () {
     return Cart;
 }());
 export { Cart };
+var CartView = /** @class */ (function () {
+    function CartView(discreteItems, weightedItems) {
+        this.discreteItems = discreteItems;
+        this.weightedItems = weightedItems;
+    }
+    return CartView;
+}());
+export { CartView };
 var OrderPartSend = /** @class */ (function () {
     function OrderPartSend(productId, supplierId) {
         this.productId = productId;
@@ -52,4 +60,39 @@ export { OrderPartWeightedSend };
 export function isDiscrete(part) {
     return (part.quantity !== undefined);
 }
+var OrderPartView = /** @class */ (function () {
+    function OrderPartView(product, supplier, price) {
+        this.product = product;
+        this.supplier = supplier;
+        this.price = price;
+    }
+    return OrderPartView;
+}());
+export { OrderPartView };
+var OrderPartDiscreteView = /** @class */ (function (_super) {
+    __extends(OrderPartDiscreteView, _super);
+    function OrderPartDiscreteView(product, supplier, price, quantity) {
+        var _this = _super.call(this, product, supplier, price) || this;
+        _this.product = product;
+        _this.supplier = supplier;
+        _this.price = price;
+        _this.quantity = quantity;
+        return _this;
+    }
+    return OrderPartDiscreteView;
+}(OrderPartView));
+export { OrderPartDiscreteView };
+var OrderPartWeightedView = /** @class */ (function (_super) {
+    __extends(OrderPartWeightedView, _super);
+    function OrderPartWeightedView(product, supplier, price, weight) {
+        var _this = _super.call(this, product, supplier, price) || this;
+        _this.product = product;
+        _this.supplier = supplier;
+        _this.price = price;
+        _this.weight = weight;
+        return _this;
+    }
+    return OrderPartWeightedView;
+}(OrderPartView));
+export { OrderPartWeightedView };
 //# sourceMappingURL=cart.model.js.map

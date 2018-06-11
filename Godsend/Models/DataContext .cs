@@ -23,6 +23,8 @@
 
         public DbSet<Article> Articles { get; set; }
 
+        public DbSet<Directory> DirList { get; set; }
+
         public DbSet<LinkProductsSuppliers> LinkProductsSuppliers { get; set; }
 
        // public DbSet<ProductInformation> ProductInformation { get; set; }

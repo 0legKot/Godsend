@@ -12,7 +12,6 @@ import { AuthenticationService } from '../../authentication/authentication.servi
 var NavMenuComponent = /** @class */ (function () {
     function NavMenuComponent(auth) {
         this.auth = auth;
-        this.userData = { name: 'Admin', isAdmin: true };
         this.showMenuMobile = false;
     }
     NavMenuComponent.prototype.scrollToTop = function () {
@@ -48,9 +47,4 @@ var NavMenuComponent = /** @class */ (function () {
     return NavMenuComponent;
 }());
 export { NavMenuComponent };
-var DummyUserData = /** @class */ (function () {
-    function DummyUserData() {
-    }
-    return DummyUserData;
-}());
 //# sourceMappingURL=navmenu.component.js.map

@@ -12,6 +12,7 @@ import { Injectable } from '@angular/core';
 import { DataService } from './data.service';
 import { Order } from '../models/order.model';
 import { Supplier } from '../models/supplier.model';
+import { Cart, OrderPartDiscreteSend, OrderPartWeightedSend } from '../models/cart.model';
 var productsUrl = 'api/product';
 var ordersUrl = 'api/order';
 var suppliersUrl = 'api/supplier';
@@ -106,24 +107,30 @@ var RepositoryService = /** @class */ (function () {
             _this.setEntites(clas, response);
         });
     };
-    RepositoryService.prototype.createOrder = function (cart) {
+    RepositoryService.prototype.createOrder = function (cartView) {
         var _this = this;
-        console.dir(cart);
+        console.dir(cartView);
+        var cart = new Cart(cartView.discreteItems.map(function (opdv) { return new OrderPartDiscreteSend(opdv.quantity, opdv.product.id, opdv.supplier.id); }), cartView.weightedItems.map(function (opwv) { return new OrderPartWeightedSend(opwv.weight, opwv.product.id, opwv.supplier.id); }));
         this.data.sendRequest('post', ordersUrl + '/createOrUpdate', cart)
             .subscribe(function (response) {
             _this.orders.push(response);
         });
     };
-    RepositoryService.prototype.createProduct = function (prod) {
+    RepositoryService.prototype.createProduct = function (prod, fn) {
         var _this = this;
-        var data = {
-            name: prod.info.name,
-            description: prod.info.description
+        var dataBody = {
+            info: {
+                name: prod.info.name,
+                description: prod.info.description
+            }
         };
-        this.data.sendRequest('post', productsUrl, data)
+        this.data.sendRequest('post', productsUrl + '/CreateOrUpdate', dataBody)
             .subscribe(function (response) {
-            prod.id = response;
-            _this.products.push(prod);
+            prod.info.id = response;
+            _this.products.push(prod.info);
+            if (fn) {
+                fn(prod.info);
+            }
         });
     };
     RepositoryService.prototype.replaceProduct = function (prod) {
@@ -146,7 +153,7 @@ var RepositoryService = /** @class */ (function () {
     };
     RepositoryService.prototype.deleteProduct = function (id) {
         var _this = this;
-        this.data.sendRequest('delete', productsUrl + '/' + id)
+        this.data.sendRequest('delete', productsUrl + '/delete/' + id)
             .subscribe(function (response) { return _this.getEntities('product'); });
     };
     RepositoryService.prototype.storeSessionData = function (dataType, data) {
@@ -157,7 +164,9 @@ var RepositoryService = /** @class */ (function () {
         return this.data.sendRequest('get', '/api/session/' + dataType);
     };
     RepositoryService = __decorate([
-        Injectable(),
+        Injectable({
+            providedIn: 'root'
+        }),
         __metadata("design:paramtypes", [DataService])
     ], RepositoryService);
     return RepositoryService;
