@@ -9,5 +9,6 @@ namespace Godsend.Models
     {
         public int Id { get; set; }
         public Data Cell { get; set; }
+        public PrimitiveData RealData { get; set; }
     }
 }
