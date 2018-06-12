@@ -12,7 +12,7 @@ namespace Godsend.Controllers
     using Microsoft.AspNetCore.Mvc;
 
     [Route("api/[controller]")]
-    public class SupplierController : EntityController<Supplier>
+    public class SupplierController : EntityController<SimpleSupplier>
     {
         public SupplierController(ISupplierRepository repo)
         {
