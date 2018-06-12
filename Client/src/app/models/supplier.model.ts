@@ -1,13 +1,26 @@
 ﻿import { guidZero } from "./cart.model";
+import { IEntity, IInformation } from "./entity.model";
 
-export class Supplier {
+export class Supplier implements IEntity<SupplierInfo> {
     constructor(
         public info: SupplierInfo,
         public id: string = ''
     ) { }
+
+    toCreateEdit() {
+        return {
+            id: this.id || undefined,
+            info: {
+                name: this.info.name,
+                location: {
+                    address: this.info.location.address
+                }
+            }
+        }
+    }
 }
 
-export class SupplierInfo {
+export class SupplierInfo implements IInformation {
     constructor(
         public name: string,
         public location: Location,

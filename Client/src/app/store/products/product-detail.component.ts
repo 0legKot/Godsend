@@ -81,7 +81,7 @@ export class ProductDetailComponent implements OnInit {
 
     save() {
         if (this.data) {
-            this.service.editProduct(this.data.product);
+            this.service.createOrEditEntity('product', Product.EnsureType(this.data.product));
         }
 
         this.edit = false;

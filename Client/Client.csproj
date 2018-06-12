@@ -16,6 +16,7 @@
     <None Remove="src\app\models\article.model.ts" />
     <None Remove="src\app\models\cart.model.ts" />
     <None Remove="src\app\models\cart.service.ts" />
+    <None Remove="src\app\models\entity.model.ts" />
     <None Remove="src\app\models\order.model.ts" />
     <None Remove="src\app\models\product.model.ts" />
     <None Remove="src\app\models\repository.ts" />
@@ -32,6 +33,12 @@
 
   <ItemGroup>
     <_ContentIncludedByDefault Remove="npm-shrinkwrap.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="src\app\models\entity.model.ts">
+      <Generator>MSBuild:Compile</Generator>
+    </EmbeddedResource>
   </ItemGroup>
 
   <ItemGroup>
