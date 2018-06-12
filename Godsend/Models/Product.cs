@@ -20,11 +20,7 @@
         }
     }
 
-    public class DiscreteProduct : Product
-    {
-    }
-
-    public class WeightedProduct : Product
+    public class SimpleProduct : Product
     {
     }
 

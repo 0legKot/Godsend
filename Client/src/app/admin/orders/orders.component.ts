@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { RepositoryService } from '../../services/repository.service';
 import { DataService } from '../../services/data.service';
-import { Order, orderStatus, OrderPartDiscrete } from '../../models/order.model';
+import { Order, orderStatus, OrderPartProducts } from '../../models/order.model';
 import { forEach } from '@angular/router/src/utils/collection';
 
 @Component({
@@ -27,10 +27,10 @@ export class OrdersComponent implements OnInit {
         this.repo.deleteOrder(id, res => this.orders = res);
     }
     // TODO:rework
-    getProdInfo(arDProd: OrderPartDiscrete[]): string[] {
+    getProdInfo(arDProd: OrderPartProducts[]): string[] {
         const res: string[] = [];
         for (const p of arDProd) {
-            res.push((<any>p).product.info.name);
+            res.push(p.product.info.name);
         }
         return res;
     }

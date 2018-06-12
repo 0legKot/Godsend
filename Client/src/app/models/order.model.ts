@@ -13,8 +13,8 @@ export class Order {
     constructor(
         public id: string,
         public customer: IdentityUser,
-        public discreteItems: OrderPartDiscrete[],
-        public weightedItems: OrderPartWeighted[],
+        public items: OrderPartProducts[],
+        //public weightedItems: OrderPartWeighted[],
         public ordered: string,
         public status: number,
         public done?: string) { }
@@ -28,24 +28,25 @@ export class OrderPart {
     ) { }
 }
 
-export class OrderPartDiscrete extends OrderPart {
+export class OrderPartProducts extends OrderPart {
     constructor(
-        quantity: number,
-        id: string,
-        product: Product,
-        supplier: Supplier
+        public quantity: number,
+        public multiplier: number,
+        public id: string,
+        public product: Product,
+        public supplier: Supplier
     ) {
         super(id, product, supplier);
     }
 }
 
-export class OrderPartWeighted extends OrderPart {
-    constructor(
-        weight: number,
-        id: string,
-        product: Product,
-        supplier: Supplier
-    ) {
-        super(id, product, supplier);
-    }
-}
+//export class OrderPartWeighted extends OrderPart {
+//    constructor(
+//        weight: number,
+//        id: string,
+//        product: Product,
+//        supplier: Supplier
+//    ) {
+//        super(id, product, supplier);
+//    }
+//}

@@ -8,7 +8,7 @@
     using Microsoft.AspNetCore.Mvc;
 
     [Route("api/[controller]")]
-    public class ProductController : EntityController<DiscreteProduct>
+    public class ProductController : EntityController<SimpleProduct>
     {
         public ProductController(IProductRepository repo)
         {
@@ -20,7 +20,7 @@
         public new ProductWithSuppliers Detail(Guid id)
         {
             var prod = (repository as IProductRepository)?.GetProductWithSuppliers(id);
-            if (prod != null) repository.Watch(prod.Product as DiscreteProduct);
+            if (prod != null) repository.Watch(prod.Product as SimpleProduct);
             return prod;
         }
     }

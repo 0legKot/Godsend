@@ -31,8 +31,9 @@
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.Entity<SimpleOrder>();
-            builder.Entity<DiscreteProduct>();
-            builder.Entity<WeightedProduct>();
+            builder.Entity<SimpleProduct>();
+            //builder.Entity<DiscreteProduct>();
+            //builder.Entity<WeightedProduct>();
             builder.Entity<SimpleArticle>();
             builder.Entity<SimpleSupplier>();
 

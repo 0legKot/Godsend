@@ -20,7 +20,7 @@
 
             if (!context.Products.Any())
             {
-                context.Products.Add(new DiscreteProduct
+                context.Products.Add(new SimpleProduct
                 {
                     Info = new ProductInformation
                     {
@@ -36,7 +36,7 @@
             if (!context.Products.Any(p => p.Info.Name == "Potato"))
             {
                 context.Products.AddRange(
-                    new DiscreteProduct
+                    new SimpleProduct
                 {
                     Info = new ProductInformation
                     {
@@ -46,7 +46,7 @@
                         Watches = 4
                     }
                 },
-                new DiscreteProduct
+                new SimpleProduct
                 {
                     Info = new ProductInformation
                     {
@@ -56,7 +56,7 @@
                         Watches = 7
                     }
                 },
-                new DiscreteProduct
+                new SimpleProduct
                 {
                     Info = new ProductInformation
                     {
@@ -73,7 +73,7 @@
             if (!context.Products.Any(p => p.Info.Name == "Tomato"))
             {
                 context.Products.AddRange(
-                    new DiscreteProduct
+                    new SimpleProduct
                     {
                         Info = new ProductInformation
                         {
@@ -83,7 +83,7 @@
                             Watches = 3
                         }
                     },
-                    new DiscreteProduct
+                    new SimpleProduct
                     {
                         Info = new ProductInformation
                         {
@@ -93,7 +93,7 @@
                             Watches = 13
                         }
                     },
-                    new DiscreteProduct
+                    new SimpleProduct
                     {
                         Info = new ProductInformation
                         {
@@ -103,7 +103,7 @@
                             Watches = 8
                         }
                     },
-                    new DiscreteProduct
+                    new SimpleProduct
                     {
                         Info = new ProductInformation
                         {
@@ -113,7 +113,7 @@
                             Watches = 6
                         }
                     },
-                    new DiscreteProduct
+                    new SimpleProduct
                     {
                         Info = new ProductInformation
                         {
@@ -123,7 +123,7 @@
                             Watches = 8
                         }
                     },
-                    new DiscreteProduct
+                    new SimpleProduct
                     {
                         Info = new ProductInformation
                         {
@@ -139,7 +139,7 @@
 
             if (!context.Products.Any(p => p.Info.Name == "iPhone"))
             {
-                context.Products.AddRange(new DiscreteProduct
+                context.Products.AddRange(new SimpleProduct
                 {
                     Info = new ProductInformation
                     {
@@ -149,7 +149,7 @@
                         Watches = 13
                     }
                 },
-                new DiscreteProduct
+                new SimpleProduct
                 {
                     Info = new ProductInformation
                     {
@@ -159,7 +159,7 @@
                         Watches = 4
                     }
                 },
-                new DiscreteProduct
+                new SimpleProduct
                 {
                     Info = new ProductInformation
                     {
@@ -169,7 +169,7 @@
                         Watches = 132
                     }
                 },
-                new DiscreteProduct
+                new SimpleProduct
                 {
                     Info = new ProductInformation
                     {
@@ -179,7 +179,7 @@
                         Watches = 123
                     }
                 },
-                new DiscreteProduct
+                new SimpleProduct
                 {
                     Info = new ProductInformation
                     {
@@ -222,13 +222,13 @@
             }
         }
 
-        public IEnumerable<DiscreteProduct> Entities => GetProductsFromContext().Include(x=>x.Info);
+        public IEnumerable<SimpleProduct> Entities => GetProductsFromContext().Include(x=>x.Info);
 
         public IEnumerable<Information> EntitiesInfo => Entities.Select(p => p.Info).ToArray();
 
-        public void SaveEntity(DiscreteProduct entity)
+        public void SaveEntity(SimpleProduct entity)
         {
-            DiscreteProduct dbEntry = GetProductsFromContext()
+            SimpleProduct dbEntry = GetProductsFromContext()
                 .FirstOrDefault(p => p.Id == entity.Id);
             if (dbEntry != null)
             {
@@ -248,7 +248,7 @@
 
         public void DeleteEntity(Guid infoId)
         {
-            DiscreteProduct dbEntry = GetProductsFromContext()
+            SimpleProduct dbEntry = GetProductsFromContext()
                .FirstOrDefault(p => p.Info.Id == infoId);
             if (dbEntry != null)
             {
@@ -257,17 +257,17 @@
             }
         }
 
-        public bool IsFirst(DiscreteProduct entity)
+        public bool IsFirst(SimpleProduct entity)
         {
             return !context.Products.Any(p => p.Id == entity.Id);
         }
 
-        public DiscreteProduct GetEntity(Guid entityId)
+        public SimpleProduct GetEntity(Guid entityId)
         {
             return GetProductsFromContext().Include(p => p.Info).FirstOrDefault(p => p.Id == entityId);
         }
 
-        public void Watch(DiscreteProduct prod)
+        public void Watch(SimpleProduct prod)
         {
             if (prod != null)
             {
@@ -276,9 +276,9 @@
             }
         }
 
-        private IQueryable<DiscreteProduct> GetProductsFromContext()
+        private IQueryable<SimpleProduct> GetProductsFromContext()
         {
-            return context.Products.OfType<DiscreteProduct>();
+            return context.Products.OfType<SimpleProduct>();
         }
 
         public ProductWithSuppliers GetProductWithSuppliers(Guid productInfoId)

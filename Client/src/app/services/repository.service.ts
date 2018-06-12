@@ -106,6 +106,7 @@ export class RepositoryService {
                 if (fn) {
                     fn(response);
                 }
+                console.log(response);
                 this.setEntites<T>(clas, response);
             });
     }

@@ -33,9 +33,9 @@ namespace Godsend.Models
         [NotMapped]
         public ClientUser Customer { get => new ClientUser { Id = EFCustomer.Id, Name = EFCustomer.UserName }; }
 
-        public IEnumerable<OrderPartDiscrete> DiscreteItems { get; set; }
+        public IEnumerable<OrderPartProducts> Items { get; set; }
 
-        public IEnumerable<OrderPartWeighted> WeightedItems { get; set; }
+        //public IEnumerable<OrderPartWeighted> WeightedItems { get; set; }
 
         public DateTime Ordered { get; set; }
 
@@ -64,13 +64,14 @@ namespace Godsend.Models
         public Supplier Supplier { get; set; }
     }
 
-    public class OrderPartDiscrete : OrderPart
+    public class OrderPartProducts : OrderPart
     {
         public int Quantity { get; set; }
+        public int Multiplier { get; set; } = 1;
     }
 
-    public class OrderPartWeighted : OrderPart
-    {
-        public double Weight { get; set; }
-    }
+    //public class OrderPartWeighted : OrderPart
+    //{
+    //    public double Weight { get; set; }
+    //}
 }

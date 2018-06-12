@@ -4,7 +4,7 @@
     using System.Collections.Generic;
     using Godsend.Models;
 
-    public interface IProductRepository : IRepository<DiscreteProduct>
+    public interface IProductRepository : IRepository<SimpleProduct>
     {
         ProductWithSuppliers GetProductWithSuppliers(Guid productInfoId);
     }
