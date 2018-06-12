@@ -246,10 +246,10 @@
             context.SaveChanges();
         }
 
-        public void DeleteEntity(Guid entityId)
+        public void DeleteEntity(Guid infoId)
         {
             DiscreteProduct dbEntry = GetProductsFromContext()
-               .FirstOrDefault(p => p.Id == entityId);
+               .FirstOrDefault(p => p.Info.Id == infoId);
             if (dbEntry != null)
             {
                 context.Products.Remove(dbEntry);
