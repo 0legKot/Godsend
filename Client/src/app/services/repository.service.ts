@@ -126,6 +126,24 @@ export class RepositoryService {
             });
     }
 
+    editProduct(prod: Product, fn?: () => any) {
+        const dataBody = {
+            id: prod.id,
+            info: {
+                name: prod.info.name,
+                description: prod.info.description
+            }
+        };
+
+        this.data.sendRequest<string>('post', productsUrl + '/CreateOrUpdate', dataBody)
+            .subscribe(response => {
+                prod.info.id = response;
+                if (fn) {
+                    fn();
+                }
+            });
+    }
+
     createProduct(prod: Product, fn?: (_: ProductInfo) => any) {
         const dataBody = {
             info: {

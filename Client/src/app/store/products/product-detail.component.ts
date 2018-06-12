@@ -20,6 +20,13 @@ export class ProductDetailComponent implements OnInit {
 
     quantity = 1;
 
+    edit = false;
+
+    backup = {
+        name: '',
+        description: ''
+    }
+
     get price(): string {
         return this.selectedSupplier ? (this.selectedSupplier.price * this.quantity).toFixed(2) : '';
     }
@@ -34,6 +41,7 @@ export class ProductDetailComponent implements OnInit {
         const productId = product ? product.id : null;
         this.router.navigate(['/products', { id: productId}]);
     }
+
     deleteProduct() {
         if (this.data) {
             this.service.deleteEntity('product', this.data.product.info.id);
@@ -56,6 +64,38 @@ export class ProductDetailComponent implements OnInit {
         };
         this.cart.addToCart(op);
     }
+
+    editMode() {
+        if (this.data == null) {
+            console.log('no data');
+            return;
+        }
+
+        this.backup = {
+            name: this.data.product.info.name,
+            description: this.data.product.info.description
+        };
+
+        this.edit = true;
+    }
+
+    save() {
+        if (this.data) {
+            this.service.editProduct(this.data.product);
+        }
+
+        this.edit = false;
+    }
+
+    discard() {
+        if (this.data) {
+            this.data.product.info.name = this.backup.name;
+            this.data.product.info.description = this.backup.description;
+        }
+
+        this.edit = false;
+    }
+
     ngOnInit() {
         this.service.getEntity<ProductWithSuppliers>(this.route.snapshot.params.id, p => {
             this.data = p;
