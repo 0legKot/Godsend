@@ -35,8 +35,10 @@ export class ProductDetailComponent implements OnInit {
         this.router.navigate(['/products', { id: productId}]);
     }
     deleteProduct() {
-        this.service.deleteProduct(this.data ? this.data.product.id : '');
-        this.gotoProducts();
+        if (this.data) {
+            this.service.deleteEntity('product', this.data.product.info.id);
+            this.gotoProducts();
+        }
     }
     buy() {
         // Todo make button disabled if no data?

@@ -3,6 +3,9 @@
         <span class="h4">
             {{ productInfo.name }}
         </span>
+        <span class="h3">
+            <a [routerLink]="['/products', productInfo.id]" (click)="delete()">Delete</a>
+        </span>
         <span class="float-right badge badge-pill badge-primary">
             {{ productInfo.price  | currency:"USD":true }}
         </span>
