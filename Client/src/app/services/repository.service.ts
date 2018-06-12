@@ -147,16 +147,7 @@ export class RepositoryService {
     createSupplier(sup: Supplier, fn?: (_: SupplierInfo) => any) {
         const supplier = SupplierCreate.FromSupplier(sup);
 
-        const dataBody = {
-            info: {
-                name: sup.info.name,
-                location: {
-                    address: sup.info.location.address
-                }
-            }
-        };
-
-        this.data.sendRequest<string>('post', suppliersUrl + '/CreateOrUpdate', dataBody)
+        this.data.sendRequest<string>('post', suppliersUrl + '/CreateOrUpdate', supplier)
             .subscribe(response => {
                 sup.info.id = response;                
                 this.suppliers.push(sup.info);

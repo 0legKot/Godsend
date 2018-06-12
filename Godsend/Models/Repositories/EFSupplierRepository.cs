@@ -154,9 +154,9 @@ namespace Godsend.Models
 
         public IEnumerable<Information> EntitiesInfo => Entities.Select(s => s.Info).ToArray();
 
-        public void DeleteEntity(Guid entityId)
+        public void DeleteEntity(Guid infoId)
         {
-            Supplier dbEntry = GetEntity(entityId);
+            Supplier dbEntry = GetEntityByInfoId(infoId);
             if (dbEntry != null)
             {
                 context.Suppliers.Remove(dbEntry);

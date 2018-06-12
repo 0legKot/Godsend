@@ -24,6 +24,12 @@ export class Location {
     ) { }
 }
 
+export class LocationCreate {
+    constructor(
+        public address: string,
+    ) { }
+}
+
 export class SupplierCreate {
     public info: SupplierInfoCreate;
 
@@ -40,13 +46,13 @@ export class SupplierCreate {
 }
 
 export class SupplierInfoCreate {
-    public location: Location;
+    public location: LocationCreate;
 
     constructor(
         public name: string,
         address: string   
     ) {
-        this.location = new Location(address);
+        this.location = new LocationCreate(address);
     }
 }
 
