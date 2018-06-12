@@ -13,6 +13,21 @@ a, a:active, a:focus, a:visited {
     color: #171212;
 }
 
+.delete {
+    display: inline-block;
+    z-index: 6;
+    background-color: antiquewhite;
+    cursor:pointer;
+    position: absolute;
+    padding: 5px;
+    right: 5px;
+    top: 0;
+}
+
+.delete:hover {
+    background-color: salmon;
+}
+
 h1 {
     text-align: center;
 }
