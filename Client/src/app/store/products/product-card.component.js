@@ -9,9 +9,15 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 import { Component, Input } from '@angular/core';
 import { ProductInfo } from '../../models/product.model';
+import { RepositoryService } from '../../services/repository.service';
 var ProductCardComponent = /** @class */ (function () {
-    function ProductCardComponent() {
+    function ProductCardComponent(repo) {
+        this.repo = repo;
     }
+    ProductCardComponent.prototype.delete = function () {
+        if (this.productInfo)
+            this.repo.deleteEntity("product", this.productInfo.id);
+    };
     __decorate([
         Input(),
         __metadata("design:type", ProductInfo)
@@ -21,7 +27,8 @@ var ProductCardComponent = /** @class */ (function () {
             selector: 'godsend-product-card[productInfo]',
             templateUrl: './product-card.component.html',
             styleUrls: ['./products.component.css']
-        })
+        }),
+        __metadata("design:paramtypes", [RepositoryService])
     ], ProductCardComponent);
     return ProductCardComponent;
 }());

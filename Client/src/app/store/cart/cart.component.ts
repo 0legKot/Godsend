@@ -15,8 +15,7 @@ export class CartComponent {
     }
 
     get totalPrice(): string {
-        return (this.discreteParts.reduce((prev, cur) => prev + cur.price * cur.quantity, 0) +
-            this.weightedParts.reduce((prev, cur) => prev + cur.price * cur.weight, 0))
+        return (this.discreteParts.reduce((prev, cur) => prev + cur.price * cur.quantity, 0))
             .toFixed(2);
     }
 
@@ -30,9 +29,9 @@ export class CartComponent {
         return this.cartService.cart.discreteItems;
     }
 
-    get weightedParts(): OrderPartWeightedView[] {
-        return this.cartService.cart.weightedItems;
-    }
+    //get weightedParts(): OrderPartWeightedView[] {
+    //    return this.cartService.cart.weightedItems;
+    //}
 
     delete(part: OrderPartDiscreteView | OrderPartWeightedView) {
         this.cartService.removeFromCart(part);

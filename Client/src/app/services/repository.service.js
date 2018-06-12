@@ -11,7 +11,7 @@ import { Product } from '../models/product.model';
 import { Injectable } from '@angular/core';
 import { DataService } from './data.service';
 import { Order } from '../models/order.model';
-import { Supplier } from '../models/supplier.model';
+import { Supplier, SupplierCreate } from '../models/supplier.model';
 import { Cart, OrderPartDiscreteSend, OrderPartWeightedSend } from '../models/cart.model';
 var productsUrl = 'api/product';
 var ordersUrl = 'api/order';
@@ -104,6 +104,7 @@ var RepositoryService = /** @class */ (function () {
             if (fn) {
                 fn(response);
             }
+            console.log(response);
             _this.setEntites(clas, response);
         });
     };
@@ -133,6 +134,26 @@ var RepositoryService = /** @class */ (function () {
             }
         });
     };
+    RepositoryService.prototype.createSupplier = function (sup, fn) {
+        var _this = this;
+        var supplier = SupplierCreate.FromSupplier(sup);
+        var dataBody = {
+            info: {
+                name: sup.info.name,
+                location: {
+                    address: sup.info.location.address
+                }
+            }
+        };
+        this.data.sendRequest('post', suppliersUrl + '/CreateOrUpdate', dataBody)
+            .subscribe(function (response) {
+            sup.info.id = response;
+            _this.suppliers.push(sup.info);
+            if (fn) {
+                fn(sup.info);
+            }
+        });
+    };
     RepositoryService.prototype.replaceProduct = function (prod) {
         var _this = this;
         var data = {
@@ -151,10 +172,11 @@ var RepositoryService = /** @class */ (function () {
         this.data.sendRequest('patch', productsUrl + '/' + id, patch)
             .subscribe(function (response) { return _this.getEntities('product'); });
     };
-    RepositoryService.prototype.deleteProduct = function (id) {
+    RepositoryService.prototype.deleteEntity = function (clas, id) {
         var _this = this;
-        this.data.sendRequest('delete', productsUrl + '/delete/' + id)
-            .subscribe(function (response) { return _this.getEntities('product'); });
+        var url = this.getUrl(clas);
+        this.data.sendRequest('delete', url + '/delete/' + id)
+            .subscribe(function (response) { return _this.getEntities(clas); });
     };
     RepositoryService.prototype.storeSessionData = function (dataType, data) {
         return this.data.sendRequest('post', '/api/session/' + dataType, data)

@@ -15,11 +15,12 @@ export var orderStatus = [
     'Processing' // 3
 ];
 var Order = /** @class */ (function () {
-    function Order(id, customer, discreteItems, weightedItems, ordered, status, done) {
+    function Order(id, customer, items, 
+        //public weightedItems: OrderPartWeighted[],
+        ordered, status, done) {
         this.id = id;
         this.customer = customer;
-        this.discreteItems = discreteItems;
-        this.weightedItems = weightedItems;
+        this.items = items;
         this.ordered = ordered;
         this.status = status;
         this.done = done;
@@ -33,20 +34,28 @@ var OrderPart = /** @class */ (function () {
     return OrderPart;
 }());
 export { OrderPart };
-var OrderPartDiscrete = /** @class */ (function (_super) {
-    __extends(OrderPartDiscrete, _super);
-    function OrderPartDiscrete(quantity, id, product, supplier) {
-        return _super.call(this, id, product, supplier) || this;
+var OrderPartProducts = /** @class */ (function (_super) {
+    __extends(OrderPartProducts, _super);
+    function OrderPartProducts(quantity, multiplier, id, product, supplier) {
+        var _this = _super.call(this, id, product, supplier) || this;
+        _this.quantity = quantity;
+        _this.multiplier = multiplier;
+        _this.id = id;
+        _this.product = product;
+        _this.supplier = supplier;
+        return _this;
     }
-    return OrderPartDiscrete;
+    return OrderPartProducts;
 }(OrderPart));
-export { OrderPartDiscrete };
-var OrderPartWeighted = /** @class */ (function (_super) {
-    __extends(OrderPartWeighted, _super);
-    function OrderPartWeighted(weight, id, product, supplier) {
-        return _super.call(this, id, product, supplier) || this;
-    }
-    return OrderPartWeighted;
-}(OrderPart));
-export { OrderPartWeighted };
+export { OrderPartProducts };
+//export class OrderPartWeighted extends OrderPart {
+//    constructor(
+//        weight: number,
+//        id: string,
+//        product: Product,
+//        supplier: Supplier
+//    ) {
+//        super(id, product, supplier);
+//    }
+//}
 //# sourceMappingURL=order.model.js.map

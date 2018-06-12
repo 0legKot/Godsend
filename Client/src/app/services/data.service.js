@@ -22,6 +22,10 @@ var DataService = /** @class */ (function () {
         var _this = this;
         return this.http.request(method, this.baseUrl + url, { body: data, responseType: 'json' }).pipe(map(function (response) {
             console.log(_this.baseUrl + url);
+            if (data) {
+                console.log('data');
+                console.dir(data);
+            }
             console.log(response);
             return response;
         }));

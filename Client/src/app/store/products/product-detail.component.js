@@ -32,8 +32,10 @@ var ProductDetailComponent = /** @class */ (function () {
         this.router.navigate(['/products', { id: productId }]);
     };
     ProductDetailComponent.prototype.deleteProduct = function () {
-        this.service.deleteProduct(this.data ? this.data.product.id : '');
-        this.gotoProducts();
+        if (this.data) {
+            this.service.deleteEntity('product', this.data.product.info.id);
+            this.gotoProducts();
+        }
     };
     ProductDetailComponent.prototype.buy = function () {
         // Todo make button disabled if no data?
