@@ -167,10 +167,6 @@ export class RepositoryService {
             .subscribe(response => this.getEntities<null>(clas));
     }
 
-    deleteProduct(id: string) {
-        this.data.sendRequest<null>('delete', productsUrl + '/delete/' + id)
-            .subscribe(response => this.getEntities<Product>('product'));
-    }
 
     storeSessionData(dataType: string, data: any) {
         return this.data.sendRequest<null>('post', '/api/session/' + dataType, data)
