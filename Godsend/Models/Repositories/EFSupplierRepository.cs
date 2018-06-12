@@ -150,7 +150,7 @@ namespace Godsend.Models
             }
         }
 
-        public IEnumerable<Supplier> Entities => context.Suppliers.Include(s => s.Info).ThenInclude(i => i.Location);
+        public IEnumerable<SimpleSupplier> Entities => context.Suppliers.OfType<SimpleSupplier>().Include(s => s.Info).ThenInclude(i => i.Location);
 
         public IEnumerable<Information> EntitiesInfo => Entities.Select(s => s.Info).ToArray();
 
@@ -164,12 +164,12 @@ namespace Godsend.Models
             }
         }
 
-        public bool IsFirst(Supplier entity)
+        public bool IsFirst(SimpleSupplier entity)
         {
             return !context.Suppliers.Any(s => s.Id == entity.Id);
         }
 
-        public void Watch(Supplier sup)
+        public void Watch(SimpleSupplier sup)
         {
             if (sup != null)
             {
@@ -178,7 +178,7 @@ namespace Godsend.Models
             }
         }
 
-        public void SaveEntity(Supplier entity)
+        public void SaveEntity(SimpleSupplier entity)
         {
             Supplier dbEntry = GetEntity(entity.Id);
             if (dbEntry != null)
@@ -197,14 +197,14 @@ namespace Godsend.Models
             context.SaveChanges();
         }
 
-         public Supplier GetEntity(Guid entityId)
+         public SimpleSupplier GetEntity(Guid entityId)
         {
-            return context.Suppliers.Include(s => s.Info).ThenInclude(i => i.Location).FirstOrDefault(s => s.Id == entityId);
+            return Entities.FirstOrDefault(s => s.Id == entityId);
         }
 
-        public Supplier GetEntityByInfoId(Guid infoId)
+        public SimpleSupplier GetEntityByInfoId(Guid infoId)
         {
-            return context.Suppliers.Include(s => s.Info).ThenInclude(i => i.Location).FirstOrDefault(s => s.Info.Id == infoId);
+            return Entities.FirstOrDefault(s => s.Info.Id == infoId);
         }
     }
 }

@@ -1,20 +1,20 @@
 ﻿<h1>Suppliers</h1>
 <br />
 <br />
-
+<a (click)="createSupplier('Test supplier', 'nowhere')">Create</a>
 <br />
-<div >
+<div>
     <div class="wrap">
         <div id="stic-search">
-           <div class="search">
-               <p class="inline-block">
-                  <godsend-search-inline [type]="type" (found)="suppliers = onFound($event.suppliersInfo)"></godsend-search-inline>
-            </p>
-            <p class="inline-block">
-                <fa name="search"></fa>
-            </p>
-        </div>
+            <div class="search">
+                <p class="inline-block">
+                    <godsend-search-inline [type]="type" (found)="suppliers = onFound($event.suppliersInfo)"></godsend-search-inline>
+                </p>
+                <p class="inline-block">
+                    <fa name="search"></fa>
+                </p>
             </div>
+        </div>
         <br />
         <div class='container-fluid' *ngIf="suppliers?.length > 0; else nodata">
             <div class='row suppliers'>

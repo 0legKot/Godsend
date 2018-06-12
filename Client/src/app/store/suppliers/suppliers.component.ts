@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { RepositoryService } from '../../services/repository.service';
-import { Supplier, SupplierInfo } from '../../models/supplier.model';
+import { Supplier, SupplierInfo, SupplierCreate, SupplierInfoCreate, Location } from '../../models/supplier.model';
 import { OnInit } from '@angular/core';
 import { searchType } from '../search/search.service';
+import { SearchInlineComponent } from '../search/search-inline.component';
 
 @Component({
     selector: 'godsend-suppliers',
@@ -15,6 +16,9 @@ export class SuppliersComponent implements OnInit {
     searchSuppliers?: SupplierInfo[];
     templateText = 'Waiting for data...';
 
+    @ViewChild(SearchInlineComponent)
+    searchInline!: SearchInlineComponent;
+
     get suppliers() {
         return this.searchSuppliers || this.repo.suppliers;
     }
@@ -23,6 +27,12 @@ export class SuppliersComponent implements OnInit {
 
     ngOnInit() {
         this.repo.getEntities<SupplierInfo>('supplier');
+    }
+
+    createSupplier(name: string, address: string) {
+        // TODO create interface with oly relevant info
+        const sup = new Supplier(new SupplierInfo(name, new Location(address)));
+        this.repo.createSupplier(sup, () => this.searchInline.doSearch());
     }
 
     onFound(suppliers: SupplierInfo[]) {

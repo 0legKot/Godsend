@@ -16,6 +16,10 @@ export class DataService {
         return this.http.request<T>(method, this.baseUrl + url, { body: data, responseType: 'json' }).pipe(
             map(response => {
                 console.log(this.baseUrl + url);
+                if (data) {
+                    console.log('data');
+                    console.dir(data);
+                }
                 console.log(response);
                 return response;
             }));

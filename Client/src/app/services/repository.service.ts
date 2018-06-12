@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { DataService } from './data.service';
 import { Order } from '../models/order.model';
-import { Supplier, SupplierInfo } from '../models/supplier.model';
+import { Supplier, SupplierInfo, SupplierCreate } from '../models/supplier.model';
 import { ArticleInfo, Article } from '../models/article.model';
 import { Cart, CartView, OrderPartDiscreteSend, OrderPartWeightedSend } from '../models/cart.model';
 
@@ -139,6 +139,28 @@ export class RepositoryService {
                 this.products.push(prod.info);
                 if (fn) {
                     fn(prod.info);
+                }
+            });
+    }
+
+    createSupplier(sup: Supplier, fn?: (_: SupplierInfo) => any) {
+        const supplier = SupplierCreate.FromSupplier(sup);
+
+        const dataBody = {
+            info: {
+                name: sup.info.name,
+                location: {
+                    address: sup.info.location.address
+                }
+            }
+        };
+
+        this.data.sendRequest<string>('post', suppliersUrl + '/CreateOrUpdate', dataBody)
+            .subscribe(response => {
+                sup.info.id = response;                
+                this.suppliers.push(sup.info);
+                if (fn) {
+                    fn(sup.info);
                 }
             });
     }
