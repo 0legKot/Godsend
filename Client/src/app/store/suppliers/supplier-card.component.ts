@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, EventEmitter, Output } from '@angular/core';
 import { SupplierInfo } from '../../models/supplier.model';
 import { RepositoryService } from '../../services/repository.service';
 
@@ -11,10 +11,12 @@ export class SupplierCardComponent {
     @Input()
     supplierInfo?: SupplierInfo;
 
+    @Output()
+    delete = new EventEmitter<void>();
+
     constructor(private repo: RepositoryService) { }
 
-    delete() {
-        if (this.supplierInfo)
-            this.repo.deleteEntity('supplier', this.supplierInfo.id)
+    onDelete() {
+        this.delete.emit();
     }
 }

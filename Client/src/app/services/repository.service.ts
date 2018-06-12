@@ -175,10 +175,10 @@ export class RepositoryService {
             .subscribe(response => this.getEntities<Product>('product'));
     }
 
-    deleteEntity(clas: supportedClass, id: string) {
+    deleteEntity(clas: supportedClass, id: string, fn?: () => any) {
         const url = this.getUrl(clas);
         this.data.sendRequest<null>('delete', url + '/delete/' + id)
-            .subscribe(response => this.getEntities<null>(clas));
+            .subscribe(response => { this.getEntities<null>(clas); if (fn) { fn(); } });
     }
 
 

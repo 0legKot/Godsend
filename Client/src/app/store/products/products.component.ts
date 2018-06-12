@@ -31,6 +31,10 @@ export class ProductsComponent implements OnInit {
         this.repo.createProduct(prod, () => this.searchInline.doSearch());
     }
 
+    deleteProduct(id: string) {
+        this.repo.deleteEntity('product', id, () => this.searchInline.doSearch());
+    }
+
     onFound(products: ProductInfo[]) {
         this.templateText = 'Not found';
         this.searchProducts = products;

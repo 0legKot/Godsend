@@ -1,7 +1,6 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 
 import { ProductInfo } from '../../models/product.model';
-import { RepositoryService } from '../../services/repository.service';
 
 @Component({
     selector: 'godsend-product-card[productInfo]',
@@ -12,9 +11,12 @@ export class ProductCardComponent {
     @Input()
     productInfo?: ProductInfo;
 
-    constructor(private repo: RepositoryService) { }
-    delete() {
-        if (this.productInfo)
-        this.repo.deleteEntity("product", this.productInfo.id)
+    @Output()
+    delete = new EventEmitter<void>();
+
+    constructor() { }
+
+    onDelete() {
+        this.delete.emit();
     }
 }

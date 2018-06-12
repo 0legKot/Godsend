@@ -35,6 +35,10 @@ export class SuppliersComponent implements OnInit {
         this.repo.createSupplier(sup, () => this.searchInline.doSearch());
     }
 
+    deleteSupplier(id: string) {
+        this.repo.deleteEntity('supplier', id, () => this.searchInline.doSearch());
+    }
+
     onFound(suppliers: SupplierInfo[]) {
         this.templateText = 'Not found';
         this.searchSuppliers = suppliers;
