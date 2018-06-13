@@ -170,7 +170,7 @@ This is a pretty simple and straightforward diet you will ever try. It involves 
 
         public Article GetEntity(Guid entityId)
         {
-            return context.Articles.FirstOrDefault(a => a.Id == entityId);
+            return Entities.FirstOrDefault(a => a.Id == entityId);
         }
 
         public bool IsFirst(Article entity)
@@ -185,6 +185,7 @@ This is a pretty simple and straightforward diet you will ever try. It involves 
             {
                 // TODO: implement IClonable
                 dbEntry.Info.Name = entity.Info.Name;
+                dbEntry.Content = entity.Content;
 
                 // dbEntry.Status = supplier.Status;
                 // ....

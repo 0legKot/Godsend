@@ -147,9 +147,7 @@ export class RepositoryService {
         this.data.sendRequest<string>('post', url + '/CreateOrUpdate', createEditData)
             .subscribe(response => {
                 entity.info.id = response;
-                if (!entity.id) {
-                    this.getSavedEntities(clas).push(entity.info);
-                }
+                this.getEntities(clas);
                 if (fn) {
                     fn(entity.info);
                 }

@@ -14,7 +14,7 @@
         public IdentityUser EFAuthor { get; set; }
 
         [NotMapped]
-        public ClientUser Author { get => new ClientUser { Id = EFAuthor.Id, Name = EFAuthor.UserName }; }
+        public ClientUser Author { get => EFAuthor == null ? null : new ClientUser { Id = EFAuthor.Id, Name = EFAuthor.UserName }; }
 
         public DateTime Created { get; set; }
 
