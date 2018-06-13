@@ -39,7 +39,7 @@
             try
             {
                 repository.SaveEntity(entity);
-                return Ok(entity.EntityInformation.Id);
+                return Ok(entity.Id);
             }
             catch
             {

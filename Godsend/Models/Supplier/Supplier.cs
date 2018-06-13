@@ -8,7 +8,7 @@
 
     public abstract class Supplier : IEntity
     {
-        //public Guid Id { get; set; }
+        public Guid Id { get; set; }
 
         public SupplierInformation Info { get; set; }
 

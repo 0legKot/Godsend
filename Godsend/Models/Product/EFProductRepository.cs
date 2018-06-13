@@ -239,7 +239,7 @@
             }
             else
             {
-                entity.SetIds();
+                //entity.SetIds();
                 context.Add(entity);
             }
 
