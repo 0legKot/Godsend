@@ -8,11 +8,18 @@
      <ContentPage.BindingContext>
         <vm:ProductsViewModel />
     </ContentPage.BindingContext>
-    <Grid>
-          <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
-        
-    </Grid>
+   <StackLayout>
+       <ListView x:Name ="MyListView">
+           <ListView.ItemTemplate>
+               <DataTemplate>
+                   <TextCell Text ="{Binding Title}"></TextCell>
+               </DataTemplate>
+           </ListView.ItemTemplate>
+       </ListView>
+       <StackLayout Orientation ="Horizontal">
+           <Button Text ="Add" BackGroundColor ="Khaki" Clicked ="OnAdd"/>
+           <Button Text ="Update" HorizontalOprions ="CentralAndExpand" BackGroundColor ="MediumPurple" Clicked ="OnUpdate"/>
+           <Button Text ="Delete" BackGroundColor ="Crimson" Clicked="OnDelete"/>
+       </StackLayout>
+   </StackLayout>
 </ContentPage>
