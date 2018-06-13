@@ -157,6 +157,7 @@ export class RepositoryService {
 
     }
 
+    //deprecated?
     replaceProduct(prod: Product) {
         const data = {
             name: prod.info.name,
@@ -166,13 +167,14 @@ export class RepositoryService {
             .subscribe(response => this.getEntities < Product>('product'));
     }
 
-    updateProduct(id: string, changes: Map<string, any>) {
+    updateEntity<T>(clas: supportedClass, id: string, changes: Map<string, any>) {
+        const url = this.getUrl(clas);
         const patch: any[] = [];
         changes.forEach((value, key) =>
             patch.push({ op: 'replace', path: key, value: value }));
 
-        this.data.sendRequest<null>('patch', productsUrl + '/' + id, patch)
-            .subscribe(response => this.getEntities<Product>('product'));
+        this.data.sendRequest<null>('patch', url + '/' + id, patch)
+            .subscribe(response => this.getEntities<T>(clas));
     }
 
     deleteEntity(clas: supportedClass, id: string, fn?: () => any) {

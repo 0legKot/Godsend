@@ -191,6 +191,7 @@ namespace Godsend.Models
             }
             else
             {
+                entity.SetIds();
                 context.Add(entity);
             }
 

@@ -5,8 +5,13 @@
     using System.Linq;
     using System.Threading.Tasks;
 
-    public interface IEntity
+    public abstract class IEntity
     {
-        Information EntityInformation { get; set; }
+        public Guid Id { get; set; }
+        public Information EntityInformation { get; set; }
+        public virtual void SetIds() {
+            Id = Guid.NewGuid();
+            EntityInformation.Id = Guid.NewGuid();
+        }
     }
 }

@@ -191,6 +191,7 @@ This is a pretty simple and straightforward diet you will ever try. It involves 
             }
             else
             {
+                entity.SetIds();
                 context.Add(entity);
             }
 

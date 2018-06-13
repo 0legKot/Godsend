@@ -38,9 +38,8 @@
         {
             try
             {
-                 entity.EntityInformation.Id = Guid.NewGuid();
-                 repository.SaveEntity(entity);
-                 return Ok(entity.EntityInformation.Id);
+                repository.SaveEntity(entity);
+                return Ok(entity.EntityInformation.Id);
             }
             catch
             {
