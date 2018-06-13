@@ -9,7 +9,7 @@
     <div class='container-fluid'>
         <div class='row'>
             <div class='col-lg-3 col-md-4 col-sm-6 col-xs-12 suppliers'>
-                <div class="supp-name">{{ supp?.info?.name }}</div>
+                <godsend-input-output *ngIf="supp" [(ngModel)]="supp.info.name" [edit]="edit"></godsend-input-output>
                 <div class="photo">
                 </div>
                 <div class="rating">
@@ -23,6 +23,10 @@
                         <label>Description: </label>
                         <p>Some text</p>
                     </div>
+                    <div>
+                        <label>Address: </label>
+                        <godsend-input-output *ngIf="supp" [(ngModel)]="supp.info.location.address" [edit]="edit"></godsend-input-output>
+                    </div>
                 </div>
             </div>
         </div>
@@ -30,4 +34,8 @@
     <div class="back-btn" (click)="gotoSuppliers(supp)">
         <fa name="long-arrow-left"></fa> Back to suppliers
     </div>
+
+    <button *ngIf="!edit" (click)="editMode()">EDIT</button>
+    <button *ngIf="edit" (click)="save()">SAVE</button>
+    <button *ngIf="edit" (click)="discard()">DISCARD</button>
 </div>

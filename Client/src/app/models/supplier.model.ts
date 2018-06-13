@@ -2,6 +2,7 @@
 import { IEntity, IInformation } from "./entity.model";
 
 export class Supplier implements IEntity<SupplierInfo> {
+
     constructor(
         public info: SupplierInfo,
         public id: string = ''
@@ -17,6 +18,10 @@ export class Supplier implements IEntity<SupplierInfo> {
                 }
             }
         }
+    }
+
+    static EnsureType(sup: Supplier): Supplier {
+        return new Supplier(sup.info, sup.id);
     }
 }
 
