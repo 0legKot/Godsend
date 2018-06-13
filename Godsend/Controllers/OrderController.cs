@@ -30,12 +30,12 @@ namespace Godsend.Controllers
         }
 
         [HttpGet("[action]")]
-        [DisableCors]
         public IEnumerable<Order> All()
         {
             return repository.Orders;
         }
 
+        [DisableCors]
         [HttpPatch("[action]/{id:Guid}/{status:int}")]
         public IActionResult ChangeStatus(Guid id, int status)
         {

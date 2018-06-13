@@ -14,17 +14,17 @@
         <td>{{ o.ordered }}</td>
         <td>{{ status[o.status] || 'Unknown' }}</td>
         <td>
-            <div *ngFor="let item of o.discreteItems">
+            <div *ngFor="let item of o.items">
                 <span>{{ item.product?.info?.name }}</span>
-                <span *ngIf="item.quantity != 1"> x {{ item.quantity }}</span>
+                <span *ngIf="item.quantity != 1"> x {{ item.quantity/item.multiplier }}</span>
             </div>
         </td>
-        <td>
+        <!--<td>
             <div *ngFor="let item of o.weightedItems">
                 <span>{{ item.product?.info?.name }}</span>
                 <span> x {{ item.weight }}</span>
             </div>
-        </td>
+        </td>-->
         <td>{{ o.done || 'Not done yet' }}</td>
         <td (click)="cancel(o.id)">Cancel</td>
         <td (click)="shipped(o.id)">Mark shipped</td>
