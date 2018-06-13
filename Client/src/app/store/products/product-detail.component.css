@@ -35,6 +35,7 @@ h1 {
     position: absolute;
     top: 10%;
 }
+ 
     .prod-info label {
         font-size: 18px;
         font-weight: bold;
@@ -84,10 +85,12 @@ h1 {
     margin-right: 10px;
     font-size: 20px;
 }
+
 .edit-btns {
     height: 40px;
     margin-top: 5px;
     margin-right: 5px;
+    margin-bottom: 5px;
     font-weight: 500;
     color: #ffffff;
     padding-top: 5px;
@@ -119,18 +122,9 @@ h1 {
     background: rgb(53, 167, 110);
 }
 .edit-prod {
-    width: 350px;
-    text-align: right;
     font-size: 20px;
-    margin-right: 60px;
+    margin-left: 20px;
     margin-bottom: 20px;
-}
-.edit-prod label {
-    font-size: 25px;
-    color: #003e09;
-}
-.edit-prod-btn {
-    border-top: solid #003e09 2px;
 }
 @media (max-width: 568px) {
    

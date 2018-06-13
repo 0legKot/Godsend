@@ -3,9 +3,14 @@
 <br />
 <br />
 <div class="wrap rel">
+    <div class="edit-prod">
+        <div class="inline-block edit-btns" id="edit" *ngIf="!edit" (click)="editMode()"> Edit</div>
+        <div class="inline-block edit-btns" id="save" *ngIf="edit" (click)="save()"> Save</div>
+        <div class="inline-block edit-btns" id="discard" *ngIf="edit" (click)="discard()"> Discard</div>
+        <div id="delete" class="edit-btns" (click)="deleteProduct()">Delete</div>
+    </div>
     <br />
     <br />
-
     <div class='container-fluid'>
         <div class='row'>
             <div class='col-lg-3 col-md-4 col-sm-6 col-xs-12 products'>
@@ -22,10 +27,9 @@
             </div>
             <div class='col-lg-7 col-md-6 col-sm-5 col-xs-12 products rel'>
                 <div class="prod-info">
-                    <div>
-                        <label>Description: </label>
-                        <p><godsend-input-output *ngIf="data" [(ngModel)]="data.product.info.description" [edit]="edit"></godsend-input-output></p>
-                    </div>
+                    <label>Description: </label>
+                    <p><godsend-input-output *ngIf="data" [(ngModel)]="data.product.info.description" [edit]="edit"></godsend-input-output></p>
+
                     <label>Price: </label>
                     <p>
                         <span>From: </span>
@@ -48,13 +52,5 @@
     <div class="back-btn" (click)="gotoProducts(prod)">
         <fa name="long-arrow-left"></fa> Back to products
     </div>
-    <div class="pull-right edit-prod">
-        <label>Edit Product</label>
-        <div class=" edit-prod-btn">
-            <div class="inline-block edit-btns" id="edit" *ngIf="!edit" (click)="editMode()"> Edit</div>
-            <div class="inline-block edit-btns" id="save" *ngIf="edit" (click)="save()"> Save</div>
-            <div class="inline-block edit-btns" id="discard" *ngIf="edit" (click)="discard()"> Discard</div>
-            <div id="delete" class="inline-block pull-left edit-btns"  (click)="deleteProduct()">Delete</div>
-        </div>
-    </div>
+
 </div>
