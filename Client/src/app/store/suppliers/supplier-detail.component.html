@@ -3,14 +3,21 @@
 <br />
 <br />
 <div class="wrap rel">
+    <div class="edit-supp">
+        <div class="inline-block edit-btns" id="edit" *ngIf="!edit" (click)="editMode()"> Edit</div>
+        <div class="inline-block edit-btns" id="save" *ngIf="edit" (click)="save()"> Save</div>
+        <div class="inline-block edit-btns" id="discard" *ngIf="edit" (click)="discard()"> Discard</div>
+    </div>
     <br />
     <br />
-
     <div class='container-fluid'>
         <div class='row'>
             <div class='col-lg-3 col-md-4 col-sm-6 col-xs-12 suppliers'>
-                <godsend-input-output *ngIf="supp" [(ngModel)]="supp.info.name" [edit]="edit"></godsend-input-output>
+                <div class="supp-name">
+                    <godsend-input-output *ngIf="supp" [(ngModel)]="supp.info.name" [edit]="edit"></godsend-input-output>
+                </div>
                 <div class="photo">
+                    <div><img src="../../../assets/simpleApple.jpg" /></div>
                 </div>
                 <div class="rating">
                     <godsend-stars [value]="supp?.info?.rating"></godsend-stars>
@@ -35,7 +42,4 @@
         <fa name="long-arrow-left"></fa> Back to suppliers
     </div>
 
-    <button *ngIf="!edit" (click)="editMode()">EDIT</button>
-    <button *ngIf="edit" (click)="save()">SAVE</button>
-    <button *ngIf="edit" (click)="discard()">DISCARD</button>
 </div>
