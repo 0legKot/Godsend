@@ -28,6 +28,7 @@ import { StarsComponent } from './store/stars/stars.component';
 import { ArticleDetailComponent } from './store/articles/article-detail.component';
 import { ProductCardComponent } from './store/products/product-card.component';
 import { SupplierCardComponent } from './store/suppliers/supplier-card.component';
+import { InputOutputComponent } from './store/input-output/input-output.component';
 
 @NgModule({
     declarations: [
@@ -49,7 +50,8 @@ import { SupplierCardComponent } from './store/suppliers/supplier-card.component
         StatisticsComponent,
         SupplierDetailComponent,
         SupplierCardComponent,
-        SuppliersComponent
+        SuppliersComponent,
+        InputOutputComponent
     ],
     imports: [
         AngularFontAwesomeModule,
