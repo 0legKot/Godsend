@@ -1,4 +1,10 @@
 <p *ngIf="!edit else inputMode">{{ value }}</p>
+
 <ng-template #inputMode>
-    <input [ngModel]="value" (ngModelChange)="changeValue($event)" />
+    <div *ngIf="!huge else hugeMode">
+        <input [ngModel]="value" size="{{size}}" (ngModelChange)="changeValue($event)" />
+    </div>
+</ng-template>
+<ng-template #hugeMode>
+    <textarea [ngModel]="value" (ngModelChange)="changeValue($event)" ></textarea>
 </ng-template>

@@ -16,8 +16,7 @@ var CartComponent = /** @class */ (function () {
     }
     Object.defineProperty(CartComponent.prototype, "totalPrice", {
         get: function () {
-            return (this.discreteParts.reduce(function (prev, cur) { return prev + cur.price * cur.quantity; }, 0) +
-                this.weightedParts.reduce(function (prev, cur) { return prev + cur.price * cur.weight; }, 0))
+            return (this.discreteParts.reduce(function (prev, cur) { return prev + cur.price * cur.quantity; }, 0))
                 .toFixed(2);
         },
         enumerable: true,
@@ -35,13 +34,9 @@ var CartComponent = /** @class */ (function () {
         enumerable: true,
         configurable: true
     });
-    Object.defineProperty(CartComponent.prototype, "weightedParts", {
-        get: function () {
-            return this.cartService.cart.weightedItems;
-        },
-        enumerable: true,
-        configurable: true
-    });
+    //get weightedParts(): OrderPartWeightedView[] {
+    //    return this.cartService.cart.weightedItems;
+    //}
     CartComponent.prototype.delete = function (part) {
         this.cartService.removeFromCart(part);
     };

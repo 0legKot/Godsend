@@ -33,7 +33,11 @@ var SuppliersComponent = /** @class */ (function () {
         var _this = this;
         // TODO create interface with oly relevant info
         var sup = new Supplier(new SupplierInfo(name, new Location(address)));
-        this.repo.createSupplier(sup, function () { return _this.searchInline.doSearch(); });
+        this.repo.createOrEditEntity('supplier', sup, function () { return _this.searchInline.doSearch(); });
+    };
+    SuppliersComponent.prototype.deleteSupplier = function (id) {
+        var _this = this;
+        this.repo.deleteEntity('supplier', id, function () { return _this.searchInline.doSearch(); });
     };
     SuppliersComponent.prototype.onFound = function (suppliers) {
         this.templateText = 'Not found';

@@ -3,6 +3,18 @@ var Product = /** @class */ (function () {
         this.id = id;
         this.info = info;
     }
+    Product.prototype.toCreateEdit = function () {
+        return {
+            id: this.id || undefined,
+            info: {
+                name: this.info.name,
+                description: this.info.description
+            }
+        };
+    };
+    Product.EnsureType = function (product) {
+        return new this(product.id, product.info);
+    };
     return Product;
 }());
 export { Product };

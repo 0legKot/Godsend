@@ -29,9 +29,13 @@ var ProductsComponent = /** @class */ (function () {
     });
     ProductsComponent.prototype.createProduct = function (descr, name) {
         var _this = this;
-        // TODO create interface with oly relevant info
+        // TODO create interface with only relevant info
         var prod = new Product('', new ProductInfo('', descr, name, 0, 0));
-        this.repo.createProduct(prod, function () { return _this.searchInline.doSearch(); });
+        this.repo.createOrEditEntity('product', prod, function () { return _this.searchInline.doSearch(); });
+    };
+    ProductsComponent.prototype.deleteProduct = function (id) {
+        var _this = this;
+        this.repo.deleteEntity('product', id, function () { return _this.searchInline.doSearch(); });
     };
     ProductsComponent.prototype.onFound = function (products) {
         this.templateText = 'Not found';
