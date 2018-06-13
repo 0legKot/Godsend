@@ -8,7 +8,6 @@ export class Article implements IEntity<ArticleInfo> {
             content: this.content,
             info: {
                 name: this.info.name,
-                author: this.info.author,
                 tags: this.info.tags
             }
         }
