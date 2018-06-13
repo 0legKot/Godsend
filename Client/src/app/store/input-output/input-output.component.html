@@ -1,0 +1,4 @@
+<p *ngIf="!edit else inputMode">{{ value }}</p>
+<ng-template #inputMode>
+    <input [ngModel]="value" (ngModelChange)="changeValue($event)" />
+</ng-template>

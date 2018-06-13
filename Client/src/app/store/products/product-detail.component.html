@@ -9,11 +9,7 @@
     <div class='container-fluid'>
         <div class='row'>
             <div class='col-lg-3 col-md-4 col-sm-6 col-xs-12 products'>
-                <div *ngIf="!edit else enterName" class="prod-name">{{ data?.product?.info?.name }}</div>
-                <ng-template #enterName>
-                    <input [(ngModel)]="data.product.info.name" />
-                </ng-template>
-                
+                <godsend-input-output *ngIf="data" [(ngModel)]="data.product.info.name" [edit]="edit"></godsend-input-output>
                 <div class="photo">
                 </div>
                 <div class="rating">
@@ -25,10 +21,7 @@
                 <div class="prod-info">
                     <div>
                         <label>Description: </label>
-                        <p *ngIf="!edit else enterDescription">{{ data?.product?.info?.description }}</p>
-                        <ng-template #enterDescription>
-                            <input [(ngModel)]="data.product.info.description" />
-                        </ng-template>
+                        <godsend-input-output *ngIf="data" [(ngModel)]="data.product.info.description" [edit]="edit"></godsend-input-output>
                     </div>
                     <div class="buy" (click)="buy()">
                         <p class="inline-block"><fa name="cart-arrow-down"></fa></p>
