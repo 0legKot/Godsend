@@ -15,6 +15,10 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 export class InputOutputComponent implements OnInit, ControlValueAccessor {
     @Input()
     edit = false;
+    @Input()
+    size = 20;
+    @Input()
+    huge = false;
 
     value = '';
 
@@ -42,5 +46,6 @@ export class InputOutputComponent implements OnInit, ControlValueAccessor {
     }
 
     ngOnInit() {
+        console.log(this.size);
     }
 }

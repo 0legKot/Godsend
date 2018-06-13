@@ -27,9 +27,10 @@
             </div>
             <div class='col-lg-7 col-md-6 col-sm-5 col-xs-12 products rel'>
                 <div class="prod-info">
-                    <label>Description: </label>
-                    <p><godsend-input-output *ngIf="data" [(ngModel)]="data.product.info.description" [edit]="edit"></godsend-input-output></p>
-
+                    <div>
+                        <label>Description: </label>
+                        <p><godsend-input-output *ngIf="data" [(ngModel)]="data.product.info.description" [edit]="edit" [size]="50" huge="true"></godsend-input-output></p>
+                    </div>
                     <label>Price: </label>
                     <p>
                         <span>From: </span>

@@ -11,11 +11,17 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 import { Component } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { RepositoryService } from '../../services/repository.service';
+import { Supplier } from '../../models/supplier.model';
 var SupplierDetailComponent = /** @class */ (function () {
     function SupplierDetailComponent(route, router, service) {
         this.route = route;
         this.router = router;
         this.service = service;
+        this.backup = {
+            name: '',
+            address: ''
+        };
+        this.edit = false;
     }
     SupplierDetailComponent.prototype.gotoSuppliers = function (supplier) {
         var supplierId = supplier ? supplier.id : null;
@@ -24,6 +30,30 @@ var SupplierDetailComponent = /** @class */ (function () {
     SupplierDetailComponent.prototype.ngOnInit = function () {
         var _this = this;
         this.service.getEntity(this.route.snapshot.params.id, function (s) { return _this.supp = s; }, 'supplier');
+    };
+    SupplierDetailComponent.prototype.editMode = function () {
+        if (this.supp == null) {
+            console.log('no data');
+            return;
+        }
+        this.backup = {
+            name: this.supp.info.name,
+            address: this.supp.info.location.address
+        };
+        this.edit = true;
+    };
+    SupplierDetailComponent.prototype.save = function () {
+        if (this.supp) {
+            this.service.createOrEditEntity('supplier', Supplier.EnsureType(this.supp));
+        }
+        this.edit = false;
+    };
+    SupplierDetailComponent.prototype.discard = function () {
+        if (this.supp) {
+            this.supp.info.name = this.backup.name;
+            this.supp.info.location.address = this.backup.address;
+        }
+        this.edit = false;
     };
     SupplierDetailComponent = __decorate([
         Component({

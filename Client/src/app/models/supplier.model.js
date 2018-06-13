@@ -4,6 +4,20 @@ var Supplier = /** @class */ (function () {
         this.info = info;
         this.id = id;
     }
+    Supplier.prototype.toCreateEdit = function () {
+        return {
+            id: this.id || undefined,
+            info: {
+                name: this.info.name,
+                location: {
+                    address: this.info.location.address
+                }
+            }
+        };
+    };
+    Supplier.EnsureType = function (sup) {
+        return new Supplier(sup.info, sup.id);
+    };
     return Supplier;
 }());
 export { Supplier };
@@ -30,22 +44,4 @@ var Location = /** @class */ (function () {
     return Location;
 }());
 export { Location };
-var SupplierCreate = /** @class */ (function () {
-    function SupplierCreate(name, address) {
-        this.info = new SupplierInfoCreate(name, address);
-    }
-    SupplierCreate.FromSupplier = function (supplier) {
-        return new this(supplier.info.name, supplier.info.location.address);
-    };
-    return SupplierCreate;
-}());
-export { SupplierCreate };
-var SupplierInfoCreate = /** @class */ (function () {
-    function SupplierInfoCreate(name, address) {
-        this.name = name;
-        this.location = new Location(address);
-    }
-    return SupplierInfoCreate;
-}());
-export { SupplierInfoCreate };
 //# sourceMappingURL=supplier.model.js.map

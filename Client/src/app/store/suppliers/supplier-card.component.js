@@ -7,21 +7,32 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-import { Component, Input } from '@angular/core';
+import { Component, Input, EventEmitter, Output } from '@angular/core';
 import { SupplierInfo } from '../../models/supplier.model';
+import { RepositoryService } from '../../services/repository.service';
 var SupplierCardComponent = /** @class */ (function () {
-    function SupplierCardComponent() {
+    function SupplierCardComponent(repo) {
+        this.repo = repo;
+        this.delete = new EventEmitter();
     }
+    SupplierCardComponent.prototype.onDelete = function () {
+        this.delete.emit();
+    };
     __decorate([
         Input(),
         __metadata("design:type", SupplierInfo)
     ], SupplierCardComponent.prototype, "supplierInfo", void 0);
+    __decorate([
+        Output(),
+        __metadata("design:type", Object)
+    ], SupplierCardComponent.prototype, "delete", void 0);
     SupplierCardComponent = __decorate([
         Component({
             selector: 'godsend-supplier-card[supplierInfo]',
             templateUrl: './supplier-card.component.html',
             styleUrls: ['./suppliers.component.css']
-        })
+        }),
+        __metadata("design:paramtypes", [RepositoryService])
     ], SupplierCardComponent);
     return SupplierCardComponent;
 }());

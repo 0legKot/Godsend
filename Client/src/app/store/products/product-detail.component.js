@@ -10,6 +10,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 // import { switchMap } from 'rxjs/operators';
 import { Component } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
+import { Product } from '../../models/product.model';
 import { RepositoryService } from '../../services/repository.service';
 import { CartService } from '../../services/cart.service';
 var ProductDetailComponent = /** @class */ (function () {
@@ -19,6 +20,11 @@ var ProductDetailComponent = /** @class */ (function () {
         this.service = service;
         this.cart = cart;
         this.quantity = 1;
+        this.edit = false;
+        this.backup = {
+            name: '',
+            description: ''
+        };
     }
     Object.defineProperty(ProductDetailComponent.prototype, "price", {
         get: function () {
@@ -50,6 +56,30 @@ var ProductDetailComponent = /** @class */ (function () {
             price: this.selectedSupplier.price
         };
         this.cart.addToCart(op);
+    };
+    ProductDetailComponent.prototype.editMode = function () {
+        if (this.data == null) {
+            console.log('no data');
+            return;
+        }
+        this.backup = {
+            name: this.data.product.info.name,
+            description: this.data.product.info.description
+        };
+        this.edit = true;
+    };
+    ProductDetailComponent.prototype.save = function () {
+        if (this.data) {
+            this.service.createOrEditEntity('product', Product.EnsureType(this.data.product));
+        }
+        this.edit = false;
+    };
+    ProductDetailComponent.prototype.discard = function () {
+        if (this.data) {
+            this.data.product.info.name = this.backup.name;
+            this.data.product.info.description = this.backup.description;
+        }
+        this.edit = false;
     };
     ProductDetailComponent.prototype.ngOnInit = function () {
         var _this = this;

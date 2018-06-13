@@ -42,11 +42,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.6" />
-    <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
-  </ItemGroup>
-
-  <ItemGroup>
     <TypeScriptCompile Include="src\app\admin\admin.component.ts" />
     <TypeScriptCompile Include="src\app\admin\admin.module.ts" />
     <TypeScriptCompile Include="src\app\admin\orders\orders.component.ts" />

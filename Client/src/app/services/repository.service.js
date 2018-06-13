@@ -11,8 +11,8 @@ import { Product } from '../models/product.model';
 import { Injectable } from '@angular/core';
 import { DataService } from './data.service';
 import { Order } from '../models/order.model';
-import { Supplier, SupplierCreate } from '../models/supplier.model';
-import { Cart, OrderPartDiscreteSend, OrderPartWeightedSend } from '../models/cart.model';
+import { Supplier } from '../models/supplier.model';
+import { Cart, OrderPartDiscreteSend } from '../models/cart.model';
 var productsUrl = 'api/product';
 var ordersUrl = 'api/order';
 var suppliersUrl = 'api/supplier';
@@ -30,6 +30,18 @@ var RepositoryService = /** @class */ (function () {
         this.articles = [];
         this.article = {};
     }
+    RepositoryService.prototype.getSavedEntities = function (clas) {
+        switch (clas) {
+            case 'product':
+                return this.products;
+            case 'order':
+                return this.orders;
+            case 'supplier':
+                return this.suppliers;
+            case 'article':
+                return this.articles;
+        }
+    };
     RepositoryService.prototype.setEntity = function (val) {
         switch (typeof (val)) {
             case typeof (Product):
@@ -111,49 +123,28 @@ var RepositoryService = /** @class */ (function () {
     RepositoryService.prototype.createOrder = function (cartView) {
         var _this = this;
         console.dir(cartView);
-        var cart = new Cart(cartView.discreteItems.map(function (opdv) { return new OrderPartDiscreteSend(opdv.quantity, opdv.product.id, opdv.supplier.id); }), cartView.weightedItems.map(function (opwv) { return new OrderPartWeightedSend(opwv.weight, opwv.product.id, opwv.supplier.id); }));
+        var cart = new Cart(cartView.discreteItems.map(function (opdv) { return new OrderPartDiscreteSend(opdv.quantity, opdv.product.id, opdv.supplier.id); })
+        //cartView.weightedItems.map(opwv => new OrderPartWeightedSend(opwv.weight, opwv.product.id, opwv.supplier.id))
+        );
         this.data.sendRequest('post', ordersUrl + '/createOrUpdate', cart)
             .subscribe(function (response) {
             _this.orders.push(response);
         });
     };
-    RepositoryService.prototype.createProduct = function (prod, fn) {
+    RepositoryService.prototype.createOrEditEntity = function (clas, entity, fn) {
         var _this = this;
-        var dataBody = {
-            info: {
-                name: prod.info.name,
-                description: prod.info.description
-            }
-        };
-        this.data.sendRequest('post', productsUrl + '/CreateOrUpdate', dataBody)
+        var createEditData = entity.toCreateEdit();
+        var url = this.getUrl(clas);
+        this.data.sendRequest('post', url + '/CreateOrUpdate', createEditData)
             .subscribe(function (response) {
-            prod.info.id = response;
-            _this.products.push(prod.info);
+            entity.info.id = response;
+            _this.getEntities(clas);
             if (fn) {
-                fn(prod.info);
+                fn(entity.info);
             }
         });
     };
-    RepositoryService.prototype.createSupplier = function (sup, fn) {
-        var _this = this;
-        var supplier = SupplierCreate.FromSupplier(sup);
-        var dataBody = {
-            info: {
-                name: sup.info.name,
-                location: {
-                    address: sup.info.location.address
-                }
-            }
-        };
-        this.data.sendRequest('post', suppliersUrl + '/CreateOrUpdate', dataBody)
-            .subscribe(function (response) {
-            sup.info.id = response;
-            _this.suppliers.push(sup.info);
-            if (fn) {
-                fn(sup.info);
-            }
-        });
-    };
+    //deprecated?
     RepositoryService.prototype.replaceProduct = function (prod) {
         var _this = this;
         var data = {
@@ -163,20 +154,23 @@ var RepositoryService = /** @class */ (function () {
         this.data.sendRequest('put', productsUrl + '/' + prod.id, data)
             .subscribe(function (response) { return _this.getEntities('product'); });
     };
-    RepositoryService.prototype.updateProduct = function (id, changes) {
+    RepositoryService.prototype.updateEntity = function (clas, id, changes) {
         var _this = this;
+        var url = this.getUrl(clas);
         var patch = [];
         changes.forEach(function (value, key) {
             return patch.push({ op: 'replace', path: key, value: value });
         });
-        this.data.sendRequest('patch', productsUrl + '/' + id, patch)
-            .subscribe(function (response) { return _this.getEntities('product'); });
+        this.data.sendRequest('patch', url + '/' + id, patch)
+            .subscribe(function (response) { return _this.getEntities(clas); });
     };
-    RepositoryService.prototype.deleteEntity = function (clas, id) {
+    RepositoryService.prototype.deleteEntity = function (clas, id, fn) {
         var _this = this;
         var url = this.getUrl(clas);
         this.data.sendRequest('delete', url + '/delete/' + id)
-            .subscribe(function (response) { return _this.getEntities(clas); });
+            .subscribe(function (response) { _this.getEntities(clas); if (fn) {
+            fn();
+        } });
     };
     RepositoryService.prototype.storeSessionData = function (dataType, data) {
         return this.data.sendRequest('post', '/api/session/' + dataType, data)

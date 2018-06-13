@@ -7,28 +7,30 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { ProductInfo } from '../../models/product.model';
-import { RepositoryService } from '../../services/repository.service';
 var ProductCardComponent = /** @class */ (function () {
-    function ProductCardComponent(repo) {
-        this.repo = repo;
+    function ProductCardComponent() {
+        this.delete = new EventEmitter();
     }
-    ProductCardComponent.prototype.delete = function () {
-        if (this.productInfo)
-            this.repo.deleteEntity("product", this.productInfo.id);
+    ProductCardComponent.prototype.onDelete = function () {
+        this.delete.emit();
     };
     __decorate([
         Input(),
         __metadata("design:type", ProductInfo)
     ], ProductCardComponent.prototype, "productInfo", void 0);
+    __decorate([
+        Output(),
+        __metadata("design:type", Object)
+    ], ProductCardComponent.prototype, "delete", void 0);
     ProductCardComponent = __decorate([
         Component({
             selector: 'godsend-product-card[productInfo]',
             templateUrl: './product-card.component.html',
             styleUrls: ['./products.component.css']
         }),
-        __metadata("design:paramtypes", [RepositoryService])
+        __metadata("design:paramtypes", [])
     ], ProductCardComponent);
     return ProductCardComponent;
 }());
