@@ -1,7 +1,10 @@
-﻿import { guidZero } from "./cart.model";
-import { IEntity, IInformation } from "./entity.model";
+﻿import { guidZero } from './cart.model';
+import { IEntity, IInformation } from './entity.model';
 
 export class Supplier implements IEntity<SupplierInfo> {
+    static EnsureType(sup: Supplier): Supplier {
+        return new Supplier(sup.info, sup.id);
+    }
 
     constructor(
         public info: SupplierInfo,
@@ -17,11 +20,7 @@ export class Supplier implements IEntity<SupplierInfo> {
                     address: this.info.location.address
                 }
             }
-        }
-    }
-
-    static EnsureType(sup: Supplier): Supplier {
-        return new Supplier(sup.info, sup.id);
+        };
     }
 }
 
@@ -31,7 +30,7 @@ export class SupplierInfo implements IInformation {
         public location: Location,
         public id: string = '',
         public watches: number = 0,
-        public rating: number = 0        
+        public rating: number = 0
     ) { }
 }
 

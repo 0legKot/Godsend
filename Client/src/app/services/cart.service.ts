@@ -17,7 +17,7 @@ export class CartService {
     }
 
     addToCart(part: OrderPartDiscreteView ) {
-        //if (isDiscrete(part)) {
+        // if (isDiscrete(part)) {
             const repeat = this.cart.discreteItems.find(opdv =>
                 opdv.product === part.product && opdv.supplier === part.supplier && opdv.price === part.price);
             if (repeat) {
@@ -25,19 +25,19 @@ export class CartService {
             } else {
                 this.cart.discreteItems.push(part);
             }
-        //} else {
+        // } else {
         //    this.cart.weightedItems.push(part);
-        //}
+        // }
 
         console.log('added');
         console.dir(this.cart);
     }
 
     removeFromCart(part: OrderPartDiscreteView ) {
-        //if (isDiscrete(part)) {
+        // if (isDiscrete(part)) {
             this.cart.discreteItems = this.cart.discreteItems.filter(p => p !== part);
-        //} else {
+        // } else {
         //    this.cart.weightedItems = this.cart.weightedItems.filter(p => p !== part);
-        //}
+        // }
     }
 }

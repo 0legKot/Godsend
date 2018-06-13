@@ -1,7 +1,11 @@
 import { Supplier } from './supplier.model';
-import { IEntity, IInformation} from './entity.model'
+import { IEntity, IInformation } from './entity.model';
 
 export class Product implements IEntity<ProductInfo> {
+    static EnsureType(product: Product): Product {
+        return new this(product.id, product.info);
+    }
+
     constructor(
         public id: string,
         public info: ProductInfo,
@@ -15,10 +19,6 @@ export class Product implements IEntity<ProductInfo> {
                 description: this.info.description
             }
         };
-    }
-
-    static EnsureType(product: Product): Product {
-        return new this(product.id, product.info);
     }
 }
 

@@ -25,7 +25,7 @@ export class ProductDetailComponent implements OnInit {
     backup = {
         name: '',
         description: ''
-    }
+    };
 
     get price(): string {
         return this.selectedSupplier ? (this.selectedSupplier.price * this.quantity).toFixed(2) : '';

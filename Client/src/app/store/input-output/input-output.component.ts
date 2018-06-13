@@ -37,7 +37,7 @@ export class InputOutputComponent implements OnInit, ControlValueAccessor {
         this.value = obj;
     }
 
-    registerOnChange(fn: (_:string) => any): void {
+    registerOnChange(fn: (_: string) => any): void {
         this.onChange = fn;
     }
 

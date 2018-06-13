@@ -12,7 +12,7 @@ export class SupplierCardComponent {
     supplierInfo?: SupplierInfo;
 
     @Output()
-    delete = new EventEmitter<void>();
+    readonly delete = new EventEmitter<void>();
 
     constructor(private repo: RepositoryService) { }
 

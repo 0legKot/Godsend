@@ -17,8 +17,9 @@ export class ArticleDetailComponent implements OnInit {
     backup = {
         name: '',
         content: '',
-        tags:['']
-    }
+        tags: ['']
+    };
+
     constructor(
         private route: ActivatedRoute,
         private router: Router,

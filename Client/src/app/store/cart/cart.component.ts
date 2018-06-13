@@ -29,9 +29,9 @@ export class CartComponent {
         return this.cartService.cart.discreteItems;
     }
 
-    //get weightedParts(): OrderPartWeightedView[] {
+    // get weightedParts(): OrderPartWeightedView[] {
     //    return this.cartService.cart.weightedItems;
-    //}
+    // }
 
     delete(part: OrderPartDiscreteView ) {
         this.cartService.removeFromCart(part);

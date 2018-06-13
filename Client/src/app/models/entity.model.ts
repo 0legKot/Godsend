@@ -6,8 +6,8 @@
 }
 
 export interface IInformation {
-    id: string,
-    name: string,
-    watches: number,
-    rating: number
+    id: string;
+    name: string;
+    watches: number;
+    rating: number;
 }

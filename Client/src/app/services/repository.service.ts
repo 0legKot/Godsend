@@ -131,7 +131,7 @@ export class RepositoryService {
 
         const cart = new Cart(
             cartView.discreteItems.map(opdv => new OrderPartDiscreteSend(opdv.quantity, opdv.product.id, opdv.supplier.id))
-            //cartView.weightedItems.map(opwv => new OrderPartWeightedSend(opwv.weight, opwv.product.id, opwv.supplier.id))
+            // cartView.weightedItems.map(opwv => new OrderPartWeightedSend(opwv.weight, opwv.product.id, opwv.supplier.id))
         );
 
         this.data.sendRequest<Order>('post', ordersUrl + '/createOrUpdate', cart)
@@ -155,7 +155,7 @@ export class RepositoryService {
 
     }
 
-    //deprecated?
+    // deprecated?
     replaceProduct(prod: Product) {
         const data = {
             name: prod.info.name,

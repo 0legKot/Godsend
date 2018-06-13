@@ -14,7 +14,7 @@ export class Order {
         public id: string,
         public customer: IdentityUser,
         public items: OrderPartProducts[],
-        //public weightedItems: OrderPartWeighted[],
+        // public weightedItems: OrderPartWeighted[],
         public ordered: string,
         public status: number,
         public done?: string) { }
@@ -40,7 +40,7 @@ export class OrderPartProducts extends OrderPart {
     }
 }
 
-//export class OrderPartWeighted extends OrderPart {
+// export class OrderPartWeighted extends OrderPart {
 //    constructor(
 //        weight: number,
 //        id: string,
@@ -49,4 +49,4 @@ export class OrderPartProducts extends OrderPart {
 //    ) {
 //        super(id, product, supplier);
 //    }
-//}
+// }

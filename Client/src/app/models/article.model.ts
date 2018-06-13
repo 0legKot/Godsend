@@ -2,6 +2,10 @@
 import { IEntity } from './entity.model';
 
 export class Article implements IEntity<ArticleInfo> {
+    static EnsureType(art: Article): Article {
+        return new Article(art.id, art.content, art.info);
+    }
+
     public toCreateEdit() {
         return {
             id: this.id || undefined,
@@ -10,11 +14,9 @@ export class Article implements IEntity<ArticleInfo> {
                 name: this.info.name,
                 tags: this.info.tags
             }
-        }
+        };
     }
-    static EnsureType(art: Article): Article {
-        return new Article(art.id, art.content, art.info);
-    }
+
     constructor(
         public id: string,
         public content: string,

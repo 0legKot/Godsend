@@ -19,7 +19,7 @@ export class SupplierDetailComponent implements OnInit {
     backup = {
         name: '',
         address: ''
-    }
+    };
 
     edit = false;
 
