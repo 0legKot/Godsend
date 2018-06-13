@@ -1,4 +1,8 @@
-﻿namespace Godsend
+﻿// <copyright file="EFProductRepository.cs" company="Godsend Team">
+// Copyright (c) Godsend Team. All rights reserved.
+// </copyright>
+
+namespace Godsend
 {
     using System;
     using System.Collections.Generic;
@@ -139,7 +143,8 @@
 
             if (!context.Products.Any(p => p.Info.Name == "iPhone"))
             {
-                context.Products.AddRange(new SimpleProduct
+                context.Products.AddRange(
+                new SimpleProduct
                 {
                     Info = new ProductInformation
                     {
@@ -222,7 +227,7 @@
             }
         }
 
-        public IEnumerable<SimpleProduct> Entities => GetProductsFromContext().Include(x=>x.Info);
+        public IEnumerable<SimpleProduct> Entities => GetProductsFromContext().Include(x => x.Info);
 
         public IEnumerable<Information> EntitiesInfo => Entities.Select(p => p.Info).ToArray();
 
@@ -239,7 +244,7 @@
             }
             else
             {
-                //entity.SetIds();
+                ////entity.SetIds();
                 context.Add(entity);
             }
 
@@ -276,11 +281,6 @@
             }
         }
 
-        private IQueryable<SimpleProduct> GetProductsFromContext()
-        {
-            return context.Products.OfType<SimpleProduct>();
-        }
-
         public ProductWithSuppliers GetProductWithSuppliers(Guid productInfoId)
         {
             var tmp = context.LinkProductsSuppliers
@@ -300,6 +300,11 @@
                     .Select(link => new SupplierAndPrice { Supplier = link.Supplier, Price = link.Price })
                     .ToArray()
             };
+        }
+
+        private IQueryable<SimpleProduct> GetProductsFromContext()
+        {
+            return context.Products.OfType<SimpleProduct>();
         }
     }
 }

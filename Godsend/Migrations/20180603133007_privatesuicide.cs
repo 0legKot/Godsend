@@ -1,10 +1,14 @@
-﻿namespace Godsend.Migrations
+﻿// <copyright file="20180603133007_privatesuicide.cs" company="Godsend Team">
+// Copyright (c) Godsend Team. All rights reserved.
+// </copyright>
+
+namespace Godsend.Migrations
 {
     using System;
     using System.Collections.Generic;
     using Microsoft.EntityFrameworkCore.Migrations;
 
-    public partial class privatesuicide : Migration
+    public partial class Privatesuicide : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

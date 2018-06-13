@@ -15,9 +15,9 @@ namespace Godsend.Controllers
     public struct AllSearchResult
     {
         public IEnumerable<ProductInformation> ProductsInfo { get; set; }
-        
+
         public IEnumerable<SupplierInformation> SuppliersInfo { get; set; }
 
-// public IEnumerable<Order> Orders { get; set; }
+        // public IEnumerable<Order> Orders { get; set; }
     }
 }

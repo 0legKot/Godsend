@@ -1,4 +1,8 @@
-﻿namespace Godsend.Models
+﻿// <copyright file="DataContext .cs" company="Godsend Team">
+// Copyright (c) Godsend Team. All rights reserved.
+// </copyright>
+
+namespace Godsend.Models
 {
     using System;
     using System.Collections.Generic;
@@ -27,17 +31,17 @@
 
         public DbSet<LinkProductsSuppliers> LinkProductsSuppliers { get; set; }
 
-       // public DbSet<ProductInformation> ProductInformation { get; set; }
+        ////public DbSet<ProductInformation> ProductInformation { get; set; }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.Entity<SimpleOrder>();
             builder.Entity<SimpleProduct>();
-            //builder.Entity<DiscreteProduct>();
-            //builder.Entity<WeightedProduct>();
+            ////builder.Entity<DiscreteProduct>();
+            ////builder.Entity<WeightedProduct>();
             builder.Entity<SimpleArticle>();
             builder.Entity<SimpleSupplier>();
-
-            // builder.Entity<ProductInformation>();
+            ////builder.Entity<ProductInformation>();
             base.OnModelCreating(builder);
         }
     }

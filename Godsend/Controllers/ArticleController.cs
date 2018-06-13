@@ -1,4 +1,8 @@
-﻿namespace Godsend.Controllers
+﻿// <copyright file="ArticleController.cs" company="Godsend Team">
+// Copyright (c) Godsend Team. All rights reserved.
+// </copyright>
+
+namespace Godsend.Controllers
 {
     using System;
     using System.Collections.Generic;
@@ -9,11 +13,8 @@
 
     [Route("api/[controller]")]
 
-    // Now different because of splitting to Article and ArticleInformation
     public class ArticleController : EntityController<Article>
     {
-        //private IArticleRepository repository;
-
         public ArticleController(IArticleRepository repository)
         {
             this.repository = repository;

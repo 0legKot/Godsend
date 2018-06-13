@@ -67,11 +67,12 @@ namespace Godsend.Models
     public class OrderPartProducts : OrderPart
     {
         public int Quantity { get; set; }
+
         public int Multiplier { get; set; } = 1;
     }
 
-    //public class OrderPartWeighted : OrderPart
-    //{
-    //    public double Weight { get; set; }
-    //}
+    ////public class OrderPartWeighted : OrderPart
+    ////{
+    ////    public double Weight { get; set; }
+    ////}
 }

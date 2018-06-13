@@ -1,20 +1,29 @@
-﻿namespace Godsend.Models
+﻿// <copyright file="ProductInformation.cs" company="Godsend Team">
+// Copyright (c) Godsend Team. All rights reserved.
+// </copyright>
+
+namespace Godsend.Models
 {
     using System;
     using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading.Tasks;
     using System.ComponentModel;
-    using Newtonsoft.Json;
+    using System.ComponentModel.DataAnnotations.Schema;
+    using System.Linq;
     using System.Runtime.CompilerServices;
+    using System.Threading.Tasks;
+    using Newtonsoft.Json;
 
     public class ProductInformation : Information, INotifyPropertyChanged
     {
-        public string Description { get; set; }
-
+        [NotMapped]
         private string title;
 
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public string Description { get; set; }
+
         [JsonProperty("title")]
+        [NotMapped]
         public string Title
         {
             get => title;
@@ -25,13 +34,11 @@
             }
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
-
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-        
+
         // public IEnumerable<ISupplier> Suppliers { get; set; }
     }
 }

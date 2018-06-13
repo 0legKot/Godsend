@@ -13,7 +13,7 @@ namespace Godsend.Migrations
 {
     [DbContext(typeof(DataContext))]
     [Migration("20180612120822_reworkedDiscreteWeighted")]
-    partial class reworkedDiscreteWeighted
+    partial class ReworkedDiscreteWeighted
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

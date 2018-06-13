@@ -1,11 +1,15 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
-using System;
-using System.Collections.Generic;
+﻿// <copyright file="20180611132935_omg.cs" company="Godsend Team">
+// Copyright (c) Godsend Team. All rights reserved.
+// </copyright>
 
 namespace Godsend.Migrations
 {
-    public partial class omg : Migration
+    using System;
+    using System.Collections.Generic;
+    using Microsoft.EntityFrameworkCore.Metadata;
+    using Microsoft.EntityFrameworkCore.Migrations;
+
+    public partial class Omg : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

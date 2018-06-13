@@ -1,4 +1,8 @@
-﻿namespace Godsend.Migrations
+﻿// <copyright file="20180607152757_LinkAndRename.cs" company="Godsend Team">
+// Copyright (c) Godsend Team. All rights reserved.
+// </copyright>
+
+namespace Godsend.Migrations
 {
     using System;
     using System.Collections.Generic;

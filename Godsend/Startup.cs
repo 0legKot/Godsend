@@ -1,3 +1,7 @@
+// <copyright file="Startup.cs" company="Godsend Team">
+// Copyright (c) Godsend Team. All rights reserved.
+// </copyright>
+
 namespace Godsend
 {
     using System;

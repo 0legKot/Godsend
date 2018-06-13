@@ -67,15 +67,15 @@ namespace Godsend.Controllers
                         ProductId = item.ProductId,
                         SupplierId = item.SupplierId == Guid.Empty ? supRepo.Entities.FirstOrDefault().Id : item.SupplierId,
                         Quantity = item.Quantity,
-                        Multiplier=10
+                        Multiplier = 10
                     }).ToArray(),
-                    //WeightedItems = data.WeightedItems?.Select(item => new OrderPartWeighted
-                    //{
-                    //    Id = Guid.NewGuid(),
-                    //    ProductId = item.ProductId,
-                    //    SupplierId = item.SupplierId == Guid.Empty ? supRepo.Entities.FirstOrDefault().Id : item.SupplierId,
-                    //    Weight = item.Weight
-                    //}).ToArray(),
+                    ////WeightedItems = data.WeightedItems?.Select(item => new OrderPartWeighted
+                    ////{
+                    ////    Id = Guid.NewGuid(),
+                    ////    ProductId = item.ProductId,
+                    ////    SupplierId = item.SupplierId == Guid.Empty ? supRepo.Entities.FirstOrDefault().Id : item.SupplierId,
+                    ////    Weight = item.Weight
+                    ////}).ToArray(),
                     Id = Guid.NewGuid(),
                     Status = Status.Processing
                 };
@@ -132,6 +132,7 @@ namespace Godsend.Controllers
     public class OrderPartDiscreteNg : OrderPartNg
     {
         public int Quantity { get; set; }
+
         public int Multiplier { get; set; }
     }
 

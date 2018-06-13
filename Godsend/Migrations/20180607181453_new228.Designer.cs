@@ -13,7 +13,7 @@ namespace Godsend.Migrations
 {
     [DbContext(typeof(DataContext))]
     [Migration("20180607181453_new228")]
-    partial class new228
+    partial class New228
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

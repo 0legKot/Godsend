@@ -1,10 +1,14 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
-using System;
-using System.Collections.Generic;
+﻿// <copyright file="20180611140630_omg3.cs" company="Godsend Team">
+// Copyright (c) Godsend Team. All rights reserved.
+// </copyright>
 
 namespace Godsend.Migrations
 {
-    public partial class omg3 : Migration
+    using System;
+    using System.Collections.Generic;
+    using Microsoft.EntityFrameworkCore.Migrations;
+
+    public partial class Omg3 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

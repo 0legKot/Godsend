@@ -1,4 +1,8 @@
-﻿namespace Godsend.Models
+﻿// <copyright file="IEntity.cs" company="Godsend Team">
+// Copyright (c) Godsend Team. All rights reserved.
+// </copyright>
+
+namespace Godsend.Models
 {
     using System;
     using System.Collections.Generic;
@@ -8,10 +12,12 @@
     public interface IEntity
     {
          Guid Id { get; set; }
+
          Information EntityInformation { get; set; }
-        //public virtual void SetIds() {
-        //    Id = Guid.NewGuid();
-        //    EntityInformation.Id = Guid.NewGuid();
-        //}
+
+         ////public virtual void SetIds() {
+         ////    Id = Guid.NewGuid();
+         ////    EntityInformation.Id = Guid.NewGuid();
+         ////}
     }
 }

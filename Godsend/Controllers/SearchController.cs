@@ -45,7 +45,6 @@ namespace Godsend.Controllers
                     return new AllSearchResult { SuppliersInfo = FindSuppliers(term) };
                 default:
                     return new AllSearchResult { }; // Because failing silently is better than knowing there is a mistake
-
             }
         }
 

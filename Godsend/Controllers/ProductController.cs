@@ -1,4 +1,8 @@
-﻿namespace Godsend.Controllers
+﻿// <copyright file="ProductController.cs" company="Godsend Team">
+// Copyright (c) Godsend Team. All rights reserved.
+// </copyright>
+
+namespace Godsend.Controllers
 {
     using System;
     using System.Collections.Generic;
@@ -15,12 +19,15 @@
             repository = repo;
         }
 
-        
         [HttpGet("[action]/{id:Guid}")]
         public new ProductWithSuppliers Detail(Guid id)
         {
             var prod = (repository as IProductRepository)?.GetProductWithSuppliers(id);
-            if (prod != null) repository.Watch(prod.Product as SimpleProduct);
+            if (prod != null)
+            {
+                repository.Watch(prod.Product as SimpleProduct);
+            }
+
             return prod;
         }
     }

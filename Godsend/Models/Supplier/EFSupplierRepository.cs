@@ -186,12 +186,13 @@ namespace Godsend.Models
                 // TODO: implement IClonable
                 dbEntry.Info.Name = entity.Info.Name;
                 dbEntry.Info.Location.Address = entity.Info.Location.Address;
+
                 // dbEntry.Status = supplier.Status;
                 // ....
             }
             else
             {
-                //entity.SetIds();
+                ////entity.SetIds();
                 context.Add(entity);
             }
 

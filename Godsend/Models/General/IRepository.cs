@@ -1,4 +1,8 @@
-﻿namespace Godsend.Models
+﻿// <copyright file="IRepository.cs" company="Godsend Team">
+// Copyright (c) Godsend Team. All rights reserved.
+// </copyright>
+
+namespace Godsend.Models
 {
     using System;
     using System.Collections.Generic;

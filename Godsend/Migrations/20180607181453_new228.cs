@@ -1,10 +1,14 @@
-﻿namespace Godsend.Migrations
+﻿// <copyright file="20180607181453_new228.cs" company="Godsend Team">
+// Copyright (c) Godsend Team. All rights reserved.
+// </copyright>
+
+namespace Godsend.Migrations
 {
     using System;
     using System.Collections.Generic;
     using Microsoft.EntityFrameworkCore.Migrations;
 
-    public partial class new228 : Migration
+    public partial class New228 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

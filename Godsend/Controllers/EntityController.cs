@@ -1,4 +1,8 @@
-﻿namespace Godsend.Controllers
+﻿// <copyright file="EntityController.cs" company="Godsend Team">
+// Copyright (c) Godsend Team. All rights reserved.
+// </copyright>
+
+namespace Godsend.Controllers
 {
     using System;
     using System.Collections.Generic;

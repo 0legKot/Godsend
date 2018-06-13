@@ -1,4 +1,8 @@
-﻿namespace Godsend.Models
+﻿// <copyright file="EFArticleRepository.cs" company="Godsend Team">
+// Copyright (c) Godsend Team. All rights reserved.
+// </copyright>
+
+namespace Godsend.Models
 {
     using System;
     using System.Collections.Generic;
@@ -192,7 +196,7 @@ This is a pretty simple and straightforward diet you will ever try. It involves 
             }
             else
             {
-                //entity.SetIds();
+                ////entity.SetIds();
                 context.Add(entity);
             }
 
