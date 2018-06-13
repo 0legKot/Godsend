@@ -1,13 +1,26 @@
 ﻿import { guidZero } from "./cart.model";
+import { IEntity, IInformation } from "./entity.model";
 
-export class Supplier {
+export class Supplier implements IEntity<SupplierInfo> {
     constructor(
         public info: SupplierInfo,
         public id: string = ''
     ) { }
+
+    toCreateEdit() {
+        return {
+            id: this.id || undefined,
+            info: {
+                name: this.info.name,
+                location: {
+                    address: this.info.location.address
+                }
+            }
+        }
+    }
 }
 
-export class SupplierInfo {
+export class SupplierInfo implements IInformation {
     constructor(
         public name: string,
         public location: Location,
@@ -21,6 +34,12 @@ export class Location {
     constructor(
         public address: string,
         public id: string = ''
+    ) { }
+}
+
+export class LocationCreate {
+    constructor(
+        public address: string,
     ) { }
 }
 
@@ -40,13 +59,13 @@ export class SupplierCreate {
 }
 
 export class SupplierInfoCreate {
-    public location: Location;
+    public location: LocationCreate;
 
     constructor(
         public name: string,
         address: string   
     ) {
-        this.location = new Location(address);
+        this.location = new LocationCreate(address);
     }
 }
 

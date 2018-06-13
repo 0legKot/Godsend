@@ -6,6 +6,7 @@ import { Order } from '../models/order.model';
 import { Supplier, SupplierInfo, SupplierCreate } from '../models/supplier.model';
 import { ArticleInfo, Article } from '../models/article.model';
 import { Cart, CartView, OrderPartDiscreteSend } from '../models/cart.model';
+import { IEntity, IInformation } from '../models/entity.model';
 
 type supportedClass = 'article' | 'product' | 'supplier' | 'order';
 
@@ -29,6 +30,19 @@ export class RepositoryService {
     article: Article | {} = {};
 
     constructor(private data: DataService) {
+    }
+
+    getSavedEntities(clas: supportedClass) {
+        switch (clas) {
+            case 'product':
+                return this.products;
+            case 'order':
+                return this.orders;
+            case 'supplier':
+                return this.suppliers;
+            case 'article':
+                return this.articles;
+        }
     }
 
     setEntity<T>(val: T) {
@@ -126,44 +140,21 @@ export class RepositoryService {
             });
     }
 
-    createProduct(prod: Product, fn?: (_: ProductInfo) => any) {
-        const dataBody = {
-            info: {
-                name: prod.info.name,
-                description: prod.info.description
-            }
-        };
+    createOrEditEntity<T extends IEntity<IInformation>>(clas: supportedClass, entity: T, fn?: (_: IInformation) => any) {
+        const createEditData = entity.toCreateEdit();
+        const url = this.getUrl(clas);
 
-        this.data.sendRequest<string>('post', productsUrl + '/CreateOrUpdate', dataBody)
+        this.data.sendRequest<string>('post', url + '/CreateOrUpdate', createEditData)
             .subscribe(response => {
-                prod.info.id = response;
-                this.products.push(prod.info);
+                entity.info.id = response;
+                if (!entity.id) {
+                    this.getSavedEntities(clas).push(entity.info);
+                }
                 if (fn) {
-                    fn(prod.info);
+                    fn(entity.info);
                 }
             });
-    }
 
-    createSupplier(sup: Supplier, fn?: (_: SupplierInfo) => any) {
-        const supplier = SupplierCreate.FromSupplier(sup);
-
-        const dataBody = {
-            info: {
-                name: sup.info.name,
-                location: {
-                    address: sup.info.location.address
-                }
-            }
-        };
-
-        this.data.sendRequest<string>('post', suppliersUrl + '/CreateOrUpdate', dataBody)
-            .subscribe(response => {
-                sup.info.id = response;                
-                this.suppliers.push(sup.info);
-                if (fn) {
-                    fn(sup.info);
-                }
-            });
     }
 
     replaceProduct(prod: Product) {
@@ -184,10 +175,10 @@ export class RepositoryService {
             .subscribe(response => this.getEntities<Product>('product'));
     }
 
-    deleteEntity(clas: supportedClass, id: string) {
+    deleteEntity(clas: supportedClass, id: string, fn?: () => any) {
         const url = this.getUrl(clas);
         this.data.sendRequest<null>('delete', url + '/delete/' + id)
-            .subscribe(response => this.getEntities<null>(clas));
+            .subscribe(response => { this.getEntities<null>(clas); if (fn) { fn(); } });
     }
 
 
@@ -199,7 +190,4 @@ export class RepositoryService {
     getSessionData(dataType: string): Observable<any> {
         return this.data.sendRequest<any>('get', '/api/session/' + dataType);
     }
-
-
-
 }

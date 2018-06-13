@@ -32,7 +32,11 @@ export class SuppliersComponent implements OnInit {
     createSupplier(name: string, address: string) {
         // TODO create interface with oly relevant info
         const sup = new Supplier(new SupplierInfo(name, new Location(address)));
-        this.repo.createSupplier(sup, () => this.searchInline.doSearch());
+        this.repo.createOrEditEntity('supplier', sup, () => this.searchInline.doSearch());
+    }
+
+    deleteSupplier(id: string) {
+        this.repo.deleteEntity('supplier', id, () => this.searchInline.doSearch());
     }
 
     onFound(suppliers: SupplierInfo[]) {

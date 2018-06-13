@@ -229,14 +229,13 @@
         public void SaveEntity(SimpleProduct entity)
         {
             SimpleProduct dbEntry = GetProductsFromContext()
+                .Include(p => p.Info)
                 .FirstOrDefault(p => p.Id == entity.Id);
             if (dbEntry != null)
             {
                 // TODO: implement IClonable
                 dbEntry.Info.Name = entity.Info.Name;
                 dbEntry.Info.Description = entity.Info.Description;
-                dbEntry.Info.Watches = entity.Info.Watches;
-                dbEntry.Info.Rating = entity.Info.Rating;
             }
             else
             {

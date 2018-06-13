@@ -9,7 +9,11 @@
     <div class='container-fluid'>
         <div class='row'>
             <div class='col-lg-3 col-md-4 col-sm-6 col-xs-12 products'>
-                <div class="prod-name">{{ data?.product?.info?.name }}</div>
+                <div *ngIf="!edit else enterName" class="prod-name">{{ data?.product?.info?.name }}</div>
+                <ng-template #enterName>
+                    <input [(ngModel)]="data.product.info.name" />
+                </ng-template>
+                
                 <div class="photo">
                 </div>
                 <div class="rating">
@@ -21,7 +25,10 @@
                 <div class="prod-info">
                     <div>
                         <label>Description: </label>
-                        <p>{{ data?.product?.info?.description }}</p>
+                        <p *ngIf="!edit else enterDescription">{{ data?.product?.info?.description }}</p>
+                        <ng-template #enterDescription>
+                            <input [(ngModel)]="data.product.info.description" />
+                        </ng-template>
                     </div>
                     <div class="buy" (click)="buy()">
                         <p class="inline-block"><fa name="cart-arrow-down"></fa></p>
@@ -35,6 +42,9 @@
         </div>
     </div>
 
+    <button *ngIf="!edit" (click)="editMode()">EDIT</button>
+    <button *ngIf="edit" (click)="save()">SAVE</button>
+    <button *ngIf="edit" (click)="discard()">DISCARD</button>
 
     <select [(ngModel)]="selectedSupplier" *ngIf="data != null">
         <option *ngFor="let s of data?.suppliers" [ngValue]="s">{{ s.supplier?.info?.name }} for {{ s.price }}</option>

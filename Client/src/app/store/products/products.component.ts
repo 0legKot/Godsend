@@ -28,7 +28,11 @@ export class ProductsComponent implements OnInit {
     createProduct(descr: string, name: string) {
         // TODO create interface with oly relevant info
         const prod = new Product('', new ProductInfo('', descr, name, 0, 0));
-        this.repo.createProduct(prod, () => this.searchInline.doSearch());
+        this.repo.createOrEditEntity('product', prod, () => this.searchInline.doSearch());
+    }
+
+    deleteProduct(id: string) {
+        this.repo.deleteEntity('product', id, () => this.searchInline.doSearch());
     }
 
     onFound(products: ProductInfo[]) {
