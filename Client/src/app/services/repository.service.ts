@@ -71,7 +71,7 @@ export class RepositoryService {
                 this.suppliers = <any>val;
                 break;
             case 'article':
-                this.articles = val;
+                this.articles = <any>val;
                 break;
         }
     }
