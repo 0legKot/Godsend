@@ -9,8 +9,11 @@
     <div class='container-fluid'>
         <div class='row'>
             <div class='col-lg-3 col-md-4 col-sm-6 col-xs-12 products'>
-                <godsend-input-output *ngIf="data" [(ngModel)]="data.product.info.name" [edit]="edit"></godsend-input-output>
+                <div class="prod-name">
+                    <godsend-input-output *ngIf="data" [(ngModel)]="data.product.info.name" [edit]="edit"></godsend-input-output>
+                </div>
                 <div class="photo">
+                    <div><img src="../../../assets/simpleApple.jpg" /></div>
                 </div>
                 <div class="rating">
                     <godsend-stars [value]="data?.product?.info?.rating"></godsend-stars>
@@ -21,35 +24,37 @@
                 <div class="prod-info">
                     <div>
                         <label>Description: </label>
-                        <godsend-input-output *ngIf="data" [(ngModel)]="data.product.info.description" [edit]="edit"></godsend-input-output>
+                        <p><godsend-input-output *ngIf="data" [(ngModel)]="data.product.info.description" [edit]="edit"></godsend-input-output></p>
                     </div>
+                    <label>Price: </label>
+                    <p>
+                        <span>From: </span>
+                        <select [(ngModel)]="selectedSupplier" *ngIf="data != null">
+                            <option *ngFor="let s of data?.suppliers" [ngValue]="s">{{ s.supplier?.info?.name }} for {{ s.price }}</option>
+                        </select>
+                    </p>
+                    <p> For: {{ price }}</p>
+                    <label>Quantity: </label>
+                    <p><input id="input-quantity" type="number" min="1" step="1" [(ngModel)]="quantity" /></p>
                     <div class="buy" (click)="buy()">
                         <p class="inline-block"><fa name="cart-arrow-down"></fa></p>
                         <p class="inline-block">Buy!</p>
                     </div>
-                    <div (click)="deleteProduct()">
-                        <p class="inline-block" >Delete!!!</p>
-                    </div>
+
                 </div>
             </div>
         </div>
     </div>
-
-    <button *ngIf="!edit" (click)="editMode()">EDIT</button>
-    <button *ngIf="edit" (click)="save()">SAVE</button>
-    <button *ngIf="edit" (click)="discard()">DISCARD</button>
-
-    <select [(ngModel)]="selectedSupplier" *ngIf="data != null">
-        <option *ngFor="let s of data?.suppliers" [ngValue]="s">{{ s.supplier?.info?.name }} for {{ s.price }}</option>
-    </select>
-    <br />
-    <label>Quantity: </label><input type="number" min="1" step="1" [(ngModel)]="quantity" />
-    <br />
-    <span>From {{ selectedSupplier?.supplier?.info?.name }}, for {{ price }}</span>
-
-
-
     <div class="back-btn" (click)="gotoProducts(prod)">
         <fa name="long-arrow-left"></fa> Back to products
+    </div>
+    <div class="pull-right edit-prod">
+        <label>Edit Product</label>
+        <div class=" edit-prod-btn">
+            <div class="inline-block edit-btns" id="edit" *ngIf="!edit" (click)="editMode()"> Edit</div>
+            <div class="inline-block edit-btns" id="save" *ngIf="edit" (click)="save()"> Save</div>
+            <div class="inline-block edit-btns" id="discard" *ngIf="edit" (click)="discard()"> Discard</div>
+            <div id="delete" class="inline-block pull-left edit-btns"  (click)="deleteProduct()">Delete</div>
+        </div>
     </div>
 </div>
