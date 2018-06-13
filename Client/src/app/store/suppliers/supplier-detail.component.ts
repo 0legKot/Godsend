@@ -16,6 +16,13 @@ import { Supplier } from '../../models/supplier.model';
 export class SupplierDetailComponent implements OnInit {
     supp?: Supplier;
 
+    backup = {
+        name: '',
+        address: ''
+    }
+
+    edit = false;
+
     constructor(
         private route: ActivatedRoute,
         private router: Router,
@@ -28,6 +35,37 @@ export class SupplierDetailComponent implements OnInit {
 
     ngOnInit() {
         this.service.getEntity<Supplier>(this.route.snapshot.params.id, s => this.supp = s, 'supplier');
+    }
+
+    editMode() {
+        if (this.supp == null) {
+            console.log('no data');
+            return;
+        }
+
+        this.backup = {
+            name: this.supp.info.name,
+            address: this.supp.info.location.address
+        };
+
+        this.edit = true;
+    }
+
+    save() {
+        if (this.supp) {
+            this.service.createOrEditEntity('supplier', Supplier.EnsureType(this.supp));
+        }
+
+        this.edit = false;
+    }
+
+    discard() {
+        if (this.supp) {
+            this.supp.info.name = this.backup.name;
+            this.supp.info.location.address = this.backup.address;
+        }
+
+        this.edit = false;
     }
 
 }

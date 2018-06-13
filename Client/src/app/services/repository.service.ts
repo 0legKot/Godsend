@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { DataService } from './data.service';
 import { Order } from '../models/order.model';
-import { Supplier, SupplierInfo, SupplierCreate } from '../models/supplier.model';
+import { Supplier, SupplierInfo } from '../models/supplier.model';
 import { ArticleInfo, Article } from '../models/article.model';
 import { Cart, CartView, OrderPartDiscreteSend } from '../models/cart.model';
 import { IEntity, IInformation } from '../models/entity.model';
@@ -71,7 +71,7 @@ export class RepositoryService {
                 this.suppliers = <any>val;
                 break;
             case 'article':
-                this.articles = val;
+                this.articles = <any>val;
                 break;
         }
     }
@@ -147,9 +147,7 @@ export class RepositoryService {
         this.data.sendRequest<string>('post', url + '/CreateOrUpdate', createEditData)
             .subscribe(response => {
                 entity.info.id = response;
-                if (!entity.id) {
-                    this.getSavedEntities(clas).push(entity.info);
-                }
+                this.getEntities(clas);
                 if (fn) {
                     fn(entity.info);
                 }
@@ -157,6 +155,7 @@ export class RepositoryService {
 
     }
 
+    //deprecated?
     replaceProduct(prod: Product) {
         const data = {
             name: prod.info.name,
@@ -166,13 +165,14 @@ export class RepositoryService {
             .subscribe(response => this.getEntities < Product>('product'));
     }
 
-    updateProduct(id: string, changes: Map<string, any>) {
+    updateEntity<T>(clas: supportedClass, id: string, changes: Map<string, any>) {
+        const url = this.getUrl(clas);
         const patch: any[] = [];
         changes.forEach((value, key) =>
             patch.push({ op: 'replace', path: key, value: value }));
 
-        this.data.sendRequest<null>('patch', productsUrl + '/' + id, patch)
-            .subscribe(response => this.getEntities<Product>('product'));
+        this.data.sendRequest<null>('patch', url + '/' + id, patch)
+            .subscribe(response => this.getEntities<T>(clas));
     }
 
     deleteEntity(clas: supportedClass, id: string, fn?: () => any) {

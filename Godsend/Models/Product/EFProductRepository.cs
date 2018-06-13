@@ -239,7 +239,8 @@
             }
             else
             {
-                context.Products.Add(entity);
+                //entity.SetIds();
+                context.Add(entity);
             }
 
             context.SaveChanges();

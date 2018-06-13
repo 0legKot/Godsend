@@ -2,10 +2,10 @@
 <div *ngIf="article?.info != null">
     <h2>{{ article.id }}</h2>
     <span class="h4">
-        Title: {{ article.info.name }}
+        Title: <godsend-input-output *ngIf="article" [(ngModel)]="article.info.name" [edit]="edit"></godsend-input-output>
     </span><br />
     <span class="h4">
-        Author: {{ article.info.author?.userName }}
+        Author: {{ article.info.author?.name }}
     </span><br />
     <span class="h4">
         Created: {{ article.info.created }}
@@ -16,11 +16,15 @@
     <span class="h4">
         Watches: {{ article.info.watches }}
     </span><br />
-    <span class="h4" [innerHtml]="article.content"></span><br /><br />
+    <godsend-input-output *ngIf="article" [(ngModel)]="article.content" [edit]="edit"><span class="h4" [innerHtml]="article.content"></span></godsend-input-output>
+    <br /><br />
     <span class="h4" *ngFor="let hash of article.info.tags">
         #{{ hash }}&nbsp;
     </span>
 </div>
+<button *ngIf="!edit" (click)="editMode()">EDIT</button>
+<button *ngIf="edit" (click)="save()">SAVE</button>
+<button *ngIf="edit" (click)="discard()">DISCARD</button>
 <p>
     <button (click)="gotoArticles(article)">Back</button>
 </p>

@@ -7,6 +7,11 @@
 
     public interface IEntity
     {
-        Information EntityInformation { get; set; }
+         Guid Id { get; set; }
+         Information EntityInformation { get; set; }
+        //public virtual void SetIds() {
+        //    Id = Guid.NewGuid();
+        //    EntityInformation.Id = Guid.NewGuid();
+        //}
     }
 }

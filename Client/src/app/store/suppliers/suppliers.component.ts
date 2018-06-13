@@ -1,6 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 import { RepositoryService } from '../../services/repository.service';
-import { Supplier, SupplierInfo, SupplierCreate, SupplierInfoCreate, Location } from '../../models/supplier.model';
+import { Supplier, SupplierInfo, Location } from '../../models/supplier.model';
 import { OnInit } from '@angular/core';
 import { searchType } from '../search/search.service';
 import { SearchInlineComponent } from '../search/search-inline.component';
