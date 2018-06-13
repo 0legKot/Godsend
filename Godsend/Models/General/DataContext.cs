@@ -1,4 +1,4 @@
-﻿// <copyright file="DataContext .cs" company="Godsend Team">
+﻿// <copyright file="DataContext.cs" company="Godsend Team">
 // Copyright (c) Godsend Team. All rights reserved.
 // </copyright>
 

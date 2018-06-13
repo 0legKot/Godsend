@@ -35,7 +35,7 @@ namespace Godsend.Models
 
         public IEnumerable<OrderPartProducts> Items { get; set; }
 
-        //public IEnumerable<OrderPartWeighted> WeightedItems { get; set; }
+        ////public IEnumerable<OrderPartWeighted> WeightedItems { get; set; }
 
         public DateTime Ordered { get; set; }
 

@@ -23,7 +23,7 @@ namespace Godsend.Models
                 IList<OrderPartProducts> orderPartDiscretes = new List<OrderPartProducts>();
                 foreach (var p in ctx.Products.Include(p => p.Info).Where(p => typeof(SimpleProduct) == p.GetType()))
                 {
-                    orderPartDiscretes.Add(new OrderPartProducts { Quantity = p.Info.Watches * 5,Multiplier = 10, Product = p, Supplier = context.Suppliers.FirstOrDefault() });
+                    orderPartDiscretes.Add(new OrderPartProducts { Quantity = p.Info.Watches * 5, Multiplier = 10, Product = p, Supplier = context.Suppliers.FirstOrDefault() });
                 }
 
                 context.Orders.Add(
