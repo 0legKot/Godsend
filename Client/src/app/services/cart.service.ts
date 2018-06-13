@@ -1,4 +1,4 @@
-﻿import { isDiscrete, CartView, OrderPartDiscreteView, OrderPartWeightedView } from '../models/cart.model';
+﻿import { CartView, OrderPartDiscreteView } from '../models/cart.model';
 import { IdentityUser } from '../models/user.model';
 import { RepositoryService } from './repository.service';
 import { Injectable } from '@angular/core';
@@ -7,7 +7,7 @@ import { Injectable } from '@angular/core';
     providedIn: 'root'
 })
 export class CartService {
-    cart: CartView = new CartView([], []);
+    cart: CartView = new CartView([]);
 
     constructor(private repo: RepositoryService) {}
 
@@ -16,8 +16,8 @@ export class CartService {
         this.repo.createOrder(this.cart);
     }
 
-    addToCart(part: OrderPartDiscreteView | OrderPartWeightedView) {
-        if (isDiscrete(part)) {
+    addToCart(part: OrderPartDiscreteView ) {
+        //if (isDiscrete(part)) {
             const repeat = this.cart.discreteItems.find(opdv =>
                 opdv.product === part.product && opdv.supplier === part.supplier && opdv.price === part.price);
             if (repeat) {
@@ -25,19 +25,19 @@ export class CartService {
             } else {
                 this.cart.discreteItems.push(part);
             }
-        } else {
-            this.cart.weightedItems.push(part);
-        }
+        //} else {
+        //    this.cart.weightedItems.push(part);
+        //}
 
         console.log('added');
         console.dir(this.cart);
     }
 
-    removeFromCart(part: OrderPartDiscreteView | OrderPartWeightedView) {
-        if (isDiscrete(part)) {
+    removeFromCart(part: OrderPartDiscreteView ) {
+        //if (isDiscrete(part)) {
             this.cart.discreteItems = this.cart.discreteItems.filter(p => p !== part);
-        } else {
-            this.cart.weightedItems = this.cart.weightedItems.filter(p => p !== part);
-        }
+        //} else {
+        //    this.cart.weightedItems = this.cart.weightedItems.filter(p => p !== part);
+        //}
     }
 }

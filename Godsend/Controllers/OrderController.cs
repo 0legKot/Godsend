@@ -9,6 +9,7 @@ namespace Godsend.Controllers
     using System.Linq;
     using System.Threading.Tasks;
     using Godsend.Models;
+    using Microsoft.AspNetCore.Cors;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
 
@@ -29,6 +30,7 @@ namespace Godsend.Controllers
         }
 
         [HttpGet("[action]")]
+        [DisableCors]
         public IEnumerable<Order> All()
         {
             return repository.Orders;

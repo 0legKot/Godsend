@@ -5,7 +5,7 @@ import { DataService } from './data.service';
 import { Order } from '../models/order.model';
 import { Supplier, SupplierInfo, SupplierCreate } from '../models/supplier.model';
 import { ArticleInfo, Article } from '../models/article.model';
-import { Cart, CartView, OrderPartDiscreteSend, OrderPartWeightedSend } from '../models/cart.model';
+import { Cart, CartView, OrderPartDiscreteSend } from '../models/cart.model';
 
 type supportedClass = 'article' | 'product' | 'supplier' | 'order';
 
@@ -116,8 +116,8 @@ export class RepositoryService {
         console.dir(cartView);
 
         const cart = new Cart(
-            cartView.discreteItems.map(opdv => new OrderPartDiscreteSend(opdv.quantity, opdv.product.id, opdv.supplier.id)),
-            cartView.weightedItems.map(opwv => new OrderPartWeightedSend(opwv.weight, opwv.product.id, opwv.supplier.id))
+            cartView.discreteItems.map(opdv => new OrderPartDiscreteSend(opdv.quantity, opdv.product.id, opdv.supplier.id))
+            //cartView.weightedItems.map(opwv => new OrderPartWeightedSend(opwv.weight, opwv.product.id, opwv.supplier.id))
         );
 
         this.data.sendRequest<Order>('post', ordersUrl + '/createOrUpdate', cart)

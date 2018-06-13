@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { CartService } from '../../services/cart.service';
 import { OrderPart } from '../../models/order.model';
-import { OrderPartDiscreteView, OrderPartWeightedView } from '../../models/cart.model';
+import { OrderPartDiscreteView } from '../../models/cart.model';
 import { retry } from 'rxjs/operators';
 
 @Component({
@@ -33,7 +33,7 @@ export class CartComponent {
     //    return this.cartService.cart.weightedItems;
     //}
 
-    delete(part: OrderPartDiscreteView | OrderPartWeightedView) {
+    delete(part: OrderPartDiscreteView ) {
         this.cartService.removeFromCart(part);
     }
 
