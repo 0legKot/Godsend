@@ -40,4 +40,5 @@ Thumbs.db
 
 #generated
 *.js
-src/*/*.js.map
+!*.conf.js
+*.js.map
