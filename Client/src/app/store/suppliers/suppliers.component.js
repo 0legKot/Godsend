@@ -51,7 +51,10 @@ var SuppliersComponent = /** @class */ (function () {
         Component({
             selector: 'godsend-suppliers',
             templateUrl: './suppliers.component.html',
-            styleUrls: ['./suppliers.component.css']
+            styleUrls: [
+                './suppliers.component.css',
+                '../products/products.component.css'
+            ]
         }),
         __metadata("design:paramtypes", [RepositoryService])
     ], SuppliersComponent);

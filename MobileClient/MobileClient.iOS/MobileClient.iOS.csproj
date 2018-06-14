@@ -113,6 +113,9 @@
     <InterfaceDefinition Include="Resources\LaunchScreen.storyboard" />
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\..\..\..\..\AppData\Local\Apps\2.0\VG7H2WLV.7WG\WKY084NH.R3L\gith..tion_317444273a93ac29_0003.0003_3b02964391cfbdd4\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
@@ -124,6 +127,9 @@
     </PackageReference>
     <PackageReference Include="Newtonsoft.Json">
       <Version>11.0.2</Version>
+    </PackageReference>
+    <PackageReference Include="System.Net.Http">
+      <Version>4.3.3</Version>
     </PackageReference>
     <PackageReference Include="Xamarin.Forms" Version="3.0.0.550146" />
   </ItemGroup>

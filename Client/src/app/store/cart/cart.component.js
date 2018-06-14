@@ -34,9 +34,9 @@ var CartComponent = /** @class */ (function () {
         enumerable: true,
         configurable: true
     });
-    //get weightedParts(): OrderPartWeightedView[] {
+    // get weightedParts(): OrderPartWeightedView[] {
     //    return this.cartService.cart.weightedItems;
-    //}
+    // }
     CartComponent.prototype.delete = function (part) {
         this.cartService.removeFromCart(part);
     };

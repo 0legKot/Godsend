@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 
 using MobileClient.Models;
+using Newtonsoft.Json;
 
 [assembly: Xamarin.Forms.Dependency(typeof(MobileClient.Services.MockDataStore))]
 namespace MobileClient.Services
@@ -12,8 +14,25 @@ namespace MobileClient.Services
     {
         List<Item> items;
 
+        public async void MyMeth() {
+            var Items = new List<Item>();
+            var uri = new Uri("localhost:56440/api/product/all");
+            HttpClient client;
+            client = new HttpClient
+            {
+                MaxResponseContentBufferSize = 256000
+            };
+            var response = await client.GetAsync(uri);
+            if (response.IsSuccessStatusCode)
+            {
+                var content = await response.Content.ReadAsStringAsync();
+                Items = JsonConvert.DeserializeObject<List<Item>>(content);
+            }
+        }
+
         public MockDataStore()
         {
+            MyMeth();
             items = new List<Item>();
             var mockItems = new List<Item>
             {

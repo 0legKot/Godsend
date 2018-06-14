@@ -16,7 +16,7 @@ export var orderStatus = [
 ];
 var Order = /** @class */ (function () {
     function Order(id, customer, items, 
-        //public weightedItems: OrderPartWeighted[],
+        // public weightedItems: OrderPartWeighted[],
         ordered, status, done) {
         this.id = id;
         this.customer = customer;
@@ -48,7 +48,7 @@ var OrderPartProducts = /** @class */ (function (_super) {
     return OrderPartProducts;
 }(OrderPart));
 export { OrderPartProducts };
-//export class OrderPartWeighted extends OrderPart {
+// export class OrderPartWeighted extends OrderPart {
 //    constructor(
 //        weight: number,
 //        id: string,
@@ -57,5 +57,5 @@ export { OrderPartProducts };
 //    ) {
 //        super(id, product, supplier);
 //    }
-//}
+// }
 //# sourceMappingURL=order.model.js.map

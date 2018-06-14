@@ -4,6 +4,9 @@ var Article = /** @class */ (function () {
         this.content = content;
         this.info = info;
     }
+    Article.EnsureType = function (art) {
+        return new Article(art.id, art.content, art.info);
+    };
     Article.prototype.toCreateEdit = function () {
         return {
             id: this.id || undefined,
@@ -13,9 +16,6 @@ var Article = /** @class */ (function () {
                 tags: this.info.tags
             }
         };
-    };
-    Article.EnsureType = function (art) {
-        return new Article(art.id, art.content, art.info);
     };
     return Article;
 }());
