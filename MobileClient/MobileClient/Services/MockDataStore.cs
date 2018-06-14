@@ -14,8 +14,7 @@ namespace MobileClient.Services
     {
         List<Item> items;
 
-        public MockDataStore()
-        {
+        public async void MyMeth() {
             var Items = new List<Item>();
             var uri = new Uri("localhost:56440/api/product/all");
             HttpClient client;
@@ -29,6 +28,11 @@ namespace MobileClient.Services
                 var content = await response.Content.ReadAsStringAsync();
                 Items = JsonConvert.DeserializeObject<List<Item>>(content);
             }
+        }
+
+        public MockDataStore()
+        {
+           
             items = new List<Item>();
             var mockItems = new List<Item>
             {

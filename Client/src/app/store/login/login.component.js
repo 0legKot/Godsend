@@ -24,7 +24,8 @@ var LoginComponent = /** @class */ (function () {
     LoginComponent = __decorate([
         Component({
             selector: 'godsend-login',
-            templateUrl: './login.component.html'
+            templateUrl: './login.component.html',
+            styleUrls: ['./login.component.css']
         }),
         __metadata("design:paramtypes", [AuthenticationService])
     ], LoginComponent);
