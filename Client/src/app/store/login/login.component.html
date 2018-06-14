@@ -1,6 +1,17 @@
-<h1>Login</h1>
-<form>
-  <input [(ngModel)]="name" name="Name" type="text" />
-  <input [(ngModel)]="pass" name="Password" type="password" />
-  <button (click)="login()">Login</button>
-</form>
+<div class="wrap rel">
+    <h1>Login</h1>
+    <div class="login-form">
+        <form>
+            <div class="form-group">
+                <label for="exampleInputEmail1">Email address</label>
+                <input [(ngModel)]="name" name="Name" type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter username">
+                <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+            </div>
+            <div class="form-group">
+                <label for="exampleInputPassword1">Password</label>
+                <input [(ngModel)]="pass" name="Password" type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+            </div>
+            <button (click)="login()" type="submit" class="btn btn-primary">Login</button>
+        </form>
+    </div>
+</div>

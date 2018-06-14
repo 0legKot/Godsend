@@ -20,7 +20,7 @@ var CartService = /** @class */ (function () {
         this.repo.createOrder(this.cart);
     };
     CartService.prototype.addToCart = function (part) {
-        //if (isDiscrete(part)) {
+        // if (isDiscrete(part)) {
         var repeat = this.cart.discreteItems.find(function (opdv) {
             return opdv.product === part.product && opdv.supplier === part.supplier && opdv.price === part.price;
         });
@@ -30,18 +30,18 @@ var CartService = /** @class */ (function () {
         else {
             this.cart.discreteItems.push(part);
         }
-        //} else {
+        // } else {
         //    this.cart.weightedItems.push(part);
-        //}
+        // }
         console.log('added');
         console.dir(this.cart);
     };
     CartService.prototype.removeFromCart = function (part) {
-        //if (isDiscrete(part)) {
+        // if (isDiscrete(part)) {
         this.cart.discreteItems = this.cart.discreteItems.filter(function (p) { return p !== part; });
-        //} else {
+        // } else {
         //    this.cart.weightedItems = this.cart.weightedItems.filter(p => p !== part);
-        //}
+        // }
     };
     CartService = __decorate([
         Injectable({

@@ -124,7 +124,7 @@ var RepositoryService = /** @class */ (function () {
         var _this = this;
         console.dir(cartView);
         var cart = new Cart(cartView.discreteItems.map(function (opdv) { return new OrderPartDiscreteSend(opdv.quantity, opdv.product.id, opdv.supplier.id); })
-        //cartView.weightedItems.map(opwv => new OrderPartWeightedSend(opwv.weight, opwv.product.id, opwv.supplier.id))
+        // cartView.weightedItems.map(opwv => new OrderPartWeightedSend(opwv.weight, opwv.product.id, opwv.supplier.id))
         );
         this.data.sendRequest('post', ordersUrl + '/createOrUpdate', cart)
             .subscribe(function (response) {
@@ -144,7 +144,7 @@ var RepositoryService = /** @class */ (function () {
             }
         });
     };
-    //deprecated?
+    // deprecated?
     RepositoryService.prototype.replaceProduct = function (prod) {
         var _this = this;
         var data = {
