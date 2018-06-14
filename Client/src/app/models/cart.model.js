@@ -8,6 +8,7 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
+
 export var guidZero = '00000000-0000-0000-0000-000000000000';
 var Cart = /** @class */ (function () {
     function Cart(discreteItems) {
