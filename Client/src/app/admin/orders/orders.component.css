@@ -1,0 +1,59 @@
+﻿.wrap {
+    max-width: 1400px;
+    margin: 0 auto;
+}
+.rel {
+    position: relative;
+}
+
+.inline-block {
+    display: inline-block;
+}
+
+.center {
+    margin: 0 auto;
+    text-align: center;
+}
+
+h1, h4 {
+    text-align: center;
+}
+tr:nth-child(odd) {
+    background: #ffffff;
+}
+
+tr:nth-child(even) {
+    background: #e8e8e8;
+}
+@media (min-width: 740px){
+table {
+    width: 100%;
+    position: relative;
+    left: 0;
+    display: flex;
+    align-items: center;
+    align-content: center;
+    justify-content: center;
+    overflow: auto;
+}
+}
+
+
+.cancel, .mark-sh{
+    text-align: center;
+    padding: 5px;
+    cursor: pointer;
+}
+.cancel:hover {
+    color: #db8600;
+    border-radius: 45%;
+    border-left: solid #db8600 2px;
+    border-right: solid #db8600 2px;
+    transition: 500ms;
+}
+.mark-sh:hover {
+    color: #ffffff;
+    border-radius: 45%;
+    background: #59db00;
+    transition: 500ms;
+}

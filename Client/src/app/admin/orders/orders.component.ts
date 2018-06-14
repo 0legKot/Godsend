@@ -6,7 +6,8 @@ import { forEach } from '@angular/router/src/utils/collection';
 
 @Component({
     selector: 'godsend-orders',
-    templateUrl: './orders.component.html'
+    templateUrl: './orders.component.html',
+    styleUrls: ['./orders.component.css']
 })
 export class OrdersComponent implements OnInit {
     orders?: Order[];

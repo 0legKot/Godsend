@@ -1,35 +1,36 @@
-﻿<h1>Orders</h1>
-<table *ngIf="orders?.length > 0; else nodata" class="table table-striped">
-    <tr>
-        <th>Id</th>
-        <th>Customer name</th>
-        <th>Ordered</th>
-        <th>Status</th>
-        <th>Products</th>
-        <th>Done</th>
-    </tr>
-    <tr *ngFor="let o of orders">
-        <td>{{ o.id }}</td>
-        <td>{{ o.customer?.name }}</td>
-        <td>{{ o.ordered }}</td>
-        <td>{{ status[o.status] || 'Unknown' }}</td>
-        <td>
-            <div *ngFor="let item of o.items">
-                <span>{{ item.product?.info?.name }}</span>
-                <span *ngIf="item.quantity != 1"> x {{ item.quantity/item.multiplier }}</span>
-            </div>
-        </td>
-        <!--<td>
-            <div *ngFor="let item of o.weightedItems">
-                <span>{{ item.product?.info?.name }}</span>
-                <span> x {{ item.weight }}</span>
-            </div>
-        </td>-->
-        <td>{{ o.done || 'Not done yet' }}</td>
-        <td (click)="cancel(o.id)">Cancel</td>
-        <td (click)="shipped(o.id)">Mark shipped</td>
-    </tr>
-</table>
+﻿<div class="wrap">
+    <h1>Orders</h1>
+    <br />
+    <br />
+    <table *ngIf="orders?.length > 0; else nodata" class="table table-responsive">
+        <tr>
+            <th>Id</th>
+            <th>Customer name</th>
+            <th>Ordered / Done</th>
+            <th>Status</th>
+            <th>Products</th>
+        </tr>
+        <tr *ngFor="let o of orders">
+            <td>{{ o.id }}</td>
+            <td>{{ o.customer?.name }}</td>
+            <td><p>{{ o.ordered }} -</p> {{ o.done || 'Not done yet' }}</td>
+            <td>{{ status[o.status] || 'Unknown' }}</td>
+            <td>
+                <div *ngFor="let item of o.items">
+                    <span>{{ item.product?.info?.name }}</span>
+                    <span *ngIf="item.quantity != 1"> x {{ item.quantity/item.multiplier }}</span>
+                </div>
+            </td>
+            <!--<td>
+        <div *ngFor="let item of o.weightedItems">
+            <span>{{ item.product?.info?.name }}</span>
+            <span> x {{ item.weight }}</span>
+        </div>
+    </td>-->
+            <td><p (click)="cancel(o.id)" class="cancel">Cancel</p> <p (click)="shipped(o.id)" class="mark-sh">Mark shipped</p></td>
+        </tr>
+    </table>
     <ng-template #nodata>
         <h4 class="m-1">Waiting for data...</h4>
     </ng-template>
+</div>
