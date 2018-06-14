@@ -137,13 +137,13 @@ namespace Godsend.Controllers
 
         private async Task<string> GenerateJwtToken(string email, IdentityUser user)
         {
+            // todo review
             var claims = new List<Claim>
             {
                 new Claim(JwtRegisteredClaimNames.Sub, email),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                 new Claim(ClaimTypes.NameIdentifier, user.Id)
             };
-
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["JwtKey"]));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
             var expires = DateTime.Now.AddDays(Convert.ToDouble(configuration["JwtExpireDays"]));
