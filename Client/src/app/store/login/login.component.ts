@@ -3,7 +3,8 @@ import { AuthenticationService } from '../../authentication/authentication.servi
 
 @Component({
     selector: 'godsend-login',
-    templateUrl: './login.component.html'
+    templateUrl: './login.component.html',
+    styleUrls: ['./login.component.css']
 })
 export class LoginComponent {
     name = '';

@@ -1,0 +1,34 @@
+﻿.rel {
+    position: relative;
+}
+
+.inline-block {
+    display: inline-block;
+}
+
+.center {
+    margin: 0 auto;
+    text-align: center;
+}
+h1, h4 {
+    text-align: center;
+}
+.wrap {
+    max-width: 1400px;
+    margin: 0 auto;
+}
+.login-form {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    align-content: center;
+    justify-content: center;
+    overflow: auto;
+}
+.login-form input{
+    width: 300px;
+}
