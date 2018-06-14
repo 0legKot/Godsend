@@ -43,7 +43,7 @@ var OrderPartDiscreteSend = /** @class */ (function (_super) {
     return OrderPartDiscreteSend;
 }(OrderPartSend));
 export { OrderPartDiscreteSend };
-//export class OrderPartWeightedSend extends OrderPartSend {
+// export class OrderPartWeightedSend extends OrderPartSend {
 //    constructor(
 //        public weight: number,
 //        public productId: string,
@@ -51,10 +51,10 @@ export { OrderPartDiscreteSend };
 //    ) {
 //        super(productId, supplierId);
 //    }
-//}
-//export function isDiscrete(part: OrderPartDiscreteView | OrderPartWeightedView): part is OrderPartDiscreteView {
+// }
+// export function isDiscrete(part: OrderPartDiscreteView | OrderPartWeightedView): part is OrderPartDiscreteView {
 //    return ((<OrderPartDiscreteView>part).quantity !== undefined);
-//}
+// }
 var OrderPartView = /** @class */ (function () {
     function OrderPartView(product, supplier, price) {
         this.product = product;
@@ -77,12 +77,12 @@ var OrderPartDiscreteView = /** @class */ (function (_super) {
     return OrderPartDiscreteView;
 }(OrderPartView));
 export { OrderPartDiscreteView };
-//export class OrderPartWeightedView extends OrderPartView {
+// export class OrderPartWeightedView extends OrderPartView {
 //    constructor(
 //        public product: Product,
 //        public supplier: Supplier,
 //        public price: number,
 //        public weight: number
 //    ) { super(product, supplier, price); }
-//}
+// }
 //# sourceMappingURL=cart.model.js.map

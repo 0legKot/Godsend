@@ -4,6 +4,9 @@ var Supplier = /** @class */ (function () {
         this.info = info;
         this.id = id;
     }
+    Supplier.EnsureType = function (sup) {
+        return new Supplier(sup.info, sup.id);
+    };
     Supplier.prototype.toCreateEdit = function () {
         return {
             id: this.id || undefined,
@@ -14,9 +17,6 @@ var Supplier = /** @class */ (function () {
                 }
             }
         };
-    };
-    Supplier.EnsureType = function (sup) {
-        return new Supplier(sup.info, sup.id);
     };
     return Supplier;
 }());
