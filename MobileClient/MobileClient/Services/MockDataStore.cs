@@ -32,7 +32,7 @@ namespace MobileClient.Services
 
         public MockDataStore()
         {
-           
+            MyMeth();
             items = new List<Item>();
             var mockItems = new List<Item>
             {
