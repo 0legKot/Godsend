@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="MobileClient.Views.HelloWorldPage"
-             xmlns:vm="clr-namespace:MobileClient.ViewModels;"
+             x:Class="MobileClient.Views.ProductsPage"
+             xmlns:vm="clr-namespace:MobileClient.ViewModels"
              Title ="{Binding Title}">
     
      <ContentPage.BindingContext>
@@ -17,9 +17,9 @@
            </ListView.ItemTemplate>
        </ListView>
        <StackLayout Orientation ="Horizontal">
-           <Button Text ="Add" BackGroundColor ="Khaki" Clicked ="OnAdd"/>
-           <Button Text ="Update" HorizontalOprions ="CentralAndExpand" BackGroundColor ="MediumPurple" Clicked ="OnUpdate"/>
-           <Button Text ="Delete" BackGroundColor ="Crimson" Clicked="OnDelete"/>
+            <Button Text ="Add" BackgroundColor ="Khaki" Clicked="OnAdd"/>
+            <Button Text ="Update" HorizontalOptions = "CenterAndExpand" BackgroundColor ="MediumPurple" Clicked ="OnUpdate"/>
+           <Button Text ="Delete" BackgroundColor ="Crimson" Clicked="OnDelete"/>
        </StackLayout>
    </StackLayout>
 </ContentPage>

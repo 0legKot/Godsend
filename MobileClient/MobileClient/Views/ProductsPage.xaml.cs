@@ -1,15 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
-using System.Net;
-using System.Collections.ObjectModel;
-using System.Net.Http;
 
+using MobileClient.Models;
+using System.Net.Http;
 
 namespace MobileClient.Views
 {
@@ -21,9 +17,24 @@ namespace MobileClient.Views
         //private ObservableCollection<>
         
 
-        public ProductsPage ()
-		{
-			InitializeComponent ();
-		}
-	}
+        public ProductsPage()
+        {
+            InitializeComponent();
+        }
+
+        private void OnAdd(object sender, EventArgs e)
+        {
+
+        }
+
+        private void OnUpdate(object sender, EventArgs e)
+        {
+
+        }
+
+        private void OnDelete(object sender, EventArgs e)
+        {
+
+        }
+    }
 }
