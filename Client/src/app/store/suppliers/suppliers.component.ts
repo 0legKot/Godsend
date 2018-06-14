@@ -8,7 +8,10 @@ import { SearchInlineComponent } from '../search/search-inline.component';
 @Component({
     selector: 'godsend-suppliers',
     templateUrl: './suppliers.component.html',
-    styleUrls: ['./suppliers.component.css']
+    styleUrls: [
+        './suppliers.component.css',
+        '../products/products.component.css'
+    ]
 })
 export class SuppliersComponent implements OnInit {
     type = searchType.supplier;

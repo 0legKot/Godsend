@@ -1,23 +1,32 @@
 ﻿<h1>Search</h1>
+<div class="wrap">
+    <div id="stic-search">
+        <div class="search">
+            <p class="inline-block">
+                <input [formControl]="searchField" placeholder="Type here" />
+            </p>
+            <p class="inline-block">
+                <fa name="search"></fa>
+            </p>
+        </div>
+    </div>
 
-<input [formControl]="searchField" placeholder="Type here" />
-
-<div *ngIf="searchResult?.productsInfo?.length > 0">
-    <h4>Products</h4>
-    <div class="wrap">
+    <div *ngIf="searchResult?.productsInfo?.length > 0">
+        <br />
+        <h4>Products</h4>
+        <br />
         <div class='container-fluid'>
             <div class='row products'>
                 <div *ngFor="let productInfo of searchResult.productsInfo" class="col-lg-3 col-md-4 col-sm-6 col-xs-12  card ">
                     <godsend-product-card [productInfo]="productInfo"></godsend-product-card>
                 </div>
             </div>
-
         </div>
     </div>
-</div>
-<div *ngIf="searchResult?.suppliersInfo?.length > 0">
-    <h4>Suppliers</h4>
-    <div class="wrap">
+    <div *ngIf="searchResult?.suppliersInfo?.length > 0">
+        <br />
+        <h4>Suppliers</h4>
+        <br />
         <div class='container-fluid'>
             <div class='row suppliers'>
                 <div *ngFor="let supplierInfo of searchResult.suppliersInfo" class="col-lg-3 col-md-4 col-sm-6 col-xs-12  card ">
@@ -28,3 +37,4 @@
         </div>
     </div>
 </div>
+
