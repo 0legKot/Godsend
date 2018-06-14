@@ -1,4 +1,7 @@
 ﻿<h1>Articles</h1>
+
+<button (click)="createArticle('content', 'test name', ['test','victory'])">CREATE</button>
+
 <div *ngIf="articles else nodata">
     <div *ngFor="let a of articles">
         <a [routerLink]="['/article', a.id]">
@@ -22,8 +25,10 @@
             </span><br /><span class="h4" *ngFor="let hash of a.tags">
                 #{{ hash }}&nbsp;
             </span><br />
-            <br />
         </a>
+        <button (click)="deleteArticle(a.id)">DELETE</button>
+        <br />
+        <br />
     </div>
 </div>
 

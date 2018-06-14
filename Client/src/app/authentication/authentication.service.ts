@@ -9,25 +9,29 @@ import { DataService } from '../services/data.service';
 export class AuthenticationService {
     constructor(private router: Router, private data: DataService) { }
 
-    authenticated = false;
-    name = '';
-    password = '';
+    get authenticated(): boolean {
+        return !!localStorage.getItem('godsend_authtoken');
+    }
+
+    get name(): string {
+        return localStorage.getItem('godsend_authname') || '';
+    }
+
     callbackUrl = '';
 
-    login(): void {
-        this.authenticated = false;
-        this.data.sendRequest<any>('post', 'api/account/login', { name: this.name, password: this.password }).subscribe(response => {
+    // todo remove email/name inconsistency
+    login(email: string, password: string): void {
+        //this.authenticated = false;
+        this.data.sendRequest<any>('post', 'api/account/login', { email, password }).subscribe(response => {
             console.log(response);
-            if (response) {
-                this.authenticated = true;
-                this.name += ' ';
-                this.password = '';
-                this.router.navigateByUrl(this.callbackUrl);
-            } else {
-                this.authenticated = false;
-                this.name = '';
-                console.log('login fail');
-            }
+            // todo remove copypaste
+            localStorage.setItem('godsend_authtoken', response.token);
+            localStorage.setItem('godsend_authname', email);
+
+            this.router.navigateByUrl(this.callbackUrl);
+        }, error => {
+
+            console.log('login fail');
         });
         // .catch(e => {
         //     this.authenticated = false;
@@ -36,9 +40,10 @@ export class AuthenticationService {
     }
 
     logout() {
-        this.authenticated = false;
-        this.name = '';
-        this.data.sendRequest('post', '/api/account/logout').subscribe(response => { });
+        localStorage.removeItem('godsend_authtoken');
+        localStorage.removeItem('godsend_authname');
+
+        //this.data.sendRequest('post', '/api/account/logout').subscribe(response => { });
         this.router.navigateByUrl('/login');
     }
 }

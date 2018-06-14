@@ -4,11 +4,19 @@
 
 namespace Godsend.Controllers
 {
+    using System;
+    using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
+    using System.IdentityModel.Tokens.Jwt;
+    using System.Linq;
+    using System.Security.Claims;
+    using System.Text;
     using System.Threading.Tasks;
     using Godsend.Models;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.Extensions.Configuration;
+    using Microsoft.IdentityModel.Tokens;
 
     /// <summary>
     /// Account controller
@@ -18,16 +26,18 @@ namespace Godsend.Controllers
     {
         private UserManager<IdentityUser> userManager;
         private SignInManager<IdentityUser> signInManager;
+        private IConfiguration configuration;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AccountController"/> class.
         /// </summary>
         /// <param name="userMgr">User manager</param>
         /// <param name="signInMgr">Sign in manager</param>
-        public AccountController(UserManager<IdentityUser> userMgr, SignInManager<IdentityUser> signInMgr)
+        public AccountController(UserManager<IdentityUser> userMgr, SignInManager<IdentityUser> signInMgr, IConfiguration configuration)
         {
             userManager = userMgr;
             signInManager = signInMgr;
+            this.configuration = configuration;
         }
 
         /////// <summary>
@@ -84,25 +94,36 @@ namespace Godsend.Controllers
         /// <param name="creds">Credentials</param>
         /// <returns>True or false</returns>
         [HttpPost("[action]")]
-        public async Task<bool> Login([FromBody] LoginViewModel creds)
+        public async Task<IActionResult> Login([FromBody] LoginViewModel creds)
         {
-            if (ModelState.IsValid && await DoLogin(creds))
+            ////if (ModelState.IsValid && await DoLogin(creds))
+            ////{
+            ////    return true;
+            ////}
+
+            ////return false;
+            await IdentitySeedData.EnsurePopulated(userManager);
+            var result = await signInManager.PasswordSignInAsync(creds.Email, creds.Password, false, false);
+
+            if (result.Succeeded)
             {
-                return true;
+                var appUser = await userManager.FindByNameAsync(creds.Email);
+                var token = await GenerateJwtToken(creds.Email, appUser);
+                return Ok(new { token });
             }
 
-            return false;
+            return BadRequest("Invalid login attempt");
         }
 
         /// <summary>
-        /// Do login
+        /// Do login, not used
         /// </summary>
         /// <param name="creds">Credentials</param>
         /// <returns>True or false</returns>
         private async Task<bool> DoLogin(LoginViewModel creds)
         {
             await IdentitySeedData.EnsurePopulated(userManager);
-            IdentityUser user = await userManager.FindByNameAsync(creds.Name);
+            IdentityUser user = await userManager.FindByNameAsync(creds.Email);
             if (user != null)
             {
                 await signInManager.SignOutAsync();
@@ -112,6 +133,30 @@ namespace Godsend.Controllers
             }
 
             return false;
+        }
+
+        private async Task<string> GenerateJwtToken(string email, IdentityUser user)
+        {
+            var claims = new List<Claim>
+            {
+                new Claim(JwtRegisteredClaimNames.Sub, email),
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                new Claim(ClaimTypes.NameIdentifier, user.Id)
+            };
+
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["JwtKey"]));
+            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+            var expires = DateTime.Now.AddDays(Convert.ToDouble(configuration["JwtExpireDays"]));
+
+            var token = new JwtSecurityToken(
+                configuration["JwtIssuer"],
+                configuration["JwtIssuer"],
+                claims,
+                expires: expires,
+                signingCredentials: creds
+            );
+
+            return new JwtSecurityTokenHandler().WriteToken(token);
         }
     }
 }

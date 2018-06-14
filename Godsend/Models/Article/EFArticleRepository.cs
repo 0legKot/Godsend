@@ -14,10 +14,19 @@ namespace Godsend.Models
     public class EFArticleRepository : IArticleRepository
     {
         private DataContext context;
+        private UserManager<IdentityUser> userManager;
+
+        private IdentityUser user = null;
+
+        public async void SetUser(string email)
+        {
+            user = await userManager.FindByNameAsync(email);
+        }
 
         public EFArticleRepository(DataContext context, UserManager<IdentityUser> userManager)
         {
             this.context = context;
+            this.userManager = userManager;
 
             if (!this.context.Articles.Any())
             {
@@ -153,9 +162,9 @@ This is a pretty simple and straightforward diet you will ever try. It involves 
 
         public IEnumerable<Information> EntitiesInfo => Entities.Select(a => a.Info).ToArray();
 
-        public void DeleteEntity(Guid entityId)
+        public void DeleteEntity(Guid infoId)
         {
-            Article dbEntry = GetEntity(entityId);
+            Article dbEntry = GetEntityByInfoId(infoId);
             if (dbEntry != null)
             {
                 context.Articles.Remove(dbEntry);
@@ -177,6 +186,11 @@ This is a pretty simple and straightforward diet you will ever try. It involves 
             return Entities.FirstOrDefault(a => a.Id == entityId);
         }
 
+        public Article GetEntityByInfoId(Guid infoId)
+        {
+            return Entities.FirstOrDefault(a => a.Info.Id == infoId);
+        }
+
         public bool IsFirst(Article entity)
         {
             return !context.Articles.Any(a => a.Id == entity.Id);
@@ -184,6 +198,8 @@ This is a pretty simple and straightforward diet you will ever try. It involves 
 
         public void SaveEntity(Article entity)
         {
+            if (user == null) throw new Exception("Not authorized");
+
             Article dbEntry = GetEntity(entity.Id);
             if (dbEntry != null)
             {
@@ -197,6 +213,9 @@ This is a pretty simple and straightforward diet you will ever try. It involves 
             else
             {
                 ////entity.SetIds();
+                entity.Info.EFAuthor = user;
+                entity.Info.Created = DateTime.Now;
+
                 context.Add(entity);
             }
 

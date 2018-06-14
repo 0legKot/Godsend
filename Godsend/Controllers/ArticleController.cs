@@ -9,10 +9,11 @@ namespace Godsend.Controllers
     using System.Linq;
     using System.Threading.Tasks;
     using Godsend.Models;
+    using Microsoft.AspNetCore.Authentication.JwtBearer;
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
 
     [Route("api/[controller]")]
-
     public class ArticleController : EntityController<Article>
     {
         public ArticleController(IArticleRepository repository)
@@ -25,6 +26,15 @@ namespace Godsend.Controllers
         {
             return repository.Entities.Select(a => a.Info);
         }*/
+
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        public override IActionResult CreateOrUpdate([FromBody] Article entity)
+        {
+            var email = User.Claims.FirstOrDefault(c => c.Type == "sub");
+            (repository as IArticleRepository).SetUser(email.Value);
+
+            return base.CreateOrUpdate(entity);
+        }
 
         [HttpGet("[action]/{infoId:Guid}")]
         public Article Detail(Guid infoId)

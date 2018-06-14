@@ -9,11 +9,14 @@ namespace Godsend.Controllers
     using System.Linq;
     using System.Threading.Tasks;
     using Godsend.Models;
+    using Microsoft.AspNetCore.Authentication.JwtBearer;
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Cors;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
 
     [Route("api/[controller]")]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class OrderController : Controller
     {
         private IOrderRepository repository;
@@ -65,6 +68,8 @@ namespace Godsend.Controllers
                     {
                         Id = Guid.NewGuid(),
                         ProductId = item.ProductId,
+
+                        // todo validate
                         SupplierId = item.SupplierId == Guid.Empty ? supRepo.Entities.FirstOrDefault().Id : item.SupplierId,
                         Quantity = item.Quantity,
                         Multiplier = 10
@@ -119,7 +124,7 @@ namespace Godsend.Controllers
     {
         public OrderPartDiscreteNg[] DiscreteItems { get; set; }
 
-        public OrderPartWeightedNg[] WeightedItems { get; set; }
+        // public OrderPartWeightedNg[] WeightedItems { get; set; }
     }
 
     public abstract class OrderPartNg
@@ -136,8 +141,8 @@ namespace Godsend.Controllers
         public int Multiplier { get; set; }
     }
 
-    public class OrderPartWeightedNg : OrderPartNg
-    {
-        public double Weight { get; set; }
-    }
+    ////public class OrderPartWeightedNg : OrderPartNg
+    ////{
+    ////    public double Weight { get; set; }
+    ////}
 }

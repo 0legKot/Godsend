@@ -3,7 +3,7 @@ import { IEntity } from './entity.model';
 
 export class Article implements IEntity<ArticleInfo> {
     static EnsureType(art: Article): Article {
-        return new Article(art.id, art.content, art.info);
+        return new Article(art.content, art.info, art.id);
     }
 
     public toCreateEdit() {
@@ -18,20 +18,20 @@ export class Article implements IEntity<ArticleInfo> {
     }
 
     constructor(
-        public id: string,
         public content: string,
-        public info: ArticleInfo
+        public info: ArticleInfo,
+        public id: string = '',
     ) { }
 }
 
 export class ArticleInfo {
-    constructor(
-        public id: string,
-        public name: string,
-        public rating: number,
-        public watches: number,
-        public author: IdentityUser,
-        public created: string,
-        public tags: string[]
+    constructor(        
+        public name: string,  
+        public tags: string[],
+        public id: string = '',
+        public created: string = '',
+        public author: IdentityUser = new IdentityUser(),
+        public rating: number = 0,
+        public watches: number = 0,
     ) { }
 }

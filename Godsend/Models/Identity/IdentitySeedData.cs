@@ -17,7 +17,7 @@ namespace Godsend.Models
 
         public static async Task EnsurePopulated(UserManager<IdentityUser> userManager/*, RoleManager<IdentityRole> roleManager*/)
         {
-            IdentityUser user = await userManager.FindByIdAsync(adminUser);
+            IdentityUser user = await userManager.FindByNameAsync(adminUser);
             if (user == null)
             {
                 user = new IdentityUser("Admin");

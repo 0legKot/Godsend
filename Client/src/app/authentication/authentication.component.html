@@ -7,7 +7,7 @@
     <div class="form-group">
         <label>Name:</label>
         <input #name="ngModel" name="name" class="form-control"
-               [(ngModel)]="authService.name" required />
+               [(ngModel)]="name" required />
         <div *ngIf="name.invalid" class="text-danger">
             Please enter your user name
         </div>
@@ -15,7 +15,7 @@
     <div class="form-group">
         <label>Password:</label>
         <input type="password" #password="ngModel" name="password"
-               class="form-control" [(ngModel)]="authService.password" required />
+               class="form-control" [(ngModel)]="password" required />
         <div *ngIf="password.invalid" class="text-danger">
             Please enter your password
         </div>

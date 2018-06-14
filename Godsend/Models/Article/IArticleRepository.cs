@@ -11,5 +11,6 @@ namespace Godsend.Models
 
     public interface IArticleRepository : IRepository<Article>
     {
+        void SetUser(string name);
     }
 }

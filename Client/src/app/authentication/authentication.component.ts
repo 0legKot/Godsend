@@ -6,6 +6,8 @@ import { AuthenticationService } from './authentication.service';
     selector: 'godsend-auth'
 })
 export class AuthenticationComponent {
+    name = '';
+    password = '';
 
     constructor(public authService: AuthenticationService) { }
 
@@ -13,7 +15,7 @@ export class AuthenticationComponent {
 
     login() {
         this.showError = false;
-        this.authService.login();
+        this.authService.login(this.name, this.password);
         // .subscribe(result => {
         //     this.showError = !result;
         // });

@@ -1,5 +1,5 @@
 ﻿import { Injectable, Inject } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/internal/operators';
 
@@ -13,7 +13,7 @@ export class DataService {
 
     public sendRequest<T>(method: allowedMethod, url: string, data?: any)
         : Observable<T> {
-        return this.http.request<T>(method, this.baseUrl + url, { body: data, responseType: 'json' }).pipe(
+        return this.http.request<T>(method, this.baseUrl + url, { body: data, responseType: 'json', headers: this.getHeaders() }).pipe(
             map(response => {
                 console.log(this.baseUrl + url);
                 if (data) {
@@ -23,5 +23,17 @@ export class DataService {
                 console.log(response);
                 return response;
             }));
+    }
+
+    private getHeaders(): any {
+        // set auth token
+        let token = localStorage.getItem('godsend_authtoken');
+        if (token) {
+            let headers = new HttpHeaders({ 'Authorization': 'Bearer ' + token });
+            console.log('headers');
+            console.dir(headers);
+            return headers;
+        }
+        else return null;
     }
 }

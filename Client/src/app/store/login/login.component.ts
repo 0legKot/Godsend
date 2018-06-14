@@ -11,9 +11,7 @@ export class LoginComponent {
     pass = '';
     constructor(private auth: AuthenticationService) { }
     login() {
-        this.auth.name = this.name;
-        this.auth.password = this.pass;
         this.auth.callbackUrl = '/orders';
-        this.auth.login();
+        this.auth.login(this.name, this.pass);
     }
 }
