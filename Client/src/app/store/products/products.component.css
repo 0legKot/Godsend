@@ -28,7 +28,7 @@ a, a:active, a:focus, a:visited {
     background-color: salmon;
 }
 
-h1 {
+h1, h4 {
     text-align: center;
 }
 .rating {
@@ -43,7 +43,7 @@ h1 {
     }
     
 #stic-search {
-    z-index: 1000;
+    z-index: 90;
     background: rgba(255, 255, 255, 0.9);
 }
 .search {
@@ -89,10 +89,10 @@ h1 {
     word-wrap: normal;
 }
 
-    .card:hover {
-        box-shadow: 0px 0px 6px 1px rgba(0, 0, 0, 0.5);
-        z-index: 12;
-    }
+.card:hover {
+    box-shadow: 0px 0px 6px 1px rgba(0, 0, 0, 0.5);
+    z-index: 12;
+}
 
 .photo {
     width: 100%;
