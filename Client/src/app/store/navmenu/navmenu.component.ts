@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { AuthenticationService } from '../../authentication/authentication.service';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'godsend-nav-menu',
@@ -8,7 +9,7 @@ import { AuthenticationService } from '../../authentication/authentication.servi
 })
 export class NavMenuComponent {
     showMenuMobile = false;
-    constructor(private auth: AuthenticationService) { }
+    constructor(private auth: AuthenticationService, private router: Router) { }
     scrollToTop(): void {
         window.scrollTo(0, 0);
     }
@@ -24,5 +25,10 @@ export class NavMenuComponent {
     get isLogged() { return this.auth.authenticated; }
     logout() {
         this.auth.logout();
+    }
+
+    login() {
+        this.auth.callbackUrl = this.router.routerState.snapshot.url;
+        this.router.navigateByUrl('/login');
     }
 }
