@@ -16,10 +16,10 @@
                </DataTemplate>
            </ListView.ItemTemplate>
        </ListView>
-       <StackLayout Orientation ="Horizontal">
-            <Button Text ="Add" BackgroundColor ="Khaki" Clicked="OnAdd"/>
-            <Button Text ="Update" HorizontalOptions = "CenterAndExpand" BackgroundColor ="MediumPurple" Clicked ="OnUpdate"/>
-           <Button Text ="Delete" BackgroundColor ="Crimson" Clicked="OnDelete"/>
+       <StackLayout Orientation ="Horizontal">  
+            <Button Text ="Add" BackgroundColor ="Khaki" Clicked ="OnAdd"/>
+            <Button Text ="Update" HorizontalOptions ="CenterAndExpand" BackgroundColor ="MediumPurple" Clicked ="OnUpdate"/>
+            <Button Text ="Delete" BackgroundColor ="Crimson" Clicked="OnDelete"/>
        </StackLayout>
    </StackLayout>
 </ContentPage>
