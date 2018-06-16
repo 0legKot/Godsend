@@ -7,9 +7,9 @@
     <span class="h4">
         Author: {{ article.info.author?.name }}
     </span><br />
-    <span class="h4">
-        Created: {{ article.info.created }}
-    </span><br />
+           <span class="h4">
+               Created: {{ article.info.created | date : 'dd-MMM-yyyy HH:mm' }}
+           </span><br />
     <span class="h4">
         Rating: {{ article.info.rating }}
     </span><br />
