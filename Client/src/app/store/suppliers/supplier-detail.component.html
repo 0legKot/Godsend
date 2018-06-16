@@ -18,7 +18,9 @@
                     <godsend-input-output *ngIf="supp" [(ngModel)]="supp.info.name" [edit]="edit"></godsend-input-output>
                 </div>
                 <div class="photo">
-                    <div><img src="../../../assets/simpleApple.jpg" /></div>
+                    <!--<div *ngFor="let image of images" style="display:contents;">-->
+                        <img [src]="'data:image/jpg;base64,' + image"  />
+                    <!---</div>-->
                 </div>
                 <div class="rating">
                     <godsend-stars [value]="supp?.info?.rating"></godsend-stars>

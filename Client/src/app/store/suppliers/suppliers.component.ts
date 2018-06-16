@@ -4,6 +4,7 @@ import { Supplier, SupplierInfo, Location } from '../../models/supplier.model';
 import { OnInit } from '@angular/core';
 import { searchType } from '../search/search.service';
 import { SearchInlineComponent } from '../search/search-inline.component';
+import { ImageService } from '../../services/image.service';
 
 @Component({
     selector: 'godsend-suppliers',
@@ -15,7 +16,7 @@ import { SearchInlineComponent } from '../search/search-inline.component';
 })
 export class SuppliersComponent implements OnInit {
     type = searchType.supplier;
-
+    images: { [id: string]: string; } = {};
     searchSuppliers?: SupplierInfo[];
     templateText = 'Waiting for data...';
 
@@ -25,11 +26,17 @@ export class SuppliersComponent implements OnInit {
     get suppliers() {
         return this.searchSuppliers || this.repo.suppliers;
     }
-
-    constructor(private repo: RepositoryService) { }
+    getImage(pi: ProductInfo): string {
+        return this.images[pi.id];
+    }
+    constructor(private repo: RepositoryService, private imageService: ImageService) { }
 
     ngOnInit() {
-        this.repo.getEntities<SupplierInfo>('supplier');
+        this.repo.getEntities<SupplierInfo>('supplier', res=>{
+            for(let p of res) {
+                this.imageService.getImage(p.id, image => { this.images[p.id] = image; });
+            }
+        });
     }
 
     createSupplier(name: string, address: string) {

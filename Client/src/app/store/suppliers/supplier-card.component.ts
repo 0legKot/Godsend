@@ -10,7 +10,8 @@ import { RepositoryService } from '../../services/repository.service';
 export class SupplierCardComponent {
     @Input()
     supplierInfo?: SupplierInfo;
-
+    @Input()
+    image?: string;
     @Output()
     readonly delete = new EventEmitter<void>();
 
