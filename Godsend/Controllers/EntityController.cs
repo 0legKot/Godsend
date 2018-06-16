@@ -38,16 +38,16 @@ namespace Godsend.Controllers
         }
 
         [HttpPost("[action]")]
-        public virtual Task<IActionResult> CreateOrUpdate([FromBody]TEntity entity)
+        public virtual async Task<IActionResult> CreateOrUpdate([FromBody]TEntity entity)
         {
             try
             {
                 repository.SaveEntity(entity);
-                return new Task<IActionResult>(() => Ok(entity.Id));
+                return Ok(entity.Id);
             }
             catch
             {
-                return new Task<IActionResult>(() => BadRequest());
+                return BadRequest();
             }
         }
 
