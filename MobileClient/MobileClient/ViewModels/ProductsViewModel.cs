@@ -7,6 +7,6 @@ namespace MobileClient.ViewModels
 {
     class ProductsViewModel
     {
-        //public ObservableCollection<MobileClient.Models.>
+        
     }
 }
