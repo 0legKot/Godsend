@@ -1,37 +1,41 @@
-﻿<h1>Articles</h1>
+﻿<div class="wrap">
+    <h1>Articles</h1>
+    <br />
+    <button (click)="createArticle('content', 'test name', ['test','victory'])" class="btn btn-dark btn-lg">Create new</button>
+    <br />
+    <br />
+    <div *ngIf="articles else nodata">
+        <div *ngFor="let a of articles" class="cards">
 
-<button (click)="createArticle('content', 'test name', ['test','victory'])">CREATE</button>
-
-<div *ngIf="articles else nodata">
-    <div *ngFor="let a of articles">
-        <a [routerLink]="['/article', a.id]">
-            <span class="h4">
-                Id: {{ a.id }}
-            </span><br />
-            <span class="h4">
-                Title: {{ a.name }}
-            </span><br />
-            <span class="h4">
-                Author: {{ a.author?.name }}
-            </span><br />
-            <span class="h4">
-                Created: {{ a.created }}
-            </span><br />
-            <span class="h4">
-                Rating: {{ a.rating }}
-            </span><br />
-            <span class="h4">
-                Watches: {{ a.watches }}
-            </span><br /><span class="h4" *ngFor="let hash of a.tags">
-                #{{ hash }}&nbsp;
-            </span><br />
-        </a>
-        <button (click)="deleteArticle(a.id)">DELETE</button>
-        <br />
-        <br />
+            <div class="card text-center">
+                <div class="card-header">
+                    <h5 class="pull-right delete-art" (click)="deleteArticle(a.id)"><fa name="times"></fa></h5>
+                    <br />
+                    <h5>{{ a.name }}</h5>
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title"><span *ngFor="let hash of a.tags">#{{ hash }}&nbsp;</span></h5>
+                    <br />
+                    <a [routerLink]="['/article', a.id]" class="btn btn-success">Read more</a>
+                    <br />
+                    <br />
+                    <p class="card-text">Created: {{ a.created }}</p>
+                    <footer class="blockquote-footer">by {{ a.author?.name }}</footer>
+                </div>
+                <div class="card-footer text-muted">
+                    <godsend-stars [value]="a.rating"></godsend-stars> &nbsp; <fa name="eye"></fa> : {{ a.watches }}
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 
+<!--
+
+<button (click)="deleteArticle(a.id)">DELETE</button>
+<br />
+<br />
+-->
 <ng-template #nodata>
     <h4 class="m-1">Waiting for data...</h4>
 </ng-template>
