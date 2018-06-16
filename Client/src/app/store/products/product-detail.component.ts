@@ -106,8 +106,7 @@ export class ProductDetailComponent implements OnInit {
             this.data = p;
             this.selectedSupplier = p.suppliers[0];
         }, 'product');
-
-        this.imageService.getImages('', images => { this.images = images; });
+        this.imageService.getImages(this.route.snapshot.params.id, images => { this.images = images; });
     }
 
     /*get product(): Product | {} {

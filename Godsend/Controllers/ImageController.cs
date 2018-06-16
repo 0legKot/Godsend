@@ -19,21 +19,19 @@ namespace Godsend.Controllers
             return File(new FileStream("Images/apple.jpg", FileMode.Open, FileAccess.Read), "image/jpeg");
         }
 
-        //[HttpGet("[action]/{id:Guid}")]
-        [HttpGet("[action]")]
+        [HttpGet("[action]/{id:Guid}")]
         public string[] GetImages(Guid id)
         {
             var a = Convert.ToBase64String(System.IO.File.ReadAllBytes("Images/apple.jpg"));
             return new[] { a, a };
         }
 
-        // currently commented to avoid ambiguous action exception
 
-       /* [HttpGet("[action]")]
-        public string[] GetImages([FromBody]Guid[] ids)
+        [HttpGet("[action]")]
+        public string[] GetPreviewImages([FromBody]Guid[] ids)
         {
             throw new NotImplementedException();
-        }*/
+        }
 
         [HttpPost("[action]/{id:Guid}")]
         public IActionResult Upload(Guid id)
