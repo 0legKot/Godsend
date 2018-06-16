@@ -6,13 +6,14 @@ using System.Threading.Tasks;
 
 using MobileClient.Models;
 using Newtonsoft.Json;
-
+using Godsend.Models;
 [assembly: Xamarin.Forms.Dependency(typeof(MobileClient.Services.MockDataStore))]
 namespace MobileClient.Services
 {
     public class MockDataStore : IDataStore<Item>
     {
         List<Item> items;
+        List<Product> products;
 
         public async void MyMeth() {
             var Items = new List<Item>();
@@ -26,7 +27,7 @@ namespace MobileClient.Services
             if (response.IsSuccessStatusCode)
             {
                 var content = await response.Content.ReadAsStringAsync();
-                Items = JsonConvert.DeserializeObject<List<Item>>(content);
+                products = JsonConvert.DeserializeObject<List<Godsend.Models.Product>>(content);
             }
         }
 
@@ -82,6 +83,10 @@ namespace MobileClient.Services
         public async Task<IEnumerable<Item>> GetItemsAsync(bool forceRefresh = false)
         {
             return await Task.FromResult(items);
+        }
+        public async Task<IEnumerable<Product>> GetProductsAsync(bool forceRefresh = false)
+        {
+            return await Task.FromResult(products);
         }
     }
 }
