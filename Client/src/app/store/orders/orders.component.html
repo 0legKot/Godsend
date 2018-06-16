@@ -13,7 +13,7 @@
         <tr *ngFor="let o of orders">
             <td>{{ o.id }}</td>
             <td>{{ o.customer?.name }}</td>
-            <td><p>{{ o.ordered }} -</p> {{ o.done || 'Not done yet' }}</td>
+            <td><p>{{ o.ordered | date : 'dd-MMM-yyyy HH:mm'}} / </p> {{ (o.done | date : 'dd-MMM-yyyy HH:mm') || 'Not done yet' }}</td>
             <td>{{ status[o.status] || 'Unknown' }}</td>
             <td>
                 <div *ngFor="let item of o.items">

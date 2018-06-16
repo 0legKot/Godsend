@@ -33,21 +33,25 @@
                         <label>Description: </label>
                         <p><godsend-input-output *ngIf="data" [(ngModel)]="data.product.info.description" [edit]="edit" [size]="50" huge="true"></godsend-input-output></p>
                     </div>
-                    <label>Price: </label>
-                    <p>
-                        <span>From: </span>
-                        <select [(ngModel)]="selectedSupplier" *ngIf="data != null">
-                            <option *ngFor="let s of data?.suppliers" [ngValue]="s">{{ s.supplier?.info?.name }} for {{ s.price }}</option>
-                        </select>
-                    </p>
-                    <p> For: {{ price }}</p>
-                    <label>Quantity: </label>
-                    <p><input id="input-quantity" type="number" min="1" step="1" [(ngModel)]="quantity" /></p>
-                    <div class="buy" (click)="buy()">
-                        <p class="inline-block"><fa name="cart-arrow-down"></fa></p>
-                        <p class="inline-block">Buy!</p>
+                    <div *ngIf="data?.suppliers?.length > 0 else noSuppliers">
+                        <label>Price: </label>
+                        <p>
+                            <span>From: </span>
+                            <select [(ngModel)]="selectedSupplier" *ngIf="data != null">
+                                <option *ngFor="let s of data?.suppliers" [ngValue]="s">{{ s.supplier?.info?.name }} for {{ s.price }}</option>
+                            </select>
+                        </p>
+                        <p> For: {{ price }}</p>
+                        <label>Quantity: </label>
+                        <p><input id="input-quantity" type="number" min="1" step="1" [(ngModel)]="quantity" /></p>
+                        <div class="buy" (click)="buy()">
+                            <p class="inline-block"><fa name="cart-arrow-down"></fa></p>
+                            <p class="inline-block">Buy!</p>
+                        </div>
                     </div>
-
+                    <ng-template #noSuppliers>
+                        <label>No suppliers</label>
+                    </ng-template>
                 </div>
             </div>
         </div>
