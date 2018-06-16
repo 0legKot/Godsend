@@ -18,7 +18,9 @@
                     <godsend-input-output *ngIf="data" [(ngModel)]="data.product.info.name" [edit]="edit"></godsend-input-output>
                 </div>
                 <div class="photo">
-                    <div><img src="../../../assets/simpleApple.jpg" /></div>
+                    <div *ngFor="let image of images" style="display:contents;">
+                        <img [src]="'data:image/jpg;base64,' + image" width="50%" />
+                    </div>
                 </div>
                 <div class="rating">
                     <godsend-stars [value]="data?.product?.info?.rating"></godsend-stars>
