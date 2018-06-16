@@ -1,0 +1,35 @@
+﻿.wrap {
+    max-width: 1400px;
+    padding-left: 40px;
+    padding-right: 40px;
+    margin: 0 auto;
+}
+h1{
+    text-align: center;
+}
+.cards:nth-child(1n + 0) .card-header {
+    background: #39be00;
+}
+
+.cards:nth-child(2n + 0) .card-header {
+    background: #e6b000;
+}
+.cards:nth-child(3n + 0) .card-header {
+    background: rgb(13, 199, 176);
+}
+.card{
+    margin-bottom: 20px;
+}
+.delete-art{
+    cursor: pointer;
+}
+.delete-art:hover {
+    color:#ffffff;
+    transition: 400ms;
+}
+@media (max-width: 460px) {
+    .wrap {
+        padding-left: 0;
+        padding-right: 0;
+    }
+}

@@ -4,7 +4,8 @@ import { ArticleInfo, Article } from '../../models/article.model';
 
 @Component({
     selector: 'godsend-articles',
-    templateUrl: './articles.component.html'
+    templateUrl: './articles.component.html',
+    styleUrls: ['./articles.component.css']
 })
 export class ArticlesComponent implements OnInit {
     get articles() {
