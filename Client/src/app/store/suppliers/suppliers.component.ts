@@ -26,7 +26,7 @@ export class SuppliersComponent implements OnInit {
     get suppliers() {
         return this.searchSuppliers || this.repo.suppliers;
     }
-    getImage(pi: ProductInfo): string {
+    getImage(pi: SupplierInfo): string {
         return this.images[pi.id];
     }
     constructor(private repo: RepositoryService, private imageService: ImageService) { }
