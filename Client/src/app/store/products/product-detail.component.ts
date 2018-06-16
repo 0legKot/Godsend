@@ -43,7 +43,7 @@ export class ProductDetailComponent implements OnInit {
     ) { }
 
     gotoProducts(product?: Product) {
-        const productId = product ? product.id : null;
+        const productId = this.data && this.data.product ? this.data.product.id : null;
         this.router.navigate(['/products', { id: productId}]);
     }
 
