@@ -5,6 +5,8 @@ import { RepositoryService } from '../../services/repository.service';
 import { Product, ProductInfo } from '../../models/product.model';
 import { searchType } from '../search/search.service';
 import { SearchInlineComponent } from '../search/search-inline.component';
+import { ImageService } from '../../services/image.service';
+import { forEach } from '@angular/router/src/utils/collection';
 
 @Component({
     selector: 'godsend-products',
@@ -14,7 +16,7 @@ import { SearchInlineComponent } from '../search/search-inline.component';
 export class ProductsComponent implements OnInit {
     // private selectedId: string;
     type = searchType.product;
-
+    images: { [id: string]: string; } = {};
     searchProducts?: ProductInfo[];
     templateText = 'Waiting for data...';
 
@@ -23,6 +25,10 @@ export class ProductsComponent implements OnInit {
 
     get products(): ProductInfo[] | {} {
         return this.searchProducts || this.repo.products;
+    }
+
+    getImage(pi: ProductInfo): string {
+        return this.images[pi.id];
     }
 
     createProduct(descr: string, name: string) {
@@ -40,11 +46,20 @@ export class ProductsComponent implements OnInit {
         this.searchProducts = products;
     }
 
-    constructor(private repo: RepositoryService) {
+    constructor(private repo: RepositoryService, private imageService: ImageService) {
     }
 
     ngOnInit() {
-        this.repo.getEntities<ProductInfo>('product'/*, res => this.products = res*/);
+        this.repo.getEntities<ProductInfo>('product', res => {
+            for (let p of <any>this.products) {
+                this.imageService.getImage(p.info.id, image => { this.images[p.info.id] = image; console.log(this.images);});
+            }
+        });
+        //for(let p of <any>this.products)
+        //{
+        //    this.imageService.getImage(p.info.id, image => { this.images[p.info.id] = image; });
+        //}
+       
     }
 
 }

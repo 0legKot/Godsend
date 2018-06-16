@@ -1,11 +1,13 @@
+import { IdentityUser } from './user.model';
 var Article = /** @class */ (function () {
-    function Article(id, content, info) {
-        this.id = id;
+    function Article(content, info, id) {
+        if (id === void 0) { id = ''; }
         this.content = content;
         this.info = info;
+        this.id = id;
     }
     Article.EnsureType = function (art) {
-        return new Article(art.id, art.content, art.info);
+        return new Article(art.content, art.info, art.id);
     };
     Article.prototype.toCreateEdit = function () {
         return {
@@ -21,14 +23,19 @@ var Article = /** @class */ (function () {
 }());
 export { Article };
 var ArticleInfo = /** @class */ (function () {
-    function ArticleInfo(id, name, rating, watches, author, created, tags) {
-        this.id = id;
+    function ArticleInfo(name, tags, id, created, author, rating, watches) {
+        if (id === void 0) { id = ''; }
+        if (created === void 0) { created = ''; }
+        if (author === void 0) { author = new IdentityUser(); }
+        if (rating === void 0) { rating = 0; }
+        if (watches === void 0) { watches = 0; }
         this.name = name;
+        this.tags = tags;
+        this.id = id;
+        this.created = created;
+        this.author = author;
         this.rating = rating;
         this.watches = watches;
-        this.author = author;
-        this.created = created;
-        this.tags = tags;
     }
     return ArticleInfo;
 }());

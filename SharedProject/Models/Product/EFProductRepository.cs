@@ -32,7 +32,7 @@ namespace Godsend
                         Description = "Great fruit",
                         Rating = 5,
                         Watches = 0
-                    }
+                    },
                 });
                 context.SaveChanges();
             }
@@ -47,9 +47,9 @@ namespace Godsend
                         Name = "Potato",
                         Description = "The earth apple",
                         Rating = 5,
-                        Watches = 4
-                    }
-                },
+                        Watches = 4,
+                    },
+                    },
                 new SimpleProduct
                 {
                     Info = new ProductInformation
@@ -57,8 +57,8 @@ namespace Godsend
                         Name = "Orange",
                         Description = "Chinese apple",
                         Rating = 13.0 / 3,
-                        Watches = 7
-                    }
+                        Watches = 7,
+                    },
                 },
                 new SimpleProduct
                 {
@@ -67,8 +67,8 @@ namespace Godsend
                         Name = "Pineapple",
                         Description = "Cone-looking apple",
                         Rating = 1.5,
-                        Watches = 0
-                    }
+                        Watches = 0,
+                    },
                 });
 
                 context.SaveChanges();
@@ -84,8 +84,8 @@ namespace Godsend
                             Name = "Aubergine (eggplant)",
                             Description = "The mad apple",
                             Rating = Math.PI,
-                            Watches = 3
-                        }
+                            Watches = 3,
+                        },
                     },
                     new SimpleProduct
                     {
@@ -94,8 +94,8 @@ namespace Godsend
                             Name = "Tomato",
                             Description = "The love apple",
                             Rating = Math.E,
-                            Watches = 13
-                        }
+                            Watches = 13,
+                        },
                     },
                     new SimpleProduct
                     {
@@ -104,8 +104,8 @@ namespace Godsend
                             Name = "Peach",
                             Description = "The persian apple (not really)",
                             Rating = 4,
-                            Watches = 8
-                        }
+                            Watches = 8,
+                        },
                     },
                     new SimpleProduct
                     {
@@ -114,8 +114,8 @@ namespace Godsend
                             Name = "Pommegranate",
                             Description = "The seedy apple",
                             Rating = 3.4,
-                            Watches = 6
-                        }
+                            Watches = 6,
+                        },
                     },
                     new SimpleProduct
                     {
@@ -124,8 +124,8 @@ namespace Godsend
                             Name = "Melon",
                             Description = "Apple gourd",
                             Rating = 2.1,
-                            Watches = 8
-                        }
+                            Watches = 8,
+                        },
                     },
                     new SimpleProduct
                     {
@@ -134,8 +134,8 @@ namespace Godsend
                             Name = "Quince",
                             Description = "Apple of Cydonia",
                             Rating = 3,
-                            Watches = 1
-                        }
+                            Watches = 1,
+                        },
                     });
 
                 context.SaveChanges();
@@ -151,8 +151,8 @@ namespace Godsend
                         Name = "iPhone",
                         Description = "Another kind of apple",
                         Rating = 4.99,
-                        Watches = 13
-                    }
+                        Watches = 13,
+                    },
                 },
                 new SimpleProduct
                 {
@@ -161,8 +161,10 @@ namespace Godsend
                         Name = "Apple juice",
                         Description = "Insides of an apple squeezed to death",
                         Rating = 4.3,
-                        Watches = 4
-                    }
+                        Watches = 4,
+
+                    },
+
                 },
                 new SimpleProduct
                 {
@@ -171,8 +173,9 @@ namespace Godsend
                         Name = "Applejack",
                         Description = "Fermented juice of apples",
                         Rating = 4,
-                        Watches = 132
-                    }
+                        Watches = 132,
+                    },
+
                 },
                 new SimpleProduct
                 {
@@ -181,8 +184,8 @@ namespace Godsend
                         Name = "Apple zephyr",
                         Description = "Marshmallow made from apples",
                         Rating = 3.3,
-                        Watches = 123
-                    }
+                        Watches = 123,
+                    },
                 },
                 new SimpleProduct
                 {
@@ -191,8 +194,9 @@ namespace Godsend
                         Name = "Opel Zafira",
                         Description = ".",
                         Rating = 3,
-                        Watches = 3
-                    }
+                        Watches = 3,
+                    },
+
                 });
                 context.SaveChanges();
             }
@@ -227,14 +231,13 @@ namespace Godsend
             }
         }
 
-        public IEnumerable<SimpleProduct> Entities => GetProductsFromContext().Include(x => x.Info);
+        public IEnumerable<SimpleProduct> Entities => GetProductsFromContext();
 
         public IEnumerable<Information> EntitiesInfo => Entities.Select(p => p.Info).ToArray();
 
         public void SaveEntity(SimpleProduct entity)
         {
             SimpleProduct dbEntry = GetProductsFromContext()
-                .Include(p => p.Info)
                 .FirstOrDefault(p => p.Id == entity.Id);
             if (dbEntry != null)
             {
@@ -294,7 +297,7 @@ namespace Godsend
 
             return new ProductWithSuppliers
             {
-                Product = context.Products.Include(p => p.Info).FirstOrDefault(p => p.Info.Id == productInfoId),
+                Product = GetProductsFromContext().FirstOrDefault(p => p.Info.Id == productInfoId),
                 Suppliers = tmp
                     .Where(link => link.Product.Info.Id == productInfoId)
                     .Select(link => new SupplierAndPrice { Supplier = link.Supplier, Price = link.Price })
@@ -304,7 +307,7 @@ namespace Godsend
 
         private IQueryable<SimpleProduct> GetProductsFromContext()
         {
-            return context.Products.OfType<SimpleProduct>();
+            return context.Products.OfType<SimpleProduct>().Include(p=>p.Info);
         }
     }
 }

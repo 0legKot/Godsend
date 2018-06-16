@@ -33,12 +33,14 @@ namespace Godsend
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+
             services.AddTransient<IProductRepository, EFProductRepository>();
             services.AddTransient<IOrderRepository, EFOrderRepository>();
             services.AddTransient<ISupplierRepository, EFSupplierRepository>();
             services.AddTransient<IArticleRepository, EFArticleRepository>();
             string connection = Configuration.GetConnectionString("StoreDb");
             services.AddDbContext<DataContext>(options => options.UseSqlServer(connection));
+            services.AddTransient<ImageRepository>();
             services.AddAuthentication();
 
             // ===== Add Jwt Authentication ========

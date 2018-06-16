@@ -11,7 +11,7 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
 import { Injectable, Inject } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { map } from 'rxjs/internal/operators';
 var DataService = /** @class */ (function () {
     function DataService(http, baseUrl) {
@@ -20,7 +20,7 @@ var DataService = /** @class */ (function () {
     }
     DataService.prototype.sendRequest = function (method, url, data) {
         var _this = this;
-        return this.http.request(method, this.baseUrl + url, { body: data, responseType: 'json' }).pipe(map(function (response) {
+        return this.http.request(method, this.baseUrl + url, { body: data, responseType: 'json', headers: this.getHeaders() }).pipe(map(function (response) {
             console.log(_this.baseUrl + url);
             if (data) {
                 console.log('data');
@@ -29,6 +29,18 @@ var DataService = /** @class */ (function () {
             console.log(response);
             return response;
         }));
+    };
+    DataService.prototype.getHeaders = function () {
+        // set auth token
+        var token = localStorage.getItem('godsend_authtoken');
+        if (token) {
+            var headers = new HttpHeaders({ 'Authorization': 'Bearer ' + token });
+            console.log('headers');
+            console.dir(headers);
+            return headers;
+        }
+        else
+            return null;
     };
     DataService = __decorate([
         Injectable({

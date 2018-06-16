@@ -10,7 +10,8 @@ import { ProductInfo } from '../../models/product.model';
 export class ProductCardComponent {
     @Input()
     productInfo?: ProductInfo;
-
+    @Input()
+    image?: string;
     @Output()
     readonly delete = new EventEmitter<void>();
 

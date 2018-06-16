@@ -20,6 +20,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Models\General\IRepository.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Identity\ClientUser.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Identity\IdentitySeedData.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\ImageProcessing\ImagePaths.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\ImageProcessing\ImageRepository.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\LinkProductsSuppliers.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Order\EFOrderRepository.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Order\IOrderRepository.cs" />

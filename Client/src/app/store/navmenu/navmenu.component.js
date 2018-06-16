@@ -8,10 +8,12 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 import { Component } from '@angular/core';
-import { AuthenticationService } from '../../authentication/authentication.service';
+import { AuthenticationService } from '../../services/authentication.service';
+import { Router } from '@angular/router';
 var NavMenuComponent = /** @class */ (function () {
-    function NavMenuComponent(auth) {
+    function NavMenuComponent(auth, router) {
         this.auth = auth;
+        this.router = router;
         this.showMenuMobile = false;
     }
     NavMenuComponent.prototype.scrollToTop = function () {
@@ -36,13 +38,17 @@ var NavMenuComponent = /** @class */ (function () {
     NavMenuComponent.prototype.logout = function () {
         this.auth.logout();
     };
+    NavMenuComponent.prototype.login = function () {
+        this.auth.callbackUrl = this.router.routerState.snapshot.url;
+        this.router.navigateByUrl('/login');
+    };
     NavMenuComponent = __decorate([
         Component({
             selector: 'godsend-nav-menu',
             templateUrl: './navmenu.component.html',
             styleUrls: ['./navmenu.component.css']
         }),
-        __metadata("design:paramtypes", [AuthenticationService])
+        __metadata("design:paramtypes", [AuthenticationService, Router])
     ], NavMenuComponent);
     return NavMenuComponent;
 }());

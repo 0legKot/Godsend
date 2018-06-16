@@ -8,7 +8,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 import { Component } from '@angular/core';
-import { AuthenticationService } from '../../authentication/authentication.service';
+import { AuthenticationService } from '../../services/authentication.service';
 var LoginComponent = /** @class */ (function () {
     function LoginComponent(auth) {
         this.auth = auth;
@@ -16,10 +16,8 @@ var LoginComponent = /** @class */ (function () {
         this.pass = '';
     }
     LoginComponent.prototype.login = function () {
-        this.auth.name = this.name;
-        this.auth.password = this.pass;
-        this.auth.callbackUrl = '/orders';
-        this.auth.login();
+        //this.auth.callbackUrl = '/orders';
+        this.auth.login(this.name, this.pass);
     };
     LoginComponent = __decorate([
         Component({

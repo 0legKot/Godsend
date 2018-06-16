@@ -13,7 +13,6 @@ namespace Godsend.Models
     public abstract class Product : IEntity
     {
         public Guid Id { get; set; }
-
         public ProductInformation Info { get; set; }
 
         [JsonIgnore]

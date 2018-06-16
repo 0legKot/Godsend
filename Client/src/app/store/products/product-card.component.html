@@ -9,7 +9,7 @@
 
     </div>
     <div class="photo mb-4">
-        <img src="../../../assets/simpleApple.jpg" />
+        <img [src]="'data:image/jpg;base64,' + image"/>
     </div>
     <div class="rating">
         <p class="pull-right" [ngStyle]="{'color': '#003e09' }"><fa name="eye"></fa> : {{ productInfo.watches }}</p>

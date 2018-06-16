@@ -9,18 +9,33 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 import { Component } from '@angular/core';
 import { RepositoryService } from '../../services/repository.service';
+import { ArticleInfo, Article } from '../../models/article.model';
 var ArticlesComponent = /** @class */ (function () {
     function ArticlesComponent(repo) {
         this.repo = repo;
     }
+    Object.defineProperty(ArticlesComponent.prototype, "articles", {
+        get: function () {
+            return this.repo.articles;
+        },
+        enumerable: true,
+        configurable: true
+    });
     ArticlesComponent.prototype.ngOnInit = function () {
-        var _this = this;
-        this.repo.getEntities('article', function (x) { _this.articles = x; console.dir(x); });
+        this.repo.getEntities('article');
+    };
+    ArticlesComponent.prototype.createArticle = function (content, name, tags) {
+        var art = new Article(content, new ArticleInfo(name, tags));
+        this.repo.createOrEditEntity('article', art);
+    };
+    ArticlesComponent.prototype.deleteArticle = function (id) {
+        this.repo.deleteEntity('article', id);
     };
     ArticlesComponent = __decorate([
         Component({
             selector: 'godsend-articles',
-            templateUrl: './articles.component.html'
+            templateUrl: './articles.component.html',
+            styleUrls: ['./articles.component.css']
         }),
         __metadata("design:paramtypes", [RepositoryService])
     ], ArticlesComponent);

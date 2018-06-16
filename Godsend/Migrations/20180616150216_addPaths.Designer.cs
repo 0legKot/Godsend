@@ -12,9 +12,10 @@ using System;
 namespace Godsend.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20180616150216_addPaths")]
+    partial class addPaths
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -105,18 +106,6 @@ namespace Godsend.Migrations
                     b.HasIndex("BaseId");
 
                     b.ToTable("Directory");
-                });
-
-            modelBuilder.Entity("Godsend.Models.ImagePaths", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("Preview");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("ImagePathsTable");
                 });
 
             modelBuilder.Entity("Godsend.Models.Information", b =>
@@ -253,7 +242,7 @@ namespace Godsend.Migrations
 
                     b.Property<Guid?>("ArticleInformationId");
 
-                    b.Property<Guid?>("ImagePathsId");
+                    b.Property<Guid?>("ProductId");
 
                     b.Property<string>("Value");
 
@@ -261,7 +250,7 @@ namespace Godsend.Migrations
 
                     b.HasIndex("ArticleInformationId");
 
-                    b.HasIndex("ImagePathsId");
+                    b.HasIndex("ProductId");
 
                     b.ToTable("StringWrapper");
                 });
@@ -490,6 +479,8 @@ namespace Godsend.Migrations
 
                     b.Property<string>("Description");
 
+                    b.Property<string>("ImagePreviewName");
+
                     b.ToTable("ProductInformation");
 
                     b.HasDiscriminator().HasValue("ProductInformation");
@@ -632,9 +623,9 @@ namespace Godsend.Migrations
                         .WithMany("EFTags")
                         .HasForeignKey("ArticleInformationId");
 
-                    b.HasOne("Godsend.Models.ImagePaths")
-                        .WithMany("Images")
-                        .HasForeignKey("ImagePathsId");
+                    b.HasOne("Godsend.Models.Product")
+                        .WithMany("ImagesPaths")
+                        .HasForeignKey("ProductId");
                 });
 
             modelBuilder.Entity("Godsend.Models.Supplier", b =>

@@ -6,31 +6,44 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Godsend.Models;
 
 namespace Godsend.Controllers
 {
     [Route("api/[controller]")]
     public class ImageController : Controller
     {
-
-        [HttpGet("[action]/{id:Guid}")]
-        public FileResult GetImage(Guid id)
+        ImageRepository repository;
+        public ImageController(ImageRepository repo)
         {
-            return File(new FileStream("Images/apple.jpg", FileMode.Open, FileAccess.Read), "image/jpeg");
+            repository = repo;
         }
 
         [HttpGet("[action]/{id:Guid}")]
-        public string[] GetImages(Guid id)
+        public string GetPreviewImage(Guid id)
         {
-            var a = Convert.ToBase64String(System.IO.File.ReadAllBytes("Images/apple.jpg"));
-            return new[] { a, a };
+            return Convert.ToBase64String(System.IO.File.ReadAllBytes("Images/" + repository.GetImage(id)));
+            //return File(new FileStream("Images/"+repository.GetImage(id), FileMode.Open, FileAccess.Read), "image/jpeg");
+        }
+
+        [HttpGet("[action]/{id:Guid}")]
+        public IEnumerable<string> GetImages(Guid id)
+        {
+            var images = new List<string>();
+            foreach (string fileName in repository.GetImages(id))
+            images.Add(Convert.ToBase64String(System.IO.File.ReadAllBytes("Images/"+fileName)));
+            return images;
         }
 
 
         [HttpGet("[action]")]
-        public string[] GetPreviewImages([FromBody]Guid[] ids)
+        public IEnumerable<string> GetPreviewImages([FromBody]Guid[] ids)
         {
-            throw new NotImplementedException();
+            var res = new List<string>();
+            foreach (Guid id in ids)
+                res.Add(GetPreviewImage(id));
+            return res;
+
         }
 
         [HttpPost("[action]/{id:Guid}")]

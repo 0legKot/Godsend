@@ -13,14 +13,17 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { Product } from '../../models/product.model';
 import { RepositoryService } from '../../services/repository.service';
 import { CartService } from '../../services/cart.service';
+import { ImageService } from '../../services/image.service';
 var ProductDetailComponent = /** @class */ (function () {
-    function ProductDetailComponent(route, router, service, cart) {
+    function ProductDetailComponent(route, router, service, cart, imageService) {
         this.route = route;
         this.router = router;
         this.service = service;
         this.cart = cart;
+        this.imageService = imageService;
         this.quantity = 1;
         this.edit = false;
+        this.images = [];
         this.backup = {
             name: '',
             description: ''
@@ -34,7 +37,7 @@ var ProductDetailComponent = /** @class */ (function () {
         configurable: true
     });
     ProductDetailComponent.prototype.gotoProducts = function (product) {
-        var productId = product ? product.id : null;
+        var productId = this.route.snapshot.params.id;
         this.router.navigate(['/products', { id: productId }]);
     };
     ProductDetailComponent.prototype.deleteProduct = function () {
@@ -87,6 +90,7 @@ var ProductDetailComponent = /** @class */ (function () {
             _this.data = p;
             _this.selectedSupplier = p.suppliers[0];
         }, 'product');
+        this.imageService.getImages(this.route.snapshot.params.id, function (images) { _this.images = images; });
     };
     ProductDetailComponent = __decorate([
         Component({
@@ -97,7 +101,8 @@ var ProductDetailComponent = /** @class */ (function () {
         __metadata("design:paramtypes", [ActivatedRoute,
             Router,
             RepositoryService,
-            CartService])
+            CartService,
+            ImageService])
     ], ProductDetailComponent);
     return ProductDetailComponent;
 }());
