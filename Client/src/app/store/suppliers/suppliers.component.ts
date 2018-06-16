@@ -19,6 +19,7 @@ export class SuppliersComponent implements OnInit {
     images: { [id: string]: string; } = {};
     searchSuppliers?: SupplierInfo[];
     templateText = 'Waiting for data...';
+    imagg: any = {};
 
     @ViewChild(SearchInlineComponent)
     searchInline!: SearchInlineComponent;
@@ -33,9 +34,10 @@ export class SuppliersComponent implements OnInit {
 
     ngOnInit() {
         this.repo.getEntities<SupplierInfo>('supplier', res=>{
-            for(let p of res) {
-                this.imageService.getImage(p.id, image => { this.images[p.id] = image; });
-            }
+            this.imageService.getPreviewImages(res.map(si => si.id), (smth: any) => this.imagg = smth);
+            // for(let p of res) {
+            //    this.imageService.getImage(p.id, image => { this.images[p.id] = image; });
+            // }
         });
     }
 
@@ -53,4 +55,5 @@ export class SuppliersComponent implements OnInit {
         this.templateText = 'Not found';
         this.searchSuppliers = suppliers;
     }
+
 }
