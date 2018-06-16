@@ -16,7 +16,7 @@
                 <div class="card-body">
                     <h5 class="card-title"><span *ngFor="let hash of a.tags">#{{ hash }}&nbsp;</span></h5>
                     <br />
-                    <a [routerLink]="['/article', a.id]" class="btn btn-success">Read more</a>
+                    <a [routerLink]="['/article', a.id]" class="btn readMore">Read more</a>
                     <br />
                     <br />
                     <p class="card-text">Created: {{ a.created }}</p>

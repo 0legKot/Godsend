@@ -26,9 +26,16 @@ export class SupplierDetailComponent implements OnInit {
     constructor(
         private route: ActivatedRoute,
         private router: Router,
-        private service: RepositoryService) {  }
+        private service: RepositoryService) { }
 
-    gotoSuppliers(supplier: Supplier) {
+    deleteSupplier() {
+        if (this.supp) {
+            this.service.deleteEntity('supplier', this.supp.info.id);
+            this.gotoSuppliers(undefined);
+        }
+    }
+
+    gotoSuppliers(supplier?: Supplier) {
         const supplierId = supplier ? supplier.id : null;
         this.router.navigate(['/suppliers', { id: supplierId }]);
     }

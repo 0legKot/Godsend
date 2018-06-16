@@ -20,6 +20,10 @@ h1{
 .card{
     margin-bottom: 20px;
 }
+.readMore {
+    background: #4cff00;
+    color:#000000;
+}
 .delete-art{
     cursor: pointer;
 }

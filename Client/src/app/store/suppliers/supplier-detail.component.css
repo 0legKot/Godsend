@@ -80,6 +80,16 @@ h1 {
     text-align: left;
     cursor: pointer;
 }
+
+#delete {
+    width: 80px;
+    background: #ff4a4a;
+    box-shadow: 0 -3px #c73d3d inset;
+}
+
+    #delete:hover {
+        background: #c73d3d;
+    }
 #edit, #save, #discard {
     width: 70px;
     background: rgb(64,199,129);

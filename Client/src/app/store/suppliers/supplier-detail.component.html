@@ -5,6 +5,7 @@
 <div class="wrap rel">
     <div class="edit-supp">
         <div class="inline-block edit-btns" id="edit" *ngIf="!edit" (click)="editMode()"> Edit</div>
+        <div id="delete" class="edit-btns" (click)="deleteSupplier()">Delete</div>
         <div class="inline-block edit-btns" id="save" *ngIf="edit" (click)="save()"> Save</div>
         <div class="inline-block edit-btns" id="discard" *ngIf="edit" (click)="discard()"> Discard</div>
     </div>
