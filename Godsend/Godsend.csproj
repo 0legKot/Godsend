@@ -22,6 +22,39 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Include="..\SharedProject\Models\Article\Article.cs" Link="Models\Article\Article.cs" />
+    <Compile Include="..\SharedProject\Models\Article\ArticleInformation.cs" Link="Models\Article\ArticleInformation.cs" />
+    <Compile Include="..\SharedProject\Models\Article\EFArticleRepository.cs" Link="Models\Article\EFArticleRepository.cs" />
+    <Compile Include="..\SharedProject\Models\Article\IArticleRepository.cs" Link="Models\Article\IArticleRepository.cs" />
+    <Compile Include="..\SharedProject\Models\Article\StringWrapper.cs" Link="Models\Article\StringWrapper.cs" />
+    <Compile Include="..\SharedProject\Models\General\DataContext.cs" Link="Models\General\DataContext.cs" />
+    <Compile Include="..\SharedProject\Models\General\IEntity.cs" Link="Models\General\IEntity.cs" />
+    <Compile Include="..\SharedProject\Models\General\Information.cs" Link="Models\General\Information.cs" />
+    <Compile Include="..\SharedProject\Models\General\IRepository.cs" Link="Models\General\IRepository.cs" />
+    <Compile Include="..\SharedProject\Models\Identity\ClientUser.cs" Link="Models\Identity\ClientUser.cs" />
+    <Compile Include="..\SharedProject\Models\Identity\IdentitySeedData.cs" Link="Models\Identity\IdentitySeedData.cs" />
+    <Compile Include="..\SharedProject\Models\LinkProductsSuppliers.cs" Link="Models\LinkProductsSuppliers.cs" />
+    <Compile Include="..\SharedProject\Models\Order\EFOrderRepository.cs" Link="Models\Order\EFOrderRepository.cs" />
+    <Compile Include="..\SharedProject\Models\Order\IOrderRepository.cs" Link="Models\Order\IOrderRepository.cs" />
+    <Compile Include="..\SharedProject\Models\Order\Order.cs" Link="Models\Order\Order.cs" />
+    <Compile Include="..\SharedProject\Models\Product\EFProductRepository.cs" Link="Models\Product\EFProductRepository.cs" />
+    <Compile Include="..\SharedProject\Models\Product\IProductRepository.cs" Link="Models\Product\IProductRepository.cs" />
+    <Compile Include="..\SharedProject\Models\Product\Product.cs" Link="Models\Product\Product.cs" />
+    <Compile Include="..\SharedProject\Models\Product\ProductInformation.cs" Link="Models\Product\ProductInformation.cs" />
+    <Compile Include="..\SharedProject\Models\Search\AllSearchResult.cs" Link="Models\Search\AllSearchResult.cs" />
+    <Compile Include="..\SharedProject\Models\Supplier\EFSupplierRepository.cs" Link="Models\Supplier\EFSupplierRepository.cs" />
+    <Compile Include="..\SharedProject\Models\Supplier\ISupplierRepository.cs" Link="Models\Supplier\ISupplierRepository.cs" />
+    <Compile Include="..\SharedProject\Models\Supplier\Location.cs" Link="Models\Supplier\Location.cs" />
+    <Compile Include="..\SharedProject\Models\Supplier\Supplier.cs" Link="Models\Supplier\Supplier.cs" />
+    <Compile Include="..\SharedProject\Models\Supplier\SupplierInformation.cs" Link="Models\Supplier\SupplierInformation.cs" />
+    <Compile Include="..\SharedProject\Models\TestModel\Cell.cs" Link="Models\TestModel\Cell.cs" />
+    <Compile Include="..\SharedProject\Models\TestModel\Column.cs" Link="Models\TestModel\Column.cs" />
+    <Compile Include="..\SharedProject\Models\TestModel\Directory.cs" Link="Models\TestModel\Directory.cs" />
+    <Compile Include="..\SharedProject\Models\TestModel\PrimitiveData.cs" Link="Models\TestModel\PrimitiveData.cs" />
+    <Compile Include="..\SharedProject\Models\ViewModels\LoginViewModel.cs" Link="Models\ViewModels\LoginViewModel.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.6" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.0.3" />
     <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
@@ -34,6 +67,15 @@
 
   <ItemGroup>
     <Folder Include="Images\" />
+    <Folder Include="Models\Article\" />
+    <Folder Include="Models\General\" />
+    <Folder Include="Models\Identity\" />
+    <Folder Include="Models\Order\" />
+    <Folder Include="Models\Product\" />
+    <Folder Include="Models\Search\" />
+    <Folder Include="Models\Supplier\" />
+    <Folder Include="Models\TestModel\" />
+    <Folder Include="Models\ViewModels\" />
   </ItemGroup>
 
 </Project>
