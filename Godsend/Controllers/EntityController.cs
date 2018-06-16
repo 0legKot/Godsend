@@ -38,29 +38,29 @@ namespace Godsend.Controllers
         }
 
         [HttpPost("[action]")]
-        public virtual IActionResult CreateOrUpdate([FromBody]TEntity entity)
+        public virtual Task<IActionResult> CreateOrUpdate([FromBody]TEntity entity)
         {
             try
             {
                 repository.SaveEntity(entity);
-                return Ok(entity.Id);
+                return new Task<IActionResult>(() => Ok(entity.Id));
             }
             catch
             {
-                return BadRequest();
+                return new Task<IActionResult>(() => BadRequest());
             }
         }
 
         [HttpPatch("[action]/{id:Guid}")]
-        public virtual IActionResult Edit([FromBody]TEntity entity)
+        public virtual async Task<IActionResult> EditAsync([FromBody]TEntity entity)
         {
-            return CreateOrUpdate(entity);
+            return await CreateOrUpdate(entity);
         }
 
         [HttpPut("[action]/{id:Guid}")]
-        public virtual IActionResult Create([FromBody]TEntity entity)
+        public virtual async Task<IActionResult> CreateAsync([FromBody]TEntity entity)
         {
-            return CreateOrUpdate(entity);
+            return await CreateOrUpdate(entity);
         }
 
         /*[HttpGet("[action]/{id:Guid}")]

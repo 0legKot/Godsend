@@ -18,7 +18,7 @@ namespace Godsend.Models
 
         private IdentityUser user = null;
 
-        public async void SetUser(string email)
+        public async Task SetUserAsync(string email)
         {
             user = await userManager.FindByNameAsync(email);
         }
