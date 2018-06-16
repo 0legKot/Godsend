@@ -15,6 +15,8 @@ namespace Godsend.Models
             if (!context.ImagePathsTable.Any()) {
                 foreach (SimpleProduct sp in ctx.Products.Include(x => x.Info))
                     context.ImagePathsTable.Add(new ImagePaths() {Id=sp.Info.Id,Preview="apple.jpg",Images=new List<StringWrapper>() {"apple.jpg","pineapple.jpg" } });
+                foreach (SimpleSupplier ss in ctx.Suppliers.Include(x => x.Info))
+                    context.ImagePathsTable.Add(new ImagePaths() { Id = ss.Info.Id, Preview = "suppApple.jpg" });
                 context.SaveChanges();
             }
         }

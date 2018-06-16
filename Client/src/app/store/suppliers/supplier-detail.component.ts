@@ -7,6 +7,7 @@ import { Observable } from 'rxjs';
 import { RepositoryService } from '../../services/repository.service';
 import { forEach } from '@angular/router/src/utils/collection';
 import { Supplier } from '../../models/supplier.model';
+import { ImageService } from '../../services/image.service';
 
 @Component({
     selector: 'godsend-supplier-detail',
@@ -15,7 +16,7 @@ import { Supplier } from '../../models/supplier.model';
 })
 export class SupplierDetailComponent implements OnInit {
     supp?: Supplier;
-
+    image: string;
     backup = {
         name: '',
         address: ''
@@ -26,7 +27,8 @@ export class SupplierDetailComponent implements OnInit {
     constructor(
         private route: ActivatedRoute,
         private router: Router,
-        private service: RepositoryService) { }
+        private service: RepositoryService,
+        private imageService: ImageService) { }
 
     deleteSupplier() {
         if (this.supp) {
@@ -42,6 +44,7 @@ export class SupplierDetailComponent implements OnInit {
 
     ngOnInit() {
         this.service.getEntity<Supplier>(this.route.snapshot.params.id, s => this.supp = s, 'supplier');
+        this.imageService.getImage(this.route.snapshot.params.id, image => { this.image = image; });
     }
 
     editMode() {
