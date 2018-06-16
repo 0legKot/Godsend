@@ -13,11 +13,16 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MobileClient.iOS", "MobileC
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "MobileClient", "MobileClient\MobileClient\MobileClient.shproj", "{C46F9FD6-3756-4BA5-B294-5F359991EB2C}"
 EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "SharedProject", "SharedProject\SharedProject.shproj", "{3DED1FE0-3273-454A-96FB-D86441932A1C}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		MobileClient\MobileClient\MobileClient.projitems*{30f2e54f-209a-4b96-8696-3c9c98640bf2}*SharedItemsImports = 4
+		SharedProject\SharedProject.projitems*{30f2e54f-209a-4b96-8696-3c9c98640bf2}*SharedItemsImports = 4
+		SharedProject\SharedProject.projitems*{3ded1fe0-3273-454a-96fb-d86441932a1c}*SharedItemsImports = 13
 		MobileClient\MobileClient\MobileClient.projitems*{c46f9fd6-3756-4ba5-b294-5f359991eb2c}*SharedItemsImports = 13
 		MobileClient\MobileClient\MobileClient.projitems*{f9d64cce-0144-4ee9-8c63-ed3b11b2fadb}*SharedItemsImports = 4
+		SharedProject\SharedProject.projitems*{f9d64cce-0144-4ee9-8c63-ed3b11b2fadb}*SharedItemsImports = 4
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Ad-Hoc|Any CPU = Ad-Hoc|Any CPU

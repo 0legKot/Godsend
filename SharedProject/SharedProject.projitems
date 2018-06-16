@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>3ded1fe0-3273-454a-96fb-d86441932a1c</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>SharedProject</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Article\Article.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Article\ArticleInformation.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Article\EFArticleRepository.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Article\IArticleRepository.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Article\StringWrapper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\General\DataContext.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\General\IEntity.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\General\Information.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\General\IRepository.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Identity\ClientUser.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Identity\IdentitySeedData.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\LinkProductsSuppliers.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Order\EFOrderRepository.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Order\IOrderRepository.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Order\Order.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Product\EFProductRepository.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Product\IProductRepository.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Product\Product.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Product\ProductInformation.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Search\AllSearchResult.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Supplier\EFSupplierRepository.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Supplier\ISupplierRepository.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Supplier\Location.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Supplier\Supplier.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Supplier\SupplierInformation.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\TestModel\Cell.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\TestModel\Column.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\TestModel\Directory.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\TestModel\PrimitiveData.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\ViewModels\LoginViewModel.cs" />
+  </ItemGroup>
+</Project>
