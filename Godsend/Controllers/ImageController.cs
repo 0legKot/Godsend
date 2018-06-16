@@ -20,9 +20,9 @@ namespace Godsend.Controllers
         }
 
         [HttpGet("[action]/{id:Guid}")]
-        public string GetPreviewImage(Guid id)
+        public JsonResult GetPreviewImage(Guid id)
         {
-            return Convert.ToBase64String(System.IO.File.ReadAllBytes("Images/" + repository.GetImage(id)));
+            return Json(Convert.ToBase64String(System.IO.File.ReadAllBytes("Images/" + repository.GetImage(id))));
             //return File(new FileStream("Images/"+repository.GetImage(id), FileMode.Open, FileAccess.Read), "image/jpeg");
         }
 
@@ -41,7 +41,8 @@ namespace Godsend.Controllers
         {
             var res = new Dictionary<Guid,string>();
             foreach (Guid id in ids)
-                res.Add(id,GetPreviewImage(id));
+                //check tostring if smth doesnt working
+            { res.Add(id, GetPreviewImage(id).ToString()); }
             return res;
 
         }
