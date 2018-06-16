@@ -7,6 +7,7 @@ import { Product, ProductWithSuppliers, SupplierAndPrice } from '../../models/pr
 import { RepositoryService } from '../../services/repository.service';
 import { CartService } from '../../services/cart.service';
 import { OrderPartDiscreteSend, guidZero, OrderPartDiscreteView } from '../../models/cart.model';
+import { ImageService } from '../../services/image.service';
 
 @Component({
     selector: 'godsend-product-detail',
@@ -22,6 +23,8 @@ export class ProductDetailComponent implements OnInit {
 
     edit = false;
 
+    images: string[] = [];
+
     backup = {
         name: '',
         description: ''
@@ -35,7 +38,9 @@ export class ProductDetailComponent implements OnInit {
         private route: ActivatedRoute,
         private router: Router,
         private service: RepositoryService,
-        private cart: CartService) { }
+        private cart: CartService,
+        private imageService: ImageService
+    ) { }
 
     gotoProducts(product?: Product) {
         const productId = product ? product.id : null;
@@ -101,6 +106,8 @@ export class ProductDetailComponent implements OnInit {
             this.data = p;
             this.selectedSupplier = p.suppliers[0];
         }, 'product');
+
+        this.imageService.getImages('', images => { this.images = images; });
     }
 
     /*get product(): Product | {} {
