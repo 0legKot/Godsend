@@ -36,13 +36,13 @@ namespace Godsend.Controllers
         }
 
 
-        [HttpGet("[action]")]
-        public IDictionary<Guid,string> GetPreviewImages([FromBody]Guid[] ids)
+        [HttpPost("[action]")]
+        public IDictionary<Guid, string> GetPreviewImages([FromBody]Guid[] ids)
         {
-            var res = new Dictionary<Guid,string>();
+            var res = new Dictionary<Guid, string>();
             foreach (Guid id in ids)
                 //check tostring if smth doesnt working
-            { res.Add(id, GetPreviewImage(id).ToString()); }
+            { res.Add(id, GetPreviewImage(id).Value.ToString()); }
             return res;
 
         }

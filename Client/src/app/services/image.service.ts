@@ -16,6 +16,11 @@ export class ImageService {
             .subscribe(response => fn(response));
     }
 
+    getPreviewImages(ids: string[], fn: any): void {
+        this.data.sendRequest<any>('post', 'api/image/getPreviewImages', ids)
+            .subscribe(response => fn(response));
+    }
+
     getImages(id: string, fn: (_: string[]) => any): void {
         this.data.sendRequest<string[]>('get', 'api/image/getImages/' + id)
             .subscribe(response => fn(response));

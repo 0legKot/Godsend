@@ -23,6 +23,8 @@ export class ProductsComponent implements OnInit {
     @ViewChild(SearchInlineComponent)
     searchInline!: SearchInlineComponent;
 
+    imagg: any = {};
+
     get products(): ProductInfo[] | {} {
         return this.searchProducts || this.repo.products;
     }
@@ -51,9 +53,10 @@ export class ProductsComponent implements OnInit {
 
     ngOnInit() {
         this.repo.getEntities<ProductInfo>('product', res => {
-            for (let p of res) {
+            this.imageService.getPreviewImages(res.map(pi => pi.id), (smth: any) => { this.imagg = smth });
+            /*for (let p of res) {
                 this.imageService.getImage(p.id, image => { this.images[p.id] = image; });
-            }
+            }*/
         });
         console.log(this.images);
         //for(let p of <any>this.products)
