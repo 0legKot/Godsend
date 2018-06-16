@@ -37,11 +37,11 @@ namespace Godsend.Controllers
 
 
         [HttpGet("[action]")]
-        public IEnumerable<string> GetPreviewImages([FromBody]Guid[] ids)
+        public IDictionary<Guid,string> GetPreviewImages([FromBody]Guid[] ids)
         {
-            var res = new List<string>();
+            var res = new Dictionary<Guid,string>();
             foreach (Guid id in ids)
-                res.Add(GetPreviewImage(id));
+                res.Add(id,GetPreviewImage(id));
             return res;
 
         }
