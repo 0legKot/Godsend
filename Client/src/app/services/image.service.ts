@@ -12,7 +12,7 @@ export class ImageService {
     constructor(private data: DataService) { }
 
     getImage(id: string, fn: (_: string) => any): void {
-        this.data.sendRequest<string>('get', 'api/image/getImage/' + id)
+        this.data.sendRequest<string>('get', 'api/image/GetPreviewImage/' + id)
             .subscribe(response => fn(response));
     }
 
