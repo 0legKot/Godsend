@@ -26,7 +26,7 @@
             #{{ hash }}&nbsp;
         </p>
         <p class="h5">
-            Created: {{ article.info.created }}
+            Created: {{ article.info.created | date : 'dd-MMM-yyyy HH:mm' }}
         </p><br />
 
     </div>
