@@ -33,7 +33,7 @@ export class SuppliersComponent implements OnInit {
     constructor(private repo: RepositoryService, private imageService: ImageService) { }
 
     ngOnInit() {
-        this.repo.getEntities<SupplierInfo>('supplier', res=>{
+        this.repo.getEntities<SupplierInfo>('supplier', res => {
             this.imageService.getPreviewImages(res.map(si => si.id), (smth: any) => this.imagg = smth);
             // for(let p of res) {
             //    this.imageService.getImage(p.id, image => { this.images[p.id] = image; });

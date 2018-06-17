@@ -35,8 +35,14 @@ namespace Godsend.Models
         {
             get
             {
-                if (EFCustomer == null) return null;
-                else return new ClientUser { Id = EFCustomer.Id, Name = EFCustomer.UserName };
+                if (EFCustomer == null)
+                {
+                    return null;
+                }
+                else
+                {
+                    return new ClientUser { Id = EFCustomer.Id, Name = EFCustomer.UserName };
+                }
             }
         }
 

@@ -1,21 +1,28 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿// <copyright file="ImageRepository.cs" company="Godsend Team">
+// Copyright (c) Godsend Team. All rights reserved.
+// </copyright>
 
 namespace Godsend.Models
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+    using Microsoft.EntityFrameworkCore;
+
     public class ImageRepository
     {
-        DataContext context;
+        private DataContext context;
+
         public ImageRepository(DataContext ctx)
         {
             context = ctx;
             if (!context.ImagePathsTable.Any())
             {
                 foreach (SimpleProduct sp in ctx.Products.Include(x => x.Info))
+                {
                     context.ImagePathsTable.Add(new ImagePaths() { Id = sp.Info.Id, Preview = "apple.jpg", Images = new List<StringWrapper>() { "apple.jpg", "pineapple.jpg" } });
+                }
             }
 
             // ensure it's seeded
@@ -30,12 +37,13 @@ namespace Godsend.Models
 
                 context.SaveChanges();
             }
-    
         }
+
         public IEnumerable<string> GetImages(Guid id)
         {
-            return context.ImagePathsTable.Include(x=>x.Images).FirstOrDefault(x => x.Id == id).Images.Select(x => x.Value);
+            return context.ImagePathsTable.Include(x => x.Images).FirstOrDefault(x => x.Id == id).Images.Select(x => x.Value);
         }
+
         public string GetImage(Guid id)
         {
             return context.ImagePathsTable.FirstOrDefault(x => x.Id == id).Preview;

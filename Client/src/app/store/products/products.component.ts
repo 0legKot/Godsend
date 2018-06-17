@@ -53,12 +53,10 @@ export class ProductsComponent implements OnInit {
 
     ngOnInit() {
         this.repo.getEntities<ProductInfo>('product', res => {
-            this.imageService.getPreviewImages(res.map(pi => pi.id), (smth: any) => { this.imagg = smth });
+            this.imageService.getPreviewImages(res.map(pi => pi.id), (smth: any) => this.imagg = smth);
             /*for (let p of res) {
                 this.imageService.getImage(p.id, image => { this.images[p.id] = image; });
             }*/
         });
-       
     }
-
 }

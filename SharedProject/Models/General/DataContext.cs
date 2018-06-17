@@ -28,6 +28,7 @@ namespace Godsend.Models
         public DbSet<Article> Articles { get; set; }
 
         public DbSet<Cell> Values { get; set; }
+
         public DbSet<ImagePaths> ImagePathsTable { get; set; }
 
         public DbSet<LinkProductsSuppliers> LinkProductsSuppliers { get; set; }

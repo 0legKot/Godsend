@@ -17,7 +17,7 @@ export class InputOutputComponent implements ControlValueAccessor {
     @Input()
     edit = false;
     @Input()
-    class = "default";
+    class = 'default';
     @Input()
     huge = false;
 

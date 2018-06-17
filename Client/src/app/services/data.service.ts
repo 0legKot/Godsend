@@ -27,13 +27,14 @@ export class DataService {
 
     private getHeaders(): any {
         // set auth token
-        let token = localStorage.getItem('godsend_authtoken');
+        const token = localStorage.getItem('godsend_authtoken');
         if (token) {
-            let headers = new HttpHeaders({ 'Authorization': 'Bearer ' + token });
+            const headers = new HttpHeaders({ 'Authorization': 'Bearer ' + token });
             console.log('headers');
             console.dir(headers);
             return headers;
+        } else {
+            return null;
         }
-        else return null;
     }
 }

@@ -13,32 +13,30 @@ namespace Godsend.Models
     using System.Threading.Tasks;
     using Newtonsoft.Json;
 
-    public class ProductInformation : Information//, INotifyPropertyChanged
+    public class ProductInformation : Information // , INotifyPropertyChanged
     {
-        //[NotMapped]
-        //private string title;
-
-        //public event PropertyChangedEventHandler PropertyChanged;
-
         public string Description { get; set; }
 
-        //[JsonProperty("title")]
-        //[NotMapped]
-        //public string Title
-        //{
-        //    get => title;
-        //    set
-        //    {
-        //        title = value;
-        //        //OnPropertyChanged();
-        //    }
-        //}
+        ////[NotMapped]
+        ////private string title;
 
-        //protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        //{
-        //    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        //}
+        ////public event PropertyChangedEventHandler PropertyChanged;
 
+        ////[JsonProperty("title")]
+        ////[NotMapped]
+        ////public string Title
+        ////{
+        ////    get => title;
+        ////    set
+        ////    {
+        ////        title = value;
+        ////        //OnPropertyChanged();
+        ////    }
+        ////}
 
+        ////protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        ////{
+        ////    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        ////}
     }
 }

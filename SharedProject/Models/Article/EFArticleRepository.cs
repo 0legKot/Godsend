@@ -18,11 +18,6 @@ namespace Godsend.Models
 
         private IdentityUser user = null;
 
-        public async Task SetUserAsync(string email)
-        {
-            user = await userManager.FindByNameAsync(email);
-        }
-
         public EFArticleRepository(DataContext context, UserManager<IdentityUser> userManager)
         {
             this.context = context;
@@ -162,6 +157,11 @@ This is a pretty simple and straightforward diet you will ever try. It involves 
 
         public IEnumerable<Information> EntitiesInfo => Entities.Select(a => a.Info).ToArray();
 
+        public async Task SetUserAsync(string email)
+        {
+            user = await userManager.FindByNameAsync(email);
+        }
+
         public void DeleteEntity(Guid infoId)
         {
             Article dbEntry = GetEntityByInfoId(infoId);
@@ -198,7 +198,10 @@ This is a pretty simple and straightforward diet you will ever try. It involves 
 
         public void SaveEntity(Article entity)
         {
-            if (user == null) throw new Exception("Not authorized");
+            if (user == null)
+            {
+                throw new Exception("Not authorized");
+            }
 
             Article dbEntry = GetEntity(entity.Id);
             if (dbEntry != null)
