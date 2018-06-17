@@ -13,7 +13,7 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
         }
     ]
 })
-export class InputOutputComponent implements OnInit, ControlValueAccessor {
+export class InputOutputComponent implements ControlValueAccessor {
     @Input()
     edit = false;
     @Input()
@@ -46,7 +46,4 @@ export class InputOutputComponent implements OnInit, ControlValueAccessor {
         this.onTouched = fn;
     }
 
-    ngOnInit() {
-        console.log(this.size);
-    }
 }

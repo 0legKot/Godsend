@@ -31,7 +31,7 @@
                 <div class="prod-info">
                     <div>
                         <label>Description: </label>
-                        <p><godsend-input-output *ngIf="data" [(ngModel)]="data.product.info.description" [edit]="edit" [size]="50" huge="true"></godsend-input-output></p>
+                        <p><godsend-input-output *ngIf="data" [(ngModel)]="data.product.info.description" [edit]="edit" huge="true"></godsend-input-output></p>
                     </div>
                     <div *ngIf="data?.suppliers?.length > 0 else noSuppliers">
                         <label>Price: </label>
