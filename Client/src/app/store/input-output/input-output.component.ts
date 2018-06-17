@@ -4,6 +4,7 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 @Component({
     selector: 'godsend-input-output',
     templateUrl: './input-output.component.html',
+    styleUrls: ['./input-output.component.css'],
     providers: [
         {
             provide: NG_VALUE_ACCESSOR,
@@ -16,7 +17,7 @@ export class InputOutputComponent implements OnInit, ControlValueAccessor {
     @Input()
     edit = false;
     @Input()
-    size = 20;
+    class = "default";
     @Input()
     huge = false;
 

@@ -1,0 +1,30 @@
+﻿h1{
+    text-align: center;
+}
+.rel{
+    position: relative;
+}
+.wrap {
+    max-width: 1400px;
+    padding-left: 40px;
+    padding-right: 40px;
+    margin: 0 auto;
+}
+.title{
+    color: #006449;
+}
+.author{
+    font-style: italic;
+}
+.my-textarea{
+    width: 400px;
+    height: 300px;
+}
+
+
+@media (max-width: 460px) {
+    .wrap {
+        padding-left: 5px;
+        padding-right: 5px;
+    }
+}

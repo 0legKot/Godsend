@@ -8,7 +8,12 @@ import { Article, ArticleInfo } from '../../models/article.model';
 
 @Component({
     selector: 'godsend-article-detail',
-    templateUrl: 'article-detail.component.html'
+    templateUrl: 'article-detail.component.html',
+    styleUrls: [
+        './article-detail.component.css',
+        '../products/product-detail.component.css',
+        '../input-output/input-output.component.css'
+]
 })
 export class ArticleDetailComponent implements OnInit {
     article?: Article;
