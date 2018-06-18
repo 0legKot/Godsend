@@ -14,7 +14,7 @@ namespace Godsend.Controllers
     using Microsoft.AspNetCore.Mvc;
 
     [Route("api/[controller]")]
-    public class ProductController : EntityController<SimpleProduct>
+    public class ProductController : EntityController<Product>
     {
         public ProductController(IProductRepository repo)
         {
@@ -27,7 +27,7 @@ namespace Godsend.Controllers
             var prod = (repository as IProductRepository)?.GetProductWithSuppliers(id);
             if (prod != null)
             {
-                repository.Watch(prod.Product as SimpleProduct);
+                repository.Watch(prod.Product as Product);
             }
 
             return prod;

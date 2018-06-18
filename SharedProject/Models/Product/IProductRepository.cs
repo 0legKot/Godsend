@@ -8,7 +8,7 @@ namespace Godsend
     using System.Collections.Generic;
     using Godsend.Models;
 
-    public interface IProductRepository : IRepository<SimpleProduct>
+    public interface IProductRepository : IRepository<Product>
     {
         ProductWithSuppliers GetProductWithSuppliers(Guid productInfoId);
     }

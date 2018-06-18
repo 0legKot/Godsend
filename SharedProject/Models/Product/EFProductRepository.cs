@@ -234,13 +234,13 @@ namespace Godsend
             }
         }
 
-        public IEnumerable<SimpleProduct> Entities => GetProductsFromContext();
+        public IEnumerable<Product> Entities => GetProductsFromContext();
 
         public IEnumerable<Information> EntitiesInfo => Entities.Select(p => p.Info).ToArray();
 
-        public void SaveEntity(SimpleProduct entity)
+        public void SaveEntity(Product entity)
         {
-            SimpleProduct dbEntry = GetProductsFromContext()
+            Product dbEntry = GetProductsFromContext()
                 .FirstOrDefault(p => p.Id == entity.Id);
             if (dbEntry != null)
             {
@@ -259,7 +259,7 @@ namespace Godsend
 
         public void DeleteEntity(Guid infoId)
         {
-            SimpleProduct dbEntry = GetProductsFromContext()
+            Product dbEntry = GetProductsFromContext()
                .FirstOrDefault(p => p.Info.Id == infoId);
             if (dbEntry != null)
             {
@@ -268,17 +268,17 @@ namespace Godsend
             }
         }
 
-        public bool IsFirst(SimpleProduct entity)
+        public bool IsFirst(Product entity)
         {
             return !context.Products.Any(p => p.Id == entity.Id);
         }
 
-        public SimpleProduct GetEntity(Guid entityId)
+        public Product GetEntity(Guid entityId)
         {
             return GetProductsFromContext().Include(p => p.Info).FirstOrDefault(p => p.Id == entityId);
         }
 
-        public void Watch(SimpleProduct prod)
+        public void Watch(Product prod)
         {
             if (prod != null)
             {
@@ -292,6 +292,10 @@ namespace Godsend
             var tmp = context.LinkProductsSuppliers
                     .Include(ps => ps.Product)
                     .ThenInclude(s => s.Info)
+                    .Include(ps => ps.Product)
+                    .ThenInclude(p => p.Characteristics)
+                    .Include(ps => ps.Product)
+                    .ThenInclude(p => p.CharacteristicsList)
                     .Include(ps => ps.Supplier)
                     .ThenInclude(s => s.Info)
                     .Include(ps => ps.Supplier)
@@ -308,9 +312,9 @@ namespace Godsend
             };
         }
 
-        private IQueryable<SimpleProduct> GetProductsFromContext()
+        private IQueryable<Product> GetProductsFromContext()
         {
-            return context.Products.OfType<SimpleProduct>().Include(p => p.Info);
+            return context.Products.OfType<Product>().Include(p => p.Info).Include(p=>p.Characteristics).Include(p => p.CharacteristicsList);
         }
     }
 }
