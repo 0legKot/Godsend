@@ -17,12 +17,13 @@ namespace Godsend.Models
         public ImageRepository(DataContext ctx)
         {
             context = ctx;
-            if (!context.ImagePathsTable.Any())
+            if (!context.ImagePathsTable.Any(ipt => ipt.Id == context.Products.Include(s => s.Info).FirstOrDefault().Info.Id))
             {
-                foreach (SimpleProduct sp in ctx.Products.Include(x => x.Info))
+                foreach (Product sp in ctx.Products.Include(x => x.Info))
                 {
                     context.ImagePathsTable.Add(new ImagePaths() { Id = sp.Info.Id, Preview = "apple.jpg", Images = new List<StringWrapper>() { "apple.jpg", "pineapple.jpg" } });
                 }
+                context.SaveChanges();
             }
 
             // ensure it's seeded
