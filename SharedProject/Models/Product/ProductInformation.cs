@@ -13,8 +13,17 @@ namespace Godsend.Models
     using System.Threading.Tasks;
     using Newtonsoft.Json;
 
+    /// <summary>
+    /// 
+    /// </summary>
     public class ProductInformation : Information // , INotifyPropertyChanged
     {
+        /// <summary>
+        /// Gets or sets the description.
+        /// </summary>
+        /// <value>
+        /// The description.
+        /// </value>
         public string Description { get; set; }
 
         ////[NotMapped]

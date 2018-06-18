@@ -11,10 +11,21 @@ namespace Godsend.Models
     using Microsoft.AspNetCore.Identity;
     using Microsoft.EntityFrameworkCore;
 
+    /// <summary>
+    /// 
+    /// </summary>
     public class EFOrderRepository : IOrderRepository
     {
+        /// <summary>
+        /// The context
+        /// </summary>
         private DataContext context;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="EFOrderRepository"/> class.
+        /// </summary>
+        /// <param name="ctx">The CTX.</param>
+        /// <param name="userManager">The user manager.</param>
         public EFOrderRepository(DataContext ctx, UserManager<IdentityUser> userManager)
         {
             context = ctx;
@@ -49,13 +60,23 @@ namespace Godsend.Models
         }
 
         // TODO rework
+        /// <summary>
+        /// Gets the orders.
+        /// </summary>
+        /// <value>
+        /// The orders.
+        /// </value>
         public IEnumerable<Order> Orders => context.Orders
             .Include(x => x.EFCustomer)
             .Include(o => o.Items).ThenInclude(di => di.Product).ThenInclude(di => di.Info)
             .Include(o => o.Items).ThenInclude(di => di.Supplier).ThenInclude(s => s.Info);
-            ////.Include(o => o.WeightedItems).ThenInclude(wi => wi.Product).ThenInclude(p => p.Info)
-            ////.Include(o => o.WeightedItems).ThenInclude(wi => wi.Supplier).ThenInclude(s => s.Info);
+        ////.Include(o => o.WeightedItems).ThenInclude(wi => wi.Product).ThenInclude(p => p.Info)
+        ////.Include(o => o.WeightedItems).ThenInclude(wi => wi.Supplier).ThenInclude(s => s.Info);
 
+        /// <summary>
+        /// Saves the order.
+        /// </summary>
+        /// <param name="order">The order.</param>
         public void SaveOrder(Order order)
         {
             Order dbEntry = GetOrder(order.Id);
@@ -75,6 +96,11 @@ namespace Godsend.Models
             context.SaveChanges();
         }
 
+        /// <summary>
+        /// Deletes the order.
+        /// </summary>
+        /// <param name="orderId">The order identifier.</param>
+        /// <returns></returns>
         public Order DeleteOrder(Guid orderId)
         {
             Order dbEntry = GetOrder(orderId);
@@ -87,6 +113,11 @@ namespace Godsend.Models
             return dbEntry;
         }
 
+        /// <summary>
+        /// Changes the status.
+        /// </summary>
+        /// <param name="orderId">The order identifier.</param>
+        /// <param name="status">The status.</param>
         public void ChangeStatus(Guid orderId, int status)
         {
             Order dbEntry = GetOrder(orderId);
@@ -102,6 +133,11 @@ namespace Godsend.Models
             context.SaveChanges();
         }
 
+        /// <summary>
+        /// Gets the order.
+        /// </summary>
+        /// <param name="orderID">The order identifier.</param>
+        /// <returns></returns>
         private Order GetOrder(Guid orderID)
         {
             return context.Orders

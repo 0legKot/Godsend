@@ -12,26 +12,55 @@ namespace Godsend.Controllers
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;
 
+    /// <summary>
+    /// Search type
+    /// </summary>
     public enum SearchType
     {
+        /// <summary>
+        /// All
+        /// </summary>
         All = 0,
+        /// <summary>
+        /// The products
+        /// </summary>
         Products = 1,
+        /// <summary>
+        /// The suppliers
+        /// </summary>
         Suppliers = 2,
 
         // Orders = 3
     }
 
     // todo make procedure
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <seealso cref="Microsoft.AspNetCore.Mvc.Controller" />
     [Route("api/[controller]")]
     public class SearchController : Controller
     {
+        /// <summary>
+        /// The context
+        /// </summary>
         private DataContext context;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SearchController"/> class.
+        /// </summary>
+        /// <param name="context">The context.</param>
         public SearchController(DataContext context)
         {
             this.context = context;
         }
 
+        /// <summary>
+        /// Finds the specified t.
+        /// </summary>
+        /// <param name="t">The t.</param>
+        /// <param name="term">The term.</param>
+        /// <returns></returns>
         [HttpGet("type/{t:int}/{term?}")]
         public AllSearchResult Find(SearchType t, string term)
         {
@@ -48,6 +77,11 @@ namespace Godsend.Controllers
             }
         }
 
+        /// <summary>
+        /// Finds all.
+        /// </summary>
+        /// <param name="term">The term.</param>
+        /// <returns></returns>
         [HttpGet("all/{term?}")]
         public AllSearchResult FindAll(string term)
         {
@@ -58,6 +92,11 @@ namespace Godsend.Controllers
             };
         }
 
+        /// <summary>
+        /// Finds the products.
+        /// </summary>
+        /// <param name="term">The term.</param>
+        /// <returns></returns>
         [HttpGet("products/{term?}")]
         public IEnumerable<ProductInformation> FindProducts(string term)
         {
@@ -69,6 +108,11 @@ namespace Godsend.Controllers
                     .Where(pi => pi.Name.ToLower().Contains(term.ToLower()));
         }
 
+        /// <summary>
+        /// Finds the suppliers.
+        /// </summary>
+        /// <param name="term">The term.</param>
+        /// <returns></returns>
         [HttpGet("suppliers/{term?}")]
         public IEnumerable<SupplierInformation> FindSuppliers(string term)
         {

@@ -11,10 +11,20 @@ namespace Godsend.Models
     using Microsoft.AspNetCore.Identity;
     using Microsoft.EntityFrameworkCore;
 
+    /// <summary>
+    /// 
+    /// </summary>
     public class EFSupplierRepository : ISupplierRepository
     {
+        /// <summary>
+        /// The context
+        /// </summary>
         private DataContext context;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="EFSupplierRepository"/> class.
+        /// </summary>
+        /// <param name="ctx">The CTX.</param>
         public EFSupplierRepository(DataContext ctx/*, UserManager<IdentityUser> userManager*/)
         {
             context = ctx;
@@ -150,10 +160,26 @@ namespace Godsend.Models
             }
         }
 
+        /// <summary>
+        /// Gets the entities.
+        /// </summary>
+        /// <value>
+        /// The entities.
+        /// </value>
         public IEnumerable<SimpleSupplier> Entities => context.Suppliers.OfType<SimpleSupplier>().Include(s => s.Info).ThenInclude(i => i.Location);
 
+        /// <summary>
+        /// Gets the entities information.
+        /// </summary>
+        /// <value>
+        /// The entities information.
+        /// </value>
         public IEnumerable<Information> EntitiesInfo => Entities.Select(s => s.Info).ToArray();
 
+        /// <summary>
+        /// Deletes the entity.
+        /// </summary>
+        /// <param name="infoId">The information identifier.</param>
         public void DeleteEntity(Guid infoId)
         {
             Supplier dbEntry = GetEntityByInfoId(infoId);
@@ -164,11 +190,22 @@ namespace Godsend.Models
             }
         }
 
+        /// <summary>
+        /// Determines whether the specified entity is first.
+        /// </summary>
+        /// <param name="entity">The entity.</param>
+        /// <returns>
+        ///   <c>true</c> if the specified entity is first; otherwise, <c>false</c>.
+        /// </returns>
         public bool IsFirst(SimpleSupplier entity)
         {
             return !context.Suppliers.Any(s => s.Id == entity.Id);
         }
 
+        /// <summary>
+        /// Watches the specified sup.
+        /// </summary>
+        /// <param name="sup">The sup.</param>
         public void Watch(SimpleSupplier sup)
         {
             if (sup != null)
@@ -178,6 +215,10 @@ namespace Godsend.Models
             }
         }
 
+        /// <summary>
+        /// Saves the entity.
+        /// </summary>
+        /// <param name="entity">The entity.</param>
         public void SaveEntity(SimpleSupplier entity)
         {
             Supplier dbEntry = GetEntity(entity.Id);
@@ -199,11 +240,21 @@ namespace Godsend.Models
             context.SaveChanges();
         }
 
-         public SimpleSupplier GetEntity(Guid entityId)
+        /// <summary>
+        /// Gets the entity.
+        /// </summary>
+        /// <param name="entityId">The entity identifier.</param>
+        /// <returns></returns>
+        public SimpleSupplier GetEntity(Guid entityId)
         {
             return Entities.FirstOrDefault(s => s.Id == entityId);
         }
 
+        /// <summary>
+        /// Gets the entity by information identifier.
+        /// </summary>
+        /// <param name="infoId">The information identifier.</param>
+        /// <returns></returns>
         public SimpleSupplier GetEntityByInfoId(Guid infoId)
         {
             return Entities.FirstOrDefault(s => s.Info.Id == infoId);

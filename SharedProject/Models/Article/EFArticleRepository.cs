@@ -11,13 +11,30 @@ namespace Godsend.Models
     using Microsoft.AspNetCore.Identity;
     using Microsoft.EntityFrameworkCore;
 
+    /// <summary>
+    /// 
+    /// </summary>
     public class EFArticleRepository : IArticleRepository
     {
+        /// <summary>
+        /// The context
+        /// </summary>
         private DataContext context;
+        /// <summary>
+        /// The user manager
+        /// </summary>
         private UserManager<IdentityUser> userManager;
 
+        /// <summary>
+        /// The user
+        /// </summary>
         private IdentityUser user = null;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="EFArticleRepository"/> class.
+        /// </summary>
+        /// <param name="context">The context.</param>
+        /// <param name="userManager">The user manager.</param>
         public EFArticleRepository(DataContext context, UserManager<IdentityUser> userManager)
         {
             this.context = context;
@@ -152,16 +169,37 @@ This is a pretty simple and straightforward diet you will ever try. It involves 
             this.context.SaveChanges();
         }
 
+        /// <summary>
+        /// Gets the entities.
+        /// </summary>
+        /// <value>
+        /// The entities.
+        /// </value>
         public IEnumerable<Article> Entities => context.Articles.Include(a => a.Info).ThenInclude(a => a.EFAuthor)
             .Include(a => a.Info).ThenInclude(a => a.EFTags);
 
+        /// <summary>
+        /// Gets the entities information.
+        /// </summary>
+        /// <value>
+        /// The entities information.
+        /// </value>
         public IEnumerable<Information> EntitiesInfo => Entities.Select(a => a.Info).ToArray();
 
+        /// <summary>
+        /// Sets the user asynchronous.
+        /// </summary>
+        /// <param name="email">The email.</param>
+        /// <returns></returns>
         public async Task SetUserAsync(string email)
         {
             user = await userManager.FindByNameAsync(email);
         }
 
+        /// <summary>
+        /// Deletes the entity.
+        /// </summary>
+        /// <param name="infoId">The information identifier.</param>
         public void DeleteEntity(Guid infoId)
         {
             Article dbEntry = GetEntityByInfoId(infoId);
@@ -172,6 +210,10 @@ This is a pretty simple and straightforward diet you will ever try. It involves 
             }
         }
 
+        /// <summary>
+        /// Watches the specified art.
+        /// </summary>
+        /// <param name="art">The art.</param>
         public void Watch(Article art)
         {
             if (art != null)
@@ -181,21 +223,43 @@ This is a pretty simple and straightforward diet you will ever try. It involves 
             }
         }
 
+        /// <summary>
+        /// Gets the entity.
+        /// </summary>
+        /// <param name="entityId">The entity identifier.</param>
+        /// <returns></returns>
         public Article GetEntity(Guid entityId)
         {
             return Entities.FirstOrDefault(a => a.Id == entityId);
         }
 
+        /// <summary>
+        /// Gets the entity by information identifier.
+        /// </summary>
+        /// <param name="infoId">The information identifier.</param>
+        /// <returns></returns>
         public Article GetEntityByInfoId(Guid infoId)
         {
             return Entities.FirstOrDefault(a => a.Info.Id == infoId);
         }
 
+        /// <summary>
+        /// Determines whether the specified entity is first.
+        /// </summary>
+        /// <param name="entity">The entity.</param>
+        /// <returns>
+        ///   <c>true</c> if the specified entity is first; otherwise, <c>false</c>.
+        /// </returns>
         public bool IsFirst(Article entity)
         {
             return !context.Articles.Any(a => a.Id == entity.Id);
         }
 
+        /// <summary>
+        /// Saves the entity.
+        /// </summary>
+        /// <param name="entity">The entity.</param>
+        /// <exception cref="Exception">Not authorized</exception>
         public void SaveEntity(Article entity)
         {
             if (user == null)

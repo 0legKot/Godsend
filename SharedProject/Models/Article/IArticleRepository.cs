@@ -9,8 +9,16 @@ namespace Godsend.Models
     using System.Linq;
     using System.Threading.Tasks;
 
+    /// <summary>
+    /// 
+    /// </summary>
     public interface IArticleRepository : IRepository<Article>
     {
+        /// <summary>
+        /// Sets the user asynchronous.
+        /// </summary>
+        /// <param name="name">The name.</param>
+        /// <returns></returns>
         Task SetUserAsync(string name);
     }
 }

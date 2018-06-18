@@ -18,12 +18,18 @@ namespace Godsend.Controllers
         /// <summary>
         /// Gets or sets name
         /// </summary>
+        /// <value>
+        /// The email.
+        /// </value>
         [Required]
         public string Email { get; set; }
 
         /// <summary>
         /// Gets or sets password
         /// </summary>
+        /// <value>
+        /// The password.
+        /// </value>
         [Required]
         public string Password { get; set; }
     }

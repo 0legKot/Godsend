@@ -11,9 +11,17 @@ namespace Godsend.Controllers
     using Godsend.Models;
     using Microsoft.AspNetCore.Mvc;
 
+    /// <summary>
+    /// Supplier controller
+    /// </summary>
+    /// <seealso cref="Godsend.Controllers.EntityController{Godsend.Models.SimpleSupplier}" />
     [Route("api/[controller]")]
     public class SupplierController : EntityController<SimpleSupplier>
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SupplierController"/> class.
+        /// </summary>
+        /// <param name="repo">The repo.</param>
         public SupplierController(ISupplierRepository repo)
         {
             repository = repo;
@@ -60,6 +68,11 @@ namespace Godsend.Controllers
         // {
         //    return CreateOrUpdate(supplier);
         // }
+        /// <summary>
+        /// Details the specified identifier.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <returns></returns>
         [HttpGet("[action]/{id:Guid}")]
         public Supplier Detail(Guid id)
         {

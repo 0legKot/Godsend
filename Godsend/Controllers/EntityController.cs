@@ -12,17 +12,34 @@ namespace Godsend.Controllers
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.ApplicationModels;
 
+    /// <summary>
+    /// Base controller for entities
+    /// </summary>
+    /// <typeparam name="TEntity">The type of the entity.</typeparam>
+    /// <seealso cref="Microsoft.AspNetCore.Mvc.Controller" />
     public abstract class EntityController<TEntity> : Controller
         where TEntity : IEntity
     {
+        /// <summary>
+        /// The repository
+        /// </summary>
         protected IRepository<TEntity> repository;
 
+        /// <summary>
+        /// Alls this instance.
+        /// </summary>
+        /// <returns></returns>
         [HttpGet("[action]")]
         public virtual IEnumerable<Information> All()
         {
             return repository.EntitiesInfo;
         }
 
+        /// <summary>
+        /// Deletes the specified identifier.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <returns></returns>
         [HttpDelete("[action]/{id:Guid}")]
         public virtual IActionResult Delete(Guid id)
         {
@@ -37,6 +54,11 @@ namespace Godsend.Controllers
             }
         }
 
+        /// <summary>
+        /// Creates the or update.
+        /// </summary>
+        /// <param name="entity">The entity.</param>
+        /// <returns></returns>
         [HttpPost("[action]")]
         public virtual async Task<IActionResult> CreateOrUpdate([FromBody]TEntity entity)
         {
@@ -51,12 +73,22 @@ namespace Godsend.Controllers
             }
         }
 
+        /// <summary>
+        /// Edits the asynchronous.
+        /// </summary>
+        /// <param name="entity">The entity.</param>
+        /// <returns></returns>
         [HttpPatch("[action]/{id:Guid}")]
         public virtual async Task<IActionResult> EditAsync([FromBody]TEntity entity)
         {
             return await CreateOrUpdate(entity);
         }
 
+        /// <summary>
+        /// Creates the asynchronous.
+        /// </summary>
+        /// <param name="entity">The entity.</param>
+        /// <returns></returns>
         [HttpPut("[action]/{id:Guid}")]
         public virtual async Task<IActionResult> CreateAsync([FromBody]TEntity entity)
         {

@@ -14,16 +14,32 @@ namespace Godsend.Controllers
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
 
+    /// <summary>
+    /// Image controller
+    /// </summary>
+    /// <seealso cref="Microsoft.AspNetCore.Mvc.Controller" />
     [Route("api/[controller]")]
     public class ImageController : Controller
     {
+        /// <summary>
+        /// The repository
+        /// </summary>
         private ImageRepository repository;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ImageController"/> class.
+        /// </summary>
+        /// <param name="repo">The repo.</param>
         public ImageController(ImageRepository repo)
         {
             repository = repo;
         }
 
+        /// <summary>
+        /// Gets the preview image.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <returns>Base64-encoded image</returns>
         [HttpGet("[action]/{id:Guid}")]
         public JsonResult GetPreviewImage(Guid id)
         {
@@ -40,6 +56,11 @@ namespace Godsend.Controllers
             ////return File(new FileStream("Images/"+repository.GetImage(id), FileMode.Open, FileAccess.Read), "image/jpeg");
         }
 
+        /// <summary>
+        /// Gets the images.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <returns>Array of base64-encoded images</returns>
         [HttpGet("[action]/{id:Guid}")]
         public IEnumerable<string> GetImages(Guid id)
         {
@@ -52,6 +73,11 @@ namespace Godsend.Controllers
             return images;
         }
 
+        /// <summary>
+        /// Gets the preview images.
+        /// </summary>
+        /// <param name="ids">The ids.</param>
+        /// <returns>dictionary of (id, base64-encoded image) pairs</returns>
         [HttpPost("[action]")]
         public IDictionary<Guid, string> GetPreviewImages([FromBody]Guid[] ids)
         {
@@ -68,6 +94,11 @@ namespace Godsend.Controllers
             return res;
         }
 
+        /// <summary>
+        /// Uploads the specified identifier.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <returns>Ok</returns>
         [HttpPost("[action]/{id:Guid}")]
         public IActionResult Upload(Guid id)
         {

@@ -9,8 +9,17 @@ namespace Godsend.Models
     using System.Linq;
     using System.Threading.Tasks;
 
+    /// <summary>
+    /// 
+    /// </summary>
     public class SupplierInformation : Information
     {
+        /// <summary>
+        /// Gets or sets the location.
+        /// </summary>
+        /// <value>
+        /// The location.
+        /// </value>
         public Location Location { get; set; }
 
         // public IEnumerable<IProduct> Products { get; set; }

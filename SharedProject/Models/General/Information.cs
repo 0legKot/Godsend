@@ -9,14 +9,41 @@ namespace Godsend.Models
     using System.Linq;
     using System.Threading.Tasks;
 
+    /// <summary>
+    /// 
+    /// </summary>
     public abstract class Information
     {
-         public Guid Id { get; set; }
+        /// <summary>
+        /// Gets or sets the identifier.
+        /// </summary>
+        /// <value>
+        /// The identifier.
+        /// </value>
+        public Guid Id { get; set; }
 
-         public string Name { get; set; }
+        /// <summary>
+        /// Gets or sets the name.
+        /// </summary>
+        /// <value>
+        /// The name.
+        /// </value>
+        public string Name { get; set; }
 
-         public double Rating { get; set; }
+        /// <summary>
+        /// Gets or sets the rating.
+        /// </summary>
+        /// <value>
+        /// The rating.
+        /// </value>
+        public double Rating { get; set; }
 
-         public int Watches { get; set; }
+        /// <summary>
+        /// Gets or sets the watches.
+        /// </summary>
+        /// <value>
+        /// The watches.
+        /// </value>
+        public int Watches { get; set; }
     }
 }

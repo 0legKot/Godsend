@@ -9,11 +9,26 @@ namespace Godsend.Models
     using System.Linq;
     using System.Threading.Tasks;
 
+    /// <summary>
+    /// 
+    /// </summary>
     public interface IEntity
     {
-         Guid Id { get; set; }
+        /// <summary>
+        /// Gets or sets the identifier.
+        /// </summary>
+        /// <value>
+        /// The identifier.
+        /// </value>
+        Guid Id { get; set; }
 
-         Information EntityInformation { get; set; }
+        /// <summary>
+        /// Gets or sets the entity information.
+        /// </summary>
+        /// <value>
+        /// The entity information.
+        /// </value>
+        Information EntityInformation { get; set; }
 
          ////public virtual void SetIds() {
          ////    Id = Guid.NewGuid();

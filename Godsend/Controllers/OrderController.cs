@@ -15,15 +15,38 @@ namespace Godsend.Controllers
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
 
+    /// <summary>
+    /// Order controller
+    /// </summary>
+    /// <seealso cref="Microsoft.AspNetCore.Mvc.Controller" />
     [Route("api/[controller]")]
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class OrderController : Controller
     {
+        /// <summary>
+        /// The repository
+        /// </summary>
         private IOrderRepository repository;
+        /// <summary>
+        /// The product repo
+        /// </summary>
         private IProductRepository prodRepo;
+        /// <summary>
+        /// The supplier repo
+        /// </summary>
         private ISupplierRepository supRepo;
+        /// <summary>
+        /// The context
+        /// </summary>
         private DataContext context;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="OrderController"/> class.
+        /// </summary>
+        /// <param name="repo">The repo.</param>
+        /// <param name="prodRepo">The product repo.</param>
+        /// <param name="supRepo">The sup repo.</param>
+        /// <param name="context">The context.</param>
         public OrderController(IOrderRepository repo, IProductRepository prodRepo, ISupplierRepository supRepo, DataContext context)
         {
             repository = repo;
@@ -32,12 +55,22 @@ namespace Godsend.Controllers
             this.context = context;
         }
 
+        /// <summary>
+        /// Alls this instance.
+        /// </summary>
+        /// <returns></returns>
         [HttpGet("[action]")]
         public IEnumerable<Order> All()
         {
             return repository.Orders;
         }
 
+        /// <summary>
+        /// Changes the status.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <param name="status">The status.</param>
+        /// <returns></returns>
         [DisableCors]
         [HttpPatch("[action]/{id:Guid}/{status:int}")]
         public IActionResult ChangeStatus(Guid id, int status)
@@ -53,6 +86,11 @@ namespace Godsend.Controllers
             }
         }
 
+        /// <summary>
+        /// Creates the or update.
+        /// </summary>
+        /// <param name="data">The data.</param>
+        /// <returns></returns>
         [HttpPost("[action]")]
 
        // public IActionResult CreateOrUpdate([FromBody]Newtonsoft.Json.Linq.JToken jdata)
@@ -96,23 +134,33 @@ namespace Godsend.Controllers
             }
         }
 
-       /* [HttpPatch("[action]/{id:Guid}")]
-        public IActionResult Edit([FromBody]OrderFromNg order)
-        {
-            return CreateOrUpdate(order);
-        }
+        /* [HttpPatch("[action]/{id:Guid}")]
+         public IActionResult Edit([FromBody]OrderFromNg order)
+         {
+             return CreateOrUpdate(order);
+         }
 
-        [HttpPut("[action]/{id:Guid}")]
-        public IActionResult Create([FromBody]OrderFromNg order)
-        {
-            return CreateOrUpdate(order);
-        }*/
+         [HttpPut("[action]/{id:Guid}")]
+         public IActionResult Create([FromBody]OrderFromNg order)
+         {
+             return CreateOrUpdate(order);
+         }*/
+        /// <summary>
+        /// Details the specified identifier.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <returns></returns>
         [HttpGet("[action]/{id:Guid}")]
         public Order Detail(Guid id)
         {
             return repository.Orders.FirstOrDefault(x => x.Id == id);
         }
 
+        /// <summary>
+        /// Deletes the specified identifier.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <returns></returns>
         [HttpDelete("[action]/{id:Guid}")]
         public IActionResult Delete(Guid id)
         {
@@ -120,24 +168,64 @@ namespace Godsend.Controllers
         }
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     public class OrderFromNg
     {
+        /// <summary>
+        /// Gets or sets the discrete items.
+        /// </summary>
+        /// <value>
+        /// The discrete items.
+        /// </value>
         public OrderPartDiscreteNg[] DiscreteItems { get; set; }
 
         // public OrderPartWeightedNg[] WeightedItems { get; set; }
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     public abstract class OrderPartNg
     {
+        /// <summary>
+        /// Gets or sets the product identifier.
+        /// </summary>
+        /// <value>
+        /// The product identifier.
+        /// </value>
         public Guid ProductId { get; set; }
 
+        /// <summary>
+        /// Gets or sets the supplier identifier.
+        /// </summary>
+        /// <value>
+        /// The supplier identifier.
+        /// </value>
         public Guid SupplierId { get; set; }
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <seealso cref="Godsend.Controllers.OrderPartNg" />
     public class OrderPartDiscreteNg : OrderPartNg
     {
+        /// <summary>
+        /// Gets or sets the quantity.
+        /// </summary>
+        /// <value>
+        /// The quantity.
+        /// </value>
         public int Quantity { get; set; }
 
+        /// <summary>
+        /// Gets or sets the multiplier.
+        /// </summary>
+        /// <value>
+        /// The multiplier.
+        /// </value>
         public int Multiplier { get; set; }
     }
 

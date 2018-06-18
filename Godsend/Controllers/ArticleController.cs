@@ -13,9 +13,17 @@ namespace Godsend.Controllers
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
 
+    /// <summary>
+    /// Article controller
+    /// </summary>
+    /// <seealso cref="Controllers.EntityController{Models.Article}" />
     [Route("api/[controller]")]
     public class ArticleController : EntityController<Article>
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ArticleController"/> class.
+        /// </summary>
+        /// <param name="repository">The repository.</param>
         public ArticleController(IArticleRepository repository)
         {
             this.repository = repository;
@@ -27,6 +35,11 @@ namespace Godsend.Controllers
             return repository.Entities.Select(a => a.Info);
         }*/
 
+        /// <summary>
+        /// Creates the or update.
+        /// </summary>
+        /// <param name="entity">The entity.</param>
+        /// <returns></returns>
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public override async Task<IActionResult> CreateOrUpdate([FromBody] Article entity)
         {
@@ -38,6 +51,11 @@ namespace Godsend.Controllers
             return await base.CreateOrUpdate(entity);
         }
 
+        /// <summary>
+        /// Details the specified information identifier.
+        /// </summary>
+        /// <param name="infoId">The information identifier.</param>
+        /// <returns></returns>
         [HttpGet("[action]/{infoId:Guid}")]
         public Article Detail(Guid infoId)
         {

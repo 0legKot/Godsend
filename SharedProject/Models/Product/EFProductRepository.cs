@@ -12,12 +12,29 @@ namespace Godsend
     using Microsoft.AspNetCore.Identity;
     using Microsoft.EntityFrameworkCore;
 
+    /// <summary>
+    /// 
+    /// </summary>
     public class EFProductRepository : IProductRepository
     {
+        /// <summary>
+        /// The admin user
+        /// </summary>
         private const string adminUser = "Admin";
+        /// <summary>
+        /// The admin password
+        /// </summary>
         private const string adminPassword = "Secret123$";
+        /// <summary>
+        /// The context
+        /// </summary>
         private DataContext context;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="EFProductRepository"/> class.
+        /// </summary>
+        /// <param name="ctx">The CTX.</param>
+        /// <param name="userManager">The user manager.</param>
         public EFProductRepository(DataContext ctx, UserManager<IdentityUser> userManager)
         {
             context = ctx;
@@ -234,10 +251,26 @@ namespace Godsend
             }
         }
 
+        /// <summary>
+        /// Gets the entities.
+        /// </summary>
+        /// <value>
+        /// The entities.
+        /// </value>
         public IEnumerable<Product> Entities => GetProductsFromContext();
 
+        /// <summary>
+        /// Gets the entities information.
+        /// </summary>
+        /// <value>
+        /// The entities information.
+        /// </value>
         public IEnumerable<Information> EntitiesInfo => Entities.Select(p => p.Info).ToArray();
 
+        /// <summary>
+        /// Saves the entity.
+        /// </summary>
+        /// <param name="entity">The entity.</param>
         public void SaveEntity(Product entity)
         {
             Product dbEntry = GetProductsFromContext()
@@ -257,6 +290,10 @@ namespace Godsend
             context.SaveChanges();
         }
 
+        /// <summary>
+        /// Deletes the entity.
+        /// </summary>
+        /// <param name="infoId">The information identifier.</param>
         public void DeleteEntity(Guid infoId)
         {
             Product dbEntry = GetProductsFromContext()
@@ -268,16 +305,32 @@ namespace Godsend
             }
         }
 
+        /// <summary>
+        /// Determines whether the specified entity is first.
+        /// </summary>
+        /// <param name="entity">The entity.</param>
+        /// <returns>
+        ///   <c>true</c> if the specified entity is first; otherwise, <c>false</c>.
+        /// </returns>
         public bool IsFirst(Product entity)
         {
             return !context.Products.Any(p => p.Id == entity.Id);
         }
 
+        /// <summary>
+        /// Gets the entity.
+        /// </summary>
+        /// <param name="entityId">The entity identifier.</param>
+        /// <returns></returns>
         public Product GetEntity(Guid entityId)
         {
             return GetProductsFromContext().Include(p => p.Info).Include(p=>p.CharacteristicsList).FirstOrDefault(p => p.Id == entityId);
         }
 
+        /// <summary>
+        /// Watches the specified product.
+        /// </summary>
+        /// <param name="prod">The product.</param>
         public void Watch(Product prod)
         {
             if (prod != null)
@@ -287,6 +340,11 @@ namespace Godsend
             }
         }
 
+        /// <summary>
+        /// Gets the product with suppliers.
+        /// </summary>
+        /// <param name="productInfoId">The product information identifier.</param>
+        /// <returns></returns>
         public ProductWithSuppliers GetProductWithSuppliers(Guid productInfoId)
         {
             var tmp = context.LinkProductsSuppliers
@@ -310,6 +368,10 @@ namespace Godsend
             };
         }
 
+        /// <summary>
+        /// Gets the products from context.
+        /// </summary>
+        /// <returns></returns>
         private IQueryable<Product> GetProductsFromContext()
         {
             return context.Products.OfType<Product>().Include(p => p.Info).Include(p => p.CharacteristicsList);

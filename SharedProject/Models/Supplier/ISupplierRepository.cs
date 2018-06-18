@@ -9,6 +9,9 @@ namespace Godsend.Models
     using System.Linq;
     using System.Threading.Tasks;
 
+    /// <summary>
+    /// 
+    /// </summary>
     public interface ISupplierRepository : IRepository<SimpleSupplier>
     {
     }

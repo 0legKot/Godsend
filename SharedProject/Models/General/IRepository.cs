@@ -9,20 +9,60 @@ namespace Godsend.Models
     using System.Linq;
     using System.Threading.Tasks;
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <typeparam name="IEntity">The type of the entity.</typeparam>
     public interface IRepository<IEntity>
     {
+        /// <summary>
+        /// Gets the entities.
+        /// </summary>
+        /// <value>
+        /// The entities.
+        /// </value>
         IEnumerable<IEntity> Entities { get; }
 
+        /// <summary>
+        /// Gets the entities information.
+        /// </summary>
+        /// <value>
+        /// The entities information.
+        /// </value>
         IEnumerable<Information> EntitiesInfo { get; }
 
+        /// <summary>
+        /// Gets the entity.
+        /// </summary>
+        /// <param name="entityId">The entity identifier.</param>
+        /// <returns></returns>
         IEntity GetEntity(Guid entityId);
 
+        /// <summary>
+        /// Saves the entity.
+        /// </summary>
+        /// <param name="entity">The entity.</param>
         void SaveEntity(IEntity entity);
 
+        /// <summary>
+        /// Deletes the entity.
+        /// </summary>
+        /// <param name="entityId">The entity identifier.</param>
         void DeleteEntity(Guid entityId);
 
+        /// <summary>
+        /// Determines whether the specified entity is first.
+        /// </summary>
+        /// <param name="entity">The entity.</param>
+        /// <returns>
+        ///   <c>true</c> if the specified entity is first; otherwise, <c>false</c>.
+        /// </returns>
         bool IsFirst(IEntity entity);
 
+        /// <summary>
+        /// Watches the specified entity.
+        /// </summary>
+        /// <param name="entity">The entity.</param>
         void Watch(IEntity entity);
     }
 }

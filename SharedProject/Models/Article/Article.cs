@@ -10,14 +10,41 @@ namespace Godsend.Models
     using System.Threading.Tasks;
     using Newtonsoft.Json;
 
+    /// <summary>
+    /// Article
+    /// </summary>
     public class Article : IEntity
     {
+        /// <summary>
+        /// Gets or sets the identifier.
+        /// </summary>
+        /// <value>
+        /// The identifier.
+        /// </value>
         public Guid Id { get; set; }
 
+        /// <summary>
+        /// Gets or sets the content.
+        /// </summary>
+        /// <value>
+        /// The content.
+        /// </value>
         public string Content { get; set; }
 
+        /// <summary>
+        /// Gets or sets the information.
+        /// </summary>
+        /// <value>
+        /// The information.
+        /// </value>
         public ArticleInformation Info { get; set; }
 
+        /// <summary>
+        /// Gets or sets the entity information.
+        /// </summary>
+        /// <value>
+        /// The entity information.
+        /// </value>
         [JsonIgnore]
         public Information EntityInformation
         {
@@ -25,6 +52,9 @@ namespace Godsend.Models
         }
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     public class SimpleArticle : Article
     {
     }

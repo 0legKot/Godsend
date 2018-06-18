@@ -10,12 +10,33 @@ namespace Godsend.Models
     using System.Threading.Tasks;
     using Newtonsoft.Json;
 
+    /// <summary>
+    /// 
+    /// </summary>
     public abstract class Supplier : IEntity
     {
+        /// <summary>
+        /// Gets or sets the identifier.
+        /// </summary>
+        /// <value>
+        /// The identifier.
+        /// </value>
         public Guid Id { get; set; }
 
+        /// <summary>
+        /// Gets or sets the information.
+        /// </summary>
+        /// <value>
+        /// The information.
+        /// </value>
         public SupplierInformation Info { get; set; }
 
+        /// <summary>
+        /// Gets or sets the entity information.
+        /// </summary>
+        /// <value>
+        /// The entity information.
+        /// </value>
         [JsonIgnore]
         public Information EntityInformation
         {
@@ -24,6 +45,9 @@ namespace Godsend.Models
         }
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     public class SimpleSupplier : Supplier
     {
     }

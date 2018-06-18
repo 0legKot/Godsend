@@ -12,29 +12,82 @@ namespace Godsend.Models
     using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore;
 
+    /// <summary>
+    /// 
+    /// </summary>
     public class DataContext : IdentityDbContext<IdentityUser>
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DataContext"/> class.
+        /// </summary>
+        /// <param name="options">The options.</param>
         public DataContext(DbContextOptions<DataContext> options)
                : base(options)
         {
         }
 
+        /// <summary>
+        /// Gets or sets the products.
+        /// </summary>
+        /// <value>
+        /// The products.
+        /// </value>
         public DbSet<Product> Products { get; set; }
 
+        /// <summary>
+        /// Gets or sets the suppliers.
+        /// </summary>
+        /// <value>
+        /// The suppliers.
+        /// </value>
         public DbSet<Supplier> Suppliers { get; set; }
 
+        /// <summary>
+        /// Gets or sets the orders.
+        /// </summary>
+        /// <value>
+        /// The orders.
+        /// </value>
         public DbSet<Order> Orders { get; set; }
 
+        /// <summary>
+        /// Gets or sets the articles.
+        /// </summary>
+        /// <value>
+        /// The articles.
+        /// </value>
         public DbSet<Article> Articles { get; set; }
 
+        /// <summary>
+        /// Gets or sets the values.
+        /// </summary>
+        /// <value>
+        /// The values.
+        /// </value>
         public DbSet<Cell> Values { get; set; }
 
+        /// <summary>
+        /// Gets or sets the image paths table.
+        /// </summary>
+        /// <value>
+        /// The image paths table.
+        /// </value>
         public DbSet<ImagePaths> ImagePathsTable { get; set; }
 
+        /// <summary>
+        /// Gets or sets the link products suppliers.
+        /// </summary>
+        /// <value>
+        /// The link products suppliers.
+        /// </value>
         public DbSet<LinkProductsSuppliers> LinkProductsSuppliers { get; set; }
 
         ////public DbSet<ProductInformation> ProductInformation { get; set; }
 
+        /// <summary>
+        /// Called when [model creating].
+        /// </summary>
+        /// <param name="builder">The builder.</param>
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.Entity<SimpleOrder>();
