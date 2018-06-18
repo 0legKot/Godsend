@@ -24,7 +24,7 @@ namespace Godsend
 
             if (!context.Products.Any())
             {
-                SimpleProduct myApple = new SimpleProduct
+                ProductFruit myApple = new ProductFruit
                 {
                     Info = new ProductInformation
                     {

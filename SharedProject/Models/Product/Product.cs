@@ -54,12 +54,12 @@ namespace Godsend.Models
 
     public class ProductFruit : Product
     {
-        ProductFruit()
-        {
-            Characteristics.Keys.Add("Vitamin A");
-            Characteristics.Keys.Add("Vitamin B");
-            Characteristics.Keys.Add("Vitamin C");
-        }
+        //ProductFruit()
+        //{
+        //    Characteristics.Keys.Add("Vitamin A");
+        //    Characteristics.Keys.Add("Vitamin B");
+        //    Characteristics.Keys.Add("Vitamin C");
+        //}
     }
     public class ProductWithSuppliers
     {
