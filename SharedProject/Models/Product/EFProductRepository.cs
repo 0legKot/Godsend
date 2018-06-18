@@ -32,7 +32,8 @@ namespace Godsend
                         Description = "Great fruit",
                         Rating = 5,
                         Watches = 0
-                    }
+                    },
+                    CharacteristicsList=new List<StringWrapper>()
                 };
                 myApple.AddCharacteristic("Vitamin A","3");
                 myApple.AddCharacteristic("Vitamin B", "5");

@@ -26,6 +26,8 @@ namespace Godsend.Models
             
         }
         public void AddCharacteristic(string name, string value) {
+            name = name ?? "";
+            value = value ?? "";
             name = name.Replace(separatist,"");
             value = value.Replace(separatist, "");
             if (CharacteristicsList.Any(x => x.Value.StartsWith(name)))
