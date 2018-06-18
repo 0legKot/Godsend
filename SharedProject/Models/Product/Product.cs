@@ -16,6 +16,7 @@ namespace Godsend.Models
         //NO PALINDROMS
         const string separatist = "#/,%/#";
         public Guid Id { get; set; }
+
         public ProductInformation Info { get; set; }
         [JsonIgnore]
         public IEnumerable<StringWrapper> CharacteristicsList { get; set; }

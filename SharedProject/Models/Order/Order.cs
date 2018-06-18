@@ -31,7 +31,20 @@ namespace Godsend.Models
         public IdentityUser EFCustomer { get; set; }
 
         [NotMapped]
-        public ClientUser Customer { get => new ClientUser { Id = EFCustomer.Id, Name = EFCustomer.UserName }; }
+        public ClientUser Customer
+        {
+            get
+            {
+                if (EFCustomer == null)
+                {
+                    return null;
+                }
+                else
+                {
+                    return new ClientUser { Id = EFCustomer.Id, Name = EFCustomer.UserName };
+                }
+            }
+        }
 
         public IEnumerable<OrderPartProducts> Items { get; set; }
 

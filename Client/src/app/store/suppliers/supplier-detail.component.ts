@@ -16,7 +16,7 @@ import { ImageService } from '../../services/image.service';
 })
 export class SupplierDetailComponent implements OnInit {
     supp?: Supplier;
-    image: string = '';
+    image = '';
     backup = {
         name: '',
         address: ''

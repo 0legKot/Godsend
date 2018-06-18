@@ -2,9 +2,9 @@
 
 <ng-template #inputMode>
     <div *ngIf="!huge else hugeMode">
-        <input [ngModel]="value" size="{{size}}" (ngModelChange)="changeValue($event)" />
+        <input [ngModel]="value" class="{{class}}"  (ngModelChange)="changeValue($event)" />
     </div>
 </ng-template>
 <ng-template #hugeMode>
-    <textarea [ngModel]="value" (ngModelChange)="changeValue($event)" ></textarea>
+    <textarea [ngModel]="value" class="{{class}}" (ngModelChange)="changeValue($event)" ></textarea>
 </ng-template>

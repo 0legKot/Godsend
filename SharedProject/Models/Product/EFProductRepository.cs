@@ -168,9 +168,7 @@ namespace Godsend
                         Description = "Insides of an apple squeezed to death",
                         Rating = 4.3,
                         Watches = 4,
-
                     },
-
                 },
                 new SimpleProduct
                 {
@@ -181,7 +179,6 @@ namespace Godsend
                         Rating = 4,
                         Watches = 132,
                     },
-
                 },
                 new SimpleProduct
                 {
@@ -202,7 +199,6 @@ namespace Godsend
                         Rating = 3,
                         Watches = 3,
                     },
-
                 });
                 context.SaveChanges();
             }
@@ -313,7 +309,7 @@ namespace Godsend
 
         private IQueryable<SimpleProduct> GetProductsFromContext()
         {
-            return context.Products.OfType<SimpleProduct>().Include(p=>p.Info);
+            return context.Products.OfType<SimpleProduct>().Include(p => p.Info);
         }
     }
 }

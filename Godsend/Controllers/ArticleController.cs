@@ -28,12 +28,14 @@ namespace Godsend.Controllers
         }*/
 
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        public override IActionResult CreateOrUpdate([FromBody] Article entity)
+        public override async Task<IActionResult> CreateOrUpdate([FromBody] Article entity)
         {
             var email = User.Claims.FirstOrDefault(c => c.Type == "sub");
-            (repository as IArticleRepository).SetUser(email.Value);
 
-            return base.CreateOrUpdate(entity);
+            var repo = repository as IArticleRepository;
+            await repo.SetUserAsync(email.Value);
+
+            return await base.CreateOrUpdate(entity);
         }
 
         [HttpGet("[action]/{infoId:Guid}")]

@@ -3,13 +3,14 @@
 <br />
 <br />
 <div class="wrap rel">
+    <br />
+    <br />
     <div class="edit-prod">
         <div class="inline-block edit-btns" id="edit" *ngIf="!edit" (click)="editMode()"> Edit</div>
         <div class="inline-block edit-btns" id="save" *ngIf="edit" (click)="save()"> Save</div>
         <div class="inline-block edit-btns" id="discard" *ngIf="edit" (click)="discard()"> Discard</div>
-        <div id="delete" class="edit-btns" (click)="deleteProduct()">Delete</div>
+        <div id="delete" class="edit-btns inline-block " (click)="deleteProduct()">Delete</div>
     </div>
-    <br />
     <br />
     <div class='container-fluid'>
         <div class='row'>
@@ -31,7 +32,7 @@
                 <div class="prod-info">
                     <div>
                         <label>Description: </label>
-                        <p><godsend-input-output *ngIf="data" [(ngModel)]="data.product.info.description" [edit]="edit" [size]="50" huge="true"></godsend-input-output></p>
+                        <p><godsend-input-output *ngIf="data" [(ngModel)]="data.product.info.description" [edit]="edit" huge="true"></godsend-input-output></p>
                     </div>
                     <div *ngIf="data?.suppliers?.length > 0 else noSuppliers">
                         <label>Price: </label>

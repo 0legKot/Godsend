@@ -21,7 +21,7 @@ export class AuthenticationService {
 
     // todo remove email/name inconsistency
     login(email: string, password: string): void {
-        //this.authenticated = false;
+        // this.authenticated = false;
         this.data.sendRequest<any>('post', 'api/account/login', { email, password }).subscribe(response => {
             console.log(response);
             // todo remove copypaste
@@ -43,7 +43,7 @@ export class AuthenticationService {
         localStorage.removeItem('godsend_authtoken');
         localStorage.removeItem('godsend_authname');
 
-        //this.data.sendRequest('post', '/api/account/logout').subscribe(response => { });
+        // this.data.sendRequest('post', '/api/account/logout').subscribe(response => { });
         this.router.navigateByUrl('/login');
     }
 }

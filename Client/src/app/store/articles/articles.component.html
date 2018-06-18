@@ -19,7 +19,7 @@
                     <a [routerLink]="['/article', a.id]" class="btn readMore">Read more</a>
                     <br />
                     <br />
-                    <p class="card-text">Created: {{ a.created }}</p>
+                    <p class="card-text">Created: {{ a.created | date : 'dd-MMM-yyyy HH:mm' }}</p>
                     <footer class="blockquote-footer">by {{ a.author?.name }}</footer>
                 </div>
                 <div class="card-footer text-muted">

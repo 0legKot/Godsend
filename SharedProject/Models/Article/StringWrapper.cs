@@ -11,12 +11,13 @@ namespace Godsend.Models
 
     public class StringWrapper
     {
-        public static implicit operator StringWrapper(string s)
-        {
-            return new StringWrapper() { Value=s};
-        }
         public Guid Id { get; set; }
 
         public string Value { get; set; }
+
+        public static implicit operator StringWrapper(string s)
+        {
+            return new StringWrapper() { Value = s };
+        }
     }
 }

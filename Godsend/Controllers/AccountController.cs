@@ -33,6 +33,7 @@ namespace Godsend.Controllers
         /// </summary>
         /// <param name="userMgr">User manager</param>
         /// <param name="signInMgr">Sign in manager</param>
+        /// <param name="configuration">Configuration</param>
         public AccountController(UserManager<IdentityUser> userMgr, SignInManager<IdentityUser> signInMgr, IConfiguration configuration)
         {
             userManager = userMgr;
@@ -108,7 +109,7 @@ namespace Godsend.Controllers
             if (result.Succeeded)
             {
                 var appUser = await userManager.FindByNameAsync(creds.Email);
-                var token = await GenerateJwtToken(creds.Email, appUser);
+                var token = GenerateJwtToken(creds.Email, appUser);
                 return Ok(new { token });
             }
 
@@ -135,7 +136,7 @@ namespace Godsend.Controllers
             return false;
         }
 
-        private async Task<string> GenerateJwtToken(string email, IdentityUser user)
+        private string GenerateJwtToken(string email, IdentityUser user)
         {
             // todo review
             var claims = new List<Claim>
@@ -153,8 +154,7 @@ namespace Godsend.Controllers
                 configuration["JwtIssuer"],
                 claims,
                 expires: expires,
-                signingCredentials: creds
-            );
+                signingCredentials: creds);
 
             return new JwtSecurityTokenHandler().WriteToken(token);
         }

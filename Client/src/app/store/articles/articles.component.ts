@@ -24,8 +24,6 @@ export class ArticlesComponent implements OnInit {
     }
 
     deleteArticle(id: string) {
-
         this.repo.deleteEntity('article', id);
-        
     }
 }

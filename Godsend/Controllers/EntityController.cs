@@ -38,7 +38,7 @@ namespace Godsend.Controllers
         }
 
         [HttpPost("[action]")]
-        public virtual IActionResult CreateOrUpdate([FromBody]TEntity entity)
+        public virtual async Task<IActionResult> CreateOrUpdate([FromBody]TEntity entity)
         {
             try
             {
@@ -52,15 +52,15 @@ namespace Godsend.Controllers
         }
 
         [HttpPatch("[action]/{id:Guid}")]
-        public virtual IActionResult Edit([FromBody]TEntity entity)
+        public virtual async Task<IActionResult> EditAsync([FromBody]TEntity entity)
         {
-            return CreateOrUpdate(entity);
+            return await CreateOrUpdate(entity);
         }
 
         [HttpPut("[action]/{id:Guid}")]
-        public virtual IActionResult Create([FromBody]TEntity entity)
+        public virtual async Task<IActionResult> CreateAsync([FromBody]TEntity entity)
         {
-            return CreateOrUpdate(entity);
+            return await CreateOrUpdate(entity);
         }
 
         /*[HttpGet("[action]/{id:Guid}")]

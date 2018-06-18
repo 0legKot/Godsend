@@ -1,0 +1,30 @@
+﻿.default{
+    width: 250px;
+    height:50px;
+}
+.edit-art-txtarea{
+    width: 700px;
+    height: 200px;
+}
+.edit-art-input {
+    width: 550px;
+    font-size: 24px;
+}
+@media (max-width: 760px){
+    .edit-art-txtarea {
+        width: 400px;
+        height: 250px;
+    }
+    .edit-art-input {
+        width: 350px;
+    }
+}
+@media (max-width: 460px) {
+    .edit-art-txtarea {
+        width: 260px;
+        height: 280px;
+    }
+    .edit-art-input {
+        width: 250px;
+    }
+}

@@ -1,30 +1,39 @@
-﻿<h1>Article detail</h1>
-<div *ngIf="article?.info != null">
-    <h2>{{ article.id }}</h2>
-    <span class="h4">
-        Title: <godsend-input-output [(ngModel)]="article.info.name" [edit]="edit"></godsend-input-output>
-    </span><br />
-    <span class="h4">
-        Author: {{ article.info.author?.name }}
-    </span><br />
-    <span class="h4">
-        Created: {{ article.info.created }}
-    </span><br />
-    <span class="h4">
-        Rating: {{ article.info.rating }}
-    </span><br />
-    <span class="h4">
-        Watches: {{ article.info.watches }}
-    </span><br />
-    <godsend-input-output [(ngModel)]="article.content" [edit]="edit"><span class="h4" [innerHtml]="article.content"></span></godsend-input-output>
-    <br /><br />
-    <span class="h4" *ngFor="let hash of article.info.tags">
-        #{{ hash }}&nbsp;
-    </span>
+﻿<div class="wrap rel">
+
+
+    <div class="back-btn" (click)="gotoArticles(article)">
+        <fa name="long-arrow-left"></fa> Back to articles
+    </div>
+    <br />
+    <br />
+    <div *ngIf="article?.info != null">
+        <p class="h3 title">
+            <godsend-input-output [(ngModel)]="article.info.name" class="edit-art-input" [edit]="edit"></godsend-input-output>
+        </p>
+
+        <p>
+            <godsend-stars [value]="article.info.rating"></godsend-stars> &nbsp; <fa name="eye"></fa> : {{ article.info.watches }}
+        </p>
+        <p class="h5 author">
+            - {{ article.info.author?.name }}
+        </p>
+        <br />
+        <p>
+            <godsend-input-output [(ngModel)]="article.content" huge="true" class="edit-art-txtarea" [edit]="edit"><span class="h4" [innerHtml]="article.content"></span></godsend-input-output>
+        </p>
+        <br />
+        <p class="h5" *ngFor="let hash of article.info.tags">
+            #{{ hash }}&nbsp;
+        </p>
+        <p class="h5">
+            Created: {{ article.info.created | date : 'dd-MMM-yyyy HH:mm' }}
+        </p><br />
+
+    </div>
+    <div class="edit-art">
+        <div class="inline-block edit-btns" id="edit" *ngIf="!edit" (click)="editMode()"> Edit</div>
+        <div class="inline-block edit-btns" id="save" *ngIf="edit" (click)="save()"> Save</div>
+        <div class="inline-block edit-btns" id="discard" *ngIf="edit" (click)="discard()"> Discard</div>
+    </div>
+    <br />
 </div>
-<button *ngIf="!edit" (click)="editMode()">EDIT</button>
-<button *ngIf="edit" (click)="save()">SAVE</button>
-<button *ngIf="edit" (click)="discard()">DISCARD</button>
-<p>
-    <button (click)="gotoArticles(article)">Back</button>
-</p>
