@@ -275,7 +275,7 @@ namespace Godsend
 
         public Product GetEntity(Guid entityId)
         {
-            return GetProductsFromContext().Include(p => p.Info).FirstOrDefault(p => p.Id == entityId);
+            return GetProductsFromContext().Include(p => p.Info).Include(p=>p.CharacteristicsList).FirstOrDefault(p => p.Id == entityId);
         }
 
         public void Watch(Product prod)
@@ -292,8 +292,6 @@ namespace Godsend
             var tmp = context.LinkProductsSuppliers
                     .Include(ps => ps.Product)
                     .ThenInclude(s => s.Info)
-                    .Include(ps => ps.Product)
-                    .ThenInclude(p => p.Characteristics)
                     .Include(ps => ps.Product)
                     .ThenInclude(p => p.CharacteristicsList)
                     .Include(ps => ps.Supplier)
@@ -314,7 +312,7 @@ namespace Godsend
 
         private IQueryable<Product> GetProductsFromContext()
         {
-            return context.Products.OfType<Product>().Include(p => p.Info).Include(p=>p.Characteristics).Include(p => p.CharacteristicsList);
+            return context.Products.OfType<Product>().Include(p => p.Info).Include(p => p.CharacteristicsList);
         }
     }
 }
