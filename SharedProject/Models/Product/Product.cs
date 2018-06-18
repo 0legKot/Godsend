@@ -19,7 +19,7 @@ namespace Godsend.Models
 
         public ProductInformation Info { get; set; }
         [JsonIgnore]
-        public IEnumerable<StringWrapper> CharacteristicsList { get; set; }
+        public IEnumerable<StringWrapper> CharacteristicsList { get; set; } = new List<StringWrapper>();
         [NotMapped]
         public IDictionary<string,string> Characteristics {
             get => CharacteristicsList.Select(x => x.Value.Split(separatist)).ToDictionary(x=>x.FirstOrDefault(),y=>y.LastOrDefault());
@@ -30,9 +30,12 @@ namespace Godsend.Models
             value = value ?? "";
             name = name.Replace(separatist,"");
             value = value.Replace(separatist, "");
-            if (CharacteristicsList.Any(x => x.Value.StartsWith(name)))
-                CharacteristicsList.FirstOrDefault(x => x.Value.StartsWith(name)).Value = name + separatist + value;
-            else CharacteristicsList.ToList().Add(name + separatist + value);
+            List<StringWrapper> lst = new List<StringWrapper>();
+            lst.Add(name + separatist + value);
+            foreach (var item in CharacteristicsList)
+                if (!item.Value.StartsWith(name))
+                    lst.Add(item);
+            CharacteristicsList = lst;
         }
         [JsonIgnore]
         public Information EntityInformation

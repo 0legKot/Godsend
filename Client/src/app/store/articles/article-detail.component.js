@@ -61,7 +61,12 @@ var ArticleDetailComponent = /** @class */ (function () {
     ArticleDetailComponent = __decorate([
         Component({
             selector: 'godsend-article-detail',
-            templateUrl: 'article-detail.component.html'
+            templateUrl: 'article-detail.component.html',
+            styleUrls: [
+                './article-detail.component.css',
+                '../products/product-detail.component.css',
+                '../input-output/input-output.component.css'
+            ]
         }),
         __metadata("design:paramtypes", [ActivatedRoute,
             Router,

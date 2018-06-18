@@ -39,8 +39,9 @@ var DataService = /** @class */ (function () {
             console.dir(headers);
             return headers;
         }
-        else
+        else {
             return null;
+        }
     };
     DataService = __decorate([
         Injectable({

@@ -16,7 +16,7 @@ var LoginComponent = /** @class */ (function () {
         this.pass = '';
     }
     LoginComponent.prototype.login = function () {
-        //this.auth.callbackUrl = '/orders';
+        // this.auth.callbackUrl = '/orders';
         this.auth.login(this.name, this.pass);
     };
     LoginComponent = __decorate([

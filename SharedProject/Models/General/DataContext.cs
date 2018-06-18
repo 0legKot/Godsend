@@ -39,6 +39,8 @@ namespace Godsend.Models
         {
             builder.Entity<SimpleOrder>();
             builder.Entity<SimpleProduct>();
+            builder.Entity<ProductFruit>();
+            builder.Entity<ProductTV>();
             ////builder.Entity<DiscreteProduct>();
             ////builder.Entity<WeightedProduct>();
             builder.Entity<SimpleArticle>();

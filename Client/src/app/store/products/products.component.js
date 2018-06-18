@@ -51,7 +51,7 @@ var ProductsComponent = /** @class */ (function () {
     ProductsComponent.prototype.ngOnInit = function () {
         var _this = this;
         this.repo.getEntities('product', function (res) {
-            _this.imageService.getPreviewImages(res.map(function (pi) { return pi.id; }), function (smth) { _this.imagg = smth; });
+            _this.imageService.getPreviewImages(res.map(function (pi) { return pi.id; }), function (smth) { return _this.imagg = smth; });
             /*for (let p of res) {
                 this.imageService.getImage(p.id, image => { this.images[p.id] = image; });
             }*/
