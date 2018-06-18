@@ -12,13 +12,17 @@ import { RepositoryService } from '../../services/repository.service';
 import { Product, ProductInfo } from '../../models/product.model';
 import { searchType } from '../search/search.service';
 import { SearchInlineComponent } from '../search/search-inline.component';
+import { ImageService } from '../../services/image.service';
 var ProductsComponent = /** @class */ (function () {
-    function ProductsComponent(repo) {
+    function ProductsComponent(repo, imageService) {
         this.repo = repo;
+        this.imageService = imageService;
         // private selectedId: string;
         this.type = searchType.product;
+        this.images = {};
         this.templateText = 'Waiting for data...';
         this.searchInline = !;
+        this.imagg = {};
     }
     Object.defineProperty(ProductsComponent.prototype, "products", {
         get: function () {
@@ -27,6 +31,9 @@ var ProductsComponent = /** @class */ (function () {
         enumerable: true,
         configurable: true
     });
+    ProductsComponent.prototype.getImage = function (pi) {
+        return this.images[pi.id];
+    };
     ProductsComponent.prototype.createProduct = function (descr, name) {
         var _this = this;
         // TODO create interface with only relevant info
@@ -42,7 +49,13 @@ var ProductsComponent = /** @class */ (function () {
         this.searchProducts = products;
     };
     ProductsComponent.prototype.ngOnInit = function () {
-        this.repo.getEntities('product' /*, res => this.products = res*/);
+        var _this = this;
+        this.repo.getEntities('product', function (res) {
+            _this.imageService.getPreviewImages(res.map(function (pi) { return pi.id; }), function (smth) { _this.imagg = smth; });
+            /*for (let p of res) {
+                this.imageService.getImage(p.id, image => { this.images[p.id] = image; });
+            }*/
+        });
     };
     __decorate([
         ViewChild(SearchInlineComponent),
@@ -54,7 +67,7 @@ var ProductsComponent = /** @class */ (function () {
             templateUrl: './products.component.html',
             styleUrls: ['./products.component.css']
         }),
-        __metadata("design:paramtypes", [RepositoryService])
+        __metadata("design:paramtypes", [RepositoryService, ImageService])
     ], ProductsComponent);
     return ProductsComponent;
 }());

@@ -21,6 +21,10 @@ var ProductCardComponent = /** @class */ (function () {
         __metadata("design:type", ProductInfo)
     ], ProductCardComponent.prototype, "productInfo", void 0);
     __decorate([
+        Input(),
+        __metadata("design:type", String)
+    ], ProductCardComponent.prototype, "image", void 0);
+    __decorate([
         Output(),
         __metadata("design:type", Object)
     ], ProductCardComponent.prototype, "delete", void 0);

@@ -24,7 +24,7 @@ namespace Godsend
 
             if (!context.Products.Any())
             {
-                context.Products.Add(new SimpleProduct
+                SimpleProduct myApple = new SimpleProduct
                 {
                     Info = new ProductInformation
                     {
@@ -32,8 +32,14 @@ namespace Godsend
                         Description = "Great fruit",
                         Rating = 5,
                         Watches = 0
-                    },
-                });
+                    }
+                };
+                myApple.AddCharacteristic("Vitamin A","3");
+                myApple.AddCharacteristic("Vitamin B", "5");
+                myApple.AddCharacteristic("Vitamin C", "9");
+
+                context.Products.Add(myApple);
+
                 context.SaveChanges();
             }
 

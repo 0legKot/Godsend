@@ -23,6 +23,10 @@ var SupplierCardComponent = /** @class */ (function () {
         __metadata("design:type", SupplierInfo)
     ], SupplierCardComponent.prototype, "supplierInfo", void 0);
     __decorate([
+        Input(),
+        __metadata("design:type", String)
+    ], SupplierCardComponent.prototype, "image", void 0);
+    __decorate([
         Output(),
         __metadata("design:type", Object)
     ], SupplierCardComponent.prototype, "delete", void 0);

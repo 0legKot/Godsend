@@ -12,11 +12,15 @@ import { RepositoryService } from '../../services/repository.service';
 import { Supplier, SupplierInfo, Location } from '../../models/supplier.model';
 import { searchType } from '../search/search.service';
 import { SearchInlineComponent } from '../search/search-inline.component';
+import { ImageService } from '../../services/image.service';
 var SuppliersComponent = /** @class */ (function () {
-    function SuppliersComponent(repo) {
+    function SuppliersComponent(repo, imageService) {
         this.repo = repo;
+        this.imageService = imageService;
         this.type = searchType.supplier;
+        this.images = {};
         this.templateText = 'Waiting for data...';
+        this.imagg = {};
         this.searchInline = !;
     }
     Object.defineProperty(SuppliersComponent.prototype, "suppliers", {
@@ -26,8 +30,17 @@ var SuppliersComponent = /** @class */ (function () {
         enumerable: true,
         configurable: true
     });
+    SuppliersComponent.prototype.getImage = function (pi) {
+        return this.images[pi.id];
+    };
     SuppliersComponent.prototype.ngOnInit = function () {
-        this.repo.getEntities('supplier');
+        var _this = this;
+        this.repo.getEntities('supplier', function (res) {
+            _this.imageService.getPreviewImages(res.map(function (si) { return si.id; }), function (smth) { return _this.imagg = smth; });
+            // for(let p of res) {
+            //    this.imageService.getImage(p.id, image => { this.images[p.id] = image; });
+            // }
+        });
     };
     SuppliersComponent.prototype.createSupplier = function (name, address) {
         var _this = this;
@@ -56,7 +69,7 @@ var SuppliersComponent = /** @class */ (function () {
                 '../products/products.component.css'
             ]
         }),
-        __metadata("design:paramtypes", [RepositoryService])
+        __metadata("design:paramtypes", [RepositoryService, ImageService])
     ], SuppliersComponent);
     return SuppliersComponent;
 }());

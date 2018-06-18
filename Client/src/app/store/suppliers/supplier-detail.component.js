@@ -12,17 +12,26 @@ import { Component } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { RepositoryService } from '../../services/repository.service';
 import { Supplier } from '../../models/supplier.model';
+import { ImageService } from '../../services/image.service';
 var SupplierDetailComponent = /** @class */ (function () {
-    function SupplierDetailComponent(route, router, service) {
+    function SupplierDetailComponent(route, router, service, imageService) {
         this.route = route;
         this.router = router;
         this.service = service;
+        this.imageService = imageService;
+        this.image = '';
         this.backup = {
             name: '',
             address: ''
         };
         this.edit = false;
     }
+    SupplierDetailComponent.prototype.deleteSupplier = function () {
+        if (this.supp) {
+            this.service.deleteEntity('supplier', this.supp.info.id);
+            this.gotoSuppliers(undefined);
+        }
+    };
     SupplierDetailComponent.prototype.gotoSuppliers = function (supplier) {
         var supplierId = supplier ? supplier.id : null;
         this.router.navigate(['/suppliers', { id: supplierId }]);
@@ -30,6 +39,7 @@ var SupplierDetailComponent = /** @class */ (function () {
     SupplierDetailComponent.prototype.ngOnInit = function () {
         var _this = this;
         this.service.getEntity(this.route.snapshot.params.id, function (s) { return _this.supp = s; }, 'supplier');
+        this.imageService.getImage(this.route.snapshot.params.id, function (image) { _this.image = image; });
     };
     SupplierDetailComponent.prototype.editMode = function () {
         if (this.supp == null) {
@@ -63,7 +73,8 @@ var SupplierDetailComponent = /** @class */ (function () {
         }),
         __metadata("design:paramtypes", [ActivatedRoute,
             Router,
-            RepositoryService])
+            RepositoryService,
+            ImageService])
     ], SupplierDetailComponent);
     return SupplierDetailComponent;
 }());
