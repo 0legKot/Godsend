@@ -4,7 +4,7 @@
     <button (click)="createArticle('content', 'test name', ['test','victory'])" class="btn btn-dark btn-lg">Create new</button>
     <br />
     <br />
-    <div *ngIf="articles else nodata">
+    <div *ngIf="articles && articles.length > 0 else nodata">
         <div *ngFor="let a of articles" class="cards">
 
             <div class="card text-center">
