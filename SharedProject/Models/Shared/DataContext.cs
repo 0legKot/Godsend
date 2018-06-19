@@ -93,6 +93,10 @@ namespace Godsend.Models
         /// <param name="builder">The builder.</param>
         protected override void OnModelCreating(ModelBuilder builder)
         {
+            //builder.Entity<EAV>()
+            //.HasKey(c => new { c.Product, c.Property });
+            //builder.Entity<ProductWithSuppliers>()
+            //.HasKey(c => new { c.Product, c.Suppliers });
             builder.Entity<SimpleOrder>();
             builder.Entity<SimpleProduct>();
             builder.Entity<ProductFruit>();
