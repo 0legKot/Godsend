@@ -50,6 +50,8 @@ namespace Godsend.Models
         {
             get => Info; set { Info = value as ArticleInformation; }
         }
+
+        public string Name { get => EntityInformation.Name; set => EntityInformation.Name = value; }
     }
 
     /// <summary>

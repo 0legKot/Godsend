@@ -30,6 +30,8 @@ namespace Godsend.Models
         /// </value>
         Information EntityInformation { get; set; }
 
+        string Name { get; set; }
+
          ////public virtual void SetIds() {
          ////    Id = Guid.NewGuid();
          ////    EntityInformation.Id = Guid.NewGuid();

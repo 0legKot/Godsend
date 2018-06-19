@@ -50,11 +50,11 @@ namespace Godsend
                         Rating = 5,
                         Watches = 0
                     },
-                    CharacteristicsList=new List<StringWrapper>()
+                    //CharacteristicsList=new List<StringWrapper>()
                 };
-                myApple.AddCharacteristic("Vitamin A","3");
-                myApple.AddCharacteristic("Vitamin B", "5");
-                myApple.AddCharacteristic("Vitamin C", "9");
+                //myApple.AddCharacteristic("Vitamin A","3");
+                //myApple.AddCharacteristic("Vitamin B", "5");
+                //myApple.AddCharacteristic("Vitamin C", "9");
 
                 context.Products.Add(myApple);
 
@@ -324,7 +324,7 @@ namespace Godsend
         /// <returns></returns>
         public Product GetEntity(Guid entityId)
         {
-            return GetProductsFromContext().Include(p => p.Info).Include(p=>p.CharacteristicsList).FirstOrDefault(p => p.Id == entityId);
+            return GetProductsFromContext().Include(p => p.Info)/*.Include(p=>p.CharacteristicsList)*/.FirstOrDefault(p => p.Id == entityId);
         }
 
         /// <summary>
@@ -350,8 +350,8 @@ namespace Godsend
             var tmp = context.LinkProductsSuppliers
                     .Include(ps => ps.Product)
                     .ThenInclude(s => s.Info)
-                    .Include(ps => ps.Product)
-                    .ThenInclude(p => p.CharacteristicsList)
+                    //.Include(ps => ps.Product)
+                    //.ThenInclude(p => p.CharacteristicsList)
                     .Include(ps => ps.Supplier)
                     .ThenInclude(s => s.Info)
                     .Include(ps => ps.Supplier)
@@ -374,7 +374,7 @@ namespace Godsend
         /// <returns></returns>
         private IQueryable<Product> GetProductsFromContext()
         {
-            return context.Products.OfType<Product>().Include(p => p.Info).Include(p => p.CharacteristicsList);
+            return context.Products.OfType<Product>().Include(p => p.Info)/*.Include(p => p.CharacteristicsList)*/;
         }
     }
 }

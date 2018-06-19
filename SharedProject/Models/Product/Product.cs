@@ -20,7 +20,7 @@ namespace Godsend.Models
         /// <summary>
         /// The separatist
         /// </summary>
-        const string separatist = "#/,%/#";
+        //const string separatist = "#/,%/#";
         /// <summary>
         /// Gets or sets the identifier.
         /// </summary>
@@ -36,42 +36,43 @@ namespace Godsend.Models
         /// The information.
         /// </value>
         public ProductInformation Info { get; set; }
+        public Category Category { get; set; }
         /// <summary>
         /// Gets or sets the characteristics list.
         /// </summary>
         /// <value>
         /// The characteristics list.
         /// </value>
-        [JsonIgnore]
-        public IEnumerable<StringWrapper> CharacteristicsList { get; set; } = new List<StringWrapper>();
+        //[JsonIgnore]
+        //public IEnumerable<StringWrapper> CharacteristicsList { get; set; } = new List<StringWrapper>();
         /// <summary>
         /// Gets the characteristics.
         /// </summary>
         /// <value>
         /// The characteristics.
         /// </value>
-        [NotMapped]
-        public IDictionary<string,string> Characteristics {
-            get => CharacteristicsList.Select(x => x.Value.Split(separatist)).ToDictionary(x=>x.FirstOrDefault(),y=>y.LastOrDefault());
+        //[NotMapped]
+        //public IDictionary<string,string> Characteristics {
+        //    get => CharacteristicsList.Select(x => x.Value.Split(separatist)).ToDictionary(x=>x.FirstOrDefault(),y=>y.LastOrDefault());
             
-        }
+        //}
         /// <summary>
         /// Adds the characteristic.
         /// </summary>
         /// <param name="name">The name.</param>
         /// <param name="value">The value.</param>
-        public void AddCharacteristic(string name, string value) {
-            name = name ?? "";
-            value = value ?? "";
-            name = name.Replace(separatist,"");
-            value = value.Replace(separatist, "");
-            List<StringWrapper> lst = new List<StringWrapper>();
-            lst.Add(name + separatist + value);
-            foreach (var item in CharacteristicsList)
-                if (!item.Value.StartsWith(name))
-                    lst.Add(item);
-            CharacteristicsList = lst;
-        }
+        //public void AddCharacteristic(string name, string value) {
+        //    name = name ?? "";
+        //    value = value ?? "";
+        //    name = name.Replace(separatist,"");
+        //    value = value.Replace(separatist, "");
+        //    List<StringWrapper> lst = new List<StringWrapper>();
+        //    lst.Add(name + separatist + value);
+        //    foreach (var item in CharacteristicsList)
+        //        if (!item.Value.StartsWith(name))
+        //            lst.Add(item);
+        //    CharacteristicsList = lst;
+        //}
         /// <summary>
         /// Gets or sets the entity information.
         /// </summary>
@@ -84,6 +85,7 @@ namespace Godsend.Models
             get => Info;
             set => Info = value as ProductInformation;
         }
+        public string Name { get => EntityInformation.Name; set => EntityInformation.Name = value; }
     }
 
     /// <summary>
