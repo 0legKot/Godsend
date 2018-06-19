@@ -45,3 +45,9 @@ export class SupplierAndPrice {
         public price: number
     ) { }
 }
+
+export class Category {
+    constructor(
+        public name: string
+    ) { }
+}

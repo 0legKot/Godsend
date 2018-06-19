@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 
 import { RepositoryService } from '../../services/repository.service';
-import { Product, ProductInfo } from '../../models/product.model';
+import { Product, ProductInfo, Category } from '../../models/product.model';
 import { searchType } from '../search/search.service';
 import { SearchInlineComponent } from '../search/search-inline.component';
 import { ImageService } from '../../services/image.service';
@@ -58,5 +58,19 @@ export class ProductsComponent implements OnInit {
                 this.imageService.getImage(p.id, image => { this.images[p.id] = image; });
             }*/
         });
+    }
+
+    categories?: Category[];
+
+    getCategories(): void {
+        this.repo.getCategories(cats => this.categories = cats);
+    }
+
+    getSubcategories(category: Category): void {
+        this.repo.getSubcategories(category, cats => this.categories = cats);
+    }
+
+    getByCategory(category: Category): void {
+        this.repo.getByCategory(category);
     }
 }

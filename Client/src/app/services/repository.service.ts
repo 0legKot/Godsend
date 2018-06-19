@@ -1,4 +1,4 @@
-import { Product, ProductInfo } from '../models/product.model';
+import { Product, ProductInfo, Category } from '../models/product.model';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { DataService } from './data.service';
@@ -189,5 +189,25 @@ export class RepositoryService {
 
     getSessionData(dataType: string): Observable<any> {
         return this.data.sendRequest<any>('get', '/api/session/' + dataType);
+    }
+
+    // CATEGORIES
+
+    getCategories(fn: (_:Category[]) => any): void {
+        this.data.sendRequest<Category[]>('get', 'api/product/getCategories')
+            .subscribe(category => fn(category));
+    }
+
+    getByCategory(cat: Category, fn?: (_:ProductInfo[]) => any): void {
+        this.data.sendRequest<ProductInfo[]>('get', 'api/product/getByCategory/' + cat.name)
+            .subscribe(products => {
+                this.products = products;
+                if (fn) fn(products);
+            })
+    }
+
+    getSubcategories(cat: Category, fn: (_:Category[]) => any): void {
+        this.data.sendRequest<Category[]>('get', 'api/product/getSubcategories/' + cat.name)
+            .subscribe(categories => fn(categories));
     }
 }
