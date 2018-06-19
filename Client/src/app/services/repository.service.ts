@@ -199,7 +199,7 @@ export class RepositoryService {
     }
 
     getByCategory(cat: Category, fn?: (_:ProductInfo[]) => any): void {
-        this.data.sendRequest<ProductInfo[]>('get', 'api/product/getByCategory/' + cat.name)
+        this.data.sendRequest<ProductInfo[]>('get', 'api/product/getByCategory/' + cat.id)
             .subscribe(products => {
                 this.products = products;
                 if (fn) fn(products);
@@ -207,7 +207,7 @@ export class RepositoryService {
     }
 
     getSubcategories(cat: Category, fn: (_:Category[]) => any): void {
-        this.data.sendRequest<Category[]>('get', 'api/product/getSubcategories/' + cat.name)
+        this.data.sendRequest<Category[]>('get', 'api/product/getSubcategories/' + cat.id)
             .subscribe(categories => fn(categories));
     }
 }
