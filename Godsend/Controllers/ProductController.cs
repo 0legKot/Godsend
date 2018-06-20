@@ -74,7 +74,7 @@ namespace Godsend.Controllers
         }
 
         // Low perfomance maybe
-        [HttpGet("[action]")]
+        [HttpGet("[action]/{id:Guid}")]
         public IEnumerable<Category> GetAllCategories(Guid id)
         {
             var res = new List<Category>();
@@ -85,7 +85,7 @@ namespace Godsend.Controllers
             return res;
         }
 
-        [HttpGet("[action]")]
+        [HttpGet("[action]/{id:Guid}")]
         public IEnumerable<Information> GetByCategory(Guid id)
         {
             return repository.Entities.Where(x => x.Category.Id == id).Select(x => x.Info);
