@@ -12,7 +12,7 @@ namespace Godsend.Models
     /// <summary>
     /// 
     /// </summary>
-    public interface ISupplierRepository : IRepository<SimpleSupplier>
+    public interface ISupplierRepository : IRepository<Supplier>
     {
     }
 }

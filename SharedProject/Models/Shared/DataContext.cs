@@ -100,13 +100,13 @@ namespace Godsend.Models
             //builder.Entity<ProductWithSuppliers>()
             //.HasKey(c => new { c.Product, c.Suppliers });
             builder.Entity<SimpleOrder>();
-            builder.Entity<SimpleProduct>();
-            builder.Entity<ProductFruit>();
-            builder.Entity<ProductTV>();
+            //builder.Entity<SimpleProduct>();
+            //builder.Entity<ProductFruit>();
+            //builder.Entity<ProductTV>();
             ////builder.Entity<DiscreteProduct>();
             ////builder.Entity<WeightedProduct>();
             builder.Entity<SimpleArticle>();
-            builder.Entity<SimpleSupplier>();
+            //builder.Entity<SimpleSupplier>();
             ////builder.Entity<ProductInformation>();
             base.OnModelCreating(builder);
         }

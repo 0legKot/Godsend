@@ -41,7 +41,7 @@ namespace Godsend.Models
 
             if (!context.ImagePathsTable.Any(ipt => ipt.Id == context.Suppliers.Include(s => s.Info).FirstOrDefault().Info.Id))
             {
-                foreach (SimpleSupplier ss in ctx.Suppliers.Include(x => x.Info))
+                foreach (Supplier ss in ctx.Suppliers.Include(x => x.Info))
                 {
                     context.ImagePathsTable.Add(new ImagePaths() { Id = ss.Info.Id, Preview = "suppApple.jpg" });
                 }
