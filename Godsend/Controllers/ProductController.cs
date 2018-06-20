@@ -70,7 +70,7 @@ namespace Godsend.Controllers
         [HttpGet("[action]/{id:Guid}")]
         public IEnumerable<Category> GetSubCategories(Guid id)
         {
-            return (repository as IProductRepository).Categories().Where(x => x.BaseCategory.Id == id).ToList();
+            return (repository as IProductRepository).Categories().Where(x => x.BaseCategory?.Id == id).ToList();
         }
 
         // Low perfomance maybe
