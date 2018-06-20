@@ -1,4 +1,4 @@
-import { Product, ProductInfo, Category } from '../models/product.model';
+import { Product, ProductInfo, Category, CatsWithSubs } from '../models/product.model';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { DataService } from './data.service';
@@ -193,8 +193,8 @@ export class RepositoryService {
 
     // CATEGORIES
 
-    getCategories(fn: (_:Category[]) => any): void {
-        this.data.sendRequest<Category[]>('get', 'api/product/getAllCategories')
+    getCategories(fn: (_:CatsWithSubs[]) => any): void {
+        this.data.sendRequest<CatsWithSubs[]>('get', 'api/product/getAllCategories')
             .subscribe(cats => fn(cats));
     }
 

@@ -53,3 +53,10 @@ export class Category {
         public baseCategory?: Category
     ) { }
 }
+
+export class CatsWithSubs {
+    constructor(
+        public cat: Category,
+        public subs: CatsWithSubs[]
+    ) { }
+}

@@ -103,7 +103,7 @@ namespace Godsend.Controllers
         {
             CatWithSubs curCatSubs = new CatWithSubs() { Cat = cur, Subs = new List<CatWithSubs>() };
             res.Add(curCatSubs);
-            curCatSubs.Subs = GetSubCategories(cur.Id).Select(x => new CatWithSubs() {Cat=cur,Subs= new List<CatWithSubs>() });
+            curCatSubs.Subs = GetSubCategories(cur.Id).Select(x => new CatWithSubs() {Cat=x,Subs= new List<CatWithSubs>() });
             if (curCatSubs.Subs?.Any()??false)
             {
                 foreach (var curCat in curCatSubs.Subs)

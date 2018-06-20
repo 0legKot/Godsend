@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 
 import { RepositoryService } from '../../services/repository.service';
-import { Product, ProductInfo, Category } from '../../models/product.model';
+import { Product, ProductInfo, Category, CatsWithSubs } from '../../models/product.model';
 import { searchType } from '../search/search.service';
 import { SearchInlineComponent } from '../search/search-inline.component';
 import { ImageService } from '../../services/image.service';
@@ -63,7 +63,7 @@ export class ProductsComponent implements OnInit {
     categories?: Category[];
 
     getCategories(): void {
-        this.repo.getCategories(cats => this.categories = cats);
+        this.repo.getCategories(cats => this.categories = cats.map(cws => cws.cat));
     }
 
     getSubcategories(category: Category): void {
