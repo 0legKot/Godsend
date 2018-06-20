@@ -1,13 +1,13 @@
 ﻿<h1>Products</h1>
 <br />
 <button (click)="getCategories()">Get categories</button>
-<ng-template *ngIf="categories && categories.length > 0">
+<div *ngIf="categories && categories.length > 0">
     <div *ngFor="let category of categories">
         <span>{{ category.name }}</span>
         <button (click)="getSubcategories(category)">Subcategories</button>
         <button (click)="getByCategory(category)">By category</button>
     </div>
-</ng-template>
+</div>
 <br />
 <a (click)="createProduct('it is test product','Test product2')">Create!!</a>
 <br />

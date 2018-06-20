@@ -70,8 +70,7 @@ namespace Godsend.Controllers
         [HttpGet("[action]/{id:Guid}")]
         public IEnumerable<Category> GetSubCategories(Guid id)
         {
-            var res = (repository as IProductRepository).Categories();
-            return res.Where(x => x?.BaseCategory?.Id == id);
+            return (repository as IProductRepository).Categories().Where(x => x.BaseCategory?.Id == id).ToList();
         }
 
         // Low perfomance maybe
@@ -89,7 +88,7 @@ namespace Godsend.Controllers
         [HttpGet("[action]/{id:Guid}")]
         public IEnumerable<Information> GetByCategory(Guid id)
         {
-            return repository.Entities.Where(x => x.Category.Id == id).Select(x => x.Info);
+            return repository.Entities.Where(x => x.Category?.Id == id).Select(x => x.Info);
         }
 
         private void GetRecursiveCats(Category cur, ref List<Category> res)

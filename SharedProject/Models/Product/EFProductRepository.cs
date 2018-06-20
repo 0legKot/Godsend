@@ -377,7 +377,7 @@ namespace Godsend
         /// <returns></returns>
         private IQueryable<Product> GetProductsFromContext()
         {
-            return context.Products.OfType<Product>().Include(p => p.Info)/*.Include(p => p.CharacteristicsList)*/;
+            return context.Products.OfType<Product>().Include(p => p.Info).Include(p => p.Category)/*.Include(p => p.CharacteristicsList)*/;
         }
 
         public IEnumerable<Category> Categories()
