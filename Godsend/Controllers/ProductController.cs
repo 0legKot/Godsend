@@ -46,6 +46,14 @@ namespace Godsend.Controllers
             return prod;
         }
 
+        public class CatWithSubs
+        {
+            public Category Cat { get; set; }
+
+            public IEnumerable<CatWithSubs> Subs { get; set; }
+        }
+
+
         [HttpGet("[action]")]
         public IEnumerable<Category> GetBaseCategories()
         {
@@ -75,9 +83,9 @@ namespace Godsend.Controllers
 
         // Low perfomance maybe
         [HttpGet("[action]")]
-        public IEnumerable<Category> GetAllCategories()
+        public IEnumerable<CatWithSubs> GetAllCategories()
         {
-            var res = new List<Category>();
+            var res = new List<CatWithSubs>();
             foreach (var cat in GetBaseCategories())
             {
                 GetRecursiveCats(cat, ref res);
@@ -91,15 +99,16 @@ namespace Godsend.Controllers
             return repository.Entities.Where(x => x.Category?.Id == id).Select(x => x.Info);
         }
 
-        private void GetRecursiveCats(Category cur, ref List<Category> res)
+        private void GetRecursiveCats(Category cur, ref List<CatWithSubs> res)
         {
-            res.Add(cur);
-            IEnumerable<Category> subCats = GetSubCategories(cur.Id);
-            if (subCats.Any())
+            CatWithSubs curCatSubs = new CatWithSubs() { Cat = cur, Subs = new List<CatWithSubs>() };
+            res.Add(curCatSubs);
+            curCatSubs.Subs = GetSubCategories(cur.Id).Select(x => new CatWithSubs() {Cat=cur,Subs= new List<CatWithSubs>() });
+            if (curCatSubs.Subs?.Any()??false)
             {
-                foreach (Category curCat in subCats)
+                foreach (var curCat in curCatSubs.Subs)
                 {
-                    GetRecursiveCats(curCat, ref res);
+                    GetRecursiveCats(curCat.Cat, ref res);
                 }
             }
         }
