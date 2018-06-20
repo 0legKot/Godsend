@@ -39,6 +39,33 @@ namespace Godsend
         {
             context = ctx;
 
+            if (!context.Categories.Any())
+            {
+                var food = new Category { Name = "Food" };
+                var fruit = new Category { Name = "Fruit", BaseCategory = food };
+                var vegetables = new Category { Name = "Vegetables", BaseCategory = food };
+                var berries = new Category { Name = "Berries", BaseCategory = food };
+                var confectionery = new Category { Name = "Confectionery", BaseCategory = food };
+                var sugarConfections = new Category { Name = "Sugar confectionery", BaseCategory = confectionery };
+                var elDevices = new Category { Name = "Electronic devices" };
+                var phones = new Category { Name = "Tablets and smartphones", BaseCategory = elDevices };
+                var mobilePhones = new Category { Name = "Mobile phones", BaseCategory = phones };
+                var beverages = new Category { Name = "Beverages", BaseCategory = food };
+                var alcBeverages = new Category { Name = "Alcoholic beverages", BaseCategory = beverages };
+                var nonAlcBeverages = new Category { Name = "Non-alcoholic beverages", BaseCategory = beverages };
+                var juices = new Category { Name = "Juices", BaseCategory = nonAlcBeverages };
+                var ciders = new Category { Name = "Ciders", BaseCategory = alcBeverages };
+                var vehicles = new Category { Name = "Vehicles" };
+                var cars = new Category { Name = "Cars", BaseCategory = vehicles };
+                var compactMPVs = new Category { Name = "Compact MPVs", BaseCategory = cars };
+
+                context.Categories.AddRange(food, fruit, vegetables, berries, confectionery, sugarConfections, elDevices, 
+                    phones, mobilePhones, beverages, alcBeverages, nonAlcBeverages, juices, ciders, vehicles, cars, compactMPVs);
+
+                context.SaveChanges();
+            }
+
+
             if (!context.Products.Any())
             {
                 Product myApple = new Product
@@ -50,7 +77,7 @@ namespace Godsend
                         Rating = 5,
                         Watches = 0
                     },
-                    Category = new Category() {Name = "Fruit"}
+                    Category = context.Categories.FirstOrDefault(c => c.Name == "Fruit")
                 };
                 var prop = new Property() { RelatedCategory = myApple.Category, Name = "Vitamin A" };
                 context.Properties.Add(prop);
@@ -68,14 +95,15 @@ namespace Godsend
             {
                 context.Products.AddRange(
                     new Product
-                {
-                    Info = new ProductInformation
                     {
-                        Name = "Potato",
-                        Description = "The earth apple",
-                        Rating = 5,
-                        Watches = 4,
-                    },
+                        Info = new ProductInformation
+                        {
+                            Name = "Potato",
+                            Description = "The earth apple",
+                            Rating = 5,
+                            Watches = 4,
+                        },
+                        Category = context.Categories.FirstOrDefault(c => c.Name == "Vegetables")
                     },
                 new Product
                 {
@@ -86,6 +114,7 @@ namespace Godsend
                         Rating = 13.0 / 3,
                         Watches = 7,
                     },
+                    Category = context.Categories.FirstOrDefault(c => c.Name == "Fruit")
                 },
                 new Product
                 {
@@ -96,6 +125,7 @@ namespace Godsend
                         Rating = 1.5,
                         Watches = 0,
                     },
+                    Category = context.Categories.FirstOrDefault(c => c.Name == "Fruit")
                 });
 
                 context.SaveChanges();
@@ -113,6 +143,7 @@ namespace Godsend
                             Rating = Math.PI,
                             Watches = 3,
                         },
+                        Category = context.Categories.FirstOrDefault(c => c.Name == "Vegetables")
                     },
                     new Product
                     {
@@ -123,6 +154,7 @@ namespace Godsend
                             Rating = Math.E,
                             Watches = 13,
                         },
+                        Category = context.Categories.FirstOrDefault(c => c.Name == "Berries")
                     },
                     new Product
                     {
@@ -133,6 +165,7 @@ namespace Godsend
                             Rating = 4,
                             Watches = 8,
                         },
+                        Category = context.Categories.FirstOrDefault(c => c.Name == "Fruit")
                     },
                     new Product
                     {
@@ -143,6 +176,7 @@ namespace Godsend
                             Rating = 3.4,
                             Watches = 6,
                         },
+                        Category = context.Categories.FirstOrDefault(c => c.Name == "Fruit")
                     },
                     new Product
                     {
@@ -153,6 +187,7 @@ namespace Godsend
                             Rating = 2.1,
                             Watches = 8,
                         },
+                        Category = context.Categories.FirstOrDefault(c => c.Name == "Vegetables")
                     },
                     new Product
                     {
@@ -163,6 +198,7 @@ namespace Godsend
                             Rating = 3,
                             Watches = 1,
                         },
+                        Category = context.Categories.FirstOrDefault(c => c.Name == "Fruit")
                     });
 
                 context.SaveChanges();
@@ -180,6 +216,7 @@ namespace Godsend
                         Rating = 4.99,
                         Watches = 13,
                     },
+                    Category = context.Categories.FirstOrDefault(c => c.Name == "Mobile phones")
                 },
                 new Product
                 {
@@ -190,6 +227,7 @@ namespace Godsend
                         Rating = 4.3,
                         Watches = 4,
                     },
+                    Category = context.Categories.FirstOrDefault(c => c.Name == "Juices")
                 },
                 new Product
                 {
@@ -200,6 +238,7 @@ namespace Godsend
                         Rating = 4,
                         Watches = 132,
                     },
+                    Category = context.Categories.FirstOrDefault(c => c.Name == "Ciders")
                 },
                 new Product
                 {
@@ -210,6 +249,7 @@ namespace Godsend
                         Rating = 3.3,
                         Watches = 123,
                     },
+                    Category = context.Categories.FirstOrDefault(c => c.Name == "Sugar confectionery")
                 },
                 new Product
                 {
@@ -220,6 +260,7 @@ namespace Godsend
                         Rating = 3,
                         Watches = 3,
                     },
+                    Category = context.Categories.FirstOrDefault(c => c.Name == "Compact MPVs")
                 });
                 context.SaveChanges();
             }
@@ -246,7 +287,7 @@ namespace Godsend
                 context.LinkProductsSuppliers.Add(
                 new LinkProductsSuppliers
                 {
-                    Product = products[0],
+                    Product = products[1],
                     Supplier = suppliers[0],
                     Price = 50
                 });

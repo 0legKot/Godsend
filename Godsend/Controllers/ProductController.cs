@@ -95,7 +95,7 @@ namespace Godsend.Controllers
         {
             res.Add(cur);
             IEnumerable<Category> subCats = GetSubCategories(cur.Id);
-            if (subCats?.Any()??false)
+            if (subCats.Any())
             {
                 foreach (Category curCat in subCats)
                 {
