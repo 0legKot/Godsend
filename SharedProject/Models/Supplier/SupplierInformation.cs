@@ -10,7 +10,7 @@ namespace Godsend.Models
     using System.Threading.Tasks;
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public class SupplierInformation : Information
     {

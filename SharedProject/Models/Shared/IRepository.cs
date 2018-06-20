@@ -10,7 +10,7 @@ namespace Godsend.Models
     using System.Threading.Tasks;
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <typeparam name="IEntity">The type of the entity.</typeparam>
     public interface IRepository<IEntity>

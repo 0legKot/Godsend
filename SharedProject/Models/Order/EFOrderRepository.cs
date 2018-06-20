@@ -12,7 +12,7 @@ namespace Godsend.Models
     using Microsoft.EntityFrameworkCore;
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public class EFOrderRepository : IOrderRepository
     {
