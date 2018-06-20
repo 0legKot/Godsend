@@ -434,9 +434,9 @@ namespace Godsend
 
             return res;
         }
-        public IEnumerable<Property> Properties(Guid id)
+        public IEnumerable<object> Properties(Guid id)
         {
-            return context.Properties.Include(x=>x.RelatedCategory).Where(x => x.RelatedCategory.Id == id);
+            return context.Properties.Include(x=>x.RelatedCategory).Where(x => x.RelatedCategory.Id == id).Select(x=> new {x.Id,x.Name,x.Type });
         }
 
         public IEnumerable<object> ProductPropertiesInt(Guid id)

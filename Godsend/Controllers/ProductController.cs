@@ -102,7 +102,7 @@ namespace Godsend.Controllers
         }
 
         [HttpGet("[action]/{id:Guid}")]
-        public IEnumerable<Property> GetPropertiesByCategory(Guid id)
+        public IEnumerable<object> GetPropertiesByCategory(Guid id)
         {
             return (repository as IProductRepository).Properties(id);
         }
