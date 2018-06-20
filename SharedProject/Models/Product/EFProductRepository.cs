@@ -25,6 +25,8 @@ namespace Godsend
         /// The admin password
         /// </summary>
         private const string adminPassword = "Secret123$";
+        private const int maxDepth = 5;
+
         /// <summary>
         /// The context
         /// </summary>
@@ -424,7 +426,7 @@ namespace Godsend
         public IEnumerable<Category> Categories()
         {
             var res = context.Categories.Include(c => c.BaseCategory);
-            for (int i = 0; i < 20; i++)
+            for (int i = 0; i < maxDepth; i++)
             {
                 res = res.ThenInclude(c => c.BaseCategory);
             }

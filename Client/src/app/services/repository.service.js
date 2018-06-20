@@ -179,6 +179,24 @@ var RepositoryService = /** @class */ (function () {
     RepositoryService.prototype.getSessionData = function (dataType) {
         return this.data.sendRequest('get', '/api/session/' + dataType);
     };
+    // CATEGORIES
+    RepositoryService.prototype.getCategories = function (fn) {
+        this.data.sendRequest('get', 'api/product/getAllCategories')
+            .subscribe(function (cats) { return fn(cats); });
+    };
+    RepositoryService.prototype.getByCategory = function (cat, fn) {
+        var _this = this;
+        this.data.sendRequest('get', 'api/product/getByCategory/' + cat.id)
+            .subscribe(function (products) {
+            _this.products = products;
+            if (fn)
+                fn(products);
+        });
+    };
+    RepositoryService.prototype.getSubcategories = function (cat, fn) {
+        this.data.sendRequest('get', 'api/product/getSubCategories/' + cat.id)
+            .subscribe(function (categories) { return fn(categories); });
+    };
     RepositoryService = __decorate([
         Injectable({
             providedIn: 'root'
