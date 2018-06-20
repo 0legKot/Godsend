@@ -49,7 +49,7 @@ export class SupplierAndPrice {
 export class Category {
     constructor(
         public id: string,
-        public characteristics?: any,
-        public base?: Category
+        public name: string,
+        public baseCategory?: Category
     ) { }
 }
