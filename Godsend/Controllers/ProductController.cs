@@ -45,5 +45,46 @@ namespace Godsend.Controllers
 
             return prod;
         }
+        [HttpGet("[action]")]
+        public IEnumerable<Category> GetBaseCategories()
+        {
+            List<Category> rootCat = new List<Category>();
+            IEnumerable<Category> allCategories = (repository as IProductRepository).Categories();
+            foreach (var cat in allCategories)
+            {
+                var cur = cat;
+                while (cur.BaseCategory != null)
+                    cur = cur.BaseCategory;
+                if (!rootCat.Contains(cur)) rootCat.Add(cur);
+            }
+            return rootCat;
+        }
+        [HttpGet("[action]/{id:Guid}")]
+        public IEnumerable<Category> GetSubCategories(Guid id)
+        {
+            return (repository as IProductRepository).Categories().Where(x => x.BaseCategory.Id == id).ToList();
+        }
+
+        private void GetRecursiveCats(Category cur,ref List<Category> res)
+        {
+            res.Add(cur);
+            IEnumerable<Category> subCats = GetSubCategories(cur.Id);
+            if (subCats.Any())
+            foreach (Category curCat in subCats)
+            {
+                GetRecursiveCats(curCat, ref res);
+            }
+        }
+        // Low perfomance maybe 
+        [HttpGet("[action]")]
+        public IEnumerable<Category> GetAllCategories(Guid id)
+        {
+            var res = new List<Category>();
+            foreach (var cat in GetBaseCategories())
+            {
+                GetRecursiveCats(cat, ref res);
+            }
+            return res;
+        }
     }
 }

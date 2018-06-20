@@ -43,6 +43,7 @@ namespace Godsend.Models
             get => Info;
             set => Info = value as SupplierInformation;
         }
+
         public string Name { get => EntityInformation.Name; set => EntityInformation.Name = value; }
     }
 

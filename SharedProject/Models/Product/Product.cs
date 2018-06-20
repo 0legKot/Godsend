@@ -36,6 +36,7 @@ namespace Godsend.Models
         /// The information.
         /// </value>
         public ProductInformation Info { get; set; }
+
         public Category Category { get; set; }
         /// <summary>
         /// Gets or sets the characteristics list.
@@ -85,6 +86,7 @@ namespace Godsend.Models
             get => Info;
             set => Info = value as ProductInformation;
         }
+
         public string Name { get => EntityInformation.Name; set => EntityInformation.Name = value; }
     }
 
@@ -94,6 +96,7 @@ namespace Godsend.Models
     public class SimpleProduct : Product
     {
     }
+
     /// <summary>
     /// 
     /// </summary>
@@ -121,6 +124,7 @@ namespace Godsend.Models
         //    Characteristics.Keys.Add("Vitamin C");
         //}
     }
+
     /// <summary>
     /// 
     /// </summary>

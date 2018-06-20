@@ -19,5 +19,7 @@ namespace Godsend
         /// <param name="productInfoId">The product information identifier.</param>
         /// <returns></returns>
         ProductWithSuppliers GetProductWithSuppliers(Guid productInfoId);
+
+        IEnumerable<Category> Categories();
     }
 }

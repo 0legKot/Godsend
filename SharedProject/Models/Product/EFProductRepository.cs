@@ -50,11 +50,11 @@ namespace Godsend
                         Rating = 5,
                         Watches = 0
                     },
-                    Category=new Category() {Name="Fruit"}
+                    Category = new Category() {Name = "Fruit"}
                 };
                 var prop = new Property() { RelatedCategory = myApple.Category, Name = "Vitamin A" };
                 context.Properties.Add(prop);
-                context.LinkProductProperty.Add(new EAV() {Product=myApple,Property=prop,Value="7" });
+                context.LinkProductProperty.Add(new EAV() {Product = myApple,Property = prop,Value = "7" });
                 //myApple.AddCharacteristic("Vitamin A","3");
                 //myApple.AddCharacteristic("Vitamin B", "5");
                 //myApple.AddCharacteristic("Vitamin C", "9");
@@ -378,6 +378,17 @@ namespace Godsend
         private IQueryable<Product> GetProductsFromContext()
         {
             return context.Products.OfType<Product>().Include(p => p.Info)/*.Include(p => p.CharacteristicsList)*/;
+        }
+
+        public IEnumerable<Category> Categories()
+        {
+            var res = context.Categories.Include(c => c.BaseCategory);
+            for (int i = 0; i < 20; i++)
+            {
+                res = res.ThenInclude(c => c.BaseCategory);
+            }
+
+            return res.ToList();
         }
     }
 }
