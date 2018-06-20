@@ -21,5 +21,9 @@ namespace Godsend
         ProductWithSuppliers GetProductWithSuppliers(Guid productInfoId);
 
         IEnumerable<Category> Categories();
+        IEnumerable<Property> Properties(Guid id);
+        IEnumerable<object> ProductPropertiesInt(Guid id);
+        IEnumerable<object> ProductPropertiesDecimal(Guid id);
+        IEnumerable<object> ProductPropertiesString(Guid id);
     }
 }

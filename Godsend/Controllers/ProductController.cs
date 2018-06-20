@@ -101,11 +101,35 @@ namespace Godsend.Controllers
             return repository.Entities.Where(x => x.Category?.Id == id).Select(x => x.Info);
         }
 
+        [HttpGet("[action]/{id:Guid}")]
+        public IEnumerable<Property> GetPropertiesByCategory(Guid id)
+        {
+            return (repository as IProductRepository).Properties(id);
+        }
+
+        [HttpGet("[action]/{id:Guid}")]
+        public IEnumerable<object> GetIntPropertiesByProduct(Guid id)
+        {
+            return (repository as IProductRepository).ProductPropertiesInt(id);
+        }
+
+        [HttpGet("[action]/{id:Guid}")]
+        public IEnumerable<object> GetDecimalPropertiesByProduct(Guid id)
+        {
+            return (repository as IProductRepository).ProductPropertiesDecimal(id);
+        }
+
+        [HttpGet("[action]/{id:Guid}")]
+        public IEnumerable<object> GetStringPropertiesByProduct(Guid id)
+        {
+            return (repository as IProductRepository).ProductPropertiesString(id);
+        }
+
         private void GetRecursiveCats(Category cur, ref List<CatWithSubs> res)
         {
             CatWithSubs curCatSubs = new CatWithSubs() { Cat = cur, Subs = new List<CatWithSubs>() };
             res.Add(curCatSubs);
-            curCatSubs.Subs = GetSubCategories(cur.Id).Select(x => new CatWithSubs() {Cat=x,Subs= new List<CatWithSubs>() });
+            curCatSubs.Subs = GetSubCategories(cur.Id).Select(x => new CatWithSubs() {Cat=x, Subs= new List<CatWithSubs>() });
             if (curCatSubs.Subs?.Any()??false)
             {
                 foreach (var curCat in curCatSubs.Subs)

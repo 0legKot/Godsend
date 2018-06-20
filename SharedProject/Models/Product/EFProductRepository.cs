@@ -44,7 +44,7 @@ namespace Godsend
             if (!context.Categories.Any())
             {
                 var mainCat = new Category { Name = "Main" };
-                var food = new Category { Name = "Food",BaseCategory= mainCat };
+                var food = new Category { Name = "Food", BaseCategory= mainCat };
                 var fruit = new Category { Name = "Fruit", BaseCategory = food };
                 var vegetables = new Category { Name = "Vegetables", BaseCategory = food };
                 var berries = new Category { Name = "Berries", BaseCategory = food };
@@ -62,7 +62,7 @@ namespace Godsend
                 var cars = new Category { Name = "Cars", BaseCategory = vehicles };
                 var compactMPVs = new Category { Name = "Compact MPVs", BaseCategory = cars };
 
-                context.Categories.AddRange(food, fruit, vegetables, berries, confectionery, sugarConfections, elDevices, 
+                context.Categories.AddRange(mainCat, food, fruit, vegetables, berries, confectionery, sugarConfections, elDevices, 
                     phones, mobilePhones, beverages, alcBeverages, nonAlcBeverages, juices, ciders, vehicles, cars, compactMPVs);
 
                 context.SaveChanges();
@@ -84,7 +84,7 @@ namespace Godsend
                 };
                 var prop = new Property() { RelatedCategory = myApple.Category, Name = "Vitamin A", Type=PropertyTypes.Int };
                 context.Properties.Add(prop);
-                context.LinkProductPropertyInt.Add(new EAV<int>() {Product = myApple,Property = prop,Value = 7 });
+                context.LinkProductPropertyInt.Add(new EAV<int>() {Product = myApple, Property = prop, Value = 7 });
                 //myApple.AddCharacteristic("Vitamin A","3");
                 //myApple.AddCharacteristic("Vitamin B", "5");
                 //myApple.AddCharacteristic("Vitamin C", "9");
@@ -433,6 +433,37 @@ namespace Godsend
             }
 
             return res;
+        }
+        public IEnumerable<Property> Properties(Guid id)
+        {
+            return context.Properties.Include(x=>x.RelatedCategory).Where(x => x.RelatedCategory.Id == id);
+        }
+
+        public IEnumerable<object> ProductPropertiesInt(Guid id)
+        {
+            return context.LinkProductPropertyInt
+                .Include(x => x.Product).ThenInclude(x => x.Info)
+                .Include(x => x.Property)
+                //.ThenInclude(x => x.RelatedCategory)
+                .Where(x => x.Product.Info.Id == id).Select(p => new {p.Property.Id, p.Property.Name, p.Value });
+        }
+
+        public IEnumerable<object> ProductPropertiesDecimal(Guid id)
+        {
+            return context.LinkProductPropertyDecimal
+                .Include(x => x.Product).ThenInclude(x => x.Info)
+                .Include(x => x.Property)
+                //.ThenInclude(x => x.RelatedCategory)
+                .Where(x => x.Product.Info.Id == id).Select(p => new { p.Property.Id, p.Property.Name, p.Value });
+        }
+
+        public IEnumerable<object> ProductPropertiesString(Guid id)
+        {
+            return context.LinkProductPropertyString
+                .Include(x => x.Product).ThenInclude(x => x.Info)
+                .Include(x => x.Property)
+                //.ThenInclude(x => x.RelatedCategory)
+                .Where(x => x.Product.Info.Id == id).Select(p => new { p.Property.Id, p.Property.Name, p.Value });
         }
     }
 }
