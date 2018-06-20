@@ -12,9 +12,10 @@ using System;
 namespace Godsend.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20180620130847_PropertyTypeSplit")]
+    partial class PropertyTypeSplit
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -123,26 +124,6 @@ namespace Godsend.Migrations
                     b.HasIndex("BaseId");
 
                     b.ToTable("Directory");
-                });
-
-            modelBuilder.Entity("Godsend.Models.EAV<decimal>", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<Guid?>("ProductId");
-
-                    b.Property<Guid?>("PropertyId");
-
-                    b.Property<decimal>("Value");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ProductId");
-
-                    b.HasIndex("PropertyId");
-
-                    b.ToTable("LinkProductPropertyDecimal");
                 });
 
             modelBuilder.Entity("Godsend.Models.EAV<int>", b =>
@@ -657,17 +638,6 @@ namespace Godsend.Migrations
                     b.HasOne("Godsend.Models.Directory", "Base")
                         .WithMany()
                         .HasForeignKey("BaseId");
-                });
-
-            modelBuilder.Entity("Godsend.Models.EAV<decimal>", b =>
-                {
-                    b.HasOne("Godsend.Models.Product", "Product")
-                        .WithMany()
-                        .HasForeignKey("ProductId");
-
-                    b.HasOne("Godsend.Models.Property", "Property")
-                        .WithMany()
-                        .HasForeignKey("PropertyId");
                 });
 
             modelBuilder.Entity("Godsend.Models.EAV<int>", b =>

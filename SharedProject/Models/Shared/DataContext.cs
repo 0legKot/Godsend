@@ -86,7 +86,9 @@ namespace Godsend.Models
 
         public DbSet<Category> Categories { get; set; }
 
-        public DbSet<EAV> LinkProductProperty { get; set; }
+        public DbSet<EAV<int>> LinkProductPropertyInt { get; set; }
+        public DbSet<EAV<string>> LinkProductPropertyString { get; set; }
+        public DbSet<EAV<decimal>> LinkProductPropertyDecimal { get; set; }
         ////public DbSet<ProductInformation> ProductInformation { get; set; }
 
         /// <summary>

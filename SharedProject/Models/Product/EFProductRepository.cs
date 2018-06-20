@@ -82,9 +82,9 @@ namespace Godsend
                     },
                     Category = context.Categories.FirstOrDefault(c => c.Name == "Fruit")
                 };
-                var prop = new Property() { RelatedCategory = myApple.Category, Name = "Vitamin A" };
+                var prop = new Property() { RelatedCategory = myApple.Category, Name = "Vitamin A", Type=PropertyTypes.Int };
                 context.Properties.Add(prop);
-                context.LinkProductProperty.Add(new EAV() {Product = myApple,Property = prop,Value = "7" });
+                context.LinkProductPropertyInt.Add(new EAV<int>() {Product = myApple,Property = prop,Value = 7 });
                 //myApple.AddCharacteristic("Vitamin A","3");
                 //myApple.AddCharacteristic("Vitamin B", "5");
                 //myApple.AddCharacteristic("Vitamin C", "9");

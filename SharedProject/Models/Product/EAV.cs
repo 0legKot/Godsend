@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Godsend.Models
 {
-    public class EAV
+    public class EAV<T>
     {
         public Guid Id { get; set; }
 
@@ -12,6 +12,6 @@ namespace Godsend.Models
 
         public Property Property { get; set; }
 
-        public string Value { get; set; }
+        public T Value { get; set; }
     }
 }
