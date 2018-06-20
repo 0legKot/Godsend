@@ -388,7 +388,7 @@ namespace Godsend
                 res = res.ThenInclude(c => c.BaseCategory);
             }
 
-            return res.ToList();
+            return res;
         }
     }
 }

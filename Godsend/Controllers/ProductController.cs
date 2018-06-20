@@ -70,12 +70,13 @@ namespace Godsend.Controllers
         [HttpGet("[action]/{id:Guid}")]
         public IEnumerable<Category> GetSubCategories(Guid id)
         {
-            return (repository as IProductRepository).Categories().Where(x => x.BaseCategory.Id == id).ToList();
+            var res = (repository as IProductRepository).Categories();
+            return res.Where(x => x?.BaseCategory?.Id == id);
         }
 
         // Low perfomance maybe
-        [HttpGet("[action]/{id:Guid}")]
-        public IEnumerable<Category> GetAllCategories(Guid id)
+        [HttpGet("[action]")]
+        public IEnumerable<Category> GetAllCategories()
         {
             var res = new List<Category>();
             foreach (var cat in GetBaseCategories())
@@ -95,7 +96,7 @@ namespace Godsend.Controllers
         {
             res.Add(cur);
             IEnumerable<Category> subCats = GetSubCategories(cur.Id);
-            if (subCats.Any())
+            if (subCats?.Any()??false)
             {
                 foreach (Category curCat in subCats)
                 {
