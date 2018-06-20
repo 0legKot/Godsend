@@ -43,13 +43,14 @@ namespace Godsend
 
             if (!context.Categories.Any())
             {
-                var food = new Category { Name = "Food" };
+                var mainCat = new Category { Name = "Main" };
+                var food = new Category { Name = "Food",BaseCategory= mainCat };
                 var fruit = new Category { Name = "Fruit", BaseCategory = food };
                 var vegetables = new Category { Name = "Vegetables", BaseCategory = food };
                 var berries = new Category { Name = "Berries", BaseCategory = food };
                 var confectionery = new Category { Name = "Confectionery", BaseCategory = food };
                 var sugarConfections = new Category { Name = "Sugar confectionery", BaseCategory = confectionery };
-                var elDevices = new Category { Name = "Electronic devices" };
+                var elDevices = new Category { Name = "Electronic devices", BaseCategory = mainCat };
                 var phones = new Category { Name = "Tablets and smartphones", BaseCategory = elDevices };
                 var mobilePhones = new Category { Name = "Mobile phones", BaseCategory = phones };
                 var beverages = new Category { Name = "Beverages", BaseCategory = food };
@@ -57,7 +58,7 @@ namespace Godsend
                 var nonAlcBeverages = new Category { Name = "Non-alcoholic beverages", BaseCategory = beverages };
                 var juices = new Category { Name = "Juices", BaseCategory = nonAlcBeverages };
                 var ciders = new Category { Name = "Ciders", BaseCategory = alcBeverages };
-                var vehicles = new Category { Name = "Vehicles" };
+                var vehicles = new Category { Name = "Vehicles", BaseCategory = mainCat };
                 var cars = new Category { Name = "Cars", BaseCategory = vehicles };
                 var compactMPVs = new Category { Name = "Compact MPVs", BaseCategory = cars };
 

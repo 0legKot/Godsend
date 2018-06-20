@@ -59,11 +59,12 @@ namespace Godsend.Controllers
         public IEnumerable<Category> GetBaseCategories()
         {
             List<Category> rootCat = new List<Category>();
-            IEnumerable<Category> allCategories = (repository as IProductRepository).Categories();
+            IEnumerable<Category> allCategories = Categories;
+            var mainCat = allCategories.FirstOrDefault(x=>x.BaseCategory==null);
             foreach (var cat in allCategories)
             {
                 var cur = cat;
-                while (cur.BaseCategory != null)
+                while (cur.BaseCategory != mainCat)
                 {
                     cur = cur.BaseCategory;
                 }
@@ -89,11 +90,9 @@ namespace Godsend.Controllers
         public IEnumerable<CatWithSubs> GetAllCategories()
         {
             var res = new List<CatWithSubs>();
-            foreach (var cat in GetBaseCategories())
-            {
-                GetRecursiveCats(cat, ref res);
-            }
-            return res;
+            var mainCat = Categories.FirstOrDefault(x => x.BaseCategory == null);
+            GetRecursiveCats(mainCat, ref res);
+            return res.FirstOrDefault()?.Subs;
         }
 
         [HttpGet("[action]/{id:Guid}")]
