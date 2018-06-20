@@ -16,7 +16,7 @@ namespace Godsend.Controllers
     /// </summary>
     /// <seealso cref="Godsend.Controllers.EntityController{Godsend.Models.SimpleSupplier}" />
     [Route("api/[controller]")]
-    public class SupplierController : EntityController<SimpleSupplier>
+    public class SupplierController : EntityController<Supplier>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="SupplierController"/> class.

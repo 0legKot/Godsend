@@ -30,7 +30,7 @@ namespace Godsend.Models
             context = ctx;
             if (!context.Suppliers.Any())
             {
-                context.Suppliers.Add(new SimpleSupplier()
+                context.Suppliers.Add(new Supplier()
                 {
                     Info = new SupplierInformation
                     {
@@ -40,7 +40,7 @@ namespace Godsend.Models
                         Location = new Location() { Address = "New York" }
                     }
                 });
-                context.Suppliers.Add(new SimpleSupplier()
+                context.Suppliers.Add(new Supplier()
                 {
                     Info = new SupplierInformation
                     {
@@ -56,7 +56,7 @@ namespace Godsend.Models
             if (!context.Suppliers.Any(s => s.Info.Name == "Apple Inc."))
             {
                 context.Suppliers.AddRange(
-                    new SimpleSupplier
+                    new Supplier
                     {
                         Info = new SupplierInformation
                         {
@@ -66,7 +66,7 @@ namespace Godsend.Models
                             Location = new Location { Address = "Cupertino, California" }
                         }
                     },
-                    new SimpleSupplier
+                    new Supplier
                     {
                         Info = new SupplierInformation
                         {
@@ -76,7 +76,7 @@ namespace Godsend.Models
                             Location = new Location { Address = "Equestria" }
                         }
                     },
-                    new SimpleSupplier
+                    new Supplier
                     {
                         Info = new SupplierInformation
                         {
@@ -86,7 +86,7 @@ namespace Godsend.Models
                             Location = new Location { Address = "Pass Vale Farm, Burrow Hill, Kingsbury Episcopi, Martock.Somerset" }
                         }
                     },
-                    new SimpleSupplier
+                    new Supplier
                     {
                         Info = new SupplierInformation
                         {
@@ -96,7 +96,7 @@ namespace Godsend.Models
                             Location = new Location { Address = "Tolyatti" }
                         }
                     },
-                    new SimpleSupplier
+                    new Supplier
                     {
                         Info = new SupplierInformation
                         {
@@ -106,7 +106,7 @@ namespace Godsend.Models
                             Location = new Location { Address = "Rüsselsheim am Main" }
                         }
                     },
-                    new SimpleSupplier
+                    new Supplier
                     {
                         Info = new SupplierInformation
                         {
@@ -116,7 +116,7 @@ namespace Godsend.Models
                             Location = new Location { Address = "Westlake Village, California" }
                         }
                     },
-                    new SimpleSupplier
+                    new Supplier
                     {
                         Info = new SupplierInformation
                         {
@@ -126,7 +126,7 @@ namespace Godsend.Models
                             Location = new Location { Address = "800 N. Lindbergh Boulevard St.Louis" }
                         }
                     },
-                    new SimpleSupplier
+                    new Supplier
                     {
                         Info = new SupplierInformation
                         {
@@ -136,7 +136,7 @@ namespace Godsend.Models
                             Location = new Location { Address = "Vevey, Vaud" }
                         }
                     },
-                    new SimpleSupplier
+                    new Supplier
                     {
                         Info = new SupplierInformation
                         {
@@ -146,7 +146,7 @@ namespace Godsend.Models
                             Location = new Location { Address = "Atlanta, Georgia" }
                         }
                     },
-                    new SimpleSupplier
+                    new Supplier
                     {
                         Info = new SupplierInformation
                         {
@@ -166,7 +166,7 @@ namespace Godsend.Models
         /// <value>
         /// The entities.
         /// </value>
-        public IEnumerable<SimpleSupplier> Entities => context.Suppliers.OfType<SimpleSupplier>().Include(s => s.Info).ThenInclude(i => i.Location);
+        public IEnumerable<Supplier> Entities => context.Suppliers.OfType<Supplier>().Include(s => s.Info).ThenInclude(i => i.Location);
 
         /// <summary>
         /// Gets the entities information.
@@ -197,7 +197,7 @@ namespace Godsend.Models
         /// <returns>
         ///   <c>true</c> if the specified entity is first; otherwise, <c>false</c>.
         /// </returns>
-        public bool IsFirst(SimpleSupplier entity)
+        public bool IsFirst(Supplier entity)
         {
             return !context.Suppliers.Any(s => s.Id == entity.Id);
         }
@@ -206,7 +206,7 @@ namespace Godsend.Models
         /// Watches the specified sup.
         /// </summary>
         /// <param name="sup">The sup.</param>
-        public void Watch(SimpleSupplier sup)
+        public void Watch(Supplier sup)
         {
             if (sup != null)
             {
@@ -219,7 +219,7 @@ namespace Godsend.Models
         /// Saves the entity.
         /// </summary>
         /// <param name="entity">The entity.</param>
-        public void SaveEntity(SimpleSupplier entity)
+        public void SaveEntity(Supplier entity)
         {
             Supplier dbEntry = GetEntity(entity.Id);
             if (dbEntry != null)
@@ -245,7 +245,7 @@ namespace Godsend.Models
         /// </summary>
         /// <param name="entityId">The entity identifier.</param>
         /// <returns></returns>
-        public SimpleSupplier GetEntity(Guid entityId)
+        public Supplier GetEntity(Guid entityId)
         {
             return Entities.FirstOrDefault(s => s.Id == entityId);
         }
@@ -255,7 +255,7 @@ namespace Godsend.Models
         /// </summary>
         /// <param name="infoId">The information identifier.</param>
         /// <returns></returns>
-        public SimpleSupplier GetEntityByInfoId(Guid infoId)
+        public Supplier GetEntityByInfoId(Guid infoId)
         {
             return Entities.FirstOrDefault(s => s.Info.Id == infoId);
         }

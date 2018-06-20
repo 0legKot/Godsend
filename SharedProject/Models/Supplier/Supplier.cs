@@ -13,7 +13,7 @@ namespace Godsend.Models
     /// <summary>
     /// 
     /// </summary>
-    public abstract class Supplier : IEntity
+    public class Supplier : IEntity
     {
         /// <summary>
         /// Gets or sets the identifier.
@@ -50,7 +50,42 @@ namespace Godsend.Models
     /// <summary>
     /// 
     /// </summary>
-    public class SimpleSupplier : Supplier
+
+    public class SupplierWithProducts
     {
+        /// <summary>
+        /// Gets or sets the supp.
+        /// </summary>
+        /// <value>
+        /// The supp.
+        /// </value>
+        public Supplier Supplier { get; set; }
+
+        /// <summary>
+        /// Gets or sets the Products.
+        /// </summary>
+        /// <value>
+        /// The Products.
+        /// </value>
+        public IEnumerable<ProductAndPrice> Products { get; set; }
+
+    }
+    public class ProductAndPrice
+    {
+        /// <summary>
+        /// Gets or sets the Product.
+        /// </summary>
+        /// <value>
+        /// The Product.
+        /// </value>
+        public Product Product { get; set; }
+
+        /// <summary>
+        /// Gets or sets the price.
+        /// </summary>
+        /// <value>
+        /// The price.
+        /// </value>
+        public decimal Price { get; set; }
     }
 }

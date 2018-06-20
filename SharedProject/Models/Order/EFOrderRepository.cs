@@ -32,7 +32,7 @@ namespace Godsend.Models
             if (!context.Orders.Any())
             {
                 IList<OrderPartProducts> orderPartDiscretes = new List<OrderPartProducts>();
-                foreach (var p in ctx.Products.Include(p => p.Info).Where(p => typeof(SimpleProduct) == p.GetType()))
+                foreach (var p in ctx.Products.Include(p => p.Info).Where(p => typeof(Product) == p.GetType()))
                 {
                     orderPartDiscretes.Add(new OrderPartProducts { Quantity = p.Info.Watches * 5, Multiplier = 10, Product = p, Supplier = context.Suppliers.FirstOrDefault() });
                 }

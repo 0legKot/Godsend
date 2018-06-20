@@ -14,7 +14,7 @@ namespace Godsend.Models
     /// <summary>
     /// 
     /// </summary>
-    public abstract class Product : IEntity
+    public class Product : IEntity
     {
         //NO PALINDROMS
         /// <summary>
@@ -90,40 +90,6 @@ namespace Godsend.Models
         public string Name { get => EntityInformation.Name; set => EntityInformation.Name = value; }
     }
 
-    /// <summary>
-    /// 
-    /// </summary>
-    public class SimpleProduct : Product
-    {
-    }
-
-    /// <summary>
-    /// 
-    /// </summary>
-    public class ProductTV : Product
-    {
-        /// <summary>
-        /// Prevents a default instance of the <see cref="ProductTV"/> class from being created.
-        /// </summary>
-        ProductTV() {
-            //Characteristics.Keys.Add("Diagonal");
-            //Characteristics.Keys.Add("Matrix");
-            //Characteristics.Keys.Add("Weight");
-        }
-    }
-
-    /// <summary>
-    /// 
-    /// </summary>
-    public class ProductFruit : Product
-    {
-        //ProductFruit()
-        //{
-        //    Characteristics.Keys.Add("Vitamin A");
-        //    Characteristics.Keys.Add("Vitamin B");
-        //    Characteristics.Keys.Add("Vitamin C");
-        //}
-    }
 
     /// <summary>
     /// 

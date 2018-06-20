@@ -41,7 +41,7 @@ namespace Godsend
 
             if (!context.Products.Any())
             {
-                ProductFruit myApple = new ProductFruit
+                Product myApple = new Product
                 {
                     Info = new ProductInformation
                     {
@@ -67,7 +67,7 @@ namespace Godsend
             if (!context.Products.Any(p => p.Info.Name == "Potato"))
             {
                 context.Products.AddRange(
-                    new SimpleProduct
+                    new Product
                 {
                     Info = new ProductInformation
                     {
@@ -77,7 +77,7 @@ namespace Godsend
                         Watches = 4,
                     },
                     },
-                new SimpleProduct
+                new Product
                 {
                     Info = new ProductInformation
                     {
@@ -87,7 +87,7 @@ namespace Godsend
                         Watches = 7,
                     },
                 },
-                new SimpleProduct
+                new Product
                 {
                     Info = new ProductInformation
                     {
@@ -104,7 +104,7 @@ namespace Godsend
             if (!context.Products.Any(p => p.Info.Name == "Tomato"))
             {
                 context.Products.AddRange(
-                    new SimpleProduct
+                    new Product
                     {
                         Info = new ProductInformation
                         {
@@ -114,7 +114,7 @@ namespace Godsend
                             Watches = 3,
                         },
                     },
-                    new SimpleProduct
+                    new Product
                     {
                         Info = new ProductInformation
                         {
@@ -124,7 +124,7 @@ namespace Godsend
                             Watches = 13,
                         },
                     },
-                    new SimpleProduct
+                    new Product
                     {
                         Info = new ProductInformation
                         {
@@ -134,7 +134,7 @@ namespace Godsend
                             Watches = 8,
                         },
                     },
-                    new SimpleProduct
+                    new Product
                     {
                         Info = new ProductInformation
                         {
@@ -144,7 +144,7 @@ namespace Godsend
                             Watches = 6,
                         },
                     },
-                    new SimpleProduct
+                    new Product
                     {
                         Info = new ProductInformation
                         {
@@ -154,7 +154,7 @@ namespace Godsend
                             Watches = 8,
                         },
                     },
-                    new SimpleProduct
+                    new Product
                     {
                         Info = new ProductInformation
                         {
@@ -171,7 +171,7 @@ namespace Godsend
             if (!context.Products.Any(p => p.Info.Name == "iPhone"))
             {
                 context.Products.AddRange(
-                new SimpleProduct
+                new Product
                 {
                     Info = new ProductInformation
                     {
@@ -181,7 +181,7 @@ namespace Godsend
                         Watches = 13,
                     },
                 },
-                new SimpleProduct
+                new Product
                 {
                     Info = new ProductInformation
                     {
@@ -191,7 +191,7 @@ namespace Godsend
                         Watches = 4,
                     },
                 },
-                new SimpleProduct
+                new Product
                 {
                     Info = new ProductInformation
                     {
@@ -201,7 +201,7 @@ namespace Godsend
                         Watches = 132,
                     },
                 },
-                new SimpleProduct
+                new Product
                 {
                     Info = new ProductInformation
                     {
@@ -211,7 +211,7 @@ namespace Godsend
                         Watches = 123,
                     },
                 },
-                new SimpleProduct
+                new Product
                 {
                     Info = new ProductInformation
                     {
