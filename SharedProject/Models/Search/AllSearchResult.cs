@@ -13,7 +13,7 @@ namespace Godsend.Controllers
     using Microsoft.EntityFrameworkCore;
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public struct AllSearchResult
     {
