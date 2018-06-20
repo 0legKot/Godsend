@@ -74,8 +74,8 @@ namespace Godsend.Controllers
         }
 
         // Low perfomance maybe
-        [HttpGet("[action]/{id:Guid}")]
-        public IEnumerable<Category> GetAllCategories(Guid id)
+        [HttpGet("[action]")]
+        public IEnumerable<Category> GetAllCategories()
         {
             var res = new List<Category>();
             foreach (var cat in GetBaseCategories())
@@ -88,7 +88,7 @@ namespace Godsend.Controllers
         [HttpGet("[action]/{id:Guid}")]
         public IEnumerable<Information> GetByCategory(Guid id)
         {
-            return repository.Entities.Where(x => x.Category.Id == id).Select(x => x.Info);
+            return repository.Entities.Where(x => x.Category?.Id == id).Select(x => x.Info);
         }
 
         private void GetRecursiveCats(Category cur, ref List<Category> res)

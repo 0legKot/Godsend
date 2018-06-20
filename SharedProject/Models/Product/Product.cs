@@ -87,7 +87,8 @@ namespace Godsend.Models
             set => Info = value as ProductInformation;
         }
 
-        public string Name { get => EntityInformation.Name; set => EntityInformation.Name = value; }
+        
+        public string Name { get => ""; /* EntityInformation.Name; */ set { return; } }
     }
 
 
