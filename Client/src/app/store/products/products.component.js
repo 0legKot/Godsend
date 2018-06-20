@@ -57,6 +57,17 @@ var ProductsComponent = /** @class */ (function () {
             }*/
         });
     };
+    ProductsComponent.prototype.getCategories = function () {
+        var _this = this;
+        this.repo.getCategories(function (cats) { return _this.categories = cats; });
+    };
+    ProductsComponent.prototype.getSubcategories = function (category) {
+        var _this = this;
+        this.repo.getSubcategories(category, function (cats) { return _this.categories = cats; });
+    };
+    ProductsComponent.prototype.getByCategory = function (category) {
+        this.repo.getByCategory(category);
+    };
     __decorate([
         ViewChild(SearchInlineComponent),
         __metadata("design:type", Object)

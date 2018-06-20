@@ -45,4 +45,13 @@ var SupplierAndPrice = /** @class */ (function () {
     return SupplierAndPrice;
 }());
 export { SupplierAndPrice };
+var Category = /** @class */ (function () {
+    function Category(id, name, baseCategory) {
+        this.id = id;
+        this.name = name;
+        this.baseCategory = baseCategory;
+    }
+    return Category;
+}());
+export { Category };
 //# sourceMappingURL=product.model.js.map

@@ -27,6 +27,7 @@ namespace Godsend.Controllers
         public ProductController(IProductRepository repo)
         {
             repository = repo;
+            Categories = (repository as IProductRepository).Categories().ToList();
         }
 
         /// <summary>
@@ -75,10 +76,12 @@ namespace Godsend.Controllers
             return rootCat;
         }
 
+        readonly IEnumerable<Category> Categories;
+
         [HttpGet("[action]/{id:Guid}")]
         public IEnumerable<Category> GetSubCategories(Guid id)
         {
-            return (repository as IProductRepository).Categories().Where(x => x.BaseCategory?.Id == id).ToList();
+            return Categories.Where(x => x.BaseCategory?.Id == id).ToList();
         }
 
         // Low perfomance maybe
@@ -103,7 +106,7 @@ namespace Godsend.Controllers
         {
             CatWithSubs curCatSubs = new CatWithSubs() { Cat = cur, Subs = new List<CatWithSubs>() };
             res.Add(curCatSubs);
-            curCatSubs.Subs = GetSubCategories(cur.Id).Select(x => new CatWithSubs() {Cat=cur,Subs= new List<CatWithSubs>() });
+            curCatSubs.Subs = GetSubCategories(cur.Id).Select(x => new CatWithSubs() {Cat=x,Subs= new List<CatWithSubs>() });
             if (curCatSubs.Subs?.Any()??false)
             {
                 foreach (var curCat in curCatSubs.Subs)
