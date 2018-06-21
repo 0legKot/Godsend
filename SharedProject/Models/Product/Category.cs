@@ -11,5 +11,10 @@ namespace Godsend.Models
         public Category BaseCategory { get; set; }
 
         public string Name { get; set; }
+
+        public override string ToString()
+        {
+            return "Category: " + Name;
+        }
     }
 }
