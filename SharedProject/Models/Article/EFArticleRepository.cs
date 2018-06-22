@@ -177,7 +177,7 @@ This is a pretty simple and straightforward diet you will ever try. It involves 
         /// </value>
         public IEnumerable<Article> Entities(int quantity, int skip = 0)
         {
-            var tmp = context.Articles.Take(quantity).Skip(skip).Include(a => a.Info).ThenInclude(ai => ai.EFAuthor).ToArray();
+            var tmp = context.Articles.Include(a => a.Info).ThenInclude(ai => ai.EFAuthor).Take(quantity).Skip(skip).ToArray();
             return tmp;
         }
 
@@ -189,7 +189,16 @@ This is a pretty simple and straightforward diet you will ever try. It involves 
         /// </value>
         public IEnumerable<Information> EntitiesInfo(int quantity, int skip = 0)
         {
-            var tmp = Entities(quantity, skip).Select(a => a.Info).ToArray();
+            var tmp =context.Articles.Include(a => a.Info).ThenInclude(a => a.EFAuthor)
+            .Include(a => a.Info).ThenInclude(a => a.EFTags).Skip(skip).Take(quantity).Select(a=>new ArticleInformation() {
+                Created=a.Info.Created,
+                EFAuthor=a.Info.EFAuthor,
+                Id=a.Info.Id,
+                EFTags=a.Info.EFTags,
+                Name=a.Info.Name,
+                Rating=a.Info.Rating,
+                Watches=a.Info.Watches,
+                Tags =a.Info.EFTags.Select(x=>x.Value) }).ToArray();
             return tmp;
         }
 
