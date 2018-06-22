@@ -94,9 +94,12 @@ namespace Godsend.Controllers
         [HttpGet("[action]")]
         public IEnumerable<CatWithSubs> GetAllCategories()
         {
-            var mainCat = Categories.FirstOrDefault(x => x.BaseCategory == null);
-            var mainCatWithSubs = new CatWithSubs() {Cat=mainCat };
-            return GetRecursiveCats(ref mainCatWithSubs);
+            var mainCatWithSubs = new CatWithSubs()
+            {
+                Cat = Categories.FirstOrDefault(x => x.BaseCategory == null)
+            };
+            GetRecursiveCats(ref mainCatWithSubs);
+            return mainCatWithSubs.Subs;
         }
 
         [HttpGet("[action]/{id:Guid}")]
@@ -129,23 +132,21 @@ namespace Godsend.Controllers
             return (repository as IProductRepository).ProductPropertiesString(id);
         }
 
-        private IEnumerable<CatWithSubs> GetRecursiveCats(ref CatWithSubs cur)
+        private void GetRecursiveCats(ref CatWithSubs cur)
         {
             var subs = new List<CatWithSubs>();
-            var cats = GetSubCategories(cur.Cat.Id);
-            if (cats.Any())
+            var curSubCats = GetSubCategories(cur.Cat.Id);
+            if (curSubCats.Any())
             {
-                foreach (var cat in cats)
+                foreach (var cat in curSubCats)
                 {
                     var tmp = new CatWithSubs() { Cat = cat };
                     GetRecursiveCats(ref tmp);
-                    var tmp2 = new CatWithSubs() {Cat=tmp.Cat,Subs=tmp.Subs };
-                    subs.Add(tmp2);
+                    var tmpClone = new CatWithSubs() {Cat=tmp.Cat,Subs=tmp.Subs };
+                    subs.Add(tmpClone);
                 }
             }
-            //else subs =cats.Select(x => new CatWithSubs() { Cat = x, Subs = new List<CatWithSubs>() }).ToList();
             cur.Subs = subs;
-            return subs;
         }
     }
 }
