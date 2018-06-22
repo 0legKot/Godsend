@@ -14,7 +14,7 @@ namespace Godsend.Controllers
     /// <summary>
     /// Supplier controller
     /// </summary>
-    /// <seealso cref="Godsend.Controllers.EntityController{Godsend.Models.SimpleSupplier}" />
+    /// <seealso cref="Controllers.EntityController{Supplier}" />
     [Route("api/[controller]")]
     public class SupplierController : EntityController<Supplier>
     {
@@ -68,6 +68,7 @@ namespace Godsend.Controllers
         // {
         //    return CreateOrUpdate(supplier);
         // }
+
         /// <summary>
         /// Details the specified identifier.
         /// </summary>

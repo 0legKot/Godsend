@@ -1,9 +1,13 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
-using System;
-using System.Collections.Generic;
+﻿// <copyright file="20180619203601_TryFullyDescribe.cs" company="Godsend Team">
+// Copyright (c) Godsend Team. All rights reserved.
+// </copyright>
 
 namespace Godsend.Migrations
 {
+    using System;
+    using System.Collections.Generic;
+    using Microsoft.EntityFrameworkCore.Migrations;
+
     public partial class TryFullyDescribe : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)

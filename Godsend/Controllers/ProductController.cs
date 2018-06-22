@@ -16,10 +16,12 @@ namespace Godsend.Controllers
     /// <summary>
     /// Product controller
     /// </summary>
-    /// <seealso cref="Godsend.Controllers.EntityController{Godsend.Models.Product}" />
+    /// <seealso cref="Controllers.EntityController{Product}" />
     [Route("api/[controller]")]
     public class ProductController : EntityController<Product>
     {
+        private readonly IEnumerable<Category> Categories;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="ProductController"/> class.
         /// </summary>
@@ -59,13 +61,12 @@ namespace Godsend.Controllers
             }
         }
 
-
         [HttpGet("[action]")]
         public IEnumerable<Category> GetBaseCategories()
         {
             List<Category> rootCat = new List<Category>();
             IEnumerable<Category> allCategories = Categories;
-            var mainCat = allCategories.FirstOrDefault(x=>x.BaseCategory==null);
+            var mainCat = allCategories.FirstOrDefault(x => x.BaseCategory == null);
             foreach (var cat in allCategories)
             {
                 var cur = cat;
@@ -79,10 +80,9 @@ namespace Godsend.Controllers
                     rootCat.Add(cur);
                 }
             }
+
             return rootCat;
         }
-
-        readonly IEnumerable<Category> Categories;
 
         [HttpGet("[action]/{id:Guid}")]
         public IEnumerable<Category> GetSubCategories(Guid id)
@@ -103,9 +103,9 @@ namespace Godsend.Controllers
         }
 
         [HttpGet("[action]/{id:Guid}")]
-        public IEnumerable<Information> GetByCategory(Guid id,int quantity=5,int skip=0)
+        public IEnumerable<Information> GetByCategory(Guid id, int quantity = 5, int skip = 0)
         {
-            return repository.Entities(quantity,skip).Where(x => x.Category?.Id == id).Select(x => x.Info);
+            return repository.Entities(quantity, skip).Where(x => x.Category?.Id == id).Select(x => x.Info);
         }
 
         [HttpGet("[action]/{id:Guid}")]
@@ -142,10 +142,11 @@ namespace Godsend.Controllers
                 {
                     var tmp = new CatWithSubs() { Cat = cat };
                     GetRecursiveCats(ref tmp);
-                    var tmpClone = new CatWithSubs() {Cat=tmp.Cat,Subs=tmp.Subs };
+                    var tmpClone = new CatWithSubs() { Cat = tmp.Cat, Subs = tmp.Subs };
                     subs.Add(tmpClone);
                 }
             }
+
             cur.Subs = subs;
         }
     }

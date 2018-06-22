@@ -51,11 +51,14 @@ namespace Godsend.Models
             get => Info; set { Info = value as ArticleInformation; }
         }
 
-        public string Name { get => ""; set { } }
+        public string Name
+        {
+            get => ""; set { }
+        }
     }
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public class SimpleArticle : Article
     {

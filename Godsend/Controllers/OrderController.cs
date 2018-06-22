@@ -27,14 +27,17 @@ namespace Godsend.Controllers
         /// The repository
         /// </summary>
         private IOrderRepository repository;
+
         /// <summary>
         /// The product repo
         /// </summary>
         private IProductRepository prodRepo;
+
         /// <summary>
         /// The supplier repo
         /// </summary>
         private ISupplierRepository supRepo;
+
         /// <summary>
         /// The context
         /// </summary>
@@ -60,7 +63,7 @@ namespace Godsend.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet("[action]/{page:int}/{rpp:int}")]
-        public IEnumerable<Order> All(int page,int rpp)
+        public IEnumerable<Order> All(int page, int rpp)
         {
             return repository.Orders;
         }
@@ -138,6 +141,7 @@ namespace Godsend.Controllers
          {
              return CreateOrUpdate(order);
          }*/
+
         /// <summary>
         /// Details the specified identifier.
         /// </summary>
@@ -162,7 +166,7 @@ namespace Godsend.Controllers
     }
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public class OrderFromNg
     {
@@ -178,7 +182,7 @@ namespace Godsend.Controllers
     }
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public abstract class OrderPartNg
     {
@@ -200,7 +204,7 @@ namespace Godsend.Controllers
     }
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <seealso cref="Godsend.Controllers.OrderPartNg" />
     public class OrderPartDiscreteNg : OrderPartNg

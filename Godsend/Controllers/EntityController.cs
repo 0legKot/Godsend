@@ -34,7 +34,7 @@ namespace Godsend.Controllers
         [HttpGet("[action]/{page:int}/{rpp:int}")]
         public virtual IEnumerable<Information> All(int page, int rpp)
         {
-            return repository.EntitiesInfo(rpp,(page-1)*rpp);
+            return repository.EntitiesInfo(rpp, (page - 1) * rpp);
         }
 
         /// <summary>

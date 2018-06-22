@@ -12,7 +12,7 @@ namespace Godsend.Models
     using Microsoft.EntityFrameworkCore;
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public class EFSupplierRepository : ISupplierRepository
     {
@@ -166,7 +166,7 @@ namespace Godsend.Models
         /// <value>
         /// The entities.
         /// </value>
-        public IEnumerable<Supplier> Entities(int quantity, int skip = 0)=> context.Suppliers.Include(s => s.Info).ThenInclude(i => i.Location).Take(quantity).Skip(skip);
+        public IEnumerable<Supplier> Entities(int quantity, int skip = 0) => context.Suppliers.Include(s => s.Info).ThenInclude(i => i.Location).Take(quantity).Skip(skip);
 
         /// <summary>
         /// Gets the entities information.
@@ -174,7 +174,7 @@ namespace Godsend.Models
         /// <value>
         /// The entities information.
         /// </value>
-        public IEnumerable<Information> EntitiesInfo(int quantity, int skip = 0)=> Entities(quantity,skip).Select(s => s.Info).ToArray();
+        public IEnumerable<Information> EntitiesInfo(int quantity, int skip = 0) => Entities(quantity, skip).Select(s => s.Info).ToArray();
 
         /// <summary>
         /// Deletes the entity.

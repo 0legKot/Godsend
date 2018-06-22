@@ -14,7 +14,7 @@ namespace Godsend.Models
     using Newtonsoft.Json;
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public enum Status
     {
@@ -22,14 +22,17 @@ namespace Godsend.Models
         /// The ready
         /// </summary>
         Ready = 0,
+
         /// <summary>
         /// The shipped
         /// </summary>
         Shipped = 1,
+
         /// <summary>
         /// The cancelled
         /// </summary>
         Cancelled = 2,
+
         /// <summary>
         /// The processing
         /// </summary>
@@ -39,7 +42,7 @@ namespace Godsend.Models
     }
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public abstract class Order
     {
@@ -118,14 +121,14 @@ namespace Godsend.Models
     }
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public class SimpleOrder : Order
     {
     }
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public abstract class OrderPart
     {
@@ -174,7 +177,7 @@ namespace Godsend.Models
     }
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public class OrderPartProducts : OrderPart
     {

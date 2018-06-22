@@ -11,7 +11,7 @@ namespace Godsend.Models
     using Newtonsoft.Json;
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public class Supplier : IEntity
     {
@@ -44,13 +44,15 @@ namespace Godsend.Models
             set => Info = value as SupplierInformation;
         }
 
-        public string Name { get => ""; set { return; } }
+        public string Name
+        {
+            get => ""; set { return; }
+        }
     }
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
-
     public class SupplierWithProducts
     {
         /// <summary>
@@ -68,8 +70,8 @@ namespace Godsend.Models
         /// The Products.
         /// </value>
         public IEnumerable<ProductAndPrice> Products { get; set; }
-
     }
+
     public class ProductAndPrice
     {
         /// <summary>

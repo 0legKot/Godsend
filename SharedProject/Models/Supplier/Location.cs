@@ -7,7 +7,7 @@ namespace Godsend.Models
     using System;
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public class Location
     {

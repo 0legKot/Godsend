@@ -11,7 +11,7 @@ namespace Godsend.Models
     using Microsoft.AspNetCore.Identity;
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public static class IdentitySeedData
     {
@@ -19,6 +19,7 @@ namespace Godsend.Models
         /// The admin user
         /// </summary>
         private const string adminUser = "Admin";
+
         /// <summary>
         /// The admin password
         /// </summary>

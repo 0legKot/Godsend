@@ -12,18 +12,18 @@ namespace Godsend
     using Microsoft.AspNetCore.Identity;
     using Microsoft.EntityFrameworkCore;
 
-   
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public class EFProductRepository : IProductRepository
     {
-        static object creationlock = new object();
+        private static object creationlock = new object();
 
         /// <summary>
         /// The admin user
         /// </summary>
         private const string adminUser = "Admin";
+
         /// <summary>
         /// The admin password
         /// </summary>
@@ -65,7 +65,7 @@ namespace Godsend
                 var cars = new Category { Name = "Cars", BaseCategory = vehicles };
                 var compactMPVs = new Category { Name = "Compact MPVs", BaseCategory = cars };
 
-                context.Categories.AddRange(mainCat, food, fruit, vegetables, berries, confectionery, sugarConfections, elDevices, 
+                context.Categories.AddRange(mainCat, food, fruit, vegetables, berries, confectionery, sugarConfections, elDevices,
                     phones, mobilePhones, beverages, alcBeverages, nonAlcBeverages, juices, ciders, vehicles, cars, compactMPVs);
 
                 context.SaveChanges();
@@ -73,7 +73,6 @@ namespace Godsend
 
             lock (creationlock)
             {
-
                 if (!context.Products.Any())
                 {
                     Product myApple = new Product
@@ -90,9 +89,9 @@ namespace Godsend
                     var prop = new Property() { RelatedCategory = myApple.Category, Name = "Vitamin A", Type = PropertyTypes.Int };
                     context.Properties.Add(prop);
                     context.LinkProductPropertyInt.Add(new EAV<int>() { Product = myApple, Property = prop, Value = 7 });
-                    //myApple.AddCharacteristic("Vitamin A","3");
-                    //myApple.AddCharacteristic("Vitamin B", "5");
-                    //myApple.AddCharacteristic("Vitamin C", "9");
+                    ////myApple.AddCharacteristic("Vitamin A","3");
+                    ////myApple.AddCharacteristic("Vitamin B", "5");
+                    ////myApple.AddCharacteristic("Vitamin C", "9");
 
                     context.Products.Add(myApple);
 
@@ -298,13 +297,13 @@ namespace Godsend
                             });
                     }
 
-                    //context.LinkProductsSuppliers.Add(
-                    //new LinkProductsSuppliers
-                    //{
-                    //    Product = products[1],
-                    //    Supplier = suppliers[0],
-                    //    Price = 50
-                    //});
+                    ////context.LinkProductsSuppliers.Add(
+                    ////new LinkProductsSuppliers
+                    ////{
+                    ////    Product = products[1],
+                    ////    Supplier = suppliers[0],
+                    ////    Price = 50
+                    ////});
                     context.SaveChanges();
                 }
             }
@@ -316,7 +315,7 @@ namespace Godsend
         /// <value>
         /// The entities.
         /// </value>
-        public IEnumerable<Product> Entities(int quantity,int skip = 0) => GetProductsFromContext(quantity,skip);
+        public IEnumerable<Product> Entities(int quantity, int skip = 0) => GetProductsFromContext(quantity, skip);
 
         /// <summary>
         /// Gets the entities information.
@@ -324,7 +323,7 @@ namespace Godsend
         /// <value>
         /// The entities information.
         /// </value>
-        public IEnumerable<Information> EntitiesInfo(int quantity, int skip = 0) => Entities(quantity,skip).Select(p => p.Info).ToArray();
+        public IEnumerable<Information> EntitiesInfo(int quantity, int skip = 0) => Entities(quantity, skip).Select(p => p.Info).ToArray();
 
         /// <summary>
         /// Saves the entity.
@@ -430,7 +429,7 @@ namespace Godsend
         /// <returns>
         /// {quantity} products after {skip} skipped
         /// </returns>
-        private IQueryable<Product> GetProductsFromContext(int quantity,int skip = 0)
+        private IQueryable<Product> GetProductsFromContext(int quantity, int skip = 0)
         {
             return context.Products.Include(p => p.Info).Include(p => p.Category).Skip(skip).Take(quantity);
         }
@@ -445,13 +444,13 @@ namespace Godsend
 
             return res;
         }
+
         public IEnumerable<object> Properties(Guid id)
         {
-            return context.Properties.Include(x => x.RelatedCategory).Where(x => x.RelatedCategory.Id == id).Select(x => new {x.Id,x.Name,x.Type });
+            return context.Properties.Include(x => x.RelatedCategory).Where(x => x.RelatedCategory.Id == id).Select(x => new { x.Id, x.Name, x.Type });
         }
 
-        
-        public IEnumerable<ProductInformation> FilterByInt(IList<IntPropertyInfo> props,int quantity, int skip = 0)
+        public IEnumerable<ProductInformation> FilterByInt(IList<IntPropertyInfo> props, int quantity, int skip = 0)
         {
             var tmp = context.LinkProductPropertyInt
                 .Include(p => p.Property)
@@ -464,6 +463,7 @@ namespace Godsend
 
             return tmp.Select(x => x.Product.Info).Skip(skip).Take(quantity);
         }
+
         public IEnumerable<ProductInformation> FilterByDecimal(IList<DecimalPropertyInfo> props, int quantity, int skip = 0)
         {
             var tmp = context.LinkProductPropertyDecimal
@@ -477,6 +477,7 @@ namespace Godsend
 
             return tmp.Select(x => x.Product.Info).Skip(skip).Take(quantity);
         }
+
         public IEnumerable<ProductInformation> FilterByString(IList<StringPropertyInfo> props, int quantity, int skip = 0)
         {
             var tmp = context.LinkProductPropertyString
@@ -485,18 +486,19 @@ namespace Godsend
 
             foreach (var prop in props)
             {
-                tmp = tmp.Where(p => prop.PropId != p.Property.Id || (prop.PropId == p.Property.Id && prop.Part == p.Value ));
+                tmp = tmp.Where(p => prop.PropId != p.Property.Id || (prop.PropId == p.Property.Id && prop.Part == p.Value));
             }
 
             return tmp.Select(x => x.Product.Info).Skip(skip).Take(quantity);
         }
+
         public IEnumerable<object> ProductPropertiesInt(Guid id)
         {
             return context.LinkProductPropertyInt
                 .Include(x => x.Product).ThenInclude(x => x.Info)
                 .Include(x => x.Property)
-                //.ThenInclude(x => x.RelatedCategory)
-                .Where(x => x.Product.Info.Id == id).Select(p => new {p.Property.Id, p.Property.Name, p.Value });
+                ////.ThenInclude(x => x.RelatedCategory)
+                .Where(x => x.Product.Info.Id == id).Select(p => new { p.Property.Id, p.Property.Name, p.Value });
         }
 
         public IEnumerable<object> ProductPropertiesDecimal(Guid id)
@@ -504,7 +506,7 @@ namespace Godsend
             return context.LinkProductPropertyDecimal
                 .Include(x => x.Product).ThenInclude(x => x.Info)
                 .Include(x => x.Property)
-                //.ThenInclude(x => x.RelatedCategory)
+                ////.ThenInclude(x => x.RelatedCategory)
                 .Where(x => x.Product.Info.Id == id).Select(p => new { p.Property.Id, p.Property.Name, p.Value });
         }
 
@@ -513,7 +515,7 @@ namespace Godsend
             return context.LinkProductPropertyString
                 .Include(x => x.Product).ThenInclude(x => x.Info)
                 .Include(x => x.Property)
-                //.ThenInclude(x => x.RelatedCategory)
+                ////.ThenInclude(x => x.RelatedCategory)
                 .Where(x => x.Product.Info.Id == id).Select(p => new { p.Property.Id, p.Property.Name, p.Value });
         }
 
@@ -522,21 +524,29 @@ namespace Godsend
             return context.Products.Include(p => p.Info).Include(p => p.Category).FirstOrDefault(p => p.Info.Id == infoId);
         }
     }
+
     public class IntPropertyInfo
     {
         public Guid PropId { get; set; }
+
         public int Left { get; set; }
+
         public int Right { get; set; }
     }
+
     public class DecimalPropertyInfo
     {
         public Guid PropId { get; set; }
+
         public decimal Left { get; set; }
+
         public decimal Right { get; set; }
     }
+
     public class StringPropertyInfo
     {
         public Guid PropId { get; set; }
+
         public string Part { get; set; }
     }
 }

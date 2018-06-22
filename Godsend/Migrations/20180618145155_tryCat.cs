@@ -1,9 +1,13 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
-using System;
-using System.Collections.Generic;
+﻿// <copyright file="20180618145155_tryCat.cs" company="Godsend Team">
+// Copyright (c) Godsend Team. All rights reserved.
+// </copyright>
 
 namespace Godsend.Migrations
 {
+    using System;
+    using System.Collections.Generic;
+    using Microsoft.EntityFrameworkCore.Migrations;
+
     public partial class tryCat : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)

@@ -12,7 +12,7 @@ namespace Godsend.Models
     using Microsoft.EntityFrameworkCore;
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public class EFArticleRepository : IArticleRepository
     {
@@ -20,6 +20,7 @@ namespace Godsend.Models
         /// The context
         /// </summary>
         private DataContext context;
+
         /// <summary>
         /// The user manager
         /// </summary>

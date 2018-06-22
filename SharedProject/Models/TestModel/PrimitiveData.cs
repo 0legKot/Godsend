@@ -10,7 +10,7 @@ namespace Godsend.Models
     using System.Threading.Tasks;
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public class PrimitiveData : Cell
     {
@@ -23,6 +23,7 @@ namespace Godsend.Models
         public int Id { get; set; }
 
         // string=any value, needed different class for every
+
         /// <summary>
         /// Gets or sets the real data.
         /// </summary>

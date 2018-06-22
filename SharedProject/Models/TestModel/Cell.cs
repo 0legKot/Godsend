@@ -39,6 +39,7 @@ namespace Godsend.Models
         public Column BaseColumn { get; set; }
 
         // public RealData Cell { get; set; }
+
         /// <summary>
         /// Gets or sets the value.
         /// </summary>

@@ -16,7 +16,7 @@ namespace Godsend.Controllers
     /// <summary>
     /// Article controller
     /// </summary>
-    /// <seealso cref="Controllers.EntityController{Models.Article}" />
+    /// <seealso cref="Controllers.EntityController{Article}" />
     [Route("api/[controller]")]
     public class ArticleController : EntityController<Article>
     {

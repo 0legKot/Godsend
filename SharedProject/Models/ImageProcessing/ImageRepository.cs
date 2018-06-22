@@ -11,7 +11,7 @@ namespace Godsend.Models
     using Microsoft.EntityFrameworkCore;
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public class ImageRepository
     {
@@ -33,6 +33,7 @@ namespace Godsend.Models
                 {
                     context.ImagePathsTable.Add(new ImagePaths() { Id = sp.Info.Id, Preview = "apple.jpg", Images = new List<StringWrapper>() { "apple.jpg", "pineapple.jpg" } });
                 }
+
                 context.SaveChanges();
             }
 

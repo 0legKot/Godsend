@@ -14,7 +14,7 @@ namespace Godsend.Models
     using Newtonsoft.Json;
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public class ProductInformation : Information // , INotifyPropertyChanged
     {

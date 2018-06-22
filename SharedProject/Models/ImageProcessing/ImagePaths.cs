@@ -10,7 +10,7 @@ namespace Godsend.Models
     using Godsend.Models;
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public class ImagePaths
     {

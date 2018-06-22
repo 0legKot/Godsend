@@ -21,10 +21,12 @@ namespace Godsend.Controllers
         /// All
         /// </summary>
         All = 0,
+
         /// <summary>
         /// The products
         /// </summary>
         Products = 1,
+
         /// <summary>
         /// The suppliers
         /// </summary>
@@ -34,8 +36,9 @@ namespace Godsend.Controllers
     }
 
     // todo make procedure
+
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <seealso cref="Microsoft.AspNetCore.Mvc.Controller" />
     [Route("api/[controller]")]
