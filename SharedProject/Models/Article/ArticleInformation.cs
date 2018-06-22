@@ -62,7 +62,7 @@ namespace Godsend.Models
         public IEnumerable<string> Tags
         {
             get => this.EFTags?.Select(x => x.Value)?.ToArray();
-            set => this.EFTags = value?.Select(s => new StringWrapper { Id = Guid.NewGuid(), Value = s }).ToArray();
+            set => this.EFTags = value?.Cast<StringWrapper>().ToArray();
         }
     }
 }
