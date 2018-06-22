@@ -115,7 +115,11 @@ export class RepositoryService {
 
     getEntities<T>(clas: supportedClass, fn?: (_: T[]) => any) {
         const url = this.getUrl(clas);
-        this.data.sendRequest<T[]>('get', url + '/all')
+
+        const page = 1;
+        const rpp = 15;
+
+        this.data.sendRequest<T[]>('get', url + '/all/' + page + '/' + rpp)
             .subscribe(response => {
                 if (fn) {
                     fn(response);
@@ -191,23 +195,11 @@ export class RepositoryService {
         return this.data.sendRequest<any>('get', '/api/session/' + dataType);
     }
 
-    // CATEGORIES
-
-    getCategories(fn: (_:CatsWithSubs[]) => any): void {
-        this.data.sendRequest<CatsWithSubs[]>('get', 'api/product/getAllCategories')
-            .subscribe(cats => fn(cats));
-    }
-
-    getByCategory(cat: Category, fn?: (_:ProductInfo[]) => any): void {
+    getByCategory(cat: Category, fn?: (_: ProductInfo[]) => any): void {
         this.data.sendRequest<ProductInfo[]>('get', 'api/product/getByCategory/' + cat.id)
             .subscribe(products => {
                 this.products = products;
                 if (fn) fn(products);
             })
-    }
-
-    getSubcategories(cat: Category, fn: (_:Category[]) => any): void {
-        this.data.sendRequest<Category[]>('get', 'api/product/getSubCategories/' + cat.id)
-            .subscribe(categories => fn(categories));
     }
 }

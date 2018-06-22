@@ -16,23 +16,26 @@ export const searchType = {
 export class SearchService {
     constructor(private data: DataService) { }
 
+    private page = 1;
+    private rpp = 15;
+
     public findProducts(term: string, fn: (_: Product[]) => any) {
-        this.data.sendRequest<Product[]>('get', 'api/search/products/' + term)
+        this.data.sendRequest<Product[]>('get', 'api/search/products/' + term + '/' + this.page + '/' + this.rpp)
             .subscribe(products => fn(products));
     }
 
     public findSuppliers(term: string, fn: (_: Supplier[]) => any) {
-        this.data.sendRequest<Supplier[]>('get', 'api/search/suppliers/' + term)
+        this.data.sendRequest<Supplier[]>('get', 'api/search/suppliers/' + term + '/' + this.page + '/' + this.rpp)
             .subscribe(suppliers => fn(suppliers));
     }
 
     public findAll(term: string, fn: (_: AllSearchResult) => any) {
-        this.data.sendRequest<AllSearchResult>('get', 'api/search/all/' + term)
+        this.data.sendRequest<AllSearchResult>('get', 'api/search/all/' + term + '/' + this.page + '/' + this.rpp)
             .subscribe(result => fn(result));
     }
 
     public findByType(type: number, term: string, fn: (_: AllSearchResult) => any) {
-        this.data.sendRequest<AllSearchResult>('get', 'api/search/type/' + type + '/' + term)
+        this.data.sendRequest<AllSearchResult>('get', 'api/search/type/' + type + '/' + term + '/' + this.page + '/' + this.rpp)
             .subscribe(items => fn(items));
     }
 }

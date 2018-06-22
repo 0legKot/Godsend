@@ -52,6 +52,11 @@ namespace Godsend.Controllers
             public Category Cat { get; set; }
 
             public IEnumerable<CatWithSubs> Subs { get; set; }
+
+            public override string ToString()
+            {
+                return "CatWithSubs: " + Cat.Name;
+            }
         }
 
 
@@ -82,7 +87,7 @@ namespace Godsend.Controllers
         [HttpGet("[action]/{id:Guid}")]
         public IEnumerable<Category> GetSubCategories(Guid id)
         {
-            return Categories.Where(x => x.BaseCategory?.Id == id).ToList();
+            return Categories.Where(x => x.BaseCategory?.Id == id);
         }
 
         // Low perfomance maybe

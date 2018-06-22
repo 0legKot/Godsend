@@ -61,17 +61,17 @@ namespace Godsend.Controllers
         /// <param name="t">The t.</param>
         /// <param name="term">The term.</param>
         /// <returns></returns>
-        [HttpGet("type/{t:int}/{term?}")]
-        public AllSearchResult Find(SearchType t, string term)
+        [HttpGet("type/{t:int}/{term?}/{page:int}/{rpp:int}")]
+        public AllSearchResult Find(SearchType t, string term, int page, int rpp)
         {
             switch (t)
             {
                 case SearchType.All:
-                    return FindAll(term);
+                    return FindAll(term, page, rpp);
                 case SearchType.Products:
-                    return new AllSearchResult { ProductsInfo = FindProducts(term) };
+                    return new AllSearchResult { ProductsInfo = FindProducts(term, page, rpp) };
                 case SearchType.Suppliers:
-                    return new AllSearchResult { SuppliersInfo = FindSuppliers(term) };
+                    return new AllSearchResult { SuppliersInfo = FindSuppliers(term, page, rpp) };
                 default:
                     return new AllSearchResult { }; // Because failing silently is better than knowing there is a mistake
             }
@@ -82,13 +82,13 @@ namespace Godsend.Controllers
         /// </summary>
         /// <param name="term">The term.</param>
         /// <returns></returns>
-        [HttpGet("all/{term?}")]
-        public AllSearchResult FindAll(string term)
+        [HttpGet("all/{term?}/{page:int}/{rpp:int}")]
+        public AllSearchResult FindAll(string term, int page, int rpp)
         {
             return new AllSearchResult
             {
-                ProductsInfo = FindProducts(term),
-                SuppliersInfo = FindSuppliers(term)
+                ProductsInfo = FindProducts(term, page, rpp),
+                SuppliersInfo = FindSuppliers(term, page, rpp)
             };
         }
 
@@ -97,8 +97,8 @@ namespace Godsend.Controllers
         /// </summary>
         /// <param name="term">The term.</param>
         /// <returns></returns>
-        [HttpGet("products/{term?}")]
-        public IEnumerable<ProductInformation> FindProducts(string term)
+        [HttpGet("products/{term?}/{page:int}/{rpp:int}")]
+        public IEnumerable<ProductInformation> FindProducts(string term, int page, int rpp)
         {
             return string.IsNullOrWhiteSpace(term)
                 ? context.Products
@@ -113,8 +113,8 @@ namespace Godsend.Controllers
         /// </summary>
         /// <param name="term">The term.</param>
         /// <returns></returns>
-        [HttpGet("suppliers/{term?}")]
-        public IEnumerable<SupplierInformation> FindSuppliers(string term)
+        [HttpGet("suppliers/{term?}/{page:int}/{rpp:int}")]
+        public IEnumerable<SupplierInformation> FindSuppliers(string term, int page, int rpp)
         {
             return string.IsNullOrWhiteSpace(term)
                 ? context.Suppliers

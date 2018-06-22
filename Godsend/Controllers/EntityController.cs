@@ -28,9 +28,11 @@ namespace Godsend.Controllers
         /// <summary>
         /// Alls this instance.
         /// </summary>
+        /// <param name="page">The page.</param>
+        /// <param name="rpp">Results per page.</param>
         /// <returns></returns>
-        [HttpGet("[action]")]
-        public virtual IEnumerable<Information> All()
+        [HttpGet("[action]/{page:int}/{rpp:int}")]
+        public virtual IEnumerable<Information> All(int page, int rpp)
         {
             return repository.EntitiesInfo;
         }

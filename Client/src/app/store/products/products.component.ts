@@ -7,6 +7,7 @@ import { searchType } from '../search/search.service';
 import { SearchInlineComponent } from '../search/search-inline.component';
 import { ImageService } from '../../services/image.service';
 import { forEach } from '@angular/router/src/utils/collection';
+import { CategoryService } from '../../services/category.service';
 
 @Component({
     selector: 'godsend-products',
@@ -48,7 +49,7 @@ export class ProductsComponent implements OnInit {
         this.searchProducts = products;
     }
 
-    constructor(private repo: RepositoryService, private imageService: ImageService) {
+    constructor(private repo: RepositoryService, private imageService: ImageService, private cattt: CategoryService) {
     }
 
     ngOnInit() {
@@ -63,11 +64,11 @@ export class ProductsComponent implements OnInit {
     categories?: Category[];
 
     getCategories(): void {
-        this.repo.getCategories(cats => this.categories = cats.map(cws => cws.cat));
+        this.categories = this.cattt.cats ? this.cattt.cats.map(cws => cws.cat) : [];
     }
 
     getSubcategories(category: Category): void {
-        this.repo.getSubcategories(category, cats => this.categories = cats);
+        this.categories = this.cattt.getSubcategories(category);
     }
 
     getByCategory(category: Category): void {
