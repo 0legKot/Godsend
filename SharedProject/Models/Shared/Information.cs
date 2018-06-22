@@ -45,5 +45,10 @@ namespace Godsend.Models
         /// The watches.
         /// </value>
         public int Watches { get; set; }
+
+        public override string ToString()
+        {
+            return "Information: " + Name;
+        }
     }
 }

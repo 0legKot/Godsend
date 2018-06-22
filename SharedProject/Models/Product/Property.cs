@@ -63,5 +63,10 @@ namespace Godsend.Models
         /// The type.
         /// </value>
         public PropertyTypes Type { get; set; }
+
+        public override string ToString()
+        {
+            return "Property: " + Name;
+        }
     }
 }
