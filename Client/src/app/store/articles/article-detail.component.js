@@ -46,7 +46,7 @@ var ArticleDetailComponent = /** @class */ (function () {
     };
     ArticleDetailComponent.prototype.save = function () {
         if (this.article) {
-            this.service.createOrEditEntity('article', Article.EnsureType(this.article));
+            this.service.createOrEditEntity('article', Article.EnsureType(this.article), 1, 10);
         }
         this.edit = false;
     };

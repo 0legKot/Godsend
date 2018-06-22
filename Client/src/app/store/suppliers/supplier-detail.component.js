@@ -28,7 +28,7 @@ var SupplierDetailComponent = /** @class */ (function () {
     }
     SupplierDetailComponent.prototype.deleteSupplier = function () {
         if (this.supp) {
-            this.service.deleteEntity('supplier', this.supp.info.id);
+            this.service.deleteEntity('supplier', this.supp.info.id, 1, 10);
             this.gotoSuppliers(undefined);
         }
     };
@@ -54,7 +54,7 @@ var SupplierDetailComponent = /** @class */ (function () {
     };
     SupplierDetailComponent.prototype.save = function () {
         if (this.supp) {
-            this.service.createOrEditEntity('supplier', Supplier.EnsureType(this.supp));
+            this.service.createOrEditEntity('supplier', Supplier.EnsureType(this.supp), 1, 10);
         }
         this.edit = false;
     };
