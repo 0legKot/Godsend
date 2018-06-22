@@ -12,6 +12,7 @@ namespace Godsend
     using Microsoft.AspNetCore.Identity;
     using Microsoft.EntityFrameworkCore;
 
+   
     /// <summary>
     /// 
     /// </summary>
@@ -46,7 +47,7 @@ namespace Godsend
             if (!context.Categories.Any())
             {
                 var mainCat = new Category { Name = "Main" };
-                var food = new Category { Name = "Food", BaseCategory= mainCat };
+                var food = new Category { Name = "Food", BaseCategory = mainCat };
                 var fruit = new Category { Name = "Fruit", BaseCategory = food };
                 var vegetables = new Category { Name = "Vegetables", BaseCategory = food };
                 var berries = new Category { Name = "Berries", BaseCategory = food };
@@ -315,7 +316,7 @@ namespace Godsend
         /// <value>
         /// The entities.
         /// </value>
-        public IEnumerable<Product> Entities(int quantity,int skip=0) => GetProductsFromContext(quantity,skip);
+        public IEnumerable<Product> Entities(int quantity,int skip = 0) => GetProductsFromContext(quantity,skip);
 
         /// <summary>
         /// Gets the entities information.
@@ -412,7 +413,7 @@ namespace Godsend
                     .ThenInclude(x => x.Info.Location)
                     .ToArray();
 
-            var res=new ProductWithSuppliers
+            var res = new ProductWithSuppliers
             {
                 Product = GetEntityByInfoId(productInfoId),
                 Suppliers = tmp
@@ -429,7 +430,7 @@ namespace Godsend
         /// <returns>
         /// {quantity} products after {skip} skipped
         /// </returns>
-        private IQueryable<Product> GetProductsFromContext(int quantity,int skip=0)
+        private IQueryable<Product> GetProductsFromContext(int quantity,int skip = 0)
         {
             return context.Products.Include(p => p.Info).Include(p => p.Category).Skip(skip).Take(quantity);
         }
@@ -446,21 +447,48 @@ namespace Godsend
         }
         public IEnumerable<object> Properties(Guid id)
         {
-            return context.Properties.Include(x=>x.RelatedCategory).Where(x => x.RelatedCategory.Id == id).Select(x=> new {x.Id,x.Name,x.Type });
+            return context.Properties.Include(x => x.RelatedCategory).Where(x => x.RelatedCategory.Id == id).Select(x => new {x.Id,x.Name,x.Type });
         }
-        public IEnumerable<ProductInformation> FilterByInt(Guid propId, int leftBound, int rightBound,int quantity,int skip=0)
+
+        
+        public IEnumerable<ProductInformation> FilterByInt(IList<IntPropertyInfo> props,int quantity, int skip = 0)
         {
-            return context.LinkProductPropertyInt
+            var tmp = context.LinkProductPropertyInt
                 .Include(p => p.Property)
-                .Include(p=>p.Product).ThenInclude(p=>p.Info)
-                .Where(p => p.Property.Id == propId && p.Value >= leftBound && p.Value <= rightBound).Select(x=>x.Product.Info).Skip(skip).Take(quantity);
+                .Include(p => p.Product).ThenInclude(p => p.Info).Where(p => props.Any(x => p.Property.Id == x.PropId));
+
+            foreach (var prop in props)
+            {
+                tmp = tmp.Where(p => prop.PropId != p.Property.Id || (prop.PropId == p.Property.Id && p.Value >= prop.Left && p.Value <= prop.Right));
+            }
+
+            return tmp.Select(x => x.Product.Info).Skip(skip).Take(quantity);
         }
-        public IEnumerable<ProductInformation> FilterByDecimal(Guid propId, decimal leftBound, decimal rightBound, int quantity, int skip=0)
+        public IEnumerable<ProductInformation> FilterByDecimal(IList<DecimalPropertyInfo> props, int quantity, int skip = 0)
         {
-            return context.LinkProductPropertyDecimal
+            var tmp = context.LinkProductPropertyDecimal
                 .Include(p => p.Property)
-                .Include(p => p.Product).ThenInclude(p => p.Info)
-                .Where(p => p.Property.Id == propId && p.Value >= leftBound && p.Value <= rightBound).Select(x => x.Product.Info).Skip(skip).Take(quantity);
+                .Include(p => p.Product).ThenInclude(p => p.Info).Where(p => props.Any(x => p.Property.Id == x.PropId));
+
+            foreach (var prop in props)
+            {
+                tmp = tmp.Where(p => prop.PropId != p.Property.Id || (prop.PropId == p.Property.Id && p.Value >= prop.Left && p.Value <= prop.Right));
+            }
+
+            return tmp.Select(x => x.Product.Info).Skip(skip).Take(quantity);
+        }
+        public IEnumerable<ProductInformation> FilterByString(IList<StringPropertyInfo> props, int quantity, int skip = 0)
+        {
+            var tmp = context.LinkProductPropertyString
+                .Include(p => p.Property)
+                .Include(p => p.Product).ThenInclude(p => p.Info).Where(p => props.Any(x => p.Property.Id == x.PropId));
+
+            foreach (var prop in props)
+            {
+                tmp = tmp.Where(p => prop.PropId != p.Property.Id || (prop.PropId == p.Property.Id && prop.Part == p.Value ));
+            }
+
+            return tmp.Select(x => x.Product.Info).Skip(skip).Take(quantity);
         }
         public IEnumerable<object> ProductPropertiesInt(Guid id)
         {
@@ -491,7 +519,24 @@ namespace Godsend
 
         public Product GetEntityByInfoId(Guid infoId)
         {
-            return context.Products.Include(p => p.Info).Include(p => p.Category).FirstOrDefault(p=>p.Info.Id==infoId);
+            return context.Products.Include(p => p.Info).Include(p => p.Category).FirstOrDefault(p => p.Info.Id == infoId);
         }
+    }
+    public class IntPropertyInfo
+    {
+        public Guid PropId { get; set; }
+        public int Left { get; set; }
+        public int Right { get; set; }
+    }
+    public class DecimalPropertyInfo
+    {
+        public Guid PropId { get; set; }
+        public decimal Left { get; set; }
+        public decimal Right { get; set; }
+    }
+    public class StringPropertyInfo
+    {
+        public Guid PropId { get; set; }
+        public string Part { get; set; }
     }
 }

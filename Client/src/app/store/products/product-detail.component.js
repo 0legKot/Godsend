@@ -42,7 +42,7 @@ var ProductDetailComponent = /** @class */ (function () {
     };
     ProductDetailComponent.prototype.deleteProduct = function () {
         if (this.data) {
-            this.service.deleteEntity('product', this.data.product.info.id);
+            this.service.deleteEntity('product', this.data.product.info.id, 1, 10);
             this.gotoProducts();
         }
     };
@@ -73,7 +73,7 @@ var ProductDetailComponent = /** @class */ (function () {
     };
     ProductDetailComponent.prototype.save = function () {
         if (this.data) {
-            this.service.createOrEditEntity('product', Product.EnsureType(this.data.product));
+            this.service.createOrEditEntity('product', Product.EnsureType(this.data.product), 1, 10);
         }
         this.edit = false;
     };
