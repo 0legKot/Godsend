@@ -25,5 +25,7 @@ namespace Godsend
         IEnumerable<object> ProductPropertiesInt(Guid id);
         IEnumerable<object> ProductPropertiesDecimal(Guid id);
         IEnumerable<object> ProductPropertiesString(Guid id);
+        IEnumerable<ProductInformation> FilterByInt(Guid propId, int leftBound, int rightBound, int quantity, int skip);
+        IEnumerable<ProductInformation> FilterByDecimal(Guid propId, decimal leftBound, decimal rightBound, int quantity, int skip);
     }
 }

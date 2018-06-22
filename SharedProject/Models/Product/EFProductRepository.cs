@@ -443,7 +443,20 @@ namespace Godsend
         {
             return context.Properties.Include(x=>x.RelatedCategory).Where(x => x.RelatedCategory.Id == id).Select(x=> new {x.Id,x.Name,x.Type });
         }
-
+        public IEnumerable<ProductInformation> FilterByInt(Guid propId, int leftBound, int rightBound,int quantity,int skip=0)
+        {
+            return context.LinkProductPropertyInt
+                .Include(p => p.Property)
+                .Include(p=>p.Product).ThenInclude(p=>p.Info)
+                .Where(p => p.Property.Id == propId && p.Value >= leftBound && p.Value <= rightBound).Select(x=>x.Product.Info).Skip(skip).Take(quantity);
+        }
+        public IEnumerable<ProductInformation> FilterByDecimal(Guid propId, decimal leftBound, decimal rightBound, int quantity, int skip=0)
+        {
+            return context.LinkProductPropertyDecimal
+                .Include(p => p.Property)
+                .Include(p => p.Product).ThenInclude(p => p.Info)
+                .Where(p => p.Property.Id == propId && p.Value >= leftBound && p.Value <= rightBound).Select(x => x.Product.Info).Skip(skip).Take(quantity);
+        }
         public IEnumerable<object> ProductPropertiesInt(Guid id)
         {
             return context.LinkProductPropertyInt

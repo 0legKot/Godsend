@@ -32,7 +32,7 @@ export class SupplierDetailComponent implements OnInit {
 
     deleteSupplier() {
         if (this.supp) {
-            this.service.deleteEntity('supplier', this.supp.info.id);
+            this.service.deleteEntity('supplier', this.supp.info.id,1,10);
             this.gotoSuppliers(undefined);
         }
     }
@@ -63,7 +63,7 @@ export class SupplierDetailComponent implements OnInit {
 
     save() {
         if (this.supp) {
-            this.service.createOrEditEntity('supplier', Supplier.EnsureType(this.supp));
+            this.service.createOrEditEntity('supplier', Supplier.EnsureType(this.supp),1,10);
         }
 
         this.edit = false;

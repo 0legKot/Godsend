@@ -49,7 +49,7 @@ export class ProductDetailComponent implements OnInit {
 
     deleteProduct() {
         if (this.data) {
-            this.service.deleteEntity('product', this.data.product.info.id);
+            this.service.deleteEntity('product', this.data.product.info.id,1,10);
             this.gotoProducts();
         }
     }
@@ -86,7 +86,7 @@ export class ProductDetailComponent implements OnInit {
 
     save() {
         if (this.data) {
-            this.service.createOrEditEntity('product', Product.EnsureType(this.data.product));
+            this.service.createOrEditEntity('product', Product.EnsureType(this.data.product),1,10);
         }
 
         this.edit = false;
