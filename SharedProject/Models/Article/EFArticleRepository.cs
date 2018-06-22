@@ -175,8 +175,11 @@ This is a pretty simple and straightforward diet you will ever try. It involves 
         /// <value>
         /// The entities.
         /// </value>
-        public IEnumerable<Article> Entities(int quantity,int skip=0) => context.Articles.Include(a => a.Info).ThenInclude(a => a.EFAuthor)
-            .Include(a => a.Info).ThenInclude(a => a.EFTags).Take(quantity).Skip(skip);
+        public IEnumerable<Article> Entities(int quantity, int skip = 0)
+        {
+            var tmp = context.Articles.Take(quantity).Skip(skip).Include(a => a.Info).ThenInclude(ai => ai.EFAuthor).ToArray();
+            return tmp;
+        }
 
         /// <summary>
         /// Gets the entities information.
@@ -184,7 +187,11 @@ This is a pretty simple and straightforward diet you will ever try. It involves 
         /// <value>
         /// The entities information.
         /// </value>
-        public IEnumerable<Information> EntitiesInfo(int quantity, int skip = 0) => Entities(quantity,skip).Select(a => a.Info).ToArray();
+        public IEnumerable<Information> EntitiesInfo(int quantity, int skip = 0)
+        {
+            var tmp = Entities(quantity, skip).Select(a => a.Info).ToArray();
+            return tmp;
+        }
 
         /// <summary>
         /// Sets the user asynchronous.

@@ -23,7 +23,6 @@ export class AuthenticationService {
     login(email: string, password: string): void {
         // this.authenticated = false;
         this.data.sendRequest<any>('post', 'api/account/login', { email, password }).subscribe(response => {
-            console.log(response);
             // todo remove copypaste
             localStorage.setItem('godsend_authtoken', response.token);
             localStorage.setItem('godsend_authname', email);
