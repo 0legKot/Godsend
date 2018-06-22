@@ -16,14 +16,18 @@ namespace Godsend.Controllers
     /// <summary>
     /// Product controller
     /// </summary>
+    /// <seealso cref="Godsend.Controllers.EntityController{Godsend.Models.Product}" />
     /// <seealso cref="Controllers.EntityController{Product}" />
     [Route("api/[controller]")]
     public class ProductController : EntityController<Product>
     {
+        /// <summary>
+        /// The categories
+        /// </summary>
         private readonly IEnumerable<Category> Categories;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ProductController"/> class.
+        /// Initializes a new instance of the <see cref="ProductController" /> class.
         /// </summary>
         /// <param name="repo">The repo.</param>
         public ProductController(IProductRepository repo)
@@ -49,18 +53,43 @@ namespace Godsend.Controllers
             return prod;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public class CatWithSubs
         {
+            /// <summary>
+            /// Gets or sets the cat.
+            /// </summary>
+            /// <value>
+            /// The cat.
+            /// </value>
             public Category Cat { get; set; }
 
+            /// <summary>
+            /// Gets or sets the subs.
+            /// </summary>
+            /// <value>
+            /// The subs.
+            /// </value>
             public IEnumerable<CatWithSubs> Subs { get; set; }
 
+            /// <summary>
+            /// Returns a <see cref="System.String" /> that represents this instance.
+            /// </summary>
+            /// <returns>
+            /// A <see cref="System.String" /> that represents this instance.
+            /// </returns>
             public override string ToString()
             {
                 return "CatWithSubs: " + Cat.Name;
             }
         }
 
+        /// <summary>
+        /// Gets the base categories.
+        /// </summary>
+        /// <returns></returns>
         [HttpGet("[action]")]
         public IEnumerable<Category> GetBaseCategories()
         {
@@ -84,6 +113,11 @@ namespace Godsend.Controllers
             return rootCat;
         }
 
+        /// <summary>
+        /// Gets the sub categories.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <returns></returns>
         [HttpGet("[action]/{id:Guid}")]
         public IEnumerable<Category> GetSubCategories(Guid id)
         {
@@ -91,6 +125,10 @@ namespace Godsend.Controllers
         }
 
         // Low perfomance maybe
+        /// <summary>
+        /// Gets all categories.
+        /// </summary>
+        /// <returns></returns>
         [HttpGet("[action]")]
         public IEnumerable<CatWithSubs> GetAllCategories()
         {
@@ -102,36 +140,67 @@ namespace Godsend.Controllers
             return mainCatWithSubs.Subs;
         }
 
+        /// <summary>
+        /// Gets the by category.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <param name="quantity">The quantity.</param>
+        /// <param name="skip">The skip.</param>
+        /// <returns></returns>
         [HttpGet("[action]/{id:Guid}")]
         public IEnumerable<Information> GetByCategory(Guid id, int quantity = 5, int skip = 0)
         {
             return repository.Entities(quantity, skip).Where(x => x.Category?.Id == id).Select(x => x.Info);
         }
 
+        /// <summary>
+        /// Gets the properties by category.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <returns></returns>
         [HttpGet("[action]/{id:Guid}")]
         public IEnumerable<object> GetPropertiesByCategory(Guid id)
         {
             return (repository as IProductRepository).Properties(id);
         }
 
+        /// <summary>
+        /// Gets the int properties by product.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <returns></returns>
         [HttpGet("[action]/{id:Guid}")]
         public IEnumerable<object> GetIntPropertiesByProduct(Guid id)
         {
             return (repository as IProductRepository).ProductPropertiesInt(id);
         }
 
+        /// <summary>
+        /// Gets the decimal properties by product.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <returns></returns>
         [HttpGet("[action]/{id:Guid}")]
         public IEnumerable<object> GetDecimalPropertiesByProduct(Guid id)
         {
             return (repository as IProductRepository).ProductPropertiesDecimal(id);
         }
 
+        /// <summary>
+        /// Gets the string properties by product.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <returns></returns>
         [HttpGet("[action]/{id:Guid}")]
         public IEnumerable<object> GetStringPropertiesByProduct(Guid id)
         {
             return (repository as IProductRepository).ProductPropertiesString(id);
         }
 
+        /// <summary>
+        /// Gets the recursive cats.
+        /// </summary>
+        /// <param name="cur">The current.</param>
         private void GetRecursiveCats(ref CatWithSubs cur)
         {
             var subs = new List<CatWithSubs>();

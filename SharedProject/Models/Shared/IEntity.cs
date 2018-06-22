@@ -10,7 +10,7 @@ namespace Godsend.Models
     using System.Threading.Tasks;
 
     /// <summary>
-    ///
+    /// 
     /// </summary>
     public interface IEntity
     {
@@ -30,6 +30,12 @@ namespace Godsend.Models
         /// </value>
         Information EntityInformation { get; set; }
 
+        /// <summary>
+        /// Gets or sets the name.
+        /// </summary>
+        /// <value>
+        /// The name.
+        /// </value>
         string Name { get; set; }
 
          ////public virtual void SetIds() {

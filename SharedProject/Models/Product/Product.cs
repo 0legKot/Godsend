@@ -12,7 +12,7 @@ namespace Godsend.Models
     using Newtonsoft.Json;
 
     /// <summary>
-    ///
+    /// 
     /// </summary>
     public class Product : IEntity
     {
@@ -38,6 +38,12 @@ namespace Godsend.Models
         /// </value>
         public ProductInformation Info { get; set; }
 
+        /// <summary>
+        /// Gets or sets the category.
+        /// </summary>
+        /// <value>
+        /// The category.
+        /// </value>
         public Category Category { get; set; }
 
         ///// <summary>
@@ -82,6 +88,12 @@ namespace Godsend.Models
         ///// <value>
         ///// The entity information.
         ///// </value>
+        /// <summary>
+        /// Gets or sets the entity information.
+        /// </summary>
+        /// <value>
+        /// The entity information.
+        /// </value>
         [JsonIgnore]
         public Information EntityInformation
         {
@@ -89,11 +101,17 @@ namespace Godsend.Models
             set => Info = value as ProductInformation;
         }
 
+        /// <summary>
+        /// Gets or sets the name.
+        /// </summary>
+        /// <value>
+        /// The name.
+        /// </value>
         public string Name { get; set; }
     }
 
     /// <summary>
-    ///
+    /// 
     /// </summary>
     public class ProductWithSuppliers
     {
@@ -115,7 +133,7 @@ namespace Godsend.Models
     }
 
     /// <summary>
-    ///
+    /// 
     /// </summary>
     public class SupplierAndPrice
     {

@@ -13,10 +13,13 @@ namespace Godsend
     using Microsoft.EntityFrameworkCore;
 
     /// <summary>
-    ///
+    /// 
     /// </summary>
     public class EFProductRepository : IProductRepository
     {
+        /// <summary>
+        /// The creationlock
+        /// </summary>
         private static object creationlock = new object();
 
         /// <summary>
@@ -28,6 +31,9 @@ namespace Godsend
         /// The admin password
         /// </summary>
         private const string adminPassword = "Secret123$";
+        /// <summary>
+        /// The maximum depth
+        /// </summary>
         private const int maxDepth = 5;
 
         /// <summary>
@@ -36,7 +42,7 @@ namespace Godsend
         private DataContext context;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="EFProductRepository"/> class.
+        /// Initializes a new instance of the <see cref="EFProductRepository" /> class.
         /// </summary>
         /// <param name="ctx">The CTX.</param>
         /// <param name="userManager">The user manager.</param>
@@ -312,6 +318,9 @@ namespace Godsend
         /// <summary>
         /// Gets the entities.
         /// </summary>
+        /// <param name="quantity">The quantity.</param>
+        /// <param name="skip">The skip.</param>
+        /// <returns></returns>
         /// <value>
         /// The entities.
         /// </value>
@@ -320,10 +329,13 @@ namespace Godsend
         /// <summary>
         /// Gets the entities information.
         /// </summary>
+        /// <param name="quantity">The quantity.</param>
+        /// <param name="skip">The skip.</param>
+        /// <returns></returns>
         /// <value>
         /// The entities information.
         /// </value>
-        public IEnumerable<Information> EntitiesInfo(int quantity, int skip = 0) => Entities(quantity, skip).Select(p => p.Info).ToArray();
+        public IEnumerable<Information> EntitiesInfo(int quantity, int skip = 0) => Entities(quantity, skip).Select(p => p.Info);
 
         /// <summary>
         /// Saves the entity.
@@ -426,6 +438,8 @@ namespace Godsend
         /// <summary>
         /// Gets products from context.
         /// </summary>
+        /// <param name="quantity">The quantity.</param>
+        /// <param name="skip">The skip.</param>
         /// <returns>
         /// {quantity} products after {skip} skipped
         /// </returns>
@@ -434,6 +448,10 @@ namespace Godsend
             return context.Products.Include(p => p.Info).Include(p => p.Category).Skip(skip).Take(quantity);
         }
 
+        /// <summary>
+        /// Categorieses this instance.
+        /// </summary>
+        /// <returns></returns>
         public IEnumerable<Category> Categories()
         {
             var res = context.Categories.Include(c => c.BaseCategory);
@@ -445,16 +463,29 @@ namespace Godsend
             return res;
         }
 
+        /// <summary>
+        /// Propertieses the specified identifier.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <returns></returns>
         public IEnumerable<object> Properties(Guid id)
         {
             return context.Properties.Include(x => x.RelatedCategory).Where(x => x.RelatedCategory.Id == id).Select(x => new { x.Id, x.Name, x.Type });
         }
 
+        /// <summary>
+        /// Filters the by int.
+        /// </summary>
+        /// <param name="props">The props.</param>
+        /// <param name="quantity">The quantity.</param>
+        /// <param name="skip">The skip.</param>
+        /// <returns></returns>
         public IEnumerable<ProductInformation> FilterByInt(IList<IntPropertyInfo> props, int quantity, int skip = 0)
         {
             var tmp = context.LinkProductPropertyInt
                 .Include(p => p.Property)
-                .Include(p => p.Product).ThenInclude(p => p.Info).Where(p => props.Any(x => p.Property.Id == x.PropId));
+                .Include(p => p.Product).ThenInclude(p => p.Info)
+                .Where(p => props.Any(x => p.Property.Id == x.PropId));
 
             foreach (var prop in props)
             {
@@ -464,6 +495,13 @@ namespace Godsend
             return tmp.Select(x => x.Product.Info).Skip(skip).Take(quantity);
         }
 
+        /// <summary>
+        /// Filters the by decimal.
+        /// </summary>
+        /// <param name="props">The props.</param>
+        /// <param name="quantity">The quantity.</param>
+        /// <param name="skip">The skip.</param>
+        /// <returns></returns>
         public IEnumerable<ProductInformation> FilterByDecimal(IList<DecimalPropertyInfo> props, int quantity, int skip = 0)
         {
             var tmp = context.LinkProductPropertyDecimal
@@ -478,6 +516,13 @@ namespace Godsend
             return tmp.Select(x => x.Product.Info).Skip(skip).Take(quantity);
         }
 
+        /// <summary>
+        /// Filters the by string.
+        /// </summary>
+        /// <param name="props">The props.</param>
+        /// <param name="quantity">The quantity.</param>
+        /// <param name="skip">The skip.</param>
+        /// <returns></returns>
         public IEnumerable<ProductInformation> FilterByString(IList<StringPropertyInfo> props, int quantity, int skip = 0)
         {
             var tmp = context.LinkProductPropertyString
@@ -492,6 +537,11 @@ namespace Godsend
             return tmp.Select(x => x.Product.Info).Skip(skip).Take(quantity);
         }
 
+        /// <summary>
+        /// Products the properties int.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <returns></returns>
         public IEnumerable<object> ProductPropertiesInt(Guid id)
         {
             return context.LinkProductPropertyInt
@@ -501,6 +551,11 @@ namespace Godsend
                 .Where(x => x.Product.Info.Id == id).Select(p => new { p.Property.Id, p.Property.Name, p.Value });
         }
 
+        /// <summary>
+        /// Products the properties decimal.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <returns></returns>
         public IEnumerable<object> ProductPropertiesDecimal(Guid id)
         {
             return context.LinkProductPropertyDecimal
@@ -510,6 +565,11 @@ namespace Godsend
                 .Where(x => x.Product.Info.Id == id).Select(p => new { p.Property.Id, p.Property.Name, p.Value });
         }
 
+        /// <summary>
+        /// Products the properties string.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <returns></returns>
         public IEnumerable<object> ProductPropertiesString(Guid id)
         {
             return context.LinkProductPropertyString
@@ -519,34 +579,96 @@ namespace Godsend
                 .Where(x => x.Product.Info.Id == id).Select(p => new { p.Property.Id, p.Property.Name, p.Value });
         }
 
+        /// <summary>
+        /// Gets the entity by information identifier.
+        /// </summary>
+        /// <param name="infoId">The information identifier.</param>
+        /// <returns></returns>
         public Product GetEntityByInfoId(Guid infoId)
         {
             return context.Products.Include(p => p.Info).Include(p => p.Category).FirstOrDefault(p => p.Info.Id == infoId);
         }
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     public class IntPropertyInfo
     {
+        /// <summary>
+        /// Gets or sets the property identifier.
+        /// </summary>
+        /// <value>
+        /// The property identifier.
+        /// </value>
         public Guid PropId { get; set; }
 
+        /// <summary>
+        /// Gets or sets the left.
+        /// </summary>
+        /// <value>
+        /// The left.
+        /// </value>
         public int Left { get; set; }
 
+        /// <summary>
+        /// Gets or sets the right.
+        /// </summary>
+        /// <value>
+        /// The right.
+        /// </value>
         public int Right { get; set; }
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     public class DecimalPropertyInfo
     {
+        /// <summary>
+        /// Gets or sets the property identifier.
+        /// </summary>
+        /// <value>
+        /// The property identifier.
+        /// </value>
         public Guid PropId { get; set; }
 
+        /// <summary>
+        /// Gets or sets the left.
+        /// </summary>
+        /// <value>
+        /// The left.
+        /// </value>
         public decimal Left { get; set; }
 
+        /// <summary>
+        /// Gets or sets the right.
+        /// </summary>
+        /// <value>
+        /// The right.
+        /// </value>
         public decimal Right { get; set; }
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     public class StringPropertyInfo
     {
+        /// <summary>
+        /// Gets or sets the property identifier.
+        /// </summary>
+        /// <value>
+        /// The property identifier.
+        /// </value>
         public Guid PropId { get; set; }
 
+        /// <summary>
+        /// Gets or sets the part.
+        /// </summary>
+        /// <value>
+        /// The part.
+        /// </value>
         public string Part { get; set; }
     }
 }

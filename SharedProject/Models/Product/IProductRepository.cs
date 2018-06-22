@@ -9,7 +9,7 @@ namespace Godsend
     using Godsend.Models;
 
     /// <summary>
-    ///
+    /// 
     /// </summary>
     public interface IProductRepository : IRepository<Product>
     {
@@ -20,20 +20,65 @@ namespace Godsend
         /// <returns></returns>
         ProductWithSuppliers GetProductWithSuppliers(Guid productInfoId);
 
+        /// <summary>
+        /// Categorieses this instance.
+        /// </summary>
+        /// <returns></returns>
         IEnumerable<Category> Categories();
 
+        /// <summary>
+        /// Propertieses the specified identifier.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <returns></returns>
         IEnumerable<object> Properties(Guid id);
 
+        /// <summary>
+        /// Products the properties int.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <returns></returns>
         IEnumerable<object> ProductPropertiesInt(Guid id);
 
+        /// <summary>
+        /// Products the properties decimal.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <returns></returns>
         IEnumerable<object> ProductPropertiesDecimal(Guid id);
 
+        /// <summary>
+        /// Products the properties string.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <returns></returns>
         IEnumerable<object> ProductPropertiesString(Guid id);
 
+        /// <summary>
+        /// Filters the by int.
+        /// </summary>
+        /// <param name="props">The props.</param>
+        /// <param name="quantity">The quantity.</param>
+        /// <param name="skip">The skip.</param>
+        /// <returns></returns>
         IEnumerable<ProductInformation> FilterByInt(IList<IntPropertyInfo> props, int quantity, int skip = 0);
 
+        /// <summary>
+        /// Filters the by decimal.
+        /// </summary>
+        /// <param name="props">The props.</param>
+        /// <param name="quantity">The quantity.</param>
+        /// <param name="skip">The skip.</param>
+        /// <returns></returns>
         IEnumerable<ProductInformation> FilterByDecimal(IList<DecimalPropertyInfo> props, int quantity, int skip = 0);
 
+        /// <summary>
+        /// Filters the by string.
+        /// </summary>
+        /// <param name="props">The props.</param>
+        /// <param name="quantity">The quantity.</param>
+        /// <param name="skip">The skip.</param>
+        /// <returns></returns>
         IEnumerable<ProductInformation> FilterByString(IList<StringPropertyInfo> props, int quantity, int skip = 0);
     }
 }

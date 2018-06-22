@@ -10,7 +10,7 @@ namespace Godsend.Models
     using System.Threading.Tasks;
 
     /// <summary>
-    ///
+    /// 
     /// </summary>
     /// <typeparam name="IEntity">The type of the entity.</typeparam>
     public interface IRepository<IEntity>
@@ -18,6 +18,9 @@ namespace Godsend.Models
         /// <summary>
         /// Gets the entities.
         /// </summary>
+        /// <param name="quantity">The quantity.</param>
+        /// <param name="skip">The skip.</param>
+        /// <returns></returns>
         /// <value>
         /// The entities.
         /// </value>
@@ -26,6 +29,9 @@ namespace Godsend.Models
         /// <summary>
         /// Gets the entities information.
         /// </summary>
+        /// <param name="quantity">The quantity.</param>
+        /// <param name="skip">The skip.</param>
+        /// <returns></returns>
         /// <value>
         /// The entities information.
         /// </value>
@@ -38,6 +44,11 @@ namespace Godsend.Models
         /// <returns></returns>
         IEntity GetEntity(Guid entityId);
 
+        /// <summary>
+        /// Gets the entity by information identifier.
+        /// </summary>
+        /// <param name="infoId">The information identifier.</param>
+        /// <returns></returns>
         IEntity GetEntityByInfoId(Guid infoId);
 
         /// <summary>
