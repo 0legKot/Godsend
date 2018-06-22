@@ -16,6 +16,8 @@ import { ImageService } from '../../services/image.service';
 })
 export class SuppliersComponent implements OnInit {
     type = searchType.supplier;
+    page: number = 1;
+    rpp: number = 10;
     images: { [id: string]: string; } = {};
     searchSuppliers?: SupplierInfo[];
     templateText = 'Waiting for data...';
@@ -33,7 +35,7 @@ export class SuppliersComponent implements OnInit {
     constructor(private repo: RepositoryService, private imageService: ImageService) { }
 
     ngOnInit() {
-        this.repo.getEntities<SupplierInfo>('supplier', res => {
+        this.repo.getEntities<SupplierInfo>('supplier', this.page, this.rpp, res => {
             this.imageService.getPreviewImages(res.map(si => si.id), (smth: any) => this.imagg = smth);
             // for(let p of res) {
             //    this.imageService.getImage(p.id, image => { this.images[p.id] = image; });
@@ -44,11 +46,11 @@ export class SuppliersComponent implements OnInit {
     createSupplier(name: string, address: string) {
         // TODO create interface with oly relevant info
         const sup = new Supplier(new SupplierInfo(name, new Location(address)));
-        this.repo.createOrEditEntity('supplier', sup, () => this.searchInline.doSearch());
+        this.repo.createOrEditEntity('supplier', sup, this.page, this.rpp, () => this.searchInline.doSearch());
     }
 
     deleteSupplier(id: string) {
-        this.repo.deleteEntity('supplier', id, () => this.searchInline.doSearch());
+        this.repo.deleteEntity('supplier', id, this.page, this.rpp, () => this.searchInline.doSearch());
     }
 
     onFound(suppliers: SupplierInfo[]) {

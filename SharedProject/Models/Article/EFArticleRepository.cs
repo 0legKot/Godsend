@@ -175,8 +175,8 @@ This is a pretty simple and straightforward diet you will ever try. It involves 
         /// <value>
         /// The entities.
         /// </value>
-        public IEnumerable<Article> Entities => context.Articles.Include(a => a.Info).ThenInclude(a => a.EFAuthor)
-            .Include(a => a.Info).ThenInclude(a => a.EFTags);
+        public IEnumerable<Article> Entities(int quantity,int skip=0) => context.Articles.Include(a => a.Info).ThenInclude(a => a.EFAuthor)
+            .Include(a => a.Info).ThenInclude(a => a.EFTags).Take(quantity).Skip(skip);
 
         /// <summary>
         /// Gets the entities information.
@@ -184,7 +184,7 @@ This is a pretty simple and straightforward diet you will ever try. It involves 
         /// <value>
         /// The entities information.
         /// </value>
-        public IEnumerable<Information> EntitiesInfo => Entities.Select(a => a.Info).ToArray();
+        public IEnumerable<Information> EntitiesInfo(int quantity, int skip = 0) => Entities(quantity,skip).Select(a => a.Info).ToArray();
 
         /// <summary>
         /// Sets the user asynchronous.
@@ -230,7 +230,8 @@ This is a pretty simple and straightforward diet you will ever try. It involves 
         /// <returns></returns>
         public Article GetEntity(Guid entityId)
         {
-            return Entities.FirstOrDefault(a => a.Id == entityId);
+            return context.Articles.Include(a => a.Info).ThenInclude(a => a.EFAuthor)
+            .Include(a => a.Info).ThenInclude(a => a.EFTags).FirstOrDefault(a => a.Id == entityId);
         }
 
         /// <summary>
@@ -240,7 +241,8 @@ This is a pretty simple and straightforward diet you will ever try. It involves 
         /// <returns></returns>
         public Article GetEntityByInfoId(Guid infoId)
         {
-            return Entities.FirstOrDefault(a => a.Info.Id == infoId);
+            return context.Articles.Include(a => a.Info).ThenInclude(a => a.EFAuthor)
+            .Include(a => a.Info).ThenInclude(a => a.EFTags).FirstOrDefault(a => a.Info.Id == infoId);
         }
 
         /// <summary>

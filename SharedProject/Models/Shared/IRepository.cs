@@ -21,7 +21,7 @@ namespace Godsend.Models
         /// <value>
         /// The entities.
         /// </value>
-        IEnumerable<IEntity> Entities { get; }
+        IEnumerable<IEntity> Entities(int quantity, int skip = 0); 
 
         /// <summary>
         /// Gets the entities information.
@@ -29,7 +29,7 @@ namespace Godsend.Models
         /// <value>
         /// The entities information.
         /// </value>
-        IEnumerable<Information> EntitiesInfo { get; }
+        IEnumerable<Information> EntitiesInfo(int quantity, int skip = 0);
 
         /// <summary>
         /// Gets the entity.
@@ -37,7 +37,7 @@ namespace Godsend.Models
         /// <param name="entityId">The entity identifier.</param>
         /// <returns></returns>
         IEntity GetEntity(Guid entityId);
-
+        IEntity GetEntityByInfoId(Guid infoId);
         /// <summary>
         /// Saves the entity.
         /// </summary>

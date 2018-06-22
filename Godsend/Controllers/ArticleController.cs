@@ -59,7 +59,7 @@ namespace Godsend.Controllers
         [HttpGet("[action]/{infoId:Guid}")]
         public Article Detail(Guid infoId)
         {
-            var article = repository.Entities.FirstOrDefault(x => x.Info.Id == infoId);
+            var article = repository.GetEntityByInfoId(infoId);
             repository.Watch(article);
             return article;
         }

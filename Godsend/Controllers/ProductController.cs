@@ -103,9 +103,9 @@ namespace Godsend.Controllers
         }
 
         [HttpGet("[action]/{id:Guid}")]
-        public IEnumerable<Information> GetByCategory(Guid id)
+        public IEnumerable<Information> GetByCategory(Guid id,int quantity=5,int skip=0)
         {
-            return repository.Entities.Where(x => x.Category?.Id == id).Select(x => x.Info);
+            return repository.Entities(quantity,skip).Where(x => x.Category?.Id == id).Select(x => x.Info);
         }
 
         [HttpGet("[action]/{id:Guid}")]

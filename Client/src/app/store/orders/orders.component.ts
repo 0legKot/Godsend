@@ -12,20 +12,21 @@ import { forEach } from '@angular/router/src/utils/collection';
 export class OrdersComponent implements OnInit {
     orders?: Order[];
     status = orderStatus;
-
+    page: number = 1;
+    rpp: number = 10;
     constructor(private repo: RepositoryService) { }
 
     ngOnInit() {
-        this.repo.getEntities < Order>('order', o => this.orders = o);
+        this.repo.getEntities < Order>('order',this.page,this.rpp, o => this.orders = o);
     }
     cancel(id: string) {
-        this.repo.changeOrderStatus(id, 2, res => this.orders = res);
+        this.repo.changeOrderStatus(id, 2, this.page, this.rpp, res => this.orders = res);
     }
     shipped(id: string) {
-        this.repo.changeOrderStatus(id, 1, res => this.orders = res);
+        this.repo.changeOrderStatus(id, 1, this.page, this.rpp, res => this.orders = res);
     }
     delete(id: string) {
-        this.repo.deleteOrder(id, res => this.orders = res);
+        this.repo.deleteOrder(id, this.page, this.rpp, res => this.orders = res);
     }
     // TODO:rework
     getProdInfo(arDProd: OrderPartProducts[]): string[] {

@@ -16,6 +16,8 @@ import { CategoryService } from '../../services/category.service';
 })
 export class ProductsComponent implements OnInit {
     // private selectedId: string;
+    page: number = 1;
+    rpp: number = 10;
     type = searchType.product;
     images: { [id: string]: string; } = {};
     searchProducts?: ProductInfo[];
@@ -37,11 +39,11 @@ export class ProductsComponent implements OnInit {
     createProduct(descr: string, name: string) {
         // TODO create interface with only relevant info
         const prod = new Product('', new ProductInfo('', descr, name, 0, 0));
-        this.repo.createOrEditEntity('product', prod, () => this.searchInline.doSearch());
+        this.repo.createOrEditEntity('product', prod, this.page, this.rpp, () => this.searchInline.doSearch());
     }
 
     deleteProduct(id: string) {
-        this.repo.deleteEntity('product', id, () => this.searchInline.doSearch());
+        this.repo.deleteEntity('product', id, this.page, this.rpp, () => this.searchInline.doSearch());
     }
 
     onFound(products: ProductInfo[]) {
@@ -53,11 +55,8 @@ export class ProductsComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.repo.getEntities<ProductInfo>('product', res => {
+        this.repo.getEntities<ProductInfo>('product', this.page, this.rpp, res => {
             this.imageService.getPreviewImages(res.map(pi => pi.id), (smth: any) => this.imagg = smth);
-            /*for (let p of res) {
-                this.imageService.getImage(p.id, image => { this.images[p.id] = image; });
-            }*/
         });
     }
 

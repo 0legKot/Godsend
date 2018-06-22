@@ -18,6 +18,8 @@ var SuppliersComponent = /** @class */ (function () {
         this.repo = repo;
         this.imageService = imageService;
         this.type = searchType.supplier;
+        this.page = 1;
+        this.rpp = 10;
         this.images = {};
         this.templateText = 'Waiting for data...';
         this.imagg = {};
@@ -35,7 +37,7 @@ var SuppliersComponent = /** @class */ (function () {
     };
     SuppliersComponent.prototype.ngOnInit = function () {
         var _this = this;
-        this.repo.getEntities('supplier', function (res) {
+        this.repo.getEntities('supplier', this.page, this.rpp, function (res) {
             _this.imageService.getPreviewImages(res.map(function (si) { return si.id; }), function (smth) { return _this.imagg = smth; });
             // for(let p of res) {
             //    this.imageService.getImage(p.id, image => { this.images[p.id] = image; });
@@ -46,11 +48,11 @@ var SuppliersComponent = /** @class */ (function () {
         var _this = this;
         // TODO create interface with oly relevant info
         var sup = new Supplier(new SupplierInfo(name, new Location(address)));
-        this.repo.createOrEditEntity('supplier', sup, function () { return _this.searchInline.doSearch(); });
+        this.repo.createOrEditEntity('supplier', sup, this.page, this.rpp, function () { return _this.searchInline.doSearch(); });
     };
     SuppliersComponent.prototype.deleteSupplier = function (id) {
         var _this = this;
-        this.repo.deleteEntity('supplier', id, function () { return _this.searchInline.doSearch(); });
+        this.repo.deleteEntity('supplier', id, this.page, this.rpp, function () { return _this.searchInline.doSearch(); });
     };
     SuppliersComponent.prototype.onFound = function (suppliers) {
         this.templateText = 'Not found';

@@ -13,11 +13,15 @@ import { Product, ProductInfo } from '../../models/product.model';
 import { searchType } from '../search/search.service';
 import { SearchInlineComponent } from '../search/search-inline.component';
 import { ImageService } from '../../services/image.service';
+import { CategoryService } from '../../services/category.service';
 var ProductsComponent = /** @class */ (function () {
-    function ProductsComponent(repo, imageService) {
+    function ProductsComponent(repo, imageService, cattt) {
         this.repo = repo;
         this.imageService = imageService;
+        this.cattt = cattt;
         // private selectedId: string;
+        this.page = 1;
+        this.rpp = 10;
         this.type = searchType.product;
         this.images = {};
         this.templateText = 'Waiting for data...';
@@ -38,11 +42,11 @@ var ProductsComponent = /** @class */ (function () {
         var _this = this;
         // TODO create interface with only relevant info
         var prod = new Product('', new ProductInfo('', descr, name, 0, 0));
-        this.repo.createOrEditEntity('product', prod, function () { return _this.searchInline.doSearch(); });
+        this.repo.createOrEditEntity('product', prod, this.page, this.rpp, function () { return _this.searchInline.doSearch(); });
     };
     ProductsComponent.prototype.deleteProduct = function (id) {
         var _this = this;
-        this.repo.deleteEntity('product', id, function () { return _this.searchInline.doSearch(); });
+        this.repo.deleteEntity('product', id, this.page, this.rpp, function () { return _this.searchInline.doSearch(); });
     };
     ProductsComponent.prototype.onFound = function (products) {
         this.templateText = 'Not found';
@@ -50,20 +54,15 @@ var ProductsComponent = /** @class */ (function () {
     };
     ProductsComponent.prototype.ngOnInit = function () {
         var _this = this;
-        this.repo.getEntities('product', function (res) {
+        this.repo.getEntities('product', this.page, this.rpp, function (res) {
             _this.imageService.getPreviewImages(res.map(function (pi) { return pi.id; }), function (smth) { return _this.imagg = smth; });
-            /*for (let p of res) {
-                this.imageService.getImage(p.id, image => { this.images[p.id] = image; });
-            }*/
         });
     };
     ProductsComponent.prototype.getCategories = function () {
-        var _this = this;
-        this.repo.getCategories(function (cats) { return _this.categories = cats; });
+        this.categories = this.cattt.cats ? this.cattt.cats.map(function (cws) { return cws.cat; }) : [];
     };
     ProductsComponent.prototype.getSubcategories = function (category) {
-        var _this = this;
-        this.repo.getSubcategories(category, function (cats) { return _this.categories = cats; });
+        this.categories = this.cattt.getSubcategories(category);
     };
     ProductsComponent.prototype.getByCategory = function (category) {
         this.repo.getByCategory(category);
@@ -78,7 +77,7 @@ var ProductsComponent = /** @class */ (function () {
             templateUrl: './products.component.html',
             styleUrls: ['./products.component.css']
         }),
-        __metadata("design:paramtypes", [RepositoryService, ImageService])
+        __metadata("design:paramtypes", [RepositoryService, ImageService, CategoryService])
     ], ProductsComponent);
     return ProductsComponent;
 }());

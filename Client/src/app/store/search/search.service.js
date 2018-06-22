@@ -18,21 +18,23 @@ export var searchType = {
 var SearchService = /** @class */ (function () {
     function SearchService(data) {
         this.data = data;
+        this.page = 1;
+        this.rpp = 15;
     }
     SearchService.prototype.findProducts = function (term, fn) {
-        this.data.sendRequest('get', 'api/search/products/' + term)
+        this.data.sendRequest('get', 'api/search/products/' + term + '/' + this.page + '/' + this.rpp)
             .subscribe(function (products) { return fn(products); });
     };
     SearchService.prototype.findSuppliers = function (term, fn) {
-        this.data.sendRequest('get', 'api/search/suppliers/' + term)
+        this.data.sendRequest('get', 'api/search/suppliers/' + term + '/' + this.page + '/' + this.rpp)
             .subscribe(function (suppliers) { return fn(suppliers); });
     };
     SearchService.prototype.findAll = function (term, fn) {
-        this.data.sendRequest('get', 'api/search/all/' + term)
+        this.data.sendRequest('get', 'api/search/all/' + term + '/' + this.page + '/' + this.rpp)
             .subscribe(function (result) { return fn(result); });
     };
     SearchService.prototype.findByType = function (type, term, fn) {
-        this.data.sendRequest('get', 'api/search/type/' + type + '/' + term)
+        this.data.sendRequest('get', 'api/search/type/' + type + '/' + term + '/' + this.page + '/' + this.rpp)
             .subscribe(function (items) { return fn(items); });
     };
     SearchService = __decorate([

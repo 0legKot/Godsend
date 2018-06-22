@@ -99,25 +99,25 @@ export class RepositoryService {
         }
     }
 
-    changeOrderStatus(id: string, status: number, fn?: ((_: Order[]) => any)) {
+    changeOrderStatus(id: string, status: number, page: number, rpp: number, fn?: ((_: Order[]) => any)) {
         this.data.sendRequest<Order[]>('patch', ordersUrl + '/changeStatus/' + id + '/' + status)
             .subscribe(response => {
-                this.getEntities<Order>('order', fn);
+                this.getEntities<Order>('order', page, rpp, fn);
             });
     }
 
-    deleteOrder(id: string, fn?: ((_: Order[]) => any)) {
+    deleteOrder(id: string, page: number, rpp: number, fn?: ((_: Order[]) => any)) {
         this.data.sendRequest<Order[]>('delete', ordersUrl + '/delete/' + id)
             .subscribe(response => {
-                this.getEntities<Order>('order', fn);
+                this.getEntities<Order>('order', page, rpp, fn);
             });
     }
 
-    getEntities<T>(clas: supportedClass, fn?: (_: T[]) => any) {
+    getEntities<T>(clas: supportedClass, page: number,rpp:number, fn?: (_: T[]) => any) {
         const url = this.getUrl(clas);
 
-        const page = 1;
-        const rpp = 15;
+        //const page = 1;
+        //const rpp = 15;
 
         this.data.sendRequest<T[]>('get', url + '/all/' + page + '/' + rpp)
             .subscribe(response => {
@@ -135,7 +135,6 @@ export class RepositoryService {
 
         const cart = new Cart(
             cartView.discreteItems.map(opdv => new OrderPartDiscreteSend(opdv.quantity, opdv.product.id, opdv.supplier.id))
-            // cartView.weightedItems.map(opwv => new OrderPartWeightedSend(opwv.weight, opwv.product.id, opwv.supplier.id))
         );
 
         this.data.sendRequest<Order>('post', ordersUrl + '/createOrUpdate', cart)
@@ -144,14 +143,14 @@ export class RepositoryService {
             });
     }
 
-    createOrEditEntity<T extends IEntity<IInformation>>(clas: supportedClass, entity: T, fn?: (_: IInformation) => any) {
+    createOrEditEntity<T extends IEntity<IInformation>>(clas: supportedClass, entity: T, page: number, rpp: number, fn?: (_: IInformation) => any) {
         const createEditData = entity.toCreateEdit();
         const url = this.getUrl(clas);
 
         this.data.sendRequest<string>('post', url + '/CreateOrUpdate', createEditData)
             .subscribe(response => {
                 entity.info.id = response;
-                this.getEntities(clas);
+                this.getEntities(clas, page, rpp);
                 if (fn) {
                     fn(entity.info);
                 }
@@ -160,29 +159,29 @@ export class RepositoryService {
     }
 
     // deprecated?
-    replaceProduct(prod: Product) {
+    replaceProduct(prod: Product, page: number, rpp: number) {
         const data = {
             name: prod.info.name,
             description: prod.info.description
         };
         this.data.sendRequest<null>('put', productsUrl + '/' + prod.id, data)
-            .subscribe(response => this.getEntities < Product>('product'));
+            .subscribe(response => this.getEntities<Product>('product', page, rpp));
     }
 
-    updateEntity<T>(clas: supportedClass, id: string, changes: Map<string, any>) {
+    updateEntity<T>(clas: supportedClass, id: string, changes: Map<string, any>, page: number, rpp: number) {
         const url = this.getUrl(clas);
         const patch: any[] = [];
         changes.forEach((value, key) =>
             patch.push({ op: 'replace', path: key, value: value }));
 
         this.data.sendRequest<null>('patch', url + '/' + id, patch)
-            .subscribe(response => this.getEntities<T>(clas));
+            .subscribe(response => this.getEntities<T>(clas,page,rpp));
     }
 
-    deleteEntity(clas: supportedClass, id: string, fn?: () => any) {
+    deleteEntity(clas: supportedClass, id: string, page: number, rpp: number, fn?: () => any) {
         const url = this.getUrl(clas);
         this.data.sendRequest<null>('delete', url + '/delete/' + id)
-            .subscribe(response => { this.getEntities<null>(clas); if (fn) { fn(); } });
+            .subscribe(response => { this.getEntities<null>(clas, page, rpp); if (fn) { fn(); } });
     }
 
 

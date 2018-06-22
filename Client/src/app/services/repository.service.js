@@ -94,24 +94,26 @@ var RepositoryService = /** @class */ (function () {
             });
         }
     };
-    RepositoryService.prototype.changeOrderStatus = function (id, status, fn) {
+    RepositoryService.prototype.changeOrderStatus = function (id, status, page, rpp, fn) {
         var _this = this;
         this.data.sendRequest('patch', ordersUrl + '/changeStatus/' + id + '/' + status)
             .subscribe(function (response) {
-            _this.getEntities('order', fn);
+            _this.getEntities('order', page, rpp, fn);
         });
     };
-    RepositoryService.prototype.deleteOrder = function (id, fn) {
+    RepositoryService.prototype.deleteOrder = function (id, page, rpp, fn) {
         var _this = this;
         this.data.sendRequest('delete', ordersUrl + '/delete/' + id)
             .subscribe(function (response) {
-            _this.getEntities('order', fn);
+            _this.getEntities('order', page, rpp, fn);
         });
     };
-    RepositoryService.prototype.getEntities = function (clas, fn) {
+    RepositoryService.prototype.getEntities = function (clas, page, rpp, fn) {
         var _this = this;
         var url = this.getUrl(clas);
-        this.data.sendRequest('get', url + '/all')
+        //const page = 1;
+        //const rpp = 15;
+        this.data.sendRequest('get', url + '/all/' + page + '/' + rpp)
             .subscribe(function (response) {
             if (fn) {
                 fn(response);
@@ -123,38 +125,36 @@ var RepositoryService = /** @class */ (function () {
     RepositoryService.prototype.createOrder = function (cartView) {
         var _this = this;
         console.dir(cartView);
-        var cart = new Cart(cartView.discreteItems.map(function (opdv) { return new OrderPartDiscreteSend(opdv.quantity, opdv.product.id, opdv.supplier.id); })
-        // cartView.weightedItems.map(opwv => new OrderPartWeightedSend(opwv.weight, opwv.product.id, opwv.supplier.id))
-        );
+        var cart = new Cart(cartView.discreteItems.map(function (opdv) { return new OrderPartDiscreteSend(opdv.quantity, opdv.product.id, opdv.supplier.id); }));
         this.data.sendRequest('post', ordersUrl + '/createOrUpdate', cart)
             .subscribe(function (response) {
             _this.orders.push(response);
         });
     };
-    RepositoryService.prototype.createOrEditEntity = function (clas, entity, fn) {
+    RepositoryService.prototype.createOrEditEntity = function (clas, entity, page, rpp, fn) {
         var _this = this;
         var createEditData = entity.toCreateEdit();
         var url = this.getUrl(clas);
         this.data.sendRequest('post', url + '/CreateOrUpdate', createEditData)
             .subscribe(function (response) {
             entity.info.id = response;
-            _this.getEntities(clas);
+            _this.getEntities(clas, page, rpp);
             if (fn) {
                 fn(entity.info);
             }
         });
     };
     // deprecated?
-    RepositoryService.prototype.replaceProduct = function (prod) {
+    RepositoryService.prototype.replaceProduct = function (prod, page, rpp) {
         var _this = this;
         var data = {
             name: prod.info.name,
             description: prod.info.description
         };
         this.data.sendRequest('put', productsUrl + '/' + prod.id, data)
-            .subscribe(function (response) { return _this.getEntities('product'); });
+            .subscribe(function (response) { return _this.getEntities('product', page, rpp); });
     };
-    RepositoryService.prototype.updateEntity = function (clas, id, changes) {
+    RepositoryService.prototype.updateEntity = function (clas, id, changes, page, rpp) {
         var _this = this;
         var url = this.getUrl(clas);
         var patch = [];
@@ -162,13 +162,13 @@ var RepositoryService = /** @class */ (function () {
             return patch.push({ op: 'replace', path: key, value: value });
         });
         this.data.sendRequest('patch', url + '/' + id, patch)
-            .subscribe(function (response) { return _this.getEntities(clas); });
+            .subscribe(function (response) { return _this.getEntities(clas, page, rpp); });
     };
-    RepositoryService.prototype.deleteEntity = function (clas, id, fn) {
+    RepositoryService.prototype.deleteEntity = function (clas, id, page, rpp, fn) {
         var _this = this;
         var url = this.getUrl(clas);
         this.data.sendRequest('delete', url + '/delete/' + id)
-            .subscribe(function (response) { _this.getEntities(clas); if (fn) {
+            .subscribe(function (response) { _this.getEntities(clas, page, rpp); if (fn) {
             fn();
         } });
     };
@@ -179,11 +179,6 @@ var RepositoryService = /** @class */ (function () {
     RepositoryService.prototype.getSessionData = function (dataType) {
         return this.data.sendRequest('get', '/api/session/' + dataType);
     };
-    // CATEGORIES
-    RepositoryService.prototype.getCategories = function (fn) {
-        this.data.sendRequest('get', 'api/product/getAllCategories')
-            .subscribe(function (cats) { return fn(cats); });
-    };
     RepositoryService.prototype.getByCategory = function (cat, fn) {
         var _this = this;
         this.data.sendRequest('get', 'api/product/getByCategory/' + cat.id)
@@ -192,10 +187,6 @@ var RepositoryService = /** @class */ (function () {
             if (fn)
                 fn(products);
         });
-    };
-    RepositoryService.prototype.getSubcategories = function (cat, fn) {
-        this.data.sendRequest('get', 'api/product/getSubCategories/' + cat.id)
-            .subscribe(function (categories) { return fn(categories); });
     };
     RepositoryService = __decorate([
         Injectable({

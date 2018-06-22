@@ -13,6 +13,8 @@ import { ArticleInfo, Article } from '../../models/article.model';
 var ArticlesComponent = /** @class */ (function () {
     function ArticlesComponent(repo) {
         this.repo = repo;
+        this.page = 1;
+        this.rpp = 10;
     }
     Object.defineProperty(ArticlesComponent.prototype, "articles", {
         get: function () {
@@ -22,14 +24,14 @@ var ArticlesComponent = /** @class */ (function () {
         configurable: true
     });
     ArticlesComponent.prototype.ngOnInit = function () {
-        this.repo.getEntities('article');
+        this.repo.getEntities('article', this.page, this.rpp);
     };
     ArticlesComponent.prototype.createArticle = function (content, name, tags) {
         var art = new Article(content, new ArticleInfo(name, tags));
-        this.repo.createOrEditEntity('article', art);
+        this.repo.createOrEditEntity('article', art, this.page, this.rpp);
     };
     ArticlesComponent.prototype.deleteArticle = function (id) {
-        this.repo.deleteEntity('article', id);
+        this.repo.deleteEntity('article', id, this.page, this.rpp);
     };
     ArticlesComponent = __decorate([
         Component({

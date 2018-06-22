@@ -59,8 +59,8 @@ namespace Godsend.Controllers
         /// Alls this instance.
         /// </summary>
         /// <returns></returns>
-        [HttpGet("[action]")]
-        public IEnumerable<Order> All()
+        [HttpGet("[action]/{page:int}/{rpp:int}")]
+        public IEnumerable<Order> All(int page,int rpp)
         {
             return repository.Orders;
         }
@@ -108,17 +108,10 @@ namespace Godsend.Controllers
                         ProductId = item.ProductId,
 
                         // todo validate
-                        SupplierId = item.SupplierId == Guid.Empty ? supRepo.Entities.FirstOrDefault().Id : item.SupplierId,
+                        SupplierId = item.SupplierId == Guid.Empty ? throw new ArgumentException() : item.SupplierId,
                         Quantity = item.Quantity,
                         Multiplier = 10
                     }).ToArray(),
-                    ////WeightedItems = data.WeightedItems?.Select(item => new OrderPartWeighted
-                    ////{
-                    ////    Id = Guid.NewGuid(),
-                    ////    ProductId = item.ProductId,
-                    ////    SupplierId = item.SupplierId == Guid.Empty ? supRepo.Entities.FirstOrDefault().Id : item.SupplierId,
-                    ////    Weight = item.Weight
-                    ////}).ToArray(),
                     Id = Guid.NewGuid(),
                     Status = Status.Processing
                 };

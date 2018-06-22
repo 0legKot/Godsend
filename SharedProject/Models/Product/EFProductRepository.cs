@@ -278,22 +278,28 @@ namespace Godsend
 
                 for (int i = 0; i < context.Products.Count(); ++i)
                 {
-                    context.LinkProductsSuppliers.Add(
+                    context.LinkProductsSuppliers.AddRange(
                         new LinkProductsSuppliers
                         {
                             Product = products[i],
                             Supplier = suppliers[i % context.Suppliers.Count()],
                             Price = (decimal)((i + 1) * 100.1)
+                        },
+                        new LinkProductsSuppliers
+                        {
+                            Product = products[i],
+                            Supplier = suppliers[(i+2) % context.Suppliers.Count()],
+                            Price = (decimal)((i + 3) * 100.1)
                         });
                 }
 
-                context.LinkProductsSuppliers.Add(
-                new LinkProductsSuppliers
-                {
-                    Product = products[1],
-                    Supplier = suppliers[0],
-                    Price = 50
-                });
+                //context.LinkProductsSuppliers.Add(
+                //new LinkProductsSuppliers
+                //{
+                //    Product = products[1],
+                //    Supplier = suppliers[0],
+                //    Price = 50
+                //});
                 context.SaveChanges();
             }
         }
@@ -304,7 +310,7 @@ namespace Godsend
         /// <value>
         /// The entities.
         /// </value>
-        public IEnumerable<Product> Entities => GetProductsFromContext();
+        public IEnumerable<Product> Entities(int quantity,int skip=0) => GetProductsFromContext(quantity,skip);
 
         /// <summary>
         /// Gets the entities information.
@@ -312,7 +318,7 @@ namespace Godsend
         /// <value>
         /// The entities information.
         /// </value>
-        public IEnumerable<Information> EntitiesInfo => Entities.Select(p => p.Info).ToArray();
+        public IEnumerable<Information> EntitiesInfo(int quantity, int skip = 0) => Entities(quantity,skip).Select(p => p.Info).ToArray();
 
         /// <summary>
         /// Saves the entity.
@@ -320,8 +326,7 @@ namespace Godsend
         /// <param name="entity">The entity.</param>
         public void SaveEntity(Product entity)
         {
-            Product dbEntry = GetProductsFromContext()
-                .FirstOrDefault(p => p.Id == entity.Id);
+            Product dbEntry = context.Products.Include(p => p.Info).Include(p => p.Category).FirstOrDefault(p => p.Id == entity.Id);
             if (dbEntry != null)
             {
                 // TODO: implement IClonable
@@ -343,8 +348,7 @@ namespace Godsend
         /// <param name="infoId">The information identifier.</param>
         public void DeleteEntity(Guid infoId)
         {
-            Product dbEntry = GetProductsFromContext()
-               .FirstOrDefault(p => p.Info.Id == infoId);
+            Product dbEntry = context.Products.Include(p => p.Info).Include(p => p.Category).FirstOrDefault(p => p.Info.Id == infoId);
             if (dbEntry != null)
             {
                 context.Products.Remove(dbEntry);
@@ -371,7 +375,7 @@ namespace Godsend
         /// <returns></returns>
         public Product GetEntity(Guid entityId)
         {
-            return GetProductsFromContext().Include(p => p.Info)/*.Include(p=>p.CharacteristicsList)*/.FirstOrDefault(p => p.Id == entityId);
+            return context.Products.Include(p => p.Info).Include(p => p.Category).FirstOrDefault(p => p.Id == entityId);
         }
 
         /// <summary>
@@ -397,31 +401,32 @@ namespace Godsend
             var tmp = context.LinkProductsSuppliers
                     .Include(ps => ps.Product)
                     .ThenInclude(s => s.Info)
-                    //.Include(ps => ps.Product)
-                    //.ThenInclude(p => p.CharacteristicsList)
                     .Include(ps => ps.Supplier)
                     .ThenInclude(s => s.Info)
                     .Include(ps => ps.Supplier)
                     .ThenInclude(x => x.Info.Location)
                     .ToArray();
 
-            return new ProductWithSuppliers
+            var res=new ProductWithSuppliers
             {
-                Product = GetProductsFromContext().FirstOrDefault(p => p.Info.Id == productInfoId),
+                Product = GetEntityByInfoId(productInfoId),
                 Suppliers = tmp
                     .Where(link => link.Product.Info.Id == productInfoId)
                     .Select(link => new SupplierAndPrice { Supplier = link.Supplier, Price = link.Price })
                     .ToArray()
             };
+            return res;
         }
 
         /// <summary>
-        /// Gets the products from context.
+        /// Gets products from context.
         /// </summary>
-        /// <returns></returns>
-        private IQueryable<Product> GetProductsFromContext()
+        /// <returns>
+        /// {quantity} products after {skip} skipped
+        /// </returns>
+        private IQueryable<Product> GetProductsFromContext(int quantity,int skip=0)
         {
-            return context.Products.OfType<Product>().Include(p => p.Info).Include(p => p.Category)/*.Include(p => p.CharacteristicsList)*/;
+            return context.Products.Include(p => p.Info).Include(p => p.Category).Skip(skip).Take(quantity);
         }
 
         public IEnumerable<Category> Categories()
@@ -464,6 +469,11 @@ namespace Godsend
                 .Include(x => x.Property)
                 //.ThenInclude(x => x.RelatedCategory)
                 .Where(x => x.Product.Info.Id == id).Select(p => new { p.Property.Id, p.Property.Name, p.Value });
+        }
+
+        public Product GetEntityByInfoId(Guid infoId)
+        {
+            return context.Products.Include(p => p.Info).Include(p => p.Category).FirstOrDefault(p=>p.Info.Id==infoId);
         }
     }
 }

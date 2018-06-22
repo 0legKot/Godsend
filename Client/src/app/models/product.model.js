@@ -54,4 +54,12 @@ var Category = /** @class */ (function () {
     return Category;
 }());
 export { Category };
+var CatsWithSubs = /** @class */ (function () {
+    function CatsWithSubs(cat, subs) {
+        this.cat = cat;
+        this.subs = subs;
+    }
+    return CatsWithSubs;
+}());
+export { CatsWithSubs };
 //# sourceMappingURL=product.model.js.map
