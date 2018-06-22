@@ -55,7 +55,7 @@ export class ArticleDetailComponent implements OnInit {
 
     save() {
         if (this.article) {
-            this.service.createOrEditEntity('article', Article.EnsureType(this.article));
+            this.service.createOrEditEntity('article', Article.EnsureType(this.article),1,10);
         }
 
         this.edit = false;
