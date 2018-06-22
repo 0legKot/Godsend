@@ -41,8 +41,6 @@ export class CategoryService {
         const result: CatsWithSubs[] = [];
 
         while (queue.length > 0) {
-            console.log('queue');
-            console.dir(queue);
             const cur = queue.shift();
             if (cur && cur.subs) {
                 queue.push(...cur.subs);
