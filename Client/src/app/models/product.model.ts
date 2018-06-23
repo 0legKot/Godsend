@@ -60,3 +60,81 @@ export class CatsWithSubs {
         public subs: CatsWithSubs[]
     ) { }
 }
+
+export class FilterInfo {
+    decimalProps?: DecimalPropertyInfo[];
+    intProps?: IntPropertyInfo[];
+    stringProps?: StringPropertyInfo[];
+}
+
+export class DecimalPropertyInfo {
+    constructor(
+        public propId: string,
+        public left: number,
+        public right: number
+    ) { }
+}
+
+export class IntPropertyInfo {
+    constructor(
+        public propId: string,
+        public left: number,
+        public right: number
+    ) { }
+}
+
+export class StringPropertyInfo {
+    constructor(
+        public propId: string,
+        public part: string
+    ) { }
+}
+
+export class FilterInfoView {
+    decimalProps?: DecimalPropertyInfoView[];
+    intProps?: IntPropertyInfoView[];
+    stringProps?: StringPropertyInfoView[];
+}
+
+export class DecimalPropertyInfoView {
+    left: number = 0;
+    right: number = 0;
+
+    constructor(
+        public propId: string,
+        public name: string
+    ) { }
+}
+
+export class IntPropertyInfoView {
+    left: number = 0;
+    right: number = 0;
+
+    constructor(
+        public propId: string,
+        public name: string
+    ) { }
+}
+
+export class StringPropertyInfoView {
+    part: string = '';
+
+    constructor(
+        public propId: string,
+        public name: string
+    ) { }
+}
+
+export class Property {
+    id: string = '';
+    name: string = '';
+    type: number = -1;
+}
+
+export const propertyType: allowedPropertyTypes[] = [
+    'int', //0
+    'string', //1
+    'decimal' //2
+]
+
+export type allowedPropertyTypes = 'int' | 'string' | 'decimal';

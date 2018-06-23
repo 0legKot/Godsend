@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { DataService } from './data.service';
-import { CatsWithSubs, Category } from '../models/product.model';
+import { CatsWithSubs, Category, FilterInfo, DecimalPropertyInfo, DecimalPropertyInfoView, StringPropertyInfoView, IntPropertyInfoView, FilterInfoView, propertyType, Property } from '../models/product.model';
+import { last } from 'rxjs/operators';
 
 @Injectable({
     providedIn: 'root'
@@ -27,6 +28,8 @@ export class CategoryService {
         }        
     }
 
+
+
     getSubcategories(cat: Category): Category[] {
         if (this.flatCats) {
             const tmp = this.flatCats.find(c => c.cat == cat);
@@ -34,6 +37,19 @@ export class CategoryService {
             if (tmp) return tmp.subs.map(c => c.cat);
         }
         return [];
+    }
+
+    getCategoryProps(cat: Category, fn: (_: FilterInfoView) => any) {
+        this.data.sendRequest<Property[]>('get', 'api/product/getPropertiesByCategory/' + cat.id)
+            .subscribe(props => {
+                const filter = new FilterInfoView();
+
+                filter.decimalProps = props.filter(prop => propertyType[prop.type] == 'decimal').map(prop => new DecimalPropertyInfoView(prop.id, prop.name));
+                filter.stringProps = props.filter(prop => propertyType[prop.type] == 'string').map(prop => new StringPropertyInfoView(prop.id, prop.name));
+                filter.intProps = props.filter(prop => propertyType[prop.type] == 'int').map(prop => new IntPropertyInfoView(prop.id, prop.name));
+
+                fn(filter);
+            });
     }
 
     private flatten(cats: CatsWithSubs[]): CatsWithSubs[] {
@@ -50,4 +66,7 @@ export class CategoryService {
 
         return result;
     }
+
+
 }
+

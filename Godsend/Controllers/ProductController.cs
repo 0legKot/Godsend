@@ -142,27 +142,36 @@ namespace Godsend.Controllers
         }
 
         /// <summary>
-        /// Gets the by category.
+        /// Gets products by category.
         /// </summary>
         /// <param name="id">The identifier.</param>
         /// <param name="quantity">The quantity.</param>
         /// <param name="skip">The skip.</param>
-        /// <returns></returns>
+        /// <returns><see cref="IEnumerable{ProductInformation}"/></returns>
         [HttpGet("[action]/{id:Guid}")]
         public IEnumerable<Information> GetByCategory(Guid id, int quantity = 5, int skip = 0)
         {
             return repository.Entities(quantity, skip).Where(x => x.Category?.Id == id).Select(x => x.Info);
         }
 
+        [HttpPost("[action]")]
+        public IEnumerable<Information> GetByFilter([FromBody]FilterInfo filter, int quantity = 5, int skip = 0)
+        {
+            // todo
+            return repository.EntitiesInfo(quantity, skip);
+        }
+
+
         /// <summary>
         /// Gets the properties by category.
         /// </summary>
-        /// <param name="id">The identifier.</param>
+        /// <param name="categoryId">The identifier.</param>
         /// <returns></returns>
-        [HttpGet("[action]/{id:Guid}")]
-        public IEnumerable<object> GetPropertiesByCategory(Guid id)
+        [HttpGet("[action]/{categoryId:Guid}")]
+        public IEnumerable<object> GetPropertiesByCategory(Guid categoryId)
         {
-            return (repository as IProductRepository).Properties(id);
+            var tmp = (repository as IProductRepository).Properties(categoryId);
+            return tmp;
         }
 
         /// <summary>
@@ -219,5 +228,12 @@ namespace Godsend.Controllers
 
             cur.Subs = subs;
         }
+    }
+
+    public class FilterInfo
+    {
+        public IEnumerable<DecimalPropertyInfo> DecimalProps { get; set; }
+        public IEnumerable<StringPropertyInfo> StringProps { get; set; }
+        public IEnumerable<IntPropertyInfo> IntProps { get; set; }
     }
 }

@@ -206,13 +206,13 @@ namespace Godsend
         }
 
         /// <summary>
-        /// Propertieses the specified identifier.
+        /// Get properties related to specified <see cref="Category"/>
         /// </summary>
-        /// <param name="id">The identifier.</param>
+        /// <param name="categoryId">Category id</param>
         /// <returns></returns>
-        public IEnumerable<object> Properties(Guid id)
+        public IEnumerable<object> Properties(Guid categoryId)
         {
-            return context.Properties.Include(x => x.RelatedCategory).Where(x => x.RelatedCategory.Id == id).Select(x => new { x.Id, x.Name, x.Type });
+            return context.Properties.Include(x => x.RelatedCategory).Where(x => x.RelatedCategory.Id == categoryId).Select(x => new { x.Id, x.Name, x.Type });
         }
 
         /// <summary>

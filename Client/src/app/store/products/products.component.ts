@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 
 import { RepositoryService } from '../../services/repository.service';
-import { Product, ProductInfo, Category, CatsWithSubs } from '../../models/product.model';
+import { Product, ProductInfo, Category, CatsWithSubs, FilterInfo, FilterInfoView, DecimalPropertyInfo, StringPropertyInfo, IntPropertyInfo } from '../../models/product.model';
 import { searchType } from '../search/search.service';
 import { SearchInlineComponent } from '../search/search-inline.component';
 import { ImageService } from '../../services/image.service';
@@ -61,6 +61,7 @@ export class ProductsComponent implements OnInit {
     }
 
     categories?: Category[];
+    filter?: FilterInfoView;
 
     getCategories(): void {
         this.categories = this.cattt.cats ? this.cattt.cats.map(cws => cws.cat) : [];
@@ -68,9 +69,33 @@ export class ProductsComponent implements OnInit {
 
     getSubcategories(category: Category): void {
         this.categories = this.cattt.getSubcategories(category);
+        this.getCategoryProps(category);
     }
 
     getByCategory(category: Category): void {
         this.repo.getByCategory(category);
     }
+
+    getByFilter(): void {
+        if (this.filter) {
+            const trimmedFilter = new FilterInfo();
+
+            if (this.filter.stringProps) trimmedFilter.stringProps = this.filter.stringProps.filter(prop => prop.part !== '').map(prop => new StringPropertyInfo(prop.propId, prop.part));
+            if (this.filter.intProps) trimmedFilter.intProps = this.filter.intProps.filter(prop => prop.left != 0 || prop.right != 0).map(prop => new IntPropertyInfo(prop.propId, prop.left, prop.right));
+            if (this.filter.decimalProps) trimmedFilter.decimalProps = this.filter.decimalProps.filter(prop => prop.left != 0 || prop.right != 0).map(prop => new DecimalPropertyInfo(prop.propId, prop.left, prop.right));
+
+            this.repo.getByFilter(trimmedFilter);
+        }
+
+       
+    }
+
+    getCategoryProps(category: Category): void {
+        this.cattt.getCategoryProps(category, filter => this.filter = filter)
+    }
+
+    setCurrentCategory(category: Category): void {
+        this.getCategoryProps(category);
+    }
 }
+

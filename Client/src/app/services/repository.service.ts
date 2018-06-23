@@ -1,4 +1,4 @@
-import { Product, ProductInfo, Category, CatsWithSubs } from '../models/product.model';
+import { Product, ProductInfo, Category, CatsWithSubs, FilterInfo } from '../models/product.model';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { DataService } from './data.service';
@@ -198,6 +198,14 @@ export class RepositoryService {
         this.data.sendRequest<ProductInfo[]>('get', 'api/product/getByCategory/' + cat.id)
             .subscribe(products => {
                 this.products = products;
+                if (fn) fn(products);
+            })
+    }
+
+    getByFilter(filter: FilterInfo, fn?: (_: ProductInfo[]) => any): void {
+        this.data.sendRequest<ProductInfo[]>('post', 'api/product/getByFilter', filter)
+            .subscribe(products => {
+                this.product = products;
                 if (fn) fn(products);
             })
     }

@@ -6,8 +6,53 @@
         <span>{{ category.name }}</span>
         <button (click)="getSubcategories(category)">Subcategories</button>
         <button (click)="getByCategory(category)">By category</button>
+        <button (click)="setCurrentCategory(category)">Set for filter</button>
     </div>
 </div>
+
+<div *ngIf="filter">
+    <div *ngIf="filter.stringProps?.length > 0">
+        <label>String props</label>
+        <div *ngFor="let prop of filter.stringProps">
+            <label> {{ prop.name }} </label>
+            <input [(ngModel)]="prop.part" />
+        </div>
+    </div>
+    
+    <div *ngIf="filter.decimalProps?.length > 0">
+        <label>Decimal props</label>
+        <div *ngFor="let prop of filter.decimalProps">
+            <label> {{ prop.name }} </label>
+            <div>
+                From
+                <input type="number" [(ngModel)]="prop.left" />
+            </div>
+            <div>
+                To
+                <input type="number" [(ngModel)]="prop.right" />
+            </div>
+        </div>
+    </div>
+    
+    <div *ngIf="filter.intProps?.length > 0">
+        <label>Int props</label>
+        <div *ngFor="let prop of filter.intProps">
+            <label> {{ prop.name }} </label>
+            <div>
+                From
+                <input type="number" [(ngModel)]="prop.left" />
+            </div>
+            <div>
+                To
+                <input type="number" [(ngModel)]="prop.right" />
+            </div>
+        </div>
+    </div>
+
+    <button (click)="getByFilter()">Filter</button>
+
+</div>
+
 <br />
 <a (click)="createProduct('it is test product','Test product2')">Create!!</a>
 <br />
