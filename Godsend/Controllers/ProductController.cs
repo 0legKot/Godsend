@@ -54,7 +54,7 @@ namespace Godsend.Controllers
         }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         public class CatWithSubs
         {
@@ -125,6 +125,7 @@ namespace Godsend.Controllers
         }
 
         // Low perfomance maybe
+
         /// <summary>
         /// Gets all categories.
         /// </summary>

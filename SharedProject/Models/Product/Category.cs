@@ -9,7 +9,7 @@ namespace Godsend.Models
     using System.Text;
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public class Category
     {

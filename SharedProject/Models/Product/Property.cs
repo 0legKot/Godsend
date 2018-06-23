@@ -9,7 +9,7 @@ namespace Godsend.Models
     using System.Text;
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public enum PropertyTypes
     {
@@ -17,10 +17,12 @@ namespace Godsend.Models
         /// The int
         /// </summary>
         Int = 0,
+
         /// <summary>
         /// The string
         /// </summary>
         String = 1,
+
         /// <summary>
         /// The decimal
         /// </summary>
@@ -28,7 +30,7 @@ namespace Godsend.Models
     }
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public class Property
     {

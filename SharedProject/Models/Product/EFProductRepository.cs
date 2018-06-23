@@ -13,7 +13,7 @@ namespace Godsend
     using Microsoft.EntityFrameworkCore;
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public class EFProductRepository : IProductRepository
     {
@@ -31,6 +31,7 @@ namespace Godsend
         /// The admin password
         /// </summary>
         private const string adminPassword = "Secret123$";
+
         /// <summary>
         /// The maximum depth
         /// </summary>
@@ -50,333 +51,7 @@ namespace Godsend
         {
             context = ctx;
 
-
-
-
-
-            lock (creationlock)
-            {
-                if (!context.Categories.Any())
-                {
-                    var mainCat = new Category { Name = "Main" };
-                    var food = new Category { Name = "Food", BaseCategory = mainCat };
-                    var fruit = new Category { Name = "Fruit", BaseCategory = food };
-                    var vegetables = new Category { Name = "Vegetables", BaseCategory = food };
-                    var berries = new Category { Name = "Berries", BaseCategory = food };
-                    var confectionery = new Category { Name = "Confectionery", BaseCategory = food };
-                    var sugarConfections = new Category { Name = "Sugar confectionery", BaseCategory = confectionery };
-                    var elDevices = new Category { Name = "Electronic devices", BaseCategory = mainCat };
-                    var phones = new Category { Name = "Tablets and smartphones", BaseCategory = elDevices };
-                    var mobilePhones = new Category { Name = "Mobile phones", BaseCategory = phones };
-                    var beverages = new Category { Name = "Beverages", BaseCategory = food };
-                    var alcBeverages = new Category { Name = "Alcoholic beverages", BaseCategory = beverages };
-                    var nonAlcBeverages = new Category { Name = "Non-alcoholic beverages", BaseCategory = beverages };
-                    var juices = new Category { Name = "Juices", BaseCategory = nonAlcBeverages };
-                    var ciders = new Category { Name = "Ciders", BaseCategory = alcBeverages };
-                    var vehicles = new Category { Name = "Vehicles", BaseCategory = mainCat };
-                    var cars = new Category { Name = "Cars", BaseCategory = vehicles };
-                    var compactMPVs = new Category { Name = "Compact MPVs", BaseCategory = cars };
-
-                    context.Categories.AddRange(mainCat, food, fruit, vegetables, berries, confectionery, sugarConfections, elDevices,
-                        phones, mobilePhones, beverages, alcBeverages, nonAlcBeverages, juices, ciders, vehicles, cars, compactMPVs);
-
-                    context.SaveChanges();
-                }
-
-                if (!context.Properties.Any())
-                {
-                    context.Properties.AddRange(
-                        new Property { Name = "Seed quantity", Type = PropertyTypes.Int, RelatedCategory = context.Categories.First(c => c.Name == "Fruit") },
-                        new Property { Name = "Seed quantity", Type = PropertyTypes.Int, RelatedCategory = context.Categories.First(c => c.Name == "Berries") },
-                        new Property { Name = "Diameter", Type = PropertyTypes.Decimal, RelatedCategory = context.Categories.First(c => c.Name == "Fruit") },
-                        new Property { Name = "Diameter", Type = PropertyTypes.Decimal, RelatedCategory = context.Categories.First(c => c.Name == "Berries") },
-                        new Property { Name = "Color", Type = PropertyTypes.String, RelatedCategory = context.Categories.First(c => c.Name == "Fruit") },
-                        new Property { Name = "Color", Type = PropertyTypes.String, RelatedCategory = context.Categories.First(c => c.Name == "Berries") },
-                        new Property { Name = "Weight", Type = PropertyTypes.Decimal, RelatedCategory = context.Categories.First(c => c.Name == "Fruit") },
-                        new Property { Name = "Weight", Type = PropertyTypes.Decimal, RelatedCategory = context.Categories.First(c => c.Name == "Vegetables") },
-                        new Property { Name = "Diagonal", Type = PropertyTypes.Decimal, RelatedCategory = context.Categories.First(c => c.Name == "Tablets and smartphones") },
-                        new Property { Name = "RAM", Type = PropertyTypes.Int, RelatedCategory = context.Categories.First(c => c.Name == "Tablets and smartphones") },
-                        new Property { Name = "Alcohol percentage", Type = PropertyTypes.Decimal, RelatedCategory = context.Categories.First(c => c.Name == "Alcoholic beverages") },
-                        new Property { Name = "Volume", Type = PropertyTypes.Decimal, RelatedCategory = context.Categories.First(c => c.Name == "Beverages") },
-                        new Property { Name = "Seats", Type = PropertyTypes.Int, RelatedCategory = context.Categories.First(c => c.Name == "Cars") },
-                        new Property { Name = "Manufacturer", Type = PropertyTypes.String, RelatedCategory = context.Categories.First(c => c.Name == "Vehicles") },
-                        new Property { Name = "Power", Type = PropertyTypes.Int, RelatedCategory = context.Categories.First(c => c.Name == "Vehicles") }
-
-                        );
-
-                    context.SaveChanges();
-                }
-
-                    if (!context.Products.Any())
-                    {
-                        context.Products.AddRange(
-                            new Product
-                            {
-                                Info = new ProductInformation
-                                {
-                                    Name = "Apple",
-                                    Description = "Great fruit",
-                                    Rating = 5,
-                                    Watches = 0
-                                },
-                                Category = context.Categories.FirstOrDefault(c => c.Name == "Fruit")
-                            },
-                            new Product
-                            {
-                                Info = new ProductInformation
-                                {
-                                    Name = "Potato",
-                                    Description = "The earth apple",
-                                    Rating = 5,
-                                    Watches = 4,
-                                },
-                                Category = context.Categories.FirstOrDefault(c => c.Name == "Vegetables")
-                            },
-                        new Product
-                        {
-                            Info = new ProductInformation
-                            {
-                                Name = "Orange",
-                                Description = "Chinese apple",
-                                Rating = 13.0 / 3,
-                                Watches = 7,
-                            },
-                            Category = context.Categories.FirstOrDefault(c => c.Name == "Fruit")
-                        },
-                        new Product
-                        {
-                            Info = new ProductInformation
-                            {
-                                Name = "Pineapple",
-                                Description = "Cone-looking apple",
-                                Rating = 1.5,
-                                Watches = 0,
-                            }
-                        },
-                            new Product
-                            {
-                                Info = new ProductInformation
-                                {
-                                    Name = "Aubergine (eggplant)",
-                                    Description = "The mad apple",
-                                    Rating = Math.PI,
-                                    Watches = 3,
-                                },
-                                Category = context.Categories.FirstOrDefault(c => c.Name == "Vegetables")
-                            },
-                            new Product
-                            {
-                                Info = new ProductInformation
-                                {
-                                    Name = "Tomato",
-                                    Description = "The love apple",
-                                    Rating = Math.E,
-                                    Watches = 13,
-                                },
-                                Category = context.Categories.FirstOrDefault(c => c.Name == "Berries")
-                            },
-                            new Product
-                            {
-                                Info = new ProductInformation
-                                {
-                                    Name = "Peach",
-                                    Description = "The persian apple (not really)",
-                                    Rating = 4,
-                                    Watches = 8,
-                                },
-                                Category = context.Categories.FirstOrDefault(c => c.Name == "Fruit")
-                            },
-                            new Product
-                            {
-                                Info = new ProductInformation
-                                {
-                                    Name = "Pommegranate",
-                                    Description = "The seedy apple",
-                                    Rating = 3.4,
-                                    Watches = 6,
-                                },
-                                Category = context.Categories.FirstOrDefault(c => c.Name == "Fruit")
-                            },
-                            new Product
-                            {
-                                Info = new ProductInformation
-                                {
-                                    Name = "Melon",
-                                    Description = "Apple gourd",
-                                    Rating = 2.1,
-                                    Watches = 8,
-                                },
-                                Category = context.Categories.FirstOrDefault(c => c.Name == "Vegetables")
-                            },
-                            new Product
-                            {
-                                Info = new ProductInformation
-                                {
-                                    Name = "Quince",
-                                    Description = "Apple of Cydonia",
-                                    Rating = 3,
-                                    Watches = 1,
-                                },
-                                Category = context.Categories.FirstOrDefault(c => c.Name == "Fruit")
-                            },
-                        new Product
-                        {
-                            Info = new ProductInformation
-                            {
-                                Name = "iPhone",
-                                Description = "Another kind of apple",
-                                Rating = 4.99,
-                                Watches = 13,
-                            },
-                            Category = context.Categories.FirstOrDefault(c => c.Name == "Mobile phones")
-                        },
-                        new Product
-                        {
-                            Info = new ProductInformation
-                            {
-                                Name = "Apple juice",
-                                Description = "Insides of an apple squeezed to death",
-                                Rating = 4.3,
-                                Watches = 4,
-                            },
-                            Category = context.Categories.FirstOrDefault(c => c.Name == "Juices")
-                        },
-                        new Product
-                        {
-                            Info = new ProductInformation
-                            {
-                                Name = "Applejack",
-                                Description = "Fermented juice of apples",
-                                Rating = 4,
-                                Watches = 132,
-                            },
-                            Category = context.Categories.FirstOrDefault(c => c.Name == "Ciders")
-                        },
-                        new Product
-                        {
-                            Info = new ProductInformation
-                            {
-                                Name = "Apple zephyr",
-                                Description = "Marshmallow made from apples",
-                                Rating = 3.3,
-                                Watches = 123,
-                            },
-                            Category = context.Categories.FirstOrDefault(c => c.Name == "Sugar confectionery")
-                        },
-                        new Product
-                        {
-                            Info = new ProductInformation
-                            {
-                                Name = "Opel Zafira",
-                                Description = ".",
-                                Rating = 3,
-                                Watches = 3,
-                            },
-                            Category = context.Categories.FirstOrDefault(c => c.Name == "Compact MPVs")
-                        });
-
-                        context.SaveChanges();
-                    }
-
-                    if (!context.LinkProductPropertyDecimal.Any())
-                    {
-                        context.LinkProductPropertyDecimal.AddRange(
-
-                            new EAV<decimal> { Product = context.Products.Include(p => p.Info).First(p => p.Info.Name == "Potato"), Value = 100, Property = context.Properties.Single(p => p.Name == "Weight" && p.RelatedCategory.Name == "Vegetables") },
-                            new EAV<decimal> { Product = context.Products.Include(p => p.Info).First(p => p.Info.Name == "Pineapple"), Value = 200, Property = context.Properties.Single(p => p.Name == "Weight" && p.RelatedCategory.Name == "Fruit") },
-                            new EAV<decimal> { Product = context.Products.Include(p => p.Info).First(p => p.Info.Name == "Orange"), Value = 150, Property = context.Properties.Single(p => p.Name == "Weight" && p.RelatedCategory.Name == "Fruit") },
-                            new EAV<decimal> { Product = context.Products.Include(p => p.Info).First(p => p.Info.Name == "Aubergine (eggplant)"), Value = 100, Property = context.Properties.Single(p => p.Name == "Weight" && p.RelatedCategory.Name == "Vegetables") },
-                            new EAV<decimal> { Product = context.Products.Include(p => p.Info).First(p => p.Info.Name == "Tomato"), Value = 300, Property = context.Properties.Single(p => p.Name == "Weight" && p.RelatedCategory.Name == "Vegetables") },
-                            new EAV<decimal> { Product = context.Products.Include(p => p.Info).First(p => p.Info.Name == "Peach"), Value = 200, Property = context.Properties.Single(p => p.Name == "Weight" && p.RelatedCategory.Name == "Fruit") },
-                            new EAV<decimal> { Product = context.Products.Include(p => p.Info).First(p => p.Info.Name == "Pommegranate"), Value = 100, Property = context.Properties.Single(p => p.Name == "Weight" && p.RelatedCategory.Name == "Fruit") },
-                            new EAV<decimal> { Product = context.Products.Include(p => p.Info).First(p => p.Info.Name == "Melon"), Value = 300, Property = context.Properties.Single(p => p.Name == "Weight" && p.RelatedCategory.Name == "Vegetables") },
-                            new EAV<decimal> { Product = context.Products.Include(p => p.Info).First(p => p.Info.Name == "Quince"), Value = 200, Property = context.Properties.Single(p => p.Name == "Weight" && p.RelatedCategory.Name == "Fruit") },
-                            new EAV<decimal> { Product = context.Products.Include(p => p.Info).First(p => p.Info.Name == "iPhone"), Value = 5.7M, Property = context.Properties.Single(p => p.Name == "Diagonal" && p.RelatedCategory.Name == "Tablets and smartphones") },
-                            new EAV<decimal> { Product = context.Products.Include(p => p.Info).First(p => p.Info.Name == "Applejack"), Value = 1, Property = context.Properties.Single(p => p.Name == "Volume" && p.RelatedCategory.Name == "Beverages") },
-                            new EAV<decimal> { Product = context.Products.Include(p => p.Info).First(p => p.Info.Name == "Apple juice"), Value = 1, Property = context.Properties.Single(p => p.Name == "Volume" && p.RelatedCategory.Name == "Beverages") },
-                            new EAV<decimal> { Product = context.Products.Include(p => p.Info).First(p => p.Info.Name == "Applejack"), Value = 0.1M, Property = context.Properties.Single(p => p.Name == "Alcohol percentage" && p.RelatedCategory.Name == "Alcoholic beverages") },
-                            new EAV<decimal> { Product = context.Products.Include(p => p.Info).First(p => p.Info.Name == "Apple"), Value = 64, Property = context.Properties.First(p => p.Name == "Diameter" && p.RelatedCategory.Name == "Fruit") },
-                            new EAV<decimal> { Product = context.Products.Include(p => p.Info).First(p => p.Info.Name == "Apple"), Value = 1000, Property = context.Properties.First(p => p.Name == "Weight" && p.RelatedCategory.Name == "Fruit") }
-
-                            );
-
-                        context.SaveChanges();
-                    }
-
-                    if (!context.LinkProductPropertyInt.Any())
-                    {
-                        context.LinkProductPropertyInt.AddRange(
-                            new EAV<int> { Product = context.Products.Include(p => p.Info).First(p => p.Info.Name == "Pineapple"), Value = 000, Property = context.Properties.Single(p => p.Name == "Seed quantity" && p.RelatedCategory.Name == "Fruit") },
-                            new EAV<int> { Product = context.Products.Include(p => p.Info).First(p => p.Info.Name == "Orange"), Value = 983, Property = context.Properties.Single(p => p.Name == "Seed quantity" && p.RelatedCategory.Name == "Fruit") },
-                            new EAV<int> { Product = context.Products.Include(p => p.Info).First(p => p.Info.Name == "Peach"), Value = 1, Property = context.Properties.Single(p => p.Name == "Seed quantity" && p.RelatedCategory.Name == "Fruit") },
-                            new EAV<int> { Product = context.Products.Include(p => p.Info).First(p => p.Info.Name == "Quince"), Value = 3, Property = context.Properties.Single(p => p.Name == "Seed quantity" && p.RelatedCategory.Name == "Fruit") },
-                            new EAV<int> { Product = context.Products.Include(p => p.Info).First(p => p.Info.Name == "Pommegranate"), Value = 3264, Property = context.Properties.Single(p => p.Name == "Seed quantity" && p.RelatedCategory.Name == "Fruit") },
-                            new EAV<int> { Product = context.Products.Include(p => p.Info).First(p => p.Info.Name == "Tomato"), Value = 45, Property = context.Properties.Single(p => p.Name == "Seed quantity" && p.RelatedCategory.Name == "Berries") },
-                            new EAV<int> { Product = context.Products.Include(p => p.Info).First(p => p.Info.Name == "iPhone"), Value = 10241024, Property = context.Properties.Single(p => p.Name == "RAM" && p.RelatedCategory.Name == "Tablets and smartphones") },
-                            new EAV<int> { Product = context.Products.Include(p => p.Info).First(p => p.Info.Name == "Opel Zafira"), Value = 8, Property = context.Properties.Single(p => p.Name == "Seats" && p.RelatedCategory.Name == "Cars") },
-                            new EAV<int> { Product = context.Products.Include(p => p.Info).First(p => p.Info.Name == "Opel Zafira"), Value = 250, Property = context.Properties.Single(p => p.Name == "Power" && p.RelatedCategory.Name == "Vehicles") },
-                            new EAV<int>() { Product = context.Products.Include(p => p.Info).First(p => p.Info.Name == "Apple"), Value = 2, Property = context.Properties.Single(p => p.Name == "Seed quantity" && p.RelatedCategory.Name == "Fruit") }
-
-                            );
-
-                        context.SaveChanges();
-                    }
-
-                    if (!context.LinkProductPropertyString.Any())
-                    {
-                        context.LinkProductPropertyString.AddRange(
-                            new EAV<string> { Product = context.Products.Include(p => p.Info).First(p => p.Info.Name == "Pineapple"), Value = "Yellow", Property = context.Properties.Single(p => p.Name == "Color" && p.RelatedCategory.Name == "Fruit") },
-                            new EAV<string> { Product = context.Products.Include(p => p.Info).First(p => p.Info.Name == "Orange"), Value = "Orange", Property = context.Properties.Single(p => p.Name == "Color" && p.RelatedCategory.Name == "Fruit") },
-                            new EAV<string> { Product = context.Products.Include(p => p.Info).First(p => p.Info.Name == "Peach"), Value = "Orange", Property = context.Properties.Single(p => p.Name == "Color" && p.RelatedCategory.Name == "Fruit") },
-                            new EAV<string> { Product = context.Products.Include(p => p.Info).First(p => p.Info.Name == "Quince"), Value = "No idea", Property = context.Properties.Single(p => p.Name == "Color" && p.RelatedCategory.Name == "Fruit") },
-                            new EAV<string> { Product = context.Products.Include(p => p.Info).First(p => p.Info.Name == "Pommegranate"), Value = "Red", Property = context.Properties.Single(p => p.Name == "Color" && p.RelatedCategory.Name == "Fruit") },
-                            new EAV<string> { Product = context.Products.Include(p => p.Info).First(p => p.Info.Name == "Tomato"), Value = "Red", Property = context.Properties.Single(p => p.Name == "Color" && p.RelatedCategory.Name == "Berries") }
-                       /*     new EAV<string> { Product = context.Products.Include(p => p.Info).First(p => p.Info.Name == "Opel Zafira"), Value = "Opel", Property = context.Properties.Single(p => p.Name == "Manufacturer" && p.RelatedCategory.Name == "Vehicles") },
-                            new EAV<string> { Product = context.Products.Include(p => p.Info).First(p => p.Info.Name == "Apple"), Value = "красное", Property = context.Properties.First(p => p.Name == "Color" && p.RelatedCategory.Name == "Apple") }
-  */                          );
-
-                        context.SaveChanges();
-                    }
-
-                    // definitely forgot/missed a lot
-
-
-                    if (!context.LinkProductsSuppliers.Any())
-                    {
-                        var seedSuppliers = new EFSupplierRepository(context);
-
-                        // elementAt throws not supported exception
-                        var products = context.Products.ToArray();
-                        var suppliers = context.Suppliers.ToArray();
-
-                        for (int i = 0; i < context.Products.Count(); ++i)
-                        {
-                            context.LinkProductsSuppliers.AddRange(
-                                new LinkProductsSuppliers
-                                {
-                                    Product = products[i],
-                                    Supplier = suppliers[i % context.Suppliers.Count()],
-                                    Price = (decimal)((i + 1) * 100.1)
-                                },
-                                new LinkProductsSuppliers
-                                {
-                                    Product = products[i],
-                                    Supplier = suppliers[(i + 2) % context.Suppliers.Count()],
-                                    Price = (decimal)((i + 3) * 100.1)
-                                });
-                        }
-
-                        ////context.LinkProductsSuppliers.Add(
-                        ////new LinkProductsSuppliers
-                        ////{
-                        ////    Product = products[1],
-                        ////    Supplier = suppliers[0],
-                        ////    Price = 50
-                        ////});
-                        context.SaveChanges();
-                    }
-                
-            }
+            SeedHelper.EnsurePopulated(ctx);
         }
 
         /// <summary>
@@ -655,7 +330,7 @@ namespace Godsend
     }
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public class IntPropertyInfo
     {
@@ -685,7 +360,7 @@ namespace Godsend
     }
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public class DecimalPropertyInfo
     {
@@ -715,7 +390,7 @@ namespace Godsend
     }
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public class StringPropertyInfo
     {

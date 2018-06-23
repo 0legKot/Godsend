@@ -9,7 +9,7 @@ namespace Godsend
     using Godsend.Models;
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public interface IProductRepository : IRepository<Product>
     {

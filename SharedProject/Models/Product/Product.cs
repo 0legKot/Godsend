@@ -12,7 +12,7 @@ namespace Godsend.Models
     using Newtonsoft.Json;
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public class Product : IEntity
     {
@@ -22,6 +22,7 @@ namespace Godsend.Models
         /////// The separatist
         /////// </summary>
         ////const string separatist = "#/,%/#";
+
         /// <summary>
         /// Gets or sets the identifier.
         /// </summary>
@@ -88,6 +89,7 @@ namespace Godsend.Models
         ///// <value>
         ///// The entity information.
         ///// </value>
+
         /// <summary>
         /// Gets or sets the entity information.
         /// </summary>
@@ -116,7 +118,7 @@ namespace Godsend.Models
     }
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public class ProductWithSuppliers
     {
@@ -138,7 +140,7 @@ namespace Godsend.Models
     }
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public class SupplierAndPrice
     {

@@ -29,34 +29,8 @@ namespace Godsend.Models
         public EFOrderRepository(DataContext ctx, UserManager<IdentityUser> userManager)
         {
             context = ctx;
-            if (!context.Orders.Any())
-            {
-                IList<OrderPartProducts> orderPartDiscretes = new List<OrderPartProducts>();
-                foreach (var p in ctx.Products.Include(p => p.Info).Where(p => typeof(Product) == p.GetType()))
-                {
-                    orderPartDiscretes.Add(new OrderPartProducts { Quantity = p.Info.Watches * 5, Multiplier = 10, Product = p, Supplier = context.Suppliers.FirstOrDefault() });
-                }
 
-                context.Orders.Add(
-                    new SimpleOrder
-                    {
-                        EFCustomer = context.Users.FirstOrDefault(),
-                        Done = new DateTime(1000),
-                        Ordered = new DateTime(100),
-                        Status = Status.Ready,
-                        Items = orderPartDiscretes
-                    });
-                context.Orders.Add(
-                   new SimpleOrder
-                   {
-                       EFCustomer = context.Users.FirstOrDefault(),
-                       Done = new DateTime(2014, 2, 2),
-                       Ordered = new DateTime(2013, 2, 3),
-                       Status = Status.Ready,
-                       Items = orderPartDiscretes
-                   });
-                context.SaveChanges();
-            }
+            SeedHelper.EnsurePopulated(ctx);
         }
 
         // TODO rework
