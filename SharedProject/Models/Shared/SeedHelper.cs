@@ -19,7 +19,10 @@ namespace Godsend.Models
         {
             lock (creationLock)
             {
-                if (!context.Categories.Any())
+                if (!context.Categories.Any() && !context.Properties.Any() && !context.Products.Any()
+                    && !context.LinkProductsSuppliers.Any() && !context.LinkProductPropertyString.Any()
+                    && !context.LinkProductPropertyInt.Any() && !context.LinkProductPropertyDecimal.Any()
+                    && !context.Suppliers.Any() && !context.Articles.Any() && !context.Orders.Any())
                 {
                     #region Categories
 
@@ -625,19 +628,19 @@ This is a pretty simple and straightforward diet you will ever try. It involves 
                     var productsArray = ToEnumerable<Product>(products).ToArray();
                     var suppliersArray = ToEnumerable<Supplier>(suppliers).ToArray();
 
-                    for (int i = 0; i < context.Products.Count(); ++i)
+                    for (int i = 0; i < productsArray.Length; ++i)
                     {
                         context.LinkProductsSuppliers.AddRange(
                             new LinkProductsSuppliers
                             {
                                 Product = productsArray[i],
-                                Supplier = suppliersArray[i % context.Suppliers.Count()],
+                                Supplier = suppliersArray[i % suppliersArray.Length],
                                 Price = (decimal)((i + 1) * 100.1)
                             },
                             new LinkProductsSuppliers
                             {
                                 Product = productsArray[i],
-                                Supplier = suppliersArray[(i + 2) % context.Suppliers.Count()],
+                                Supplier = suppliersArray[(i + 2) % suppliersArray.Length],
                                 Price = (decimal)((i + 3) * 100.1)
                             });
                     }
