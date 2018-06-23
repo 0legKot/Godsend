@@ -45,5 +45,10 @@ namespace Godsend.Models
         /// The value.
         /// </value>
         public T Value { get; set; }
+
+        public override string ToString()
+        {
+            return $"{Product.Info.Name}, {Property.Name}: {Value}";
+        }
     }
 }

@@ -205,7 +205,7 @@ export class RepositoryService {
     getByFilter(filter: FilterInfo, fn?: (_: ProductInfo[]) => any): void {
         this.data.sendRequest<ProductInfo[]>('post', 'api/product/getByFilter', filter)
             .subscribe(products => {
-                this.product = products;
+                this.products = products;
                 if (fn) fn(products);
             })
     }

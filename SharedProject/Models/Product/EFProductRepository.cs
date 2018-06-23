@@ -215,6 +215,71 @@ namespace Godsend
             return context.Properties.Include(x => x.RelatedCategory).Where(x => x.RelatedCategory.Id == categoryId).Select(x => new { x.Id, x.Name, x.Type });
         }
 
+        public IEnumerable<ProductInformation> GetProductInformationsByFilter(FilterInfo filter, int quantity = 10, int skip = 0)
+        {
+            // intersect
+
+            var tmpD = context.LinkProductPropertyDecimal
+                .Include(x => x.Product).ThenInclude(x => x.Info).Include(x => x.Property)
+                .GroupBy(lpp => lpp.Product);
+
+            var productsD = filter.DecimalProps.Any() ?
+                tmpD :
+                null;
+
+            foreach (var prop in filter.DecimalProps)
+            {
+                productsD = productsD.Where(grouping => grouping.Any(eav => eav.Property.Id == prop.PropId && eav.Value <= prop.Right && eav.Value >= prop.Left));
+            }
+
+            var tmpI = context.LinkProductPropertyInt
+                .Include(x => x.Product).ThenInclude(x => x.Info).Include(x => x.Property)
+                .GroupBy(lpp => lpp.Product);
+
+            var productsI = filter.IntProps.Any() ?
+                tmpI :
+                null;
+
+            foreach (var prop in filter.IntProps)
+            {
+                productsI = productsI.Where(grouping => grouping.Any(eav => eav.Property.Id == prop.PropId && eav.Value <= prop.Right && eav.Value >= prop.Left));
+            }
+
+            var tmpS = context.LinkProductPropertyString
+                .Include(x => x.Product).ThenInclude(x => x.Info).Include(x => x.Property)
+                .GroupBy(lpp => lpp.Product);
+
+            var productsS = filter.StringProps.Any() ?
+                tmpS :
+                null;
+
+            foreach (var prop in filter.StringProps)
+            {
+                productsS = productsS.Where(grouping => grouping.Any(eav => eav.Property.Id == prop.PropId && eav.Value.Contains(prop.Part)));
+            }
+
+            var result = (productsD != null) ? productsD.Select(group => group.Key.Info) :
+                productsI != null ? productsI.Select(group => group.Key.Info) :
+                productsS != null ? productsS.Select(group => group.Key.Info) :
+                Enumerable.Empty<ProductInformation>();
+
+            if (productsD != null && productsI != null)
+            {
+                result = result.Intersect(productsI.Select(group => group.Key.Info));
+
+                if (productsS != null)
+                {
+                    result = result.Intersect(productsS.Select(group => group.Key.Info));
+                }
+            }
+
+            foreach (var important in tmpD) { }
+            foreach (var important in tmpI) { }
+            foreach (var important in tmpS) { }
+
+            return result;
+        }
+
         /// <summary>
         /// Filters the by int.
         /// </summary>
@@ -412,5 +477,15 @@ namespace Godsend
         /// The part.
         /// </value>
         public string Part { get; set; }
+    }
+
+
+    public class FilterInfo
+    {
+        public IEnumerable<DecimalPropertyInfo> DecimalProps { get; set; }
+
+        public IEnumerable<StringPropertyInfo> StringProps { get; set; }
+
+        public IEnumerable<IntPropertyInfo> IntProps { get; set; }
     }
 }

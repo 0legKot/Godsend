@@ -158,7 +158,9 @@ namespace Godsend.Controllers
         public IEnumerable<Information> GetByFilter([FromBody]FilterInfo filter, int quantity = 5, int skip = 0)
         {
             // todo
-            return repository.EntitiesInfo(quantity, skip);
+            var result = (repository as EFProductRepository).GetProductInformationsByFilter(filter);
+
+            return result;
         }
 
 
@@ -228,12 +230,5 @@ namespace Godsend.Controllers
 
             cur.Subs = subs;
         }
-    }
-
-    public class FilterInfo
-    {
-        public IEnumerable<DecimalPropertyInfo> DecimalProps { get; set; }
-        public IEnumerable<StringPropertyInfo> StringProps { get; set; }
-        public IEnumerable<IntPropertyInfo> IntProps { get; set; }
     }
 }
