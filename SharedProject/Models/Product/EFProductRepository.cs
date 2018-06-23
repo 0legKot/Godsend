@@ -169,7 +169,10 @@ namespace Godsend
                 Suppliers = tmp
                     .Where(link => link.Product.Info.Id == productInfoId)
                     .Select(link => new SupplierAndPrice { Supplier = link.Supplier, Price = link.Price })
-                    .ToArray()
+                    .ToArray(),
+                DecimalProps = context.LinkProductPropertyDecimal.Include(lpp => lpp.Property).Where(lpp => lpp.Product.Info.Id == productInfoId),
+                StringProps = context.LinkProductPropertyString.Include(lpp => lpp.Property).Where(lpp => lpp.Product.Info.Id == productInfoId),
+                IntProps = context.LinkProductPropertyInt.Include(lpp => lpp.Property).Where(lpp => lpp.Product.Info.Id == productInfoId)
             };
             return res;
         }

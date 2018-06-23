@@ -34,6 +34,32 @@
                         <label>Description: </label>
                         <p><godsend-input-output *ngIf="data" [(ngModel)]="data.product.info.description" [edit]="edit" huge="true"></godsend-input-output></p>
                     </div>
+
+                    <!-- PROPERTIES -->
+                    <div *ngIf="data && data.decimalProps">
+                        <div *ngFor="let dProp of data.decimalProps">
+                            <label> {{ dProp.property.name }}</label>
+                            <p> {{ dProp.value }} </p>
+                        </div>
+                    </div>
+
+                    <div *ngIf="data && data.intProps">
+                        <div *ngFor="let iProp of data.intProps">
+                            <label> {{ iProp.property.name }}</label>
+                            <p> {{ iProp.value }} </p>
+                        </div>
+                    </div>
+
+                    <div *ngIf="data && data.stringProps">
+                        <div *ngFor="let sProp of data.stringProps">
+                            <label> {{ sProp.property.name }}</label>
+                            <p> {{ sProp.value }} </p>
+                        </div>
+                    </div>
+
+
+                    <!-- END PROPERTIES -->
+
                     <div *ngIf="data?.suppliers?.length > 0 else noSuppliers">
                         <label>Price: </label>
                         <p>

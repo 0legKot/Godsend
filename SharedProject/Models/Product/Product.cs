@@ -137,6 +137,12 @@ namespace Godsend.Models
         /// The suppliers.
         /// </value>
         public IEnumerable<SupplierAndPrice> Suppliers { get; set; }
+
+        public IEnumerable<EAV<string>> StringProps { get; set; }
+
+        public IEnumerable<EAV<decimal>> DecimalProps { get; set; }
+
+        public IEnumerable<EAV<int>> IntProps { get; set; }
     }
 
     /// <summary>
