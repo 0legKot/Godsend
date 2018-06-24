@@ -278,6 +278,8 @@ namespace Godsend.Models
 
                     context.Products.AddRange(ToEnumerable<Product>(products));
 
+                    var productsArray = ToEnumerable<Product>(products).ToArray();
+
                     #endregion
 
                     #region Link Product Properties
@@ -467,6 +469,8 @@ namespace Godsend.Models
 
                     context.Suppliers.AddRange(ToEnumerable<Supplier>(suppliers));
 
+                    var suppliersArray = ToEnumerable<Supplier>(suppliers).ToArray();
+
                     #endregion
 
                     #region Articles
@@ -591,46 +595,14 @@ This is a pretty simple and straightforward diet you will ever try. It involves 
 
                     #endregion
 
-                    #region Orders
-
-                    IList<OrderPartProducts> orderPartDiscretes = new List<OrderPartProducts>();
-                    foreach (var p in context.Products.Include(p => p.Info))
-                    {
-                        orderPartDiscretes.Add(new OrderPartProducts { Quantity = p.Info.Watches * 5, Multiplier = 10, Product = p, Supplier = context.Suppliers.FirstOrDefault() });
-                    }
-
-                    var orders = (
-                    Ancient:
-                        new SimpleOrder
-                        {
-                            EFCustomer = context.Users.FirstOrDefault(),
-                            Done = new DateTime(1000),
-                            Ordered = new DateTime(100),
-                            Status = Status.Ready,
-                            Items = orderPartDiscretes
-                        },
-                    Modern:
-                       new SimpleOrder
-                       {
-                           EFCustomer = context.Users.FirstOrDefault(),
-                           Done = new DateTime(2014, 2, 2),
-                           Ordered = new DateTime(2013, 2, 3),
-                           Status = Status.Ready,
-                           Items = orderPartDiscretes
-                       });
-
-                    context.AddRange(ToEnumerable<Order>(orders));
-
-                    #endregion
-
                     #region Link Products Suppliers
 
-                    var productsArray = ToEnumerable<Product>(products).ToArray();
-                    var suppliersArray = ToEnumerable<Supplier>(suppliers).ToArray();
+                    var linkProductsSuppliersArray = new List<LinkProductsSuppliers>();
 
                     for (int i = 0; i < productsArray.Length; ++i)
                     {
-                        context.LinkProductsSuppliers.AddRange(
+                        linkProductsSuppliersArray.AddRange(new[]
+                        {
                             new LinkProductsSuppliers
                             {
                                 Product = productsArray[i],
@@ -642,8 +614,43 @@ This is a pretty simple and straightforward diet you will ever try. It involves 
                                 Product = productsArray[i],
                                 Supplier = suppliersArray[(i + 2) % suppliersArray.Length],
                                 Price = (decimal)((i + 3) * 100.1)
-                            });
+                            }
+                        });
                     }
+
+                    context.LinkProductsSuppliers.AddRange(linkProductsSuppliersArray);
+
+                    #endregion
+
+                    #region Orders
+
+                    IList<OrderPartProducts> orderPartDiscretes = new List<OrderPartProducts>();
+                    foreach (var p in productsArray)
+                    {
+                        orderPartDiscretes.Add(new OrderPartProducts { Quantity = p.Info.Watches * 5, Multiplier = 10, Product = p, Supplier = linkProductsSuppliersArray.FirstOrDefault(lpp => lpp.Product == p)?.Supplier });
+                    }
+
+                    var orders = (
+                    Ancient:
+                        new SimpleOrder
+                        {
+                            EFCustomer = context.Users.FirstOrDefault(),
+                            Done = new DateTime(1000),
+                            Ordered = new DateTime(100),
+                            Status = Status.Ready,
+                            Items = orderPartDiscretes.Select(x => new OrderPartProducts { Quantity = x.Quantity, Multiplier = x.Multiplier, Product = x.Product, Supplier = x.Supplier }).ToList()
+                        },
+                    Modern:
+                       new SimpleOrder
+                       {
+                           EFCustomer = context.Users.FirstOrDefault(),
+                           Done = new DateTime(2014, 2, 2),
+                           Ordered = new DateTime(2013, 2, 3),
+                           Status = Status.Ready,
+                           Items = orderPartDiscretes.Select(x => new OrderPartProducts { Quantity = x.Quantity, Multiplier = x.Multiplier, Product = x.Product, Supplier = x.Supplier }).ToList()
+                       });
+
+                    context.AddRange(ToEnumerable<Order>(orders));
 
                     #endregion
 
