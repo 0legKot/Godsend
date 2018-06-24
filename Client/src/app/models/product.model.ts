@@ -70,16 +70,16 @@ export class FilterInfo {
 export class DecimalPropertyInfo {
     constructor(
         public propId: string,
-        public left: number,
-        public right: number
+        public left: number | null,
+        public right: number | null
     ) { }
 }
 
 export class IntPropertyInfo {
     constructor(
         public propId: string,
-        public left: number,
-        public right: number
+        public left: number | null,
+        public right: number | null
     ) { }
 }
 
@@ -97,8 +97,8 @@ export class FilterInfoView {
 }
 
 export class DecimalPropertyInfoView {
-    left: number = 0;
-    right: number = 0;
+    left: number | null = null;
+    right: number | null = null;
 
     constructor(
         public propId: string,
@@ -107,8 +107,8 @@ export class DecimalPropertyInfoView {
 }
 
 export class IntPropertyInfoView {
-    left: number = 0;
-    right: number = 0;
+    left: number | null = null;
+    right: number | null = null;
 
     constructor(
         public propId: string,

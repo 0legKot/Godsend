@@ -80,9 +80,21 @@ export class ProductsComponent implements OnInit {
         if (this.filter) {
             const trimmedFilter = new FilterInfo();
 
-            if (this.filter.stringProps) trimmedFilter.stringProps = this.filter.stringProps.filter(prop => prop.part !== '').map(prop => new StringPropertyInfo(prop.propId, prop.part));
-            if (this.filter.intProps) trimmedFilter.intProps = this.filter.intProps.filter(prop => prop.left != 0 || prop.right != 0).map(prop => new IntPropertyInfo(prop.propId, prop.left, prop.right));
-            if (this.filter.decimalProps) trimmedFilter.decimalProps = this.filter.decimalProps.filter(prop => prop.left != 0 || prop.right != 0).map(prop => new DecimalPropertyInfo(prop.propId, prop.left, prop.right));
+            if (this.filter.stringProps) {
+                trimmedFilter.stringProps = this.filter.stringProps
+                    .filter(prop => prop.part !== '' && prop.part != null)
+                    .map(prop => new StringPropertyInfo(prop.propId, prop.part));
+            }
+            if (this.filter.intProps) {
+                trimmedFilter.intProps = this.filter.intProps
+                    .filter(prop => prop.left != null && prop.right != null)
+                    .map(prop => new IntPropertyInfo(prop.propId, prop.left, prop.right));
+            }
+            if (this.filter.decimalProps) {
+                trimmedFilter.decimalProps = this.filter.decimalProps
+                    .filter(prop => prop.left != null && prop.right != null)
+                    .map(prop => new DecimalPropertyInfo(prop.propId, prop.left, prop.right));
+            }
 
             this.repo.getByFilter(trimmedFilter);
         }
@@ -98,4 +110,3 @@ export class ProductsComponent implements OnInit {
         this.getCategoryProps(category);
     }
 }
-
