@@ -462,13 +462,4 @@ namespace Godsend
         public string Part { get; set; }
     }
 
-
-    public class FilterInfo
-    {
-        public IEnumerable<DecimalPropertyInfo> DecimalProps { get; set; }
-
-        public IEnumerable<StringPropertyInfo> StringProps { get; set; }
-
-        public IEnumerable<IntPropertyInfo> IntProps { get; set; }
-    }
 }
