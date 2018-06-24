@@ -218,66 +218,46 @@ namespace Godsend
         public IEnumerable<ProductInformation> GetProductInformationsByFilter(FilterInfo filter, int quantity = 10, int skip = 0)
         {
             // intersect
-
-            var tmpD = context.LinkProductPropertyDecimal
-                .Include(x => x.Product).ThenInclude(x => x.Info).Include(x => x.Property)
-                .GroupBy(lpp => lpp.Product);
-
-            var productsD = filter.DecimalProps.Any() ?
-                tmpD :
-                null;
-
-            foreach (var prop in filter.DecimalProps)
+            var res = new List<ProductInformation>();
+            if (filter.IntProps.Any())
             {
-                productsD = productsD.Where(grouping => grouping.Any(eav => eav.Property.Id == prop.PropId && eav.Value <= prop.Right && eav.Value >= prop.Left));
-            }
-
-            var tmpI = context.LinkProductPropertyInt
-                .Include(x => x.Product).ThenInclude(x => x.Info).Include(x => x.Property)
-                .GroupBy(lpp => lpp.Product);
-
-            var productsI = filter.IntProps.Any() ?
-                tmpI :
-                null;
-
-            foreach (var prop in filter.IntProps)
-            {
-                productsI = productsI.Where(grouping => grouping.Any(eav => eav.Property.Id == prop.PropId && eav.Value <= prop.Right && eav.Value >= prop.Left));
-            }
-
-            var tmpS = context.LinkProductPropertyString
-                .Include(x => x.Product).ThenInclude(x => x.Info).Include(x => x.Property)
-                .GroupBy(lpp => lpp.Product);
-
-            var productsS = filter.StringProps.Any() ?
-                tmpS :
-                null;
-
-            foreach (var prop in filter.StringProps)
-            {
-                productsS = productsS.Where(grouping => grouping.Any(eav => eav.Property.Id == prop.PropId && eav.Value.Contains(prop.Part)));
-            }
-
-            var result = (productsD != null) ? productsD.Select(group => group.Key.Info) :
-                productsI != null ? productsI.Select(group => group.Key.Info) :
-                productsS != null ? productsS.Select(group => group.Key.Info) :
-                Enumerable.Empty<ProductInformation>();
-
-            if (productsD != null && productsI != null)
-            {
-                result = result.Intersect(productsI.Select(group => group.Key.Info));
-
-                if (productsS != null)
+                if (res.Any())
                 {
-                    result = result.Intersect(productsS.Select(group => group.Key.Info));
+                    res = res.Intersect(FilterByInt(filter.IntProps)).ToList();
+                }
+                else
+                {
+                    res =FilterByInt(filter.IntProps.ToList()).ToList();
                 }
             }
 
-            foreach (var important in tmpD) { }
-            foreach (var important in tmpI) { }
-            foreach (var important in tmpS) { }
+            if (filter.DecimalProps.Any())
+            {
+                if (res.Any())
+                {
+                    res = res.Intersect(FilterByDecimal(filter.DecimalProps.ToList())).ToList();
+                }
+                else
+                {
+                    res = FilterByDecimal(filter.DecimalProps.ToList()).ToList();
+                }
+            }
 
-            return result;
+            if (filter.StringProps.Any())
+            {
+                if (res.Any())
+                {
+                    res = res.Intersect(FilterByString(filter.StringProps.ToList())).ToList();
+                }
+                else
+                {
+                    res = FilterByString(filter.StringProps.ToList()).ToList();
+                }
+            }
+
+            res = res.Skip(skip).Take(quantity).ToList();
+            
+            return res;
         }
 
         /// <summary>
@@ -287,7 +267,7 @@ namespace Godsend
         /// <param name="quantity">The quantity.</param>
         /// <param name="skip">The skip.</param>
         /// <returns></returns>
-        public IEnumerable<ProductInformation> FilterByInt(IList<IntPropertyInfo> props, int quantity, int skip = 0)
+        public IQueryable<ProductInformation> FilterByInt(IEnumerable<IntPropertyInfo> props)
         {
             var tmp = context.LinkProductPropertyInt
                 .Include(p => p.Property)
@@ -299,7 +279,7 @@ namespace Godsend
                 tmp = tmp.Where(p => prop.PropId != p.Property.Id || (prop.PropId == p.Property.Id && p.Value >= prop.Left && p.Value <= prop.Right));
             }
 
-            return tmp.Select(x => x.Product.Info).Skip(skip).Take(quantity);
+            return tmp.Select(x => x.Product.Info).Distinct();
         }
 
         /// <summary>
@@ -309,7 +289,7 @@ namespace Godsend
         /// <param name="quantity">The quantity.</param>
         /// <param name="skip">The skip.</param>
         /// <returns></returns>
-        public IEnumerable<ProductInformation> FilterByDecimal(IList<DecimalPropertyInfo> props, int quantity, int skip = 0)
+        public IQueryable<ProductInformation> FilterByDecimal(IEnumerable<DecimalPropertyInfo> props)
         {
             var tmp = context.LinkProductPropertyDecimal
                 .Include(p => p.Property)
@@ -320,7 +300,7 @@ namespace Godsend
                 tmp = tmp.Where(p => prop.PropId != p.Property.Id || (prop.PropId == p.Property.Id && p.Value >= prop.Left && p.Value <= prop.Right));
             }
 
-            return tmp.Select(x => x.Product.Info).Skip(skip).Take(quantity);
+            return tmp.Select(x => x.Product.Info).Distinct();
         }
 
         /// <summary>
@@ -330,7 +310,7 @@ namespace Godsend
         /// <param name="quantity">The quantity.</param>
         /// <param name="skip">The skip.</param>
         /// <returns></returns>
-        public IEnumerable<ProductInformation> FilterByString(IList<StringPropertyInfo> props, int quantity, int skip = 0)
+        public IQueryable<ProductInformation> FilterByString(IEnumerable<StringPropertyInfo> props)
         {
             var tmp = context.LinkProductPropertyString
                 .Include(p => p.Property)
@@ -341,7 +321,7 @@ namespace Godsend
                 tmp = tmp.Where(p => prop.PropId != p.Property.Id || (prop.PropId == p.Property.Id && prop.Part == p.Value));
             }
 
-            return tmp.Select(x => x.Product.Info).Skip(skip).Take(quantity);
+            return tmp.Select(x => x.Product.Info).Distinct();
         }
 
         /// <summary>
@@ -400,7 +380,7 @@ namespace Godsend
     /// <summary>
     ///
     /// </summary>
-    public class IntPropertyInfo
+    public class IntPropertyInfo: IPropertyInfo
     {
         /// <summary>
         /// Gets or sets the property identifier.
@@ -426,11 +406,14 @@ namespace Godsend
         /// </value>
         public int Right { get; set; }
     }
-
+    public interface IPropertyInfo
+    {
+        Guid PropId { get; set; }
+    }
     /// <summary>
     ///
     /// </summary>
-    public class DecimalPropertyInfo
+    public class DecimalPropertyInfo: IPropertyInfo
     {
         /// <summary>
         /// Gets or sets the property identifier.
@@ -460,7 +443,7 @@ namespace Godsend
     /// <summary>
     ///
     /// </summary>
-    public class StringPropertyInfo
+    public class StringPropertyInfo: IPropertyInfo
     {
         /// <summary>
         /// Gets or sets the property identifier.
