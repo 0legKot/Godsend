@@ -218,16 +218,16 @@ namespace Godsend
         public IEnumerable<ProductInformation> GetProductInformationsByFilter(FilterInfo filter, int quantity = 10, int skip = 0)
         {
             // intersect
-            var res = new List<ProductInformation>();
+            var res = Enumerable.Empty<ProductInformation>();
             if (filter.IntProps.Any())
             {
                 if (res.Any())
                 {
-                    res = res.Intersect(FilterByInt(filter.IntProps)).ToList();
+                    res = res.Intersect(FilterByInt(filter.IntProps));
                 }
                 else
                 {
-                    res =FilterByInt(filter.IntProps.ToList()).ToList();
+                    res =FilterByInt(filter.IntProps);
                 }
             }
 
@@ -235,11 +235,11 @@ namespace Godsend
             {
                 if (res.Any())
                 {
-                    res = res.Intersect(FilterByDecimal(filter.DecimalProps.ToList())).ToList();
+                    res = res.Intersect(FilterByDecimal(filter.DecimalProps));
                 }
                 else
                 {
-                    res = FilterByDecimal(filter.DecimalProps.ToList()).ToList();
+                    res = FilterByDecimal(filter.DecimalProps);
                 }
             }
 
@@ -247,15 +247,15 @@ namespace Godsend
             {
                 if (res.Any())
                 {
-                    res = res.Intersect(FilterByString(filter.StringProps.ToList())).ToList();
+                    res = res.Intersect(FilterByString(filter.StringProps));
                 }
                 else
                 {
-                    res = FilterByString(filter.StringProps.ToList()).ToList();
+                    res = FilterByString(filter.StringProps);
                 }
             }
 
-            res = res.Skip(skip).Take(quantity).ToList();
+            res = res.Skip(skip).Take(quantity);
             
             return res;
         }
