@@ -220,19 +220,42 @@ namespace Godsend
             // intersect
             var res = new List<ProductInformation>();
             if (filter.IntProps.Any())
+            {
                 if (res.Any())
-                    res = res.Intersect(FilterByInt(filter.IntProps.ToList(), int.MaxValue)).ToList();
-                else res=FilterByInt(filter.IntProps.ToList(), int.MaxValue).ToList();
-            if (filter.DecimalProps.Any())
-                if (res.Any())
-                    res = res.Intersect(FilterByDecimal(filter.DecimalProps.ToList(), int.MaxValue)).ToList();
-                else res = FilterByDecimal(filter.DecimalProps.ToList(), int.MaxValue).ToList();
-            if (filter.StringProps.Any())
-                if (res.Any())
-                    res = res.Intersect(FilterByString(filter.StringProps.ToList(), int.MaxValue)).ToList();
-                else res = FilterByString(filter.StringProps.ToList(), int.MaxValue).ToList();
+                {
+                    res = res.Intersect(FilterByInt(filter.IntProps)).ToList();
+                }
+                else
+                {
+                    res =FilterByInt(filter.IntProps.ToList()).ToList();
+                }
+            }
 
-            res =res.Skip(skip).Take(quantity).ToList();
+            if (filter.DecimalProps.Any())
+            {
+                if (res.Any())
+                {
+                    res = res.Intersect(FilterByDecimal(filter.DecimalProps.ToList())).ToList();
+                }
+                else
+                {
+                    res = FilterByDecimal(filter.DecimalProps.ToList()).ToList();
+                }
+            }
+
+            if (filter.StringProps.Any())
+            {
+                if (res.Any())
+                {
+                    res = res.Intersect(FilterByString(filter.StringProps.ToList())).ToList();
+                }
+                else
+                {
+                    res = FilterByString(filter.StringProps.ToList()).ToList();
+                }
+            }
+
+            res = res.Skip(skip).Take(quantity).ToList();
             
             return res;
         }
@@ -244,7 +267,7 @@ namespace Godsend
         /// <param name="quantity">The quantity.</param>
         /// <param name="skip">The skip.</param>
         /// <returns></returns>
-        public IEnumerable<ProductInformation> FilterByInt(IList<IntPropertyInfo> props, int quantity, int skip = 0)
+        public IQueryable<ProductInformation> FilterByInt(IEnumerable<IntPropertyInfo> props)
         {
             var tmp = context.LinkProductPropertyInt
                 .Include(p => p.Property)
@@ -256,7 +279,7 @@ namespace Godsend
                 tmp = tmp.Where(p => prop.PropId != p.Property.Id || (prop.PropId == p.Property.Id && p.Value >= prop.Left && p.Value <= prop.Right));
             }
 
-            return tmp.Select(x => x.Product.Info).Distinct().Skip(skip).Take(quantity);
+            return tmp.Select(x => x.Product.Info).Distinct();
         }
 
         /// <summary>
@@ -266,7 +289,7 @@ namespace Godsend
         /// <param name="quantity">The quantity.</param>
         /// <param name="skip">The skip.</param>
         /// <returns></returns>
-        public IEnumerable<ProductInformation> FilterByDecimal(IList<DecimalPropertyInfo> props, int quantity, int skip = 0)
+        public IQueryable<ProductInformation> FilterByDecimal(IEnumerable<DecimalPropertyInfo> props)
         {
             var tmp = context.LinkProductPropertyDecimal
                 .Include(p => p.Property)
@@ -277,7 +300,7 @@ namespace Godsend
                 tmp = tmp.Where(p => prop.PropId != p.Property.Id || (prop.PropId == p.Property.Id && p.Value >= prop.Left && p.Value <= prop.Right));
             }
 
-            return tmp.Select(x => x.Product.Info).Distinct().Skip(skip).Take(quantity);
+            return tmp.Select(x => x.Product.Info).Distinct();
         }
 
         /// <summary>
@@ -287,7 +310,7 @@ namespace Godsend
         /// <param name="quantity">The quantity.</param>
         /// <param name="skip">The skip.</param>
         /// <returns></returns>
-        public IEnumerable<ProductInformation> FilterByString(IList<StringPropertyInfo> props, int quantity, int skip = 0)
+        public IQueryable<ProductInformation> FilterByString(IEnumerable<StringPropertyInfo> props)
         {
             var tmp = context.LinkProductPropertyString
                 .Include(p => p.Property)
@@ -298,7 +321,7 @@ namespace Godsend
                 tmp = tmp.Where(p => prop.PropId != p.Property.Id || (prop.PropId == p.Property.Id && prop.Part == p.Value));
             }
 
-            return tmp.Select(x => x.Product.Info).Distinct().Skip(skip).Take(quantity);
+            return tmp.Select(x => x.Product.Info).Distinct();
         }
 
         /// <summary>

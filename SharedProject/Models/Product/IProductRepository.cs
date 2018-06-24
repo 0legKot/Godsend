@@ -6,6 +6,7 @@ namespace Godsend
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using Godsend.Models;
 
     /// <summary>
@@ -61,7 +62,7 @@ namespace Godsend
         /// <param name="quantity">The quantity.</param>
         /// <param name="skip">The skip.</param>
         /// <returns></returns>
-        IEnumerable<ProductInformation> FilterByInt(IList<IntPropertyInfo> props, int quantity, int skip = 0);
+        IQueryable<ProductInformation> FilterByInt(IEnumerable<IntPropertyInfo> props);
 
         /// <summary>
         /// Filters the by decimal.
@@ -70,7 +71,7 @@ namespace Godsend
         /// <param name="quantity">The quantity.</param>
         /// <param name="skip">The skip.</param>
         /// <returns></returns>
-        IEnumerable<ProductInformation> FilterByDecimal(IList<DecimalPropertyInfo> props, int quantity, int skip = 0);
+        IQueryable<ProductInformation> FilterByDecimal(IEnumerable<DecimalPropertyInfo> props);
 
         /// <summary>
         /// Filters the by string.
@@ -79,6 +80,7 @@ namespace Godsend
         /// <param name="quantity">The quantity.</param>
         /// <param name="skip">The skip.</param>
         /// <returns></returns>
-        IEnumerable<ProductInformation> FilterByString(IList<StringPropertyInfo> props, int quantity, int skip = 0);
+        IQueryable<ProductInformation> FilterByString(IEnumerable<StringPropertyInfo> props);
+        IEnumerable<ProductInformation> GetProductInformationsByFilter(FilterInfo filter,int quantity,int skip);
     }
 }
