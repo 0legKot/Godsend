@@ -155,10 +155,9 @@ namespace Godsend.Controllers
         }
 
         [HttpPost("[action]")]
-        public IEnumerable<Information> GetByFilter([FromBody]FilterInfo filter, int quantity = 5, int skip = 0)
+        public IEnumerable<Information> GetByFilter([FromBody]FilterInfo filter, int quantity = 10, int skip = 0)
         {
-            // todo
-            var result = (repository as EFProductRepository).GetProductInformationsByFilter(filter);
+            var result = (repository as EFProductRepository).GetProductInformationsByFilter(filter,quantity,skip);
 
             return result;
         }
