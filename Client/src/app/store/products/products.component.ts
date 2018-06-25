@@ -28,8 +28,15 @@ export class ProductsComponent implements OnInit {
 
     imagg: any = {};
 
+    prevPage() {
+        this.page--;
+        this.repo.getEntities<ProductInfo>('product', this.page, this.rpp, res => {
+            this.imageService.getPreviewImages(res.map(pi => pi.id), (smth: any) => this.imagg = smth);
+        });
+    }
     nextPage() {
-    this.page++; this.repo.getEntities<ProductInfo>('product', this.page, this.rpp, res => {
+        this.page++;
+        this.repo.getEntities<ProductInfo>('product', this.page, this.rpp, res => {
         this.imageService.getPreviewImages(res.map(pi => pi.id), (smth: any) => this.imagg = smth);
         });
     }

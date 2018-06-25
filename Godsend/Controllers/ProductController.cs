@@ -155,11 +155,11 @@ namespace Godsend.Controllers
         }
 
         [HttpPost("[action]")]
-        public IEnumerable<Information> GetByFilter([FromBody]FilterInfo filter, int quantity = 10, int skip = 0)
+        public IEnumerable<Information> GetByFilter([FromBody]FilterInfo filter, int quantity = 10, int skip = 0,bool invertOrder=true)
         {
             var result = (repository as IProductRepository).GetProductInformationsByFilter(filter,quantity,skip,OrderBy.Watches);
 
-            return result;
+            return invertOrder ? result.Reverse() : result;
         }
 
 
