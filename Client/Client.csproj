@@ -18,6 +18,7 @@
     <None Remove="src\app\models\user.model.ts" />
     <None Remove="src\app\store\articles\article-detail.component.ts" />
     <None Remove="src\app\store\input-output\input-output.component.js.map" />
+    <None Remove="src\app\store\pages\pages.component.ts" />
     <None Remove="src\app\store\products\product-card.component.js" />
     <None Remove="src\app\store\products\product-card.component.js.map" />
     <None Remove="src\app\store\products\product-detail.component.ts" />
@@ -49,6 +50,7 @@
     <TypeScriptCompile Include="src\app\services\repository.service.ts" />
     <TypeScriptCompile Include="src\app\models\user.model.ts" />
     <TypeScriptCompile Include="src\app\store\articles\article-detail.component.ts" />
+    <TypeScriptCompile Include="src\app\store\pages\pages.component.ts" />
     <TypeScriptCompile Include="src\app\store\products\product-detail.component.ts" />
     <TypeScriptCompile Include="src\app\store\products\products.component.ts" />
     <TypeScriptCompile Include="src\app\store\search\search.base.component.ts" />

@@ -29,6 +29,7 @@ import { ArticleDetailComponent } from './store/articles/article-detail.componen
 import { ProductCardComponent } from './store/products/product-card.component';
 import { SupplierCardComponent } from './store/suppliers/supplier-card.component';
 import { InputOutputComponent } from './store/input-output/input-output.component';
+import { PagesComponent } from './store/pages/pages.component';
 
 @NgModule({
     declarations: [
@@ -41,6 +42,7 @@ import { InputOutputComponent } from './store/input-output/input-output.componen
         LoginComponent,
         NavMenuComponent,
         OrdersComponent,
+        PagesComponent,
         ProductDetailComponent,
         ProductCardComponent,
         ProductsComponent,

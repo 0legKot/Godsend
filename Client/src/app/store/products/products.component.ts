@@ -8,6 +8,7 @@ import { SearchInlineComponent } from '../search/search-inline.component';
 import { ImageService } from '../../services/image.service';
 import { forEach } from '@angular/router/src/utils/collection';
 import { CategoryService } from '../../services/category.service';
+import { PagesComponent } from '../pages/pages.component';
 
 @Component({
     selector: 'godsend-products',
