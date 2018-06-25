@@ -215,48 +215,42 @@ namespace Godsend
             return context.Properties.Include(x => x.RelatedCategory).Where(x => x.RelatedCategory.Id == categoryId).Select(x => new { x.Id, x.Name, x.Type });
         }
 
-        public IEnumerable<ProductInformation> GetProductInformationsByFilter(FilterInfo filter, int quantity = 10, int skip = 0)
+        
+
+        public IQueryable<ProductInformation> GetOrdered(IQueryable<ProductInformation> infosToSort, OrderBy orderBy)
+        {
+            switch (orderBy)
+            {
+                case OrderBy.Name: return infosToSort.OrderBy(x => x.Name);
+                case OrderBy.Watches: return infosToSort.OrderBy(x => x.Watches);
+                case OrderBy.Rating: return infosToSort.OrderBy(x => x.Rating);
+                default: return infosToSort;
+            }
+        }
+
+        public IEnumerable<ProductInformation> GetProductInformationsByFilter(FilterInfo filter, int quantity = 10, int skip = 0, OrderBy orderBy = OrderBy.Rating)
         {
             // intersect
-            var res = Enumerable.Empty<ProductInformation>();
+            IEnumerable<ProductInformation> res = Enumerable.Empty<ProductInformation>();
             if (filter.IntProps.Any())
             {
-                if (res.Any())
-                {
-                    res = res.Intersect(FilterByInt(filter.IntProps));
-                }
-                else
-                {
-                    res =FilterByInt(filter.IntProps);
-                }
+                var tmp = GetOrdered(FilterByInt(filter.IntProps, filter.SortingPropertyId), orderBy);
+                res = res.Any() ? res.Intersect(tmp) : tmp;
             }
 
             if (filter.DecimalProps.Any())
             {
-                if (res.Any())
-                {
-                    res = res.Intersect(FilterByDecimal(filter.DecimalProps));
-                }
-                else
-                {
-                    res = FilterByDecimal(filter.DecimalProps);
-                }
+                var tmp = GetOrdered(FilterByDecimal(filter.DecimalProps, filter.SortingPropertyId), orderBy);
+                res = res.Any() ? res.Intersect(tmp) : tmp;
             }
 
             if (filter.StringProps.Any())
             {
-                if (res.Any())
-                {
-                    res = res.Intersect(FilterByString(filter.StringProps));
-                }
-                else
-                {
-                    res = FilterByString(filter.StringProps);
-                }
+                var tmp = GetOrdered(FilterByString(filter.StringProps, filter.SortingPropertyId), orderBy);
+                res = res.Any() ? res.Intersect(tmp) : tmp;
             }
 
             res = res.Skip(skip).Take(quantity);
-            
             return res;
         }
 
@@ -267,7 +261,7 @@ namespace Godsend
         /// <param name="quantity">The quantity.</param>
         /// <param name="skip">The skip.</param>
         /// <returns></returns>
-        public IQueryable<ProductInformation> FilterByInt(IEnumerable<IntPropertyInfo> props)
+        public IQueryable<ProductInformation> FilterByInt(IEnumerable<IntPropertyInfo> props,Guid orderPropertyId)
         {
             var tmp = context.LinkProductPropertyInt
                 .Include(p => p.Property)
@@ -278,8 +272,12 @@ namespace Godsend
             {
                 tmp = tmp.Where(p => prop.PropId != p.Property.Id || (prop.PropId == p.Property.Id && p.Value >= prop.Left && p.Value <= prop.Right));
             }
+            return GetOrderedByProperty(orderPropertyId, tmp);
+        }
 
-            return tmp.Select(x => x.Product.Info).Distinct();
+        private static IQueryable<ProductInformation> GetOrderedByProperty<T>(Guid orderPropertyId, IQueryable<EAV<T>> tmp)
+        {
+            return tmp.OrderBy(x => x.Property.Id != orderPropertyId).ThenBy(x => x.Value).Select(x => x.Product.Info).Distinct();
         }
 
         /// <summary>
@@ -289,7 +287,7 @@ namespace Godsend
         /// <param name="quantity">The quantity.</param>
         /// <param name="skip">The skip.</param>
         /// <returns></returns>
-        public IQueryable<ProductInformation> FilterByDecimal(IEnumerable<DecimalPropertyInfo> props)
+        public IQueryable<ProductInformation> FilterByDecimal(IEnumerable<DecimalPropertyInfo> props,Guid orderPropertyId)
         {
             var tmp = context.LinkProductPropertyDecimal
                 .Include(p => p.Property)
@@ -300,7 +298,7 @@ namespace Godsend
                 tmp = tmp.Where(p => prop.PropId != p.Property.Id || (prop.PropId == p.Property.Id && p.Value >= prop.Left && p.Value <= prop.Right));
             }
 
-            return tmp.Select(x => x.Product.Info).Distinct();
+            return tmp.OrderBy(x => x.Property.Id != orderPropertyId).ThenBy(x => x.Value).Select(x => x.Product.Info).Distinct();
         }
 
         /// <summary>
@@ -310,7 +308,7 @@ namespace Godsend
         /// <param name="quantity">The quantity.</param>
         /// <param name="skip">The skip.</param>
         /// <returns></returns>
-        public IQueryable<ProductInformation> FilterByString(IEnumerable<StringPropertyInfo> props)
+        public IQueryable<ProductInformation> FilterByString(IEnumerable<StringPropertyInfo> props,Guid orderPropertyId)
         {
             var tmp = context.LinkProductPropertyString
                 .Include(p => p.Property)
@@ -321,7 +319,7 @@ namespace Godsend
                 tmp = tmp.Where(p => prop.PropId != p.Property.Id || (prop.PropId == p.Property.Id && prop.Part == p.Value));
             }
 
-            return tmp.Select(x => x.Product.Info).Distinct();
+            return GetOrderedByProperty(orderPropertyId, tmp);
         }
 
         /// <summary>

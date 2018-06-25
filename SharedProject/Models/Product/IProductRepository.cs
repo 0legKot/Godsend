@@ -62,7 +62,7 @@ namespace Godsend
         /// <param name="quantity">The quantity.</param>
         /// <param name="skip">The skip.</param>
         /// <returns></returns>
-        IQueryable<ProductInformation> FilterByInt(IEnumerable<IntPropertyInfo> props);
+        IQueryable<ProductInformation> FilterByInt(IEnumerable<IntPropertyInfo> props, Guid orderPropertyId);
 
         /// <summary>
         /// Filters the by decimal.
@@ -71,7 +71,7 @@ namespace Godsend
         /// <param name="quantity">The quantity.</param>
         /// <param name="skip">The skip.</param>
         /// <returns></returns>
-        IQueryable<ProductInformation> FilterByDecimal(IEnumerable<DecimalPropertyInfo> props);
+        IQueryable<ProductInformation> FilterByDecimal(IEnumerable<DecimalPropertyInfo> props, Guid orderPropertyId);
 
         /// <summary>
         /// Filters the by string.
@@ -80,7 +80,7 @@ namespace Godsend
         /// <param name="quantity">The quantity.</param>
         /// <param name="skip">The skip.</param>
         /// <returns></returns>
-        IQueryable<ProductInformation> FilterByString(IEnumerable<StringPropertyInfo> props);
-        IEnumerable<ProductInformation> GetProductInformationsByFilter(FilterInfo filter,int quantity,int skip);
+        IQueryable<ProductInformation> FilterByString(IEnumerable<StringPropertyInfo> props, Guid orderPropertyId);
+        IEnumerable<ProductInformation> GetProductInformationsByFilter(FilterInfo filter,int quantity,int skip, OrderBy orderBy);
     }
 }
