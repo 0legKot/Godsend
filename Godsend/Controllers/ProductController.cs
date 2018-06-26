@@ -127,7 +127,7 @@ namespace Godsend.Controllers
         // Low perfomance maybe
 
         /// <summary>
-        /// Gets all categories.
+        /// Gets all categories without main
         /// </summary>
         /// <returns></returns>
         [HttpGet("[action]")]
