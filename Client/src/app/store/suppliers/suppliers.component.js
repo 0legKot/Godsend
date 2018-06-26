@@ -46,7 +46,7 @@ var SuppliersComponent = /** @class */ (function () {
     };
     SuppliersComponent.prototype.createSupplier = function (name, address) {
         var _this = this;
-        // TODO create interface with oly relevant info
+        // TODO create interface with only relevant info
         var sup = new Supplier(new SupplierInfo(name, new Location(address)));
         this.repo.createOrEditEntity('supplier', sup, this.page, this.rpp, function () { return _this.searchInline.doSearch(); });
     };

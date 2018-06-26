@@ -188,6 +188,15 @@ var RepositoryService = /** @class */ (function () {
                 fn(products);
         });
     };
+    RepositoryService.prototype.getByFilter = function (filter, fn) {
+        var _this = this;
+        this.data.sendRequest('post', 'api/product/getByFilter', filter)
+            .subscribe(function (products) {
+            _this.products = products;
+            if (fn)
+                fn(products);
+        });
+    };
     RepositoryService = __decorate([
         Injectable({
             providedIn: 'root'

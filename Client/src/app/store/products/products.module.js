@@ -9,6 +9,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ProductsComponent } from './products.component';
 import { ProductDetailComponent } from './product-detail.component';
+import { PagesComponent } from '../pages/pages.component';
 var ProductsModule = /** @class */ (function () {
     function ProductsModule() {
     }
@@ -20,7 +21,8 @@ var ProductsModule = /** @class */ (function () {
             ],
             declarations: [
                 ProductsComponent,
-                ProductDetailComponent
+                ProductDetailComponent,
+                PagesComponent
             ]
         })
     ], ProductsModule);

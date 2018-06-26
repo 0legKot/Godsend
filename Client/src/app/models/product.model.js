@@ -62,4 +62,85 @@ var CatsWithSubs = /** @class */ (function () {
     return CatsWithSubs;
 }());
 export { CatsWithSubs };
+var FilterInfo = /** @class */ (function () {
+    function FilterInfo() {
+    }
+    return FilterInfo;
+}());
+export { FilterInfo };
+var DecimalPropertyInfo = /** @class */ (function () {
+    function DecimalPropertyInfo(propId, left, right) {
+        this.propId = propId;
+        this.left = left;
+        this.right = right;
+    }
+    return DecimalPropertyInfo;
+}());
+export { DecimalPropertyInfo };
+var IntPropertyInfo = /** @class */ (function () {
+    function IntPropertyInfo(propId, left, right) {
+        this.propId = propId;
+        this.left = left;
+        this.right = right;
+    }
+    return IntPropertyInfo;
+}());
+export { IntPropertyInfo };
+var StringPropertyInfo = /** @class */ (function () {
+    function StringPropertyInfo(propId, part) {
+        this.propId = propId;
+        this.part = part;
+    }
+    return StringPropertyInfo;
+}());
+export { StringPropertyInfo };
+var FilterInfoView = /** @class */ (function () {
+    function FilterInfoView() {
+    }
+    return FilterInfoView;
+}());
+export { FilterInfoView };
+var DecimalPropertyInfoView = /** @class */ (function () {
+    function DecimalPropertyInfoView(propId, name) {
+        this.propId = propId;
+        this.name = name;
+        this.left = null;
+        this.right = null;
+    }
+    return DecimalPropertyInfoView;
+}());
+export { DecimalPropertyInfoView };
+var IntPropertyInfoView = /** @class */ (function () {
+    function IntPropertyInfoView(propId, name) {
+        this.propId = propId;
+        this.name = name;
+        this.left = null;
+        this.right = null;
+    }
+    return IntPropertyInfoView;
+}());
+export { IntPropertyInfoView };
+var StringPropertyInfoView = /** @class */ (function () {
+    function StringPropertyInfoView(propId, name) {
+        this.propId = propId;
+        this.name = name;
+        this.part = '';
+    }
+    return StringPropertyInfoView;
+}());
+export { StringPropertyInfoView };
+var Property = /** @class */ (function () {
+    function Property() {
+        this.id = '';
+        this.name = '';
+        this.type = -1;
+    }
+    return Property;
+}());
+export { Property };
+export var propertyType = [
+    'int',
+    'string',
+    'decimal' //2
+];
 //# sourceMappingURL=product.model.js.map

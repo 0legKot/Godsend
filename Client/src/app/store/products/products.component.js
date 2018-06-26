@@ -9,7 +9,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 import { Component, ViewChild } from '@angular/core';
 import { RepositoryService } from '../../services/repository.service';
-import { Product, ProductInfo } from '../../models/product.model';
+import { Product, ProductInfo, FilterInfo, DecimalPropertyInfo, StringPropertyInfo, IntPropertyInfo } from '../../models/product.model';
 import { searchType } from '../search/search.service';
 import { SearchInlineComponent } from '../search/search-inline.component';
 import { ImageService } from '../../services/image.service';
@@ -28,6 +28,20 @@ var ProductsComponent = /** @class */ (function () {
         this.searchInline = !;
         this.imagg = {};
     }
+    ProductsComponent.prototype.prevPage = function () {
+        var _this = this;
+        this.page--;
+        this.repo.getEntities('product', this.page, this.rpp, function (res) {
+            _this.imageService.getPreviewImages(res.map(function (pi) { return pi.id; }), function (smth) { return _this.imagg = smth; });
+        });
+    };
+    ProductsComponent.prototype.nextPage = function () {
+        var _this = this;
+        this.page++;
+        this.repo.getEntities('product', this.page, this.rpp, function (res) {
+            _this.imageService.getPreviewImages(res.map(function (pi) { return pi.id; }), function (smth) { return _this.imagg = smth; });
+        });
+    };
     Object.defineProperty(ProductsComponent.prototype, "products", {
         get: function () {
             return this.searchProducts || this.repo.products;
@@ -63,9 +77,38 @@ var ProductsComponent = /** @class */ (function () {
     };
     ProductsComponent.prototype.getSubcategories = function (category) {
         this.categories = this.cattt.getSubcategories(category);
+        this.getCategoryProps(category);
     };
     ProductsComponent.prototype.getByCategory = function (category) {
         this.repo.getByCategory(category);
+    };
+    ProductsComponent.prototype.getByFilter = function () {
+        if (this.filter) {
+            var trimmedFilter = new FilterInfo();
+            if (this.filter.stringProps) {
+                trimmedFilter.stringProps = this.filter.stringProps
+                    .filter(function (prop) { return prop.part !== '' && prop.part != null; })
+                    .map(function (prop) { return new StringPropertyInfo(prop.propId, prop.part); });
+            }
+            if (this.filter.intProps) {
+                trimmedFilter.intProps = this.filter.intProps
+                    .filter(function (prop) { return prop.left != null && prop.right != null; })
+                    .map(function (prop) { return new IntPropertyInfo(prop.propId, prop.left, prop.right); });
+            }
+            if (this.filter.decimalProps) {
+                trimmedFilter.decimalProps = this.filter.decimalProps
+                    .filter(function (prop) { return prop.left != null && prop.right != null; })
+                    .map(function (prop) { return new DecimalPropertyInfo(prop.propId, prop.left, prop.right); });
+            }
+            this.repo.getByFilter(trimmedFilter);
+        }
+    };
+    ProductsComponent.prototype.getCategoryProps = function (category) {
+        var _this = this;
+        this.cattt.getCategoryProps(category, function (filter) { return _this.filter = filter; });
+    };
+    ProductsComponent.prototype.setCurrentCategory = function (category) {
+        this.getCategoryProps(category);
     };
     __decorate([
         ViewChild(SearchInlineComponent),

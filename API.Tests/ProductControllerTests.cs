@@ -3,6 +3,8 @@ using Godsend.Controllers;
 using Godsend.Models;
 using Moq;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using Xunit;
 
 namespace API.Tests
@@ -22,6 +24,25 @@ namespace API.Tests
             var result = controller.Detail(It.IsAny<Guid>());
 
             Assert.True(result.Product.Name == "Test");
+        }
+        [Fact]
+        public void GetSubCategoriesTest()
+        {
+            var repo = new Mock<IProductRepository>();
+            var cat1 = new Category() { BaseCategory = null, Name = "Test1", Id = It.IsAny<Guid>() };
+            var cat2 = new Category() { BaseCategory = cat1, Name = "Test2", Id = It.IsAny<Guid>() };
+            var cat3 = new Category() { BaseCategory = cat2, Name = "Test3", Id = It.IsAny<Guid>() };
+
+            repo.Setup(x => x.Categories())
+                .Returns(new List<Category>() {
+                    cat1,cat2,cat3
+                });
+
+            var controller = new ProductController(repo.Object);
+
+            IEnumerable<Category> result = controller.GetSubCategories(cat1.Id);
+
+            Assert.True(result.All(x=>x.Id==cat2.Id));
         }
     }
 }
