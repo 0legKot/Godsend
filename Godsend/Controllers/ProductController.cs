@@ -52,7 +52,11 @@ namespace Godsend.Controllers
 
             return prod;
         }
-
+        [HttpGet("[action]")]
+        public IActionResult SayHello()
+        {
+            return Ok("I said Hello");
+        }
         /// <summary>
         /// Gets the base categories.
         /// </summary>
