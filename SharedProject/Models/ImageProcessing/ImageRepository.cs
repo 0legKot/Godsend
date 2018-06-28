@@ -26,6 +26,8 @@ namespace Godsend.Models
         /// <param name="ctx">The CTX.</param>
         public ImageRepository(DataContext ctx)
         {
+            SeedHelper.EnsurePopulated(ctx);
+
             context = ctx;
             if (!context.ImagePathsTable.Any(ipt => ipt.Id == context.Products.Include(s => s.Info).FirstOrDefault().Info.Id))
             {
@@ -36,9 +38,6 @@ namespace Godsend.Models
 
                 context.SaveChanges();
             }
-
-            // ensure it's seeded
-            var supRepo = new EFSupplierRepository(ctx);
 
             if (!context.ImagePathsTable.Any(ipt => ipt.Id == context.Suppliers.Include(s => s.Info).FirstOrDefault().Info.Id))
             {
