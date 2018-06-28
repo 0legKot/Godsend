@@ -37,6 +37,7 @@ namespace Godsend
             services.AddTransient<IOrderRepository, EFOrderRepository>();
             services.AddTransient<ISupplierRepository, EFSupplierRepository>();
             services.AddTransient<IArticleRepository, EFArticleRepository>();
+            services.AddTransient<ISeedHelper, SeedHelper>();
             string connection = Configuration.GetConnectionString("StoreDb");
             services.AddDbContext<DataContext>(options => options.UseSqlServer(connection));
             services.AddTransient<ImageRepository>();

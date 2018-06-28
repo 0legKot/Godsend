@@ -54,39 +54,6 @@ namespace Godsend.Controllers
         }
 
         /// <summary>
-        ///
-        /// </summary>
-        public class CatWithSubs
-        {
-            /// <summary>
-            /// Gets or sets the cat.
-            /// </summary>
-            /// <value>
-            /// The cat.
-            /// </value>
-            public Category Cat { get; set; }
-
-            /// <summary>
-            /// Gets or sets the subs.
-            /// </summary>
-            /// <value>
-            /// The subs.
-            /// </value>
-            public IEnumerable<CatWithSubs> Subs { get; set; }
-
-            /// <summary>
-            /// Returns a <see cref="System.String" /> that represents this instance.
-            /// </summary>
-            /// <returns>
-            /// A <see cref="System.String" /> that represents this instance.
-            /// </returns>
-            public override string ToString()
-            {
-                return "CatWithSubs: " + Cat.Name;
-            }
-        }
-
-        /// <summary>
         /// Gets the base categories.
         /// </summary>
         /// <returns></returns>

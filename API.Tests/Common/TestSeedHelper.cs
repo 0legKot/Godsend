@@ -2,22 +2,17 @@
 // Copyright (c) Godsend Team. All rights reserved.
 // </copyright>
 
-namespace Godsend.Models
+namespace API.Tests.Common
 {
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Runtime.CompilerServices;
     using System.Text;
+    using Godsend.Models;
     using Microsoft.EntityFrameworkCore;
 
-    public interface ISeedHelper
-    {
-        void EnsurePopulated(DataContext context);
-    }
-
-
-    internal class SeedHelper : ISeedHelper
+    internal class TestSeedHelper : ISeedHelper
     {
         private static object creationLock = new object();
 

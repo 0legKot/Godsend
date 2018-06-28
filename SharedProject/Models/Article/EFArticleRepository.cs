@@ -36,12 +36,12 @@ namespace Godsend.Models
         /// </summary>
         /// <param name="context">The context.</param>
         /// <param name="userManager">The user manager.</param>
-        public EFArticleRepository(DataContext context, UserManager<IdentityUser> userManager)
+        public EFArticleRepository(DataContext context, UserManager<IdentityUser> userManager, ISeedHelper seedHelper)
         {
             this.context = context;
             this.userManager = userManager;
 
-            SeedHelper.EnsurePopulated(context);
+            seedHelper.EnsurePopulated(context);
         }
 
         /// <summary>

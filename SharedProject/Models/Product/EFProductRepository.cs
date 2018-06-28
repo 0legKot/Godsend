@@ -46,12 +46,11 @@ namespace Godsend
         /// Initializes a new instance of the <see cref="EFProductRepository" /> class.
         /// </summary>
         /// <param name="ctx">The CTX.</param>
-        /// <param name="userManager">The user manager.</param>
-        public EFProductRepository(DataContext ctx, UserManager<IdentityUser> userManager)
+        public EFProductRepository(DataContext ctx, ISeedHelper seedHelper)
         {
             context = ctx;
 
-            SeedHelper.EnsurePopulated(ctx);
+            seedHelper.EnsurePopulated(ctx);
         }
 
         /// <summary>

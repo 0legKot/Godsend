@@ -25,11 +25,11 @@ namespace Godsend.Models
         /// Initializes a new instance of the <see cref="EFSupplierRepository"/> class.
         /// </summary>
         /// <param name="ctx">The CTX.</param>
-        public EFSupplierRepository(DataContext ctx/*, UserManager<IdentityUser> userManager*/)
+        public EFSupplierRepository(DataContext ctx, ISeedHelper seedHelper)
         {
             context = ctx;
 
-            SeedHelper.EnsurePopulated(ctx);
+            seedHelper.EnsurePopulated(ctx);
         }
 
         /// <summary>

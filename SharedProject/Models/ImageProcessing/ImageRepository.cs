@@ -24,11 +24,11 @@ namespace Godsend.Models
         /// Initializes a new instance of the <see cref="ImageRepository"/> class.
         /// </summary>
         /// <param name="ctx">The CTX.</param>
-        public ImageRepository(DataContext ctx)
+        public ImageRepository(DataContext ctx, ISeedHelper seedHelper)
         {
             context = ctx;
 
-            SeedHelper.EnsurePopulated(ctx);
+            seedHelper.EnsurePopulated(ctx);
         }
 
         /// <summary>

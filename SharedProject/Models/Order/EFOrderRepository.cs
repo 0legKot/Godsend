@@ -26,11 +26,11 @@ namespace Godsend.Models
         /// </summary>
         /// <param name="ctx">The CTX.</param>
         /// <param name="userManager">The user manager.</param>
-        public EFOrderRepository(DataContext ctx, UserManager<IdentityUser> userManager)
+        public EFOrderRepository(DataContext ctx, UserManager<IdentityUser> userManager, ISeedHelper seedHelper)
         {
             context = ctx;
 
-            SeedHelper.EnsurePopulated(ctx);
+            seedHelper.EnsurePopulated(ctx);
         }
 
         // TODO rework
