@@ -1,4 +1,6 @@
-﻿<div><button (click)="prevPage()">Prev Page</button></div>
-<div><button (click)="nextPage()">Next Page</button></div>
+﻿<div class="pages">
+    <div class="inline-block" (click)="prevPage()"><fa name="chevron-left"></fa> Prev Page </div>
+    <div class="inline-block" (click)="nextPage()"> Next Page <fa name="chevron-right"></fa></div>
+</div>
 <!--<input [(ngModel)]="{{page}}" />-->
 <!--<div><button (click)="goToPage({{page}})">Go To Page</button></div>-->

@@ -1,2 +1,22 @@
-﻿body {
+﻿.inline-block{
+    display: inline-block;
+}
+.pages{
+    margin-top: 20px;
+    margin-bottom:25px;
+    text-align: center;
+    cursor: pointer;
+}
+.pages div{
+    padding: 25px;
+    font-weight: 500;
+}
+.pages div:hover {
+    color: #005c05;
+    transition: 150ms;
+}
+@media(max-width: 460px){
+    .pages div {
+        padding: 5px;
+    }
 }

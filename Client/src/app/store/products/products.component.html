@@ -6,88 +6,85 @@
 <br />
 <a (click)="createProduct('it is test product','Test product2')">Create!!</a>
 <br />
-<div>
-    <div class="wrap">
-        <br />
-        <button class="btn btn-dark" (click)="getCategories()">Get categories</button>
-        <br />
-        <br />
-        <div *ngIf="categories && categories.length > 0">
-            <div class="list-group" *ngFor="let category of categories">
-                <div type="button" (click)="getByCategory(category)" class="list-group-item list-group-item-action">
-                    {{ category.name }}
-                    <button class="pull-right btn btn-dark" (click)="getSubcategories(category)">Subcategories</button>
-                    <button class="pull-right btn btn-light" (click)="setCurrentCategory(category)">Set for filter</button>
-                </div>
+<div class="wrap">
+    <br />
+    <button class="btn btn-dark" (click)="getCategories()">Get categories</button>
+    <br />
+    <br />
+    <div *ngIf="categories && categories.length > 0">
+        <div class="list-group" *ngFor="let category of categories">
+            <div type="button" (click)="getByCategory(category)" class="list-group-item list-group-item-action">
+                {{ category.name }}
+                <button class="pull-right btn btn-dark" (click)="getSubcategories(category)">Subcategories</button>
+                <button class="pull-right btn btn-light" (click)="setCurrentCategory(category)">Set for filter</button>
             </div>
-        </div>
-        <br />
-
-        <div *ngIf="filter">
-            <div *ngIf="filter.stringProps?.length > 0">
-                <label>String props</label>
-                <div *ngFor="let prop of filter.stringProps">
-                    <label> {{ prop.name }} </label>
-                    <input [(ngModel)]="prop.part" />
-                </div>
-            </div>
-            <div *ngIf="filter.decimalProps?.length > 0">
-                <label>Decimal props</label>
-                <div *ngFor="let prop of filter.decimalProps">
-                    <label> {{ prop.name }} </label>
-                    <div>
-                        From
-                        <input type="number" [(ngModel)]="prop.left" />
-                    </div>
-                    <div>
-                        To
-                        <input type="number" [(ngModel)]="prop.right" />
-                    </div>
-                </div>
-            </div>
-
-            <div *ngIf="filter.intProps?.length > 0">
-                <label>Int props</label>
-                <div *ngFor="let prop of filter.intProps">
-                    <label> {{ prop.name }} </label>
-                    <div>
-                        From
-                        <input type="number" [(ngModel)]="prop.left" />
-                    </div>
-                    <div>
-                        To
-                        <input type="number" [(ngModel)]="prop.right" />
-                    </div>
-                </div>
-
-            </div>
-            <button class="btn btn-dark" (click)="getByFilter()">Filter</button>
-
-
-        </div>
-        <br />
-        <div id="stic-search">
-            <div class="search">
-                <p class="inline-block">
-                    <godsend-search-inline [type]="type" (found)="onFound($event.productsInfo)"></godsend-search-inline>
-                </p>
-                <p class="inline-block">
-                    <fa name="search"></fa>
-                </p>
-            </div>
-        </div>
-        <br />
-        <div class='container-fluid' *ngIf="products?.length > 0; else nodata">
-            <div class='row products'>
-                <div *ngFor="let productInfo of products" class="col-lg-3 col-md-4 col-sm-6 col-xs-12  card ">
-                    <godsend-product-card [productInfo]="productInfo" [image]="imagg[productInfo.id]" (delete)="deleteProduct(productInfo.id)"></godsend-product-card>
-                </div>
-            </div>
-
         </div>
     </div>
+    <br />
+
+    <div *ngIf="filter">
+        <div *ngIf="filter.stringProps?.length > 0">
+            <label>String props</label>
+            <div *ngFor="let prop of filter.stringProps">
+                <label> {{ prop.name }} </label>
+                <input [(ngModel)]="prop.part" />
+            </div>
+        </div>
+        <div *ngIf="filter.decimalProps?.length > 0">
+            <label>Decimal props</label>
+            <div *ngFor="let prop of filter.decimalProps">
+                <label> {{ prop.name }} </label>
+                <div>
+                    From
+                    <input type="number" [(ngModel)]="prop.left" />
+                </div>
+                <div>
+                    To
+                    <input type="number" [(ngModel)]="prop.right" />
+                </div>
+            </div>
+        </div>
+
+        <div *ngIf="filter.intProps?.length > 0">
+            <label>Int props</label>
+            <div *ngFor="let prop of filter.intProps">
+                <label> {{ prop.name }} </label>
+                <div>
+                    From
+                    <input type="number" [(ngModel)]="prop.left" />
+                </div>
+                <div>
+                    To
+                    <input type="number" [(ngModel)]="prop.right" />
+                </div>
+            </div>
+        </div>
+        <button class="btn btn-dark" (click)="getByFilter()">Filter</button>
     </div>
-<godsend-pages></godsend-pages>
-<ng-template #nodata>
-    <div class="center"> <h4 class="m-1">{{ templateText }}</h4></div>
-</ng-template>
+    <br />
+    <div id="stic-search">
+        <div class="search">
+            <p class="inline-block">
+                <godsend-search-inline [type]="type" (found)="onFound($event.productsInfo)"></godsend-search-inline>
+            </p>
+            <p class="inline-block">
+                <fa name="search"></fa>
+            </p>
+        </div>
+    </div>
+    <br />
+    <div class='container-fluid' *ngIf="products?.length > 0; else nodata">
+        <div class='row products'>
+            <div *ngFor="let productInfo of products" class="col-lg-3 col-md-4 col-sm-6 col-xs-12  card ">
+                <godsend-product-card [productInfo]="productInfo" [image]="imagg[productInfo.id]" (delete)="deleteProduct(productInfo.id)"></godsend-product-card>
+            </div>
+        </div>
+
+    </div>
+    <godsend-pages></godsend-pages>
+    <ng-template #nodata>
+        <div class="center"> <h4 class="m-1">{{ templateText }}</h4></div>
+    </ng-template>
+
+</div>
+
