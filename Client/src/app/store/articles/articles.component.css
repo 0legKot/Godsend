@@ -21,9 +21,22 @@ h1{
     margin-bottom: 20px;
 }
 .readMore {
-    background: #4cff00;
-    color:#000000;
+    background-color: #4cff00;
+    color: #123901;
+    border-color: #4cff00;
+    font-size:17px;
 }
+    .readMore:focus {
+        background-color: #3ac100;
+        border-color: #3ac100;
+        color: #ffffff;
+    }
+
+    .readMore:hover {
+        background-color: #3ac100;
+        border-color: #3ac100;
+        color: #ffffff;
+    }
 .delete-art{
     cursor: pointer;
 }
