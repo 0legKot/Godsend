@@ -4,6 +4,12 @@
 .inline-block{
     display: inline-block;
 }
+.ml-4 {
+    margin-left: 40px;
+}
+.mr-2 {
+    margin-left: 20px;
+}
 .center {
     margin: 0 auto;
     text-align: center;
@@ -12,12 +18,31 @@ a, a:active, a:focus, a:visited {
     text-decoration: none;
     color: #171212;
 }
-
+.list-group{
+    width: 450px;
+}
+.list-group-item{
+    cursor: pointer;
+}
+.list-group-item div {
+    display: inline-block;
+    font-size: 17px;
+    font-weight: 500;
+}
+.list-group-item button {
+    float: right;
+}
+.list-group-item:hover {
+    color: #005c05;
+}
+.form-control {
+    width: 200px;
+}
 .delete {
     display: inline-block;
     z-index: 6;
     background-color: antiquewhite;
-    cursor:pointer;
+    cursor: pointer;
     position: absolute;
     padding: 5px;
     right: 5px;
@@ -106,6 +131,17 @@ h1, h4 {
         margin-bottom: 10px;
     }
 
+    .list-group {
+        width: 260px;
+    }
+    .list-group-item div {
+        display: block;
+        margin-bottom: 15px;
+    }
+    .list-group-item button {
+        float: none;
+        display:inline-block;
+    }
 }
 
 @media (max-width: 460px) {
