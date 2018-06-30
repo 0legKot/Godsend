@@ -79,6 +79,7 @@ export class ProductsComponent implements OnInit {
 
     getCategories(): void {
         this.categories = this.cattt.cats ? this.cattt.cats.map(cws => cws.cat) : [];
+        console.log(this.categories)
     }
 
     getSubcategories(category: Category): void {
@@ -117,7 +118,7 @@ export class ProductsComponent implements OnInit {
     }
 
     getCategoryProps(category: Category): void {
-        this.cattt.getCategoryProps(category, filter => this.filter = filter)
+        this.cattt.getCategoryProps(category, filter => { this.filter = filter; console.log(filter); })
     }
 
     setCurrentCategory(category: Category): void {

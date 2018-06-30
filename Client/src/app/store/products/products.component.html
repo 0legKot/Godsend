@@ -26,7 +26,7 @@
             <div class="form-group" *ngIf="filter.stringProps?.length > 0">
                 <div *ngFor="let prop of filter.stringProps">
                     <label> {{ prop.name }} </label>
-                    <input class="form-control" [(ngModel)]="prop.part" />
+                    <input class="form-control" [(ngModel)]="prop.part" name="x" />
                     <small id="emailHelp" class="form-text text-muted">
                         Type only string characters
                     </small>
@@ -37,11 +37,11 @@
                     <label> {{ prop.name }} </label>
                     <div>
                         From
-                        <input class="form-control" type="number" [(ngModel)]="prop.left" />
+                        <input class="form-control" name="x" type="number" [(ngModel)]="prop.left" />
                     </div>
                     <div>
                         To
-                        <input class="form-control" type="number" [(ngModel)]="prop.right" />
+                        <input class="form-control" name="x" type="number" [(ngModel)]="prop.right" />
                     </div>
                 </div>
             </div>
@@ -50,11 +50,11 @@
                     <label> {{ prop.name }} </label>
                     <div>
                         From
-                        <input class="form-control" type="number" [(ngModel)]="prop.left" />
+                        <input class="form-control" type="number" name="x" [(ngModel)]="prop.left" />
                     </div>
                     <div>
                         To
-                        <input class="form-control" type="number" [(ngModel)]="prop.right" />
+                        <input class="form-control" type="number" name="x" [(ngModel)]="prop.right" />
                     </div>
                 </div>
             </div>
