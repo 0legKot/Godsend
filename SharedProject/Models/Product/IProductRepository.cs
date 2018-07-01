@@ -81,6 +81,7 @@ namespace Godsend
         /// <param name="skip">The skip.</param>
         /// <returns></returns>
         IQueryable<ProductInformation> FilterByString(IEnumerable<StringPropertyInfo> props, Guid orderPropertyId);
-        IEnumerable<ProductInformation> GetProductInformationsByFilter(FilterInfo filter,int quantity,int skip, OrderBy orderBy);
+
+        IEnumerable<ProductInformation> GetProductInformationsByFilter(FilterInfo filter,int quantity,int skip);
     }
 }

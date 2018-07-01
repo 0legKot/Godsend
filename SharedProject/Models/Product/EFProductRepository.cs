@@ -214,8 +214,14 @@ namespace Godsend
             return context.Properties.Include(x => x.RelatedCategory).Where(x => x.RelatedCategory.Id == categoryId).Select(x => new { x.Id, x.Name, x.Type });
         }
 
-        
 
+
+        /// <summary>
+        /// Gets the ordered.
+        /// </summary>
+        /// <param name="infosToSort">The infos to sort.</param>
+        /// <param name="orderBy">The order by.</param>
+        /// <returns></returns>
         public IQueryable<ProductInformation> GetOrdered(IQueryable<ProductInformation> infosToSort, OrderBy orderBy)
         {
             switch (orderBy)
@@ -227,25 +233,31 @@ namespace Godsend
             }
         }
 
-        public IEnumerable<ProductInformation> GetProductInformationsByFilter(FilterInfo filter, int quantity = 10, int skip = 0, OrderBy orderBy = OrderBy.Rating)
+        /// <summary>
+        /// Gets the product informations by filter.
+        /// </summary>
+        /// <param name="filter">The filter.</param>
+        /// <param name="quantity">The quantity.</param>
+        /// <param name="skip">The skip.</param>
+        /// <returns></returns>
+        public IEnumerable<ProductInformation> GetProductInformationsByFilter(FilterInfo filter, int quantity = 10, int skip = 0)
         {
-            // intersect
             IEnumerable<ProductInformation> res = Enumerable.Empty<ProductInformation>();
             if (filter.IntProps.Any())
             {
-                var tmp = GetOrdered(FilterByInt(filter.IntProps, filter.SortingPropertyId), orderBy);
+                var tmp = GetOrdered(FilterByInt(filter.IntProps, filter.SortingPropertyId), filter.OrderBy);
                 res = res.Any() ? res.Intersect(tmp) : tmp;
             }
 
             if (filter.DecimalProps.Any())
             {
-                var tmp = GetOrdered(FilterByDecimal(filter.DecimalProps, filter.SortingPropertyId), orderBy);
+                var tmp = GetOrdered(FilterByDecimal(filter.DecimalProps, filter.SortingPropertyId), filter.OrderBy);
                 res = res.Any() ? res.Intersect(tmp) : tmp;
             }
 
             if (filter.StringProps.Any())
             {
-                var tmp = GetOrdered(FilterByString(filter.StringProps, filter.SortingPropertyId), orderBy);
+                var tmp = GetOrdered(FilterByString(filter.StringProps, filter.SortingPropertyId), filter.OrderBy);
                 res = res.Any() ? res.Intersect(tmp) : tmp;
             }
 

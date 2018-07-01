@@ -65,6 +65,7 @@ export class FilterInfo {
     decimalProps?: DecimalPropertyInfo[];
     intProps?: IntPropertyInfo[];
     stringProps?: StringPropertyInfo[];
+    orderBy: number = 0;
 }
 
 export class DecimalPropertyInfo {
@@ -94,6 +95,7 @@ export class FilterInfoView {
     decimalProps?: DecimalPropertyInfoView[];
     intProps?: IntPropertyInfoView[];
     stringProps?: StringPropertyInfoView[];
+    orderBy: number = 0;
 }
 
 export class DecimalPropertyInfoView {
@@ -138,3 +140,13 @@ export const propertyType: allowedPropertyTypes[] = [
 ]
 
 export type allowedPropertyTypes = 'int' | 'string' | 'decimal';
+
+export const orderBy: allowedOrderBy[] = [
+    'name',
+    'rating',
+    'watches'
+]
+
+export type allowedOrderBy = 'name' | 'rating' | 'watches';
+
+
