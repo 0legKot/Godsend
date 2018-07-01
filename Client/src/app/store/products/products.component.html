@@ -3,12 +3,13 @@
 
 
 
-<br />
-<a (click)="createProduct('it is test product','Test product2')">Create!!</a>
-<br />
 <div class="wrap">
-    <br />
+    
     <div class="ml-4">
+        <button (click)="createProduct('it is test product','Test product2')" class="btn btn-dark ">Create new</button>
+
+        <br />
+        <br />
         <button class="btn btn-dark" (click)="getCategories()">Get categories</button>
         <br />
         <br />
@@ -62,7 +63,7 @@
             <div *ngFor="let o of orderBy; let i = index">
                 <input type="radio" [value]="i" name="orderBy" [(ngModel)]="filter.orderBy" />
                 <span> {{ o }} </span>
-            </div>            
+            </div>
 
             <div *ngIf="filter.intProps?.length > 0 || filter.decimalProps?.length > 0 || filter.stringProps?.length > 0">
                 <button class="btn btn-dark" (click)="getByFilter()">Filter</button>
