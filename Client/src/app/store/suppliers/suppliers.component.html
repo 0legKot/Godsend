@@ -26,6 +26,7 @@
         </div>
     </div>
 </div>
+<godsend-pages [pagesCount]="pagesCount" (pageChanged)="onPageChanged($event)"></godsend-pages>
 
 <ng-template #nodata>
     <div class="center"> <h4 class="m-1">{{ templateText }}</h4></div>

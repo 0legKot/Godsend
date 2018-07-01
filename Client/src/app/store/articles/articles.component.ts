@@ -9,15 +9,29 @@ import { ArticleInfo, Article } from '../../models/article.model';
 })
 export class ArticlesComponent implements OnInit {
     page: number = 1;
-    rpp: number = 10;
+    rpp: number = 5;
+
     get articles() {
         return this.repo.articles;
     }
 
+    get pagesCount(): number {
+        return Math.ceil(this.repo.articlesCount / this.rpp);
+    }
+
+    onPageChanged(page: number) {
+        this.page = page;
+        this.getArticles();
+    }
+
     constructor(private repo: RepositoryService) { }
 
-    ngOnInit() {
+    getArticles() {
         this.repo.getEntities('article', this.page, this.rpp);
+    }
+
+    ngOnInit() {
+        this.getArticles();
     }
 
     createArticle(content: string, name: string, tags: string[]) {

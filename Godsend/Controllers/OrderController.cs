@@ -65,7 +65,13 @@ namespace Godsend.Controllers
         [HttpGet("[action]/{page:int}/{rpp:int}")]
         public IEnumerable<Order> All(int page, int rpp)
         {
-            return repository.Orders;
+            return repository.GetOrders(rpp, (page - 1) * rpp);
+        }
+
+        [HttpGet("[action]")]
+        public int Count()
+        {
+            return repository.GetCount();
         }
 
         /// <summary>
@@ -150,7 +156,7 @@ namespace Godsend.Controllers
         [HttpGet("[action]/{id:Guid}")]
         public Order Detail(Guid id)
         {
-            return repository.Orders.FirstOrDefault(x => x.Id == id);
+            return repository.GetOrderById(id);
         }
 
         /// <summary>

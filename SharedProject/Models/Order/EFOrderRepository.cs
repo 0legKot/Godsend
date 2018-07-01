@@ -33,6 +33,11 @@ namespace Godsend.Models
             seedHelper.EnsurePopulated(ctx);
         }
 
+        private IEnumerable<Order> Orders => context.Orders
+            .Include(x => x.EFCustomer)
+            .Include(o => o.Items).ThenInclude(di => di.Product).ThenInclude(di => di.Info)
+            .Include(o => o.Items).ThenInclude(di => di.Supplier).ThenInclude(s => s.Info);
+
         // TODO rework
 
         /// <summary>
@@ -41,10 +46,9 @@ namespace Godsend.Models
         /// <value>
         /// The orders.
         /// </value>
-        public IEnumerable<Order> Orders => context.Orders
-            .Include(x => x.EFCustomer)
-            .Include(o => o.Items).ThenInclude(di => di.Product).ThenInclude(di => di.Info)
-            .Include(o => o.Items).ThenInclude(di => di.Supplier).ThenInclude(s => s.Info);
+        public IEnumerable<Order> GetOrders(int quantity, int skip = 0) => 
+            this.Orders
+            .Skip(skip).Take(quantity);
         ////.Include(o => o.WeightedItems).ThenInclude(wi => wi.Product).ThenInclude(p => p.Info)
         ////.Include(o => o.WeightedItems).ThenInclude(wi => wi.Supplier).ThenInclude(s => s.Info);
 
@@ -122,6 +126,16 @@ namespace Godsend.Models
             ////.Include(o => o.WeightedItems).ThenInclude(wi => wi.Product).ThenInclude(p => p.Info)
             ////.Include(o => o.WeightedItems).ThenInclude(wi => wi.Supplier).ThenInclude(s => s.Info)
             .FirstOrDefault(p => p.Id == orderID);
+        }
+
+        public int GetCount()
+        {
+            return context.Orders.Count();
+        }
+
+        public Order GetOrderById(Guid id)
+        {
+            return this.Orders.FirstOrDefault(o => o.Id == id);
         }
     }
 }

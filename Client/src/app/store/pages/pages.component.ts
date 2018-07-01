@@ -1,5 +1,4 @@
-﻿import { Component } from '@angular/core';
-import { RepositoryService } from '../../services/repository.service';
+﻿import { Component, Output, EventEmitter, Input } from '@angular/core';
 
 @Component({
     selector: 'godsend-pages',
@@ -8,18 +7,26 @@ import { RepositoryService } from '../../services/repository.service';
 })
 export class PagesComponent {
     page: number = 1;
-    constructor(repo: RepositoryService) { }
+
+    @Input()
+    pagesCount!: number;
+
+    @Output()
+    pageChanged = new EventEmitter<number>();
+
+    constructor() { }
+
     nextPage() {
-        this.page++;
-        this.goToPage(this.page);
+        if (this.page < this.pagesCount) {
+            this.page++;
+            this.pageChanged.emit(this.page);
+        }
     }
+
     prevPage() {
-        this.page--;
-        this.goToPage(this.page);
+        if (this.page > 1) {
+            this.page--;
+            this.pageChanged.emit(this.page);
+        }
     }
-    goToPage(pageNumber: number) {
-        this.page = pageNumber;
-        this.update()
-    }
-    update() { }
 }

@@ -384,6 +384,11 @@ namespace Godsend
         {
             return context.Products.Include(p => p.Info).Include(p => p.Category).FirstOrDefault(p => p.Info.Id == infoId);
         }
+
+        public int EntitiesCount()
+        {
+            return context.Products.Count();
+        }
     }
 
     /// <summary>

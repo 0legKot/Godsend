@@ -28,6 +28,10 @@ export class RepositoryService {
     supplier: Supplier | {} = {};
     articles: ArticleInfo[] = [];
     article: Article | {} = {};
+    productsCount: number = 0;
+    articlesCount: number = 0;
+    suppliersCount: number = 0;
+    ordersCount: number = 0;
 
     constructor(private data: DataService) {
     }
@@ -59,7 +63,7 @@ export class RepositoryService {
             default: return;
         }
     }
-    setEntites<T>(clas: supportedClass, val: T[]) {
+    setEntities<T>(clas: supportedClass, val: T[]) {
         switch (clas) {
             case 'product':
                 this.products = <any>val;
@@ -72,6 +76,23 @@ export class RepositoryService {
                 break;
             case 'article':
                 this.articles = <any>val;
+                break;
+        }
+    }
+
+    setEntitiesCount(clas: supportedClass, val: number) {
+        switch (clas) {
+            case 'product':
+                this.productsCount = val;
+                break;
+            case 'order':
+                this.ordersCount = val;
+                break;
+            case 'supplier':
+                this.suppliersCount = val;
+                break;
+            case 'article':
+                this.articlesCount = val;
                 break;
         }
     }
@@ -125,7 +146,21 @@ export class RepositoryService {
                     fn(response);
                 }
                 console.log(response);
-                this.setEntites<T>(clas, response);
+                this.setEntities<T>(clas, response);
+            });
+
+        this.getEntitiesCount(clas);
+    }
+
+    getEntitiesCount(clas: supportedClass, fn?: (_: number) => any) {
+        const url = this.getUrl(clas);
+
+        this.data.sendRequest<number>('get', url + '/count')
+            .subscribe(response => {
+                this.setEntitiesCount(clas, response);
+                if (fn) {
+                    fn(response);
+                }
             });
     }
 

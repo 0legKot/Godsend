@@ -29,18 +29,30 @@ export class SuppliersComponent implements OnInit {
     get suppliers() {
         return this.searchSuppliers || this.repo.suppliers;
     }
+
+    get pagesCount(): number {
+        return Math.ceil(this.repo.suppliersCount / this.rpp);
+    }
+
+    onPageChanged(page: number) {
+        this.page = page;
+        this.getSuppliers();
+    }
+
+    getSuppliers() {
+        this.repo.getEntities<SupplierInfo>('supplier', this.page, this.rpp, res => {
+            this.imageService.getPreviewImages(res.map(si => si.id), (smth: any) => this.imagg = smth);
+        });
+    }
+
     getImage(pi: SupplierInfo): string {
         return this.images[pi.id];
     }
+
     constructor(private repo: RepositoryService, private imageService: ImageService) { }
 
     ngOnInit() {
-        this.repo.getEntities<SupplierInfo>('supplier', this.page, this.rpp, res => {
-            this.imageService.getPreviewImages(res.map(si => si.id), (smth: any) => this.imagg = smth);
-            // for(let p of res) {
-            //    this.imageService.getImage(p.id, image => { this.images[p.id] = image; });
-            // }
-        });
+        this.getSuppliers();
     }
 
     createSupplier(name: string, address: string) {

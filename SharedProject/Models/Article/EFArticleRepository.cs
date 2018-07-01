@@ -52,7 +52,7 @@ namespace Godsend.Models
         /// </value>
         public IEnumerable<Article> Entities(int quantity, int skip = 0)
         {
-            var tmp = context.Articles.Include(a => a.Info).ThenInclude(ai => ai.EFAuthor).Take(quantity).Skip(skip).ToArray();
+            var tmp = context.Articles.Include(a => a.Info).ThenInclude(ai => ai.EFAuthor).Skip(skip).Take(quantity).ToArray();
             return tmp;
         }
 
@@ -172,6 +172,11 @@ namespace Godsend.Models
             }
 
             context.SaveChanges();
+        }
+
+        public int EntitiesCount()
+        {
+            return context.Articles.Count();
         }
     }
 }

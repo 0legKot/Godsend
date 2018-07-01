@@ -38,7 +38,7 @@ namespace Godsend.Models
         /// <value>
         /// The entities.
         /// </value>
-        public IEnumerable<Supplier> Entities(int quantity, int skip = 0) => context.Suppliers.Include(s => s.Info).ThenInclude(i => i.Location).Take(quantity).Skip(skip);
+        public IEnumerable<Supplier> Entities(int quantity, int skip = 0) => context.Suppliers.Include(s => s.Info).ThenInclude(i => i.Location).Skip(skip).Take(quantity);
 
         /// <summary>
         /// Gets the entities information.
@@ -130,6 +130,11 @@ namespace Godsend.Models
         public Supplier GetEntityByInfoId(Guid infoId)
         {
             return context.Suppliers.Include(s => s.Info).ThenInclude(i => i.Location).FirstOrDefault(s => s.Info.Id == infoId);
+        }
+
+        public int EntitiesCount()
+        {
+            return context.Suppliers.Count();
         }
     }
 }

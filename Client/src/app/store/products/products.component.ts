@@ -29,16 +29,18 @@ export class ProductsComponent implements OnInit {
 
     imagg: any = {};
 
-    prevPage() {
-        this.page--;
+    get pagesCount(): number {
+        return Math.ceil(this.repo.productsCount / this.rpp);
+    }
+
+    onPageChanged(page: number) {
+        this.page = page;
+        this.getProducts();
+    }
+
+    getProducts() {
         this.repo.getEntities<ProductInfo>('product', this.page, this.rpp, res => {
             this.imageService.getPreviewImages(res.map(pi => pi.id), (smth: any) => this.imagg = smth);
-        });
-    }
-    nextPage() {
-        this.page++;
-        this.repo.getEntities<ProductInfo>('product', this.page, this.rpp, res => {
-        this.imageService.getPreviewImages(res.map(pi => pi.id), (smth: any) => this.imagg = smth);
         });
     }
 
@@ -69,9 +71,7 @@ export class ProductsComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.repo.getEntities<ProductInfo>('product', this.page, this.rpp, res => {
-            this.imageService.getPreviewImages(res.map(pi => pi.id), (smth: any) => this.imagg = smth);
-        });
+        this.getProducts();
     }
 
     categories?: Category[];

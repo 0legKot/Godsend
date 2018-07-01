@@ -16,9 +16,24 @@ export class OrdersComponent implements OnInit {
     rpp: number = 10;
     constructor(private repo: RepositoryService) { }
 
-    ngOnInit() {
-        this.repo.getEntities < Order>('order',this.page,this.rpp, o => this.orders = o);
+    get pagesCount(): number {
+        return Math.ceil(this.repo.ordersCount / this.rpp);
     }
+
+    onPageChanged(page: number) {
+        this.page = page;
+        this.getOrders();
+    }
+
+    ngOnInit() {
+        this.getOrders();
+    }
+
+    getOrders() {
+        this.repo.getEntities<Order>('order', this.page, this.rpp, o => this.orders = o);
+
+    }
+
     cancel(id: string) {
         this.repo.changeOrderStatus(id, 2, this.page, this.rpp, res => this.orders = res);
     }

@@ -44,6 +44,8 @@ namespace Godsend.Models
         /// <returns></returns>
         IEntity GetEntity(Guid entityId);
 
+        int EntitiesCount();
+
         /// <summary>
         /// Gets the entity by information identifier.
         /// </summary>

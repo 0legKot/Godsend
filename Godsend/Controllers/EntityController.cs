@@ -37,6 +37,12 @@ namespace Godsend.Controllers
             return repository.EntitiesInfo(rpp, (page - 1) * rpp);
         }
 
+        [HttpGet("[action]")]
+        public virtual int Count()
+        {
+            return repository.EntitiesCount();
+        }
+
         /// <summary>
         /// Deletes the specified identifier.
         /// </summary>
