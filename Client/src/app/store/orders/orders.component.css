@@ -25,6 +25,27 @@ tr:nth-child(odd) {
 tr:nth-child(even) {
     background: #e8e8e8;
 }
+.prod-list{
+    cursor: pointer;
+    height: 100px;
+}
+.prod-list div {
+    position: absolute;
+    right: 80px;
+    width: 500px;
+    top: 0;
+    padding: 8px;
+    background: #1a261d;
+    color: #ffffff;
+    display: none;
+}
+.prod-list-span{
+    padding-left:5px;
+}
+
+.prod-list:hover div {
+    display: block;
+}
 @media (min-width: 740px){
 table {
     width: 100%;
@@ -38,22 +59,7 @@ table {
 }
 }
 
-
-.cancel, .mark-sh{
-    text-align: center;
-    padding: 5px;
-    cursor: pointer;
-}
-.cancel:hover {
-    color: #db8600;
-    border-radius: 45%;
-    border-left: solid #db8600 2px;
-    border-right: solid #db8600 2px;
-    transition: 500ms;
-}
-.mark-sh:hover {
-    color: #ffffff;
-    border-radius: 45%;
-    background: #59db00;
-    transition: 500ms;
+td button{
+    display: block;
+    margin: 15px;
 }
