@@ -16,18 +16,27 @@
             <td><p>{{ o.ordered | date : 'dd-MMM-yyyy HH:mm' }} / </p> {{ (o.done | date : 'dd-MMM-yyyy HH:mm') || 'Not done yet' }}</td>
             <td>{{ status[o.status] || 'Unknown' }}</td>
             <td>
-                <div *ngFor="let item of o.items">
-                    <span>{{ item.product?.info?.name }}</span>
-                    <span *ngIf="item.quantity != 1"> x {{ item.quantity/item.multiplier }}</span>
+                <div class="prod-list rel">
+                    Hover me!
+                    <div>
+
+                        <span *ngFor="let item of o.items" class="prod-list-span">
+                            <span>{{ item.product?.info?.name }}</span>
+                            <span *ngIf="item.quantity != 1"> x{{ item.quantity/item.multiplier }}</span>
+                        </span>
+                    </div>
                 </div>
             </td>
             <!--<td>
-        <div *ngFor="let item of o.weightedItems">
-            <span>{{ item.product?.info?.name }}</span>
-            <span> x {{ item.weight }}</span>
-        </div>
-    </td>-->
-            <td><p (click)="cancel(o.id)" class="cancel">Cancel</p> <p (click)="shipped(o.id)" class="mark-sh">Mark shipped</p></td>
+                <div *ngFor="let item of o.weightedItems">
+                    <span>{{ item.product?.info?.name }}</span>
+                    <span> x {{ item.weight }}</span>
+                </div>
+            </td>-->
+            <td>
+                <button (click)="cancel(o.id)" type="button" class="btn btn-danger">Cancel</button>
+                <button (click)="shipped(o.id)" type="button" class="btn btn-success">Mark shipped</button>
+            </td>
         </tr>
     </table>
     <ng-template #nodata>
