@@ -11,6 +11,9 @@ namespace Godsend.Models
         public IEnumerable<StringPropertyInfo> StringProps { get; set; }
 
         public IEnumerable<IntPropertyInfo> IntProps { get; set; }
+
         public Guid SortingPropertyId { get; set; }
+
+        public OrderBy OrderBy { get; set; } = OrderBy.Rating;
     }
 }

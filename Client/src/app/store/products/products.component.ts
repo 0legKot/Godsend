@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 
 import { RepositoryService } from '../../services/repository.service';
-import { Product, ProductInfo, Category, CatsWithSubs, FilterInfo, FilterInfoView, DecimalPropertyInfo, StringPropertyInfo, IntPropertyInfo } from '../../models/product.model';
+import { Product, ProductInfo, Category, CatsWithSubs, FilterInfo, FilterInfoView, DecimalPropertyInfo, StringPropertyInfo, IntPropertyInfo, allowedOrderBy, orderBy } from '../../models/product.model';
 import { searchType } from '../search/search.service';
 import { SearchInlineComponent } from '../search/search-inline.component';
 import { ImageService } from '../../services/image.service';
@@ -111,10 +111,13 @@ export class ProductsComponent implements OnInit {
                     .map(prop => new DecimalPropertyInfo(prop.propId, prop.left, prop.right));
             }
 
-            this.repo.getByFilter(trimmedFilter);
-        }
+            trimmedFilter.orderBy = this.filter.orderBy;
 
-       
+            console.log('filter');
+            console.dir(trimmedFilter);
+
+            this.repo.getByFilter(trimmedFilter);
+        }       
     }
 
     getCategoryProps(category: Category): void {
@@ -124,4 +127,6 @@ export class ProductsComponent implements OnInit {
     setCurrentCategory(category: Category): void {
         this.getCategoryProps(category);
     }
+
+    orderBy: allowedOrderBy[] = orderBy;
 }
