@@ -2,6 +2,9 @@
     text-decoration: none;
     color: #171212;
 }
+.ml-4{
+    margin-left: 40px;
+}
 .delete {
     display: inline-block;
     z-index: 6;
