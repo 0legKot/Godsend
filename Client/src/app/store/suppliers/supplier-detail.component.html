@@ -3,11 +3,13 @@
 <br />
 <br />
 <div class="wrap rel">
+    <br />
+    <br />
     <div class="edit-supp">
         <div class="inline-block edit-btns" id="edit" *ngIf="!edit" (click)="editMode()"> Edit</div>
-        <div id="delete" class="edit-btns" (click)="deleteSupplier()">Delete</div>
         <div class="inline-block edit-btns" id="save" *ngIf="edit" (click)="save()"> Save</div>
         <div class="inline-block edit-btns" id="discard" *ngIf="edit" (click)="discard()"> Discard</div>
+        <div id="delete" class="edit-btns inline-block" (click)="deleteSupplier()">Delete</div>
     </div>
     <br />
     <br />
@@ -19,7 +21,7 @@
                 </div>
                 <div class="photo">
                     <!--<div *ngFor="let image of images" style="display:contents;">-->
-                        <img [src]="'data:image/jpg;base64,' + image"  class="card-img" />
+                    <img [src]="'data:image/jpg;base64,' + image" class="card-img" />
                     <!---</div>-->
                 </div>
                 <div class="rating">

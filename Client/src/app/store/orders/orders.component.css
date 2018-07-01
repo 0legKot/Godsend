@@ -25,6 +25,10 @@ tr:nth-child(odd) {
 tr:nth-child(even) {
     background: #e8e8e8;
 }
+.prod-list{
+    cursor: pointer;
+    height: 100px;
+}
 .prod-list div {
     position: absolute;
     right: 80px;
