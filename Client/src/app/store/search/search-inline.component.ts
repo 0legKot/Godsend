@@ -1,6 +1,7 @@
 import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { SearchService, searchType, AllSearchResult } from './search.service';
 import { SearchBaseComponent } from './search.base.component';
+import { RepositoryService } from '../../services/repository.service';
 
 
 @Component({
@@ -14,7 +15,7 @@ export class SearchInlineComponent extends SearchBaseComponent implements OnInit
     @Output()
     readonly found = new EventEmitter<AllSearchResult>();
 
-    constructor(private ss: SearchService) { super(); }
+    constructor(private ss: SearchService, private repo: RepositoryService) { super(); }
 
     ngOnInit() {
         super.ngOnInit();
@@ -24,6 +25,13 @@ export class SearchInlineComponent extends SearchBaseComponent implements OnInit
         if (term == null) {
             term = <string>(this.searchField.value || '');
         }
-        this.ss.findByType(this.type, term, res => this.found.emit(res));
+
+        if (this.type == searchType.product) {
+            this.repo.productFilter.searchTerm = term;
+            this.repo.getByFilter();
+        }
+        else {
+            this.ss.findByType(this.type, term, res => this.found.emit(res));
+        }
     }
 }

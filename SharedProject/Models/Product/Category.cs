@@ -47,6 +47,22 @@ namespace Godsend.Models
         {
             return "Category: " + Name;
         }
+
+        /// <summary>
+        /// Determines whether this category has specified id or has parent with specified id.
+        /// </summary>
+        /// <param name="categoryId">The category identifier.</param>
+        /// <returns>
+        ///   <c>true</c> if the specified category identifier has parent; otherwise, <c>false</c>.
+        /// </returns>
+        public bool HasParent(Guid categoryId)
+        {
+            if (Id == categoryId) return true;
+
+            if (BaseCategory == null) return false;
+
+            return BaseCategory.HasParent(categoryId);
+        }
     }
 
     /// <summary>

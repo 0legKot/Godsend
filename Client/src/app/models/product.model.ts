@@ -133,6 +133,28 @@ export class Property {
     type: number = -1;
 }
 
+export class ProductFilterInfo {
+    public decimalProps?: DecimalPropertyInfo[];
+    public stringProps?: StringPropertyInfo[];
+    public intProps?: IntPropertyInfo[];
+    public sortingPropertyId?: string;
+    public orderBy: number = 0;
+    public sortAscending: boolean = false;
+    public categoryId?: string;
+    public searchTerm?: string;    
+
+    constructor(
+        public quantity: number,
+        public page: number
+    ) { }
+}
+
+export interface ProductInfosAndCount {
+    infos: ProductInfo[];
+
+    count: number;
+}
+
 export const propertyType: allowedPropertyTypes[] = [
     'int', //0
     'string', //1

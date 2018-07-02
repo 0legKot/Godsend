@@ -216,164 +216,164 @@ namespace Godsend
 
 
 
-        /// <summary>
-        /// Gets the ordered.
-        /// </summary>
-        /// <param name="infosToSort">The infos to sort.</param>
-        /// <param name="orderBy">The order by.</param>
-        /// <returns></returns>
-        public IQueryable<ProductInformation> GetOrdered(IQueryable<ProductInformation> infosToSort, OrderBy orderBy)
-        {
-            switch (orderBy)
-            {
-                case OrderBy.Name: return infosToSort.OrderBy(x => x.Name);
-                case OrderBy.Watches: return infosToSort.OrderBy(x => x.Watches);
-                case OrderBy.Rating: return infosToSort.OrderBy(x => x.Rating);
-                default: return infosToSort;
-            }
-        }
+        /////// <summary>
+        /////// Gets the ordered.
+        /////// </summary>
+        /////// <param name="infosToSort">The infos to sort.</param>
+        /////// <param name="orderBy">The order by.</param>
+        /////// <returns></returns>
+        ////public IQueryable<ProductInformation> GetOrdered(IQueryable<ProductInformation> infosToSort, OrderBy orderBy)
+        ////{
+        ////    switch (orderBy)
+        ////    {
+        ////        case OrderBy.Name: return infosToSort.OrderBy(x => x.Name);
+        ////        case OrderBy.Watches: return infosToSort.OrderBy(x => x.Watches);
+        ////        case OrderBy.Rating: return infosToSort.OrderBy(x => x.Rating);
+        ////        default: return infosToSort;
+        ////    }
+        ////}
 
-        /// <summary>
-        /// Gets the product informations by filter.
-        /// </summary>
-        /// <param name="filter">The filter.</param>
-        /// <param name="quantity">The quantity.</param>
-        /// <param name="skip">The skip.</param>
-        /// <returns></returns>
-        public IEnumerable<ProductInformation> GetProductInformationsByFilter(FilterInfo filter, int quantity = 10, int skip = 0)
-        {
-            IEnumerable<ProductInformation> res = Enumerable.Empty<ProductInformation>();
-            if (filter.IntProps.Any())
-            {
-                var tmp = GetOrdered(FilterByInt(filter.IntProps, filter.SortingPropertyId), filter.OrderBy);
-                res = res.Any() ? res.Intersect(tmp) : tmp;
-            }
+        /////// <summary>
+        /////// Gets the product informations by filter.
+        /////// </summary>
+        /////// <param name="filter">The filter.</param>
+        /////// <param name="quantity">The quantity.</param>
+        /////// <param name="skip">The skip.</param>
+        /////// <returns></returns>
+        ////public IEnumerable<ProductInformation> GetProductInformationsByFilter(FilterInfo filter, int quantity = 10, int skip = 0)
+        ////{
+        ////    IEnumerable<ProductInformation> res = Enumerable.Empty<ProductInformation>();
+        ////    if (filter.IntProps.Any())
+        ////    {
+        ////        var tmp = GetOrdered(FilterByInt(filter.IntProps, filter.SortingPropertyId), filter.OrderBy);
+        ////        res = res.Any() ? res.Intersect(tmp) : tmp;
+        ////    }
 
-            if (filter.DecimalProps.Any())
-            {
-                var tmp = GetOrdered(FilterByDecimal(filter.DecimalProps, filter.SortingPropertyId), filter.OrderBy);
-                res = res.Any() ? res.Intersect(tmp) : tmp;
-            }
+        ////    if (filter.DecimalProps.Any())
+        ////    {
+        ////        var tmp = GetOrdered(FilterByDecimal(filter.DecimalProps, filter.SortingPropertyId), filter.OrderBy);
+        ////        res = res.Any() ? res.Intersect(tmp) : tmp;
+        ////    }
 
-            if (filter.StringProps.Any())
-            {
-                var tmp = GetOrdered(FilterByString(filter.StringProps, filter.SortingPropertyId), filter.OrderBy);
-                res = res.Any() ? res.Intersect(tmp) : tmp;
-            }
+        ////    if (filter.StringProps.Any())
+        ////    {
+        ////        var tmp = GetOrdered(FilterByString(filter.StringProps, filter.SortingPropertyId), filter.OrderBy);
+        ////        res = res.Any() ? res.Intersect(tmp) : tmp;
+        ////    }
 
-            res = res.Skip(skip).Take(quantity);
-            return res;
-        }
+        ////    res = res.Skip(skip).Take(quantity);
+        ////    return res;
+        ////}
 
-        /// <summary>
-        /// Filters the by int.
-        /// </summary>
-        /// <param name="props">The props.</param>
-        /// <param name="quantity">The quantity.</param>
-        /// <param name="skip">The skip.</param>
-        /// <returns></returns>
-        public IQueryable<ProductInformation> FilterByInt(IEnumerable<IntPropertyInfo> props,Guid orderPropertyId)
-        {
-            var tmp = context.LinkProductPropertyInt
-                .Include(p => p.Property)
-                .Include(p => p.Product).ThenInclude(p => p.Info)
-                .Where(p => props.Any(x => p.Property.Id == x.PropId));
+        /////// <summary>
+        /////// Filters the by int.
+        /////// </summary>
+        /////// <param name="props">The props.</param>
+        /////// <param name="quantity">The quantity.</param>
+        /////// <param name="skip">The skip.</param>
+        /////// <returns></returns>
+        ////public IQueryable<ProductInformation> FilterByInt(IEnumerable<IntPropertyInfo> props,Guid orderPropertyId)
+        ////{
+        ////    var tmp = context.LinkProductPropertyInt
+        ////        .Include(p => p.Property)
+        ////        .Include(p => p.Product).ThenInclude(p => p.Info)
+        ////        .Where(p => props.Any(x => p.Property.Id == x.PropId));
 
-            foreach (var prop in props)
-            {
-                tmp = tmp.Where(p => prop.PropId != p.Property.Id || (prop.PropId == p.Property.Id && p.Value >= prop.Left && p.Value <= prop.Right));
-            }
-            return GetOrderedByProperty(orderPropertyId, tmp);
-        }
+        ////    foreach (var prop in props)
+        ////    {
+        ////        tmp = tmp.Where(p => prop.PropId != p.Property.Id || (prop.PropId == p.Property.Id && p.Value >= prop.Left && p.Value <= prop.Right));
+        ////    }
+        ////    return GetOrderedByProperty(orderPropertyId, tmp);
+        ////}
 
-        private static IQueryable<ProductInformation> GetOrderedByProperty<T>(Guid orderPropertyId, IQueryable<EAV<T>> tmp)
-        {
-            return tmp.OrderBy(x => x.Property.Id != orderPropertyId).ThenBy(x => x.Value).Select(x => x.Product.Info).Distinct();
-        }
+        ////private static IQueryable<ProductInformation> GetOrderedByProperty<T>(Guid orderPropertyId, IQueryable<EAV<T>> tmp)
+        ////{
+        ////    return tmp.OrderBy(x => x.Property.Id != orderPropertyId).ThenBy(x => x.Value).Select(x => x.Product.Info).Distinct();
+        ////}
 
-        /// <summary>
-        /// Filters the by decimal.
-        /// </summary>
-        /// <param name="props">The props.</param>
-        /// <param name="quantity">The quantity.</param>
-        /// <param name="skip">The skip.</param>
-        /// <returns></returns>
-        public IQueryable<ProductInformation> FilterByDecimal(IEnumerable<DecimalPropertyInfo> props,Guid orderPropertyId)
-        {
-            var tmp = context.LinkProductPropertyDecimal
-                .Include(p => p.Property)
-                .Include(p => p.Product).ThenInclude(p => p.Info).Where(p => props.Any(x => p.Property.Id == x.PropId));
+        /////// <summary>
+        /////// Filters the by decimal.
+        /////// </summary>
+        /////// <param name="props">The props.</param>
+        /////// <param name="quantity">The quantity.</param>
+        /////// <param name="skip">The skip.</param>
+        /////// <returns></returns>
+        ////public IQueryable<ProductInformation> FilterByDecimal(IEnumerable<DecimalPropertyInfo> props,Guid orderPropertyId)
+        ////{
+        ////    var tmp = context.LinkProductPropertyDecimal
+        ////        .Include(p => p.Property)
+        ////        .Include(p => p.Product).ThenInclude(p => p.Info).Where(p => props.Any(x => p.Property.Id == x.PropId));
 
-            foreach (var prop in props)
-            {
-                tmp = tmp.Where(p => prop.PropId != p.Property.Id || (prop.PropId == p.Property.Id && p.Value >= prop.Left && p.Value <= prop.Right));
-            }
+        ////    foreach (var prop in props)
+        ////    {
+        ////        tmp = tmp.Where(p => prop.PropId != p.Property.Id || (prop.PropId == p.Property.Id && p.Value >= prop.Left && p.Value <= prop.Right));
+        ////    }
 
-            return tmp.OrderBy(x => x.Property.Id != orderPropertyId).ThenBy(x => x.Value).Select(x => x.Product.Info).Distinct();
-        }
+        ////    return tmp.OrderBy(x => x.Property.Id != orderPropertyId).ThenBy(x => x.Value).Select(x => x.Product.Info).Distinct();
+        ////}
 
-        /// <summary>
-        /// Filters the by string.
-        /// </summary>
-        /// <param name="props">The props.</param>
-        /// <param name="quantity">The quantity.</param>
-        /// <param name="skip">The skip.</param>
-        /// <returns></returns>
-        public IQueryable<ProductInformation> FilterByString(IEnumerable<StringPropertyInfo> props,Guid orderPropertyId)
-        {
-            var tmp = context.LinkProductPropertyString
-                .Include(p => p.Property)
-                .Include(p => p.Product).ThenInclude(p => p.Info).Where(p => props.Any(x => p.Property.Id == x.PropId));
+        /////// <summary>
+        /////// Filters the by string.
+        /////// </summary>
+        /////// <param name="props">The props.</param>
+        /////// <param name="quantity">The quantity.</param>
+        /////// <param name="skip">The skip.</param>
+        /////// <returns></returns>
+        ////public IQueryable<ProductInformation> FilterByString(IEnumerable<StringPropertyInfo> props,Guid orderPropertyId)
+        ////{
+        ////    var tmp = context.LinkProductPropertyString
+        ////        .Include(p => p.Property)
+        ////        .Include(p => p.Product).ThenInclude(p => p.Info).Where(p => props.Any(x => p.Property.Id == x.PropId));
 
-            foreach (var prop in props)
-            {
-                tmp = tmp.Where(p => prop.PropId != p.Property.Id || (prop.PropId == p.Property.Id && prop.Part == p.Value));
-            }
+        ////    foreach (var prop in props)
+        ////    {
+        ////        tmp = tmp.Where(p => prop.PropId != p.Property.Id || (prop.PropId == p.Property.Id && prop.Part == p.Value));
+        ////    }
 
-            return GetOrderedByProperty(orderPropertyId, tmp);
-        }
+        ////    return GetOrderedByProperty(orderPropertyId, tmp);
+        ////}
 
-        /// <summary>
-        /// Products the properties int.
-        /// </summary>
-        /// <param name="id">The identifier.</param>
-        /// <returns></returns>
-        public IEnumerable<object> ProductPropertiesInt(Guid id)
-        {
-            return context.LinkProductPropertyInt
-                .Include(x => x.Product).ThenInclude(x => x.Info)
-                .Include(x => x.Property)
-                ////.ThenInclude(x => x.RelatedCategory)
-                .Where(x => x.Product.Info.Id == id).Select(p => new { p.Property.Id, p.Property.Name, p.Value });
-        }
+        /////// <summary>
+        /////// Products the properties int.
+        /////// </summary>
+        /////// <param name="id">The identifier.</param>
+        /////// <returns></returns>
+        ////public IEnumerable<object> ProductPropertiesInt(Guid id)
+        ////{
+        ////    return context.LinkProductPropertyInt
+        ////        .Include(x => x.Product).ThenInclude(x => x.Info)
+        ////        .Include(x => x.Property)
+        ////        ////.ThenInclude(x => x.RelatedCategory)
+        ////        .Where(x => x.Product.Info.Id == id).Select(p => new { p.Property.Id, p.Property.Name, p.Value });
+        ////}
 
-        /// <summary>
-        /// Products the properties decimal.
-        /// </summary>
-        /// <param name="id">The identifier.</param>
-        /// <returns></returns>
-        public IEnumerable<object> ProductPropertiesDecimal(Guid id)
-        {
-            return context.LinkProductPropertyDecimal
-                .Include(x => x.Product).ThenInclude(x => x.Info)
-                .Include(x => x.Property)
-                ////.ThenInclude(x => x.RelatedCategory)
-                .Where(x => x.Product.Info.Id == id).Select(p => new { p.Property.Id, p.Property.Name, p.Value });
-        }
+        /////// <summary>
+        /////// Products the properties decimal.
+        /////// </summary>
+        /////// <param name="id">The identifier.</param>
+        /////// <returns></returns>
+        ////public IEnumerable<object> ProductPropertiesDecimal(Guid id)
+        ////{
+        ////    return context.LinkProductPropertyDecimal
+        ////        .Include(x => x.Product).ThenInclude(x => x.Info)
+        ////        .Include(x => x.Property)
+        ////        ////.ThenInclude(x => x.RelatedCategory)
+        ////        .Where(x => x.Product.Info.Id == id).Select(p => new { p.Property.Id, p.Property.Name, p.Value });
+        ////}
 
-        /// <summary>
-        /// Products the properties string.
-        /// </summary>
-        /// <param name="id">The identifier.</param>
-        /// <returns></returns>
-        public IEnumerable<object> ProductPropertiesString(Guid id)
-        {
-            return context.LinkProductPropertyString
-                .Include(x => x.Product).ThenInclude(x => x.Info)
-                .Include(x => x.Property)
-                ////.ThenInclude(x => x.RelatedCategory)
-                .Where(x => x.Product.Info.Id == id).Select(p => new { p.Property.Id, p.Property.Name, p.Value });
-        }
+        /////// <summary>
+        /////// Products the properties string.
+        /////// </summary>
+        /////// <param name="id">The identifier.</param>
+        /////// <returns></returns>
+        ////public IEnumerable<object> ProductPropertiesString(Guid id)
+        ////{
+        ////    return context.LinkProductPropertyString
+        ////        .Include(x => x.Product).ThenInclude(x => x.Info)
+        ////        .Include(x => x.Property)
+        ////        ////.ThenInclude(x => x.RelatedCategory)
+        ////        .Where(x => x.Product.Info.Id == id).Select(p => new { p.Property.Id, p.Property.Name, p.Value });
+        ////}
 
         /// <summary>
         /// Gets the entity by information identifier.
@@ -388,6 +388,184 @@ namespace Godsend
         public int EntitiesCount()
         {
             return context.Products.Count();
+        }
+
+        public ProductInfosAndCount GetProductInformationsByProductFilter(ProductFilterInfo filter)
+        {
+            IEnumerable<Product> products = context.Products.Include(p => p.Info).Include(p => p.Category);
+
+            if (filter.CategoryId.HasValue)
+            {
+                products = FilterByCategory(products, filter.CategoryId.Value);
+            }
+
+            if (filter.IntProps != null && filter.IntProps.Any())
+            {
+                products = FilterByIntProps(products, filter.IntProps);
+            }
+
+            if (filter.DecimalProps != null && filter.DecimalProps.Any())
+            {
+                products = FilterByDecimalProps(products, filter.DecimalProps);
+            }
+
+            if (filter.StringProps != null && filter.StringProps.Any())
+            {
+                products = FilterByStringProps(products, filter.StringProps);
+            }
+
+            if (!string.IsNullOrWhiteSpace(filter.SearchTerm))
+            {
+                products = FilterBySearch(products, filter.SearchTerm);
+            }
+
+            if (filter.OrderBy == OrderBy.Property && !filter.SortingPropertyId.HasValue)
+            {
+                throw new ArgumentException("Sorting property must have value");
+            }
+
+            products = OrderProducts(products, filter.OrderBy, filter.SortingPropertyId, filter.SortAscending);
+
+            return new ProductInfosAndCount
+            {
+                Count = products.Count(),
+                Infos = products.Skip(filter.Skip).Take(filter.Quantity).Select(p => p.Info)
+            };
+        }
+
+        private IEnumerable<Product> OrderProducts(IEnumerable<Product> products, OrderBy orderBy, Guid? sortingPropertyId, bool sortAscending)
+        {
+            IEnumerable<Product> tmp;
+
+            switch (orderBy)
+            {
+                case OrderBy.Name:
+                    tmp = products.OrderByDescending(p => p.Info.Name);
+                    break;
+                case OrderBy.Rating:
+                    tmp = products.OrderByDescending(p => p.Info.Rating);
+                    break;
+                case OrderBy.Watches:
+                    tmp = products.OrderByDescending(p => p.Info.Watches);
+                    break;
+                case OrderBy.Property:
+                    return OrderByProperty(products, sortingPropertyId.Value, sortAscending);
+                default:
+                    throw new ArgumentException("Illegal sort type");
+            }
+
+            return MaybeReverse(tmp, sortAscending);
+        }
+
+        private IEnumerable<T> MaybeReverse<T>(IEnumerable<T> query, bool reverse)
+        {
+            return reverse ? query.Reverse() : query;
+        }
+
+        private IEnumerable<Product> OrderByProperty(IEnumerable<Product> products, Guid sortingPropertyId, bool sortAscending)
+        {
+            var property = context.Properties.First(p => p.Id == sortingPropertyId);
+
+            switch (property.Type)
+            {
+                case PropertyTypes.Decimal:
+                    return OrderByPropertyCommon(products, sortingPropertyId, context.LinkProductPropertyDecimal, sortAscending);
+                case PropertyTypes.Int:
+                    return OrderByPropertyCommon(products, sortingPropertyId, context.LinkProductPropertyInt, sortAscending);
+                case PropertyTypes.String:
+                    return OrderByPropertyCommon(products, sortingPropertyId, context.LinkProductPropertyString, sortAscending);
+                default:
+                    throw new ArgumentException("Unknown property type");
+            }
+        }
+
+        private IEnumerable<Product> OrderByPropertyCommon<T>(IEnumerable<Product> products, Guid sortingPropertyId, IQueryable<EAV<T>> eavs, bool sortAscending)
+        {
+            var tmp = products.GroupJoin(
+                    eavs.Include(lpp => lpp.Product).Include(lpp => lpp.Property).Where(lpp => lpp.Property.Id == sortingPropertyId),
+                    p => p.Id,
+                    lpp => lpp.Product.Id,
+                    (p, lpp) => new { Product = p, Links = lpp })
+                .OrderByDescending(x => x.Links.Any());
+
+            if (sortAscending)
+            {
+                tmp = tmp.ThenBy(x =>
+                {
+                    var t = x.Links.FirstOrDefault();
+                    return t == null ? default(T) : t.Value;
+                });
+            }
+            else
+            {
+                tmp = tmp.ThenByDescending(x =>
+                {
+                    var t = x.Links.FirstOrDefault();
+                    return t == null ? default(T) : t.Value;
+                });
+            }
+
+            return tmp.Select(x => x.Product);
+        }
+
+        private IEnumerable<Product> FilterBySearch(IEnumerable<Product> products, string searchTerm)
+        {
+            return products.Where(p => p.Info.Name.ToLower().Contains(searchTerm.ToLower()));
+        }
+
+        private IEnumerable<Product> FilterByCategory(IEnumerable<Product> products, Guid categoryId)
+        {
+            return products.Where(p => p.Category != null && p.Category.HasParent(categoryId));
+        }
+
+        private IEnumerable<Product> FilterByDecimalProps(IEnumerable<Product> products, IEnumerable<DecimalPropertyInfo> decimalProps)
+        {
+            var tmp = products.GroupJoin(
+                    context.LinkProductPropertyDecimal.Include(x => x.Product).Include(x => x.Property),
+                    p => p.Id,
+                    lpp => lpp.Product.Id,
+                    (p, lpp) => new { Product = p, Links = lpp });
+
+            foreach (var prop in decimalProps)
+            {
+                tmp = tmp.Where(group => group.Links.Any(lpp => lpp.Property.Id == prop.PropId && lpp.Value >= prop.Left && lpp.Value <= prop.Right));
+            }
+
+            return tmp.Select(group => group.Product);
+        }
+
+        private IEnumerable<Product> FilterByStringProps(IEnumerable<Product> products, IEnumerable<StringPropertyInfo> stringProps)
+        {
+            var tmp = products.Join(
+                    context.LinkProductPropertyString.Include(lpp => lpp.Product).Include(lpp => lpp.Property),
+                    p => p.Id,
+                    lpp => lpp.Product.Id,
+                    (p, lpp) => new { Product = p, Link = lpp })
+                .GroupBy(x => x.Product, x => x.Link);
+
+            foreach (var prop in stringProps)
+            {
+                tmp = tmp.Where(group => group.Any(lpp => lpp.Property.Id == prop.PropId && lpp.Value.Contains(prop.Part)));
+            }
+
+            return tmp.Select(group => group.Key);
+        }
+
+        private IEnumerable<Product> FilterByIntProps(IEnumerable<Product> products, IEnumerable<IntPropertyInfo> intProps)
+        {
+            var tmp = products.Join(
+                    context.LinkProductPropertyInt.Include(lpp => lpp.Product).Include(lpp => lpp.Property),
+                    p => p.Id,
+                    lpp => lpp.Product.Id,
+                    (p, lpp) => new { Product = p, Link = lpp })
+                .GroupBy(x => x.Product, x => x.Link);
+
+            foreach (var prop in intProps)
+            {
+                tmp = tmp.Where(group => group.Any(lpp => lpp.Property.Id == prop.PropId && lpp.Value >= prop.Left && lpp.Value <= prop.Right));
+            }
+
+            return tmp.Select(group => group.Key);
         }
     }
 

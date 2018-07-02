@@ -34,54 +34,56 @@ namespace Godsend
         /// <returns></returns>
         IEnumerable<object> Properties(Guid id);
 
-        /// <summary>
-        /// Products the properties int.
-        /// </summary>
-        /// <param name="id">The identifier.</param>
-        /// <returns></returns>
-        IEnumerable<object> ProductPropertiesInt(Guid id);
+        /////// <summary>
+        /////// Products the properties int.
+        /////// </summary>
+        /////// <param name="id">The identifier.</param>
+        /////// <returns></returns>
+        ////IEnumerable<object> ProductPropertiesInt(Guid id);
 
-        /// <summary>
-        /// Products the properties decimal.
-        /// </summary>
-        /// <param name="id">The identifier.</param>
-        /// <returns></returns>
-        IEnumerable<object> ProductPropertiesDecimal(Guid id);
+        /////// <summary>
+        /////// Products the properties decimal.
+        /////// </summary>
+        /////// <param name="id">The identifier.</param>
+        /////// <returns></returns>
+        ////IEnumerable<object> ProductPropertiesDecimal(Guid id);
 
-        /// <summary>
-        /// Products the properties string.
-        /// </summary>
-        /// <param name="id">The identifier.</param>
-        /// <returns></returns>
-        IEnumerable<object> ProductPropertiesString(Guid id);
+        /////// <summary>
+        /////// Products the properties string.
+        /////// </summary>
+        /////// <param name="id">The identifier.</param>
+        /////// <returns></returns>
+        ////IEnumerable<object> ProductPropertiesString(Guid id);
 
-        /// <summary>
-        /// Filters the by int.
-        /// </summary>
-        /// <param name="props">The props.</param>
-        /// <param name="quantity">The quantity.</param>
-        /// <param name="skip">The skip.</param>
-        /// <returns></returns>
-        IQueryable<ProductInformation> FilterByInt(IEnumerable<IntPropertyInfo> props, Guid orderPropertyId);
+        /////// <summary>
+        /////// Filters the by int.
+        /////// </summary>
+        /////// <param name="props">The props.</param>
+        /////// <param name="quantity">The quantity.</param>
+        /////// <param name="skip">The skip.</param>
+        /////// <returns></returns>
+        ////IQueryable<ProductInformation> FilterByInt(IEnumerable<IntPropertyInfo> props, Guid orderPropertyId);
 
-        /// <summary>
-        /// Filters the by decimal.
-        /// </summary>
-        /// <param name="props">The props.</param>
-        /// <param name="quantity">The quantity.</param>
-        /// <param name="skip">The skip.</param>
-        /// <returns></returns>
-        IQueryable<ProductInformation> FilterByDecimal(IEnumerable<DecimalPropertyInfo> props, Guid orderPropertyId);
+        /////// <summary>
+        /////// Filters the by decimal.
+        /////// </summary>
+        /////// <param name="props">The props.</param>
+        /////// <param name="quantity">The quantity.</param>
+        /////// <param name="skip">The skip.</param>
+        /////// <returns></returns>
+        ////IQueryable<ProductInformation> FilterByDecimal(IEnumerable<DecimalPropertyInfo> props, Guid orderPropertyId);
 
-        /// <summary>
-        /// Filters the by string.
-        /// </summary>
-        /// <param name="props">The props.</param>
-        /// <param name="quantity">The quantity.</param>
-        /// <param name="skip">The skip.</param>
-        /// <returns></returns>
-        IQueryable<ProductInformation> FilterByString(IEnumerable<StringPropertyInfo> props, Guid orderPropertyId);
+        /////// <summary>
+        /////// Filters the by string.
+        /////// </summary>
+        /////// <param name="props">The props.</param>
+        /////// <param name="quantity">The quantity.</param>
+        /////// <param name="skip">The skip.</param>
+        /////// <returns></returns>
+        ////IQueryable<ProductInformation> FilterByString(IEnumerable<StringPropertyInfo> props, Guid orderPropertyId);
 
-        IEnumerable<ProductInformation> GetProductInformationsByFilter(FilterInfo filter,int quantity,int skip);
+        ////IEnumerable<ProductInformation> GetProductInformationsByFilter(FilterInfo filter,int quantity,int skip);
+
+        ProductInfosAndCount GetProductInformationsByProductFilter(ProductFilterInfo filter);
     }
 }

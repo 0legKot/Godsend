@@ -125,12 +125,20 @@ namespace Godsend.Controllers
             return repository.Entities(quantity, skip).Where(x => x.Category?.Id == id).Select(x => x.Info);
         }
 
-        [HttpPost("[action]")]
-        public IEnumerable<Information> GetByFilter([FromBody]FilterInfo filter, int quantity = 10, int skip = 0,bool invertOrder=true)
-        {
-            var result = (repository as IProductRepository).GetProductInformationsByFilter(filter,quantity,skip);
+        ////[HttpPost("[action]")]
+        ////public IEnumerable<Information> GetByFilter([FromBody]FilterInfo filter, int quantity = 10, int skip = 0,bool invertOrder=true)
+        ////{
+        ////    var result = (repository as IProductRepository).GetProductInformationsByFilter(filter,quantity,skip);
 
-            return invertOrder ? result.Reverse() : result;
+        ////    return invertOrder ? result.Reverse() : result;
+        ////}
+
+        [HttpPost("[action]")]
+        public ProductInfosAndCount ByFilter([FromBody]ProductFilterInfo filter)
+        {
+            var result = (repository as IProductRepository).GetProductInformationsByProductFilter(filter);
+
+            return result;
         }
 
 
@@ -146,38 +154,38 @@ namespace Godsend.Controllers
             return tmp;
         }
 
-        /// <summary>
-        /// Gets the int properties by product.
-        /// </summary>
-        /// <param name="id">The identifier.</param>
-        /// <returns></returns>
-        [HttpGet("[action]/{id:Guid}")]
-        public IEnumerable<object> GetIntPropertiesByProduct(Guid id)
-        {
-            return (repository as IProductRepository).ProductPropertiesInt(id);
-        }
+        /////// <summary>
+        /////// Gets the int properties by product.
+        /////// </summary>
+        /////// <param name="id">The identifier.</param>
+        /////// <returns></returns>
+        ////[HttpGet("[action]/{id:Guid}")]
+        ////public IEnumerable<object> GetIntPropertiesByProduct(Guid id)
+        ////{
+        ////    return (repository as IProductRepository).ProductPropertiesInt(id);
+        ////}
 
-        /// <summary>
-        /// Gets the decimal properties by product.
-        /// </summary>
-        /// <param name="id">The identifier.</param>
-        /// <returns></returns>
-        [HttpGet("[action]/{id:Guid}")]
-        public IEnumerable<object> GetDecimalPropertiesByProduct(Guid id)
-        {
-            return (repository as IProductRepository).ProductPropertiesDecimal(id);
-        }
+        /////// <summary>
+        /////// Gets the decimal properties by product.
+        /////// </summary>
+        /////// <param name="id">The identifier.</param>
+        /////// <returns></returns>
+        ////[HttpGet("[action]/{id:Guid}")]
+        ////public IEnumerable<object> GetDecimalPropertiesByProduct(Guid id)
+        ////{
+        ////    return (repository as IProductRepository).ProductPropertiesDecimal(id);
+        ////}
 
-        /// <summary>
-        /// Gets the string properties by product.
-        /// </summary>
-        /// <param name="id">The identifier.</param>
-        /// <returns></returns>
-        [HttpGet("[action]/{id:Guid}")]
-        public IEnumerable<object> GetStringPropertiesByProduct(Guid id)
-        {
-            return (repository as IProductRepository).ProductPropertiesString(id);
-        }
+        /////// <summary>
+        /////// Gets the string properties by product.
+        /////// </summary>
+        /////// <param name="id">The identifier.</param>
+        /////// <returns></returns>
+        ////[HttpGet("[action]/{id:Guid}")]
+        ////public IEnumerable<object> GetStringPropertiesByProduct(Guid id)
+        ////{
+        ////    return (repository as IProductRepository).ProductPropertiesString(id);
+        ////}
 
         /// <summary>
         /// Gets the recursive cats.

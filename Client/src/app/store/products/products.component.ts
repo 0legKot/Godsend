@@ -17,11 +17,11 @@ import { PagesComponent } from '../pages/pages.component';
 })
 export class ProductsComponent implements OnInit {
     // private selectedId: string;
-    page: number = 1;
-    rpp: number = 10;
+    // page: number = 1;
+    // rpp: number = 10;
     type = searchType.product;
     images: { [id: string]: string; } = {};
-    searchProducts?: ProductInfo[];
+    //searchProducts?: ProductInfo[];
     templateText = 'Waiting for data...';
 
     @ViewChild(SearchInlineComponent)
@@ -30,22 +30,23 @@ export class ProductsComponent implements OnInit {
     imagg: any = {};
 
     get pagesCount(): number {
-        return Math.ceil(this.repo.productsCount / this.rpp);
+        return Math.ceil(this.repo.productsCount / this.repo.productFilter.quantity);
     }
 
     onPageChanged(page: number) {
-        this.page = page;
+        this.repo.productFilter.page = page;
         this.getProducts();
     }
 
     getProducts() {
-        this.repo.getEntities<ProductInfo>('product', this.page, this.rpp, res => {
+        this.repo.getByFilter(res => {
             this.imageService.getPreviewImages(res.map(pi => pi.id), (smth: any) => this.imagg = smth);
         });
     }
 
-    get products(): ProductInfo[] | {} {
-        return this.searchProducts || this.repo.products;
+    get products(): ProductInfo[] {
+        //return this.searchProducts || this.repo.products;
+        return this.repo.products;
     }
 
     getImage(pi: ProductInfo): string {
@@ -55,17 +56,17 @@ export class ProductsComponent implements OnInit {
     createProduct(descr: string, name: string) {
         // TODO create interface with only relevant info
         const prod = new Product('', new ProductInfo('', descr, name, 0, 0));
-        this.repo.createOrEditEntity('product', prod, this.page, this.rpp, () => this.searchInline.doSearch());
+        this.repo.createOrEditEntity('product', prod, 0, 0);
     }
 
     deleteProduct(id: string) {
-        this.repo.deleteEntity('product', id, this.page, this.rpp, () => this.searchInline.doSearch());
+        this.repo.deleteEntity('product', id, 0, 0);
     }
 
-    onFound(products: ProductInfo[]) {
-        this.templateText = 'Not found';
-        this.searchProducts = products;
-    }
+    //onFound(products: ProductInfo[]) {
+    //    this.templateText = 'Not found';
+    //    this.searchProducts = products;
+    //}
 
     constructor(private repo: RepositoryService, private imageService: ImageService, private cattt: CategoryService) {
     }
@@ -88,35 +89,31 @@ export class ProductsComponent implements OnInit {
     }
 
     getByCategory(category: Category): void {
-        this.repo.getByCategory(category);
+        this.repo.productFilter.categoryId = category.id;
+        this.getProducts();
     }
 
     getByFilter(): void {
         if (this.filter) {
-            const trimmedFilter = new FilterInfo();
-
             if (this.filter.stringProps) {
-                trimmedFilter.stringProps = this.filter.stringProps
+                this.repo.productFilter.stringProps = this.filter.stringProps
                     .filter(prop => prop.part !== '' && prop.part != null)
                     .map(prop => new StringPropertyInfo(prop.propId, prop.part));
             }
             if (this.filter.intProps) {
-                trimmedFilter.intProps = this.filter.intProps
+                this.repo.productFilter.intProps = this.filter.intProps
                     .filter(prop => prop.left != null && prop.right != null)
                     .map(prop => new IntPropertyInfo(prop.propId, prop.left, prop.right));
             }
             if (this.filter.decimalProps) {
-                trimmedFilter.decimalProps = this.filter.decimalProps
+                this.repo.productFilter.decimalProps = this.filter.decimalProps
                     .filter(prop => prop.left != null && prop.right != null)
                     .map(prop => new DecimalPropertyInfo(prop.propId, prop.left, prop.right));
             }
 
-            trimmedFilter.orderBy = this.filter.orderBy;
+            this.repo.productFilter.orderBy = this.filter.orderBy;
 
-            console.log('filter');
-            console.dir(trimmedFilter);
-
-            this.repo.getByFilter(trimmedFilter);
+            this.getProducts();
         }       
     }
 

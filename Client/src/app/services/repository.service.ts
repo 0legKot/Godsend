@@ -1,4 +1,4 @@
-import { Product, ProductInfo, Category, CatsWithSubs, FilterInfo } from '../models/product.model';
+import { Product, ProductInfo, Category, CatsWithSubs, FilterInfo, ProductFilterInfo, ProductInfosAndCount } from '../models/product.model';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { DataService } from './data.service';
@@ -32,6 +32,7 @@ export class RepositoryService {
     articlesCount: number = 0;
     suppliersCount: number = 0;
     ordersCount: number = 0;
+    productFilter: ProductFilterInfo = new ProductFilterInfo(10, 1);
 
     constructor(private data: DataService) {
     }
@@ -135,19 +136,23 @@ export class RepositoryService {
     }
 
     getEntities<T>(clas: supportedClass, page: number,rpp:number, fn?: (_: T[]) => any) {
-        const url = this.getUrl(clas);
+        if (clas == 'product') {
+            this.getByFilter();
+        } else {
+            const url = this.getUrl(clas);
 
-        //const page = 1;
-        //const rpp = 15;
+            //const page = 1;
+            //const rpp = 15;
 
-        this.data.sendRequest<T[]>('get', url + '/all/' + page + '/' + rpp)
-            .subscribe(response => {
-                if (fn) {
-                    fn(response);
-                }
-                console.log(response);
-                this.setEntities<T>(clas, response);
-            });
+            this.data.sendRequest<T[]>('get', url + '/all/' + page + '/' + rpp)
+                .subscribe(response => {
+                    if (fn) {
+                        fn(response);
+                    }
+                    console.log(response);
+                    this.setEntities<T>(clas, response);
+                });
+        }
 
         this.getEntitiesCount(clas);
     }
@@ -229,19 +234,12 @@ export class RepositoryService {
         return this.data.sendRequest<any>('get', '/api/session/' + dataType);
     }
 
-    getByCategory(cat: Category, fn?: (_: ProductInfo[]) => any): void {
-        this.data.sendRequest<ProductInfo[]>('get', 'api/product/getByCategory/' + cat.id)
-            .subscribe(products => {
-                this.products = products;
-                if (fn) fn(products);
-            })
-    }
-
-    getByFilter(filter: FilterInfo, fn?: (_: ProductInfo[]) => any): void {
-        this.data.sendRequest<ProductInfo[]>('post', 'api/product/getByFilter', filter)
-            .subscribe(products => {
-                this.products = products;
-                if (fn) fn(products);
+    getByFilter(fn?: (_: ProductInfo[]) => any): void {
+        this.data.sendRequest<ProductInfosAndCount>('post', 'api/product/byFilter', this.productFilter)
+            .subscribe(result => {
+                this.products = result.infos;
+                this.productsCount = result.count;
+                if (fn) fn(result.infos);
             })
     }
 }

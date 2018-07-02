@@ -166,4 +166,11 @@ namespace Godsend.Models
         /// </value>
         public decimal Price { get; set; }
     }
+
+    public class ProductInfosAndCount
+    {
+        public IEnumerable<ProductInformation> Infos { get; set; }
+
+        public int Count { get; set; }
+    }
 }
