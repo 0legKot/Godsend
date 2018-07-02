@@ -536,36 +536,34 @@ namespace Godsend
 
         private IEnumerable<Product> FilterByStringProps(IEnumerable<Product> products, IEnumerable<StringPropertyInfo> stringProps)
         {
-            var tmp = products.Join(
+            var tmp = products.GroupJoin(
                     context.LinkProductPropertyString.Include(lpp => lpp.Product).Include(lpp => lpp.Property),
                     p => p.Id,
                     lpp => lpp.Product.Id,
-                    (p, lpp) => new { Product = p, Link = lpp })
-                .GroupBy(x => x.Product, x => x.Link);
+                    (p, lpp) => new { Product = p, Links = lpp });
 
             foreach (var prop in stringProps)
             {
-                tmp = tmp.Where(group => group.Any(lpp => lpp.Property.Id == prop.PropId && lpp.Value.Contains(prop.Part)));
+                tmp = tmp.Where(group => group.Links.Any(lpp => lpp.Property.Id == prop.PropId && lpp.Value.Contains(prop.Part)));
             }
 
-            return tmp.Select(group => group.Key);
+            return tmp.Select(group => group.Product);
         }
 
         private IEnumerable<Product> FilterByIntProps(IEnumerable<Product> products, IEnumerable<IntPropertyInfo> intProps)
         {
-            var tmp = products.Join(
+            var tmp = products.GroupJoin(
                     context.LinkProductPropertyInt.Include(lpp => lpp.Product).Include(lpp => lpp.Property),
                     p => p.Id,
                     lpp => lpp.Product.Id,
-                    (p, lpp) => new { Product = p, Link = lpp })
-                .GroupBy(x => x.Product, x => x.Link);
+                    (p, lpp) => new { Product = p, Links = lpp });
 
             foreach (var prop in intProps)
             {
-                tmp = tmp.Where(group => group.Any(lpp => lpp.Property.Id == prop.PropId && lpp.Value >= prop.Left && lpp.Value <= prop.Right));
+                tmp = tmp.Where(group => group.Links.Any(lpp => lpp.Property.Id == prop.PropId && lpp.Value >= prop.Left && lpp.Value <= prop.Right));
             }
 
-            return tmp.Select(group => group.Key);
+            return tmp.Select(group => group.Product);
         }
     }
 

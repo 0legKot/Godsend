@@ -96,6 +96,7 @@ export class FilterInfoView {
     intProps?: IntPropertyInfoView[];
     stringProps?: StringPropertyInfoView[];
     orderBy: number = 0;
+    sortAscending: boolean = true;
 }
 
 export class DecimalPropertyInfoView {

@@ -76,7 +76,7 @@ export class ProductsComponent implements OnInit {
     }
 
     categories?: Category[];
-    filter?: FilterInfoView;
+    filter: FilterInfoView = new FilterInfoView();
 
     getCategories(): void {
         this.categories = this.cattt.cats ? this.cattt.cats.map(cws => cws.cat) : [];
@@ -112,6 +112,8 @@ export class ProductsComponent implements OnInit {
             }
 
             this.repo.productFilter.orderBy = this.filter.orderBy;
+
+            this.repo.productFilter.sortAscending = this.filter.sortAscending;
 
             this.getProducts();
         }       
