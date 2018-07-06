@@ -392,7 +392,7 @@ namespace Godsend
 
         public ProductInfosAndCount GetProductInformationsByProductFilter(ProductFilterInfo filter)
         {
-            IEnumerable<Product> products = context.Products.Include(p => p.Info).Include(p => p.Category);
+            IQueryable<Product> products = context.Products.Include(p => p.Info).Include(p => p.Category);
 
             if (filter.CategoryId.HasValue)
             {
@@ -433,9 +433,9 @@ namespace Godsend
             };
         }
 
-        private IEnumerable<Product> OrderProducts(IEnumerable<Product> products, OrderBy orderBy, Guid? sortingPropertyId, bool sortAscending)
+        private IQueryable<Product> OrderProducts(IQueryable<Product> products, OrderBy orderBy, Guid? sortingPropertyId, bool sortAscending)
         {
-            IEnumerable<Product> tmp;
+            IQueryable<Product> tmp;
 
             switch (orderBy)
             {
@@ -457,12 +457,12 @@ namespace Godsend
             return MaybeReverse(tmp, sortAscending);
         }
 
-        private IEnumerable<T> MaybeReverse<T>(IEnumerable<T> query, bool reverse)
+        private IQueryable<T> MaybeReverse<T>(IQueryable<T> query, bool reverse)
         {
             return reverse ? query.Reverse() : query;
         }
 
-        private IEnumerable<Product> OrderByProperty(IEnumerable<Product> products, Guid sortingPropertyId, bool sortAscending)
+        private IQueryable<Product> OrderByProperty(IQueryable<Product> products, Guid sortingPropertyId, bool sortAscending)
         {
             var property = context.Properties.First(p => p.Id == sortingPropertyId);
 
@@ -479,7 +479,7 @@ namespace Godsend
             }
         }
 
-        private IEnumerable<Product> OrderByPropertyCommon<T>(IEnumerable<Product> products, Guid sortingPropertyId, IQueryable<EAV<T>> eavs, bool sortAscending)
+        private IQueryable<Product> OrderByPropertyCommon<T>(IEnumerable<Product> products, Guid sortingPropertyId, IQueryable<EAV<T>> eavs, bool sortAscending)
         {
             var tmp = products.GroupJoin(
                     eavs.Include(lpp => lpp.Product).Include(lpp => lpp.Property).Where(lpp => lpp.Property.Id == sortingPropertyId),
@@ -505,20 +505,20 @@ namespace Godsend
                 });
             }
 
-            return tmp.Select(x => x.Product);
+            return tmp.Select(x => x.Product).AsQueryable();
         }
 
-        private IEnumerable<Product> FilterBySearch(IEnumerable<Product> products, string searchTerm)
+        private IQueryable<Product> FilterBySearch(IQueryable<Product> products, string searchTerm)
         {
             return products.Where(p => p.Info.Name.ToLower().Contains(searchTerm.ToLower()));
         }
 
-        private IEnumerable<Product> FilterByCategory(IEnumerable<Product> products, Guid categoryId)
+        private IQueryable<Product> FilterByCategory(IQueryable<Product> products, Guid categoryId)
         {
             return products.Where(p => p.Category != null && p.Category.HasParent(categoryId));
         }
 
-        private IEnumerable<Product> FilterByDecimalProps(IEnumerable<Product> products, IEnumerable<DecimalPropertyInfo> decimalProps)
+        private IQueryable<Product> FilterByDecimalProps(IQueryable<Product> products, IEnumerable<DecimalPropertyInfo> decimalProps)
         {
             var tmp = products.GroupJoin(
                     context.LinkProductPropertyDecimal.Include(x => x.Product).Include(x => x.Property),
@@ -534,7 +534,7 @@ namespace Godsend
             return tmp.Select(group => group.Product);
         }
 
-        private IEnumerable<Product> FilterByStringProps(IEnumerable<Product> products, IEnumerable<StringPropertyInfo> stringProps)
+        private IQueryable<Product> FilterByStringProps(IQueryable<Product> products, IEnumerable<StringPropertyInfo> stringProps)
         {
             var tmp = products.GroupJoin(
                     context.LinkProductPropertyString.Include(lpp => lpp.Product).Include(lpp => lpp.Property),
@@ -550,7 +550,7 @@ namespace Godsend
             return tmp.Select(group => group.Product);
         }
 
-        private IEnumerable<Product> FilterByIntProps(IEnumerable<Product> products, IEnumerable<IntPropertyInfo> intProps)
+        private IQueryable<Product> FilterByIntProps(IQueryable<Product> products, IEnumerable<IntPropertyInfo> intProps)
         {
             var tmp = products.GroupJoin(
                     context.LinkProductPropertyInt.Include(lpp => lpp.Product).Include(lpp => lpp.Property),
