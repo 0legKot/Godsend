@@ -459,7 +459,7 @@ namespace Godsend
 
         private IQueryable<T> MaybeReverse<T>(IQueryable<T> query, bool reverse)
         {
-            return reverse ? query.Reverse() : query;
+            return reverse ? query.AsEnumerable().Reverse().AsQueryable() : query;
         }
 
         private IQueryable<Product> OrderByProperty(IQueryable<Product> products, Guid sortingPropertyId, bool sortAscending)
@@ -515,7 +515,7 @@ namespace Godsend
 
         private IQueryable<Product> FilterByCategory(IQueryable<Product> products, Guid categoryId)
         {
-            return products.Where(p => p.Category != null && p.Category.HasParent(categoryId));
+            return products;//.Where(p => p.Category != null && p.Category.HasParent(categoryId));
         }
 
         private IQueryable<Product> FilterByDecimalProps(IQueryable<Product> products, IEnumerable<DecimalPropertyInfo> decimalProps)
