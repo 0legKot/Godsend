@@ -44,9 +44,9 @@ namespace Godsend.Controllers
         }
 
         /// <summary>
-        /// Deletes the specified identifier.
+        /// Deletes the specified entity.
         /// </summary>
-        /// <param name="id">The identifier.</param>
+        /// <param name="id">The identifier of entity that must be deleted.</param>
         /// <returns></returns>
         [HttpDelete("[action]/{id:Guid}")]
         public virtual IActionResult Delete(Guid id)
