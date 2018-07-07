@@ -21,16 +21,16 @@ namespace Godsend.Controllers
         where TEntity : IEntity
     {
         /// <summary>
-        /// The repository
+        /// The repository for instances
         /// </summary>
         protected IRepository<TEntity> repository;
 
         /// <summary>
-        /// Alls this instance.
+        /// All instances.
         /// </summary>
-        /// <param name="page">The page.</param>
+        /// <param name="page">Current page.</param>
         /// <param name="rpp">Results per page.</param>
-        /// <returns></returns>
+        /// <returns>rpp Instances for current page</returns>
         [HttpGet("[action]/{page:int}/{rpp:int}")]
         public virtual IEnumerable<Information> All(int page, int rpp)
         {
@@ -63,10 +63,11 @@ namespace Godsend.Controllers
         }
 
         /// <summary>
-        /// Creates the or update.
+        /// Creates or updates specified entity asynchronous.
+        /// Creates if entity didn't existed
         /// </summary>
-        /// <param name="entity">The entity.</param>
-        /// <returns></returns>
+        /// <param name="entity">Entity for updating or creating.</param>
+        /// <returns>Ok on success, BadRequest else </returns>
         [HttpPost("[action]")]
         public virtual async Task<IActionResult> CreateOrUpdate([FromBody]TEntity entity)
         {
@@ -82,7 +83,7 @@ namespace Godsend.Controllers
         }
 
         /// <summary>
-        /// Edits the asynchronous.
+        /// Edits the entity asynchronous.
         /// </summary>
         /// <param name="entity">The entity.</param>
         /// <returns></returns>
@@ -93,7 +94,7 @@ namespace Godsend.Controllers
         }
 
         /// <summary>
-        /// Creates the asynchronous.
+        /// Creates the entity asynchronous.
         /// </summary>
         /// <param name="entity">The entity.</param>
         /// <returns></returns>

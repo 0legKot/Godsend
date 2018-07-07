@@ -32,17 +32,28 @@ var SuppliersComponent = /** @class */ (function () {
         enumerable: true,
         configurable: true
     });
+    Object.defineProperty(SuppliersComponent.prototype, "pagesCount", {
+        get: function () {
+            return Math.ceil(this.repo.suppliersCount / this.rpp);
+        },
+        enumerable: true,
+        configurable: true
+    });
+    SuppliersComponent.prototype.onPageChanged = function (page) {
+        this.page = page;
+        this.getSuppliers();
+    };
+    SuppliersComponent.prototype.getSuppliers = function () {
+        var _this = this;
+        this.repo.getEntities('supplier', this.page, this.rpp, function (res) {
+            _this.imageService.getPreviewImages(res.map(function (si) { return si.id; }), function (smth) { return _this.imagg = smth; });
+        });
+    };
     SuppliersComponent.prototype.getImage = function (pi) {
         return this.images[pi.id];
     };
     SuppliersComponent.prototype.ngOnInit = function () {
-        var _this = this;
-        this.repo.getEntities('supplier', this.page, this.rpp, function (res) {
-            _this.imageService.getPreviewImages(res.map(function (si) { return si.id; }), function (smth) { return _this.imagg = smth; });
-            // for(let p of res) {
-            //    this.imageService.getImage(p.id, image => { this.images[p.id] = image; });
-            // }
-        });
+        this.getSuppliers();
     };
     SuppliersComponent.prototype.createSupplier = function (name, address) {
         var _this = this;

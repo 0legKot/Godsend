@@ -32,11 +32,37 @@ namespace API.Tests.Repositories
         }
 
         [Fact]
+        public void EntitiesInfoTest()
+        {
+            var result = this.repo.EntitiesInfo(5,1);
+
+            Assert.Equal(5, result.Count());
+        }
+
+        [Fact]
+        public void GetEntityTest()
+        {
+            var result = this.repo.GetEntity(this.repo.Entities(1).First().Id);
+
+            Assert.Equal(repo.Entities(1).First(), result);
+        }
+
+        [Fact]
+        public void GetEntityByInfoIdTest()
+        {
+            var result = this.repo.GetEntityByInfoId(this.repo.Entities(1).First().Info.Id);
+
+            Assert.Equal(repo.Entities(1).First(), result);
+        }
+
+        [Fact]
         public void SaveCreateTest()
         {
             var count = this.context.Products.Count(p => p.Info.Name == randomName);
 
-            this.repo.SaveEntity(new Product { Info = new ProductInformation { Name = randomName } });
+            Product testEntity = new Product { Info = new ProductInformation { Name = randomName } };
+            Assert.True(repo.IsFirst(testEntity));
+            this.repo.SaveEntity(testEntity);
 
             Assert.Equal(count + 1, this.context.Products.Count(p => p.Info.Name == randomName));
         }
@@ -49,11 +75,27 @@ namespace API.Tests.Repositories
             var newProduct = new Product { Id = product.Id, Info = new ProductInformation { Id = product.Info.Id, Name = randomName } };
             var countOldName = this.context.Products.Count(p => p.Info.Name == oldName);
             var countNewName = this.context.Products.Count(p => p.Info.Name == randomName);
-
+            Assert.False(repo.IsFirst(newProduct));
             this.repo.SaveEntity(newProduct);
 
             Assert.Equal(countOldName - 1, this.context.Products.Count(p => p.Info.Name == oldName));
             Assert.Equal(countNewName + 1, this.context.Products.Count(p => p.Info.Name == randomName));
+        }
+
+        [Fact]
+        //broken
+        public void DeleteTest()
+        {
+            Product testEntity = new Product { Id=Guid.NewGuid(), Info = new ProductInformation { Name = "aab" } };
+            //Assert.True(repo.IsFirst(testEntity));
+            this.repo.SaveEntity(testEntity);
+
+            var product = context.Products.First();
+            var newProduct = new Product { Id = product.Id, Info = new ProductInformation { Id = product.Info.Id, Name = randomName } };
+            Assert.False(repo.IsFirst(testEntity));
+            this.repo.DeleteEntity(testEntity.Id);
+            //Assert.True(repo.IsFirst(testEntity));
+            //Assert.False(repo.Entities(int.MaxValue).Any(x => x == testEntity));
         }
     }
 }

@@ -14,7 +14,7 @@ var ArticlesComponent = /** @class */ (function () {
     function ArticlesComponent(repo) {
         this.repo = repo;
         this.page = 1;
-        this.rpp = 10;
+        this.rpp = 5;
     }
     Object.defineProperty(ArticlesComponent.prototype, "articles", {
         get: function () {
@@ -23,8 +23,22 @@ var ArticlesComponent = /** @class */ (function () {
         enumerable: true,
         configurable: true
     });
-    ArticlesComponent.prototype.ngOnInit = function () {
+    Object.defineProperty(ArticlesComponent.prototype, "pagesCount", {
+        get: function () {
+            return Math.ceil(this.repo.articlesCount / this.rpp);
+        },
+        enumerable: true,
+        configurable: true
+    });
+    ArticlesComponent.prototype.onPageChanged = function (page) {
+        this.page = page;
+        this.getArticles();
+    };
+    ArticlesComponent.prototype.getArticles = function () {
         this.repo.getEntities('article', this.page, this.rpp);
+    };
+    ArticlesComponent.prototype.ngOnInit = function () {
+        this.getArticles();
     };
     ArticlesComponent.prototype.createArticle = function (content, name, tags) {
         var art = new Article(content, new ArticleInfo(name, tags));

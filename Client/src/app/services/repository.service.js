@@ -7,7 +7,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-import { Product } from '../models/product.model';
+import { Product, ProductFilterInfo } from '../models/product.model';
 import { Injectable } from '@angular/core';
 import { DataService } from './data.service';
 import { Order } from '../models/order.model';
@@ -29,6 +29,11 @@ var RepositoryService = /** @class */ (function () {
         this.supplier = {};
         this.articles = [];
         this.article = {};
+        this.productsCount = 0;
+        this.articlesCount = 0;
+        this.suppliersCount = 0;
+        this.ordersCount = 0;
+        this.productFilter = new ProductFilterInfo(10, 1);
     }
     RepositoryService.prototype.getSavedEntities = function (clas) {
         switch (clas) {
@@ -56,7 +61,7 @@ var RepositoryService = /** @class */ (function () {
             default: return;
         }
     };
-    RepositoryService.prototype.setEntites = function (clas, val) {
+    RepositoryService.prototype.setEntities = function (clas, val) {
         switch (clas) {
             case 'product':
                 this.products = val;
@@ -69,6 +74,22 @@ var RepositoryService = /** @class */ (function () {
                 break;
             case 'article':
                 this.articles = val;
+                break;
+        }
+    };
+    RepositoryService.prototype.setEntitiesCount = function (clas, val) {
+        switch (clas) {
+            case 'product':
+                this.productsCount = val;
+                break;
+            case 'order':
+                this.ordersCount = val;
+                break;
+            case 'supplier':
+                this.suppliersCount = val;
+                break;
+            case 'article':
+                this.articlesCount = val;
                 break;
         }
     };
@@ -110,16 +131,33 @@ var RepositoryService = /** @class */ (function () {
     };
     RepositoryService.prototype.getEntities = function (clas, page, rpp, fn) {
         var _this = this;
+        if (clas == 'product') {
+            this.getByFilter();
+        }
+        else {
+            var url = this.getUrl(clas);
+            //const page = 1;
+            //const rpp = 15;
+            this.data.sendRequest('get', url + '/all/' + page + '/' + rpp)
+                .subscribe(function (response) {
+                if (fn) {
+                    fn(response);
+                }
+                console.log(response);
+                _this.setEntities(clas, response);
+            });
+        }
+        this.getEntitiesCount(clas);
+    };
+    RepositoryService.prototype.getEntitiesCount = function (clas, fn) {
+        var _this = this;
         var url = this.getUrl(clas);
-        //const page = 1;
-        //const rpp = 15;
-        this.data.sendRequest('get', url + '/all/' + page + '/' + rpp)
+        this.data.sendRequest('get', url + '/count')
             .subscribe(function (response) {
+            _this.setEntitiesCount(clas, response);
             if (fn) {
                 fn(response);
             }
-            console.log(response);
-            _this.setEntites(clas, response);
         });
     };
     RepositoryService.prototype.createOrder = function (cartView) {
@@ -179,22 +217,14 @@ var RepositoryService = /** @class */ (function () {
     RepositoryService.prototype.getSessionData = function (dataType) {
         return this.data.sendRequest('get', '/api/session/' + dataType);
     };
-    RepositoryService.prototype.getByCategory = function (cat, fn) {
+    RepositoryService.prototype.getByFilter = function (fn) {
         var _this = this;
-        this.data.sendRequest('get', 'api/product/getByCategory/' + cat.id)
-            .subscribe(function (products) {
-            _this.products = products;
+        this.data.sendRequest('post', 'api/product/byFilter', this.productFilter)
+            .subscribe(function (result) {
+            _this.products = result.infos;
+            _this.productsCount = result.count;
             if (fn)
-                fn(products);
-        });
-    };
-    RepositoryService.prototype.getByFilter = function (filter, fn) {
-        var _this = this;
-        this.data.sendRequest('post', 'api/product/getByFilter', filter)
-            .subscribe(function (products) {
-            _this.products = products;
-            if (fn)
-                fn(products);
+                fn(result.infos);
         });
     };
     RepositoryService = __decorate([

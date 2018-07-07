@@ -20,11 +20,13 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { SearchService, searchType } from './search.service';
 import { SearchBaseComponent } from './search.base.component';
+import { RepositoryService } from '../../services/repository.service';
 var SearchInlineComponent = /** @class */ (function (_super) {
     __extends(SearchInlineComponent, _super);
-    function SearchInlineComponent(ss) {
+    function SearchInlineComponent(ss, repo) {
         var _this = _super.call(this) || this;
         _this.ss = ss;
+        _this.repo = repo;
         _this.type = searchType.all;
         _this.found = new EventEmitter();
         return _this;
@@ -37,7 +39,13 @@ var SearchInlineComponent = /** @class */ (function (_super) {
         if (term == null) {
             term = (this.searchField.value || '');
         }
-        this.ss.findByType(this.type, term, function (res) { return _this.found.emit(res); });
+        if (this.type == searchType.product) {
+            this.repo.productFilter.searchTerm = term;
+            this.repo.getByFilter();
+        }
+        else {
+            this.ss.findByType(this.type, term, function (res) { return _this.found.emit(res); });
+        }
     };
     __decorate([
         Input(),
@@ -52,7 +60,7 @@ var SearchInlineComponent = /** @class */ (function (_super) {
             selector: 'godsend-search-inline',
             templateUrl: './search-inline.component.html',
         }),
-        __metadata("design:paramtypes", [SearchService])
+        __metadata("design:paramtypes", [SearchService, RepositoryService])
     ], SearchInlineComponent);
     return SearchInlineComponent;
 }(SearchBaseComponent));

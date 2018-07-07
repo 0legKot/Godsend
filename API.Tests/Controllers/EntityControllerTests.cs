@@ -6,6 +6,7 @@
     using Godsend;
     using Godsend.Controllers;
     using Godsend.Models;
+    using Microsoft.AspNetCore.Mvc;
     using Moq;
     using Xunit;
     public class EntityControllerTests
@@ -67,9 +68,25 @@
             repo.Setup(x => x.DeleteEntity(info1.Id));
 
             var controller = new ProductController(repo.Object);
-            controller.Delete(info1.Id);
-            controller.Delete(info1.Id);
-            Assert.True(true);
-            }
+            Assert.False(controller.Delete(info1.Id) is BadRequestResult);
+            Assert.False(controller.Delete(info1.Id) is BadRequestResult);
+        }
+
+        [Fact]
+        public void CreateOrUpdateTest()
+        {
+            var repo = new Mock<IProductRepository>();
+            var prod0 = new Product() { Id = Guid.NewGuid() };
+            var prod1 = new Product() { Id = Guid.NewGuid() };
+            var prod2 = new Product() { Id = Guid.NewGuid() };
+            var prod3 = new Product() { Id = Guid.NewGuid() };
+
+            repo.Setup(x => x.SaveEntity(prod1));
+
+            var controller = new ProductController(repo.Object);
+            Assert.False(controller.CreateOrUpdate(prod0) is BadRequestResult);
+            Assert.False(controller.CreateOrUpdate(prod1) is BadRequestResult);
+            Assert.False(controller.CreateOrUpdate(prod0) is BadRequestResult);
+        }
     }
 }

@@ -64,6 +64,7 @@ var CatsWithSubs = /** @class */ (function () {
 export { CatsWithSubs };
 var FilterInfo = /** @class */ (function () {
     function FilterInfo() {
+        this.orderBy = 0;
     }
     return FilterInfo;
 }());
@@ -96,6 +97,8 @@ var StringPropertyInfo = /** @class */ (function () {
 export { StringPropertyInfo };
 var FilterInfoView = /** @class */ (function () {
     function FilterInfoView() {
+        this.orderBy = 0;
+        this.sortAscending = true;
     }
     return FilterInfoView;
 }());
@@ -138,9 +141,24 @@ var Property = /** @class */ (function () {
     return Property;
 }());
 export { Property };
+var ProductFilterInfo = /** @class */ (function () {
+    function ProductFilterInfo(quantity, page) {
+        this.quantity = quantity;
+        this.page = page;
+        this.orderBy = 0;
+        this.sortAscending = false;
+    }
+    return ProductFilterInfo;
+}());
+export { ProductFilterInfo };
 export var propertyType = [
     'int',
     'string',
     'decimal' //2
+];
+export var orderBy = [
+    'name',
+    'rating',
+    'watches'
 ];
 //# sourceMappingURL=product.model.js.map
