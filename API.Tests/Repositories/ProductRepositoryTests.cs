@@ -124,5 +124,17 @@ namespace API.Tests.Repositories
             );
 
         }
+        //brokrn
+        [Fact]
+        public void GetPropertiesTest()
+        {
+            //no cats mb
+            var cat = context.Categories.First();
+            var prod = context.Products.Include(x=>x.Category).First(x => x.Category == cat);
+            var sum = context.LinkProductPropertyDecimal.Count(x => x.Product == prod) +
+                context.LinkProductPropertyInt.Count(x => x.Product == prod) +
+                context.LinkProductPropertyString.Count(x => x.Product == prod);
+           // Assert.InRange(this.repo.Properties(cat.Id).Count(),sum, sum);
+        }
     }
 }
