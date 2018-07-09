@@ -216,6 +216,7 @@ namespace Godsend
 
 
 
+        #region Old
         /////// <summary>
         /////// Gets the ordered.
         /////// </summary>
@@ -375,6 +376,7 @@ namespace Godsend
         ////        .Where(x => x.Product.Info.Id == id).Select(p => new { p.Property.Id, p.Property.Name, p.Value });
         ////}
 
+        #endregion
         /// <summary>
         /// Gets the entity by information identifier.
         /// </summary>

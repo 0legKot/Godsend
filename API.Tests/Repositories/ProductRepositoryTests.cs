@@ -97,5 +97,32 @@ namespace API.Tests.Repositories
             //Assert.True(repo.IsFirst(testEntity));
             //Assert.False(repo.Entities(int.MaxValue).Any(x => x == testEntity));
         }
+
+        [Fact]
+        public void GetTest()
+        {
+            var product = context.Products.First();
+            Assert.Equal(this.repo.GetEntity(product.Id),product);
+            Assert.Equal(this.repo.GetEntityByInfoId(product.Info.Id),product);
+        }
+        [Fact]
+        public void GetProductsWithSuppliersTest()
+        {
+            var product = context.Products.First();
+            var supp = context.LinkProductsSuppliers.Where(p => p.ProductId == product.Id);
+            Assert.Equal(this.repo.GetProductWithSuppliers(product.Info.Id).Product, product);
+            Assert.True(this.repo.GetProductWithSuppliers(product.Info.Id).Suppliers.Count()==supp.Count());
+            Assert.True(supp.Select(s=>s.Supplier).Union(
+                this.repo.GetProductWithSuppliers(product.Info.Id).Suppliers.Select(s=>s.Supplier)).Count() 
+                == 
+                supp.Count()
+            );
+            Assert.True(supp.Select(s => s.Supplier).Intersect(
+                this.repo.GetProductWithSuppliers(product.Info.Id).Suppliers.Select(s => s.Supplier)).Count()
+                ==
+                supp.Count()
+            );
+
+        }
     }
 }
