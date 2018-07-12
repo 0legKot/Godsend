@@ -24,19 +24,19 @@ namespace Godsend.Models
         /// <summary>
         /// The user manager
         /// </summary>
-        private UserManager<IdentityUser> userManager;
+        private UserManager<User> userManager;
 
         /// <summary>
         /// The user
         /// </summary>
-        private IdentityUser user = null;
+        private User user = null;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="EFArticleRepository"/> class.
         /// </summary>
         /// <param name="context">The context.</param>
         /// <param name="userManager">The user manager.</param>
-        public EFArticleRepository(DataContext context, UserManager<IdentityUser> userManager, ISeedHelper seedHelper)
+        public EFArticleRepository(DataContext context, UserManager<User> userManager, ISeedHelper seedHelper)
         {
             this.context = context;
             this.userManager = userManager;

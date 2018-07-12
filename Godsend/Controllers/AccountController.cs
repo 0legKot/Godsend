@@ -24,8 +24,8 @@ namespace Godsend.Controllers
     [Route("api/[controller]")]
     public class AccountController : Controller
     {
-        private UserManager<IdentityUser> userManager;
-        private SignInManager<IdentityUser> signInManager;
+        private UserManager<User> userManager;
+        private SignInManager<User> signInManager;
         private IConfiguration configuration;
 
         /// <summary>
@@ -34,7 +34,7 @@ namespace Godsend.Controllers
         /// <param name="userMgr">User manager</param>
         /// <param name="signInMgr">Sign in manager</param>
         /// <param name="configuration">Configuration</param>
-        public AccountController(UserManager<IdentityUser> userMgr, SignInManager<IdentityUser> signInMgr, IConfiguration configuration)
+        public AccountController(UserManager<User> userMgr, SignInManager<User> signInMgr, IConfiguration configuration)
         {
             userManager = userMgr;
             signInManager = signInMgr;
@@ -116,27 +116,50 @@ namespace Godsend.Controllers
             return BadRequest("Invalid login attempt");
         }
 
-        /// <summary>
-        /// Do login, not used
-        /// </summary>
-        /// <param name="creds">Credentials</param>
-        /// <returns>True or false</returns>
-        private async Task<bool> DoLogin(LoginViewModel creds)
+        [HttpPost("[action]")]
+        public async Task<object> Register([FromBody] RegisterViewModel model)
         {
-            await IdentitySeedData.EnsurePopulated(userManager);
-            IdentityUser user = await userManager.FindByNameAsync(creds.Email);
-            if (user != null)
+            var user = new User
             {
-                await signInManager.SignOutAsync();
-                Microsoft.AspNetCore.Identity.SignInResult result =
-                    await signInManager.PasswordSignInAsync(user, creds.Password, false, false);
-                return result.Succeeded;
+                UserName = model.Name,
+                Email = model.Email,
+                Birth = model.Birth,
+                RegistrationDate = DateTime.Now
+            };
+
+            var result = await userManager.CreateAsync(user, model.Password);
+
+            if (result.Succeeded)
+            {
+                await signInManager.SignInAsync(user, false);
+                var token = GenerateJwtToken(model.Email, user);
+                return Ok(new { token });
             }
 
-            return false;
+            return BadRequest("Could not register");
         }
 
-        private string GenerateJwtToken(string email, IdentityUser user)
+        /////// <summary>
+        /////// Do login, not used
+        /////// </summary>
+        /////// <param name="creds">Credentials</param>
+        /////// <returns>True or false</returns>
+        ////private async Task<bool> DoLogin(LoginViewModel creds)
+        ////{
+        ////    await IdentitySeedData.EnsurePopulated(userManager);
+        ////    User user = await userManager.FindByNameAsync(creds.Email);
+        ////    if (user != null)
+        ////    {
+        ////        await signInManager.SignOutAsync();
+        ////        Microsoft.AspNetCore.Identity.SignInResult result =
+        ////            await signInManager.PasswordSignInAsync(user, creds.Password, false, false);
+        ////        return result.Succeeded;
+        ////    }
+
+        ////    return false;
+        ////}
+
+        private string GenerateJwtToken(string email, User user)
         {
             // todo review
             var claims = new List<Claim>

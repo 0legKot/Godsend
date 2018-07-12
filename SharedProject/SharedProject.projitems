@@ -14,6 +14,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Models\Article\EFArticleRepository.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Article\IArticleRepository.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Article\StringWrapper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Identity\User.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Product\Category.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Product\EAV.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Product\FilterInfo.cs" />
@@ -47,5 +48,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Models\TestModel\Directory.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\TestModel\PrimitiveData.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\ViewModels\LoginViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\ViewModels\RegisterViewModel.cs" />
   </ItemGroup>
 </Project>
