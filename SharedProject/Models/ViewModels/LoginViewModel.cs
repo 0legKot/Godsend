@@ -22,7 +22,7 @@ namespace Godsend.Models
         /// The email.
         /// </value>
         [Required]
-        public string Email { get; set; }
+        public string Name { get; set; }
 
         /// <summary>
         /// Gets or sets password

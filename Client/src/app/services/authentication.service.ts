@@ -20,13 +20,12 @@ export class AuthenticationService {
 
     callbackUrl = '';
 
-    // todo remove email/name inconsistency
-    login(email: string, password: string): void {
+    login(name: string, password: string): void {
         // this.authenticated = false;
-        this.data.sendRequest<any>('post', 'api/account/login', { email, password }).subscribe(response => {
+        this.data.sendRequest<any>('post', 'api/account/login', { name, password }).subscribe(response => {
             // todo remove copypaste
             localStorage.setItem('godsend_authtoken', response.token);
-            localStorage.setItem('godsend_authname', email);
+            localStorage.setItem('godsend_authname', name);
 
             this.router.navigateByUrl(this.callbackUrl);
         }, error => {
@@ -43,7 +42,7 @@ export class AuthenticationService {
         this.data.sendRequest<any>('post', 'api/account/register', { user,pass }).subscribe(response => {
             // todo remove copypaste
             localStorage.setItem('godsend_authtoken', response.token);
-            localStorage.setItem('godsend_authname', user.email);
+            localStorage.setItem('godsend_authname', user.name);
 
             this.router.navigateByUrl(this.callbackUrl);
         }, error => {

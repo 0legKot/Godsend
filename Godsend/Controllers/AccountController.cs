@@ -104,12 +104,12 @@ namespace Godsend.Controllers
 
             ////return false;
             await IdentitySeedData.EnsurePopulated(userManager);
-            var result = await signInManager.PasswordSignInAsync(creds.Email, creds.Password, false, false);
+            var result = await signInManager.PasswordSignInAsync(creds.Name, creds.Password, false, false);
 
             if (result.Succeeded)
             {
-                var appUser = await userManager.FindByNameAsync(creds.Email);
-                var token = GenerateJwtToken(creds.Email, appUser);
+                var appUser = await userManager.FindByNameAsync(creds.Name);
+                var token = GenerateJwtToken(creds.Name, appUser);
                 return Ok(new { token });
             }
 
@@ -159,13 +159,13 @@ namespace Godsend.Controllers
         ////    return false;
         ////}
 
-        private string GenerateJwtToken(string email, User user)
+        private string GenerateJwtToken(string name, User user)
         {
             // todo review
             var claims = new List<Claim>
             {
-                new Claim(JwtRegisteredClaimNames.Sub, email),
-                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                new Claim(JwtRegisteredClaimNames.Sub, name), // subject
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()), // jwt id
                 new Claim(ClaimTypes.NameIdentifier, user.Id)
             };
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["JwtKey"]));
