@@ -20,7 +20,7 @@ namespace Godsend.Models
         /// <value>
         /// The identifier.
         /// </value>
-        public string Id { get; set; }
+        public string Id { get; set; } // remove?
 
         /// <summary>
         /// Gets or sets the name.
@@ -44,7 +44,7 @@ namespace Godsend.Models
         /// <value>
         /// The birth.
         /// </value>
-        public DateTime Birth { get; set; }
+        public DateTime? Birth { get; set; }
 
         /// <summary>
         /// Gets or sets the registration date.
@@ -61,5 +61,31 @@ namespace Godsend.Models
         /// The rating.
         /// </value>
         public int Rating { get; set; }
+
+        public static ClientUser FromEFUser(User user)
+        {
+            return new ClientUser
+            {
+                Id = user.Id,
+                Name = user.UserName,
+                Email = user.Email,
+                Birth = user.Birth,
+                Rating = user.Rating,
+                RegistrationDate = user.RegistrationDate
+            };
+        }
+
+        public static ClientUser FromEFUserGeneralInfo(User user)
+        {
+            return new ClientUser
+            {
+                Name = user.UserName,
+                Email = user.Email,
+                Birth = null,
+                Rating = user.Rating,
+                RegistrationDate = user.RegistrationDate
+            };
+        }
+
     }
 }

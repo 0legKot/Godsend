@@ -43,10 +43,10 @@ namespace Godsend.Controllers
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public override async Task<IActionResult> CreateOrUpdate([FromBody] Article entity)
         {
-            var email = User.Claims.FirstOrDefault(c => c.Type == "sub");
+            var name = User.Claims.FirstOrDefault(c => c.Type == "sub");
 
             var repo = repository as IArticleRepository;
-            await repo.SetUserAsync(email.Value);
+            await repo.SetUserAsync(name.Value);
 
             return await base.CreateOrUpdate(entity);
         }

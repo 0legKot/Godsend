@@ -13,6 +13,8 @@ namespace Godsend.Controllers
     using System.Text;
     using System.Threading.Tasks;
     using Godsend.Models;
+    using Microsoft.AspNetCore.Authentication.JwtBearer;
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Configuration;
@@ -27,6 +29,7 @@ namespace Godsend.Controllers
         private UserManager<User> userManager;
         private SignInManager<User> signInManager;
         private IConfiguration configuration;
+        private DataContext context;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AccountController"/> class.
@@ -34,11 +37,12 @@ namespace Godsend.Controllers
         /// <param name="userMgr">User manager</param>
         /// <param name="signInMgr">Sign in manager</param>
         /// <param name="configuration">Configuration</param>
-        public AccountController(UserManager<User> userMgr, SignInManager<User> signInMgr, IConfiguration configuration)
+        public AccountController(UserManager<User> userMgr, SignInManager<User> signInMgr, IConfiguration configuration, DataContext context)
         {
             userManager = userMgr;
             signInManager = signInMgr;
             this.configuration = configuration;
+            this.context = context;
         }
 
         /////// <summary>
@@ -137,6 +141,20 @@ namespace Godsend.Controllers
             }
 
             return BadRequest("Could not register");
+        }
+
+        [HttpGet("[action]/{name}")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        public ClientUser GetProfile(string name)
+        {
+            var currentName = User.Claims.FirstOrDefault(c => c.Type == "sub");
+
+            var user = context.Users.FirstOrDefault(u => u.UserName == name);
+            var clientUser = name == currentName.Value ?
+                ClientUser.FromEFUser(user) :
+                ClientUser.FromEFUserGeneralInfo(user);
+
+            return clientUser;
         }
 
         /////// <summary>
