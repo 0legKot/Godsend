@@ -38,6 +38,19 @@ export class AuthenticationService {
         // });
     }
 
+    register(email:string,name:string,password:string) {
+        this.data.sendRequest<any>('post', 'api/account/register', { email, name, password }).subscribe(response => {
+            // todo remove copypaste
+            localStorage.setItem('godsend_authtoken', response.token);
+            localStorage.setItem('godsend_authname', email);
+
+            this.router.navigateByUrl(this.callbackUrl);
+        }, error => {
+
+            console.log('register fail');
+        });
+    }
+
     logout() {
         localStorage.removeItem('godsend_authtoken');
         localStorage.removeItem('godsend_authname');

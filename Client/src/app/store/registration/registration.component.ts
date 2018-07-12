@@ -11,4 +11,7 @@ export class RegistrationComponent {
     email = '';
     pass = '';
     constructor(private auth: AuthenticationService) { }
+    register() {
+        this.auth.register(this.email,this.name, this.pass);
+    }
 }
