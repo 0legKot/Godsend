@@ -30,8 +30,12 @@
         <nav class="main-nav-2 pull-right">
             <ul class="list-unstyled">
                 <li *ngIf="isLogged; else elseBlock" class="main-nav-item-2">
-                    <fa [routerLink]="['/user']" name="user" ></fa> <a [routerLink]="['/user']"> {{ name }} </a>
+                    <fa [routerLink]="['/user']" name="user"></fa> <a [routerLink]="['/user']"> {{ name }} </a>
                     <a (click)="logout()">Log out</a>
+                </li>
+                <li *ngIf="isAdmin" class="main-nav-item-2">
+                    <a [routerLink]="['/admin']"> Admin panel </a>
+                    
                 </li>
                 <ng-template #elseBlock>
                     <li class="main-nav-item-2">

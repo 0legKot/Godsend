@@ -32,6 +32,7 @@ import { SupplierCardComponent } from './store/suppliers/supplier-card.component
 import { InputOutputComponent } from './store/input-output/input-output.component';
 import { PagesComponent } from './store/pages/pages.component';
 import { UserComponent } from './store/user/user.component';
+import { AdminComponent } from './store/admin/admin.component';
 
 @NgModule({
     declarations: [
@@ -57,7 +58,8 @@ import { UserComponent } from './store/user/user.component';
         SuppliersComponent,
         InputOutputComponent,
         UserComponent,
-        RegistrationComponent
+        RegistrationComponent,
+        AdminComponent
     ],
     imports: [
         AngularFontAwesomeModule,
@@ -83,6 +85,7 @@ import { UserComponent } from './store/user/user.component';
             { path: 'search', component: SearchComponent },
             { path: 'statistics', component: StatisticsComponent },
             { path: 'user', component: UserComponent },
+            { path: 'admin', component: AdminComponent },
             { path: '**', redirectTo: 'home' }
         ])
     ],

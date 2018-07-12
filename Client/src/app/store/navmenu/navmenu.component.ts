@@ -23,6 +23,7 @@ export class NavMenuComponent {
     }
     get name() { return this.auth.name; }
     get isLogged() { return this.auth.authenticated; }
+    get isAdmin() { return this.auth.authenticated; }
     logout() {
         this.auth.logout();
     }

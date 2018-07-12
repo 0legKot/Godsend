@@ -6,6 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="src\app\store\admin\admin.component.ts" />
     <None Remove="src\app\store\registration\registration.component.ts" />
     <None Remove="src\app\store\user\user.component.ts" />
     <None Remove="src\app\store\orders\orders.component.ts" />
@@ -41,6 +42,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <TypeScriptCompile Include="src\app\store\admin\admin.component.ts" />
     <TypeScriptCompile Include="src\app\store\registration\registration.component.ts" />
     <TypeScriptCompile Include="src\app\store\user\user.component.ts" />
     <TypeScriptCompile Include="src\app\store\orders\orders.component.ts" />
