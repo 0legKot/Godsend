@@ -30,7 +30,7 @@
         <nav class="main-nav-2 pull-right">
             <ul class="list-unstyled">
                 <li *ngIf="isLogged; else elseBlock" class="main-nav-item-2">
-                    <fa name="user"></fa> {{ name }}
+                    <fa [routerLink]="['/user']" name="user" ></fa> <a [routerLink]="['/user']"> {{ name }} </a>
                     <a (click)="logout()">Log out</a>
                 </li>
                 <ng-template #elseBlock>
