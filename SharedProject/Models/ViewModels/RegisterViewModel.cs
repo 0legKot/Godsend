@@ -41,6 +41,6 @@ namespace Godsend.Models
         /// The birth.
         /// </value>
         [Required]
-        public DateTime Birth { get; set; }
+        public string Birth { get; set; }
     }
 }

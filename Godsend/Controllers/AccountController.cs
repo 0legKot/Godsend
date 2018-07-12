@@ -123,7 +123,7 @@ namespace Godsend.Controllers
             {
                 UserName = model.Name,
                 Email = model.Email,
-                Birth = model.Birth,
+                Birth = DateTime.Parse(model.Birth),
                 RegistrationDate = DateTime.Now
             };
 
