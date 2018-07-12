@@ -26,7 +26,7 @@ namespace Godsend.Models
         /// </summary>
         /// <param name="ctx">The CTX.</param>
         /// <param name="userManager">The user manager.</param>
-        public EFOrderRepository(DataContext ctx, UserManager<IdentityUser> userManager, ISeedHelper seedHelper)
+        public EFOrderRepository(DataContext ctx, UserManager<User> userManager, ISeedHelper seedHelper)
         {
             context = ctx;
 

@@ -61,7 +61,7 @@ namespace Godsend.Models
         /// The ef customer.
         /// </value>
         [JsonIgnore]
-        public IdentityUser EFCustomer { get; set; }
+        public User EFCustomer { get; set; }
 
         /// <summary>
         /// Gets the customer.

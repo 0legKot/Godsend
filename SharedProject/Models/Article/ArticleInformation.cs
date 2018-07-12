@@ -24,7 +24,7 @@ namespace Godsend.Models
         /// The ef author.
         /// </value>
         [JsonIgnore]
-        public IdentityUser EFAuthor { get; set; }
+        public User EFAuthor { get; set; }
 
         /// <summary>
         /// Gets the author.

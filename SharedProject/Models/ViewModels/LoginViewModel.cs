@@ -2,7 +2,7 @@
 // Copyright (c) Godsend Team. All rights reserved.
 // </copyright>
 
-namespace Godsend.Controllers
+namespace Godsend.Models
 {
     using System.ComponentModel.DataAnnotations;
     using System.Threading.Tasks;
