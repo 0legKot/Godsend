@@ -1,5 +1,6 @@
 ﻿import { Component } from '@angular/core';
 import { AuthenticationService } from '../../services/authentication.service';
+import { IdentityUser } from '../../models/user.model';
 
 @Component({
     selector: 'godsend-registration',
@@ -10,8 +11,9 @@ export class RegistrationComponent {
     name = '';
     email = '';
     pass = '';
+    birth = '';
     constructor(private auth: AuthenticationService) { }
     register() {
-        this.auth.register(this.email,this.name, this.pass);
+        this.auth.register(new IdentityUser(this.email, this.name, this.pass, this.birth));
     }
 }

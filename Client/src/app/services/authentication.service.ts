@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
 import { DataService } from '../services/data.service';
+import { IdentityUser } from '../models/user.model';
 
 @Injectable({
     providedIn: 'root'
@@ -38,11 +39,11 @@ export class AuthenticationService {
         // });
     }
 
-    register(email:string,name:string,password:string) {
-        this.data.sendRequest<any>('post', 'api/account/register', { email, name, password }).subscribe(response => {
+    register(user: IdentityUser) {
+        this.data.sendRequest<any>('post', 'api/account/register', { user }).subscribe(response => {
             // todo remove copypaste
             localStorage.setItem('godsend_authtoken', response.token);
-            localStorage.setItem('godsend_authname', email);
+            localStorage.setItem('godsend_authname', user.email);
 
             this.router.navigateByUrl(this.callbackUrl);
         }, error => {
