@@ -39,7 +39,7 @@ export class AuthenticationService {
     }
 
     register(user: IdentityUser,pass:string) {
-        this.data.sendRequest<any>('post', 'api/account/register', { user,pass }).subscribe(response => {
+        this.data.sendRequest<any>('post', 'api/account/register', {email:user.email,password:pass,name:user.name,birth:user.birth }).subscribe(response => {
             // todo remove copypaste
             localStorage.setItem('godsend_authtoken', response.token);
             localStorage.setItem('godsend_authname', user.name);

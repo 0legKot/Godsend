@@ -30,9 +30,11 @@ import { SupplierDetailComponent } from './store/suppliers/supplier-detail.compo
 import { StarsComponent } from './store/stars/stars.component';
 import { ArticleDetailComponent } from './store/articles/article-detail.component';
 import { ProductCardComponent } from './store/products/product-card.component';
+import { RegistrationComponent } from './store/registration/registration.component';
 import { SupplierCardComponent } from './store/suppliers/supplier-card.component';
 import { InputOutputComponent } from './store/input-output/input-output.component';
 import { PagesComponent } from './store/pages/pages.component';
+import { UserComponent } from './store/user/user.component';
 var AppModule = /** @class */ (function () {
     function AppModule() {
     }
@@ -59,7 +61,9 @@ var AppModule = /** @class */ (function () {
                 SupplierDetailComponent,
                 SupplierCardComponent,
                 SuppliersComponent,
-                InputOutputComponent
+                InputOutputComponent,
+                UserComponent,
+                RegistrationComponent
             ],
             imports: [
                 AngularFontAwesomeModule,
@@ -80,8 +84,11 @@ var AppModule = /** @class */ (function () {
                     { path: 'cart', component: CartComponent },
                     { path: 'consult', component: ConsultComponent },
                     { path: 'login', component: LoginComponent },
+                    { path: 'registration', component: RegistrationComponent },
+                    { path: 'search', component: SearchComponent },
                     { path: 'search', component: SearchComponent },
                     { path: 'statistics', component: StatisticsComponent },
+                    { path: 'user', component: UserComponent },
                     { path: '**', redirectTo: 'home' }
                 ])
             ],
