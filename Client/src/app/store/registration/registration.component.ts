@@ -14,6 +14,6 @@ export class RegistrationComponent {
     birth = '';
     constructor(private auth: AuthenticationService) { }
     register() {
-        this.auth.register(new IdentityUser(this.email, this.name, this.pass, this.birth));
+        this.auth.register(new IdentityUser(this.email, this.name, this.birth), this.pass);
     }
 }

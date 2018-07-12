@@ -39,8 +39,8 @@ export class AuthenticationService {
         // });
     }
 
-    register(user: IdentityUser) {
-        this.data.sendRequest<any>('post', 'api/account/register', { user }).subscribe(response => {
+    register(user: IdentityUser,pass:string) {
+        this.data.sendRequest<any>('post', 'api/account/register', { user,pass }).subscribe(response => {
             // todo remove copypaste
             localStorage.setItem('godsend_authtoken', response.token);
             localStorage.setItem('godsend_authname', user.email);
