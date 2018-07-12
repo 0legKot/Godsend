@@ -157,6 +157,15 @@ namespace Godsend.Controllers
             return clientUser;
         }
 
+        [HttpGet("[action]/{page:int}/{rpp:int}")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        public IEnumerable<ClientUser> GetUserList(int page, int rpp)
+        {
+            return context.Users
+                .Skip(rpp * (page - 1)).Take(rpp)
+                .Select(u => ClientUser.FromEFUserGeneralInfo(u));
+        }
+
         /////// <summary>
         /////// Do login, not used
         /////// </summary>
