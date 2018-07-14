@@ -24,7 +24,7 @@ export class SuppliersComponent implements OnInit {
     imagg: any = {};
 
     @ViewChild(SearchInlineComponent)
-    searchInline: SearchInlineComponent;
+    searchInline?: SearchInlineComponent;
 
     get suppliers() {
         return this.searchSuppliers || this.repo.suppliers;
@@ -58,11 +58,13 @@ export class SuppliersComponent implements OnInit {
     createSupplier(name: string, address: string) {
         // TODO create interface with only relevant info
         const sup = new Supplier(new SupplierInfo(name, new Location(address)));
-        this.repo.createOrEditEntity('supplier', sup, this.page, this.rpp, () => this.searchInline.doSearch());
+        //if (this.searchInline != undefined)
+        this.repo.createOrEditEntity('supplier', sup, this.page, this.rpp, () => this.searchInline!.doSearch());
     }
 
     deleteSupplier(id: string) {
-        this.repo.deleteEntity('supplier', id, this.page, this.rpp, () => this.searchInline.doSearch());
+        //if (this.searchInline)
+        this.repo.deleteEntity('supplier', id, this.page, this.rpp, () => this.searchInline!.doSearch());
     }
 
     onFound(suppliers: SupplierInfo[]) {

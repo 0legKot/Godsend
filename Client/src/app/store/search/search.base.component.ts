@@ -3,7 +3,7 @@ import { FormControl } from '@angular/forms';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
 export abstract class SearchBaseComponent implements OnInit {
-    protected searchField: FormControl;
+    protected searchField: FormControl = new FormControl();
 
     ngOnInit() {
         this.searchField = new FormControl();

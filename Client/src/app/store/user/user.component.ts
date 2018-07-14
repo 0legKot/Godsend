@@ -10,7 +10,7 @@ import { OnInit } from '@angular/core/src/metadata/lifecycle_hooks';
     styleUrls: ['./user.component.css']
 })
 export class UserComponent implements OnInit{
-    user: IdentityUser;
+    user: IdentityUser = new IdentityUser();
     ngOnInit(): void {
         this.data.sendRequest<IdentityUser>("get", 'api/account/getprofile/' + this.name).subscribe(
             res => this.user = res

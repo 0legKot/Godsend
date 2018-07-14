@@ -25,7 +25,7 @@ export class ProductsComponent implements OnInit {
     templateText = 'Waiting for data...';
 
     @ViewChild(SearchInlineComponent)
-    searchInline!: SearchInlineComponent;
+    searchInline: SearchInlineComponent;
 
     imagg: any = {};
 
