@@ -24,7 +24,7 @@ export class SuppliersComponent implements OnInit {
     imagg: any = {};
 
     @ViewChild(SearchInlineComponent)
-    searchInline!: SearchInlineComponent;
+    searchInline: SearchInlineComponent;
 
     get suppliers() {
         return this.searchSuppliers || this.repo.suppliers;

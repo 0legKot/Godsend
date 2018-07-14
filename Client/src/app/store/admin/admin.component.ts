@@ -10,7 +10,7 @@ import { DataService } from '../../services/data.service';
     styleUrls: ['./admin.component.css']
 })
 export class AdminComponent implements OnInit{
-    userList: IdentityUser[];
+    userList: IdentityUser[]=[];
     ngOnInit(): void {
         this.data.sendRequest<IdentityUser[]>('get', 'api/account/getuserlist/1/10').subscribe(res=>this.userList=res);
     }

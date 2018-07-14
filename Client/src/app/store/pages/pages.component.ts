@@ -9,7 +9,7 @@ export class PagesComponent {
     page: number = 1;
 
     @Input()
-    pagesCount!: number;
+    pagesCount: number;
 
     @Output()
     pageChanged = new EventEmitter<number>();
