@@ -2,39 +2,45 @@
     .h4 {
         user-select: none;
     }
-
 </style>
 
 <h1>Shopping cart</h1>
-<div *ngIf="discreteParts?.length > 0; else nodata">
-    <div *ngFor="let part of discreteParts">
-        <span class="h4">
-            {{ part.product.info.name }}
-        </span>
-        <span class="h4">
-            {{ part.supplier.info.name }}
-        </span>
-        <span class="h4">
-            {{ part.quantity }}
-        </span>
-        <span class="h4">
-            $ {{ (part.quantity * part.price).toFixed(2) }}
-        </span>
-        <span class="h4" (click)="increment(part)">
-            INCREMENT
-        </span>
-        <span class="h4" (click)="decrement(part)">
-            DECREMENT
-        </span>
-        <span class="h4" (click)="delete(part)">
-            DELETE
-        </span>
-        <br />
-    </div>
-    <span>Total: {{ totalPrice }}</span>
-</div>
-<button [routerLink]="['/products']" (click)="checkout()">Checkout</button>
+<br />
+<br />
+<br />
 
-<ng-template #nodata>
-    <h4 class="m-1">No orders</h4>
-</ng-template>
+<div class="wrap">
+
+    <div *ngIf="discreteParts?.length > 0; else nodata">
+        <div *ngFor="let part of discreteParts" class="cards">
+            <div class="card text-center">
+                <div class="card-header">
+                    <h5 class="pull-right delete-art" (click)="delete(part)"><fa name="times"></fa></h5>
+                    <br />
+                    <h4>{{ part.product.info.name }}</h4>
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">{{ part.supplier.info.name }}</h5>
+                    <p class="card-text">Quantity: {{ part.quantity }}</p>
+                    <p class="card-text">Price: $ {{ (part.quantity * part.price).toFixed(2) }}</p>
+                    <div (click)="increment(part)" class="btn readMore">+Increment</div>
+                    <div (click)="decrement(part)" class="btn readMore">-Decrement</div>
+                </div>
+            </div>
+
+            <br />
+            <br />
+            <br />
+        </div>
+        <h3>Total: {{ totalPrice }}</h3>
+    </div>
+    <button [routerLink]="['/products']" (click)="checkout()" class="btn readMore">Checkout</button>
+
+    <ng-template #nodata>
+        <h4 class="m-1">No orders</h4>
+    </ng-template>
+    <br />
+    <br />
+    <br />
+
+</div>

@@ -4,9 +4,11 @@
     padding-right: 40px;
     margin: 0 auto;
 }
-h1{
+
+h1, h3 {
     text-align: center;
 }
+
 .cards:nth-child(1n + 0) .card-header {
     background: #39be00;
 }
@@ -14,18 +16,22 @@ h1{
 .cards:nth-child(2n + 0) .card-header {
     background: #e6b000;
 }
+
 .cards:nth-child(3n + 0) .card-header {
     background: rgb(13, 199, 176);
 }
-.card{
+
+.card {
     margin-bottom: 20px;
 }
+
 .readMore {
     background-color: #4cff00;
     color: #123901;
     border-color: #4cff00;
-    font-size:17px;
+    font-size: 17px;
 }
+
     .readMore:focus {
         background-color: #3ac100;
         border-color: #3ac100;
@@ -37,16 +43,23 @@ h1{
         border-color: #3ac100;
         color: #ffffff;
     }
-.delete-art{
+
+.delete-art {
     cursor: pointer;
 }
-.delete-art:hover {
-    color:#ffffff;
-    transition: 400ms;
-}
+
+    .delete-art:hover {
+        color: #ffffff;
+        transition: 400ms;
+    }
+
 @media (max-width: 460px) {
     .wrap {
         padding-left: 0;
         padding-right: 0;
     }
+}
+
+.card-body .btn {
+    margin-right: 10px;
 }
