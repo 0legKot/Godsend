@@ -6,7 +6,8 @@ import { retry } from 'rxjs/operators';
 
 @Component({
     selector: 'godsend-cart',
-    templateUrl: './cart.component.html'
+    templateUrl: './cart.component.html',
+    styleUrls: ['../articles/articles.component.css']
 })
 export class CartComponent {
    // parts: OrderPartSend[];
