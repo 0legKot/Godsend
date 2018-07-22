@@ -28,6 +28,7 @@ namespace Godsend.Controllers
     {
         private UserManager<User> userManager;
         private SignInManager<User> signInManager;
+        private RoleManager<Role> roleManager;
         private IConfiguration configuration;
         private DataContext context;
 
@@ -37,49 +38,19 @@ namespace Godsend.Controllers
         /// <param name="userMgr">User manager</param>
         /// <param name="signInMgr">Sign in manager</param>
         /// <param name="configuration">Configuration</param>
-        public AccountController(UserManager<User> userMgr, SignInManager<User> signInMgr, IConfiguration configuration, DataContext context)
+        public AccountController(UserManager<User> userMgr,
+                                 SignInManager<User> signInMgr, 
+                                 IConfiguration configuration, 
+                                 DataContext context, 
+                                 RoleManager<Role> roleMngr)
         {
             userManager = userMgr;
             signInManager = signInMgr;
+            roleManager = roleMngr;
             this.configuration = configuration;
             this.context = context;
         }
 
-        /////// <summary>
-        /////// Do login
-        /////// </summary>
-        /////// <param name="returnUrl">Return url</param>
-        /////// <returns>View</returns>
-        ////[HttpGet]
-        ////public IActionResult Login(string returnUrl)
-        ////{
-        ////    ViewBag.returnUrl = returnUrl;
-        ////    return View();
-        ////}
-
-        /////// <summary>
-        /////// Do login
-        /////// </summary>
-        /////// <param name="creds">Credentials</param>
-        /////// <param name="returnUrl">Return url</param>
-        /////// <returns>View or redirect</returns>
-        ////[HttpPost]
-        ////public async Task<IActionResult> Login(LoginViewModel creds, string returnUrl)
-        ////{
-        ////    if (ModelState.IsValid)
-        ////    {
-        ////        if (await DoLogin(creds))
-        ////        {
-        ////            return Redirect(returnUrl ?? "/");
-        ////        }
-        ////        else
-        ////        {
-        ////            ModelState.AddModelError(string.Empty, "Invalid username or password");
-        ////        }
-        ////    }
-
-        ////    return View(creds);
-        ////}
 
         /// <summary>
         /// Do logout
@@ -107,7 +78,7 @@ namespace Godsend.Controllers
             ////}
 
             ////return false;
-            await IdentitySeedData.EnsurePopulated(userManager);
+            await IdentitySeedData.EnsurePopulated(userManager,roleManager);
             var result = await signInManager.PasswordSignInAsync(creds.Name, creds.Password, false, false);
 
             if (result.Succeeded)
@@ -159,32 +130,21 @@ namespace Godsend.Controllers
 
         [HttpGet("[action]/{page:int}/{rpp:int}")]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        public IEnumerable<ClientUser> GetUserList(int page, int rpp)
+        public async Task<IEnumerable<ClientUser>> GetUserList(int page, int rpp)
         {
-            return context.Users
-                .Skip(rpp * (page - 1)).Take(rpp)
-                .Select(u => ClientUser.FromEFUserGeneralInfo(u));
+            var currentName = User.Claims.FirstOrDefault(c => c.Type == "sub");
+            var user = context.Users.FirstOrDefault(u => u.UserName == currentName.Value);
+
+            if (await userManager.IsInRoleAsync(user, "Administrator"))
+            {
+                return context.Users
+                    .Skip(rpp * (page - 1)).Take(rpp)
+                    .Select(u => ClientUser.FromEFUserGeneralInfo(u));
+            }
+            else return new List<ClientUser>();
         }
 
-        /////// <summary>
-        /////// Do login, not used
-        /////// </summary>
-        /////// <param name="creds">Credentials</param>
-        /////// <returns>True or false</returns>
-        ////private async Task<bool> DoLogin(LoginViewModel creds)
-        ////{
-        ////    await IdentitySeedData.EnsurePopulated(userManager);
-        ////    User user = await userManager.FindByNameAsync(creds.Email);
-        ////    if (user != null)
-        ////    {
-        ////        await signInManager.SignOutAsync();
-        ////        Microsoft.AspNetCore.Identity.SignInResult result =
-        ////            await signInManager.PasswordSignInAsync(user, creds.Password, false, false);
-        ////        return result.Succeeded;
-        ////    }
 
-        ////    return false;
-        ////}
 
         private string GenerateJwtToken(string name, User user)
         {
@@ -193,7 +153,7 @@ namespace Godsend.Controllers
             {
                 new Claim(JwtRegisteredClaimNames.Sub, name), // subject
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()), // jwt id
-                new Claim(ClaimTypes.NameIdentifier, user.Id)
+                new Claim( ClaimTypes.NameIdentifier,user.Id)
             };
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["JwtKey"]));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);

@@ -23,7 +23,6 @@ var SuppliersComponent = /** @class */ (function () {
         this.images = {};
         this.templateText = 'Waiting for data...';
         this.imagg = {};
-        this.searchInline = !;
     }
     Object.defineProperty(SuppliersComponent.prototype, "suppliers", {
         get: function () {
@@ -59,10 +58,12 @@ var SuppliersComponent = /** @class */ (function () {
         var _this = this;
         // TODO create interface with only relevant info
         var sup = new Supplier(new SupplierInfo(name, new Location(address)));
+        //if (this.searchInline != undefined)
         this.repo.createOrEditEntity('supplier', sup, this.page, this.rpp, function () { return _this.searchInline.doSearch(); });
     };
     SuppliersComponent.prototype.deleteSupplier = function (id) {
         var _this = this;
+        //if (this.searchInline)
         this.repo.deleteEntity('supplier', id, this.page, this.rpp, function () { return _this.searchInline.doSearch(); });
     };
     SuppliersComponent.prototype.onFound = function (suppliers) {
@@ -71,7 +72,7 @@ var SuppliersComponent = /** @class */ (function () {
     };
     __decorate([
         ViewChild(SearchInlineComponent),
-        __metadata("design:type", Object)
+        __metadata("design:type", SearchInlineComponent)
     ], SuppliersComponent.prototype, "searchInline", void 0);
     SuppliersComponent = __decorate([
         Component({

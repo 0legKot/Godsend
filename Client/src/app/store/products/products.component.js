@@ -30,7 +30,6 @@ var ProductsComponent = /** @class */ (function () {
         this.images = {};
         //searchProducts?: ProductInfo[];
         this.templateText = 'Waiting for data...';
-        this.searchInline = !;
         this.imagg = {};
         this.filter = new FilterInfoView();
         this.orderBy = orderBy;
@@ -117,7 +116,7 @@ var ProductsComponent = /** @class */ (function () {
     };
     __decorate([
         ViewChild(SearchInlineComponent),
-        __metadata("design:type", Object)
+        __metadata("design:type", SearchInlineComponent)
     ], ProductsComponent.prototype, "searchInline", void 0);
     ProductsComponent = __decorate([
         Component({

@@ -35,6 +35,11 @@ var NavMenuComponent = /** @class */ (function () {
         enumerable: true,
         configurable: true
     });
+    Object.defineProperty(NavMenuComponent.prototype, "isAdmin", {
+        get: function () { return this.auth.authenticated; },
+        enumerable: true,
+        configurable: true
+    });
     NavMenuComponent.prototype.logout = function () {
         this.auth.logout();
     };

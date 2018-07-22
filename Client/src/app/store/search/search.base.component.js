@@ -2,7 +2,7 @@ import { FormControl } from '@angular/forms';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 var SearchBaseComponent = /** @class */ (function () {
     function SearchBaseComponent() {
-        this.searchField = !;
+        this.searchField = new FormControl();
     }
     SearchBaseComponent.prototype.ngOnInit = function () {
         var _this = this;

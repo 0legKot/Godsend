@@ -15,7 +15,7 @@ namespace Godsend.Models
     /// <summary>
     ///
     /// </summary>
-    public class DataContext : IdentityDbContext<User>
+    public class DataContext : IdentityDbContext<User,Role, string>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="DataContext"/> class.

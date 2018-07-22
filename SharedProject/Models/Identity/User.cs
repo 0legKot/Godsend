@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Godsend.Models
 {
-    public class User : IdentityUser
+    public class User : IdentityUser<string>
     {
         public User() : base() { }
 
