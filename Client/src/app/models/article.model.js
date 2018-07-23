@@ -23,13 +23,15 @@ var Article = /** @class */ (function () {
 }());
 export { Article };
 var ArticleInfo = /** @class */ (function () {
-    function ArticleInfo(name, tags, id, created, author, rating, watches) {
+    function ArticleInfo(name, description, tags, id, created, author, rating, watches) {
+        if (description === void 0) { description = ''; }
         if (id === void 0) { id = ''; }
         if (created === void 0) { created = ''; }
         if (author === void 0) { author = new IdentityUser(); }
         if (rating === void 0) { rating = 0; }
         if (watches === void 0) { watches = 0; }
         this.name = name;
+        this.description = description;
         this.tags = tags;
         this.id = id;
         this.created = created;

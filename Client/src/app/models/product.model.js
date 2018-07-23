@@ -19,9 +19,10 @@ var Product = /** @class */ (function () {
 }());
 export { Product };
 var ProductInfo = /** @class */ (function () {
-    function ProductInfo(id, description, name, watches, rating) {
+    function ProductInfo(id, description, state, name, watches, rating) {
         this.id = id;
         this.description = description;
+        this.state = state;
         this.name = name;
         this.watches = watches;
         this.rating = rating;

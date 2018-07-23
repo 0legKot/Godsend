@@ -16,8 +16,8 @@ export var orderStatus = [
 ];
 var Order = /** @class */ (function () {
     function Order(id, customer, items, 
-        // public weightedItems: OrderPartWeighted[],
-        ordered, status, done) {
+    // public weightedItems: OrderPartWeighted[],
+    ordered, status, done) {
         this.id = id;
         this.customer = customer;
         this.items = items;

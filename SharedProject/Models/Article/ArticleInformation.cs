@@ -44,6 +44,14 @@ namespace Godsend.Models
         public DateTime Created { get; set; }
 
         /// <summary>
+        /// Gets or sets the description.
+        /// </summary>
+        /// <value>
+        /// Description that must be less than 100 chars (no ensurenSe)
+        /// </value>
+        public string Description { get; set; }
+
+        /// <summary>
         /// Gets or sets the ef tags.
         /// </summary>
         /// <value>

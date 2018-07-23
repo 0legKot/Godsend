@@ -489,6 +489,7 @@ namespace API.Tests.Common
                             Info = new ArticleInformation
                             {
                                 EFAuthor = context.Users.FirstOrDefault(),
+                                Description = "Any fact about apple is truth",
                                 Created = DateTime.Now,
                                 Rating = 4.7,
                                 Name = "The Three Apples that changed the World",
@@ -516,6 +517,7 @@ This is a pretty simple and straightforward diet you will ever try. It involves 
                             Info = new ArticleInformation
                             {
                                 EFAuthor = context.Users.FirstOrDefault(),
+                                Description = "Diet can be dangerous",
                                 Name = "7 Day Apple Diet Plan",
                                 Created = DateTime.Now,
                                 Rating = 3.3,
@@ -544,6 +546,7 @@ This is a pretty simple and straightforward diet you will ever try. It involves 
                             Info = new ArticleInformation
                             {
                                 EFAuthor = context.Users.FirstOrDefault(),
+                                Description = "Apple is older than you, man",
                                 Created = DateTime.Now,
                                 Name = "Why Do Students Give Teachers Apples and More from the Fruit’s Juicy Past",
                                 Rating = 3.6,
@@ -558,6 +561,7 @@ This is a pretty simple and straightforward diet you will ever try. It involves 
                             Info = new ArticleInformation
                             {
                                 EFAuthor = context.Users.FirstOrDefault(),
+                                Description = "You can't see this",
                                 Created = DateTime.Now,
                                 Name = "Empty Article",
                                 Rating = 1,
@@ -572,6 +576,7 @@ This is a pretty simple and straightforward diet you will ever try. It involves 
                             Info = new ArticleInformation
                             {
                                 EFAuthor = context.Users.FirstOrDefault(),
+                                Description = "Java is not an answer, it is a question. BUT THE ANSWER IS NO",
                                 Created = DateTime.Now,
                                 Name = "The Answer to the Ultimate Question of Life, the Universe, and Everything",
                                 Rating = 5,
@@ -586,6 +591,7 @@ This is a pretty simple and straightforward diet you will ever try. It involves 
                             Info = new ArticleInformation
                             {
                                 EFAuthor = context.Users.FirstOrDefault(),
+                                Description = "Apple is better and you won't persuade me",
                                 Created = DateTime.Now,
                                 Name = "Apple or Android - which is better?",
                                 Rating = 1.1,

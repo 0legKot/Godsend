@@ -12,6 +12,8 @@
                     <h5 class="pull-right delete-art" (click)="deleteArticle(a.id)"><fa name="times"></fa></h5>
                     <br />
                     <h5>{{ a.name }}</h5>
+                    <br />
+                    <h6>{{ a.description }}</h6>
                 </div>
                 <div class="card-body">
                     <h5 class="card-title"><span *ngFor="let hash of a.tags">#{{ hash }}&nbsp;</span></h5>

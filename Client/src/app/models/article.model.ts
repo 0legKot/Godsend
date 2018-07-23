@@ -27,6 +27,7 @@ export class Article implements IEntity<ArticleInfo> {
 export class ArticleInfo {
     constructor(
         public name: string,
+        public description: string = '',
         public tags: string[],
         public id: string = '',
         public created: string = '',

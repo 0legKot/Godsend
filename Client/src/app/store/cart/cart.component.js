@@ -54,7 +54,8 @@ var CartComponent = /** @class */ (function () {
     CartComponent = __decorate([
         Component({
             selector: 'godsend-cart',
-            templateUrl: './cart.component.html'
+            templateUrl: './cart.component.html',
+            styleUrls: ['../articles/articles.component.css']
         }),
         __metadata("design:paramtypes", [CartService])
     ], CartComponent);

@@ -35,7 +35,7 @@ export class ArticlesComponent implements OnInit {
     }
 
     createArticle(content: string, name: string, tags: string[]) {
-        const art = new Article(content, new ArticleInfo(name, tags));
+        const art = new Article(content, new ArticleInfo(name, "Provide description", tags));
         this.repo.createOrEditEntity('article', art, this.page, this.rpp);
     }
 

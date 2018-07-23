@@ -64,7 +64,7 @@ var ProductsComponent = /** @class */ (function () {
     };
     ProductsComponent.prototype.createProduct = function (descr, name) {
         // TODO create interface with only relevant info
-        var prod = new Product('', new ProductInfo('', descr, name, 0, 0));
+        var prod = new Product('', new ProductInfo('', descr, 0, name, 0, 0));
         this.repo.createOrEditEntity('product', prod, 0, 0);
     };
     ProductsComponent.prototype.deleteProduct = function (id) {
