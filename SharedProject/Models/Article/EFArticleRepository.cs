@@ -64,7 +64,8 @@ namespace Godsend.Models
         /// </value>
         public IEnumerable<Information> EntitiesInfo(int quantity, int skip = 0)
         {
-            var tmp = context.Articles.Select(x => x.Info).Include(ai => ai.EFTags).Include(ai => ai.EFAuthor).Skip(skip).Take(quantity);
+            var tmp = context.Articles.Select(x => x.Info).Include(ai => ai.EFTags)
+                                                          .Include(ai => ai.EFAuthor).Skip(skip).Take(quantity);
 
             return tmp;
         }
