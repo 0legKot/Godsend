@@ -14,9 +14,9 @@ namespace Godsend.Models
     using Newtonsoft.Json;
 
     /// <summary>
-    ///
+    /// Short information about product
     /// </summary>
-    public class ProductInformation : Information // , INotifyPropertyChanged
+    public class ProductInformation : Information
     {
         /// <summary>
         /// Gets or sets the description.
@@ -26,26 +26,12 @@ namespace Godsend.Models
         /// </value>
         public string Description { get; set; }
 
-        ////[NotMapped]
-        ////private string title;
+        public ProductState State { get; set; }
+    }
 
-        ////public event PropertyChangedEventHandler PropertyChanged;
-
-        ////[JsonProperty("title")]
-        ////[NotMapped]
-        ////public string Title
-        ////{
-        ////    get => title;
-        ////    set
-        ////    {
-        ////        title = value;
-        ////        //OnPropertyChanged();
-        ////    }
-        ////}
-
-        ////protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        ////{
-        ////    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        ////}
+    public enum ProductState {
+        Normal = 0,
+        New = 1,
+        Hot = 2
     }
 }

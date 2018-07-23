@@ -26,6 +26,7 @@ export class ProductInfo implements IInformation {
     constructor(
         public id: string,
         public description: string,
+        public state: number,
         public name: string,
         public watches: number,
         public rating: number

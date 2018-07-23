@@ -115,6 +115,7 @@ namespace API.Tests.Common
                             {
                                 Name = "Potato",
                                 Description = "The earth apple",
+                                State = ProductState.New,
                                 Rating = 5,
                                 Watches = 4,
                             },
@@ -164,6 +165,7 @@ namespace API.Tests.Common
                                 Name = "Tomato",
                                 Description = "The love apple",
                                 Rating = Math.E,
+                                State = ProductState.New,
                                 Watches = 13,
                             },
                             Category = categories.Berries

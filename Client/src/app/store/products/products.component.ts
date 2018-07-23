@@ -55,7 +55,7 @@ export class ProductsComponent implements OnInit {
 
     createProduct(descr: string, name: string) {
         // TODO create interface with only relevant info
-        const prod = new Product('', new ProductInfo('', descr, name, 0, 0));
+        const prod = new Product('', new ProductInfo('', descr, 0, name, 0, 0));
         this.repo.createOrEditEntity('product', prod, 0, 0);
     }
 
