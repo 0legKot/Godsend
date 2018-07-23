@@ -31,6 +31,7 @@ namespace Godsend.Controllers
         private RoleManager<Role> roleManager;
         private IConfiguration configuration;
         private DataContext context;
+        private User currentUser;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AccountController"/> class.
@@ -51,6 +52,55 @@ namespace Godsend.Controllers
             this.context = context;
         }
 
+        /// <summary>
+        /// Check is the current user admin
+        /// </summary>
+        /// <returns>true, if the user is in Administrator role</returns>
+        [HttpGet("[action]")]
+        public async Task<bool> IsAdmin()
+        {
+            return await userManager.IsInRoleAsync(currentUser, "Administrator");
+        }
+
+        /// <summary>
+        /// Get roles of current user
+        /// </summary>
+        /// <returns>List of string roles</returns>
+        [HttpGet("[action]")]
+        public async Task<IEnumerable<string>> GetRoles()
+        {
+            return await userManager.GetRolesAsync(currentUser);
+        }
+        
+        [HttpPost("[action]")]
+        public async Task<IActionResult> AddToRole(string userName, string role)
+        {
+            if (!await IsAdmin()) return BadRequest();
+            User user = await userManager.FindByNameAsync(userName);
+            if (await roleManager.FindByNameAsync(role) == null || user == null) return BadRequest();
+            await userManager.AddToRoleAsync(user, role);
+            return Ok();
+        }
+
+        [HttpPost("[action]")]
+        public async Task<IActionResult> ExcludeFromRole(string userName, string role)
+        {
+            if (!await IsAdmin()) return BadRequest();
+            User user = await userManager.FindByNameAsync(userName);
+            if (await roleManager.FindByNameAsync(role) == null || user == null) return BadRequest();
+            await userManager.RemoveFromRoleAsync(user, role);
+            return Ok();
+        }
+
+        /// <summary>
+        /// Get all roles that exist in db
+        /// </summary>
+        /// <returns>List all roles</returns>
+        [HttpGet("[action]")]
+        public IEnumerable<string> GetAllRoles()
+        {
+            return roleManager.Roles.Select(x => x.Name);
+        }
 
         /// <summary>
         /// Do logout
@@ -107,6 +157,7 @@ namespace Godsend.Controllers
             if (result.Succeeded)
             {
                 await signInManager.SignInAsync(user, false);
+                currentUser = user;
                 var token = GenerateJwtToken(model.Email, user);
                 return Ok(new { token });
             }
@@ -133,9 +184,9 @@ namespace Godsend.Controllers
         public async Task<IEnumerable<ClientUser>> GetUserList(int page, int rpp)
         {
             var currentName = User.Claims.FirstOrDefault(c => c.Type == "sub");
-            var user = context.Users.FirstOrDefault(u => u.UserName == currentName.Value);
+            //var user = context.Users.FirstOrDefault(u => u.UserName == currentName.Value);
 
-            if (await userManager.IsInRoleAsync(user, "Administrator"))
+            if (await userManager.IsInRoleAsync(currentUser, "Administrator"))
             {
                 return context.Users
                     .Skip(rpp * (page - 1)).Take(rpp)
