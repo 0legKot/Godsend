@@ -13,12 +13,12 @@ namespace Godsend.Models
     using Microsoft.EntityFrameworkCore;
 
     /// <summary>
-    ///
+    /// Data context that contains all tables. No separation because it is easier for hosting to have only one database
     /// </summary>
-    public class DataContext : IdentityDbContext<User,Role, string>
+    public class DataContext : IdentityDbContext<User, Role, string>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="DataContext"/> class.
+        /// Initializes a new instance of the <see cref="DataContext"/> class. Uses base call for everything
         /// </summary>
         /// <param name="options">The options.</param>
         public DataContext(DbContextOptions<DataContext> options)
@@ -27,47 +27,39 @@ namespace Godsend.Models
         }
 
         /// <summary>
-        /// Gets or sets the products.
+        /// Gets or sets table with products
         /// </summary>
         /// <value>
-        /// The products.
+        /// Products and their cards, categories and properties (dictionary)
         /// </value>
         public DbSet<Product> Products { get; set; }
 
         /// <summary>
-        /// Gets or sets the suppliers.
+        /// Gets or sets table with suppliers
         /// </summary>
         /// <value>
-        /// The suppliers.
+        /// Suppliers and their cards
         /// </value>
         public DbSet<Supplier> Suppliers { get; set; }
 
         /// <summary>
-        /// Gets or sets the orders.
+        /// Gets or sets table of orders
         /// </summary>
         /// <value>
-        /// The orders.
+        /// Each order has list of products and general info, no information card for this
         /// </value>
         public DbSet<Order> Orders { get; set; }
 
         /// <summary>
-        /// Gets or sets the articles.
+        /// Gets or sets table with articles
         /// </summary>
         /// <value>
-        /// The articles.
+        /// Articles and their cards.
         /// </value>
         public DbSet<Article> Articles { get; set; }
 
         /// <summary>
-        /// Gets or sets the values.
-        /// </summary>
-        /// <value>
-        /// The values.
-        /// </value>
-        public DbSet<Cell> Values { get; set; }
-
-        /// <summary>
-        /// Gets or sets the image paths table.
+        /// Gets or sets table for string path for every image that must be sent to client
         /// </summary>
         /// <value>
         /// The image paths table.
@@ -91,27 +83,15 @@ namespace Godsend.Models
         public DbSet<EAV<string>> LinkProductPropertyString { get; set; }
 
         public DbSet<EAV<decimal>> LinkProductPropertyDecimal { get; set; }
-        ////public DbSet<ProductInformation> ProductInformation { get; set; }
 
         /// <summary>
-        /// Called when [model creating].
+        /// Building simple entities because of old architecture
         /// </summary>
         /// <param name="builder">The builder.</param>
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            ////builder.Entity<EAV>()
-            ////.HasKey(c => new { c.Product, c.Property });
-            ////builder.Entity<ProductWithSuppliers>()
-            ////.HasKey(c => new { c.Product, c.Suppliers });
             builder.Entity<SimpleOrder>();
-            ////builder.Entity<SimpleProduct>();
-            ////builder.Entity<ProductFruit>();
-            ////builder.Entity<ProductTV>();
-            ////builder.Entity<DiscreteProduct>();
-            ////builder.Entity<WeightedProduct>();
             builder.Entity<SimpleArticle>();
-            ////builder.Entity<SimpleSupplier>();
-            ////builder.Entity<ProductInformation>();
             base.OnModelCreating(builder);
         }
     }
