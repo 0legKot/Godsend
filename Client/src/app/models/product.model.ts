@@ -9,6 +9,7 @@ export class Product implements IEntity<ProductInfo> {
     constructor(
         public id: string,
         public info: ProductInfo,
+        public category:any=""
     ) { }
 
     toCreateEdit() {
@@ -17,7 +18,8 @@ export class Product implements IEntity<ProductInfo> {
             info: {
                 name: this.info.name,
                 description: this.info.description
-            }
+            },
+            category:this.category
         };
     }
 }

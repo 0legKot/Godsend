@@ -38,7 +38,10 @@ namespace Godsend.Models
         /// <value>
         /// The entities.
         /// </value>
-        public IEnumerable<Supplier> Entities(int quantity, int skip = 0) => context.Suppliers.Include(s => s.Info).ThenInclude(i => i.Location).Skip(skip).Take(quantity);
+        public IEnumerable<Supplier> Entities(int quantity, int skip = 0) => context.Suppliers.AsNoTracking().Include("Info")
+           // .Include(s =>s.Info ).ThenInclude(i => (i as SupplierInformation).Location)
+            
+            .Skip(skip).Take(quantity);
 
         /// <summary>
         /// Gets the entities information.
@@ -96,9 +99,9 @@ namespace Godsend.Models
             Supplier dbEntry = GetEntity(entity.Id);
             if (dbEntry != null)
             {
-                // TODO: implement IClonable
                 dbEntry.Info.Name = entity.Info.Name;
-                dbEntry.Info.Location.Address = entity.Info.Location.Address;
+                (dbEntry.Info as SupplierInformation).Location.Address = (entity.Info as SupplierInformation).Location.Address;
+                // TODO: implement IClonable
 
                 // dbEntry.Status = supplier.Status;
                 // ....
@@ -119,7 +122,7 @@ namespace Godsend.Models
         /// <returns></returns>
         public Supplier GetEntity(Guid entityId)
         {
-            return context.Suppliers.Include(s => s.Info).ThenInclude(i => i.Location).FirstOrDefault(s => s.Id == entityId);
+            return context.Suppliers.Include(s => (s.Info as SupplierInformation)).ThenInclude(i => i.Location).FirstOrDefault(s => s.Id == entityId);
         }
 
         /// <summary>
@@ -129,7 +132,10 @@ namespace Godsend.Models
         /// <returns></returns>
         public Supplier GetEntityByInfoId(Guid infoId)
         {
-            return context.Suppliers.Include(s => s.Info).ThenInclude(i => i.Location).FirstOrDefault(s => s.Info.Id == infoId);
+            //TODO: fix includes
+            var x = context.Suppliers.AsNoTracking().
+                Include(s => s.Info).FirstOrDefault(s => s.Info.Id == infoId);
+            return x;
         }
 
         public int EntitiesCount()

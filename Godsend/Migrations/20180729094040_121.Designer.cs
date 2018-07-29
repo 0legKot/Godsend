@@ -12,9 +12,10 @@ using System;
 namespace Godsend.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20180729094040_121")]
+    partial class _121
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -31,13 +32,13 @@ namespace Godsend.Migrations
                     b.Property<string>("Discriminator")
                         .IsRequired();
 
-                    b.Property<Guid?>("InfoId");
+                    b.Property<Guid?>("EntityInformationId");
 
                     b.Property<string>("Name");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("InfoId");
+                    b.HasIndex("EntityInformationId");
 
                     b.ToTable("Articles");
 
@@ -243,7 +244,7 @@ namespace Godsend.Migrations
 
                     b.Property<Guid?>("CategoryId");
 
-                    b.Property<Guid?>("InfoId");
+                    b.Property<Guid?>("EntityInformationId");
 
                     b.Property<string>("Name");
 
@@ -251,7 +252,7 @@ namespace Godsend.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.HasIndex("InfoId");
+                    b.HasIndex("EntityInformationId");
 
                     b.ToTable("Products");
                 });
@@ -323,13 +324,13 @@ namespace Godsend.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<Guid?>("InfoId");
+                    b.Property<Guid?>("EntityInformationId");
 
                     b.Property<string>("Name");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("InfoId");
+                    b.HasIndex("EntityInformationId");
 
                     b.ToTable("Suppliers");
                 });
@@ -545,9 +546,9 @@ namespace Godsend.Migrations
 
             modelBuilder.Entity("Godsend.Models.Article", b =>
                 {
-                    b.HasOne("Godsend.Models.Information", "Info")
+                    b.HasOne("Godsend.Models.Information", "EntityInformation")
                         .WithMany()
-                        .HasForeignKey("InfoId");
+                        .HasForeignKey("EntityInformationId");
                 });
 
             modelBuilder.Entity("Godsend.Models.Category", b =>
@@ -633,9 +634,9 @@ namespace Godsend.Migrations
                         .WithMany()
                         .HasForeignKey("CategoryId");
 
-                    b.HasOne("Godsend.Models.Information", "Info")
+                    b.HasOne("Godsend.Models.Information", "EntityInformation")
                         .WithMany()
-                        .HasForeignKey("InfoId");
+                        .HasForeignKey("EntityInformationId");
                 });
 
             modelBuilder.Entity("Godsend.Models.Property", b =>
@@ -658,9 +659,9 @@ namespace Godsend.Migrations
 
             modelBuilder.Entity("Godsend.Models.Supplier", b =>
                 {
-                    b.HasOne("Godsend.Models.Information", "Info")
+                    b.HasOne("Godsend.Models.Information", "EntityInformation")
                         .WithMany()
-                        .HasForeignKey("InfoId");
+                        .HasForeignKey("EntityInformationId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

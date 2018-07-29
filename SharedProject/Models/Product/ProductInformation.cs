@@ -27,6 +27,16 @@ namespace Godsend.Models
         public string Description { get; set; }
 
         public ProductState State { get; set; }
+        public ProductInformation()
+        {
+            
+        }
+
+        public ProductInformation(string Name) {
+            this.Name = Name;
+        }
+
+        //public Product Product { get; set; }
     }
 
     public enum ProductState {

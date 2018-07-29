@@ -52,7 +52,7 @@ namespace Godsend.Models
         /// </value>
         public IEnumerable<Article> Entities(int quantity, int skip = 0)
         {
-            var tmp = context.Articles.Include(a => a.Info).ThenInclude(ai => ai.EFAuthor).Skip(skip).Take(quantity).ToArray();
+            var tmp = context.Articles.AsNoTracking().Include(a => (a.Info as ArticleInformation)).ThenInclude(ai => ai.EFAuthor).Skip(skip).Take(quantity).ToArray();
             return tmp;
         }
 
@@ -64,7 +64,7 @@ namespace Godsend.Models
         /// </value>
         public IEnumerable<Information> EntitiesInfo(int quantity, int skip = 0)
         {
-            var tmp = context.Articles.Select(x => x.Info).Include(ai => ai.EFTags)
+            var tmp = context.Articles.AsNoTracking().Select(a => (a.Info as ArticleInformation)).Include(ai => ai.EFTags)
                                                           .Include(ai => ai.EFAuthor).Skip(skip).Take(quantity);
 
             return tmp;
@@ -114,8 +114,8 @@ namespace Godsend.Models
         /// <returns></returns>
         public Article GetEntity(Guid entityId)
         {
-            return context.Articles.Include(a => a.Info).ThenInclude(a => a.EFAuthor)
-            .Include(a => a.Info).ThenInclude(a => a.EFTags).FirstOrDefault(a => a.Id == entityId);
+            return context.Articles.AsNoTracking().Include(a => (a.Info as ArticleInformation)).ThenInclude(a => a.EFAuthor)
+            .Include(a => (a.Info as ArticleInformation)).ThenInclude(a => a.EFTags).FirstOrDefault(a => a.Id == entityId);
         }
 
         /// <summary>
@@ -123,10 +123,13 @@ namespace Godsend.Models
         /// </summary>
         /// <param name="infoId">The information identifier.</param>
         /// <returns></returns>
+        //TODO: fix includes
         public Article GetEntityByInfoId(Guid infoId)
         {
-            return context.Articles.Include(a => a.Info).ThenInclude(a => a.EFAuthor)
-            .Include(a => a.Info).ThenInclude(a => a.EFTags).FirstOrDefault(a => a.Info.Id == infoId);
+            return context.Articles.AsNoTracking().Include(a => a.Info)
+                //.ThenInclude(a => ((ArticleInformation)a).EFAuthor)
+                //.Include(a => a.Info).ThenInclude(a => ((ArticleInformation)a).EFTags)
+            .FirstOrDefault(a => a.Info.Id == infoId);
         }
 
         /// <summary>
@@ -157,17 +160,17 @@ namespace Godsend.Models
             if (dbEntry != null)
             {
                 // TODO: implement IClonable
-                dbEntry.Info.Name = entity.Info.Name;
+                (dbEntry.Info as ArticleInformation).Name = entity.Info.Name;
+                (dbEntry.Info as ArticleInformation).Description = (entity.Info as ArticleInformation).Description;
                 dbEntry.Content = entity.Content;
 
-                // dbEntry.Status = supplier.Status;
                 // ....
             }
             else
             {
                 ////entity.SetIds();
-                entity.Info.EFAuthor = user;
-                entity.Info.Created = DateTime.Now;
+                (entity.Info as ArticleInformation).EFAuthor = user;
+                (entity.Info as ArticleInformation).Created = DateTime.Now;
 
                 context.Add(entity);
             }

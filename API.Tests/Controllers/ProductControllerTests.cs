@@ -38,13 +38,13 @@
             var repo = new Mock<IProductRepository>();
 
             repo.Setup(x => x.GetProductWithSuppliers(It.IsAny<Guid>()))
-                .Returns(new ProductWithSuppliers { Product = new Product {Name = "Test" } });
+                .Returns(new ProductWithSuppliers { Product = new Product() });
 
             var controller = new ProductController(repo.Object);
 
             var result = controller.Detail(It.IsAny<Guid>());
 
-            Assert.True(result.Product.Name == "Test");
+            Assert.True(result.Product != null);
         }
 
         [Fact]

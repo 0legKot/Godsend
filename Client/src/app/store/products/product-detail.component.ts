@@ -73,9 +73,9 @@ export class ProductDetailComponent implements OnInit {
     editMode() {
         if (this.data == null) {
             console.log('no data');
-            return;
-        }
 
+        }
+        else
         this.backup = {
             name: this.data.product.info.name,
             description: this.data.product.info.description

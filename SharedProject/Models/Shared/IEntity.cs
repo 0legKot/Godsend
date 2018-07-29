@@ -10,7 +10,7 @@ namespace Godsend.Models
     using System.Threading.Tasks;
 
     /// <summary>
-    ///
+    /// Interface for any entity in a project (product, supplier, article)
     /// </summary>
     public interface IEntity
     {
@@ -28,19 +28,6 @@ namespace Godsend.Models
         /// <value>
         /// The entity information.
         /// </value>
-        Information EntityInformation { get; set; }
-
-        /// <summary>
-        /// Gets or sets the name.
-        /// </summary>
-        /// <value>
-        /// The name.
-        /// </value>
-        string Name { get; set; }
-
-         ////public virtual void SetIds() {
-         ////    Id = Guid.NewGuid();
-         ////    EntityInformation.Id = Guid.NewGuid();
-         ////}
+        Information Info { get; set; }
     }
 }

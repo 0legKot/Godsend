@@ -72,7 +72,8 @@ namespace API.Tests.Repositories
         {
             var product = context.Products.First();
             var oldName = product.Info.Name;
-            var newProduct = new Product { Id = product.Id, Info = new ProductInformation { Id = product.Info.Id, Name = randomName } };
+            var newProduct = new Product { Id = product.Id, Info = new ProductInformation
+                                                                                    { Id = product.Info.Id, Name = randomName } };
             var countOldName = this.context.Products.Count(p => p.Info.Name == oldName);
             var countNewName = this.context.Products.Count(p => p.Info.Name == randomName);
             Assert.False(repo.IsFirst(newProduct));

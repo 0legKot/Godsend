@@ -85,13 +85,16 @@ namespace Godsend.Models
         public DbSet<EAV<decimal>> LinkProductPropertyDecimal { get; set; }
 
         /// <summary>
-        /// Building simple entities because of old architecture
+        /// Building simple entities because of new architecture
         /// </summary>
         /// <param name="builder">The builder.</param>
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.Entity<SimpleOrder>();
-            builder.Entity<SimpleArticle>();
+            //builder.Entity<SimpleArticle>();
+            builder.Entity<ProductInformation>();
+            builder.Entity<SupplierInformation>();
+            builder.Entity<ArticleInformation>();
             base.OnModelCreating(builder);
         }
     }

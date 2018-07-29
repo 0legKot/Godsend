@@ -15,6 +15,16 @@ namespace Godsend.Models
     /// </summary>
     public class Supplier : IEntity
     {
+        public Supplier()
+        { }
+        [JsonConstructor]
+        public Supplier(SupplierInformation Info)
+        {
+            this.Info = new SupplierInformation();
+            (this.Info as SupplierInformation).Name = Info.Name;
+            (this.Info as SupplierInformation).Location = Info.Location;
+            
+        }
         /// <summary>
         /// Gets or sets the identifier.
         /// </summary>
@@ -29,7 +39,7 @@ namespace Godsend.Models
         /// <value>
         /// The information.
         /// </value>
-        public SupplierInformation Info { get; set; }
+       // public SupplierInformation Info { get; set; }
 
         /// <summary>
         /// Gets or sets the entity information.
@@ -37,17 +47,8 @@ namespace Godsend.Models
         /// <value>
         /// The entity information.
         /// </value>
-        [JsonIgnore]
-        public Information EntityInformation
-        {
-            get => Info;
-            set => Info = value as SupplierInformation;
-        }
 
-        public string Name
-        {
-            get => ""; set { return; }
-        }
+        public Information Info { get; set; }
     }
 
     /// <summary>

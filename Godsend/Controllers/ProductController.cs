@@ -49,6 +49,18 @@ namespace Godsend.Controllers
             {
                 repository.Watch(prod.Product as Product);
             }
+            else
+            {
+                //TODO:fix
+                return new ProductWithSuppliers()
+            {
+                Product = new Product() {Id=Guid.NewGuid(), Info=new ProductInformation() { Name = "", Description = "", Id = Guid.NewGuid() } },
+                Suppliers = new List<SupplierAndPrice>() { new SupplierAndPrice() { Price=111,Supplier=new Supplier() { Info=new SupplierInformation() { Name="" } } } },
+                IntProps = new List<EAV<int>>(),
+                DecimalProps = new List<EAV<decimal>>(),
+                StringProps = new List<EAV<string>>()
+            };
+            }
 
             return prod;
         }

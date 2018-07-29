@@ -105,9 +105,9 @@ namespace Godsend.Controllers
         {
             return string.IsNullOrWhiteSpace(term)
                 ? context.Products
-                    .Select(p => p.Info)
+                    .Select(p => p.Info as ProductInformation)
                 : context.Products
-                    .Select(p => p.Info)
+                    .Select(p => p.Info as ProductInformation)
                     .Where(pi => pi.Name.ToLower().Contains(term.ToLower()));
         }
 
@@ -121,10 +121,10 @@ namespace Godsend.Controllers
         {
             return string.IsNullOrWhiteSpace(term)
                 ? context.Suppliers
-                    .Select(s => s.Info)
+                    .Select(s => (s.Info as SupplierInformation))
                     .Include(i => i.Location)
                 : context.Suppliers
-                    .Select(s => s.Info)
+                    .Select(s => (s.Info as SupplierInformation))
                     .Where(si => si.Name.ToLower().Contains(term.ToLower()))
                     .Include(i => i.Location);
         }

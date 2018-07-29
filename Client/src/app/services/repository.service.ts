@@ -186,7 +186,7 @@ export class RepositoryService {
     createOrEditEntity<T extends IEntity<IInformation>>(clas: supportedClass, entity: T, page: number, rpp: number, fn?: (_: IInformation) => any) {
         const createEditData = entity.toCreateEdit();
         const url = this.getUrl(clas);
-
+        console.log(createEditData);
         this.data.sendRequest<string>('post', url + '/CreateOrUpdate', createEditData)
             .subscribe(response => {
                 entity.info.id = response;
