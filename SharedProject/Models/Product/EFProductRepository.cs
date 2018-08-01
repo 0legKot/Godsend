@@ -152,7 +152,7 @@ namespace Godsend
         /// <returns></returns>
         public ProductWithSuppliers GetProductWithSuppliers(Guid productInfoId)
         {
-            var tmp = context.LinkProductsSuppliers.AsNoTracking()
+            var tmp = context.LinkProductsSuppliers
                     .Include(ps => ps.Product)
                     .ThenInclude(s => s.Info)
                     .Include(ps => ps.Supplier)

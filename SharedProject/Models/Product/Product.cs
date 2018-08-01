@@ -50,7 +50,7 @@ namespace Godsend.Models
         /// The category.
         /// </value>
         [JsonIgnore]
-        public Category Category { get; set; }
+        public virtual Category Category { get; set; }
 
         /// <summary>
         /// Gets or sets the entity information.

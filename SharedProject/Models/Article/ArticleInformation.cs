@@ -24,7 +24,7 @@ namespace Godsend.Models
         /// The ef author.
         /// </value>
         [JsonIgnore]
-        public User EFAuthor { get; set; }
+        public virtual User EFAuthor { get; set; }
 
         /// <summary>
         /// Gets the author.
@@ -33,7 +33,7 @@ namespace Godsend.Models
         /// The author.
         /// </value>
         [NotMapped]
-        public ClientUser Author { get => EFAuthor == null ? null : new ClientUser { Id = EFAuthor.Id, Name = EFAuthor.UserName }; }
+        public virtual ClientUser Author { get => EFAuthor == null ? null : new ClientUser { Id = EFAuthor.Id, Name = EFAuthor.UserName }; }
 
         /// <summary>
         /// Gets or sets the created.
@@ -58,7 +58,7 @@ namespace Godsend.Models
         /// The ef tags.
         /// </value>
         [JsonIgnore]
-        public IEnumerable<StringWrapper> EFTags { get; set; }
+        public virtual IEnumerable<StringWrapper> EFTags { get; set; }
 
         /// <summary>
         /// Gets or sets the tags.
@@ -67,7 +67,7 @@ namespace Godsend.Models
         /// The tags.
         /// </value>
         [NotMapped]
-        public IEnumerable<string> Tags
+        public virtual IEnumerable<string> Tags
         {
             get => this.EFTags?.Select(x => x.Value)?.ToArray();
             set => this.EFTags = value?.Select<string, StringWrapper>(s => s).ToArray();

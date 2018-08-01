@@ -48,7 +48,7 @@ namespace Godsend.Models
         /// The entity information.
         /// </value>
 
-        public Information Info { get; set; }
+        public virtual Information Info { get; set; }
     }
 
     /// <summary>

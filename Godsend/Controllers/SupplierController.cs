@@ -27,48 +27,6 @@ namespace Godsend.Controllers
             repository = repo;
         }
 
-        // [HttpGet("[action]")]
-        // public IEnumerable<Supplier> All()
-        // {
-        //    return repository.Entities;
-        // }
-        // [HttpDelete("[action]/{id:Guid}")]
-        // public IActionResult Delete([FromBody]Guid id)
-        // {
-        //    try
-        //    {
-        //        repository.DeleteEntity(id);
-        //        return Ok();
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        return BadRequest();
-        //    }
-        // }
-
-        // [HttpPost("[action]/{id:Guid}")]
-        // public IActionResult CreateOrUpdate([FromBody]Supplier supplier)
-        // {
-        //    try
-        //    {
-        //        repository.SaveEntity(supplier);
-        //        return Ok();
-        //    }
-        //    catch { return BadRequest(); }
-        // }
-
-        // [HttpPatch("[action]/{id:Guid}")]
-        // public IActionResult Edit([FromBody]Supplier supplier)
-        // {
-        //    return CreateOrUpdate(supplier);
-        // }
-
-        // [HttpPut("[action]/{id:Guid}")]
-        // public IActionResult Create([FromBody]Supplier supplier)
-        // {
-        //    return CreateOrUpdate(supplier);
-        // }
-
         /// <summary>
         /// Details the specified identifier.
         /// </summary>

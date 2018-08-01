@@ -48,7 +48,7 @@ namespace Godsend.Models
         /// <value>
         /// The related category.
         /// </value>
-        public Category RelatedCategory { get; set; }
+        public virtual Category RelatedCategory { get; set; }
 
         /// <summary>
         /// Gets or sets the name.

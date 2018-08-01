@@ -28,7 +28,7 @@ namespace Godsend.Models
         /// <value>
         /// The product.
         /// </value>
-        public Product Product { get; set; }
+        public virtual Product Product { get; set; }
 
         /// <summary>
         /// Gets or sets the property.
@@ -36,7 +36,7 @@ namespace Godsend.Models
         /// <value>
         /// The property.
         /// </value>
-        public Property Property { get; set; }
+        public virtual Property Property { get; set; }
 
         /// <summary>
         /// Gets or sets the value.

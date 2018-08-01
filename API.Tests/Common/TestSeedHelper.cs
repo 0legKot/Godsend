@@ -566,7 +566,7 @@ This is a pretty simple and straightforward diet you will ever try. It involves 
                                 Name = "Empty Article",
                                 Rating = 1,
                                 Watches = 5,
-                                Tags = new string[0]
+                                Tags = new[] { "" }
                             }
                         },
                     TheAnswer:

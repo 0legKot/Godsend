@@ -61,7 +61,7 @@ namespace Godsend.Models
         /// The ef customer.
         /// </value>
         [JsonIgnore]
-        public User EFCustomer { get; set; }
+        public virtual User EFCustomer { get; set; }
 
         /// <summary>
         /// Gets the customer.
@@ -70,7 +70,7 @@ namespace Godsend.Models
         /// The customer.
         /// </value>
         [NotMapped]
-        public ClientUser Customer
+        public virtual ClientUser Customer
         {
             get
             {
@@ -91,7 +91,7 @@ namespace Godsend.Models
         /// <value>
         /// The items.
         /// </value>
-        public IEnumerable<OrderPartProducts> Items { get; set; }
+        public virtual IEnumerable<OrderPartProducts> Items { get; set; }
 
         ////public IEnumerable<OrderPartWeighted> WeightedItems { get; set; }
 
@@ -156,7 +156,7 @@ namespace Godsend.Models
         /// <value>
         /// The product.
         /// </value>
-        public Product Product { get; set; }
+        public virtual Product Product { get; set; }
 
         /// <summary>
         /// Gets or sets the supplier identifier.
@@ -173,7 +173,7 @@ namespace Godsend.Models
         /// <value>
         /// The supplier.
         /// </value>
-        public Supplier Supplier { get; set; }
+        public virtual Supplier Supplier { get; set; }
     }
 
     /// <summary>

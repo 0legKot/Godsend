@@ -52,7 +52,7 @@ namespace Godsend.Models
         /// </value>
         public IEnumerable<Article> Entities(int quantity, int skip = 0)
         {
-            var tmp = context.Articles.AsNoTracking().Include(a => (a.Info as ArticleInformation)).ThenInclude(ai => ai.EFAuthor).Skip(skip).Take(quantity).ToArray();
+            var tmp = context.Articles.Include(a => (a.Info as ArticleInformation)).ThenInclude(ai => ai.EFAuthor).Skip(skip).Take(quantity).ToArray();
             return tmp;
         }
 
@@ -64,8 +64,8 @@ namespace Godsend.Models
         /// </value>
         public IEnumerable<Information> EntitiesInfo(int quantity, int skip = 0)
         {
-            var tmp = context.Articles.AsNoTracking().Select(a => (a.Info as ArticleInformation)).Include(ai => ai.EFTags)
-                                                          .Include(ai => ai.EFAuthor).Skip(skip).Take(quantity);
+            var tmp = context.Articles.Include(a=>a.Info).ThenInclude(a=>(a as ArticleInformation).EFTags).ThenInclude(a => (a as ArticleInformation).EFAuthor).Select(a=>a.Info)
+                                                          .Skip(skip).Take(quantity);
 
             return tmp;
         }
@@ -114,7 +114,7 @@ namespace Godsend.Models
         /// <returns></returns>
         public Article GetEntity(Guid entityId)
         {
-            return context.Articles.AsNoTracking().Include(a => (a.Info as ArticleInformation)).ThenInclude(a => a.EFAuthor)
+            return context.Articles.Include(a => (a.Info as ArticleInformation)).ThenInclude(a => a.EFAuthor)
             .Include(a => (a.Info as ArticleInformation)).ThenInclude(a => a.EFTags).FirstOrDefault(a => a.Id == entityId);
         }
 
@@ -126,7 +126,7 @@ namespace Godsend.Models
         //TODO: fix includes
         public Article GetEntityByInfoId(Guid infoId)
         {
-            return context.Articles.AsNoTracking().Include(a => a.Info)
+            return context.Articles.Include(a => a.Info)
                 //.ThenInclude(a => ((ArticleInformation)a).EFAuthor)
                 //.Include(a => a.Info).ThenInclude(a => ((ArticleInformation)a).EFTags)
             .FirstOrDefault(a => a.Info.Id == infoId);

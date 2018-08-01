@@ -36,7 +36,7 @@ namespace Godsend.Models
         /// <value>
         /// The supplier.
         /// </value>
-        public Supplier Supplier { get; set; }
+        public virtual Supplier Supplier { get; set; }
 
         /// <summary>
         /// Gets or sets the product identifier.
@@ -52,7 +52,7 @@ namespace Godsend.Models
         /// <value>
         /// The product.
         /// </value>
-        public Product Product { get; set; }
+        public virtual Product Product { get; set; }
 
         /// <summary>
         /// Gets or sets the price.

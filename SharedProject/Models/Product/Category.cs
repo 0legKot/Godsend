@@ -27,7 +27,7 @@ namespace Godsend.Models
         /// <value>
         /// The base category.
         /// </value>
-        public Category BaseCategory { get; set; }
+        public virtual Category BaseCategory { get; set; }
 
         /// <summary>
         /// Gets or sets the name.

@@ -20,7 +20,7 @@ namespace Godsend.Models
         /// <value>
         /// The location.
         /// </value>
-        public Location Location { get; set; }
+        public virtual Location Location { get; set; }
 
         // public IEnumerable<IProduct> Products { get; set; }
     }

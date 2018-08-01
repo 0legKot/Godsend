@@ -17,14 +17,14 @@ namespace Godsend.Models
         /// <value>
         /// The identifier.
         /// </value>
-        public Guid Id { get; set; } = Guid.NewGuid();
-
+        public Guid Id { get; set; }
+        public Location() { }
         /// <summary>
         /// Gets or sets the address.
         /// </summary>
         /// <value>
         /// The address.
         /// </value>
-        public string Address { get; set; }
+        public virtual string Address { get; set; }
     }
 }

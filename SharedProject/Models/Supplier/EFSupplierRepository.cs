@@ -38,7 +38,8 @@ namespace Godsend.Models
         /// <value>
         /// The entities.
         /// </value>
-        public IEnumerable<Supplier> Entities(int quantity, int skip = 0) => context.Suppliers.AsNoTracking().Include("Info")
+        public IEnumerable<Supplier> Entities(int quantity, int skip = 0) => context.Suppliers
+            //.Include("Info")
            // .Include(s =>s.Info ).ThenInclude(i => (i as SupplierInformation).Location)
             
             .Skip(skip).Take(quantity);
@@ -133,8 +134,10 @@ namespace Godsend.Models
         public Supplier GetEntityByInfoId(Guid infoId)
         {
             //TODO: fix includes
-            var x = context.Suppliers.AsNoTracking().
-                Include(s => s.Info).FirstOrDefault(s => s.Info.Id == infoId);
+            var x = context.Suppliers.Include(s=>(s.Info as SupplierInformation).Location)
+                //.Include(s => s.Info).ThenInclude(si=>(si as SupplierInformation).Location).ThenInclude(s=>s.Address)
+                .FirstOrDefault(s => s.Info.Id == infoId);
+            var tst = (x.Info as SupplierInformation).Location;
             return x;
         }
 

@@ -36,6 +36,6 @@ namespace Godsend.Models
         /// <value>
         /// The images.
         /// </value>
-        public IEnumerable<StringWrapper> Images { get; set; }
+        public virtual IEnumerable<StringWrapper> Images { get; set; }
     }
 }
