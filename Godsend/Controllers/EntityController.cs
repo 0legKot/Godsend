@@ -9,6 +9,8 @@ namespace Godsend.Controllers
     using System.Linq;
     using System.Threading.Tasks;
     using Godsend.Models;
+    using Microsoft.AspNetCore.Authentication.JwtBearer;
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.ApplicationModels;
 
@@ -69,6 +71,7 @@ namespace Godsend.Controllers
         /// <param name="entity">Entity for updating or creating.</param>
         /// <returns>Ok on success, BadRequest else </returns>
         [HttpPost("[action]")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public virtual async Task<IActionResult> CreateOrUpdate([FromBody]TEntity entity)
         {
             try

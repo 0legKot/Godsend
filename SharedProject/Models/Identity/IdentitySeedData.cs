@@ -44,8 +44,8 @@ namespace Godsend.Models
             {
                 
                 user = new User("Admin");
-                userManager.AddToRoleAsync(user, "Administrator");
                 await userManager.CreateAsync(user, adminPassword);
+                await userManager.AddToRoleAsync(user, "Administrator");
             }
 
         }

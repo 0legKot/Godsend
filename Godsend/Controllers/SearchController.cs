@@ -103,12 +103,13 @@ namespace Godsend.Controllers
         [HttpGet("products/{term?}/{page:int}/{rpp:int}")]
         public IEnumerable<ProductInformation> FindProducts(string term, int page, int rpp)
         {
-            return string.IsNullOrWhiteSpace(term)
-                ? context.Products
-                    .Select(p => p.Info as ProductInformation)
-                : context.Products
-                    .Select(p => p.Info as ProductInformation)
+            var x = string.IsNullOrWhiteSpace(term)
+                ? context.Products.Include(p=>p.Info)
+                    .Select(p => p.Info)
+                : context.Products.Include(p => p.Info)
+                    .Select(p => p.Info)
                     .Where(pi => pi.Name.ToLower().Contains(term.ToLower()));
+            return x.Cast<ProductInformation>();
         }
 
         /// <summary>
@@ -119,14 +120,15 @@ namespace Godsend.Controllers
         [HttpGet("suppliers/{term?}/{page:int}/{rpp:int}")]
         public IEnumerable<SupplierInformation> FindSuppliers(string term, int page, int rpp)
         {
-            return string.IsNullOrWhiteSpace(term)
-                ? context.Suppliers
-                    .Select(s => (s.Info as SupplierInformation))
-                    .Include(i => i.Location)
-                : context.Suppliers
-                    .Select(s => (s.Info as SupplierInformation))
-                    .Where(si => si.Name.ToLower().Contains(term.ToLower()))
-                    .Include(i => i.Location);
+            var x = string.IsNullOrWhiteSpace(term)
+                ? context.Suppliers.Include(p => p.Info)
+                    .Select(s => s.Info)
+                //.Include(i => i.Location)
+                : context.Suppliers.Include(p => p.Info)
+                    .Select(s => s.Info)
+                    .Where(si => si.Name.ToLower().Contains(term.ToLower()));
+                   // .Include(i => i.Location);
+            return x.Cast<SupplierInformation>();
         }
     }
 }

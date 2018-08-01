@@ -102,9 +102,16 @@ namespace Godsend
         /// <param name="infoId">The information identifier.</param>
         public void DeleteEntity(Guid infoId)
         {
-            Product dbEntry = context.Products.Include(p => p.Info).Include(p => p.Category).FirstOrDefault(p => p.Info.Id == infoId);
+            Product dbEntry = context.Products
+                .Include(p => p.Info)
+                .FirstOrDefault(p => p.Info.Id == infoId);
             if (dbEntry != null)
             {
+                context.RemoveRange(context.LinkProductPropertyDecimal.Where(p => p.Product.Id == dbEntry.Id));
+                context.RemoveRange(context.LinkProductPropertyInt.Where(p => p.Product.Id == dbEntry.Id));
+                context.RemoveRange(context.LinkProductPropertyString.Where(p => p.Product.Id == dbEntry.Id));
+                context.RemoveRange(context.LinkProductsSuppliers.Where(p => p.Product.Id == dbEntry.Id));
+                dbEntry.Info = null;
                 context.Products.Remove(dbEntry);
                 context.SaveChanges();
             }

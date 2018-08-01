@@ -29,7 +29,7 @@ namespace Godsend.Models
         /// <summary>
         /// The user
         /// </summary>
-        private User user = null;
+        private User user;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="EFArticleRepository"/> class.
@@ -114,8 +114,10 @@ namespace Godsend.Models
         /// <returns></returns>
         public Article GetEntity(Guid entityId)
         {
-            return context.Articles.Include(a => (a.Info as ArticleInformation)).ThenInclude(a => a.EFAuthor)
-            .Include(a => (a.Info as ArticleInformation)).ThenInclude(a => a.EFTags).FirstOrDefault(a => a.Id == entityId);
+            return context.Articles
+            //    .Include(a => (a.Info as ArticleInformation)).ThenInclude(a => a.EFAuthor)
+            //.Include(a => (a.Info as ArticleInformation)).ThenInclude(a => a.EFTags)
+            .FirstOrDefault(a => a.Id == entityId);
         }
 
         /// <summary>
@@ -151,10 +153,10 @@ namespace Godsend.Models
         /// <exception cref="Exception">Not authorized</exception>
         public void SaveEntity(Article entity)
         {
-            if (user == null)
-            {
-                throw new Exception("Not authorized");
-            }
+            //if (user == null)
+            //{
+            //    throw new Exception("Not authorized");
+            //}
 
             Article dbEntry = GetEntity(entity.Id);
             if (dbEntry != null)

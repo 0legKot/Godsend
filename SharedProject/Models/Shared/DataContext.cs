@@ -11,6 +11,7 @@ namespace Godsend.Models
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore;
+    using Microsoft.EntityFrameworkCore.Metadata;
 
     /// <summary>
     /// Data context that contains all tables. No separation because it is easier for hosting to have only one database
@@ -90,6 +91,7 @@ namespace Godsend.Models
         /// <param name="builder">The builder.</param>
         protected override void OnModelCreating(ModelBuilder builder)
         {
+            builder.Entity<Product>().HasMany<Property>();
             builder.Entity<SimpleOrder>();
             //builder.Entity<SimpleArticle>();
             builder.Entity<ProductInformation>();
