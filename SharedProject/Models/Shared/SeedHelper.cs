@@ -98,6 +98,8 @@ namespace Godsend.Models
 
                     #endregion
 
+                    context.SaveChanges();
+
                     #region Products
 
                     var products = (
@@ -308,7 +310,7 @@ namespace Godsend.Models
                         Apple_Diameter: new EAV<decimal> { Product = products.Apple, Value = 64, Property = properties.Diameter_Fruit },
                         Apple_Weight: new EAV<decimal> { Product = products.Apple, Value = 1000, Property = properties.Weight_Fruit });
 
-                    context.AddRange(ToEnumerable<EAV<decimal>>(propertiesDecimal));
+                    context.LinkProductPropertyDecimal.AddRange(ToEnumerable<EAV<decimal>>(propertiesDecimal));
 
                     var propertiesInt = (
                         Pineapple_SeedQuantity: new EAV<int> { Product = products.Pineapple, Value = 000, Property = properties.SeedQuantity_Fruit },
@@ -322,7 +324,7 @@ namespace Godsend.Models
                         OpelZafira_Power: new EAV<int> { Product = products.OpelZafira, Value = 250, Property = properties.Power_Vehicles },
                         Apple_SeedQuantity: new EAV<int>() { Product = products.Apple, Value = 2, Property = properties.SeedQuantity_Fruit });
 
-                    context.AddRange(ToEnumerable<EAV<int>>(propertiesInt));
+                    context.LinkProductPropertyInt.AddRange(ToEnumerable<EAV<int>>(propertiesInt));
 
                     var propertiesString = (
                         Pineapple_Color: new EAV<string> { Product = products.Pineapple, Value = "Yellow", Property = properties.Color_Fruit },
@@ -334,7 +336,7 @@ namespace Godsend.Models
                         OpelZafira_Manufacturer: new EAV<string> { Product = products.OpelZafira, Value = "Opel", Property = properties.Manufacturer_Vehicles },
                         Apple_Color: new EAV<string> { Product = products.Apple, Value = "красное", Property = properties.Color_Fruit });
 
-                    context.AddRange(ToEnumerable<EAV<string>>(propertiesString));
+                    context.LinkProductPropertyString.AddRange(ToEnumerable<EAV<string>>(propertiesString));
 
                     #endregion
 

@@ -27,6 +27,7 @@ namespace Godsend.Models
         public string Description { get; set; }
 
         public ProductState State { get; set; }
+
         public ProductInformation()
         {
             

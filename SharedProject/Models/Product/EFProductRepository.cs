@@ -18,11 +18,6 @@ namespace Godsend
     public class EFProductRepository : IProductRepository
     {
         /// <summary>
-        /// The creationlock
-        /// </summary>
-        private static object creationlock = new object();
-
-        /// <summary>
         /// The admin user
         /// </summary>
         private const string adminUser = "Admin";

@@ -91,9 +91,9 @@ namespace Godsend.Models
         /// <param name="builder">The builder.</param>
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            builder.Entity<Product>().HasMany<Property>();
+            ////builder.Entity<Product>().HasMany<Property>();
             builder.Entity<SimpleOrder>();
-            //builder.Entity<SimpleArticle>();
+            ////builder.Entity<SimpleArticle>();
             builder.Entity<ProductInformation>();
             builder.Entity<SupplierInformation>();
             builder.Entity<ArticleInformation>();
