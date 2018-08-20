@@ -97,11 +97,11 @@ namespace Godsend.Models
         /// <param name="entity">The entity.</param>
         public void SaveEntity(Supplier entity)
         {
-            Supplier dbEntry = GetEntity(entity.Id);
+            Supplier dbEntry = GetEntityByInfoId(entity.Info.Id);
             if (dbEntry != null)
             {
                 dbEntry.Info.Name = entity.Info.Name;
-                (dbEntry.Info as SupplierInformation).Location.Address = (entity.Info as SupplierInformation).Location.Address;
+                //(dbEntry.Info as SupplierInformation).Location.Address = (entity.Info as SupplierInformation).Location.Address;
                 // TODO: implement IClonable
 
                 // dbEntry.Status = supplier.Status;
@@ -126,6 +126,10 @@ namespace Godsend.Models
             return context.Suppliers.Include(s => (s.Info as SupplierInformation)).ThenInclude(i => i.Location).FirstOrDefault(s => s.Id == entityId);
         }
 
+        public class Hell:Supplier {
+            public override Information Info { get => base.Info; set => base.Info = value as SupplierInformation; }
+        }
+
         /// <summary>
         /// Gets the entity by information identifier.
         /// </summary>
@@ -134,8 +138,9 @@ namespace Godsend.Models
         public Supplier GetEntityByInfoId(Guid infoId)
         {
             //TODO: fix includes
-            Supplier x = context.Suppliers//.Include(s=>(s.Info as SupplierInformation).Location)
+            Supplier x = context.Suppliers.Include(s => s.Info)
                 .FirstOrDefault(s => s.Info.Id == infoId);
+            if (x == null) return null;
             //SupplierInformation supplierInformation1 = context.Set<SupplierInformation>().FirstOrDefault(z => z.Id == x.Info.Id);
             //Location supplierInformation = context.Set<SupplierInformation>().FirstOrDefault(z => z.Id == x.Info.Id).Location;
             Location loc = context.Set<Location>().FirstOrDefault();
