@@ -97,7 +97,7 @@ namespace Godsend.Models
         /// <param name="entity">The entity.</param>
         public void SaveEntity(Supplier entity)
         {
-            Supplier dbEntry = GetEntityByInfoId(entity.Info.Id);
+            Supplier dbEntry = GetEntity(entity.Id);
             if (dbEntry != null)
             {
                 dbEntry.Info.Name = entity.Info.Name;
@@ -123,7 +123,7 @@ namespace Godsend.Models
         /// <returns></returns>
         public Supplier GetEntity(Guid entityId)
         {
-            return context.Suppliers.Include(s => (s.Info as SupplierInformation)).ThenInclude(i => i.Location).FirstOrDefault(s => s.Id == entityId);
+            return context.Suppliers.FirstOrDefault(s => s.Id == entityId);
         }
 
         public class Hell:Supplier {
