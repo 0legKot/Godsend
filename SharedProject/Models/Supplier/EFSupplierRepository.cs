@@ -134,9 +134,12 @@ namespace Godsend.Models
         public Supplier GetEntityByInfoId(Guid infoId)
         {
             //TODO: fix includes
-            var x = context.Suppliers.Include(s=>(s.Info as SupplierInformation).Location)
-                //.Include(s => s.Info).ThenInclude(si=>(si as SupplierInformation).Location).ThenInclude(s=>s.Address)
+            Supplier x = context.Suppliers//.Include(s=>(s.Info as SupplierInformation).Location)
                 .FirstOrDefault(s => s.Info.Id == infoId);
+            //SupplierInformation supplierInformation1 = context.Set<SupplierInformation>().FirstOrDefault(z => z.Id == x.Info.Id);
+            //Location supplierInformation = context.Set<SupplierInformation>().FirstOrDefault(z => z.Id == x.Info.Id).Location;
+            Location loc = context.Set<Location>().FirstOrDefault();
+            (x.Info as SupplierInformation).Location = loc;
             var tst = (x.Info as SupplierInformation).Location;
             return x;
         }
