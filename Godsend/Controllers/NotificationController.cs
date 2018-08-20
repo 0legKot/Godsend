@@ -10,20 +10,15 @@ namespace Godsend.Controllers
     using System.Threading.Tasks;
     using Godsend.Models;
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.SignalR;
 
-
-    [Route("api/[controller]")]
-    public class NotificationController : EntityController<Supplier>
+    //[Route("api/[controller]")]
+    public class NotificationController : Hub
     {
-
-        public NotificationController()
+        //[Route("[action]/{string message}")]
+        public async Task SendMessage(string message)
         {
-        }
-
-        [HttpGet("[action]")]
-        public void Notify()
-        {
-
+            await Clients.All.SendAsync("ReceiveMessage", message);
         }
     }
 }
