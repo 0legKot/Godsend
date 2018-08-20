@@ -27,7 +27,7 @@ namespace Godsend.Controllers
         private readonly IEnumerable<Category> Categories;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ProductController" /> class.
+        /// Initializes a new instance of the <see cref="ProductController" /> class. 
         /// </summary>
         /// <param name="repo">The repo.</param>
         public ProductController(IProductRepository repo)
