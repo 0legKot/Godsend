@@ -65,7 +65,7 @@ namespace Godsend.Controllers
             var article = repository.GetEntityByInfoId(infoId);
             repository.Watch(article);
 
-            await hubContext.Clients.All.SendAsync("Send","hahaha");
+            await hubContext.Clients.All.SendAsync("Success","Somebody has just watched the article!");
 
             return article;
         }

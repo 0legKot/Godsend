@@ -33,6 +33,7 @@ import { InputOutputComponent } from './store/input-output/input-output.componen
 import { PagesComponent } from './store/pages/pages.component';
 import { UserComponent } from './store/user/user.component';
 import { AdminComponent } from './store/admin/admin.component';
+import { NotificationComponent } from './store/notification/notification.component';
 
 @NgModule({
     declarations: [
@@ -59,7 +60,8 @@ import { AdminComponent } from './store/admin/admin.component';
         InputOutputComponent,
         UserComponent,
         RegistrationComponent,
-        AdminComponent
+        AdminComponent,
+        NotificationComponent
     ],
     imports: [
         AngularFontAwesomeModule,
