@@ -76,7 +76,7 @@ import { AdminComponent } from './store/admin/admin.component';
             { path: 'suppliers/:id', component: SupplierDetailComponent },
             { path: 'orders', component: OrdersComponent, canActivate: [AuthenticationGuard] },
             { path: 'articles', component: ArticlesComponent },
-            { path: 'article/:id', component: ArticleDetailComponent},
+            { path: 'articles/:id', component: ArticleDetailComponent},
             { path: 'cart', component: CartComponent },
             { path: 'consult', component: ConsultComponent },
             { path: 'login', component: LoginComponent },

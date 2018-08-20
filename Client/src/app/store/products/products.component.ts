@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute, ParamMap } from '@angular/router';
+import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 
 import { RepositoryService } from '../../services/repository.service';
 import { Product, ProductInfo, Category, CatsWithSubs, FilterInfo, FilterInfoView, DecimalPropertyInfo, StringPropertyInfo, IntPropertyInfo, allowedOrderBy, orderBy } from '../../models/product.model';
@@ -56,7 +56,7 @@ export class ProductsComponent implements OnInit {
     createProduct(descr: string, name: string) {
         // TODO create interface with only relevant info
         const prod = new Product('', new ProductInfo('', descr, 0, name, 0, 0));
-        this.repo.createOrEditEntity('product', prod, 0, 0);
+        this.repo.createOrEditEntity('product', prod, 0, 0, pi => this.router.navigateByUrl('products/' + pi.id));
     }
 
     deleteProduct(id: string) {
@@ -68,7 +68,10 @@ export class ProductsComponent implements OnInit {
     //    this.searchProducts = products;
     //}
 
-    constructor(private repo: RepositoryService, private imageService: ImageService, private cattt: CategoryService) {
+    constructor(private repo: RepositoryService,
+        private imageService: ImageService,
+        private cattt: CategoryService,
+        private router: Router) {
     }
 
     ngOnInit() {
@@ -124,6 +127,8 @@ export class ProductsComponent implements OnInit {
     }
 
     setCurrentCategory(category: Category): void {
+        this.repo.productFilter.categoryId = category.id;
+        this.getProducts();
         this.getCategoryProps(category);
     }
 

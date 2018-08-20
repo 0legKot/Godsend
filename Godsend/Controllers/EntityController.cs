@@ -77,7 +77,7 @@ namespace Godsend.Controllers
             try
             {
                 repository.SaveEntity(entity);
-                return Ok(entity.Id);
+                return Ok(entity.Info.Id);
             }
             catch
             {

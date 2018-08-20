@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { RepositoryService } from '../../services/repository.service';
 import { ArticleInfo, Article } from '../../models/article.model';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'godsend-articles',
@@ -24,7 +25,7 @@ export class ArticlesComponent implements OnInit {
         this.getArticles();
     }
 
-    constructor(private repo: RepositoryService) { }
+    constructor(private repo: RepositoryService, private router: Router) { }
 
     getArticles() {
         this.repo.getEntities('article', this.page, this.rpp);
@@ -36,7 +37,7 @@ export class ArticlesComponent implements OnInit {
 
     createArticle(content: string, name: string, tags: string[]) {
         const art = new Article(content, new ArticleInfo(name, "Provide description", tags));
-        this.repo.createOrEditEntity('article', art, this.page, this.rpp);
+        this.repo.createOrEditEntity('article', art, this.page, this.rpp, info => this.router.navigateByUrl('articles/' + info.id));
     }
 
     deleteArticle(id: string) {

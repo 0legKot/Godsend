@@ -5,6 +5,7 @@ import { OnInit } from '@angular/core';
 import { searchType } from '../search/search.service';
 import { SearchInlineComponent } from '../search/search-inline.component';
 import { ImageService } from '../../services/image.service';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'godsend-suppliers',
@@ -49,7 +50,7 @@ export class SuppliersComponent implements OnInit {
         return this.images[pi.id];
     }
 
-    constructor(private repo: RepositoryService, private imageService: ImageService) { }
+    constructor(private repo: RepositoryService, private imageService: ImageService, private router: Router) { }
 
     ngOnInit() {
         this.getSuppliers();
@@ -59,7 +60,7 @@ export class SuppliersComponent implements OnInit {
         // TODO create interface with only relevant info
         const sup = new Supplier(new SupplierInfo(name, new Location(address)));
         //if (this.searchInline != undefined)
-        this.repo.createOrEditEntity('supplier', sup, this.page, this.rpp, () => this.searchInline!.doSearch());
+        this.repo.createOrEditEntity('supplier', sup, this.page, this.rpp, info => this.router.navigateByUrl('suppliers/' + info.id));
     }
 
     deleteSupplier(id: string) {
