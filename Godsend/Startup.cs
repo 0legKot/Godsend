@@ -103,6 +103,10 @@ namespace Godsend
             app.UseHttpsRedirection();
             app.UseCookiePolicy();
             app.UseAuthentication();
+            app.UseSignalR(routes =>
+            {
+                routes.MapHub<Controllers.NotificationController>("/chat");
+            });
             app.UseMvc();
         }
     }
