@@ -128,7 +128,7 @@ namespace Godsend.Controllers
             ////}
 
             ////return false;
-            await IdentitySeedData.EnsurePopulated(userManager,roleManager);
+            IdentitySeedData.EnsurePopulated(userManager,roleManager);
             var result = await signInManager.PasswordSignInAsync(creds.Name, creds.Password, false, false);
 
             if (result.Succeeded)

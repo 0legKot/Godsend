@@ -30,22 +30,22 @@ namespace Godsend.Models
         /// </summary>
         /// <param name="userManager">The user manager.</param>
         /// <returns></returns>
-        public static async Task EnsurePopulated(UserManager<User> userManager, RoleManager<Role> roleManager)
+        public static Task EnsurePopulated(UserManager<User> userManager, RoleManager<Role> roleManager)
         {
-            User user = await userManager.FindByNameAsync(adminUser);
+            User user = userManager.FindByNameAsync(adminUser).GetAwaiter().GetResult();
             
-            Role role = await roleManager.FindByNameAsync("Administrator");
+            Role role = roleManager.FindByNameAsync("Administrator").GetAwaiter().GetResult();
             if (role == null)
             {
                 role = new Role("Administrator");
-                await roleManager.CreateAsync(role);
+                roleManager.CreateAsync(role).GetAwaiter().GetResult();
             }
             if (user == null)
             {
                 
                 user = new User("Admin");
-                await userManager.CreateAsync(user, adminPassword);
-                await userManager.AddToRoleAsync(user, "Administrator");
+                userManager.CreateAsync(user, adminPassword).GetAwaiter().GetResult();
+                userManager.AddToRoleAsync(user, "Administrator").GetAwaiter().GetResult();
             }
 
         }

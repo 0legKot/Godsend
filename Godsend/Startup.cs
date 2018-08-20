@@ -42,6 +42,7 @@ namespace Godsend
             services.AddTransient<ISeedHelper, SeedHelper>();
             string connection = Configuration.GetConnectionString("StoreDb");
             services.AddDbContext<DataContext>(options => options.UseLazyLoadingProxies().UseSqlServer(connection));
+           // TestSeedHelper.
             services.AddTransient<ImageRepository>();
             services.AddAuthentication();
 
