@@ -18,6 +18,10 @@ export class AuthenticationService {
         return localStorage.getItem('godsend_authname') || '';
     }
 
+    getJWTToken(): string {
+        return localStorage.getItem('godsend_authtoken') || '';
+    }
+
     callbackUrl = '';
 
     login(name: string, password: string): void {

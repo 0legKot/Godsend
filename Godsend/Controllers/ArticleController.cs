@@ -7,6 +7,7 @@ namespace Godsend.Controllers
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Security.Claims;
     using System.Threading.Tasks;
     using Godsend.Models;
     using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -46,7 +47,7 @@ namespace Godsend.Controllers
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public override async Task<IActionResult> CreateOrUpdate([FromBody] Article entity)
         {
-            var name = User.Claims.FirstOrDefault(c => c.Type == "sub");
+            var name = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name);
 
             var repo = repository as IArticleRepository;
             await repo.SetUserAsync(name.Value);

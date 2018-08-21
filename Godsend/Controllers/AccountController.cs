@@ -134,7 +134,7 @@ namespace Godsend.Controllers
             if (result.Succeeded)
             {
                 var appUser = await userManager.FindByNameAsync(creds.Name);
-                var token = GenerateJwtToken(creds.Name, appUser);
+                var token = await GenerateJwtToken(creds.Name, appUser);
                 return Ok(new { token });
             }
 
@@ -158,7 +158,7 @@ namespace Godsend.Controllers
             {
                 await signInManager.SignInAsync(user, false);
                 currentUser = user;
-                var token = GenerateJwtToken(model.Email, user);
+                var token = await GenerateJwtToken(model.Email, user);
                 return Ok(new { token });
             }
 
@@ -195,12 +195,23 @@ namespace Godsend.Controllers
             else return new List<ClientUser>();
         }
 
-
-
-        private string GenerateJwtToken(string name, User user)
+        private async Task<string> GenerateJwtToken(string name, User user)
         {
-            // todo review
-            var claims = new List<Claim>
+            var principal = await signInManager.CreateUserPrincipalAsync(user);
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["JwtKey"]));
+            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+
+            var token = new JwtSecurityToken(
+                    configuration["JwtIssuer"],
+                    configuration["JwtIssuer"],
+                    principal.Claims,
+                    expires: DateTime.UtcNow.AddDays(30),
+                    signingCredentials: creds);
+            return new JwtSecurityTokenHandler().WriteToken(token);
+        }
+
+       /* // todo review
+        var claims = new List<Claim>
             {
                 new Claim(JwtRegisteredClaimNames.Sub, name), // subject
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()), // jwt id
@@ -218,6 +229,6 @@ namespace Godsend.Controllers
                 signingCredentials: creds);
 
             return new JwtSecurityTokenHandler().WriteToken(token);
-        }
+        }*/
     }
 }

@@ -7,6 +7,7 @@ namespace Godsend.Controllers
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Security.Claims;
     using System.Threading.Tasks;
     using Godsend.Models;
     using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -16,12 +17,14 @@ namespace Godsend.Controllers
 
     public class NotificationHub : Hub
     {
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [Authorize]
         public async Task Send(string message)
         {
             var user = Context.User;
 
-            await Clients.Others.SendAsync("Send", message);
+            var name = user.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name).Value;
+
+            await Clients.Others.SendAsync("Send", $"{name}: {message}"); 
         }
     }
 }

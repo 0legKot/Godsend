@@ -22,12 +22,16 @@ namespace Godsend
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.IdentityModel.Tokens;
+    using Microsoft.AspNetCore.SignalR;
+    using Godsend.Controllers;
 
     public class Startup
     {
+        public readonly SymmetricSecurityKey SecurityKey;
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+            SecurityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["JwtKey"]));
         }
 
         public IConfiguration Configuration { get; }
@@ -40,48 +44,65 @@ namespace Godsend
             services.AddTransient<ISupplierRepository, EFSupplierRepository>();
             services.AddTransient<IArticleRepository, EFArticleRepository>();
             services.AddTransient<ISeedHelper, SeedHelper>();
+            services.AddTransient<ImageRepository>();
             string connection = Configuration.GetConnectionString("StoreDb");
             services.AddDbContext<DataContext>(options => options.UseLazyLoadingProxies().UseSqlServer(connection));
-           // TestSeedHelper.
-            services.AddTransient<ImageRepository>();
-            services.AddAuthentication();
-            services.AddSignalR();
 
+            // To do
+            services.AddCors(o => o.AddPolicy("GodsendPolicy", builder =>
+            {
+                builder.AllowAnyOrigin()
+                       .AllowAnyMethod()
+                       .AllowAnyHeader()
+                       .AllowCredentials();
+            }));
+
+            services.AddIdentity<User, Role>()
+                .AddEntityFrameworkStores<DataContext>()
+                .AddDefaultTokenProviders();
+
+           
+            services.AddSignalR();
+            //services.AddSingleton<IUserIdProvider, CustomUserIdProvider>();
             // ===== Add Jwt Authentication ========
             // source: https://medium.com/@ozgurgul/asp-net-core-2-0-webapi-jwt-authentication-with-identity-mysql-3698eeba6ff8
-            JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear(); // => remove default claims
-            services.Configure<CookiePolicyOptions>(options =>
+            /* JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear(); // => remove default claims
+             services.Configure<CookiePolicyOptions>(options =>
+             {
+                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.
+                 options.CheckConsentNeeded = context => true;
+                 options.MinimumSameSitePolicy = SameSiteMode.None;
+             });*/
+
+            services.AddAuthentication(options =>
             {
-                // This lambda determines whether user consent for non-essential cookies is needed for a given request.
-                options.CheckConsentNeeded = context => true;
-                options.MinimumSameSitePolicy = SameSiteMode.None;
-            });
-            services
-                .AddAuthentication(options =>
+                // Identity made Cookie authentication the default.
+                // However, we want JWT Bearer Auth to be the default.
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+                .AddJwtBearer(options =>
                 {
-                    // Identity made Cookie authentication the default.
-                    // However, we want JWT Bearer Auth to be the default.
-                    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-                })
-                .AddJwtBearer(cfg =>
-                {
-                    cfg.RequireHttpsMetadata = false;
-                    cfg.SaveToken = true;
-                    cfg.TokenValidationParameters = new TokenValidationParameters
-                    {
-                        LifetimeValidator = (before, expires, token, param) =>
+                    // Configure JWT Bearer Auth to expect our security key
+                    options.TokenValidationParameters =
+                        new TokenValidationParameters
                         {
-                            return expires > DateTime.UtcNow;
-                        },
-                        ValidateActor = false,
-                        ValidateLifetime = true,
-                        ValidIssuer = Configuration["JwtIssuer"],
-                        ValidAudience = Configuration["JwtIssuer"],
-                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["JwtKey"])),
-                        ClockSkew = TimeSpan.Zero // remove delay of token when expire
-                    };
-                    cfg.Events = new JwtBearerEvents
+                            LifetimeValidator = (before, expires, token, param) =>
+                            {
+                                return expires > DateTime.UtcNow;
+                            },
+                            ValidateAudience = false,
+                            ValidateIssuer = false,
+                            ValidateActor = false,
+                            ValidateLifetime = true,
+                            IssuerSigningKey = SecurityKey
+                        };
+
+                    // We have to hook the OnMessageReceived event in order to
+                    // allow the JWT authentication handler to read the access
+                    // token from the query string when a WebSocket or 
+                    // Server-Sent Events request comes in.
+                    options.Events = new JwtBearerEvents
                     {
                         OnMessageReceived = context =>
                         {
@@ -99,20 +120,8 @@ namespace Godsend
                         }
                     };
                 });
-
-            services.AddIdentity<User, Role>()
-                .AddEntityFrameworkStores<DataContext>()
-                .AddDefaultTokenProviders();
+            
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-
-            // To do
-            services.AddCors(o => o.AddPolicy("GodsendPolicy", builder =>
-            {
-                builder.AllowAnyOrigin()
-                       .AllowAnyMethod()
-                       .AllowAnyHeader()
-                       .AllowCredentials();
-            }));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -130,13 +139,15 @@ namespace Godsend
 
             app.UseCors("GodsendPolicy");
             app.UseHttpsRedirection();
-            app.UseCookiePolicy();
+            //app.UseCookiePolicy();
             app.UseAuthentication();
+
+            app.UseMvc();
+
             app.UseSignalR(routes =>
             {
-                routes.MapHub<Controllers.NotificationHub>("/chat");
+                routes.MapHub<NotificationHub>("/chat");
             });
-            app.UseMvc();
         }
     }
 }
