@@ -47,10 +47,13 @@ namespace Godsend.Controllers
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public override async Task<IActionResult> CreateOrUpdate([FromBody] Article entity)
         {
-            var name = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name);
+            var name = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name).Value;
+            var nameId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value;
 
             var repo = repository as IArticleRepository;
-            await repo.SetUserAsync(name.Value);
+            await repo.SetUserAsync(name);
+
+            await hubContext.Clients.User(nameId).SendAsync("Success", "Article created");
 
             return await base.CreateOrUpdate(entity);
         }
