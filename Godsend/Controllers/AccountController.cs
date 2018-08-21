@@ -50,6 +50,9 @@ namespace Godsend.Controllers
             roleManager = roleMngr;
             this.configuration = configuration;
             this.context = context;
+            //var currentName = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name);
+
+            //var appUser = userManager.FindByNameAsync(currentName.Value).GetAwaiter().GetResult();
         }
 
         /// <summary>
@@ -134,6 +137,7 @@ namespace Godsend.Controllers
             if (result.Succeeded)
             {
                 var appUser = await userManager.FindByNameAsync(creds.Name);
+                currentUser = appUser;
                 var token = await GenerateJwtToken(creds.Name, appUser);
                 return Ok(new { token });
             }
@@ -169,7 +173,7 @@ namespace Godsend.Controllers
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public ClientUser GetProfile(string name)
         {
-            var currentName = User.Claims.FirstOrDefault(c => c.Type == "sub");
+            var currentName = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name);
 
             var user = context.Users.FirstOrDefault(u => u.UserName == name);
             var clientUser = name == currentName.Value ?
@@ -183,10 +187,11 @@ namespace Godsend.Controllers
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<IEnumerable<ClientUser>> GetUserList(int page, int rpp)
         {
-            var currentName = User.Claims.FirstOrDefault(c => c.Type == "sub");
+            var currentName = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name);
+            currentUser = context.Users.FirstOrDefault(u => u.UserName == currentName.Value);
             //var user = context.Users.FirstOrDefault(u => u.UserName == currentName.Value);
 
-            if (await userManager.IsInRoleAsync(currentUser, "Administrator"))
+            if (await IsAdmin())
             {
                 return context.Users
                     .Skip(rpp * (page - 1)).Take(rpp)
