@@ -62,8 +62,8 @@ namespace Godsend
                 .AddEntityFrameworkStores<DataContext>()
                 .AddDefaultTokenProviders();
 
-           
-            services.AddSignalR();
+            services.AddSignalR()
+                .AddMessagePackProtocol();
             //services.AddSingleton<IUserIdProvider, CustomUserIdProvider>();
             // ===== Add Jwt Authentication ========
             // source: https://medium.com/@ozgurgul/asp-net-core-2-0-webapi-jwt-authentication-with-identity-mysql-3698eeba6ff8

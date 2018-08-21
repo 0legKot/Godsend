@@ -2,6 +2,7 @@ import { Injectable, Inject } from '@angular/core';
 import { HubConnection } from '@aspnet/signalr';
 import * as signalR from '@aspnet/signalr';
 import { AuthenticationService } from './authentication.service';
+import * as signalRMsgPack from '@aspnet/signalr-protocol-msgpack'
 import { StorageService } from './storage.service';
 
 @Injectable({
@@ -22,6 +23,7 @@ export class NotificationService {
     public reconnect(): void {
         this._hubConnection = new signalR.HubConnectionBuilder()
             .withUrl(`${this.baseUrl}chat`, { accessTokenFactory: () => this.storage.JWTToken || '' })
+            .withHubProtocol(new signalRMsgPack.MessagePackHubProtocol())
             .configureLogging(signalR.LogLevel.Information)
             .build();
 
