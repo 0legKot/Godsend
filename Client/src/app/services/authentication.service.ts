@@ -3,33 +3,22 @@ import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
 import { DataService } from '../services/data.service';
 import { IdentityUser } from '../models/user.model';
+import { StorageService } from './storage.service';
+import { NotificationService } from './notification.service';
 
 @Injectable({
     providedIn: 'root'
 })
 export class AuthenticationService {
-    constructor(private router: Router, private data: DataService) { }
-
-    get authenticated(): boolean {
-        return !!localStorage.getItem('godsend_authtoken');
-    }
-
-    get name(): string {
-        return localStorage.getItem('godsend_authname') || '';
-    }
-
-    getJWTToken(): string {
-        return localStorage.getItem('godsend_authtoken') || '';
-    }
+    constructor(private router: Router, private data: DataService, private storage: StorageService, private notificationService: NotificationService) { }
 
     callbackUrl = '';
 
     login(name: string, password: string): void {
         // this.authenticated = false;
         this.data.sendRequest<any>('post', 'api/account/login', { name, password }).subscribe(response => {
-            // todo remove copypaste
-            localStorage.setItem('godsend_authtoken', response.token);
-            localStorage.setItem('godsend_authname', name);
+            this.storage.JWTToken = response.token;
+            this.storage.name = name;
 
             this.router.navigateByUrl(this.callbackUrl);
         }, error => {
@@ -44,9 +33,10 @@ export class AuthenticationService {
 
     register(user: IdentityUser,pass:string) {
         this.data.sendRequest<any>('post', 'api/account/register', {email:user.email,password:pass,name:user.name,birth:user.birth }).subscribe(response => {
-            // todo remove copypaste
-            localStorage.setItem('godsend_authtoken', response.token);
-            localStorage.setItem('godsend_authname', user.name);
+            this.storage.JWTToken = response.token;
+            this.storage.name = name;
+
+            this.notificationService.reconnect();
 
             this.router.navigateByUrl(this.callbackUrl);
         }, error => {
@@ -56,8 +46,10 @@ export class AuthenticationService {
     }
 
     logout() {
-        localStorage.removeItem('godsend_authtoken');
-        localStorage.removeItem('godsend_authname');
+        this.storage.JWTToken = null;
+        this.storage.name = null;
+
+        this.notificationService.reconnect();
 
         // this.data.sendRequest('post', '/api/account/logout').subscribe(response => { });
         this.router.navigateByUrl('/login');

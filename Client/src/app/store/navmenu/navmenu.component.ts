@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
-import { AuthenticationService } from '../../services/authentication.service';
 import { Router } from '@angular/router';
+import { StorageService } from '../../services/storage.service';
+import { AuthenticationService } from '../../services/authentication.service';
 
 @Component({
     selector: 'godsend-nav-menu',
@@ -9,7 +10,7 @@ import { Router } from '@angular/router';
 })
 export class NavMenuComponent {
     showMenuMobile = false;
-    constructor(private auth: AuthenticationService, private router: Router) { }
+    constructor(private storage: StorageService, private auth: AuthenticationService, private router: Router) { }
     scrollToTop(): void {
         window.scrollTo(0, 0);
     }
@@ -21,9 +22,9 @@ export class NavMenuComponent {
     hideMenu(): void {
         this.showMenuMobile = false;
     }
-    get name() { return this.auth.name; }
-    get isLogged() { return this.auth.authenticated; }
-    get isAdmin() { return this.auth.authenticated; }
+    get name() { return this.storage.name; }
+    get isLogged() { return this.storage.authenticated; }
+    get isAdmin() { return this.storage.authenticated; }
     logout() {
         this.auth.logout();
     }

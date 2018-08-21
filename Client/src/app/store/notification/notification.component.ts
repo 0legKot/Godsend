@@ -1,46 +1,26 @@
 import { Component, OnInit } from '@angular/core';
-import { HubConnection } from '@aspnet/signalr';
-import * as signalR from '@aspnet/signalr';
-import { AuthenticationService } from '../../services/authentication.service';
+import { NotificationService } from '../../services/notification.service';
 
 @Component({
   selector: 'godsend-notification',
   templateUrl: './notification.component.html',
 })
 export class NotificationComponent implements OnInit {
-
-    private _hubConnection: HubConnection | undefined;
-    public async: any;
     message = '';
-    messages: string[] = [];
+    get messages() {
+        return this.notificationService.messages;
+    }
 
-    constructor(private authService: AuthenticationService) {
+    constructor(private notificationService: NotificationService) {
     }
 
     public sendMessage(): void {
-        const data = `Sent: ${this.message}`;
-
-        if (this._hubConnection) {
-            this._hubConnection.invoke('Send', this.message);
-        }
-        this.messages.unshift(data);
+        this.notificationService.sendMessage(this.message);
+        this.message = '';
     }
 
     ngOnInit() {
-        this._hubConnection = new signalR.HubConnectionBuilder()
-            .withUrl('http://localhost:56440/chat', { accessTokenFactory: () => this.authService.getJWTToken() })
-            .configureLogging(signalR.LogLevel.Information)
-            .build();
-
-        this._hubConnection.start().catch(err => console.error(err.toString()));
-
-        this._hubConnection.on('Send', (data: any) => {
-            this.messages.unshift(`Received: ${data}`);
-        });
-
-        this._hubConnection.on('Success', (data: any) => {
-            this.messages.unshift(`Success: ${data}`);
-        })
+       
     }
 
 }

@@ -1,8 +1,8 @@
 ﻿import { Component } from '@angular/core';
-import { AuthenticationService } from '../../services/authentication.service';
 import { IdentityUser } from '../../models/user.model';
 import { DataService } from '../../services/data.service';
 import { OnInit } from '@angular/core/src/metadata/lifecycle_hooks';
+import { StorageService } from '../../services/storage.service';
 
 @Component({
     selector: 'godsend-user',
@@ -16,7 +16,7 @@ export class UserComponent implements OnInit{
             res => this.user = res
         );
     }
-    name = this.auth.name;
-    constructor(private auth: AuthenticationService, private data: DataService) { }
+    name = this.storage.name;
+    constructor(private storage: StorageService, private data: DataService) { }
 
 }

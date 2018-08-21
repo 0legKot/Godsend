@@ -24,7 +24,8 @@ namespace Godsend.Controllers
 
             var name = user.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name).Value;
 
-            await Clients.Others.SendAsync("Send", $"{name}: {message}"); 
+            await Clients.Others.SendAsync("Receive", $"{name}: {message}");
+            await Clients.Caller.SendAsync("Send", $"{name}: {message}");
         }
     }
 }
