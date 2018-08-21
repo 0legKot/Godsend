@@ -7,6 +7,7 @@ namespace Godsend.Controllers
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Security.Claims;
     using System.Threading.Tasks;
     using Godsend.Models;
     using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -67,6 +68,7 @@ namespace Godsend.Controllers
 
             await hubContext.Clients.All.SendAsync("Success","Somebody has just watched the article!");
 
+            //await hubContext.Clients.User(null).SendAsync("a", "aaa");
             return article;
         }
     }
