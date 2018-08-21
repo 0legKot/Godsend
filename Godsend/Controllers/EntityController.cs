@@ -66,7 +66,7 @@ namespace Godsend.Controllers
 
         /// <summary>
         /// Creates or updates specified entity asynchronous.
-        /// Creates if entity didn't existed
+        /// Creates if entity didn't exist
         /// </summary>
         /// <param name="entity">Entity for updating or creating.</param>
         /// <returns>Ok on success, BadRequest else </returns>

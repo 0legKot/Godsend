@@ -53,7 +53,7 @@ namespace Godsend.Controllers
             var repo = repository as IArticleRepository;
             await repo.SetUserAsync(name);
 
-            await hubContext.Clients.User(nameId).SendAsync("Success", "Article created");
+            await hubContext.Clients.User(nameId).SendAsync("Success", "Article created. Or updated. Or failure.");
 
             return await base.CreateOrUpdate(entity);
         }
