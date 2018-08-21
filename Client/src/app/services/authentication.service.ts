@@ -20,6 +20,8 @@ export class AuthenticationService {
             this.storage.JWTToken = response.token;
             this.storage.name = name;
 
+            this.notificationService.reconnect();
+
             this.router.navigateByUrl(this.callbackUrl);
         }, error => {
 
