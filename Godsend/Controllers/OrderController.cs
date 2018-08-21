@@ -7,6 +7,7 @@ namespace Godsend.Controllers
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Security.Claims;
     using System.Threading.Tasks;
     using Godsend.Models;
     using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -14,6 +15,7 @@ namespace Godsend.Controllers
     using Microsoft.AspNetCore.Cors;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.SignalR;
 
     /// <summary>
     /// Order controller
@@ -42,6 +44,8 @@ namespace Godsend.Controllers
         /// The context
         /// </summary>
         private DataContext context;
+        private UserManager<User> userManager;
+        IHubContext<NotificationHub> hubContext;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="OrderController"/> class.
@@ -50,12 +54,15 @@ namespace Godsend.Controllers
         /// <param name="prodRepo">The product repo.</param>
         /// <param name="supRepo">The sup repo.</param>
         /// <param name="context">The context.</param>
-        public OrderController(IOrderRepository repo, IProductRepository prodRepo, ISupplierRepository supRepo, DataContext context)
+        public OrderController(IOrderRepository repo, IProductRepository prodRepo, ISupplierRepository supRepo, 
+            DataContext context, IHubContext<NotificationHub> hubContext, UserManager<User> userManager)
         {
             repository = repo;
             this.prodRepo = prodRepo;
             this.supRepo = supRepo;
             this.context = context;
+            this.hubContext = hubContext;
+            this.userManager = userManager;
         }
 
         /// <summary>
@@ -82,15 +89,29 @@ namespace Godsend.Controllers
         /// <returns></returns>
         [DisableCors]
         [HttpPatch("[action]/{id:Guid}/{status:int}")]
-        public IActionResult ChangeStatus(Guid id, int status)
+        [Authorize] // todo role
+        public async Task<IActionResult> ChangeStatus(Guid id, int status)
         {
+            var userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value;
+
             try
             {
-                repository.ChangeStatus(id, status);
+                var order = await repository.ChangeStatus(id, status);
+
+                await hubContext.Clients.User(userId).SendAsync("Success", "Order status successfully changed");
+                var orderOwnerId = order.EFCustomer.Id;
+
+                if (orderOwnerId != userId)
+                {
+                    await hubContext.Clients.User(orderOwnerId).SendAsync("Info", "Your order status has changed");
+                }
+
                 return Ok();
             }
             catch
             {
+                await hubContext.Clients.User(userId).SendAsync("Error", "Could not change order status");
+
                 return BadRequest();
             }
         }
@@ -101,15 +122,17 @@ namespace Godsend.Controllers
         /// <param name="data">The data.</param>
         /// <returns></returns>
         [HttpPost("[action]")]
-
-       // public IActionResult CreateOrUpdate([FromBody]Newtonsoft.Json.Linq.JToken jdata)
-        public IActionResult CreateOrUpdate([FromBody]OrderFromNg data)
+        [Authorize]
+        public async Task<IActionResult> CreateOrUpdate([FromBody]OrderFromNg data)
         {
+            var userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value;
+            var user = await userManager.FindByIdAsync(userId);
+
             try
             {
                 Order o = new SimpleOrder
                 {
-                    EFCustomer = context.Users.FirstOrDefault(),
+                    EFCustomer = user,
                     Ordered = DateTime.Now,
                     Items = data.DiscreteItems?.Select(item => new OrderPartProducts
                     {
@@ -125,13 +148,16 @@ namespace Godsend.Controllers
                     Status = Status.Processing
                 };
 
-                repository.SaveOrder(o);
-               /* order.Id = Guid.NewGuid();
-                repository.SaveOrder(order);*/
+                await repository.SaveOrder(o);
+                /* order.Id = Guid.NewGuid();
+                 repository.SaveOrder(order);*/
+                await hubContext.Clients.User(userId).SendAsync("Success", "Order has been created");
+
                 return Ok(o);
             }
             catch (Exception ex)
             {
+                await hubContext.Clients.User(userId).SendAsync("Error", "Could not create order");
                 return BadRequest();
             }
         }

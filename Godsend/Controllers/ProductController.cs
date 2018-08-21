@@ -12,6 +12,7 @@ namespace Godsend.Controllers
     using Microsoft.AspNetCore.Authentication.JwtBearer;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.SignalR;
 
     /// <summary>
     /// Product controller
@@ -30,7 +31,8 @@ namespace Godsend.Controllers
         /// Initializes a new instance of the <see cref="ProductController" /> class. 
         /// </summary>
         /// <param name="repo">The repo.</param>
-        public ProductController(IProductRepository repo)
+        public ProductController(IProductRepository repo, IHubContext<NotificationHub> hubContext)
+            : base(hubContext)
         {
             repository = repo;
             Categories = (repository as IProductRepository).Categories().ToList();

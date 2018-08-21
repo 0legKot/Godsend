@@ -7,12 +7,14 @@ namespace Godsend.Controllers
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Security.Claims;
     using System.Threading.Tasks;
     using Godsend.Models;
     using Microsoft.AspNetCore.Authentication.JwtBearer;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.ApplicationModels;
+    using Microsoft.AspNetCore.SignalR;
 
     /// <summary>
     /// Base controller for entities
@@ -26,6 +28,12 @@ namespace Godsend.Controllers
         /// The repository for instances
         /// </summary>
         protected IRepository<TEntity> repository;
+        protected IHubContext<NotificationHub> hubContext;
+
+        protected EntityController(IHubContext<NotificationHub> hubContext)
+        {
+            this.hubContext = hubContext;
+        }
 
         /// <summary>
         /// All instances.
@@ -51,15 +59,20 @@ namespace Godsend.Controllers
         /// <param name="id">The identifier of entity that must be deleted.</param>
         /// <returns></returns>
         [HttpDelete("[action]/{id:Guid}")]
-        public virtual IActionResult Delete(Guid id)
+        [Authorize]
+        public virtual async Task<IActionResult> Delete(Guid id)
         {
+            var userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value;
+
             try
             {
-                repository.DeleteEntity(id);
+                await repository.DeleteEntity(id);
+                await hubContext.Clients.User(userId).SendAsync("Success", "Deleted successfully");
                 return Ok();
             }
             catch (Exception e)
             {
+                await hubContext.Clients.User(userId).SendAsync("Error", "Could not delete entity");
                 return BadRequest();
             }
         }
@@ -71,41 +84,53 @@ namespace Godsend.Controllers
         /// <param name="entity">Entity for updating or creating.</param>
         /// <returns>Ok on success, BadRequest else </returns>
         [HttpPost("[action]")]
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [Authorize]
         public virtual async Task<IActionResult> CreateOrUpdate([FromBody]TEntity entity)
         {
+            var userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value;
+            var creating = entity.Id == Guid.Empty;
+
             try
             {
-                repository.SaveEntity(entity);
+                await repository.SaveEntity(entity);
+
+                await (creating
+                    ? hubContext.Clients.User(userId).SendAsync("Success", "Created successfully")
+                    : hubContext.Clients.User(userId).SendAsync("Success", "Saved successfully"));
+
                 return Ok(entity.Info.Id);
             }
             catch
             {
+                await (creating
+                    ? hubContext.Clients.User(userId).SendAsync("Error", "Could not create")
+                    : hubContext.Clients.User(userId).SendAsync("Error", "Could not save"));
+
                 return BadRequest();
             }
         }
 
-        /// <summary>
-        /// Edits the entity asynchronous.
-        /// </summary>
-        /// <param name="entity">The entity.</param>
-        /// <returns></returns>
-        [HttpPatch("[action]/{id:Guid}")]
-        public virtual async Task<IActionResult> EditAsync([FromBody]TEntity entity)
-        {
-            return await CreateOrUpdate(entity);
-        }
+        /////// <summary>
+        /////// Edits the entity asynchronous.
+        /////// </summary>
+        /////// <param name="entity">The entity.</param>
+        /////// <returns></returns>
+        ////[HttpPatch("[action]/{id:Guid}")]
+        ////public virtual async Task<IActionResult> EditAsync([FromBody]TEntity entity)
+        ////{
+        ////    return await CreateOrUpdate(entity);
+        ////}
 
-        /// <summary>
-        /// Creates the entity asynchronous.
-        /// </summary>
-        /// <param name="entity">The entity.</param>
-        /// <returns></returns>
-        [HttpPut("[action]/{id:Guid}")]
-        public virtual async Task<IActionResult> CreateAsync([FromBody]TEntity entity)
-        {
-            return await CreateOrUpdate(entity);
-        }
+        /////// <summary>
+        /////// Creates the entity asynchronous.
+        /////// </summary>
+        /////// <param name="entity">The entity.</param>
+        /////// <returns></returns>
+        ////[HttpPut("[action]/{id:Guid}")]
+        ////public virtual async Task<IActionResult> CreateAsync([FromBody]TEntity entity)
+        ////{
+        ////    return await CreateOrUpdate(entity);
+        ////}
 
         /*[HttpGet("[action]/{id:Guid}")]
         public virtual TEntity Detail(Guid id)

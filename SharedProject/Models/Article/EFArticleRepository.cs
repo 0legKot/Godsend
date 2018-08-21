@@ -84,13 +84,13 @@ namespace Godsend.Models
         /// Deletes the entity.
         /// </summary>
         /// <param name="infoId">The information identifier.</param>
-        public void DeleteEntity(Guid infoId)
+        public async Task DeleteEntity(Guid infoId)
         {
             Article dbEntry = GetEntityByInfoId(infoId);
             if (dbEntry != null)
             {
                 context.Articles.Remove(dbEntry);
-                context.SaveChanges();
+                await context.SaveChangesAsync();
             }
         }
 
@@ -151,7 +151,7 @@ namespace Godsend.Models
         /// </summary>
         /// <param name="entity">The entity.</param>
         /// <exception cref="Exception">Not authorized</exception>
-        public void SaveEntity(Article entity)
+        public async Task SaveEntity(Article entity)
         {
             //if (user == null)
             //{
@@ -177,7 +177,7 @@ namespace Godsend.Models
                 context.Add(entity);
             }
 
-            context.SaveChanges();
+            await context.SaveChangesAsync();
         }
 
         public int EntitiesCount()

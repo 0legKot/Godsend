@@ -56,7 +56,7 @@ namespace Godsend.Models
         /// Saves the order.
         /// </summary>
         /// <param name="order">The order.</param>
-        public void SaveOrder(Order order)
+        public async Task SaveOrder(Order order)
         {
             Order dbEntry = GetOrder(order.Id);
             if (dbEntry != null)
@@ -72,7 +72,7 @@ namespace Godsend.Models
                 context.Add(order);
             }
 
-            context.SaveChanges();
+            await context.SaveChangesAsync();
         }
 
         /// <summary>
@@ -97,7 +97,7 @@ namespace Godsend.Models
         /// </summary>
         /// <param name="orderId">The order identifier.</param>
         /// <param name="status">The status.</param>
-        public void ChangeStatus(Guid orderId, int status)
+        public async Task<Order> ChangeStatus(Guid orderId, int status)
         {
             Order dbEntry = GetOrder(orderId);
             if (dbEntry != null)
@@ -109,7 +109,9 @@ namespace Godsend.Models
                 }
             }
 
-            context.SaveChanges();
+            await context.SaveChangesAsync();
+
+            return dbEntry;
         }
 
         /// <summary>

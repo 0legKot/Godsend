@@ -74,7 +74,7 @@ namespace Godsend
         /// Saves the entity.
         /// </summary>
         /// <param name="entity">The entity.</param>
-        public void SaveEntity(Product entity)
+        public async Task SaveEntity(Product entity)
         {
             Product dbEntry = context.Products.Include(p => p.Info).Include(p => p.Category).FirstOrDefault(p => p.Id == entity.Id);
             if (dbEntry != null)
@@ -88,14 +88,14 @@ namespace Godsend
                 context.Add(entity);
             }
 
-            context.SaveChanges();
+            await context.SaveChangesAsync();
         }
 
         /// <summary>
         /// Deletes the entity.
         /// </summary>
         /// <param name="infoId">The information identifier.</param>
-        public void DeleteEntity(Guid infoId)
+        public async Task DeleteEntity(Guid infoId)
         {
             Product dbEntry = context.Products
                 .Include(p => p.Info)
@@ -108,7 +108,7 @@ namespace Godsend
                 context.RemoveRange(context.LinkProductsSuppliers.Where(p => p.Product.Id == dbEntry.Id));
                 dbEntry.Info = null;
                 context.Products.Remove(dbEntry);
-                context.SaveChanges();
+                await context.SaveChangesAsync();
             }
         }
 

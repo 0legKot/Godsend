@@ -28,7 +28,7 @@ namespace Godsend.Models
         /// Saves the order.
         /// </summary>
         /// <param name="order">The order.</param>
-        void SaveOrder(Order order);
+        Task SaveOrder(Order order);
 
         /// <summary>
         /// Deletes the order.
@@ -42,7 +42,7 @@ namespace Godsend.Models
         /// </summary>
         /// <param name="orderID">The order identifier.</param>
         /// <param name="status">The status.</param>
-        void ChangeStatus(Guid orderID, int status);
+        Task<Order> ChangeStatus(Guid orderID, int status);
         Order GetOrderById(Guid id);
     }
 }

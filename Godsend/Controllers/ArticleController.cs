@@ -22,15 +22,14 @@ namespace Godsend.Controllers
     [Route("api/[controller]")]
     public class ArticleController : EntityController<Article>
     {
-        IHubContext<NotificationHub> hubContext;
         /// <summary>
         /// Initializes a new instance of the <see cref="ArticleController"/> class.
         /// </summary>
         /// <param name="repository">The repository.</param>
-        public ArticleController(IArticleRepository repository, IHubContext<NotificationHub> hubContext)
+        public ArticleController(IArticleRepository repository, IHubContext<NotificationHub> hubContext) 
+            : base(hubContext)
         {
             this.repository = repository;
-            this.hubContext = hubContext;
         }
 
         /*[HttpGet("[action]")]
@@ -44,7 +43,7 @@ namespace Godsend.Controllers
         /// </summary>
         /// <param name="entity">The entity.</param>
         /// <returns></returns>
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [Authorize]
         public override async Task<IActionResult> CreateOrUpdate([FromBody] Article entity)
         {
             var name = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name).Value;
@@ -52,8 +51,6 @@ namespace Godsend.Controllers
 
             var repo = repository as IArticleRepository;
             await repo.SetUserAsync(name);
-
-            await hubContext.Clients.User(nameId).SendAsync("Success", "Article created. Or updated. Or failure.");
 
             return await base.CreateOrUpdate(entity);
         }

@@ -56,13 +56,13 @@ namespace Godsend.Models
         /// Deletes the entity.
         /// </summary>
         /// <param name="infoId">The information identifier.</param>
-        public void DeleteEntity(Guid infoId)
+        public async Task DeleteEntity(Guid infoId)
         {
             Supplier dbEntry = GetEntityByInfoId(infoId);
             if (dbEntry != null)
             {
                 context.Suppliers.Remove(dbEntry);
-                context.SaveChanges();
+                await context.SaveChangesAsync();
             }
         }
 
@@ -95,7 +95,7 @@ namespace Godsend.Models
         /// Saves the entity.
         /// </summary>
         /// <param name="entity">The entity.</param>
-        public void SaveEntity(Supplier entity)
+        public async Task SaveEntity(Supplier entity)
         {
             Supplier dbEntry = GetEntity(entity.Id);
             if (dbEntry != null)
@@ -113,7 +113,7 @@ namespace Godsend.Models
                 context.Add(entity);
             }
 
-            context.SaveChanges();
+            await context.SaveChangesAsync();
         }
 
         /// <summary>

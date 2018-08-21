@@ -57,13 +57,14 @@ namespace Godsend.Models
         /// Saves the entity.
         /// </summary>
         /// <param name="entity">The entity.</param>
-        void SaveEntity(IEntity entity);
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+        Task SaveEntity(IEntity entity);
 
         /// <summary>
         /// Deletes the entity.
         /// </summary>
         /// <param name="entityId">The entity identifier.</param>
-        void DeleteEntity(Guid entityId);
+        Task DeleteEntity(Guid entityId);
 
         /// <summary>
         /// Determines whether the specified entity is first.

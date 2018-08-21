@@ -10,6 +10,7 @@ namespace Godsend.Controllers
     using System.Threading.Tasks;
     using Godsend.Models;
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.SignalR;
 
     /// <summary>
     /// Supplier controller
@@ -22,7 +23,8 @@ namespace Godsend.Controllers
         /// Initializes a new instance of the <see cref="SupplierController"/> class.
         /// </summary>
         /// <param name="repo">The repo.</param>
-        public SupplierController(ISupplierRepository repo)
+        public SupplierController(ISupplierRepository repo, IHubContext<NotificationHub> hubContext)
+            :base(hubContext)
         {
             repository = repo;
         }

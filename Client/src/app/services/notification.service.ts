@@ -51,6 +51,14 @@ export class NotificationService {
             this._hubConnection.on('Success', (data: any) => {
                 this.messages.unshift(`Success: ${data}`);
             })
+
+            this._hubConnection.on('Error', (data: any) => {
+                this.messages.unshift(`Error: ${data}`);
+            })
+
+            this._hubConnection.on('Info', (data: any) => {
+                this.messages.unshift(`Info: ${data}`);
+            })
         }
     }
 }
