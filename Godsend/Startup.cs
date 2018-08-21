@@ -12,11 +12,12 @@ namespace Godsend
     using System.Threading.Tasks;
     using Godsend.Models;
     using Microsoft.AspNetCore.Authentication.JwtBearer;
-    using Microsoft.AspNetCore.Http;
-    using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
+    using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Identity;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.SignalR;
     using Microsoft.AspNetCore.SpaServices.Webpack;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;

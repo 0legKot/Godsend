@@ -68,6 +68,7 @@ namespace Godsend.Controllers
 
             await hubContext.Clients.All.SendAsync("Success","Somebody has just watched the article!");
 
+            //await hubContext.Clients.User(null).SendAsync("a", "aaa");
             return article;
         }
     }
