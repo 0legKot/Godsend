@@ -105,7 +105,7 @@ namespace Godsend
             app.UseAuthentication();
             app.UseSignalR(routes =>
             {
-                routes.MapHub<Controllers.NotificationController>("/chat");
+                routes.MapHub<Controllers.NotificationHub>("/chat");
             });
             app.UseMvc();
         }

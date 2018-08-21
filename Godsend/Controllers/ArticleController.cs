@@ -21,12 +21,12 @@ namespace Godsend.Controllers
     [Route("api/[controller]")]
     public class ArticleController : EntityController<Article>
     {
-        IHubContext<NotificationController> hubContext;
+        IHubContext<NotificationHub> hubContext;
         /// <summary>
         /// Initializes a new instance of the <see cref="ArticleController"/> class.
         /// </summary>
         /// <param name="repository">The repository.</param>
-        public ArticleController(IArticleRepository repository, IHubContext<NotificationController> hubContext)
+        public ArticleController(IArticleRepository repository, IHubContext<NotificationHub> hubContext)
         {
             this.repository = repository;
             this.hubContext = hubContext;
