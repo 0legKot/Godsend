@@ -22,16 +22,18 @@ namespace Godsend.Models
         private DataContext context;
 
         private UserManager<User> userManager;
+
+        private IRatingHelper ratingHelper;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="EFSupplierRepository"/> class.
         /// </summary>
         /// <param name="ctx">The CTX.</param>
-        public EFSupplierRepository(DataContext ctx, ISeedHelper seedHelper, UserManager<User> userManager)
+        public EFSupplierRepository(DataContext ctx, ISeedHelper seedHelper, UserManager<User> userManager, IRatingHelper ratingHelper)
         {
             context = ctx;
-
             this.userManager = userManager;
-
+            this.ratingHelper = ratingHelper;
             seedHelper.EnsurePopulated(ctx);
         }
 
@@ -160,40 +162,16 @@ namespace Godsend.Models
 
         public async Task<double> SetRating(Guid supplierId, string userId, int rating)
         {
-            var user = await userManager.FindByIdAsync(userId);
-
-            var existingRating = await context.LinkRatingSupplier.FirstOrDefaultAsync(lrs => lrs.UserId == userId && lrs.SupplierId == supplierId);
-
-            if (existingRating == null)
-            {
-                var newRating = new LinkRatingSupplier { SupplierId = supplierId, UserId = userId, Rating = rating };
-                context.Add(newRating);
-            }
-            else
-            {
-                existingRating.Rating = rating;
-            }
-
-            await context.SaveChangesAsync();
+            await ratingHelper.SetRating(supplierId, userId, rating, context.LinkRatingSupplier, lrs => lrs.SupplierId, context);
 
             return await RecalcRatings(supplierId);
         }
 
         private async Task<double> RecalcRatings(Guid supplierId)
         {
-            var ratingsExist = await context.LinkRatingSupplier.AnyAsync(lrs => lrs.SupplierId == supplierId);
+            var avg = await ratingHelper.CalculateAverage(context.LinkRatingSupplier, lrs => lrs.SupplierId, supplierId);
 
-            var avg = ratingsExist
-                ? await context.LinkRatingSupplier
-                    .Where(lrs => lrs.SupplierId == supplierId)
-                    .Select(lrs => lrs.Rating)
-                    .AverageAsync()
-                : 0;
-
-            var supplier = await context.Suppliers.Include(s => s.Info).FirstOrDefaultAsync(a => a.Id == supplierId);
-            supplier.Info.Rating = avg;
-
-            await context.SaveChangesAsync();
+            await ratingHelper.SaveAverage(context.Suppliers, supplierId, avg, context);
 
             return avg;
         }
