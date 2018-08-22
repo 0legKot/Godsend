@@ -39,6 +39,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Models\Product\ProductInformation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Search\AllSearchResult.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Shared\LinkRatingEntity.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Shared\RatingHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Shared\SeedHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Supplier\EFSupplierRepository.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Supplier\ISupplierRepository.cs" />

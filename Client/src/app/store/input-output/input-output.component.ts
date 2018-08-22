@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { NG_VALUE_ACCESSOR } from '@angular/forms';
+import { CustomControlValueAccessor } from '../shared/custom-control-value-accessor';
 
 @Component({
     selector: 'godsend-input-output',
@@ -13,7 +14,7 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
         }
     ]
 })
-export class InputOutputComponent implements ControlValueAccessor {
+export class InputOutputComponent extends CustomControlValueAccessor<string> {
     @Input()
     edit = false;
     @Input()
@@ -21,29 +22,5 @@ export class InputOutputComponent implements ControlValueAccessor {
     @Input()
     huge = false;
 
-    value = '';
-
-    onChange = (_: string) => { };
-
-    onTouched = (_: string) => { };
-
-    constructor() { }
-
-    changeValue(newValue: string) {
-        this.value = newValue;
-        this.onChange(this.value);
-    }
-
-    writeValue(obj: string): void {
-        this.value = obj;
-    }
-
-    registerOnChange(fn: (_: string) => any): void {
-        this.onChange = fn;
-    }
-
-    registerOnTouched(fn: any): void {
-        this.onTouched = fn;
-    }
-
+    constructor() { super(); }
 }
