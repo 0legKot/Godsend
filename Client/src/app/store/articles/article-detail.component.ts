@@ -20,7 +20,6 @@ import { LinkRatingEntity } from '../../models/rating.model';
 export class ArticleDetailComponent implements OnInit {
     article?: Article;
     edit = false;
-    userRating?: number;
     readonly clas: entityClass = 'article';
 
     backup = {
@@ -48,9 +47,6 @@ export class ArticleDetailComponent implements OnInit {
     ngOnInit() {
         this.repo.getEntity<Article>('article', this.route.snapshot.params.id, a => {
             this.article = a;
-            if (this.authenticated) {
-                this.repo.getUserRating(this.clas, this.article.id, rating => this.userRating = rating);
-            }
         });
     }
     editMode() {
@@ -84,16 +80,5 @@ export class ArticleDetailComponent implements OnInit {
         }
 
         this.edit = false;
-    }
-
-    saveRating(newRating: number) {
-        if (this.article != null) {
-            this.repo.saveRating('article', this.article.id, newRating, newAvg => {
-                if (this.article != null) {
-                    this.article.info.rating = newAvg;
-                    this.userRating = newRating;
-                }
-            });
-        }        
     }
 }

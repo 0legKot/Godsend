@@ -25,24 +25,10 @@
                     <!---</div>-->
                 </div>
                 <div class="rating">
-                    <godsend-stars [readOnly]="!authenticated" [value]="supp?.info?.rating" (valueChanged)="saveRating($event)"></godsend-stars>
-                    <div *ngIf="userRating != null else notRated">
-                        <span>Your rating: {{ userRating }}</span>
+                    <div *ngIf="supp">
+                        <godsend-ratings [clas]="clas" [id]="supp.id" [(ngModel)]="supp.info.rating"></godsend-ratings>
                     </div>
-                    <ng-template #notRated>
-                        <div *ngIf="authenticated else notAuthenticated">
-                            <span>Not rated yet</span>
-                        </div>
-                    </ng-template>
-                    <ng-template #notAuthenticated>
-                        <div>
-                            <span>Log in to rate</span>
-                        </div>
-                    </ng-template>
                     <p class="pull-right" [ngStyle]="{'color': '#003e09' }"><fa name="eye"></fa> : {{ supp?.info?.watches }}</p>
-                </div>
-                <div>
-                    <godsend-entity-ratings [clas]="clas" [id]="supp?.id"></godsend-entity-ratings>
                 </div>
             </div>
             <div class='col-lg-7 col-md-6 col-sm-5 col-xs-12 suppliers rel'>
