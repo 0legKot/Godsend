@@ -1,6 +1,4 @@
 ﻿<div class="wrap rel">
-
-
     <div class="back-btn" (click)="gotoArticles(article)">
         <fa name="long-arrow-left"></fa> Back to articles
     </div>
@@ -10,13 +8,12 @@
         <p class="h3 title">
             <godsend-input-output [(ngModel)]="article.info.name" class="edit-art-input" [edit]="edit"></godsend-input-output>
         </p>
-
         <p>
             <godsend-stars [readOnly]="!authenticated" [value]="article.info.rating" (valueChanged)="saveRating($event)"></godsend-stars> 
             &nbsp; <fa name="eye"></fa> : {{ article.info.watches }}
         </p>
         <p>
-            <button (click)="getAllRatings()">All ratings</button>
+            <godsend-entity-ratings [clas]="clas" [id]="article.id"></godsend-entity-ratings>
         </p>
         <p class="h5 author">
             - {{ article.info.author?.name }}
@@ -32,13 +29,7 @@
         <p class="h5">
             Created: {{ article.info.created | date : 'dd-MMM-yyyy HH:mm' }}
         </p><br />
-
     </div>
-
-    <div *ngIf="showAllRatings">
-        <godsend-entity-ratings [ratings]="allRatings" (close)="hideRatings()"></godsend-entity-ratings>
-    </div>
-
     <div class="edit-art">
         <div class="inline-block edit-btns" id="edit" *ngIf="!edit" (click)="editMode()"> Edit</div>
         <div class="inline-block edit-btns" id="save" *ngIf="edit" (click)="save()"> Save</div>

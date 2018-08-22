@@ -1,12 +1,19 @@
 <style>
-    .fixed-middle {
+    .fixed-around {
         position: fixed;
+        width: 100%;
+        height: 100%;
+        z-index: 100;
+        left:0;
+        top:0;
+    }
+
+    .fixed-middle {
+        position: absolute;
         width: 80%;
         margin: 10%;
-        top:10%;
         overflow-y: scroll;
         background-color: white;
-        z-index: 100;
     }
 
     .close {
@@ -20,27 +27,31 @@
     }
 </style>
 
-<div class="fixed-middle">
-  <div>
-      <table *ngIf="ratings && ratings.length > 0 else noratings" class="table table-striped">
-          <thead>
-              <tr>
-                  <th>User</th>
-                  <th>Rating</th>
-              </tr>
-          </thead>
-          <tbody>
-              <tr *ngFor="let rating of ratings">
-                  <td>{{ rating.author.name }}</td>
-                  <td>{{ rating.rating }}</td>
-              </tr>
-          </tbody>
-      </table>
-      <ng-template #noratings>
-          <p>
-              No ratings
-          </p>
-      </ng-template>
-  </div>
-    <button (click)="onClose()" class="close">X</button>
+<div>
+    <button (click)="showAll()">All ratings</button>
+
+    <div class="fixed-around" *ngIf="showAllRatings">
+        <div class="fixed-middle">
+            <table *ngIf="ratings && ratings.length > 0 else noratings" class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>User</th>
+                        <th>Rating</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let rating of ratings">
+                        <td>{{ rating.author.name }}</td>
+                        <td>{{ rating.rating }}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <ng-template #noratings>
+                <p>
+                    No ratings
+                </p>
+            </ng-template>
+            <button (click)="hideAll()" class="close">X</button>
+        </div>
+    </div>
 </div>

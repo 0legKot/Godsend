@@ -4,7 +4,7 @@ import { Component, OnInit, HostBinding } from '@angular/core';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { Observable } from 'rxjs';
 
-import { RepositoryService } from '../../services/repository.service';
+import { RepositoryService, entityClass } from '../../services/repository.service';
 import { forEach } from '@angular/router/src/utils/collection';
 import { Supplier } from '../../models/supplier.model';
 import { ImageService } from '../../services/image.service';
@@ -25,8 +25,8 @@ export class SupplierDetailComponent implements OnInit {
     };
 
     edit = false;
-    showAllRatings = false;
-    allRatings?: LinkRatingEntity[];
+
+    readonly clas: entityClass = 'supplier';
 
     get authenticated() {
         return this.storage.authenticated;
@@ -96,18 +96,5 @@ export class SupplierDetailComponent implements OnInit {
                 }
             });
         }
-    }
-
-    getAllRatings() {
-        if (this.supp != null) {
-            this.repo.getAllRatings('supplier', this.supp.id, ratings => {
-                this.allRatings = ratings;
-                this.showAllRatings = true;
-            });
-        }
-    }
-
-    hideRatings() {
-        this.showAllRatings = false;
     }
 }

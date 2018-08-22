@@ -1,23 +1,34 @@
 import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { LinkRatingEntity } from '../../models/rating.model';
+import { entityClass, RepositoryService } from '../../services/repository.service';
 
 @Component({
-    selector: 'godsend-entity-ratings',
+    selector: 'godsend-entity-ratings[clas][id]',
     templateUrl: './entity-ratings.component.html',
 })
 export class EntityRatingsComponent implements OnInit {
     @Input()
-    ratings?: LinkRatingEntity
+    clas!: entityClass;
 
-    @Output()
-    close = new EventEmitter<void>()
+    @Input()
+    id!: string;
 
-    constructor() { }
+    ratings?: LinkRatingEntity[];
+    showAllRatings = false;
+
+    constructor(private repo: RepositoryService) { }
 
     ngOnInit() {
     }
 
-    onClose() {
-        this.close.emit();
+    showAll() {
+        this.repo.getAllRatings(this.clas, this.id, ratings => {
+            this.ratings = ratings;
+            this.showAllRatings = true;
+        });
+    }
+
+    hideAll() {
+        this.showAllRatings = false;
     }
 }

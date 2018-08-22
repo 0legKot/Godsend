@@ -28,7 +28,7 @@
                     <p class="pull-right" [ngStyle]="{'color': '#003e09' }"><fa name="eye"></fa> : {{ data?.product?.info?.watches }}</p>
                 </div>
                 <div>
-                    <button (click)="getAllRatings()">All ratings</button>
+                    <godsend-entity-ratings [clas]="clas" [id]="data.product.id"></godsend-entity-ratings>
                 </div>
             </div>
             <div class='col-lg-7 col-md-6 col-sm-5 col-xs-12 products rel'>
@@ -85,9 +85,6 @@
                 </div>
             </div>
         </div>
-    </div>
-    <div *ngIf="showAllRatings">
-        <godsend-entity-ratings [ratings]="allRatings" (close)="hideRatings()"></godsend-entity-ratings>
     </div>
     <div class="back-btn" (click)="gotoProducts(prod)">
         <fa name="long-arrow-left"></fa> Back to products

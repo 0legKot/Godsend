@@ -9,8 +9,8 @@ import { Cart, CartView, OrderPartDiscreteSend } from '../models/cart.model';
 import { IEntity, IInformation } from '../models/entity.model';
 import { LinkRatingEntity } from '../models/rating.model';
 
-type entityClass = 'article' | 'product' | 'supplier';
-type supportedClass = entityClass | 'order';
+export type entityClass = 'article' | 'product' | 'supplier';
+export type supportedClass = entityClass | 'order';
 
 const productsUrl = 'api/product';
 const ordersUrl = 'api/order';

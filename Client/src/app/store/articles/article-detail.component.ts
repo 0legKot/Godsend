@@ -3,7 +3,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 
-import { RepositoryService } from '../../services/repository.service';
+import { RepositoryService, entityClass } from '../../services/repository.service';
 import { Article, ArticleInfo } from '../../models/article.model';
 import { StorageService } from '../../services/storage.service';
 import { LinkRatingEntity } from '../../models/rating.model';
@@ -20,8 +20,8 @@ import { LinkRatingEntity } from '../../models/rating.model';
 export class ArticleDetailComponent implements OnInit {
     article?: Article;
     edit = false;
-    showAllRatings: boolean = false;
-    allRatings?: LinkRatingEntity[];
+
+    readonly clas: entityClass = 'article';
 
     backup = {
         name: '',
@@ -90,18 +90,5 @@ export class ArticleDetailComponent implements OnInit {
                 }
             });
         }        
-    }
-
-    getAllRatings() {
-        if (this.article != null) {
-            this.repo.getAllRatings('article', this.article.id, ratings => {
-                this.allRatings = ratings;
-                this.showAllRatings = true;
-            });
-        }
-    }
-
-    hideRatings() {
-        this.showAllRatings = false;
     }
 }

@@ -4,7 +4,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 
 import { Product, ProductWithSuppliers, SupplierAndPrice } from '../../models/product.model';
-import { RepositoryService } from '../../services/repository.service';
+import { RepositoryService, entityClass } from '../../services/repository.service';
 import { CartService } from '../../services/cart.service';
 import { OrderPartDiscreteSend, guidZero, OrderPartDiscreteView } from '../../models/cart.model';
 import { ImageService } from '../../services/image.service';
@@ -24,8 +24,8 @@ export class ProductDetailComponent implements OnInit {
     quantity = 1;
 
     edit = false;
-    showAllRatings = false;
-    allRatings?: LinkRatingEntity[];
+
+    readonly clas: entityClass = 'product';
 
     images: string[] = [];
 
@@ -128,18 +128,6 @@ export class ProductDetailComponent implements OnInit {
         }
     }
 
-    getAllRatings() {
-        if (this.data != null) {
-            this.repo.getAllRatings('product', this.data.product.id, ratings => {
-                this.allRatings = ratings;
-                this.showAllRatings = true;
-            });
-        }
-    }
-
-    hideRatings() {
-        this.showAllRatings = false;
-    }
     /*get product(): Product | {} {
         return this.service.product;
     }*/
