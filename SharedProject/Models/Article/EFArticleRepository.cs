@@ -31,16 +31,18 @@ namespace Godsend.Models
         /// </summary>
         private User user;
 
+        private IRatingHelper ratingHelper;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="EFArticleRepository"/> class.
         /// </summary>
         /// <param name="context">The context.</param>
         /// <param name="userManager">The user manager.</param>
-        public EFArticleRepository(DataContext context, UserManager<User> userManager, ISeedHelper seedHelper)
+        public EFArticleRepository(DataContext context, UserManager<User> userManager, ISeedHelper seedHelper, IRatingHelper ratingHelper)
         {
             this.context = context;
             this.userManager = userManager;
-
+            this.ratingHelper = ratingHelper;
             seedHelper.EnsurePopulated(context);
         }
 
@@ -189,52 +191,23 @@ namespace Godsend.Models
 
         public async Task<double> SetRating(Guid articleId, string userId, int rating)
         {
-            //var user = await userManager.FindByIdAsync(userId);
-
-            var existingRating = await context.LinkRatingArticle.FirstOrDefaultAsync(lra => lra.UserId == userId && lra.ArticleId == articleId);
-
-            if (existingRating == null)
-            {
-                var newRating = new LinkRatingArticle { ArticleId = articleId, UserId = userId, Rating = rating };
-                context.Add(newRating);
-            }
-            else
-            {
-                existingRating.Rating = rating;
-            }
-
-            await context.SaveChangesAsync();
+            await ratingHelper.SetRating(articleId, userId, rating, context.LinkRatingArticle, lra => lra.ArticleId, context);
 
             return await RecalcRatings(articleId);
         }
 
         private async Task<double> RecalcRatings(Guid articleId)
         {
-            var ratingsExist = await context.LinkRatingArticle.AnyAsync(lra => lra.ArticleId == articleId);
+            var avg = await ratingHelper.CalculateAverage(context.LinkRatingArticle, lra => lra.ArticleId, articleId);
 
-            var avg = ratingsExist
-                ? await context.LinkRatingArticle
-                    .Where(lra => lra.ArticleId == articleId)
-                    .Select(lra => lra.Rating)
-                    .AverageAsync()
-                : 0;
-
-            var article = await context.Articles.Include(a => a.Info).FirstOrDefaultAsync(a => a.Id == articleId);
-            article.Info.Rating = avg;
-
-            await context.SaveChangesAsync();
+            await ratingHelper.SaveAverage(context.Articles, articleId, avg, context);
 
             return avg;
         }
 
         public IEnumerable<LinkRatingEntity> GetAllRatings(Guid articleId)
         {
-            return context.LinkRatingArticle.Where(lra => lra.ArticleId == articleId).Select(lra => new LinkRatingEntity()
-            {
-                Id = lra.Id,
-                Rating = lra.Rating,
-                User = lra.User
-            });
+            return context.LinkRatingArticle.Where(lra => lra.ArticleId == articleId);
         }
 
         public int? GetUserRating(Guid articleId, string userId)

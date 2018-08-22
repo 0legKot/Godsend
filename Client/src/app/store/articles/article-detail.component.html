@@ -9,25 +9,11 @@
             <godsend-input-output [(ngModel)]="article.info.name" class="edit-art-input" [edit]="edit"></godsend-input-output>
         </p>
         <div>
-            <godsend-stars [readOnly]="!authenticated" [value]="article.info.rating" (valueChanged)="saveRating($event)"></godsend-stars>
-            <div *ngIf="userRating != null else notRated">
-                <span>Your rating: {{ userRating }}</span>
+            <div *ngIf="article">
+                <godsend-ratings [clas]="clas" [id]="article.id" [(ngModel)]="article.info.rating"></godsend-ratings>
             </div>
-            <ng-template #notRated>
-                <div *ngIf="authenticated else notAuthenticated">
-                    <span>Not rated yet</span>
-                </div>
-            </ng-template>
-            <ng-template #notAuthenticated>
-                <div>
-                    <span>Log in to rate</span>
-                </div>
-            </ng-template>
             &nbsp; <fa name="eye"></fa> : {{ article.info.watches }}
         </div>
-        <p>
-            <godsend-entity-ratings [clas]="clas" [id]="article?.id"></godsend-entity-ratings>
-        </p>
         <p class="h5 author">
             - {{ article.info.author?.name }}
         </p>

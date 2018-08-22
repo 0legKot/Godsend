@@ -9,13 +9,55 @@
         z-index: 1000;
         opacity: 1;
         background-color: white;
+        border: 1px solid #808080;
+        border-radius: 5px;
+        padding: 15px;
+        display: none;
     }
+    @keyframes divi {
+        0% {
+            transform:rotate(0deg);
+        }
+        25% {
+            transform: rotate(-45deg);
+            color: #fff;
+        }
+        50% {
+            transform: rotate(0deg);
+        }
+        75% {
+            transform: rotate(45deg);
+            color: #fff;
+        }
 
+        100% {
+            transform: rotate(0deg);
+        }
+    }
+    .show {
+        cursor: pointer;
+        width: 60px;
+        font-size: 32px;
+        text-align: center;
+        padding: 5px;
+        height: 60px;
+        border-radius: 50%;
+        background: #228b22;
+        bottom: 10px;
+        right: 10px;
+        position: fixed;
+        z-index: 1000;
+        animation: divi 2s ease-in-out infinite;
+    }
+    .block {
+        display: block;
+    }
 </style>
-
-<div class="notification">
+<div class="show" (click)="slideTogglee()">
+    <fa name="info"></fa>
+</div>
+<div class="notification" [ngClass]="{'block' : showMenuMobilee}">
     <div class="container-fluid">
-
         <div class="row">
             <form class="form-inline" (ngSubmit)="sendMessage()" #messageForm="ngForm">
                 <div class="form-group">
