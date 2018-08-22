@@ -110,7 +110,7 @@ export class RepositoryService {
         return 'urlNotDetected';
     }
 
-    getEntity<T>(id: string, fn: ((_: T) => any), clas: supportedClass) {
+    getEntity<T>(clas: supportedClass, id: string, fn: (_: T) => any) {
         if (id != null) {
             const url = this.getUrl(clas);
             this.data.sendRequest<T>('get', url + '/detail/' + id)
@@ -248,10 +248,10 @@ export class RepositoryService {
     saveRating(clas: entityClass, id: string, rating: number, fn?: (_: number) => any) {
         const url = this.getUrl(clas);
 
-        this.data.sendRequest<any>('post', `${url}/setRating/${id}/${rating}`)
+        this.data.sendRequest<number>('post', `${url}/setRating/${id}/${rating}`)
             .subscribe(result => {
                 if (fn) {
-                    fn(result.newAverage);
+                    fn(result);
                 }
             })
     }
@@ -260,6 +260,17 @@ export class RepositoryService {
         const url = this.getUrl(clas)
 
         this.data.sendRequest<LinkRatingEntity[]>('get', `${url}/ratings/${entityId}`)
+            .subscribe(result => {
+                if (fn) {
+                    fn(result);
+                }
+            })
+    }
+
+    getUserRating(clas: entityClass, entityId: string, fn?: (_: number) => any) {
+        const url = this.getUrl(clas);
+
+        this.data.sendRequest<number>('get', `${url}/rating/${entityId}`)
             .subscribe(result => {
                 if (fn) {
                     fn(result);

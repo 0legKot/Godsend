@@ -84,5 +84,7 @@ namespace Godsend.Models
         Task<double> SetRating(Guid entityId, string userId, int rating);
 
         IEnumerable<LinkRatingEntity> GetAllRatings(Guid entityId);
+
+        int? GetUserRating(Guid entityId, string userId);
     }
 }

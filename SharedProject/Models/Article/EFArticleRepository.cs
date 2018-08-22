@@ -235,5 +235,10 @@ namespace Godsend.Models
                 User = lra.User
             });
         }
+
+        public int? GetUserRating(Guid articleId, string userId)
+        {
+            return context.LinkRatingArticle.FirstOrDefault(lra => lra.ArticleId == articleId && lra.UserId == userId)?.Rating;
+        }
     }
 }

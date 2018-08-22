@@ -25,7 +25,7 @@ export class SupplierDetailComponent implements OnInit {
     };
 
     edit = false;
-
+    userRating?: number;
     readonly clas: entityClass = 'supplier';
 
     get authenticated() {
@@ -53,7 +53,12 @@ export class SupplierDetailComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.repo.getEntity<Supplier>(this.route.snapshot.params.id, s => this.supp = s, 'supplier');
+        this.repo.getEntity<Supplier>('supplier', this.route.snapshot.params.id, s => {
+            this.supp = s;
+            if (this.authenticated) {
+                this.repo.getUserRating(this.clas, this.supp.id, rating => this.userRating = rating);
+            }
+        });
         this.imageService.getImage(this.route.snapshot.params.id, image => { this.image = image; });
     }
 
@@ -93,6 +98,7 @@ export class SupplierDetailComponent implements OnInit {
             this.repo.saveRating('supplier', this.supp.id, newRating, newAvg => {
                 if (this.supp != null) {
                     this.supp.info.rating = newAvg;
+                    this.userRating = newRating;
                 }
             });
         }

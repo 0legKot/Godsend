@@ -11,7 +11,7 @@ export class EntityRatingsComponent implements OnInit {
     clas!: entityClass;
 
     @Input()
-    id!: string;
+    id?: string;
 
     ratings?: LinkRatingEntity[];
     showAllRatings = false;
@@ -22,10 +22,12 @@ export class EntityRatingsComponent implements OnInit {
     }
 
     showAll() {
-        this.repo.getAllRatings(this.clas, this.id, ratings => {
-            this.ratings = ratings;
-            this.showAllRatings = true;
-        });
+        if (this.id != null) {
+            this.repo.getAllRatings(this.clas, this.id, ratings => {
+                this.ratings = ratings;
+                this.showAllRatings = true;
+            });
+        }
     }
 
     hideAll() {

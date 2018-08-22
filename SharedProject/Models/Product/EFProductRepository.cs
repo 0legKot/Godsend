@@ -453,6 +453,11 @@ namespace Godsend
         {
             return context.LinkRatingProduct.Where(lra => lra.ProductId == productId);
         }
+
+        public int? GetUserRating(Guid productId, string userId)
+        {
+            return context.LinkRatingProduct.FirstOrDefault(lra => lra.ProductId == productId && lra.UserId == userId)?.Rating;
+        }
     }
 
     /// <summary>

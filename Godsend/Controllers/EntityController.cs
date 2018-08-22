@@ -122,7 +122,7 @@ namespace Godsend.Controllers
 
                 await hubContext.Clients.User(userId).SendAsync("Success", "Rating has been saved");
 
-                return Ok(new { newAverage = avg });
+                return Ok(avg);
             }
             catch (Exception ex)
             {
@@ -140,7 +140,16 @@ namespace Godsend.Controllers
                 Id = lra.Id,
                 Rating = lra.Rating,
                 User = lra.User
-            }); ;
+            });
+        }
+
+        [Authorize]
+        [HttpGet("[action]/{entityId:Guid}")]
+        public virtual int? Rating(Guid entityId)
+        {
+            var userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value;
+
+            return repository.GetUserRating(entityId, userId);
         }
 
         /////// <summary>

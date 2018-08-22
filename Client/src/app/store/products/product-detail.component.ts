@@ -22,7 +22,7 @@ export class ProductDetailComponent implements OnInit {
     selectedSupplier?: SupplierAndPrice;
 
     quantity = 1;
-
+    userRating?: number;
     edit = false;
 
     readonly clas: entityClass = 'product';
@@ -111,10 +111,13 @@ export class ProductDetailComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.repo.getEntity<ProductWithSuppliers>(this.route.snapshot.params.id, p => {
+        this.repo.getEntity<ProductWithSuppliers>('product', this.route.snapshot.params.id, p => {
             this.data = p;
             this.selectedSupplier = p.suppliers[0];
-        }, 'product');
+            if (this.authenticated) {
+                this.repo.getUserRating(this.clas, this.data.product.id, rating => this.userRating = rating);
+            }
+        });
         this.imageService.getImages(this.route.snapshot.params.id, images => { this.images = images; });
     }
 
@@ -123,6 +126,7 @@ export class ProductDetailComponent implements OnInit {
             this.repo.saveRating('product', this.data.product.id, newRating, newAvg => {
                 if (this.data != null) {
                     this.data.product.info.rating = newAvg;
+                    this.userRating = newRating;
                 }
             });
         }

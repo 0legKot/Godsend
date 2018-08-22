@@ -20,7 +20,7 @@ import { LinkRatingEntity } from '../../models/rating.model';
 export class ArticleDetailComponent implements OnInit {
     article?: Article;
     edit = false;
-
+    userRating?: number;
     readonly clas: entityClass = 'article';
 
     backup = {
@@ -36,7 +36,6 @@ export class ArticleDetailComponent implements OnInit {
     constructor(
         private route: ActivatedRoute,
         private router: Router,
-        private service: RepositoryService,
         private storage: StorageService,
         private repo: RepositoryService
     ) { }
@@ -47,7 +46,12 @@ export class ArticleDetailComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.service.getEntity<Article>(this.route.snapshot.params.id, a => this.article = a, 'article');
+        this.repo.getEntity<Article>('article', this.route.snapshot.params.id, a => {
+            this.article = a;
+            if (this.authenticated) {
+                this.repo.getUserRating(this.clas, this.article.id, rating => this.userRating = rating);
+            }
+        });
     }
     editMode() {
         if (this.article == null) {
@@ -66,7 +70,7 @@ export class ArticleDetailComponent implements OnInit {
 
     save() {
         if (this.article) {
-            this.service.createOrEditEntity('article', Article.EnsureType(this.article),1,10);
+            this.repo.createOrEditEntity('article', Article.EnsureType(this.article),1,10);
         }
 
         this.edit = false;
@@ -87,6 +91,7 @@ export class ArticleDetailComponent implements OnInit {
             this.repo.saveRating('article', this.article.id, newRating, newAvg => {
                 if (this.article != null) {
                     this.article.info.rating = newAvg;
+                    this.userRating = newRating;
                 }
             });
         }        

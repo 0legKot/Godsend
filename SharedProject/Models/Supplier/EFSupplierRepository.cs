@@ -202,5 +202,10 @@ namespace Godsend.Models
         {
             return context.LinkRatingSupplier.Where(lrs => lrs.SupplierId == supplierId);
         }
+
+        public int? GetUserRating(Guid supplierId, string userId)
+        {
+            return context.LinkRatingSupplier.FirstOrDefault(lra => lra.SupplierId == supplierId && lra.UserId == userId)?.Rating;
+        }
     }
 }
