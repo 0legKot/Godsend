@@ -15,6 +15,9 @@
             <godsend-stars [readOnly]="!authenticated" [value]="article.info.rating" (valueChanged)="saveRating($event)"></godsend-stars> 
             &nbsp; <fa name="eye"></fa> : {{ article.info.watches }}
         </p>
+        <p>
+            <button (click)="getAllRatings()">All ratings</button>
+        </p>
         <p class="h5 author">
             - {{ article.info.author?.name }}
         </p>
@@ -31,6 +34,11 @@
         </p><br />
 
     </div>
+
+    <div *ngIf="showAllRatings">
+        <godsend-entity-ratings [ratings]="allRatings" (close)="hideRatings()"></godsend-entity-ratings>
+    </div>
+
     <div class="edit-art">
         <div class="inline-block edit-btns" id="edit" *ngIf="!edit" (click)="editMode()"> Edit</div>
         <div class="inline-block edit-btns" id="save" *ngIf="edit" (click)="save()"> Save</div>

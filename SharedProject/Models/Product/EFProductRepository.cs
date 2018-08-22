@@ -448,6 +448,11 @@ namespace Godsend
 
             return avg;
         }
+
+        public IEnumerable<LinkRatingEntity> GetAllRatings(Guid productId)
+        {
+            return context.LinkRatingProduct.Where(lra => lra.ProductId == productId);
+        }
     }
 
     /// <summary>

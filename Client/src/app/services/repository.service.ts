@@ -7,6 +7,7 @@ import { Supplier, SupplierInfo } from '../models/supplier.model';
 import { ArticleInfo, Article } from '../models/article.model';
 import { Cart, CartView, OrderPartDiscreteSend } from '../models/cart.model';
 import { IEntity, IInformation } from '../models/entity.model';
+import { LinkRatingEntity } from '../models/rating.model';
 
 type entityClass = 'article' | 'product' | 'supplier';
 type supportedClass = entityClass | 'order';
@@ -244,13 +245,24 @@ export class RepositoryService {
             })
     }
 
-    saveRating(clas: entityClass, id: string, rating: number, fn: (_: number) => any) {
+    saveRating(clas: entityClass, id: string, rating: number, fn?: (_: number) => any) {
         const url = this.getUrl(clas);
 
         this.data.sendRequest<any>('post', `${url}/setRating/${id}/${rating}`)
             .subscribe(result => {
                 if (fn) {
                     fn(result.newAverage);
+                }
+            })
+    }
+
+    getAllRatings(clas: entityClass, entityId: string, fn?: (_: LinkRatingEntity[]) => any) {
+        const url = this.getUrl(clas)
+
+        this.data.sendRequest<LinkRatingEntity[]>('get', `${url}/ratings/${entityId}`)
+            .subscribe(result => {
+                if (fn) {
+                    fn(result);
                 }
             })
     }

@@ -225,5 +225,15 @@ namespace Godsend.Models
 
             return avg;
         }
+
+        public IEnumerable<LinkRatingEntity> GetAllRatings(Guid articleId)
+        {
+            return context.LinkRatingArticle.Where(lra => lra.ArticleId == articleId).Select(lra => new LinkRatingEntity()
+            {
+                Id = lra.Id,
+                Rating = lra.Rating,
+                User = lra.User
+            });
+        }
     }
 }

@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
 namespace Godsend.Models
@@ -10,8 +12,13 @@ namespace Godsend.Models
 
         public int Rating { get; set; }
 
+        [NotMapped]
+        public virtual ClientUser Author => User == null ? null : new ClientUser { Id = User.Id, Name = User.UserName };
+
+        [JsonIgnore]
         public virtual User User { get; set; }
 
+        [JsonIgnore]
         public string UserId { get; set; }
     }
 

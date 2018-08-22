@@ -6,6 +6,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { RepositoryService } from '../../services/repository.service';
 import { Article, ArticleInfo } from '../../models/article.model';
 import { StorageService } from '../../services/storage.service';
+import { LinkRatingEntity } from '../../models/rating.model';
 
 @Component({
     selector: 'godsend-article-detail',
@@ -19,6 +20,8 @@ import { StorageService } from '../../services/storage.service';
 export class ArticleDetailComponent implements OnInit {
     article?: Article;
     edit = false;
+    showAllRatings: boolean = false;
+    allRatings?: LinkRatingEntity[];
 
     backup = {
         name: '',
@@ -87,5 +90,18 @@ export class ArticleDetailComponent implements OnInit {
                 }
             });
         }        
+    }
+
+    getAllRatings() {
+        if (this.article != null) {
+            this.repo.getAllRatings('article', this.article.id, ratings => {
+                this.allRatings = ratings;
+                this.showAllRatings = true;
+            });
+        }
+    }
+
+    hideRatings() {
+        this.showAllRatings = false;
     }
 }

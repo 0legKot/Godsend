@@ -36,6 +36,7 @@ import { AdminComponent } from './store/admin/admin.component';
 import { NotificationComponent } from './store/notification/notification.component';
 import { CommentComponent } from './store/comments/comment.component';
 import { CommentWrapperComponent } from './store/comments/comment-wrapper.component';
+import { EntityRatingsComponent } from './store/rating/entity-ratings.component';
 
 @NgModule({
     declarations: [
@@ -65,7 +66,8 @@ import { CommentWrapperComponent } from './store/comments/comment-wrapper.compon
         AdminComponent,
         NotificationComponent,
         CommentComponent,
-        CommentWrapperComponent
+        CommentWrapperComponent,
+        EntityRatingsComponent
     ],
     imports: [
         AngularFontAwesomeModule,

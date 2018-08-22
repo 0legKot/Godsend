@@ -132,6 +132,17 @@ namespace Godsend.Controllers
             }
         }
 
+        [HttpGet("[action]/{entityId:Guid}")]
+        public virtual IEnumerable<LinkRatingEntity> Ratings(Guid entityId)
+        {
+            return repository.GetAllRatings(entityId).Select(lra => new LinkRatingEntity()
+            {
+                Id = lra.Id,
+                Rating = lra.Rating,
+                User = lra.User
+            }); ;
+        }
+
         /////// <summary>
         /////// Edits the entity asynchronous.
         /////// </summary>

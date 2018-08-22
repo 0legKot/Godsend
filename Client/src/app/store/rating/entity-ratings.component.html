@@ -1,0 +1,46 @@
+<style>
+    .fixed-middle {
+        position: fixed;
+        width: 80%;
+        margin: 10%;
+        top:10%;
+        overflow-y: scroll;
+        background-color: white;
+        z-index: 100;
+    }
+
+    .close {
+        position: absolute;
+        right: 0;
+        top: 0;
+        width: 40px;
+        height: 40px;
+        background-color: red;
+        color: white;
+    }
+</style>
+
+<div class="fixed-middle">
+  <div>
+      <table *ngIf="ratings && ratings.length > 0 else noratings" class="table table-striped">
+          <thead>
+              <tr>
+                  <th>User</th>
+                  <th>Rating</th>
+              </tr>
+          </thead>
+          <tbody>
+              <tr *ngFor="let rating of ratings">
+                  <td>{{ rating.author.name }}</td>
+                  <td>{{ rating.rating }}</td>
+              </tr>
+          </tbody>
+      </table>
+      <ng-template #noratings>
+          <p>
+              No ratings
+          </p>
+      </ng-template>
+  </div>
+    <button (click)="onClose()" class="close">X</button>
+</div>

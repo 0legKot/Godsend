@@ -9,6 +9,7 @@ import { forEach } from '@angular/router/src/utils/collection';
 import { Supplier } from '../../models/supplier.model';
 import { ImageService } from '../../services/image.service';
 import { StorageService } from '../../services/storage.service';
+import { LinkRatingEntity } from '../../models/rating.model';
 
 @Component({
     selector: 'godsend-supplier-detail',
@@ -24,6 +25,8 @@ export class SupplierDetailComponent implements OnInit {
     };
 
     edit = false;
+    showAllRatings = false;
+    allRatings?: LinkRatingEntity[];
 
     get authenticated() {
         return this.storage.authenticated;
@@ -93,5 +96,18 @@ export class SupplierDetailComponent implements OnInit {
                 }
             });
         }
+    }
+
+    getAllRatings() {
+        if (this.supp != null) {
+            this.repo.getAllRatings('supplier', this.supp.id, ratings => {
+                this.allRatings = ratings;
+                this.showAllRatings = true;
+            });
+        }
+    }
+
+    hideRatings() {
+        this.showAllRatings = false;
     }
 }

@@ -9,6 +9,7 @@ import { CartService } from '../../services/cart.service';
 import { OrderPartDiscreteSend, guidZero, OrderPartDiscreteView } from '../../models/cart.model';
 import { ImageService } from '../../services/image.service';
 import { StorageService } from '../../services/storage.service';
+import { LinkRatingEntity } from '../../models/rating.model';
 
 @Component({
     selector: 'godsend-product-detail',
@@ -23,6 +24,8 @@ export class ProductDetailComponent implements OnInit {
     quantity = 1;
 
     edit = false;
+    showAllRatings = false;
+    allRatings?: LinkRatingEntity[];
 
     images: string[] = [];
 
@@ -125,6 +128,18 @@ export class ProductDetailComponent implements OnInit {
         }
     }
 
+    getAllRatings() {
+        if (this.data != null) {
+            this.repo.getAllRatings('product', this.data.product.id, ratings => {
+                this.allRatings = ratings;
+                this.showAllRatings = true;
+            });
+        }
+    }
+
+    hideRatings() {
+        this.showAllRatings = false;
+    }
     /*get product(): Product | {} {
         return this.service.product;
     }*/

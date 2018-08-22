@@ -197,5 +197,10 @@ namespace Godsend.Models
 
             return avg;
         }
+
+        public IEnumerable<LinkRatingEntity> GetAllRatings(Guid supplierId)
+        {
+            return context.LinkRatingSupplier.Where(lrs => lrs.SupplierId == supplierId);
+        }
     }
 }

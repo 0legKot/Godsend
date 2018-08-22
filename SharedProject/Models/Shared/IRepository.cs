@@ -82,5 +82,7 @@ namespace Godsend.Models
         void Watch(IEntity entity);
 
         Task<double> SetRating(Guid entityId, string userId, int rating);
+
+        IEnumerable<LinkRatingEntity> GetAllRatings(Guid entityId);
     }
 }
