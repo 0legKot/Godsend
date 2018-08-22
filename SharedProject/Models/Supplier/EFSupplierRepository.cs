@@ -65,6 +65,7 @@ namespace Godsend.Models
             if (dbEntry != null)
             {
                 context.RemoveRange(context.LinkRatingSupplier.Where(lrs => lrs.SupplierId == dbEntry.Id));
+                context.RemoveRange(context.LinkCommentSupplier.Where(lrs => lrs.SupplierId == dbEntry.Id));
                 context.Suppliers.Remove(dbEntry);
                 await context.SaveChangesAsync();
             }
@@ -160,7 +161,7 @@ namespace Godsend.Models
 
         public async Task<double> SetRating(Guid supplierId, string userId, int rating)
         {
-            var user = await userManager.FindByIdAsync(userId);
+            //var user = await userManager.FindByIdAsync(userId);
 
             var existingRating = await context.LinkRatingSupplier.FirstOrDefaultAsync(lrs => lrs.UserId == userId && lrs.SupplierId == supplierId);
 
@@ -206,6 +207,27 @@ namespace Godsend.Models
         public int? GetUserRating(Guid supplierId, string userId)
         {
             return context.LinkRatingSupplier.FirstOrDefault(lra => lra.SupplierId == supplierId && lra.UserId == userId)?.Rating;
+        }
+
+        public async Task<Guid> AddCommentAsync(Guid supplierId, string userId, Guid baseCommentId, string comment)
+        {
+            var newComment = new LinkCommentSupplier
+            {
+                SupplierId = supplierId,
+                UserId = userId,
+                BaseComment = new LinkCommentEntity() { Id = baseCommentId },
+                Comment = comment
+            };
+            context.Add(newComment);
+
+            await context.SaveChangesAsync();
+
+            return newComment.Id;
+        }
+
+        public IEnumerable<LinkCommentEntity> GetAllComments(Guid supplierId)
+        {
+            return context.LinkCommentSupplier.Where(lrs => lrs.SupplierId == supplierId);
         }
     }
 }

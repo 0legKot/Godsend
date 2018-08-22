@@ -6,11 +6,13 @@
     using System.Text;
     using Newtonsoft.Json;
 
-    public class LinkRatingEntity
+    public class LinkCommentEntity
     {
         public Guid Id { get; set; }
 
-        public int Rating { get; set; }
+        public string Comment { get; set; }
+
+        public virtual LinkCommentEntity BaseComment { get; set; }
 
         [NotMapped]
         public virtual ClientUser Author => User == null ? null : new ClientUser { Id = User.Id, Name = User.UserName };
@@ -22,21 +24,21 @@
         public string UserId { get; set; }
     }
 
-    public class LinkRatingProduct : LinkRatingEntity
+    public class LinkCommentProduct : LinkCommentEntity
     {
         public virtual Product Product { get; set; }
 
         public Guid ProductId { get; set; }
     }
 
-    public class LinkRatingSupplier : LinkRatingEntity
+    public class LinkCommentSupplier : LinkCommentEntity
     {
         public virtual Supplier Supplier { get; set; }
 
         public Guid SupplierId { get; set; }
     }
 
-    public class LinkRatingArticle : LinkRatingEntity
+    public class LinkCommentArticle : LinkCommentEntity
     {
         public virtual Article Article { get; set; }
 

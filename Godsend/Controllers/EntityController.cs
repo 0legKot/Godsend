@@ -15,6 +15,7 @@ namespace Godsend.Controllers
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.ApplicationModels;
     using Microsoft.AspNetCore.SignalR;
+    using static Godsend.Models.EFArticleRepository;
 
     /// <summary>
     /// Base controller for entities
@@ -132,6 +133,28 @@ namespace Godsend.Controllers
             }
         }
 
+        [Authorize]
+        [HttpPost("[action]/{entityId:Guid}/{baseCommentId:Guid}/{comment}")]
+        public virtual async Task<IActionResult> AddComment(Guid entityId, Guid baseCommentId, string comment)
+        {
+            var userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value;
+
+            try
+            {
+                var newCommentId = await repository.AddCommentAsync(entityId, userId, baseCommentId, comment);
+
+                await hubContext.Clients.User(userId).SendAsync("Success", "Comment has been added");
+
+                return Ok(newCommentId);
+            }
+            catch (Exception ex)
+            {
+                await hubContext.Clients.User(userId).SendAsync("Error", "Could not add a comment");
+
+                return BadRequest();
+            }
+        }
+
         [HttpGet("[action]/{entityId:Guid}")]
         public virtual IEnumerable<LinkRatingEntity> Ratings(Guid entityId)
         {
@@ -142,6 +165,17 @@ namespace Godsend.Controllers
                 User = lra.User
             });
         }
+        IEnumerable<LinkCommentEntity> CommentsArr;
+        [HttpGet("[action]/{entityId:Guid}")]
+        public virtual CommentWithSubs Comments(Guid entityId)
+        {
+            CommentsArr = repository.GetAllComments(entityId);
+            CommentWithSubs tmplst = new CommentWithSubs()
+            { Comment = CommentsArr.FirstOrDefault(x => x.BaseComment == null),
+                Subs = new List<CommentWithSubs>() };
+            GetRecursiveComs(ref tmplst);
+            return tmplst;
+        }
 
         [Authorize]
         [HttpGet("[action]/{entityId:Guid}")]
@@ -151,7 +185,28 @@ namespace Godsend.Controllers
 
             return repository.GetUserRating(entityId, userId);
         }
+        public IEnumerable<LinkCommentEntity> GetSubComments(Guid id)
+        {
+            return CommentsArr.Where(x => x.BaseComment?.Id == id);
+        }
+        private void GetRecursiveComs(ref CommentWithSubs cur)
+        {
+            var subs = new List<CommentWithSubs>();
+            var curSubComs = GetSubComments(cur.Comment.Id);
+            if (curSubComs.Any())
+            {
+                foreach (var com in curSubComs)
+                {
+                    var tmp = new CommentWithSubs() { Comment = com };
+                    GetRecursiveComs(ref tmp);
+                    var tmpClone = new CommentWithSubs() { Comment = tmp.Comment, Subs = tmp.Subs };
+                    tmpClone.Comment.BaseComment = null;
+                    subs.Add(tmpClone);
+                }
+            }
 
+            cur.Subs = subs;
+        }
         /////// <summary>
         /////// Edits the entity asynchronous.
         /////// </summary>
@@ -180,4 +235,5 @@ namespace Godsend.Controllers
             return repository.GetEntity(id);
         }*/
     }
+    
 }

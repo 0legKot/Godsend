@@ -90,6 +90,7 @@ namespace Godsend.Models
             if (dbEntry != null)
             {
                 context.RemoveRange(context.LinkRatingArticle.Where(lra => lra.ArticleId == dbEntry.Id));
+                context.RemoveRange(context.LinkCommentArticle.Where(lra => lra.ArticleId == dbEntry.Id));
                 context.Articles.Remove(dbEntry);
                 await context.SaveChangesAsync();
             }
@@ -188,7 +189,7 @@ namespace Godsend.Models
 
         public async Task<double> SetRating(Guid articleId, string userId, int rating)
         {
-            var user = await userManager.FindByIdAsync(userId);
+            //var user = await userManager.FindByIdAsync(userId);
 
             var existingRating = await context.LinkRatingArticle.FirstOrDefaultAsync(lra => lra.UserId == userId && lra.ArticleId == articleId);
 
@@ -239,6 +240,35 @@ namespace Godsend.Models
         public int? GetUserRating(Guid articleId, string userId)
         {
             return context.LinkRatingArticle.FirstOrDefault(lra => lra.ArticleId == articleId && lra.UserId == userId)?.Rating;
+        }
+
+        public async Task<Guid> AddCommentAsync(Guid articleId, string userId, Guid baseCommentId, string comment)
+        {
+            var newComment = new LinkCommentArticle { ArticleId = articleId, UserId = userId,
+                BaseComment = new LinkCommentArticle() { Id = baseCommentId },
+                Comment = comment
+            };
+            context.Add(newComment);
+            await context.SaveChangesAsync();
+            return newComment.Id;
+        }
+
+        public IEnumerable<LinkCommentEntity> GetAllComments(Guid articleId)
+        {
+            var fortst = context.LinkCommentArticle.Where(lra => lra.ArticleId == articleId)
+                .Select(x=>new LinkCommentEntity() { BaseComment=x.BaseComment, Comment=x.Comment,Id=x.Id, User=x.User } );
+            return fortst;
+        }
+        public class Comment
+        {
+            public string CommentText { get; set; }
+            public Comment BaseComment { get; set; }
+            public User User { get; set; }
+        }
+        public class CommentWithSubs
+        {
+            public LinkCommentEntity Comment { get; set; }
+            public List<CommentWithSubs> Subs { get; set; }
         }
     }
 }

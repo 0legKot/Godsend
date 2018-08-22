@@ -46,6 +46,8 @@ namespace Godsend.Models
         /// </value>
         public int Watches { get; set; }
 
+        public int CommentsCount { get; set; }
+
         public override string ToString()
         {
             return "Information: " + Name;

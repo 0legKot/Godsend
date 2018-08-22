@@ -29,6 +29,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Models\Identity\IdentitySeedData.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\ImageProcessing\ImagePaths.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\ImageProcessing\ImageRepository.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Shared\LinkCommentEntity.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Shared\LinkProductsSuppliers.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Order\EFOrderRepository.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Order\IOrderRepository.cs" />

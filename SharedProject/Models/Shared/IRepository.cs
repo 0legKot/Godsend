@@ -15,33 +15,10 @@ namespace Godsend.Models
     /// <typeparam name="IEntity">The type of the entity.</typeparam>
     public interface IRepository<IEntity>
     {
-        /// <summary>
-        /// Gets the entities.
-        /// </summary>
-        /// <param name="quantity">The quantity.</param>
-        /// <param name="skip">The skip.</param>
-        /// <returns></returns>
-        /// <value>
-        /// The entities.
-        /// </value>
         IEnumerable<IEntity> Entities(int quantity, int skip = 0);
 
-        /// <summary>
-        /// Gets the entities information.
-        /// </summary>
-        /// <param name="quantity">The quantity.</param>
-        /// <param name="skip">The skip.</param>
-        /// <returns></returns>
-        /// <value>
-        /// The entities information.
-        /// </value>
         IEnumerable<Information> EntitiesInfo(int quantity, int skip = 0);
 
-        /// <summary>
-        /// Gets the entity.
-        /// </summary>
-        /// <param name="entityId">The entity identifier.</param>
-        /// <returns></returns>
         IEntity GetEntity(Guid entityId);
 
         int EntitiesCount();
@@ -53,37 +30,21 @@ namespace Godsend.Models
         /// <returns></returns>
         IEntity GetEntityByInfoId(Guid infoId);
 
-        /// <summary>
-        /// Saves the entity.
-        /// </summary>
-        /// <param name="entity">The entity.</param>
-        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         Task SaveEntity(IEntity entity);
 
-        /// <summary>
-        /// Deletes the entity.
-        /// </summary>
-        /// <param name="entityId">The entity identifier.</param>
         Task DeleteEntity(Guid entityId);
 
-        /// <summary>
-        /// Determines whether the specified entity is first.
-        /// </summary>
-        /// <param name="entity">The entity.</param>
-        /// <returns>
-        ///   <c>true</c> if the specified entity is first; otherwise, <c>false</c>.
-        /// </returns>
         bool IsFirst(IEntity entity);
 
-        /// <summary>
-        /// Watches the specified entity.
-        /// </summary>
-        /// <param name="entity">The entity.</param>
         void Watch(IEntity entity);
 
         Task<double> SetRating(Guid entityId, string userId, int rating);
 
+        Task<Guid> AddCommentAsync(Guid entityId, string userId, Guid baseCommentId, string comment);
+
         IEnumerable<LinkRatingEntity> GetAllRatings(Guid entityId);
+
+        IEnumerable<LinkCommentEntity> GetAllComments(Guid entityId);
 
         int? GetUserRating(Guid entityId, string userId);
     }

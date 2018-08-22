@@ -109,6 +109,7 @@ namespace Godsend
                 context.RemoveRange(context.LinkProductPropertyString.Where(p => p.Product.Id == dbEntry.Id));
                 context.RemoveRange(context.LinkProductsSuppliers.Where(p => p.Product.Id == dbEntry.Id));
                 context.RemoveRange(context.LinkRatingProduct.Where(lrp => lrp.ProductId == dbEntry.Id));
+                context.RemoveRange(context.LinkCommentProduct.Where(lrp => lrp.ProductId == dbEntry.Id));
                 dbEntry.Info = null;
                 context.Products.Remove(dbEntry);
                 await context.SaveChangesAsync();
@@ -411,7 +412,7 @@ namespace Godsend
 
         public async Task<double> SetRating(Guid productId, string userId, int rating)
         {
-            var user = await userManager.FindByIdAsync(userId);
+            //var user = await userManager.FindByIdAsync(userId);
 
             var existingRating = await context.LinkRatingProduct.FirstOrDefaultAsync(lrp => lrp.UserId == userId && lrp.ProductId == productId);
 
@@ -457,6 +458,29 @@ namespace Godsend
         public int? GetUserRating(Guid productId, string userId)
         {
             return context.LinkRatingProduct.FirstOrDefault(lra => lra.ProductId == productId && lra.UserId == userId)?.Rating;
+        }
+
+        public async Task<Guid> AddCommentAsync(Guid productId, string userId, Guid baseCommentId, string comment)
+        {
+            //var user = await userManager.FindByIdAsync(userId);
+
+            var newComment = new LinkCommentProduct
+            {
+                ProductId = productId,
+                UserId = userId,
+                BaseComment = new LinkCommentEntity() { Id = baseCommentId },
+                Comment = comment
+            };
+            context.Add(newComment);
+
+            await context.SaveChangesAsync();
+
+            return newComment.Id;
+        }
+
+        public IEnumerable<LinkCommentEntity> GetAllComments(Guid productId)
+        {
+            return context.LinkCommentProduct.Where(lra => lra.ProductId == productId);
         }
     }
 

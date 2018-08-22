@@ -91,8 +91,14 @@ namespace Godsend.Models
 
         public DbSet<LinkRatingArticle> LinkRatingArticle { get; set; }
 
+        public DbSet<LinkCommentProduct> LinkCommentProduct { get; set; }
+
+        public DbSet<LinkCommentSupplier> LinkCommentSupplier { get; set; }
+
+        public DbSet<LinkCommentArticle> LinkCommentArticle { get; set; }
+
         /// <summary>
-        /// Building simple entities because of new architecture
+        /// Building simple entities because of old architecture
         /// </summary>
         /// <param name="builder">The builder.</param>
         protected override void OnModelCreating(ModelBuilder builder)
