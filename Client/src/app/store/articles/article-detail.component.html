@@ -12,7 +12,8 @@
         </p>
 
         <p>
-            <godsend-stars [value]="article.info.rating"></godsend-stars> &nbsp; <fa name="eye"></fa> : {{ article.info.watches }}
+            <godsend-stars [readOnly]="!authenticated" [value]="article.info.rating" (valueChanged)="saveRating($event)"></godsend-stars> 
+            &nbsp; <fa name="eye"></fa> : {{ article.info.watches }}
         </p>
         <p class="h5 author">
             - {{ article.info.author?.name }}

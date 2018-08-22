@@ -8,7 +8,8 @@ import { ArticleInfo, Article } from '../models/article.model';
 import { Cart, CartView, OrderPartDiscreteSend } from '../models/cart.model';
 import { IEntity, IInformation } from '../models/entity.model';
 
-type supportedClass = 'article' | 'product' | 'supplier' | 'order';
+type entityClass = 'article' | 'product' | 'supplier';
+type supportedClass = entityClass | 'order';
 
 const productsUrl = 'api/product';
 const ordersUrl = 'api/order';
@@ -240,6 +241,17 @@ export class RepositoryService {
                 this.products = result.infos;
                 this.productsCount = result.count;
                 if (fn) fn(result.infos);
+            })
+    }
+
+    saveRating(clas: entityClass, id: string, rating: number, fn: (_: number) => any) {
+        const url = this.getUrl(clas);
+
+        this.data.sendRequest<any>('post', `${url}/setRating/${id}/${rating}`)
+            .subscribe(result => {
+                if (fn) {
+                    fn(result.newAverage);
+                }
             })
     }
 }

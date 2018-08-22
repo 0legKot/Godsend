@@ -110,6 +110,28 @@ namespace Godsend.Controllers
             }
         }
 
+        [Authorize]
+        [HttpPost("[action]/{entityId:Guid}/{rating:int}")]
+        public virtual async Task<IActionResult> SetRating(Guid entityId, int rating)
+        {
+            var userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value;
+
+            try
+            {
+                var avg = await repository.SetRating(entityId, userId, rating);
+
+                await hubContext.Clients.User(userId).SendAsync("Success", "Rating has been saved");
+
+                return Ok(new { newAverage = avg });
+            }
+            catch (Exception ex)
+            {
+                await hubContext.Clients.User(userId).SendAsync("Error", "Could not save rating");
+
+                return BadRequest();
+            }
+        }
+
         /////// <summary>
         /////// Edits the entity asynchronous.
         /////// </summary>

@@ -25,7 +25,7 @@
                     <!---</div>-->
                 </div>
                 <div class="rating">
-                    <godsend-stars [value]="supp?.info?.rating"></godsend-stars>
+                    <godsend-stars [readOnly]="!authenticated" [value]="supp?.info?.rating" (valueChanged)="saveRating($event)"></godsend-stars>
                     <p class="pull-right" [ngStyle]="{'color': '#003e09' }"><fa name="eye"></fa> : {{ supp?.info?.watches }}</p>
                 </div>
             </div>

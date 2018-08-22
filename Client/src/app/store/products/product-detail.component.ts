@@ -8,6 +8,7 @@ import { RepositoryService } from '../../services/repository.service';
 import { CartService } from '../../services/cart.service';
 import { OrderPartDiscreteSend, guidZero, OrderPartDiscreteView } from '../../models/cart.model';
 import { ImageService } from '../../services/image.service';
+import { StorageService } from '../../services/storage.service';
 
 @Component({
     selector: 'godsend-product-detail',
@@ -34,12 +35,17 @@ export class ProductDetailComponent implements OnInit {
         return this.selectedSupplier ? (this.selectedSupplier.price * this.quantity).toFixed(2) : '';
     }
 
+    get authenticated() {
+        return this.storage.authenticated;
+    }
+
     constructor(
         private route: ActivatedRoute,
         private router: Router,
-        private service: RepositoryService,
+        private repo: RepositoryService,
         private cart: CartService,
-        private imageService: ImageService
+        private imageService: ImageService,
+        private storage: StorageService
     ) { }
 
     gotoProducts(product?: Product) {
@@ -49,7 +55,7 @@ export class ProductDetailComponent implements OnInit {
 
     deleteProduct() {
         if (this.data) {
-            this.service.deleteEntity('product', this.data.product.info.id,1,10);
+            this.repo.deleteEntity('product', this.data.product.info.id,1,10);
             this.gotoProducts();
         }
     }
@@ -86,7 +92,7 @@ export class ProductDetailComponent implements OnInit {
 
     save() {
         if (this.data) {
-            this.service.createOrEditEntity('product', Product.EnsureType(this.data.product),1,10);
+            this.repo.createOrEditEntity('product', Product.EnsureType(this.data.product),1,10);
         }
 
         this.edit = false;
@@ -102,11 +108,21 @@ export class ProductDetailComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.service.getEntity<ProductWithSuppliers>(this.route.snapshot.params.id, p => {
+        this.repo.getEntity<ProductWithSuppliers>(this.route.snapshot.params.id, p => {
             this.data = p;
             this.selectedSupplier = p.suppliers[0];
         }, 'product');
         this.imageService.getImages(this.route.snapshot.params.id, images => { this.images = images; });
+    }
+
+    saveRating(newRating: number) {
+        if (this.data != null) {
+            this.repo.saveRating('product', this.data.product.id, newRating, newAvg => {
+                if (this.data != null) {
+                    this.data.product.info.rating = newAvg;
+                }
+            });
+        }
     }
 
     /*get product(): Product | {} {

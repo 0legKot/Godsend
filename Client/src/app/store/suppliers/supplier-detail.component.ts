@@ -8,6 +8,7 @@ import { RepositoryService } from '../../services/repository.service';
 import { forEach } from '@angular/router/src/utils/collection';
 import { Supplier } from '../../models/supplier.model';
 import { ImageService } from '../../services/image.service';
+import { StorageService } from '../../services/storage.service';
 
 @Component({
     selector: 'godsend-supplier-detail',
@@ -24,15 +25,21 @@ export class SupplierDetailComponent implements OnInit {
 
     edit = false;
 
+    get authenticated() {
+        return this.storage.authenticated;
+    }
+
     constructor(
         private route: ActivatedRoute,
         private router: Router,
-        private service: RepositoryService,
-        private imageService: ImageService) { }
+        private repo: RepositoryService,
+        private imageService: ImageService,
+        private storage: StorageService
+    ) { }
 
     deleteSupplier() {
         if (this.supp) {
-            this.service.deleteEntity('supplier', this.supp.info.id,1,10);
+            this.repo.deleteEntity('supplier', this.supp.info.id,1,10);
             this.gotoSuppliers(undefined);
         }
     }
@@ -43,7 +50,7 @@ export class SupplierDetailComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.service.getEntity<Supplier>(this.route.snapshot.params.id, s => this.supp = s, 'supplier');
+        this.repo.getEntity<Supplier>(this.route.snapshot.params.id, s => this.supp = s, 'supplier');
         this.imageService.getImage(this.route.snapshot.params.id, image => { this.image = image; });
     }
 
@@ -63,7 +70,7 @@ export class SupplierDetailComponent implements OnInit {
 
     save() {
         if (this.supp) {
-            this.service.createOrEditEntity('supplier', Supplier.EnsureType(this.supp),1,10);
+            this.repo.createOrEditEntity('supplier', Supplier.EnsureType(this.supp),1,10);
         }
 
         this.edit = false;
@@ -78,4 +85,13 @@ export class SupplierDetailComponent implements OnInit {
         this.edit = false;
     }
 
+    saveRating(newRating: number) {
+        if (this.supp != null) {
+            this.repo.saveRating('supplier', this.supp.id, newRating, newAvg => {
+                if (this.supp != null) {
+                    this.supp.info.rating = newAvg;
+                }
+            });
+        }
+    }
 }

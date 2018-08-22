@@ -80,5 +80,7 @@ namespace Godsend.Models
         /// </summary>
         /// <param name="entity">The entity.</param>
         void Watch(IEntity entity);
+
+        Task<double> SetRating(Guid entityId, string userId, int rating);
     }
 }

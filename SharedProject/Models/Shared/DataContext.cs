@@ -85,6 +85,12 @@ namespace Godsend.Models
 
         public DbSet<EAV<decimal>> LinkProductPropertyDecimal { get; set; }
 
+        public DbSet<LinkRatingProduct> LinkRatingProduct { get; set; }
+
+        public DbSet<LinkRatingSupplier> LinkRatingSupplier { get; set; }
+
+        public DbSet<LinkRatingArticle> LinkRatingArticle { get; set; }
+
         /// <summary>
         /// Building simple entities because of new architecture
         /// </summary>

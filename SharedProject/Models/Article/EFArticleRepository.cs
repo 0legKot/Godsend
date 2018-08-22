@@ -89,6 +89,7 @@ namespace Godsend.Models
             Article dbEntry = GetEntityByInfoId(infoId);
             if (dbEntry != null)
             {
+                context.RemoveRange(context.LinkRatingArticle.Where(lra => lra.ArticleId == dbEntry.Id));
                 context.Articles.Remove(dbEntry);
                 await context.SaveChangesAsync();
             }
@@ -183,6 +184,46 @@ namespace Godsend.Models
         public int EntitiesCount()
         {
             return context.Articles.Count();
+        }
+
+        public async Task<double> SetRating(Guid articleId, string userId, int rating)
+        {
+            var user = await userManager.FindByIdAsync(userId);
+
+            var existingRating = await context.LinkRatingArticle.FirstOrDefaultAsync(lra => lra.UserId == userId && lra.ArticleId == articleId);
+
+            if (existingRating == null)
+            {
+                var newRating = new LinkRatingArticle { ArticleId = articleId, UserId = userId, Rating = rating };
+                context.Add(newRating);
+            }
+            else
+            {
+                existingRating.Rating = rating;
+            }
+
+            await context.SaveChangesAsync();
+
+            return await RecalcRatings(articleId);
+        }
+
+        private async Task<double> RecalcRatings(Guid articleId)
+        {
+            var ratingsExist = await context.LinkRatingArticle.AnyAsync(lra => lra.ArticleId == articleId);
+
+            var avg = ratingsExist
+                ? await context.LinkRatingArticle
+                    .Where(lra => lra.ArticleId == articleId)
+                    .Select(lra => lra.Rating)
+                    .AverageAsync()
+                : 0;
+
+            var article = await context.Articles.Include(a => a.Info).FirstOrDefaultAsync(a => a.Id == articleId);
+            article.Info.Rating = avg;
+
+            await context.SaveChangesAsync();
+
+            return avg;
         }
     }
 }

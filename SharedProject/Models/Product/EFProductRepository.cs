@@ -37,14 +37,16 @@ namespace Godsend
         /// </summary>
         private DataContext context;
 
+        private UserManager<User> userManager;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="EFProductRepository" /> class.
         /// </summary>
         /// <param name="ctx">The CTX.</param>
-        public EFProductRepository(DataContext ctx, ISeedHelper seedHelper)
+        public EFProductRepository(DataContext ctx, ISeedHelper seedHelper, UserManager<User> userManager)
         {
             context = ctx;
-
+            this.userManager = userManager;
             seedHelper.EnsurePopulated(ctx);
         }
 
@@ -106,6 +108,7 @@ namespace Godsend
                 context.RemoveRange(context.LinkProductPropertyInt.Where(p => p.Product.Id == dbEntry.Id));
                 context.RemoveRange(context.LinkProductPropertyString.Where(p => p.Product.Id == dbEntry.Id));
                 context.RemoveRange(context.LinkProductsSuppliers.Where(p => p.Product.Id == dbEntry.Id));
+                context.RemoveRange(context.LinkRatingProduct.Where(lrp => lrp.ProductId == dbEntry.Id));
                 dbEntry.Info = null;
                 context.Products.Remove(dbEntry);
                 await context.SaveChangesAsync();
@@ -404,6 +407,46 @@ namespace Godsend
             }
 
             return tmp.Select(group => group.Product);
+        }
+
+        public async Task<double> SetRating(Guid productId, string userId, int rating)
+        {
+            var user = await userManager.FindByIdAsync(userId);
+
+            var existingRating = await context.LinkRatingProduct.FirstOrDefaultAsync(lrp => lrp.UserId == userId && lrp.ProductId == productId);
+
+            if (existingRating == null)
+            {
+                var newRating = new LinkRatingProduct { ProductId = productId, UserId = userId, Rating = rating };
+                context.Add(newRating);
+            }
+            else
+            {
+                existingRating.Rating = rating;
+            }
+
+            await context.SaveChangesAsync();
+
+            return await RecalcRatings(productId);
+        }
+
+        private async Task<double> RecalcRatings(Guid productId)
+        {
+            var ratingsExist = await context.LinkRatingProduct.AnyAsync(lrp => lrp.ProductId == productId);
+
+            var avg = ratingsExist
+                ? await context.LinkRatingProduct
+                    .Where(lrp => lrp.ProductId == productId)
+                    .Select(lrp => lrp.Rating)
+                    .AverageAsync()
+                : 0;
+
+            var product = await context.Products.Include(p => p.Info).FirstOrDefaultAsync(a => a.Id == productId);
+            product.Info.Rating = avg;
+
+            await context.SaveChangesAsync();
+
+            return avg;
         }
     }
 

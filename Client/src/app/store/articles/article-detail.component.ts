@@ -5,6 +5,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 
 import { RepositoryService } from '../../services/repository.service';
 import { Article, ArticleInfo } from '../../models/article.model';
+import { StorageService } from '../../services/storage.service';
 
 @Component({
     selector: 'godsend-article-detail',
@@ -25,10 +26,17 @@ export class ArticleDetailComponent implements OnInit {
         tags: ['']
     };
 
+    get authenticated() {
+        return this.storage.authenticated
+    }
+
     constructor(
         private route: ActivatedRoute,
         private router: Router,
-        private service: RepositoryService) {  }
+        private service: RepositoryService,
+        private storage: StorageService,
+        private repo: RepositoryService
+    ) { }
 
     gotoArticles(article: Article) {
         const articleId = article ? article.id : null;
@@ -71,5 +79,13 @@ export class ArticleDetailComponent implements OnInit {
         this.edit = false;
     }
 
-
+    saveRating(newRating: number) {
+        if (this.article != null) {
+            this.repo.saveRating('article', this.article.id, newRating, newAvg => {
+                if (this.article != null) {
+                    this.article.info.rating = newAvg;
+                }
+            });
+        }        
+    }
 }

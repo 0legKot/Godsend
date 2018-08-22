@@ -639,6 +639,12 @@
       "integrity": "sha512-ikB0JHv6vCR1KYUQAzTO4gi/lXLElT4Tx+6De2pc/OZwizE9LRNiTa+U8TBFKBD/nntPnr/MPSHSnOTybjhqNA==",
       "dev": true
     },
+    "@types/webpack-env": {
+      "version": "1.13.6",
+      "resolved": "https://registry.npmjs.org/@types/webpack-env/-/webpack-env-1.13.6.tgz",
+      "integrity": "sha512-5Th3OsZ4gTRdr9Mho83BQ23cex4sRhOR4XTG+m+cJc0FhtUBK9Vn62hBJ+pnQYnSxoPOsKoAPOx6FcphxBC8ng==",
+      "dev": true
+    },
     "@webassemblyjs/ast": {
       "version": "1.4.3",
       "resolved": "https://registry.npmjs.org/@webassemblyjs/ast/-/ast-1.4.3.tgz",
