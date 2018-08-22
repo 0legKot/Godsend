@@ -34,6 +34,8 @@ import { PagesComponent } from './store/pages/pages.component';
 import { UserComponent } from './store/user/user.component';
 import { AdminComponent } from './store/admin/admin.component';
 import { NotificationComponent } from './store/notification/notification.component';
+import { CommentComponent } from './store/comments/comment.component';
+import { CommentWrapperComponent } from './store/comments/comment-wrapper.component';
 
 @NgModule({
     declarations: [
@@ -61,7 +63,9 @@ import { NotificationComponent } from './store/notification/notification.compone
         UserComponent,
         RegistrationComponent,
         AdminComponent,
-        NotificationComponent
+        NotificationComponent,
+        CommentComponent,
+        CommentWrapperComponent
     ],
     imports: [
         AngularFontAwesomeModule,

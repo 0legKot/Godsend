@@ -76,4 +76,8 @@
     </Content>
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="src\app\store\comments\" />
+  </ItemGroup>
+
 </Project>
