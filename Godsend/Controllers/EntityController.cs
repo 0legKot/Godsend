@@ -15,7 +15,6 @@ namespace Godsend.Controllers
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.ApplicationModels;
     using Microsoft.AspNetCore.SignalR;
-    using static Godsend.Models.EFArticleRepository;
 
     /// <summary>
     /// Base controller for entities
@@ -165,17 +164,6 @@ namespace Godsend.Controllers
                 User = lra.User
             });
         }
-        IEnumerable<LinkCommentEntity> CommentsArr;
-        [HttpGet("[action]/{entityId:Guid}")]
-        public virtual CommentWithSubs Comments(Guid entityId)
-        {
-            CommentsArr = repository.GetAllComments(entityId);
-            CommentWithSubs tmplst = new CommentWithSubs()
-            { Comment = CommentsArr.FirstOrDefault(x => x.BaseComment == null),
-                Subs = new List<CommentWithSubs>() };
-            GetRecursiveComs(ref tmplst);
-            return tmplst;
-        }
 
         [Authorize]
         [HttpGet("[action]/{entityId:Guid}")]
@@ -185,10 +173,27 @@ namespace Godsend.Controllers
 
             return repository.GetUserRating(entityId, userId);
         }
+
+        IEnumerable<LinkCommentEntity> CommentsArr;
+
+        [HttpGet("[action]/{entityId:Guid}")]
+        public virtual CommentWithSubs Comments(Guid entityId)
+        {
+            CommentsArr = repository.GetAllComments(entityId);
+            CommentWithSubs tmplst = new CommentWithSubs()
+            {
+                Comment = CommentsArr.FirstOrDefault(x => x.BaseComment == null),
+                Subs = new List<CommentWithSubs>()
+            };
+            GetRecursiveComs(ref tmplst);
+            return tmplst;
+        }
+
         public IEnumerable<LinkCommentEntity> GetSubComments(Guid id)
         {
             return CommentsArr.Where(x => x.BaseComment?.Id == id);
         }
+
         private void GetRecursiveComs(ref CommentWithSubs cur)
         {
             var subs = new List<CommentWithSubs>();
@@ -207,6 +212,7 @@ namespace Godsend.Controllers
 
             cur.Subs = subs;
         }
+
         /////// <summary>
         /////// Edits the entity asynchronous.
         /////// </summary>
@@ -235,5 +241,4 @@ namespace Godsend.Controllers
             return repository.GetEntity(id);
         }*/
     }
-    
 }

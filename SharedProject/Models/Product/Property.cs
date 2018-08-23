@@ -71,4 +71,88 @@ namespace Godsend.Models
             return "Property: " + Name;
         }
     }
+
+    public class IntPropertyInfo : IPropertyInfo
+    {
+        /// <summary>
+        /// Gets or sets the property identifier.
+        /// </summary>
+        /// <value>
+        /// The property identifier.
+        /// </value>
+        public Guid PropId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the left.
+        /// </summary>
+        /// <value>
+        /// The left.
+        /// </value>
+        public int Left { get; set; }
+
+        /// <summary>
+        /// Gets or sets the right.
+        /// </summary>
+        /// <value>
+        /// The right.
+        /// </value>
+        public int Right { get; set; }
+    }
+
+    public interface IPropertyInfo
+    {
+        Guid PropId { get; set; }
+    }
+
+    /// <summary>
+    ///
+    /// </summary>
+    public class DecimalPropertyInfo : IPropertyInfo
+    {
+        /// <summary>
+        /// Gets or sets the property identifier.
+        /// </summary>
+        /// <value>
+        /// The property identifier.
+        /// </value>
+        public Guid PropId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the left.
+        /// </summary>
+        /// <value>
+        /// The left.
+        /// </value>
+        public decimal Left { get; set; }
+
+        /// <summary>
+        /// Gets or sets the right.
+        /// </summary>
+        /// <value>
+        /// The right.
+        /// </value>
+        public decimal Right { get; set; }
+    }
+
+    /// <summary>
+    ///
+    /// </summary>
+    public class StringPropertyInfo : IPropertyInfo
+    {
+        /// <summary>
+        /// Gets or sets the property identifier.
+        /// </summary>
+        /// <value>
+        /// The property identifier.
+        /// </value>
+        public Guid PropId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the part.
+        /// </summary>
+        /// <value>
+        /// The part.
+        /// </value>
+        public string Part { get; set; }
+    }
 }

@@ -91,7 +91,7 @@ namespace Godsend.Models
             Article dbEntry = GetEntityByInfoId(infoId);
             if (dbEntry != null)
             {
-                context.RemoveRange(context.LinkRatingArticle.Where(lra => lra.ArticleId == dbEntry.Id));
+                context.RemoveRange(context.LinkRatingArticle.Where(lra => lra.EntityId == dbEntry.Id));
                 context.RemoveRange(context.LinkCommentArticle.Where(lra => lra.ArticleId == dbEntry.Id));
                 context.Articles.Remove(dbEntry);
                 await context.SaveChangesAsync();
@@ -191,14 +191,14 @@ namespace Godsend.Models
 
         public async Task<double> SetRating(Guid articleId, string userId, int rating)
         {
-            await ratingHelper.SetRating(articleId, userId, rating, context.LinkRatingArticle, lra => lra.ArticleId, context);
+            await ratingHelper.SetRating(articleId, userId, rating, context.LinkRatingArticle, context);
 
             return await RecalcRatings(articleId);
         }
 
         private async Task<double> RecalcRatings(Guid articleId)
         {
-            var avg = await ratingHelper.CalculateAverage(context.LinkRatingArticle, lra => lra.ArticleId, articleId);
+            var avg = await ratingHelper.CalculateAverage(context.LinkRatingArticle, articleId);
 
             await ratingHelper.SaveAverage(context.Articles, articleId, avg, context);
 
@@ -207,12 +207,12 @@ namespace Godsend.Models
 
         public IEnumerable<LinkRatingEntity> GetAllRatings(Guid articleId)
         {
-            return context.LinkRatingArticle.Where(lra => lra.ArticleId == articleId);
+            return context.LinkRatingArticle.Where(lra => lra.EntityId == articleId);
         }
 
         public int? GetUserRating(Guid articleId, string userId)
         {
-            return context.LinkRatingArticle.FirstOrDefault(lra => lra.ArticleId == articleId && lra.UserId == userId)?.Rating;
+            return context.LinkRatingArticle.FirstOrDefault(lra => lra.EntityId == articleId && lra.UserId == userId)?.Rating;
         }
 
         public async Task<Guid> AddCommentAsync(Guid articleId, string userId, Guid baseCommentId, string comment)
@@ -232,16 +232,6 @@ namespace Godsend.Models
                 .Select(x=>new LinkCommentEntity() { BaseComment=x.BaseComment, Comment=x.Comment,Id=x.Id, User=x.User } );
             return fortst;
         }
-        public class Comment
-        {
-            public string CommentText { get; set; }
-            public Comment BaseComment { get; set; }
-            public User User { get; set; }
-        }
-        public class CommentWithSubs
-        {
-            public LinkCommentEntity Comment { get; set; }
-            public List<CommentWithSubs> Subs { get; set; }
-        }
+
     }
 }

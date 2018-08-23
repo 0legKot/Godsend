@@ -13,7 +13,7 @@
         public int Rating { get; set; }
 
         [NotMapped]
-        public virtual ClientUser Author => User == null ? null : new ClientUser { Id = User.Id, Name = User.UserName };
+        public virtual ClientUser Author => User == null ? null : ClientUser.FromEFUser(User);
 
         [JsonIgnore]
         public virtual User User { get; set; }
@@ -21,45 +21,21 @@
         [JsonIgnore]
         public string UserId { get; set; }
 
-        public virtual void SetEntityId(Guid entityId)
-        {
-            throw new NotSupportedException();
-        }
+        public Guid EntityId { get; set; }
     }
 
     public class LinkRatingProduct : LinkRatingEntity
     {
-        public virtual Product Product { get; set; }
-
-        public Guid ProductId { get; set; }
-
-        public override void SetEntityId(Guid entityId)
-        {
-            ProductId = entityId;
-        }
+        public virtual Product Entity { get; set; }
     }
 
     public class LinkRatingSupplier : LinkRatingEntity
     {
-        public virtual Supplier Supplier { get; set; }
-
-        public Guid SupplierId { get; set; }
-
-        public override void SetEntityId(Guid entityId)
-        {
-            SupplierId = entityId;
-        }
+        public virtual Supplier Entity { get; set; }
     }
 
     public class LinkRatingArticle : LinkRatingEntity
     {
-        public virtual Article Article { get; set; }
-
-        public Guid ArticleId { get; set; }
-
-        public override void SetEntityId(Guid entityId)
-        {
-            ArticleId = entityId;
-        }
+        public virtual Article Entity { get; set; }
     }
 }

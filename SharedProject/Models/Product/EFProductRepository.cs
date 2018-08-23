@@ -110,7 +110,7 @@ namespace Godsend
                 context.RemoveRange(context.LinkProductPropertyInt.Where(p => p.Product.Id == dbEntry.Id));
                 context.RemoveRange(context.LinkProductPropertyString.Where(p => p.Product.Id == dbEntry.Id));
                 context.RemoveRange(context.LinkProductsSuppliers.Where(p => p.Product.Id == dbEntry.Id));
-                context.RemoveRange(context.LinkRatingProduct.Where(lrp => lrp.ProductId == dbEntry.Id));
+                context.RemoveRange(context.LinkRatingProduct.Where(lrp => lrp.EntityId == dbEntry.Id));
                 context.RemoveRange(context.LinkCommentProduct.Where(lrp => lrp.ProductId == dbEntry.Id));
                 dbEntry.Info = null;
                 context.Products.Remove(dbEntry);
@@ -414,14 +414,14 @@ namespace Godsend
 
         public async Task<double> SetRating(Guid productId, string userId, int rating)
         {
-            await ratingHelper.SetRating(productId, userId, rating, context.LinkRatingProduct, lrp => lrp.ProductId, context);
+            await ratingHelper.SetRating(productId, userId, rating, context.LinkRatingProduct, context);
 
             return await RecalcRatings(productId);
         }
 
         private async Task<double> RecalcRatings(Guid productId)
         {
-            var avg = await ratingHelper.CalculateAverage(context.LinkRatingProduct, lrp => lrp.ProductId, productId);
+            var avg = await ratingHelper.CalculateAverage(context.LinkRatingProduct, productId);
 
             await ratingHelper.SaveAverage(context.Products, productId, avg, context);
 
@@ -430,12 +430,12 @@ namespace Godsend
 
         public IEnumerable<LinkRatingEntity> GetAllRatings(Guid productId)
         {
-            return context.LinkRatingProduct.Where(lra => lra.ProductId == productId);
+            return context.LinkRatingProduct.Where(lra => lra.EntityId == productId);
         }
 
         public int? GetUserRating(Guid productId, string userId)
         {
-            return context.LinkRatingProduct.FirstOrDefault(lra => lra.ProductId == productId && lra.UserId == userId)?.Rating;
+            return context.LinkRatingProduct.FirstOrDefault(lra => lra.EntityId == productId && lra.UserId == userId)?.Rating;
         }
 
         public async Task<Guid> AddCommentAsync(Guid productId, string userId, Guid baseCommentId, string comment)
@@ -461,90 +461,4 @@ namespace Godsend
             return context.LinkCommentProduct.Where(lra => lra.ProductId == productId);
         }
     }
-
-    /// <summary>
-    ///
-    /// </summary>
-    public class IntPropertyInfo: IPropertyInfo
-    {
-        /// <summary>
-        /// Gets or sets the property identifier.
-        /// </summary>
-        /// <value>
-        /// The property identifier.
-        /// </value>
-        public Guid PropId { get; set; }
-
-        /// <summary>
-        /// Gets or sets the left.
-        /// </summary>
-        /// <value>
-        /// The left.
-        /// </value>
-        public int Left { get; set; }
-
-        /// <summary>
-        /// Gets or sets the right.
-        /// </summary>
-        /// <value>
-        /// The right.
-        /// </value>
-        public int Right { get; set; }
-    }
-    public interface IPropertyInfo
-    {
-        Guid PropId { get; set; }
-    }
-    /// <summary>
-    ///
-    /// </summary>
-    public class DecimalPropertyInfo: IPropertyInfo
-    {
-        /// <summary>
-        /// Gets or sets the property identifier.
-        /// </summary>
-        /// <value>
-        /// The property identifier.
-        /// </value>
-        public Guid PropId { get; set; }
-
-        /// <summary>
-        /// Gets or sets the left.
-        /// </summary>
-        /// <value>
-        /// The left.
-        /// </value>
-        public decimal Left { get; set; }
-
-        /// <summary>
-        /// Gets or sets the right.
-        /// </summary>
-        /// <value>
-        /// The right.
-        /// </value>
-        public decimal Right { get; set; }
-    }
-
-    /// <summary>
-    ///
-    /// </summary>
-    public class StringPropertyInfo: IPropertyInfo
-    {
-        /// <summary>
-        /// Gets or sets the property identifier.
-        /// </summary>
-        /// <value>
-        /// The property identifier.
-        /// </value>
-        public Guid PropId { get; set; }
-
-        /// <summary>
-        /// Gets or sets the part.
-        /// </summary>
-        /// <value>
-        /// The part.
-        /// </value>
-        public string Part { get; set; }
-    }
-
 }

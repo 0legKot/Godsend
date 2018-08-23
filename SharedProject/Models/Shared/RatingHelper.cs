@@ -9,26 +9,26 @@ namespace Godsend.Models
 {
     public interface IRatingHelper
     {
-        Task<double> CalculateAverage<TLink>(DbSet<TLink> linkSet, Func<TLink, Guid> idSelector, Guid entityId)
+        Task<double> CalculateAverage<TLink>(DbSet<TLink> linkSet, Guid entityId)
             where TLink : LinkRatingEntity;
 
         Task SaveAverage<TEntity>(DbSet<TEntity> entitySet, Guid entityId, double avg, DataContext context)
             where TEntity : class, IEntity;
 
-        Task SetRating<TLink>(Guid entityId, string userId, int rating, DbSet<TLink> linkSet, Func<TLink, Guid> idSelector, DataContext context)
+        Task SetRating<TLink>(Guid entityId, string userId, int rating, DbSet<TLink> linkSet, DataContext context)
             where TLink : LinkRatingEntity, new();
     }
 
     public class RatingHelper : IRatingHelper
     {
-        public async Task<double> CalculateAverage<TLink>(DbSet<TLink> linkSet, Func<TLink, Guid> idSelector, Guid entityId)
+        public async Task<double> CalculateAverage<TLink>(DbSet<TLink> linkSet, Guid entityId)
             where TLink : LinkRatingEntity
         {
-            var ratingsExist = await linkSet.AnyAsync(link => idSelector(link) == entityId);
+            var ratingsExist = await linkSet.AnyAsync(link => link.EntityId == entityId);
 
             var avg = ratingsExist
                 ? await linkSet
-                    .Where(link => idSelector(link) == entityId)
+                    .Where(link => link.EntityId == entityId)
                     .Select(link => link.Rating)
                     .AverageAsync()
                 : 0;
@@ -45,15 +45,14 @@ namespace Godsend.Models
             await context.SaveChangesAsync();
         }
 
-        public async Task SetRating<TLink>(Guid entityId, string userId, int rating, DbSet<TLink> linkSet, Func<TLink, Guid> idSelector, DataContext context)
+        public async Task SetRating<TLink>(Guid entityId, string userId, int rating, DbSet<TLink> linkSet, DataContext context)
             where TLink : LinkRatingEntity, new()
         {
-            var existingRating = await linkSet.FirstOrDefaultAsync(link => link.UserId == userId && idSelector(link) == entityId);
+            var existingRating = await linkSet.FirstOrDefaultAsync(link => link.UserId == userId && link.EntityId == entityId);
 
             if (existingRating == null)
             {
-                var newRating = new TLink { UserId = userId, Rating = rating };
-                newRating.SetEntityId(entityId);
+                var newRating = new TLink { UserId = userId, Rating = rating, EntityId = entityId };
                 context.Add(newRating);
             }
             else
