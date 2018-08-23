@@ -44,4 +44,20 @@
 
         public Guid ArticleId { get; set; }
     }
+
+    public class Comment
+    {
+        public string CommentText { get; set; }
+
+        public Comment BaseComment { get; set; }
+
+        public User User { get; set; }
+    }
+
+    public class CommentWithSubs
+    {
+        public LinkCommentEntity Comment { get; set; }
+
+        public List<CommentWithSubs> Subs { get; set; }
+    }
 }

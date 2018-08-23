@@ -232,16 +232,6 @@ namespace Godsend.Models
                 .Select(x=>new LinkCommentEntity() { BaseComment=x.BaseComment, Comment=x.Comment,Id=x.Id, User=x.User } );
             return fortst;
         }
-        public class Comment
-        {
-            public string CommentText { get; set; }
-            public Comment BaseComment { get; set; }
-            public User User { get; set; }
-        }
-        public class CommentWithSubs
-        {
-            public LinkCommentEntity Comment { get; set; }
-            public List<CommentWithSubs> Subs { get; set; }
-        }
+
     }
 }
