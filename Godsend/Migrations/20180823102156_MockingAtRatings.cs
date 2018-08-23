@@ -1,7 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿// <copyright file="20180823102156_MockingAtRatings.cs" company="Godsend Team">
+// Copyright (c) Godsend Team. All rights reserved.
+// </copyright>
 
 namespace Godsend.Migrations
 {
+    using Microsoft.EntityFrameworkCore.Migrations;
+
     public partial class MockingAtRatings : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)

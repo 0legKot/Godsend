@@ -57,9 +57,15 @@ namespace Godsend.Models
         /// </returns>
         public bool HasParent(Guid categoryId)
         {
-            if (Id == categoryId) return true;
+            if (Id == categoryId)
+            {
+                return true;
+            }
 
-            if (BaseCategory == null) return false;
+            if (BaseCategory == null)
+            {
+                return false;
+            }
 
             return BaseCategory.HasParent(categoryId);
         }

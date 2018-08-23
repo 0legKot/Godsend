@@ -43,6 +43,7 @@ namespace Godsend.Models
         /// <param name="orderID">The order identifier.</param>
         /// <param name="status">The status.</param>
         Task<Order> ChangeStatus(Guid orderID, int status);
+
         Order GetOrderById(Guid id);
     }
 }

@@ -44,9 +44,9 @@ namespace Godsend.Models
         /// The entities.
         /// </value>
         public IEnumerable<Supplier> Entities(int quantity, int skip = 0) => context.Suppliers
+
             //.Include("Info")
-           // .Include(s =>s.Info ).ThenInclude(i => (i as SupplierInformation).Location)
-            
+            //.Include(s =>s.Info ).ThenInclude(i => (i as SupplierInformation).Location)
             .Skip(skip).Take(quantity);
 
         /// <summary>
@@ -108,6 +108,7 @@ namespace Godsend.Models
             if (dbEntry != null)
             {
                 dbEntry.Info.Name = entity.Info.Name;
+
                 //(dbEntry.Info as SupplierInformation).Location.Address = (entity.Info as SupplierInformation).Location.Address;
                 // TODO: implement IClonable
 
@@ -133,7 +134,8 @@ namespace Godsend.Models
             return context.Suppliers.FirstOrDefault(s => s.Id == entityId);
         }
 
-        public class Hell:Supplier {
+        public class Hell : Supplier
+        {
             public override Information Info { get => base.Info; set => base.Info = value as SupplierInformation; }
         }
 
@@ -147,7 +149,11 @@ namespace Godsend.Models
             //TODO: fix includes
             Supplier x = context.Suppliers.Include(s => s.Info)
                 .FirstOrDefault(s => s.Info.Id == infoId);
-            if (x == null) return null;
+            if (x == null)
+            {
+                return null;
+            }
+
             //SupplierInformation supplierInformation1 = context.Set<SupplierInformation>().FirstOrDefault(z => z.Id == x.Info.Id);
             //Location supplierInformation = context.Set<SupplierInformation>().FirstOrDefault(z => z.Id == x.Info.Id).Location;
             Location loc = context.Set<Location>().FirstOrDefault();
@@ -161,18 +167,18 @@ namespace Godsend.Models
             return context.Suppliers.Count();
         }
 
-        public async Task<double> SetRating(Guid supplierId, string userId, int rating)
+        public async Task<double> SetRatingAsync(Guid supplierId, string userId, int rating)
         {
-            await ratingHelper.SetRating(supplierId, userId, rating, context.LinkRatingSupplier, context);
+            await ratingHelper.SetRatingAsync(supplierId, userId, rating, context.LinkRatingSupplier, context);
 
-            return await RecalcRatings(supplierId);
+            return await RecalcRatingsAsync(supplierId);
         }
 
-        private async Task<double> RecalcRatings(Guid supplierId)
+        private async Task<double> RecalcRatingsAsync(Guid supplierId)
         {
-            var avg = await ratingHelper.CalculateAverage(context.LinkRatingSupplier, supplierId);
+            var avg = await ratingHelper.CalculateAverageAsync(context.LinkRatingSupplier, supplierId);
 
-            await ratingHelper.SaveAverage(context.Suppliers, supplierId, avg, context);
+            await ratingHelper.SaveAverageAsync(context.Suppliers, supplierId, avg, context);
 
             return avg;
         }

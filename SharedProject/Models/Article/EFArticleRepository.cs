@@ -54,7 +54,7 @@ namespace Godsend.Models
         /// </value>
         public IEnumerable<Article> Entities(int quantity, int skip = 0)
         {
-            var tmp = context.Articles.Include(a => (a.Info as ArticleInformation)).ThenInclude(ai => ai.EFAuthor).Skip(skip).Take(quantity).ToArray();
+            var tmp = context.Articles.Include(a => a.Info as ArticleInformation).ThenInclude(ai => ai.EFAuthor).Skip(skip).Take(quantity).ToArray();
             return tmp;
         }
 
@@ -66,7 +66,7 @@ namespace Godsend.Models
         /// </value>
         public IEnumerable<Information> EntitiesInfo(int quantity, int skip = 0)
         {
-            var tmp = context.Articles.Include(a=>a.Info).ThenInclude(a=>(a as ArticleInformation).EFTags).ThenInclude(a => (a as ArticleInformation).EFAuthor).Select(a=>a.Info)
+            var tmp = context.Articles.Include(a => a.Info).ThenInclude(a => (a as ArticleInformation).EFTags).ThenInclude(a => (a as ArticleInformation).EFAuthor).Select(a => a.Info)
                                                           .Skip(skip).Take(quantity);
 
             return tmp;
@@ -119,7 +119,8 @@ namespace Godsend.Models
         public Article GetEntity(Guid entityId)
         {
             return context.Articles
-            //    .Include(a => (a.Info as ArticleInformation)).ThenInclude(a => a.EFAuthor)
+
+            //.Include(a => (a.Info as ArticleInformation)).ThenInclude(a => a.EFAuthor)
             //.Include(a => (a.Info as ArticleInformation)).ThenInclude(a => a.EFTags)
             .FirstOrDefault(a => a.Id == entityId);
         }
@@ -133,6 +134,7 @@ namespace Godsend.Models
         public Article GetEntityByInfoId(Guid infoId)
         {
             return context.Articles.Include(a => a.Info)
+
                 //.ThenInclude(a => ((ArticleInformation)a).EFAuthor)
                 //.Include(a => a.Info).ThenInclude(a => ((ArticleInformation)a).EFTags)
             .FirstOrDefault(a => a.Info.Id == infoId);
@@ -161,7 +163,6 @@ namespace Godsend.Models
             //{
             //    throw new Exception("Not authorized");
             //}
-
             Article dbEntry = GetEntity(entity.Id);
             if (dbEntry != null)
             {
@@ -189,18 +190,18 @@ namespace Godsend.Models
             return context.Articles.Count();
         }
 
-        public async Task<double> SetRating(Guid articleId, string userId, int rating)
+        public async Task<double> SetRatingAsync(Guid articleId, string userId, int rating)
         {
-            await ratingHelper.SetRating(articleId, userId, rating, context.LinkRatingArticle, context);
+            await ratingHelper.SetRatingAsync(articleId, userId, rating, context.LinkRatingArticle, context);
 
             return await RecalcRatings(articleId);
         }
 
         private async Task<double> RecalcRatings(Guid articleId)
         {
-            var avg = await ratingHelper.CalculateAverage(context.LinkRatingArticle, articleId);
+            var avg = await ratingHelper.CalculateAverageAsync(context.LinkRatingArticle, articleId);
 
-            await ratingHelper.SaveAverage(context.Articles, articleId, avg, context);
+            await ratingHelper.SaveAverageAsync(context.Articles, articleId, avg, context);
 
             return avg;
         }
@@ -217,7 +218,9 @@ namespace Godsend.Models
 
         public async Task<Guid> AddCommentAsync(Guid articleId, string userId, Guid baseCommentId, string comment)
         {
-            var newComment = new LinkCommentArticle { ArticleId = articleId, UserId = userId,
+            var newComment = new LinkCommentArticle
+            {
+                ArticleId = articleId, UserId = userId,
                 BaseComment = new LinkCommentArticle() { Id = baseCommentId },
                 Comment = comment
             };
@@ -229,9 +232,8 @@ namespace Godsend.Models
         public IEnumerable<LinkCommentEntity> GetAllComments(Guid articleInfoId)
         {
             var fortst = context.LinkCommentArticle.Where(lra => lra.Article.Info.Id == articleInfoId)
-                .Select(x=>new LinkCommentEntity() { BaseComment=x.BaseComment, Comment=x.Comment,Id=x.Id, User=x.User } );
+                .Select(x => new LinkCommentEntity() { BaseComment = x.BaseComment, Comment = x.Comment, Id = x.Id, User = x.User });
             return fortst;
         }
-
     }
 }

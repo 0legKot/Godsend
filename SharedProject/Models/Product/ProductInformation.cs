@@ -30,17 +30,18 @@ namespace Godsend.Models
 
         public ProductInformation()
         {
-            
         }
 
-        public ProductInformation(string Name) {
+        public ProductInformation(string Name)
+        {
             this.Name = Name;
         }
 
         //public Product Product { get; set; }
     }
 
-    public enum ProductState {
+    public enum ProductState
+    {
         Normal = 0,
         New = 1,
         Hot = 2

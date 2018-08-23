@@ -86,6 +86,5 @@ namespace Godsend.Models
                 RegistrationDate = user.RegistrationDate
             };
         }
-
     }
 }

@@ -1,9 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿// <copyright file="FilterInfo.cs" company="Godsend Team">
+// Copyright (c) Godsend Team. All rights reserved.
+// </copyright>
 
 namespace Godsend.Models
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Text;
+
     public class FilterInfo
     {
         public IEnumerable<DecimalPropertyInfo> DecimalProps { get; set; }
