@@ -19,6 +19,7 @@ import { LinkRatingEntity } from '../../models/rating.model';
 })
 export class ArticleDetailComponent implements OnInit {
     article?: Article;
+    comments?: any;
     edit = false;
     readonly clas: entityClass = 'article';
 
@@ -48,6 +49,8 @@ export class ArticleDetailComponent implements OnInit {
         this.repo.getEntity<Article>('article', this.route.snapshot.params.id, a => {
             this.article = a;
         });
+        
+        
     }
     editMode() {
         if (this.article == null) {

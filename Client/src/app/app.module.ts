@@ -5,6 +5,9 @@ import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AngularFontAwesomeModule } from 'angular-font-awesome';
 
+import {MatTreeModule} from '@angular/material';
+import { CdkTreeModule } from '@angular/cdk/tree';
+
 import { AppComponent } from './store/app/app.component';
 import { NavMenuComponent } from './store/navmenu/navmenu.component';
 import { HomeComponent } from './store/home/home.component';
@@ -77,6 +80,8 @@ import { RatingsComponent } from './store/rating/ratings.component';
         FormsModule,
         HttpClientModule,
         ReactiveFormsModule,
+        MatTreeModule,
+        CdkTreeModule,
         RouterModule.forRoot([
             { path: '', redirectTo: 'home', pathMatch: 'full' },
             { path: 'home', component: HomeComponent },

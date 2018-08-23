@@ -13,6 +13,7 @@ export class DataService {
 
     public sendRequest<T>(method: allowedMethod, url: string, data?: any)
         : Observable<T> {
+        console.log(url);
         return this.http.request<T>(method, this.baseUrl + url, { body: data, responseType: 'json', headers: this.getHeaders() }).pipe(
             map(response => {
                 console.log(this.baseUrl + url);
@@ -20,6 +21,7 @@ export class DataService {
                     console.log('data');
                     console.dir(data);
                 }
+                console.log(url);
                 console.log(response);
                 return response;
             }));

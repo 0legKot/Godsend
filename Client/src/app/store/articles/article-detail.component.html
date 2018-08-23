@@ -29,6 +29,12 @@
             Created: {{ article.info.created | date : 'dd-MMM-yyyy HH:mm' }}
         </p><br />
     </div>
+    <div>
+        
+        <godsend-comment-wrapper id="{{route.snapshot.params.id}}" clas="article">
+            
+        </godsend-comment-wrapper>
+    </div>
     <div class="edit-art">
         <div class="inline-block edit-btns" id="edit" *ngIf="!edit" (click)="editMode()"> Edit</div>
         <div class="inline-block edit-btns" id="save" *ngIf="edit" (click)="save()"> Save</div>

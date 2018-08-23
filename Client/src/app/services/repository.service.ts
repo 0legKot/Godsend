@@ -35,6 +35,7 @@ export class RepositoryService {
     suppliersCount: number = 0;
     ordersCount: number = 0;
     productFilter: ProductFilterInfo = new ProductFilterInfo(10, 1);
+    comments: any = {};
 
     constructor(private data: DataService) {
     }
@@ -66,6 +67,23 @@ export class RepositoryService {
             default: return;
         }
     }
+
+    setComments<T>(val: T) {
+        this.comments = val;
+        //switch (typeof (val)) {
+        //    case typeof (Product):
+        //        this.product = val;
+        //        break;
+        //    case typeof (Supplier):
+        //        this.supplier = val;
+        //        break;
+        //    case typeof (Order):
+        //        this.order = val;
+        //        break;
+        //    default: return;
+        //}
+    }
+
     setEntities<T>(clas: supportedClass, val: T[]) {
         switch (clas) {
             case 'product':
@@ -123,6 +141,21 @@ export class RepositoryService {
         }
     }
 
+    getEntityComments<T>(clas: supportedClass, id: string, fn: (_: T) => any) {
+        if (id != null) {
+
+            const url = this.getUrl(clas);
+            this.data.sendRequest<T>('get', url + '/comments/' + id)
+                .subscribe(response => {
+                    this.setComments<T>(response);
+                    
+                    if (fn) {
+                        fn(response);
+                    }
+                });
+        }
+    }
+
     changeOrderStatus(id: string, status: number, page: number, rpp: number, fn?: ((_: Order[]) => any)) {
         this.data.sendRequest<Order[]>('patch', ordersUrl + '/changeStatus/' + id + '/' + status)
             .subscribe(response => {
@@ -151,7 +184,7 @@ export class RepositoryService {
                     if (fn) {
                         fn(response);
                     }
-                    console.log(response);
+
                     this.setEntities<T>(clas, response);
                 });
         }

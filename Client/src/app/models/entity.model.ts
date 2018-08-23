@@ -11,3 +11,17 @@ export interface IInformation {
     watches: number;
     rating: number;
 }
+export class LinkCommentEntity {
+    constructor(
+        public id: string,
+        public comment: string,
+        public baseComment?: LinkCommentEntity
+    ) { }
+}
+
+export class CommentWithSubs {
+    constructor(
+        public comment: LinkCommentEntity,
+        public subs: CommentWithSubs[]
+    ) { }
+}

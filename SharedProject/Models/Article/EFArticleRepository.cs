@@ -226,9 +226,9 @@ namespace Godsend.Models
             return newComment.Id;
         }
 
-        public IEnumerable<LinkCommentEntity> GetAllComments(Guid articleId)
+        public IEnumerable<LinkCommentEntity> GetAllComments(Guid articleInfoId)
         {
-            var fortst = context.LinkCommentArticle.Where(lra => lra.ArticleId == articleId)
+            var fortst = context.LinkCommentArticle.Where(lra => lra.Article.Info.Id == articleInfoId)
                 .Select(x=>new LinkCommentEntity() { BaseComment=x.BaseComment, Comment=x.Comment,Id=x.Id, User=x.User } );
             return fortst;
         }
