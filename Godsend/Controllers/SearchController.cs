@@ -104,7 +104,7 @@ namespace Godsend.Controllers
         public IEnumerable<ProductInformation> FindProducts(string term, int page, int rpp)
         {
             var x = string.IsNullOrWhiteSpace(term)
-                ? context.Products.Include(p=>p.Info)
+                ? context.Products.Include(p => p.Info)
                     .Select(p => p.Info)
                 : context.Products.Include(p => p.Info)
                     .Select(p => p.Info)
@@ -123,10 +123,12 @@ namespace Godsend.Controllers
             var x = string.IsNullOrWhiteSpace(term)
                 ? context.Suppliers.Include(p => p.Info)
                     .Select(s => s.Info)
+
                 //.Include(i => i.Location)
                 : context.Suppliers.Include(p => p.Info)
                     .Select(s => s.Info)
                     .Where(si => si.Name.ToLower().Contains(term.ToLower()));
+
                    // .Include(i => i.Location);
             return x.Cast<SupplierInformation>();
         }

@@ -16,7 +16,6 @@ namespace Godsend.Models
         void EnsurePopulated(DataContext context);
     }
 
-
     internal class SeedHelper : ISeedHelper
     {
         private static object creationLock = new object();

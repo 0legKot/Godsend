@@ -24,7 +24,7 @@ namespace Godsend.Controllers
         /// </summary>
         /// <param name="repo">The repo.</param>
         public SupplierController(ISupplierRepository repo, IHubContext<NotificationHub> hubContext)
-            :base(hubContext)
+            : base(hubContext)
         {
             repository = repo;
         }

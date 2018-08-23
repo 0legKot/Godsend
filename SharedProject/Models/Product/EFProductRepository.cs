@@ -40,6 +40,7 @@ namespace Godsend
         private UserManager<User> userManager;
 
         private IRatingHelper ratingHelper;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="EFProductRepository" /> class.
         /// </summary>
@@ -165,6 +166,7 @@ namespace Godsend
                     .ThenInclude(s => s.Info)
                     .Include(ps => ps.Supplier)
                     .ThenInclude(s => s.Info)
+
                     //.Include(ps => ps.Supplier)
                     //.ThenInclude(x => (x.Info as SupplierInformation).Location)
                     .ToArray();
@@ -361,7 +363,7 @@ namespace Godsend
 
         private IQueryable<Product> FilterByCategory(IQueryable<Product> products, Guid categoryId)
         {
-            return products;//.Where(p => p.Category != null && p.Category.HasParent(categoryId));
+            return products; //.Where(p => p.Category != null && p.Category.HasParent(categoryId));
         }
 
         private IQueryable<Product> FilterByDecimalProps(IQueryable<Product> products, IEnumerable<DecimalPropertyInfo> decimalProps)
@@ -412,18 +414,18 @@ namespace Godsend
             return tmp.Select(group => group.Product);
         }
 
-        public async Task<double> SetRating(Guid productId, string userId, int rating)
+        public async Task<double> SetRatingAsync(Guid productId, string userId, int rating)
         {
-            await ratingHelper.SetRating(productId, userId, rating, context.LinkRatingProduct, context);
+            await ratingHelper.SetRatingAsync(productId, userId, rating, context.LinkRatingProduct, context);
 
             return await RecalcRatings(productId);
         }
 
         private async Task<double> RecalcRatings(Guid productId)
         {
-            var avg = await ratingHelper.CalculateAverage(context.LinkRatingProduct, productId);
+            var avg = await ratingHelper.CalculateAverageAsync(context.LinkRatingProduct, productId);
 
-            await ratingHelper.SaveAverage(context.Products, productId, avg, context);
+            await ratingHelper.SaveAverageAsync(context.Products, productId, avg, context);
 
             return avg;
         }
@@ -441,7 +443,6 @@ namespace Godsend
         public async Task<Guid> AddCommentAsync(Guid productId, string userId, Guid baseCommentId, string comment)
         {
             //var user = await userManager.FindByIdAsync(userId);
-
             var newComment = new LinkCommentProduct
             {
                 ProductId = productId,

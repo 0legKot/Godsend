@@ -46,7 +46,7 @@ namespace Godsend.Models
         /// <value>
         /// The orders.
         /// </value>
-        public IEnumerable<Order> GetOrders(int quantity, int skip = 0) => 
+        public IEnumerable<Order> GetOrders(int quantity, int skip = 0) =>
             this.Orders
             .Skip(skip).Take(quantity);
         ////.Include(o => o.WeightedItems).ThenInclude(wi => wi.Product).ThenInclude(p => p.Info)

@@ -26,7 +26,7 @@ namespace Godsend.Controllers
         /// Initializes a new instance of the <see cref="ArticleController"/> class.
         /// </summary>
         /// <param name="repository">The repository.</param>
-        public ArticleController(IArticleRepository repository, IHubContext<NotificationHub> hubContext) 
+        public ArticleController(IArticleRepository repository, IHubContext<NotificationHub> hubContext)
             : base(hubContext)
         {
             this.repository = repository;
@@ -66,7 +66,7 @@ namespace Godsend.Controllers
             var article = repository.GetEntityByInfoId(infoId);
             repository.Watch(article);
 
-            await hubContext.Clients.All.SendAsync("Success","Somebody has just watched the article!");
+            await hubContext.Clients.All.SendAsync("Success", "Somebody has just watched the article!");
 
             //await hubContext.Clients.User(null).SendAsync("a", "aaa");
             return article;

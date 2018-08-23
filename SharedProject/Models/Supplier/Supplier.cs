@@ -16,15 +16,17 @@ namespace Godsend.Models
     public class Supplier : IEntity
     {
         public Supplier()
-        { }
+        {
+        }
+
         [JsonConstructor]
         public Supplier(SupplierInformation Info)
         {
             this.Info = new SupplierInformation();
             (this.Info as SupplierInformation).Name = Info.Name;
             (this.Info as SupplierInformation).Location = Info.Location;
-            
         }
+
         /// <summary>
         /// Gets or sets the identifier.
         /// </summary>
@@ -40,14 +42,12 @@ namespace Godsend.Models
         /// The information.
         /// </value>
        // public SupplierInformation Info { get; set; }
-
         /// <summary>
         /// Gets or sets the entity information.
         /// </summary>
         /// <value>
         /// The entity information.
         /// </value>
-
         public virtual Information Info { get; set; }
     }
 

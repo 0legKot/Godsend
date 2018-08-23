@@ -16,7 +16,9 @@ namespace Godsend.Models
     public class Article : IEntity
     {
         public Article()
-        { }
+        {
+        }
+
         [JsonConstructor]
         public Article(ArticleInformation Info)
         {
@@ -25,6 +27,7 @@ namespace Godsend.Models
             (this.Info as ArticleInformation).Description = Info.Description;
             (this.Info as ArticleInformation).Tags = Info.Tags;
         }
+
         /// <summary>
         /// Gets or sets the identifier.
         /// </summary>
@@ -48,17 +51,12 @@ namespace Godsend.Models
         /// The information.
         /// </value>
         //public ArticleInformation Info { get; set; }
-
         /// <summary>
         /// Gets or sets the entity information.
         /// </summary>
         /// <value>
         /// The entity information.
         /// </value>
-       
         public virtual Information Info { get; set; }
-
-       
     }
-
 }

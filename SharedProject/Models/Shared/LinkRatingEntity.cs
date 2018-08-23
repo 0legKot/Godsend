@@ -1,4 +1,8 @@
-﻿namespace Godsend.Models
+﻿// <copyright file="LinkRatingEntity.cs" company="Godsend Team">
+// Copyright (c) Godsend Team. All rights reserved.
+// </copyright>
+
+namespace Godsend.Models
 {
     using System;
     using System.Collections.Generic;
@@ -22,6 +26,25 @@
         public string UserId { get; set; }
 
         public Guid EntityId { get; set; }
+
+        /// <summary>
+        /// Get instance of the class <see cref="WithoutEntity"/>, which has properties Id, Author and Rating
+        /// </summary>
+        public WithoutEntity GetWithoutEntity() => new WithoutEntity
+        {
+            Id = Id,
+            Author = Author,
+            Rating = Rating
+        };
+
+        public class WithoutEntity
+        {
+            public Guid Id { get; set; }
+
+            public int Rating { get; set; }
+
+            public virtual ClientUser Author { get; set; }
+        }
     }
 
     public class LinkRatingProduct : LinkRatingEntity

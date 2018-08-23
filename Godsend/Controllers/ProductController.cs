@@ -28,7 +28,7 @@ namespace Godsend.Controllers
         private readonly IEnumerable<Category> Categories;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ProductController" /> class. 
+        /// Initializes a new instance of the <see cref="ProductController" /> class.
         /// </summary>
         /// <param name="repo">The repo.</param>
         public ProductController(IProductRepository repo, IHubContext<NotificationHub> hubContext)
@@ -56,8 +56,8 @@ namespace Godsend.Controllers
                 //TODO:fix
                 return new ProductWithSuppliers()
             {
-                Product = new Product() {Id=Guid.NewGuid(), Info=new ProductInformation() { Name = "", Description = "", Id = Guid.NewGuid() } },
-                Suppliers = new List<SupplierAndPrice>() { new SupplierAndPrice() { Price=111,Supplier=new Supplier() { Info=new SupplierInformation() { Name="" } } } },
+                Product = new Product() { Id = Guid.NewGuid(), Info = new ProductInformation() { Name = "", Description = "", Id = Guid.NewGuid() } },
+                Suppliers = new List<SupplierAndPrice>() { new SupplierAndPrice() { Price = 111, Supplier = new Supplier() { Info = new SupplierInformation() { Name = "" } } } },
                 IntProps = new List<EAV<int>>(),
                 DecimalProps = new List<EAV<decimal>>(),
                 StringProps = new List<EAV<string>>()
@@ -66,11 +66,13 @@ namespace Godsend.Controllers
 
             return prod;
         }
+
         [HttpGet("[action]")]
         public IActionResult SayHello()
         {
             return Ok("I said Hello");
         }
+
         /// <summary>
         /// Gets the base categories.
         /// </summary>
@@ -154,7 +156,6 @@ namespace Godsend.Controllers
 
             return result;
         }
-
 
         /// <summary>
         /// Gets the properties by category.

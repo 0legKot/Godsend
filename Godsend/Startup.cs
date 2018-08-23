@@ -10,6 +10,7 @@ namespace Godsend
     using System.Linq;
     using System.Text;
     using System.Threading.Tasks;
+    using Godsend.Controllers;
     using Godsend.Models;
     using Microsoft.AspNetCore.Authentication.JwtBearer;
     using Microsoft.AspNetCore.Builder;
@@ -18,17 +19,17 @@ namespace Godsend
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.SignalR;
+    using Microsoft.AspNetCore.SignalR;
     using Microsoft.AspNetCore.SpaServices.Webpack;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.IdentityModel.Tokens;
-    using Microsoft.AspNetCore.SignalR;
-    using Godsend.Controllers;
 
     public class Startup
     {
         public readonly SymmetricSecurityKey SecurityKey;
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -65,6 +66,7 @@ namespace Godsend
 
             services.AddSignalR()
                 .AddMessagePackProtocol();
+
             //services.AddSingleton<IUserIdProvider, CustomUserIdProvider>();
             // ===== Add Jwt Authentication ========
             // source: https://medium.com/@ozgurgul/asp-net-core-2-0-webapi-jwt-authentication-with-identity-mysql-3698eeba6ff8
@@ -102,7 +104,7 @@ namespace Godsend
 
                     // We have to hook the OnMessageReceived event in order to
                     // allow the JWT authentication handler to read the access
-                    // token from the query string when a WebSocket or 
+                    // token from the query string when a WebSocket or
                     // Server-Sent Events request comes in.
                     options.Events = new JwtBearerEvents
                     {
@@ -113,7 +115,7 @@ namespace Godsend
                             // If the request is for our hub...
                             var path = context.HttpContext.Request.Path;
                             if (!string.IsNullOrEmpty(accessToken) &&
-                                (path.StartsWithSegments("/chat")))
+                                path.StartsWithSegments("/chat"))
                             {
                                 // Read the token out of the query string
                                 context.Token = accessToken;
@@ -122,7 +124,7 @@ namespace Godsend
                         }
                     };
                 });
-            
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 
@@ -141,6 +143,7 @@ namespace Godsend
 
             app.UseCors("GodsendPolicy");
             app.UseHttpsRedirection();
+
             //app.UseCookiePolicy();
             app.UseAuthentication();
 

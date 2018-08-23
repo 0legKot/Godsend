@@ -1,27 +1,31 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿// <copyright file="RatingHelper.cs" company="Godsend Team">
+// Copyright (c) Godsend Team. All rights reserved.
+// </copyright>
 
 namespace Godsend.Models
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+    using System.Threading.Tasks;
+    using Microsoft.EntityFrameworkCore;
+
     public interface IRatingHelper
     {
-        Task<double> CalculateAverage<TLink>(DbSet<TLink> linkSet, Guid entityId)
+        Task<double> CalculateAverageAsync<TLink>(DbSet<TLink> linkSet, Guid entityId)
             where TLink : LinkRatingEntity;
 
-        Task SaveAverage<TEntity>(DbSet<TEntity> entitySet, Guid entityId, double avg, DataContext context)
+        Task SaveAverageAsync<TEntity>(DbSet<TEntity> entitySet, Guid entityId, double avg, DataContext context)
             where TEntity : class, IEntity;
 
-        Task SetRating<TLink>(Guid entityId, string userId, int rating, DbSet<TLink> linkSet, DataContext context)
+        Task SetRatingAsync<TLink>(Guid entityId, string userId, int rating, DbSet<TLink> linkSet, DataContext context)
             where TLink : LinkRatingEntity, new();
     }
 
     public class RatingHelper : IRatingHelper
     {
-        public async Task<double> CalculateAverage<TLink>(DbSet<TLink> linkSet, Guid entityId)
+        public async Task<double> CalculateAverageAsync<TLink>(DbSet<TLink> linkSet, Guid entityId)
             where TLink : LinkRatingEntity
         {
             var ratingsExist = await linkSet.AnyAsync(link => link.EntityId == entityId);
@@ -36,7 +40,7 @@ namespace Godsend.Models
             return avg;
         }
 
-        public async Task SaveAverage<TEntity>(DbSet<TEntity> entitySet, Guid entityId, double avg, DataContext context)
+        public async Task SaveAverageAsync<TEntity>(DbSet<TEntity> entitySet, Guid entityId, double avg, DataContext context)
             where TEntity : class, IEntity
         {
             var entity = await entitySet.Include(e => e.Info).FirstOrDefaultAsync(e => e.Id == entityId);
@@ -45,7 +49,7 @@ namespace Godsend.Models
             await context.SaveChangesAsync();
         }
 
-        public async Task SetRating<TLink>(Guid entityId, string userId, int rating, DbSet<TLink> linkSet, DataContext context)
+        public async Task SetRatingAsync<TLink>(Guid entityId, string userId, int rating, DbSet<TLink> linkSet, DataContext context)
             where TLink : LinkRatingEntity, new()
         {
             var existingRating = await linkSet.FirstOrDefaultAsync(link => link.UserId == userId && link.EntityId == entityId);

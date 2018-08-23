@@ -1,13 +1,19 @@
-﻿using Microsoft.AspNetCore.Identity;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿// <copyright file="User.cs" company="Godsend Team">
+// Copyright (c) Godsend Team. All rights reserved.
+// </copyright>
 
 namespace Godsend.Models
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Text;
+    using Microsoft.AspNetCore.Identity;
+
     public class User : IdentityUser<string>
     {
-        public User() : base() { }
+        public User() : base()
+        {
+        }
 
         public User(string userName) : base(userName)
         {

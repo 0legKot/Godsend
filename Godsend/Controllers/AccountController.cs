@@ -39,17 +39,19 @@ namespace Godsend.Controllers
         /// <param name="userMgr">User manager</param>
         /// <param name="signInMgr">Sign in manager</param>
         /// <param name="configuration">Configuration</param>
-        public AccountController(UserManager<User> userMgr,
-                                 SignInManager<User> signInMgr, 
-                                 IConfiguration configuration, 
-                                 DataContext context, 
-                                 RoleManager<Role> roleMngr)
+        public AccountController(
+            UserManager<User> userMgr,
+            SignInManager<User> signInMgr,
+            IConfiguration configuration,
+            DataContext context,
+            RoleManager<Role> roleMngr)
         {
             userManager = userMgr;
             signInManager = signInMgr;
             roleManager = roleMngr;
             this.configuration = configuration;
             this.context = context;
+
             //var currentName = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name);
 
             //var appUser = userManager.FindByNameAsync(currentName.Value).GetAwaiter().GetResult();
@@ -74,13 +76,21 @@ namespace Godsend.Controllers
         {
             return await userManager.GetRolesAsync(currentUser);
         }
-        
+
         [HttpPost("[action]")]
         public async Task<IActionResult> AddToRole(string userName, string role)
         {
-            if (!await IsAdmin()) return BadRequest();
+            if (!await IsAdmin())
+            {
+                return BadRequest();
+            }
+
             User user = await userManager.FindByNameAsync(userName);
-            if (await roleManager.FindByNameAsync(role) == null || user == null) return BadRequest();
+            if (await roleManager.FindByNameAsync(role) == null || user == null)
+            {
+                return BadRequest();
+            }
+
             await userManager.AddToRoleAsync(user, role);
             return Ok();
         }
@@ -88,9 +98,17 @@ namespace Godsend.Controllers
         [HttpPost("[action]")]
         public async Task<IActionResult> ExcludeFromRole(string userName, string role)
         {
-            if (!await IsAdmin()) return BadRequest();
+            if (!await IsAdmin())
+            {
+                return BadRequest();
+            }
+
             User user = await userManager.FindByNameAsync(userName);
-            if (await roleManager.FindByNameAsync(role) == null || user == null) return BadRequest();
+            if (await roleManager.FindByNameAsync(role) == null || user == null)
+            {
+                return BadRequest();
+            }
+
             await userManager.RemoveFromRoleAsync(user, role);
             return Ok();
         }
@@ -131,7 +149,7 @@ namespace Godsend.Controllers
             ////}
 
             ////return false;
-            IdentitySeedData.EnsurePopulated(userManager,roleManager);
+            IdentitySeedData.EnsurePopulated(userManager, roleManager);
             var result = await signInManager.PasswordSignInAsync(creds.Name, creds.Password, false, false);
 
             if (result.Succeeded)
@@ -189,15 +207,18 @@ namespace Godsend.Controllers
         {
             var currentName = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name);
             currentUser = context.Users.FirstOrDefault(u => u.UserName == currentName.Value);
-            //var user = context.Users.FirstOrDefault(u => u.UserName == currentName.Value);
 
+            //var user = context.Users.FirstOrDefault(u => u.UserName == currentName.Value);
             if (await IsAdmin())
             {
                 return context.Users
                     .Skip(rpp * (page - 1)).Take(rpp)
                     .Select(u => ClientUser.FromEFUserGeneralInfo(u));
             }
-            else return new List<ClientUser>();
+            else
+            {
+                return new List<ClientUser>();
+            }
         }
 
         private async Task<string> GenerateJwtToken(string name, User user)

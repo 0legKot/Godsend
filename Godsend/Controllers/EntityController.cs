@@ -118,7 +118,7 @@ namespace Godsend.Controllers
 
             try
             {
-                var avg = await repository.SetRating(entityId, userId, rating);
+                var avg = await repository.SetRatingAsync(entityId, userId, rating);
 
                 await hubContext.Clients.User(userId).SendAsync("Success", "Rating has been saved");
 
@@ -131,6 +131,23 @@ namespace Godsend.Controllers
                 return BadRequest();
             }
         }
+
+        [HttpGet("[action]/{entityId:Guid}")]
+        public virtual IEnumerable<LinkRatingEntity.WithoutEntity> Ratings(Guid entityId)
+        {
+            return repository.GetAllRatings(entityId).Select(link => link.GetWithoutEntity());
+        }
+
+        [Authorize]
+        [HttpGet("[action]/{entityId:Guid}")]
+        public virtual int? Rating(Guid entityId)
+        {
+            var userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value;
+
+            return repository.GetUserRating(entityId, userId);
+        }
+
+        IEnumerable<LinkCommentEntity> CommentsArr;
 
         [Authorize]
         [HttpPost("[action]/{entityId:Guid}/{baseCommentId:Guid}/{comment}")]
@@ -153,28 +170,6 @@ namespace Godsend.Controllers
                 return BadRequest();
             }
         }
-
-        [HttpGet("[action]/{entityId:Guid}")]
-        public virtual IEnumerable<LinkRatingEntity> Ratings(Guid entityId)
-        {
-            return repository.GetAllRatings(entityId).Select(lra => new LinkRatingEntity()
-            {
-                Id = lra.Id,
-                Rating = lra.Rating,
-                User = lra.User
-            });
-        }
-
-        [Authorize]
-        [HttpGet("[action]/{entityId:Guid}")]
-        public virtual int? Rating(Guid entityId)
-        {
-            var userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value;
-
-            return repository.GetUserRating(entityId, userId);
-        }
-
-        IEnumerable<LinkCommentEntity> CommentsArr;
 
         [HttpGet("[action]/{entityId:Guid}")]
         public virtual CommentWithSubs Comments(Guid entityId)

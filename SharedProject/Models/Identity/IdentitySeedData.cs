@@ -33,21 +33,21 @@ namespace Godsend.Models
         public static void EnsurePopulated(UserManager<User> userManager, RoleManager<Role> roleManager)
         {
             User user = userManager.FindByNameAsync(adminUser).GetAwaiter().GetResult();
-            
+
             Role role = roleManager.FindByNameAsync("Administrator").GetAwaiter().GetResult();
             if (role == null)
             {
                 role = new Role("Administrator");
                 roleManager.CreateAsync(role).GetAwaiter().GetResult();
             }
+
             if (user == null)
             {
-                
+
                 user = new User("Admin");
                 userManager.CreateAsync(user, adminPassword).GetAwaiter().GetResult();
                 userManager.AddToRoleAsync(user, "Administrator").GetAwaiter().GetResult();
             }
-
         }
     }
 }

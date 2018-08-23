@@ -17,7 +17,9 @@ namespace Godsend.Models
     public class Product : IEntity
     {
         public Product()
-        { }
+        {
+        }
+
         [JsonConstructor]
         public Product(ProductInformation Info)
         {
@@ -58,7 +60,6 @@ namespace Godsend.Models
         /// <value>
         /// The entity information.
         /// </value>
-
         public Information Info { get; set; }
 
         public override string ToString()

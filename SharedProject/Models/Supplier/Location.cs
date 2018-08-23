@@ -18,7 +18,11 @@ namespace Godsend.Models
         /// The identifier.
         /// </value>
         public Guid Id { get; set; }
-        public Location() { }
+
+        public Location()
+        {
+        }
+
         /// <summary>
         /// Gets or sets the address.
         /// </summary>
