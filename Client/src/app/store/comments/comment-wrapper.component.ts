@@ -5,11 +5,13 @@ import { RepositoryService, supportedClass } from '../../services/repository.ser
 import { NestedTreeControl } from '@angular/cdk/tree';
 import { MatTreeNestedDataSource } from '@angular/material/tree';
 import { BehaviorSubject } from 'rxjs';
+import { isNumber } from 'util';
 
 export class FileNode {
     children!: FileNode[];
     filename!: string;
     type: any;
+    info: string;
 }
 
  
@@ -17,6 +19,7 @@ export class FileNode {
 @Component({
   selector: 'godsend-comment-wrapper',
     templateUrl: './comment-wrapper.component.html',
+    styleUrls: ['./comment-wrapper.component.css']
 })
 export class CommentWrapperComponent implements OnInit {
     @Input()
@@ -62,16 +65,19 @@ export class CommentWrapperComponent implements OnInit {
         return Object.keys(obj).reduce<FileNode[]>((accumulator, key) => {
             const value = obj[key];
             const node = new FileNode();
-            node.filename = key;
-
+            node.info = key;
             if (value != null) {
                 if (typeof value === 'object') {
-                    node.children = this.buildFileTree(value, level + 1);
-                } else {
-                    node.type = value;
-                }
+                    if (key == 'comment') { node.filename = value.author.name + " :  " + value.comment;  }
+                    else {
+                        node.filename = key
+                        node.children = this.buildFileTree(value, level + 1).filter(x => x.info == 'comment' || (typeof value === 'object'));
+                        if (!isNaN(Number(key)))
+                            return accumulator.concat(node.children);
+                        else if (node.children.length == 0) return accumulator;
+                    }
+                } 
             }
-
             return accumulator.concat(node);
         }, []);
     }

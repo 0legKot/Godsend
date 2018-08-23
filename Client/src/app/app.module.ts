@@ -5,7 +5,7 @@ import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AngularFontAwesomeModule } from 'angular-font-awesome';
 
-import {MatTreeModule} from '@angular/material';
+import {MatTreeModule, MatButtonModule, MatIconModule} from '@angular/material';
 import { CdkTreeModule } from '@angular/cdk/tree';
 
 import { AppComponent } from './store/app/app.component';
@@ -82,6 +82,8 @@ import { RatingsComponent } from './store/rating/ratings.component';
         ReactiveFormsModule,
         MatTreeModule,
         CdkTreeModule,
+        MatButtonModule,
+        MatIconModule,
         RouterModule.forRoot([
             { path: '', redirectTo: 'home', pathMatch: 'full' },
             { path: 'home', component: HomeComponent },
