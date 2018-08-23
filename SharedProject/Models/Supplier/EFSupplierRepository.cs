@@ -66,7 +66,7 @@ namespace Godsend.Models
             Supplier dbEntry = GetEntityByInfoId(infoId);
             if (dbEntry != null)
             {
-                context.RemoveRange(context.LinkRatingSupplier.Where(lrs => lrs.SupplierId == dbEntry.Id));
+                context.RemoveRange(context.LinkRatingSupplier.Where(lrs => lrs.EntityId == dbEntry.Id));
                 context.RemoveRange(context.LinkCommentSupplier.Where(lrs => lrs.SupplierId == dbEntry.Id));
                 context.Suppliers.Remove(dbEntry);
                 await context.SaveChangesAsync();
@@ -163,14 +163,14 @@ namespace Godsend.Models
 
         public async Task<double> SetRating(Guid supplierId, string userId, int rating)
         {
-            await ratingHelper.SetRating(supplierId, userId, rating, context.LinkRatingSupplier, lrs => lrs.SupplierId, context);
+            await ratingHelper.SetRating(supplierId, userId, rating, context.LinkRatingSupplier, context);
 
             return await RecalcRatings(supplierId);
         }
 
         private async Task<double> RecalcRatings(Guid supplierId)
         {
-            var avg = await ratingHelper.CalculateAverage(context.LinkRatingSupplier, lrs => lrs.SupplierId, supplierId);
+            var avg = await ratingHelper.CalculateAverage(context.LinkRatingSupplier, supplierId);
 
             await ratingHelper.SaveAverage(context.Suppliers, supplierId, avg, context);
 
@@ -179,12 +179,12 @@ namespace Godsend.Models
 
         public IEnumerable<LinkRatingEntity> GetAllRatings(Guid supplierId)
         {
-            return context.LinkRatingSupplier.Where(lrs => lrs.SupplierId == supplierId);
+            return context.LinkRatingSupplier.Where(lrs => lrs.EntityId == supplierId);
         }
 
         public int? GetUserRating(Guid supplierId, string userId)
         {
-            return context.LinkRatingSupplier.FirstOrDefault(lra => lra.SupplierId == supplierId && lra.UserId == userId)?.Rating;
+            return context.LinkRatingSupplier.FirstOrDefault(lra => lra.EntityId == supplierId && lra.UserId == userId)?.Rating;
         }
 
         public async Task<Guid> AddCommentAsync(Guid supplierId, string userId, Guid baseCommentId, string comment)

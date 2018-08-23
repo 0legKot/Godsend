@@ -110,7 +110,7 @@ namespace Godsend
                 context.RemoveRange(context.LinkProductPropertyInt.Where(p => p.Product.Id == dbEntry.Id));
                 context.RemoveRange(context.LinkProductPropertyString.Where(p => p.Product.Id == dbEntry.Id));
                 context.RemoveRange(context.LinkProductsSuppliers.Where(p => p.Product.Id == dbEntry.Id));
-                context.RemoveRange(context.LinkRatingProduct.Where(lrp => lrp.ProductId == dbEntry.Id));
+                context.RemoveRange(context.LinkRatingProduct.Where(lrp => lrp.EntityId == dbEntry.Id));
                 context.RemoveRange(context.LinkCommentProduct.Where(lrp => lrp.ProductId == dbEntry.Id));
                 dbEntry.Info = null;
                 context.Products.Remove(dbEntry);
@@ -414,14 +414,14 @@ namespace Godsend
 
         public async Task<double> SetRating(Guid productId, string userId, int rating)
         {
-            await ratingHelper.SetRating(productId, userId, rating, context.LinkRatingProduct, lrp => lrp.ProductId, context);
+            await ratingHelper.SetRating(productId, userId, rating, context.LinkRatingProduct, context);
 
             return await RecalcRatings(productId);
         }
 
         private async Task<double> RecalcRatings(Guid productId)
         {
-            var avg = await ratingHelper.CalculateAverage(context.LinkRatingProduct, lrp => lrp.ProductId, productId);
+            var avg = await ratingHelper.CalculateAverage(context.LinkRatingProduct, productId);
 
             await ratingHelper.SaveAverage(context.Products, productId, avg, context);
 
@@ -430,12 +430,12 @@ namespace Godsend
 
         public IEnumerable<LinkRatingEntity> GetAllRatings(Guid productId)
         {
-            return context.LinkRatingProduct.Where(lra => lra.ProductId == productId);
+            return context.LinkRatingProduct.Where(lra => lra.EntityId == productId);
         }
 
         public int? GetUserRating(Guid productId, string userId)
         {
-            return context.LinkRatingProduct.FirstOrDefault(lra => lra.ProductId == productId && lra.UserId == userId)?.Rating;
+            return context.LinkRatingProduct.FirstOrDefault(lra => lra.EntityId == productId && lra.UserId == userId)?.Rating;
         }
 
         public async Task<Guid> AddCommentAsync(Guid productId, string userId, Guid baseCommentId, string comment)
