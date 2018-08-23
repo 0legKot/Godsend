@@ -26,9 +26,14 @@ export class CommentWrapperComponent implements OnInit {
     id = "";
     @Input()
     clas!: supportedClass;
+    newComment: string="";
     comments: any = {};
     TREE_DATA: string = "{}";
     dataChange = new BehaviorSubject<FileNode[]>([]);
+
+    public send() {
+        this.repo.sendComment(this.clas, this.id, this.comments.comment.id, this.newComment, (x) => console.log(x));
+    }
 
     get data(): FileNode[] { return this.dataChange.value; }
     nestedTreeControl: NestedTreeControl<FileNode>;

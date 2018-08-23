@@ -156,6 +156,19 @@ export class RepositoryService {
         }
     }
 
+    sendComment(clas: supportedClass, id: string, baseId: string, commentText: string, fn: (_: any) => any) {
+        if (id != null) {
+            console.log(baseId);
+            const url = this.getUrl(clas);
+            this.data.sendRequest<any>('post', url + '/AddComment/' + id + '/' + baseId + '/' + commentText)
+                .subscribe(response => {
+                    if (fn) {
+                        fn(response);
+                    }
+                });
+        }
+    }
+
     changeOrderStatus(id: string, status: number, page: number, rpp: number, fn?: ((_: Order[]) => any)) {
         this.data.sendRequest<Order[]>('patch', ordersUrl + '/changeStatus/' + id + '/' + status)
             .subscribe(response => {

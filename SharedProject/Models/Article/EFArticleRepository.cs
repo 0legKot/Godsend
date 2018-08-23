@@ -220,8 +220,9 @@ namespace Godsend.Models
         {
             var newComment = new LinkCommentArticle
             {
-                ArticleId = articleId, UserId = userId,
-                BaseComment = new LinkCommentArticle() { Id = baseCommentId },
+                ArticleId = context.Articles.Include(x=>x.Info).FirstOrDefault(x=>x.Info.Id==articleId).Id, UserId = userId,
+                Id=Guid.NewGuid(),
+                BaseComment = context.LinkCommentArticle.FirstOrDefault(x => x.Id == baseCommentId),
                 Comment = comment
             };
             context.Add(newComment);
