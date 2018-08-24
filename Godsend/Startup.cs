@@ -67,7 +67,6 @@ namespace Godsend
             services.AddSignalR()
                 .AddMessagePackProtocol();
 
-            //services.AddSingleton<IUserIdProvider, CustomUserIdProvider>();
             // ===== Add Jwt Authentication ========
             // source: https://medium.com/@ozgurgul/asp-net-core-2-0-webapi-jwt-authentication-with-identity-mysql-3698eeba6ff8
             /* JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear(); // => remove default claims
@@ -144,7 +143,7 @@ namespace Godsend
             app.UseCors("GodsendPolicy");
             app.UseHttpsRedirection();
 
-            //app.UseCookiePolicy();
+            ////app.UseCookiePolicy();
             app.UseAuthentication();
 
             app.UseMvc();

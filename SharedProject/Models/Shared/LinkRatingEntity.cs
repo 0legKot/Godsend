@@ -17,7 +17,7 @@ namespace Godsend.Models
         public int Rating { get; set; }
 
         [NotMapped]
-        public virtual ClientUser Author => User == null ? null : ClientUser.FromEFUser(User);
+        public virtual ClientUser Author => ClientUser.FromEFUser(User);
 
         [JsonIgnore]
         public virtual User User { get; set; }

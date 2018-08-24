@@ -19,10 +19,13 @@ namespace Godsend.Models
         [JsonIgnore]
         public virtual LinkCommentEntity BaseComment { get; set; }
 
-        public Guid? BaseCommentId { get; set; }
+        /// <summary>
+        /// Warning: not set by EF Core
+        /// </summary>
+        public Guid? BaseCommentId { private get; set; }
 
         [NotMapped]
-        public virtual ClientUser Author => User == null ? null : new ClientUser { Id = User.Id, Name = User.UserName };
+        public virtual ClientUser Author => ClientUser.FromEFUser(User);
 
         [JsonIgnore]
         public virtual User User { get; set; }

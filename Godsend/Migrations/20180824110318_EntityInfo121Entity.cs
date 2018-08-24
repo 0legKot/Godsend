@@ -1,8 +1,8 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
-
-namespace Godsend.Migrations
+﻿namespace Godsend.Migrations
 {
+    using System;
+    using Microsoft.EntityFrameworkCore.Migrations;
+
     public partial class EntityInfo121Entity : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)

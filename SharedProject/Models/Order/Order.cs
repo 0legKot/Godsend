@@ -70,20 +70,7 @@ namespace Godsend.Models
         /// The customer.
         /// </value>
         [NotMapped]
-        public virtual ClientUser Customer
-        {
-            get
-            {
-                if (EFCustomer == null)
-                {
-                    return null;
-                }
-                else
-                {
-                    return new ClientUser { Id = EFCustomer.Id, Name = EFCustomer.UserName };
-                }
-            }
-        }
+        public virtual ClientUser Customer => ClientUser.FromEFUser(EFCustomer);
 
         /// <summary>
         /// Gets or sets the items.

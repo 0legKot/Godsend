@@ -33,7 +33,7 @@ namespace Godsend.Models
         /// The author.
         /// </value>
         [NotMapped]
-        public virtual ClientUser Author { get => EFAuthor == null ? null : new ClientUser { Id = EFAuthor.Id, Name = EFAuthor.UserName }; }
+        public virtual ClientUser Author => ClientUser.FromEFUser(EFAuthor);
 
         /// <summary>
         /// Gets or sets the created.

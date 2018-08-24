@@ -21,13 +21,13 @@ namespace Godsend.Models
         }
 
         [JsonConstructor]
-        public Article(ArticleInformation Info)
+        public Article(ArticleInformation info)
         {
             this.Info = new ArticleInformation()
             {
-                Name = Info.Name,
-                Description = Info.Description,
-                Tags = Info.Tags
+                Name = info.Name,
+                Description = info.Description,
+                Tags = info.Tags
             };
         }
 
