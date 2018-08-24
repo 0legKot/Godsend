@@ -16,7 +16,10 @@ namespace Godsend.Models
 
         public string Comment { get; set; }
 
+        [JsonIgnore]
         public virtual LinkCommentEntity BaseComment { get; set; }
+
+        public Guid? BaseCommentId { get; set; }
 
         [NotMapped]
         public virtual ClientUser Author => User == null ? null : new ClientUser { Id = User.Id, Name = User.UserName };

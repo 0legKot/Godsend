@@ -199,14 +199,14 @@ namespace Godsend.Models
             return context.LinkRatingArticle.FirstOrDefault(lra => lra.EntityId == articleId && lra.UserId == userId)?.Rating;
         }
 
-        public async Task<Guid> AddCommentAsync(Guid articleId, string userId, Guid baseCommentId, string comment)
+        public async Task<Guid> AddCommentAsync(Guid articleId, string userId, Guid? baseCommentId, string comment)
         {
             var newComment = new LinkCommentArticle
             {
-                ArticleId = context.Articles.FirstOrDefault(x=>x.Id==articleId).Id, UserId = userId,
-                Id=Guid.NewGuid(),
-                BaseComment = context.LinkCommentArticle.FirstOrDefault(x => x.Id == baseCommentId),
-                Comment = comment
+                ArticleId = articleId,
+                UserId = userId,
+                Comment = comment,
+                BaseCommentId = baseCommentId
             };
             context.Add(newComment);
             await context.SaveChangesAsync();

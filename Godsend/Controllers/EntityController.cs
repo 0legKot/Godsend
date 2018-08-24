@@ -150,14 +150,14 @@ namespace Godsend.Controllers
         IEnumerable<LinkCommentEntity> CommentsArr;
 
         [Authorize]
-        [HttpPost("[action]/{entityId:Guid}/{baseCommentId:Guid}/{comment}")]
-        public virtual async Task<IActionResult> AddComment(Guid entityId, Guid baseCommentId, string comment)
+        [HttpPost("[action]/{entityId:Guid}/{baseCommentId:Guid}")]
+        public virtual async Task<IActionResult> AddComment(Guid entityId, Guid? baseCommentId, [FromBody]TmpComment comment)
         {
             var userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value;
 
             try
             {
-                var newCommentId = await repository.AddCommentAsync(entityId, userId, baseCommentId, comment);
+                var newCommentId = await repository.AddCommentAsync(entityId, userId, baseCommentId, comment.Comment);
 
                 await hubContext.Clients.User(userId).SendAsync("Success", "Comment has been added");
 
@@ -171,20 +171,40 @@ namespace Godsend.Controllers
             }
         }
 
+        [Authorize]
+        [HttpPost("[action]/{entityId:Guid}")]
+        public virtual async Task<IActionResult> AddComment(Guid entityId, [FromBody]TmpComment comment)
+        {
+            return await AddComment(entityId, null, comment);
+
+        }
+
         [HttpGet("[action]/{entityId:Guid}")]
-        public virtual CommentWithSubs Comments(Guid entityId)
+        public virtual IEnumerable<CommentWithSubs> Comments(Guid entityId)
         {
             CommentsArr = repository.GetAllComments(entityId);
 
             if (!CommentsArr.Any()) return null;
 
-            CommentWithSubs tmplst = new CommentWithSubs()
+            var baseComments = CommentsArr.Where(lce => lce.BaseComment == null)
+                .Select(lce => new CommentWithSubs()
+                {
+                    Comment = lce,
+                    Subs = new List<CommentWithSubs>()
+                }).ToArray();
+
+            foreach (var comment in baseComments)
+            {
+                GetRecursiveComs(comment);
+            }
+            return baseComments;
+            /*CommentWithSubs tmplst = new CommentWithSubs()
             {
                 Comment = CommentsArr.FirstOrDefault(x => x.BaseComment == null),
                 Subs = new List<CommentWithSubs>()
-            };
-            GetRecursiveComs(ref tmplst);
-            return tmplst;
+            };*/
+            //GetRecursiveComs(ref tmplst);
+
         }
 
         public IEnumerable<LinkCommentEntity> GetSubComments(Guid id)
@@ -192,7 +212,7 @@ namespace Godsend.Controllers
             return CommentsArr.Where(x => x.BaseComment?.Id == id);
         }
 
-        private void GetRecursiveComs(ref CommentWithSubs cur)
+        private void GetRecursiveComs(CommentWithSubs cur)
         {
             var subs = new List<CommentWithSubs>();
             var curSubComs = GetSubComments(cur.Comment.Id);
@@ -201,7 +221,7 @@ namespace Godsend.Controllers
                 foreach (var com in curSubComs)
                 {
                     var tmp = new CommentWithSubs() { Comment = com };
-                    GetRecursiveComs(ref tmp);
+                    GetRecursiveComs(tmp);
                     var tmpClone = new CommentWithSubs() { Comment = tmp.Comment, Subs = tmp.Subs };
                     tmpClone.Comment.BaseComment = null;
                     subs.Add(tmpClone);
@@ -238,5 +258,10 @@ namespace Godsend.Controllers
         {
             return repository.GetEntity(id);
         }*/
+    }
+
+    public class TmpComment
+    {
+        public string Comment { get; set; }
     }
 }

@@ -414,14 +414,14 @@ namespace Godsend
             return context.LinkRatingProduct.FirstOrDefault(lra => lra.EntityId == productId && lra.UserId == userId)?.Rating;
         }
 
-        public async Task<Guid> AddCommentAsync(Guid productId, string userId, Guid baseCommentId, string comment)
+        public async Task<Guid> AddCommentAsync(Guid productId, string userId, Guid? baseCommentId, string comment)
         {
             //var user = await userManager.FindByIdAsync(userId);
             var newComment = new LinkCommentProduct
             {
                 ProductId = productId,
                 UserId = userId,
-                BaseComment = new LinkCommentEntity() { Id = baseCommentId },
+                BaseCommentId = baseCommentId.HasValue ? baseCommentId.Value : Guid.Empty,
                 Comment = comment
             };
             context.Add(newComment);

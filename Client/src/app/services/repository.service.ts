@@ -8,6 +8,7 @@ import { ArticleInfo, Article } from '../models/article.model';
 import { Cart, CartView, OrderPartDiscreteSend } from '../models/cart.model';
 import { IEntity, IInformation } from '../models/entity.model';
 import { LinkRatingEntity } from '../models/rating.model';
+import { CommentWithSubs } from '../models/comment.model';
 
 export type entityClass = 'article' | 'product' | 'supplier';
 export type supportedClass = entityClass | 'order';
@@ -68,7 +69,7 @@ export class RepositoryService {
         }
     }
 
-    setComments<T>(val: T) {
+    /*setComments<T>(val: T) {
         this.comments = val;
         //switch (typeof (val)) {
         //    case typeof (Product):
@@ -82,7 +83,7 @@ export class RepositoryService {
         //        break;
         //    default: return;
         //}
-    }
+    }*/
 
     setEntities<T>(clas: supportedClass, val: T[]) {
         switch (clas) {
@@ -141,26 +142,19 @@ export class RepositoryService {
         }
     }
 
-    getEntityComments<T>(clas: supportedClass, id: string, fn: (_: T) => any) {
-        if (id != null) {
-
-            const url = this.getUrl(clas);
-            this.data.sendRequest<T>('get', url + '/comments/' + id)
-                .subscribe(response => {
-                    this.setComments<T>(response);
-                    
-                    if (fn) {
-                        fn(response);
-                    }
-                });
-        }
+    getEntityComments(clas: entityClass, id: string, fn: (_: CommentWithSubs[]) => any) {
+        const url = this.getUrl(clas);
+        this.data.sendRequest<CommentWithSubs[]>('get', url + '/comments/' + id)
+            .subscribe(response => {
+                fn(response);
+            });
     }
 
-    sendComment(clas: supportedClass, id: string, baseId: string, commentText: string, fn: (_: any) => any) {
+    sendComment(clas: supportedClass, id: string, baseId: string | null, commentText: string, fn: (_: any) => any) {
         if (id != null) {
             console.log(baseId);
             const url = this.getUrl(clas);
-            this.data.sendRequest<any>('post', url + '/AddComment/' + id + '/' + baseId + '/' + commentText)
+            this.data.sendRequest<any>('post', url + '/AddComment/' + id + (baseId != null ? '/' + baseId : ''), { comment: commentText })
                 .subscribe(response => {
                     if (fn) {
                         fn(response);

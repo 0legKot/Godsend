@@ -33,7 +33,7 @@ namespace Godsend.Models
 
         Task<double> SetRatingAsync(Guid entityId, string userId, int rating);
 
-        Task<Guid> AddCommentAsync(Guid entityId, string userId, Guid baseCommentId, string comment);
+        Task<Guid> AddCommentAsync(Guid entityId, string userId, Guid? baseCommentId, string comment);
 
         IEnumerable<LinkRatingEntity> GetAllRatings(Guid entityId);
 
