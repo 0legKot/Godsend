@@ -175,6 +175,9 @@ namespace Godsend.Controllers
         public virtual CommentWithSubs Comments(Guid entityId)
         {
             CommentsArr = repository.GetAllComments(entityId);
+
+            if (!CommentsArr.Any()) return null;
+
             CommentWithSubs tmplst = new CommentWithSubs()
             {
                 Comment = CommentsArr.FirstOrDefault(x => x.BaseComment == null),

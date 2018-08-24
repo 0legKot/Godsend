@@ -63,7 +63,7 @@ namespace Godsend.Controllers
         [HttpGet("[action]/{infoId:Guid}")]
         public async Task<Article> Detail(Guid infoId)
         {
-            var article = repository.GetEntityByInfoId(infoId);
+            var article = repository.GetEntity(infoId);
             repository.Watch(article);
 
             await hubContext.Clients.All.SendAsync("Success", "Somebody has just watched the article!");

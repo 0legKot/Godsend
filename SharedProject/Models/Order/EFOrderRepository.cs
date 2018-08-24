@@ -33,11 +33,6 @@ namespace Godsend.Models
             seedHelper.EnsurePopulated(ctx);
         }
 
-        private IEnumerable<Order> Orders => context.Orders
-            .Include(x => x.EFCustomer)
-            .Include(o => o.Items).ThenInclude(di => di.Product).ThenInclude(di => di.Info)
-            .Include(o => o.Items).ThenInclude(di => di.Supplier).ThenInclude(s => s.Info);
-
         // TODO rework
 
         /// <summary>
@@ -47,10 +42,7 @@ namespace Godsend.Models
         /// The orders.
         /// </value>
         public IEnumerable<Order> GetOrders(int quantity, int skip = 0) =>
-            this.Orders
-            .Skip(skip).Take(quantity);
-        ////.Include(o => o.WeightedItems).ThenInclude(wi => wi.Product).ThenInclude(p => p.Info)
-        ////.Include(o => o.WeightedItems).ThenInclude(wi => wi.Supplier).ThenInclude(s => s.Info);
+            this.context.Orders.Skip(skip).Take(quantity);
 
         /// <summary>
         /// Saves the order.
@@ -121,13 +113,7 @@ namespace Godsend.Models
         /// <returns></returns>
         private Order GetOrder(Guid orderID)
         {
-            return context.Orders
-            .Include(x => x.EFCustomer)
-            .Include(o => o.Items).ThenInclude(di => di.Product).ThenInclude(di => di.Info)
-            .Include(o => o.Items).ThenInclude(di => di.Supplier).ThenInclude(s => s.Info)
-            ////.Include(o => o.WeightedItems).ThenInclude(wi => wi.Product).ThenInclude(p => p.Info)
-            ////.Include(o => o.WeightedItems).ThenInclude(wi => wi.Supplier).ThenInclude(s => s.Info)
-            .FirstOrDefault(p => p.Id == orderID);
+            return context.Orders.FirstOrDefault(p => p.Id == orderID);
         }
 
         public int GetCount()
@@ -137,7 +123,7 @@ namespace Godsend.Models
 
         public Order GetOrderById(Guid id)
         {
-            return this.Orders.FirstOrDefault(o => o.Id == id);
+            return this.context.Orders.FirstOrDefault(o => o.Id == id);
         }
     }
 }

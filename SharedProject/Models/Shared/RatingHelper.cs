@@ -43,7 +43,7 @@ namespace Godsend.Models
        /* public async Task SaveAverageAsync<TEntity>(DbSet<TEntity> entitySet, Guid entityId, double avg, DataContext context)
             where TEntity : class, IEntity
         {
-            var entity = await entitySet.Include(e => e.Info).FirstOrDefaultAsync(e => e.Id == entityId);
+            var entity = await entitySet.FirstOrDefaultAsync(e => e.Id == entityId);
             entity.Info.Rating = avg;
 
             await context.SaveChangesAsync();

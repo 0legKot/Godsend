@@ -37,7 +37,7 @@ namespace Godsend.Controllers
         [HttpGet("[action]/{id:Guid}")]
         public Supplier Detail(Guid id)
         {
-            var sup = repository.GetEntityByInfoId(id);
+            var sup = repository.GetEntity(id);
             repository.Watch(sup);
             return sup;
         }

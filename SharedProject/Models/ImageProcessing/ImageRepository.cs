@@ -38,7 +38,7 @@ namespace Godsend.Models
         /// <returns></returns>
         public IEnumerable<string> GetImages(Guid id)
         {
-            return context.ImagePathsTable.Include(x => x.Images).FirstOrDefault(x => x.Id == id)?.Images.Select(x => x.Value) ?? Enumerable.Empty<string>();
+            return context.ImagePathsTable.FirstOrDefault(x => x.Id == id)?.Images.Select(x => x.Value) ?? Enumerable.Empty<string>();
         }
 
         /// <summary>

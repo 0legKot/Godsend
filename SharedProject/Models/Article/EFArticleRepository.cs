@@ -54,7 +54,7 @@ namespace Godsend.Models
         /// </value>
         public IEnumerable<Article> Entities(int quantity, int skip = 0)
         {
-            var tmp = context.Articles.Include(a => a.Info).ThenInclude(ai => ai.EFAuthor).Skip(skip).Take(quantity).ToArray();
+            var tmp = context.Articles.Skip(skip).Take(quantity).ToArray();
             return tmp;
         }
 
@@ -66,8 +66,7 @@ namespace Godsend.Models
         /// </value>
         public IEnumerable<Information> EntitiesInfo(int quantity, int skip = 0)
         {
-            var tmp = context.Articles.Include(a => a.Info).ThenInclude(a => (a as ArticleInformation).EFTags).ThenInclude(a => (a as ArticleInformation).EFAuthor).Select(a => a.Info)
-                                                          .Skip(skip).Take(quantity);
+            var tmp = context.Articles.Select(a => a.Info).Skip(skip).Take(quantity);
 
             return tmp;
         }
@@ -88,7 +87,7 @@ namespace Godsend.Models
         /// <param name="infoId">The information identifier.</param>
         public async Task DeleteEntity(Guid infoId)
         {
-            Article dbEntry = GetEntityByInfoId(infoId);
+            Article dbEntry = GetEntity(infoId);
             if (dbEntry != null)
             {
                 context.RemoveRange(context.LinkRatingArticle.Where(lra => lra.EntityId == dbEntry.Id));
@@ -118,26 +117,7 @@ namespace Godsend.Models
         /// <returns></returns>
         public Article GetEntity(Guid entityId)
         {
-            return context.Articles
-
-            //.Include(a => (a.Info as ArticleInformation)).ThenInclude(a => a.EFAuthor)
-            //.Include(a => (a.Info as ArticleInformation)).ThenInclude(a => a.EFTags)
-            .FirstOrDefault(a => a.Id == entityId);
-        }
-
-        /// <summary>
-        /// Gets the entity by information identifier.
-        /// </summary>
-        /// <param name="infoId">The information identifier.</param>
-        /// <returns></returns>
-        //TODO: fix includes
-        public Article GetEntityByInfoId(Guid infoId)
-        {
-            return context.Articles.Include(a => a.Info)
-
-                //.ThenInclude(a => ((ArticleInformation)a).EFAuthor)
-                //.Include(a => a.Info).ThenInclude(a => ((ArticleInformation)a).EFTags)
-            .FirstOrDefault(a => a.Info.Id == infoId);
+            return context.Articles.FirstOrDefault(a => a.Id == entityId);
         }
 
         /// <summary>
@@ -201,7 +181,7 @@ namespace Godsend.Models
         {
             var avg = await ratingHelper.CalculateAverageAsync(context.LinkRatingArticle, articleId);
 
-            var article = await context.Articles.Include(a => a.Info).FirstOrDefaultAsync(p => p.Id == articleId);
+            var article = await context.Articles.FirstOrDefaultAsync(p => p.Id == articleId);
             article.Info.Rating = avg;
 
             await context.SaveChangesAsync();
@@ -223,7 +203,7 @@ namespace Godsend.Models
         {
             var newComment = new LinkCommentArticle
             {
-                ArticleId = context.Articles.Include(x=>x.Info).FirstOrDefault(x=>x.Info.Id==articleId).Id, UserId = userId,
+                ArticleId = context.Articles.FirstOrDefault(x=>x.Info.Id==articleId).Id, UserId = userId,
                 Id=Guid.NewGuid(),
                 BaseComment = context.LinkCommentArticle.FirstOrDefault(x => x.Id == baseCommentId),
                 Comment = comment

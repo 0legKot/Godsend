@@ -44,9 +44,6 @@ namespace Godsend.Models
         /// The entities.
         /// </value>
         public IEnumerable<Supplier> Entities(int quantity, int skip = 0) => context.Suppliers
-
-            //.Include("Info")
-            //.Include(s =>s.Info ).ThenInclude(i => (i as SupplierInformation).Location)
             .Skip(skip).Take(quantity);
 
         /// <summary>
@@ -63,7 +60,7 @@ namespace Godsend.Models
         /// <param name="infoId">The information identifier.</param>
         public async Task DeleteEntity(Guid infoId)
         {
-            Supplier dbEntry = GetEntityByInfoId(infoId);
+            Supplier dbEntry = GetEntity(infoId);
             if (dbEntry != null)
             {
                 context.RemoveRange(context.LinkRatingSupplier.Where(lrs => lrs.EntityId == dbEntry.Id));
@@ -134,34 +131,6 @@ namespace Godsend.Models
             return context.Suppliers.FirstOrDefault(s => s.Id == entityId);
         }
 
-        ////public class Hell : Supplier
-        ////{
-        ////    public override Information Info { get => base.Info; set => base.Info = value as SupplierInformation; }
-        ////}
-
-        /// <summary>
-        /// Gets the entity by information identifier.
-        /// </summary>
-        /// <param name="infoId">The information identifier.</param>
-        /// <returns></returns>
-        public Supplier GetEntityByInfoId(Guid infoId)
-        {
-            //TODO: fix includes
-            Supplier x = context.Suppliers.Include(s => s.Info)
-                .FirstOrDefault(s => s.Info.Id == infoId);
-            if (x == null)
-            {
-                return null;
-            }
-
-            //SupplierInformation supplierInformation1 = context.Set<SupplierInformation>().FirstOrDefault(z => z.Id == x.Info.Id);
-            //Location supplierInformation = context.Set<SupplierInformation>().FirstOrDefault(z => z.Id == x.Info.Id).Location;
-            Location loc = context.Set<Location>().FirstOrDefault();
-            x.Info.Location = loc;
-            var tst = x.Info.Location;
-            return x;
-        }
-
         public int EntitiesCount()
         {
             return context.Suppliers.Count();
@@ -178,7 +147,7 @@ namespace Godsend.Models
         {
             var avg = await ratingHelper.CalculateAverageAsync(context.LinkRatingSupplier, supplierId);
 
-            var supplier = await context.Suppliers.Include(s => s.Info).FirstOrDefaultAsync(p => p.Id == supplierId);
+            var supplier = await context.Suppliers.FirstOrDefaultAsync(p => p.Id == supplierId);
             supplier.Info.Rating = avg;
 
             await context.SaveChangesAsync();

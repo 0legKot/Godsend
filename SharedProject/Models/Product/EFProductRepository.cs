@@ -81,7 +81,7 @@ namespace Godsend
         /// <param name="entity">The entity.</param>
         public async Task SaveEntity(Product entity)
         {
-            Product dbEntry = context.Products.Include(p => p.Info).Include(p => p.Category).FirstOrDefault(p => p.Id == entity.Id);
+            Product dbEntry = context.Products.FirstOrDefault(p => p.Id == entity.Id);
             if (dbEntry != null)
             {
                 // TODO: implement IClonable
@@ -102,9 +102,7 @@ namespace Godsend
         /// <param name="infoId">The information identifier.</param>
         public async Task DeleteEntity(Guid infoId)
         {
-            Product dbEntry = context.Products
-                .Include(p => p.Info)
-                .FirstOrDefault(p => p.Info.Id == infoId);
+            Product dbEntry = context.Products.FirstOrDefault(p => p.Id == infoId);
             if (dbEntry != null)
             {
                 context.RemoveRange(context.LinkProductPropertyDecimal.Where(p => p.Product.Id == dbEntry.Id));
@@ -137,7 +135,7 @@ namespace Godsend
         /// <returns></returns>
         public Product GetEntity(Guid entityId)
         {
-            return context.Products.Include(p => p.Info).Include(p => p.Category).FirstOrDefault(p => p.Id == entityId);
+            return context.Products.FirstOrDefault(p => p.Id == entityId);
         }
 
         /// <summary>
@@ -160,26 +158,16 @@ namespace Godsend
         /// <returns></returns>
         public ProductWithSuppliers GetProductWithSuppliers(Guid productInfoId)
         {
-            var tmp = context.LinkProductsSuppliers
-                    .Include(ps => ps.Product)
-                    .ThenInclude(p => p.Info)
-                    .Include(ps => ps.Supplier)
-                    .ThenInclude(s => s.Info)
-
-                    //.Include(ps => ps.Supplier)
-                    //.ThenInclude(x => (x.Info as SupplierInformation).Location)
-                    .ToArray();
-
             var res = new ProductWithSuppliers
             {
-                Product = GetEntityByInfoId(productInfoId),
-                Suppliers = tmp
+                Product = GetEntity(productInfoId),
+                Suppliers = context.LinkProductsSuppliers
                     .Where(link => link.Product.Info.Id == productInfoId)
                     .Select(link => new SupplierAndPrice { Supplier = link.Supplier, Price = link.Price })
                     .ToArray(),
-                DecimalProps = context.LinkProductPropertyDecimal.Include(lpp => lpp.Property).Where(lpp => lpp.Product.Info.Id == productInfoId),
-                StringProps = context.LinkProductPropertyString.Include(lpp => lpp.Property).Where(lpp => lpp.Product.Info.Id == productInfoId),
-                IntProps = context.LinkProductPropertyInt.Include(lpp => lpp.Property).Where(lpp => lpp.Product.Info.Id == productInfoId)
+                DecimalProps = context.LinkProductPropertyDecimal.Where(lpp => lpp.Product.Info.Id == productInfoId),
+                StringProps = context.LinkProductPropertyString.Where(lpp => lpp.Product.Info.Id == productInfoId),
+                IntProps = context.LinkProductPropertyInt.Where(lpp => lpp.Product.Info.Id == productInfoId)
             };
             return res;
         }
@@ -194,7 +182,7 @@ namespace Godsend
         /// </returns>
         private IQueryable<Product> GetProductsFromContext(int quantity, int skip = 0)
         {
-            return context.Products.Include(p => p.Info).Include(p => p.Category).Skip(skip).Take(quantity);
+            return context.Products.Skip(skip).Take(quantity);
         }
 
         /// <summary>
@@ -203,13 +191,7 @@ namespace Godsend
         /// <returns></returns>
         public IEnumerable<Category> Categories()
         {
-            var res = context.Categories.Include(c => c.BaseCategory);
-            for (int i = 0; i < maxDepth; i++)
-            {
-                res = res.ThenInclude(c => c.BaseCategory);
-            }
-
-            return res;
+            return context.Categories;
         }
 
         /// <summary>
@@ -219,17 +201,7 @@ namespace Godsend
         /// <returns></returns>
         public IEnumerable<object> Properties(Guid categoryId)
         {
-            return context.Properties.Include(x => x.RelatedCategory).Where(x => x.RelatedCategory.Id == categoryId).Select(x => new { x.Id, x.Name, x.Type });
-        }
-
-        /// <summary>
-        /// Gets the entity by information identifier.
-        /// </summary>
-        /// <param name="infoId">The information identifier.</param>
-        /// <returns></returns>
-        public Product GetEntityByInfoId(Guid infoId)
-        {
-            return context.Products.Include(p => p.Info).Include(p => p.Category).FirstOrDefault(p => p.Info.Id == infoId);
+            return context.Properties.Where(x => x.RelatedCategory.Id == categoryId).Select(x => new { x.Id, x.Name, x.Type });
         }
 
         public int EntitiesCount()
@@ -239,7 +211,7 @@ namespace Godsend
 
         public ProductInfosAndCount GetProductInformationsByProductFilter(ProductFilterInfo filter)
         {
-            IQueryable<Product> products = context.Products.Include(p => p.Info).Include(p => p.Category);
+            IQueryable<Product> products = context.Products;
 
             if (filter.CategoryId.HasValue)
             {
@@ -329,7 +301,7 @@ namespace Godsend
         private IQueryable<Product> OrderByPropertyCommon<T>(IEnumerable<Product> products, Guid sortingPropertyId, IQueryable<EAV<T>> eavs, bool sortAscending)
         {
             var tmp = products.GroupJoin(
-                    eavs.Include(lpp => lpp.Product).Include(lpp => lpp.Property).Where(lpp => lpp.Property.Id == sortingPropertyId),
+                    eavs.Where(lpp => lpp.Property.Id == sortingPropertyId),
                     p => p.Id,
                     lpp => lpp.Product.Id,
                     (p, lpp) => new { Product = p, Links = lpp })
@@ -368,7 +340,7 @@ namespace Godsend
         private IQueryable<Product> FilterByDecimalProps(IQueryable<Product> products, IEnumerable<DecimalPropertyInfo> decimalProps)
         {
             var tmp = products.GroupJoin(
-                    context.LinkProductPropertyDecimal.Include(x => x.Product).Include(x => x.Property),
+                    context.LinkProductPropertyDecimal,
                     p => p.Id,
                     lpp => lpp.Product.Id,
                     (p, lpp) => new { Product = p, Links = lpp });
@@ -384,7 +356,7 @@ namespace Godsend
         private IQueryable<Product> FilterByStringProps(IQueryable<Product> products, IEnumerable<StringPropertyInfo> stringProps)
         {
             var tmp = products.GroupJoin(
-                    context.LinkProductPropertyString.Include(lpp => lpp.Product).Include(lpp => lpp.Property),
+                    context.LinkProductPropertyString,
                     p => p.Id,
                     lpp => lpp.Product.Id,
                     (p, lpp) => new { Product = p, Links = lpp });
@@ -400,7 +372,7 @@ namespace Godsend
         private IQueryable<Product> FilterByIntProps(IQueryable<Product> products, IEnumerable<IntPropertyInfo> intProps)
         {
             var tmp = products.GroupJoin(
-                    context.LinkProductPropertyInt.Include(lpp => lpp.Product).Include(lpp => lpp.Property),
+                    context.LinkProductPropertyInt,
                     p => p.Id,
                     lpp => lpp.Product.Id,
                     (p, lpp) => new { Product = p, Links = lpp });
@@ -424,7 +396,7 @@ namespace Godsend
         {
             var avg = await ratingHelper.CalculateAverageAsync(context.LinkRatingProduct, productId);
 
-            var product = await context.Products.Include(p => p.Info).FirstOrDefaultAsync(p => p.Id == productId);
+            var product = await context.Products.FirstOrDefaultAsync(p => p.Id == productId);
             product.Info.Rating = avg;
 
             await context.SaveChangesAsync();

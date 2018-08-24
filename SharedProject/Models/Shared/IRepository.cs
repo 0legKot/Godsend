@@ -23,13 +23,6 @@ namespace Godsend.Models
 
         int EntitiesCount();
 
-        /// <summary>
-        /// Gets the entity by information identifier.
-        /// </summary>
-        /// <param name="infoId">The information identifier.</param>
-        /// <returns></returns>
-        IEntity GetEntityByInfoId(Guid infoId);
-
         Task SaveEntity(IEntity entity);
 
         Task DeleteEntity(Guid entityId);
