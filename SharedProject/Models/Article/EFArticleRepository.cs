@@ -84,10 +84,10 @@ namespace Godsend.Models
         /// <summary>
         /// Deletes the entity.
         /// </summary>
-        /// <param name="infoId">The information identifier.</param>
-        public async Task DeleteEntity(Guid infoId)
+        /// <param name="id">The article identifier.</param>
+        public async Task DeleteEntity(Guid id)
         {
-            Article dbEntry = GetEntity(infoId);
+            Article dbEntry = GetEntity(id);
             if (dbEntry != null)
             {
                 context.RemoveRange(context.LinkRatingArticle.Where(lra => lra.EntityId == dbEntry.Id));
@@ -203,7 +203,7 @@ namespace Godsend.Models
         {
             var newComment = new LinkCommentArticle
             {
-                ArticleId = context.Articles.FirstOrDefault(x=>x.Info.Id==articleId).Id, UserId = userId,
+                ArticleId = context.Articles.FirstOrDefault(x=>x.Id==articleId).Id, UserId = userId,
                 Id=Guid.NewGuid(),
                 BaseComment = context.LinkCommentArticle.FirstOrDefault(x => x.Id == baseCommentId),
                 Comment = comment
@@ -213,9 +213,9 @@ namespace Godsend.Models
             return newComment.Id;
         }
 
-        public IEnumerable<LinkCommentEntity> GetAllComments(Guid articleInfoId)
+        public IEnumerable<LinkCommentEntity> GetAllComments(Guid articleId)
         {
-            var fortst = context.LinkCommentArticle.Where(lra => lra.Article.Info.Id == articleInfoId)
+            var fortst = context.LinkCommentArticle.Where(lra => lra.Article.Id == articleId)
                 .Select(x => new LinkCommentEntity() { BaseComment = x.BaseComment, Comment = x.Comment, Id = x.Id, User = x.User });
             return fortst;
         }

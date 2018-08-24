@@ -55,12 +55,12 @@ namespace Godsend.Models
         public IEnumerable<Information> EntitiesInfo(int quantity, int skip = 0) => Entities(quantity, skip).Select(s => s.Info).ToArray();
 
         /// <summary>
-        /// Deletes the entity.
+        /// Deletes the supplier.
         /// </summary>
-        /// <param name="infoId">The information identifier.</param>
-        public async Task DeleteEntity(Guid infoId)
+        /// <param name="id">The supplier identifier.</param>
+        public async Task DeleteEntity(Guid id)
         {
-            Supplier dbEntry = GetEntity(infoId);
+            Supplier dbEntry = GetEntity(id);
             if (dbEntry != null)
             {
                 context.RemoveRange(context.LinkRatingSupplier.Where(lrs => lrs.EntityId == dbEntry.Id));

@@ -97,12 +97,12 @@ namespace Godsend
         }
 
         /// <summary>
-        /// Deletes the entity.
+        /// Deletes the product.
         /// </summary>
-        /// <param name="infoId">The information identifier.</param>
-        public async Task DeleteEntity(Guid infoId)
+        /// <param name="id">The product identifier.</param>
+        public async Task DeleteEntity(Guid id)
         {
-            Product dbEntry = context.Products.FirstOrDefault(p => p.Id == infoId);
+            Product dbEntry = context.Products.FirstOrDefault(p => p.Id == id);
             if (dbEntry != null)
             {
                 context.RemoveRange(context.LinkProductPropertyDecimal.Where(p => p.Product.Id == dbEntry.Id));
@@ -154,20 +154,20 @@ namespace Godsend
         /// <summary>
         /// Gets the product with suppliers.
         /// </summary>
-        /// <param name="productInfoId">The product information identifier.</param>
+        /// <param name="productId">The product information identifier.</param>
         /// <returns></returns>
-        public ProductWithSuppliers GetProductWithSuppliers(Guid productInfoId)
+        public ProductWithSuppliers GetProductWithSuppliers(Guid productId)
         {
             var res = new ProductWithSuppliers
             {
-                Product = GetEntity(productInfoId),
+                Product = GetEntity(productId),
                 Suppliers = context.LinkProductsSuppliers
-                    .Where(link => link.Product.Info.Id == productInfoId)
+                    .Where(link => link.Product.Id == productId)
                     .Select(link => new SupplierAndPrice { Supplier = link.Supplier, Price = link.Price })
                     .ToArray(),
-                DecimalProps = context.LinkProductPropertyDecimal.Where(lpp => lpp.Product.Info.Id == productInfoId),
-                StringProps = context.LinkProductPropertyString.Where(lpp => lpp.Product.Info.Id == productInfoId),
-                IntProps = context.LinkProductPropertyInt.Where(lpp => lpp.Product.Info.Id == productInfoId)
+                DecimalProps = context.LinkProductPropertyDecimal.Where(lpp => lpp.Product.Id == productId),
+                StringProps = context.LinkProductPropertyString.Where(lpp => lpp.Product.Id == productId),
+                IntProps = context.LinkProductPropertyInt.Where(lpp => lpp.Product.Id == productId)
             };
             return res;
         }
