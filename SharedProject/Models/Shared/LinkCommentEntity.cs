@@ -22,7 +22,7 @@ namespace Godsend.Models
         /// <summary>
         /// Warning: not set by EF Core
         /// </summary>
-        public Guid? BaseCommentId { private get; set; }
+        public Guid? BaseCommentId { get; set; }
 
         [NotMapped]
         public virtual ClientUser Author => ClientUser.FromEFUser(User);
