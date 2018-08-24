@@ -37,7 +37,8 @@ namespace Godsend.Models
             this.Name = Name;
         }
 
-        //public Product Product { get; set; }
+        [JsonIgnore]
+        public virtual Product Product { get; set; }
     }
 
     public enum ProductState

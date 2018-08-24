@@ -54,7 +54,7 @@ namespace Godsend.Models
         /// </value>
         public IEnumerable<Article> Entities(int quantity, int skip = 0)
         {
-            var tmp = context.Articles.Include(a => a.Info as ArticleInformation).ThenInclude(ai => ai.EFAuthor).Skip(skip).Take(quantity).ToArray();
+            var tmp = context.Articles.Include(a => a.Info).ThenInclude(ai => ai.EFAuthor).Skip(skip).Take(quantity).ToArray();
             return tmp;
         }
 
@@ -167,8 +167,8 @@ namespace Godsend.Models
             if (dbEntry != null)
             {
                 // TODO: implement IClonable
-                (dbEntry.Info as ArticleInformation).Name = entity.Info.Name;
-                (dbEntry.Info as ArticleInformation).Description = (entity.Info as ArticleInformation).Description;
+                dbEntry.Info.Name = entity.Info.Name;
+                dbEntry.Info.Description = entity.Info.Description;
                 dbEntry.Content = entity.Content;
 
                 // ....
@@ -176,8 +176,8 @@ namespace Godsend.Models
             else
             {
                 ////entity.SetIds();
-                (entity.Info as ArticleInformation).EFAuthor = user;
-                (entity.Info as ArticleInformation).Created = DateTime.Now;
+                entity.Info.EFAuthor = user;
+                entity.Info.Created = DateTime.Now;
 
                 context.Add(entity);
             }
@@ -201,7 +201,10 @@ namespace Godsend.Models
         {
             var avg = await ratingHelper.CalculateAverageAsync(context.LinkRatingArticle, articleId);
 
-            await ratingHelper.SaveAverageAsync(context.Articles, articleId, avg, context);
+            var article = await context.Articles.Include(a => a.Info).FirstOrDefaultAsync(p => p.Id == articleId);
+            article.Info.Rating = avg;
+
+            await context.SaveChangesAsync();
 
             return avg;
         }

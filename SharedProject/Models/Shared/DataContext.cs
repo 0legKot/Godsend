@@ -106,9 +106,27 @@ namespace Godsend.Models
             ////builder.Entity<Product>().HasMany<Property>();
             builder.Entity<SimpleOrder>();
             ////builder.Entity<SimpleArticle>();
-            builder.Entity<ProductInformation>();
-            builder.Entity<SupplierInformation>();
-            builder.Entity<ArticleInformation>();
+
+            builder.Entity<Product>()
+                .HasOne(p => p.Info).WithOne(i => i.Product)
+                .HasForeignKey<ProductInformation>(i => i.Id);
+            builder.Entity<Product>().ToTable("Products");
+            builder.Entity<ProductInformation>().ToTable("Products");
+
+            builder.Entity<Supplier>()
+                .HasOne(p => p.Info).WithOne(i => i.Supplier)
+                .HasForeignKey<SupplierInformation>(i => i.Id);
+            builder.Entity<Supplier>().ToTable("Suppliers");
+            builder.Entity<SupplierInformation>().ToTable("Suppliers");
+
+            builder.Entity<Article>()
+                .HasOne(p => p.Info).WithOne(i => i.Article)
+                .HasForeignKey<ArticleInformation>(i => i.Id);
+            builder.Entity<Article>().ToTable("Articles");
+            builder.Entity<ArticleInformation>().ToTable("Articles");
+
+            builder.Ignore<Information>();
+
             base.OnModelCreating(builder);
         }
     }

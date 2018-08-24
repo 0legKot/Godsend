@@ -44,27 +44,19 @@ namespace Godsend.Controllers
         /// <param name="id">The identifier.</param>
         /// <returns></returns>
         [HttpGet("[action]/{id:Guid}")]
-        public new ProductWithSuppliers Detail(Guid id)
+        public new IActionResult Detail(Guid id)
         {
             var prod = (repository as IProductRepository)?.GetProductWithSuppliers(id);
             if (prod != null)
             {
-                repository.Watch(prod.Product as Product);
+                repository.Watch(prod.Product);
             }
             else
             {
-                //TODO:fix
-                return new ProductWithSuppliers()
-            {
-                Product = new Product() { Id = Guid.NewGuid(), Info = new ProductInformation() { Name = "", Description = "", Id = Guid.NewGuid() } },
-                Suppliers = new List<SupplierAndPrice>() { new SupplierAndPrice() { Price = 111, Supplier = new Supplier() { Info = new SupplierInformation() { Name = "" } } } },
-                IntProps = new List<EAV<int>>(),
-                DecimalProps = new List<EAV<decimal>>(),
-                StringProps = new List<EAV<string>>()
-            };
+                return BadRequest();
             }
 
-            return prod;
+            return Ok(prod);
         }
 
         [HttpGet("[action]")]

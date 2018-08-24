@@ -72,5 +72,8 @@ namespace Godsend.Models
             get => this.EFTags?.Select(x => x.Value)?.ToArray();
             set => this.EFTags = value?.Select<string, StringWrapper>(s => s).ToArray();
         }
+
+        [JsonIgnore]
+        public virtual Article Article { get; set; }
     }
 }

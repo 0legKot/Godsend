@@ -98,7 +98,7 @@ namespace Godsend.Controllers
                     ? hubContext.Clients.User(userId).SendAsync("Success", "Created successfully")
                     : hubContext.Clients.User(userId).SendAsync("Success", "Saved successfully"));
 
-                return Ok(entity.Info.Id);
+                return Ok(entity.Id);
             }
             catch
             {

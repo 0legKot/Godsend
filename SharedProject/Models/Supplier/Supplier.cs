@@ -6,6 +6,7 @@ namespace Godsend.Models
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations.Schema;
     using System.Linq;
     using System.Threading.Tasks;
     using Newtonsoft.Json;
@@ -22,9 +23,25 @@ namespace Godsend.Models
         [JsonConstructor]
         public Supplier(SupplierInformation Info)
         {
-            this.Info = new SupplierInformation();
-            (this.Info as SupplierInformation).Name = Info.Name;
-            (this.Info as SupplierInformation).Location = Info.Location;
+            this.Info = new SupplierInformation()
+            {
+                Name = Info.Name,
+                Location = Info.Location
+            };
+        }
+
+        public Supplier(string name, string address, double rating = 0, int watches = 0)
+        {
+            this.Info = new SupplierInformation()
+            {
+                Name = name,
+                Rating = rating,
+                Watches = watches,
+                Location = new Location()
+                {
+                    Address = address
+                }
+            };
         }
 
         /// <summary>
@@ -35,20 +52,7 @@ namespace Godsend.Models
         /// </value>
         public Guid Id { get; set; }
 
-        /// <summary>
-        /// Gets or sets the information.
-        /// </summary>
-        /// <value>
-        /// The information.
-        /// </value>
-       // public SupplierInformation Info { get; set; }
-        /// <summary>
-        /// Gets or sets the entity information.
-        /// </summary>
-        /// <value>
-        /// The entity information.
-        /// </value>
-        public virtual Information Info { get; set; }
+        public virtual SupplierInformation Info { get; set; }
     }
 
     /// <summary>

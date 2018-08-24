@@ -14,6 +14,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Migrations\20180824070616_TstOneToOne.cs" />
+    <Compile Remove="Migrations\20180824070616_TstOneToOne.Designer.cs" />
+    <Compile Remove="Migrations\20180824080721_OneToOneTst2.cs" />
+    <Compile Remove="Migrations\20180824080721_OneToOneTst2.Designer.cs" />
+    <Compile Remove="Migrations\20180824093404_OneToOneTst3.cs" />
+    <Compile Remove="Migrations\20180824093404_OneToOneTst3.Designer.cs" />
+    <Compile Remove="Migrations\20180824111314_tst.cs" />
+    <Compile Remove="Migrations\20180824111314_tst.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Remove="stylecop.json" />
   </ItemGroup>
 

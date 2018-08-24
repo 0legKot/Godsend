@@ -8,6 +8,7 @@ namespace Godsend.Models
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
+    using Newtonsoft.Json;
 
     /// <summary>
     ///
@@ -23,5 +24,8 @@ namespace Godsend.Models
         public virtual Location Location { get; set; }
 
         // public IEnumerable<IProduct> Products { get; set; }
+
+        [JsonIgnore]
+        public virtual Supplier Supplier { get; set; }
     }
 }

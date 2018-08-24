@@ -21,13 +21,5 @@ namespace Godsend.Models
         /// The identifier.
         /// </value>
         Guid Id { get; set; }
-
-        /// <summary>
-        /// Gets or sets the entity information.
-        /// </summary>
-        /// <value>
-        /// The entity information.
-        /// </value>
-        Information Info { get; set; }
     }
 }

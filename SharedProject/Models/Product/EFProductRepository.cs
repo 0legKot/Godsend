@@ -85,8 +85,8 @@ namespace Godsend
             if (dbEntry != null)
             {
                 // TODO: implement IClonable
-                (dbEntry.Info as ProductInformation).Name = entity.Info.Name;
-                (dbEntry.Info as ProductInformation).Description = (entity.Info as ProductInformation).Description;
+                dbEntry.Info.Name = entity.Info.Name;
+                dbEntry.Info.Description = entity.Info.Description;
             }
             else
             {
@@ -113,7 +113,6 @@ namespace Godsend
                 context.RemoveRange(context.LinkProductsSuppliers.Where(p => p.Product.Id == dbEntry.Id));
                 context.RemoveRange(context.LinkRatingProduct.Where(lrp => lrp.EntityId == dbEntry.Id));
                 context.RemoveRange(context.LinkCommentProduct.Where(lrp => lrp.ProductId == dbEntry.Id));
-                dbEntry.Info = null;
                 context.Products.Remove(dbEntry);
                 await context.SaveChangesAsync();
             }
@@ -163,7 +162,7 @@ namespace Godsend
         {
             var tmp = context.LinkProductsSuppliers
                     .Include(ps => ps.Product)
-                    .ThenInclude(s => s.Info)
+                    .ThenInclude(p => p.Info)
                     .Include(ps => ps.Supplier)
                     .ThenInclude(s => s.Info)
 
@@ -240,7 +239,7 @@ namespace Godsend
 
         public ProductInfosAndCount GetProductInformationsByProductFilter(ProductFilterInfo filter)
         {
-            IQueryable<Product> products = context.Products.AsNoTracking().Include(p => p.Info).Include(p => p.Category);
+            IQueryable<Product> products = context.Products.Include(p => p.Info).Include(p => p.Category);
 
             if (filter.CategoryId.HasValue)
             {
@@ -277,7 +276,7 @@ namespace Godsend
             return new ProductInfosAndCount
             {
                 Count = products.Count(),
-                Infos = products.Skip(filter.Skip).Take(filter.Quantity).Select(p => p.Info as ProductInformation).ToList()
+                Infos = products.Skip(filter.Skip).Take(filter.Quantity).Select(p => p.Info).ToList()
             };
         }
 
@@ -425,7 +424,10 @@ namespace Godsend
         {
             var avg = await ratingHelper.CalculateAverageAsync(context.LinkRatingProduct, productId);
 
-            await ratingHelper.SaveAverageAsync(context.Products, productId, avg, context);
+            var product = await context.Products.Include(p => p.Info).FirstOrDefaultAsync(p => p.Id == productId);
+            product.Info.Rating = avg;
+
+            await context.SaveChangesAsync();
 
             return avg;
         }

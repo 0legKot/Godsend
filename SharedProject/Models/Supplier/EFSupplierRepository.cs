@@ -134,10 +134,10 @@ namespace Godsend.Models
             return context.Suppliers.FirstOrDefault(s => s.Id == entityId);
         }
 
-        public class Hell : Supplier
-        {
-            public override Information Info { get => base.Info; set => base.Info = value as SupplierInformation; }
-        }
+        ////public class Hell : Supplier
+        ////{
+        ////    public override Information Info { get => base.Info; set => base.Info = value as SupplierInformation; }
+        ////}
 
         /// <summary>
         /// Gets the entity by information identifier.
@@ -157,8 +157,8 @@ namespace Godsend.Models
             //SupplierInformation supplierInformation1 = context.Set<SupplierInformation>().FirstOrDefault(z => z.Id == x.Info.Id);
             //Location supplierInformation = context.Set<SupplierInformation>().FirstOrDefault(z => z.Id == x.Info.Id).Location;
             Location loc = context.Set<Location>().FirstOrDefault();
-            (x.Info as SupplierInformation).Location = loc;
-            var tst = (x.Info as SupplierInformation).Location;
+            x.Info.Location = loc;
+            var tst = x.Info.Location;
             return x;
         }
 
@@ -178,7 +178,10 @@ namespace Godsend.Models
         {
             var avg = await ratingHelper.CalculateAverageAsync(context.LinkRatingSupplier, supplierId);
 
-            await ratingHelper.SaveAverageAsync(context.Suppliers, supplierId, avg, context);
+            var supplier = await context.Suppliers.Include(s => s.Info).FirstOrDefaultAsync(p => p.Id == supplierId);
+            supplier.Info.Rating = avg;
+
+            await context.SaveChangesAsync();
 
             return avg;
         }

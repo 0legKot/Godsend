@@ -23,10 +23,25 @@ namespace Godsend.Models
         [JsonConstructor]
         public Product(ProductInformation Info)
         {
-            this.Info = new ProductInformation();
-            (this.Info as ProductInformation).Name = Info.Name;
-            (this.Info as ProductInformation).Description = Info.Description;
-            (this.Info as ProductInformation).State = Info.State;
+            this.Info = new ProductInformation()
+            {
+                Name = Info.Name,
+                Description = Info.Description,
+                State = Info.State
+            };
+        }
+
+        public Product(string name, string description, Category category, double rating = 0, int watches = 0, ProductState state = ProductState.Normal)
+        {
+            this.Category = category;
+            this.Info = new ProductInformation()
+            {
+                Name = name,
+                Description = description,
+                Rating = rating,
+                Watches = watches,
+                State = state
+            };
         }
 
         /// <summary>
@@ -38,14 +53,6 @@ namespace Godsend.Models
         public Guid Id { get; set; }
 
         /// <summary>
-        /// Gets or sets the information.
-        /// </summary>
-        /// <value>
-        /// The information.
-        /// </value>
-       // public ProductInformation Info { get; set; }
-
-        /// <summary>
         /// Gets or sets the category.
         /// </summary>
         /// <value>
@@ -54,13 +61,7 @@ namespace Godsend.Models
         [JsonIgnore]
         public virtual Category Category { get; set; }
 
-        /// <summary>
-        /// Gets or sets the entity information.
-        /// </summary>
-        /// <value>
-        /// The entity information.
-        /// </value>
-        public Information Info { get; set; }
+        public virtual ProductInformation Info { get; set; }
 
         public override string ToString()
         {

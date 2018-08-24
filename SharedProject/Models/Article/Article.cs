@@ -6,6 +6,7 @@ namespace Godsend.Models
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations.Schema;
     using System.Linq;
     using System.Threading.Tasks;
     using Newtonsoft.Json;
@@ -22,10 +23,27 @@ namespace Godsend.Models
         [JsonConstructor]
         public Article(ArticleInformation Info)
         {
-            this.Info = new ArticleInformation();
-            (this.Info as ArticleInformation).Name = Info.Name;
-            (this.Info as ArticleInformation).Description = Info.Description;
-            (this.Info as ArticleInformation).Tags = Info.Tags;
+            this.Info = new ArticleInformation()
+            {
+                Name = Info.Name,
+                Description = Info.Description,
+                Tags = Info.Tags
+            };
+        }
+
+        public Article(string content, User author, string description, string name, string[] tags, double rating, int watches)
+        {
+            this.Content = content;
+            this.Info = new ArticleInformation()
+            {
+                EFAuthor = author,
+                Description = description,
+                Created = DateTime.Now,
+                Name = name,
+                Tags = tags,
+                Rating = rating,
+                Watches = watches,
+            };
         }
 
         /// <summary>
@@ -44,19 +62,6 @@ namespace Godsend.Models
         /// </value>
         public string Content { get; set; }
 
-        /// <summary>
-        /// Gets or sets the information.
-        /// </summary>
-        /// <value>
-        /// The information.
-        /// </value>
-        //public ArticleInformation Info { get; set; }
-        /// <summary>
-        /// Gets or sets the entity information.
-        /// </summary>
-        /// <value>
-        /// The entity information.
-        /// </value>
-        public virtual Information Info { get; set; }
+        public virtual ArticleInformation Info { get; set; }
     }
 }
