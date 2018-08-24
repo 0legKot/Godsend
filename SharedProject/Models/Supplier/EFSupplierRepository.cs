@@ -108,8 +108,8 @@ namespace Godsend.Models
             if (dbEntry != null)
             {
                 dbEntry.Info.Name = entity.Info.Name;
+                dbEntry.Info.Location.Address = entity.Info.Location.Address;
 
-                //(dbEntry.Info as SupplierInformation).Location.Address = (entity.Info as SupplierInformation).Location.Address;
                 // TODO: implement IClonable
 
                 // dbEntry.Status = supplier.Status;
