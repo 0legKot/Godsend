@@ -1,3 +1,15 @@
-<p>
-  comment works!
-</p>
+<div *ngIf="comment != null">
+    <span>{{ comment.author?.name }}: {{ comment.comment }}</span>
+    <div *ngIf="!isReplyMode else replyBlock">
+        <button class="btn btn-success" (click)="reply()">Reply</button>
+        <!--todo authorize-->
+        <button class="btn btn-danger" (click)="deleteComment()">Delete</button>
+    </div>
+    <ng-template #replyBlock>
+        <div>
+            <input [(ngModel)]="newComment" />
+            <button class="btn btn-success" (click)="sendComment()">Send reply</button>
+            <button class="btn btn-danger" (click)="cancel()">Cancel</button>
+        </div>
+    </ng-template>
+</div>

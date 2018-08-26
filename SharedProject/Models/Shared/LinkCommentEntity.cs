@@ -19,9 +19,6 @@ namespace Godsend.Models
         [JsonIgnore]
         public virtual LinkCommentEntity BaseComment { get; set; }
 
-        /// <summary>
-        /// Warning: not set by EF Core
-        /// </summary>
         public Guid? BaseCommentId { get; set; }
 
         [NotMapped]

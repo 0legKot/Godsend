@@ -17,8 +17,6 @@ export class CommentWrapperComponent implements OnInit {
     @Input()
     clas!: entityClass;
 
-    newComment = '';
-
     dataChange = new BehaviorSubject<CommentWithSubs[]>([]);
     nestedTreeControl: NestedTreeControl<CommentWithSubs>;
     nestedDataSource: MatTreeNestedDataSource<CommentWithSubs>;
@@ -33,11 +31,17 @@ export class CommentWrapperComponent implements OnInit {
         this.refreshComments();
     }
 
-    public send(parentId: string | null) {
-        this.repo.sendComment(this.clas, this.id, parentId, this.newComment, _ => {
+    send(parentId: string | null, content: string) {
+        this.repo.sendComment(this.clas, this.id, parentId, content, _ => {
             this.refreshComments();
         });
     }    
+
+    delete(commentId: string): void {
+        this.repo.deleteComment(this.clas, this.id, commentId, _ => {
+            this.refreshComments();
+        });
+    }
 
     refreshComments() {
         this.repo.getEntityComments(this.clas, this.id, commentsWithSubs => {

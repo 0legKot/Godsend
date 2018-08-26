@@ -187,5 +187,10 @@ namespace Godsend.Models
         {
             return context.LinkCommentSupplier.Where(lrs => lrs.SupplierId == supplierId);
         }
+
+        public Task DeleteCommentAsync(Guid entityId, Guid commentId)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

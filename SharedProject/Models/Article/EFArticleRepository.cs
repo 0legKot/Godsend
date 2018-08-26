@@ -221,5 +221,27 @@ namespace Godsend.Models
                 .Select(x => new LinkCommentEntity() { BaseComment = x.BaseComment, Comment = x.Comment, Id = x.Id, User = x.User });
             return fortst;
         }
+
+        public async Task DeleteCommentAsync(Guid articleId, Guid commentId)
+        {
+            var articleComments = context.LinkCommentArticle.Where(lca => lca.ArticleId == articleId).ToArray();
+
+            var commentToDelete = articleComments.FirstOrDefault(lce => lce.Id == commentId);
+
+            deleteRecursive(commentToDelete);
+
+            context.Remove(commentToDelete);
+
+            await context.SaveChangesAsync();
+
+            void deleteRecursive(LinkCommentEntity current)
+            {
+                foreach (var child in current.ChildComments)
+                {
+                    deleteRecursive(child);
+                    context.Remove(child);
+                }
+            }
+        }
     }
 }

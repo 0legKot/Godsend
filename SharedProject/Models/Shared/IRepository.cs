@@ -40,5 +40,7 @@ namespace Godsend.Models
         IEnumerable<LinkCommentEntity> GetAllComments(Guid entityId);
 
         int? GetUserRating(Guid entityId, string userId);
+
+        Task DeleteCommentAsync(Guid entityId, Guid commentId);
     }
 }

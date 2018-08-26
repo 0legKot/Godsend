@@ -436,5 +436,10 @@ namespace Godsend
         {
             return context.LinkCommentProduct.Where(lra => lra.ProductId == productId);
         }
+
+        public Task DeleteCommentAsync(Guid entityId, Guid commentId)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

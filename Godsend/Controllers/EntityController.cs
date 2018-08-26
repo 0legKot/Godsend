@@ -179,6 +179,28 @@ namespace Godsend.Controllers
 
         }
 
+        [Authorize]
+        [HttpDelete("comment/{entityId:Guid}/{commentId:Guid}")]
+        public virtual async Task<IActionResult> DeleteComment(Guid entityId, Guid commentId)
+        {
+            var userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value;
+
+            try
+            {
+                await repository.DeleteCommentAsync(entityId, commentId);
+
+                await hubContext.Clients.User(userId).SendAsync("Success", "Comment has been deleted");
+
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                await hubContext.Clients.User(userId).SendAsync("Error", "Could not delete a comment");
+
+                return BadRequest();
+            }
+        }
+
         [HttpGet("[action]/{entityId:Guid}")]
         public virtual IEnumerable<CommentWithSubs> Comments(Guid entityId)
         {
@@ -222,9 +244,9 @@ namespace Godsend.Controllers
                 {
                     var tmp = new CommentWithSubs() { Comment = com };
                     GetRecursiveComs(tmp);
-                    var tmpClone = new CommentWithSubs() { Comment = tmp.Comment, Subs = tmp.Subs };
-                    tmpClone.Comment.BaseComment = null;
-                    subs.Add(tmpClone);
+                    //var tmpClone = new CommentWithSubs() { Comment = tmp.Comment, Subs = tmp.Subs };
+                    //tmpClone.Comment.BaseComment = null;
+                    subs.Add(tmp);
                 }
             }
 

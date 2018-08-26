@@ -150,17 +150,24 @@ export class RepositoryService {
             });
     }
 
-    sendComment(clas: supportedClass, id: string, baseId: string | null, commentText: string, fn: (_: any) => any) {
-        if (id != null) {
-            console.log(baseId);
-            const url = this.getUrl(clas);
-            this.data.sendRequest<any>('post', url + '/AddComment/' + id + (baseId != null ? '/' + baseId : ''), { comment: commentText })
-                .subscribe(response => {
-                    if (fn) {
-                        fn(response);
-                    }
-                });
-        }
+    sendComment(clas: entityClass, id: string, baseId: string | null, commentText: string, fn: (_: any) => any) {
+        const url = this.getUrl(clas);
+        this.data.sendRequest<any>('post', url + '/AddComment/' + id + (baseId != null ? '/' + baseId : ''), { comment: commentText })
+            .subscribe(response => {
+                if (fn) {
+                    fn(response);
+                }
+            });
+    }
+
+    deleteComment(clas: entityClass, id: string, commentId: string, fn?: (_: void) => any) {
+        const url = this.getUrl(clas);
+        this.data.sendRequest<void>('delete', `${url}/comment/${id}/${commentId}`)
+            .subscribe(response => {
+                if (fn) {
+                    fn(response);
+                }
+            })
     }
 
     changeOrderStatus(id: string, status: number, page: number, rpp: number, fn?: ((_: Order[]) => any)) {
