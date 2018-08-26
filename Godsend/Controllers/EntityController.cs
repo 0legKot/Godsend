@@ -201,6 +201,28 @@ namespace Godsend.Controllers
             }
         }
 
+        [Authorize]
+        [HttpPatch("comment/{commentId:Guid}")]
+        public virtual async Task<IActionResult> EditComment(Guid commentId, [FromBody]TmpComment comment)
+        {
+            var userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value;
+
+            try
+            {
+                await repository.EditCommentAsync(commentId, comment.Comment);
+
+                await hubContext.Clients.User(userId).SendAsync("Success", "Comment has been added");
+
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                await hubContext.Clients.User(userId).SendAsync("Error", "Could not add a comment");
+
+                return BadRequest();
+            }
+        }
+
         [HttpGet("[action]/{entityId:Guid}")]
         public virtual IEnumerable<CommentWithSubs> Comments(Guid entityId)
         {

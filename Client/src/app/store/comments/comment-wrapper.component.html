@@ -8,7 +8,8 @@
             <button mat-icon-button disabled></button>
             <godsend-comment [comment]="node.comment"
                              (send)="send(node.comment.id, $event)"
-                             (delete)="delete(node.comment.id)">
+                             (delete)="delete(node.comment.id)"
+                             (edit)="edit(node.comment.id, $event)">
             </godsend-comment>
         </li>
     </mat-tree-node>
@@ -24,7 +25,8 @@
                 </button>
                 <godsend-comment [comment]="node.comment" 
                                  (send)="send(node.comment.id, $event)" 
-                                 (delete)="delete(node.comment.id)">
+                                 (delete)="delete(node.comment.id)"
+                                 (edit)="edit(node.comment.id, $event)">
                 </godsend-comment>
             </div>
             <ul [class.example-tree-invisible]="!nestedTreeControl.isExpanded(node)">

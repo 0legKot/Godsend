@@ -243,5 +243,14 @@ namespace Godsend.Models
                 }
             }
         }
+
+        public async Task EditCommentAsync(Guid commentId, string newContent)
+        {
+            var comment = await context.LinkCommentArticle.FirstOrDefaultAsync(lce => lce.Id == commentId);
+
+            comment.Comment = newContent;
+
+            await context.SaveChangesAsync();
+        }
     }
 }

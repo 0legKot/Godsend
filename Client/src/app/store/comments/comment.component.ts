@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { LinkCommentEntity } from '../../models/comment.model';
+import { last } from '@angular/router/src/utils/collection';
 
 @Component({
     selector: 'godsend-comment[comment]',
@@ -15,17 +16,19 @@ export class CommentComponent implements OnInit {
     @Output()
     delete = new EventEmitter<void>();
 
+    @Output()
+    edit = new EventEmitter<string>();
+
     isReplyMode = false;
+    isEditMode = false;
 
     newComment?: string;
+    editedComment?: string;
 
     constructor() { }
 
     ngOnInit() {
-    }
-
-    reply() {
-        this.isReplyMode = true;
+        this.editedComment = this.comment.comment;
     }
 
     sendComment() {
@@ -35,11 +38,35 @@ export class CommentComponent implements OnInit {
         this.isReplyMode = false;
     }
 
+    editComment() {
+        if (this.editedComment) {
+            this.edit.emit(this.editedComment);
+        }
+        this.isEditMode = false;
+    }
+
+    discardEdit() {
+        this.editedComment = this.comment.comment;
+        this.isEditMode = false;
+    }
+
     deleteComment() {
         this.delete.emit();
     }
 
-    cancel() {
+    enterEditMode() {
+        this.isEditMode = true;
+    }
+
+    exitEditMode() {
+        this.isEditMode = false;
+    }
+
+    enterReplyMode() {
+        this.isReplyMode = true;
+    }
+
+    exitReplyMode() {
         this.isReplyMode = false;
     }
 }

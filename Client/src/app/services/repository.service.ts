@@ -170,6 +170,16 @@ export class RepositoryService {
             })
     }
 
+    editComment(clas: entityClass, commentId: string, content: string, fn?: (_: void) => any) {
+        const url = this.getUrl(clas);
+        this.data.sendRequest<void>('patch', `${url}/comment/${commentId}`, { comment: content })
+            .subscribe(response => {
+                if (fn) {
+                    fn(response);
+                }
+            })
+    }
+
     changeOrderStatus(id: string, status: number, page: number, rpp: number, fn?: ((_: Order[]) => any)) {
         this.data.sendRequest<Order[]>('patch', ordersUrl + '/changeStatus/' + id + '/' + status)
             .subscribe(response => {

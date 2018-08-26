@@ -441,5 +441,10 @@ namespace Godsend
         {
             throw new NotImplementedException();
         }
+
+        public Task EditCommentAsync(Guid commentId, string newContent)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

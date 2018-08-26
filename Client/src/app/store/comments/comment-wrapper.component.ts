@@ -43,6 +43,12 @@ export class CommentWrapperComponent implements OnInit {
         });
     }
 
+    edit(commentId: string, content: string) {
+        this.repo.editComment(this.clas, commentId, content, _ => {
+            this.refreshComments();
+        })
+    }
+
     refreshComments() {
         this.repo.getEntityComments(this.clas, this.id, commentsWithSubs => {
             this.dataChange.next(commentsWithSubs);

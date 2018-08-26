@@ -1,15 +1,25 @@
 <div *ngIf="comment != null">
-    <span>{{ comment.author?.name }}: {{ comment.comment }}</span>
+    <span>{{ comment.author?.name }}:</span>
+    <godsend-input-output [edit]="isEditMode" [(ngModel)]="editedComment"></godsend-input-output>
     <div *ngIf="!isReplyMode else replyBlock">
-        <button class="btn btn-success" (click)="reply()">Reply</button>
-        <!--todo authorize-->
-        <button class="btn btn-danger" (click)="deleteComment()">Delete</button>
+        <div *ngIf="!isEditMode else editBlock">
+            <button class="btn btn-success" (click)="enterReplyMode()">Reply</button>
+            <!--todo authorize-->
+            <button class="btn btn-info" (click)="enterEditMode()">Edit</button>
+            <button class="btn btn-danger" (click)="deleteComment()">Delete</button>
+        </div>
     </div>
+    <ng-template #editBlock>
+        <div>
+            <button class="btn btn-success" (click)="editComment()">Edit</button>
+            <button class="btn btn-danger" (click)="discardEdit()">Discard</button>
+        </div>
+    </ng-template>
     <ng-template #replyBlock>
         <div>
             <input [(ngModel)]="newComment" />
             <button class="btn btn-success" (click)="sendComment()">Send reply</button>
-            <button class="btn btn-danger" (click)="cancel()">Cancel</button>
+            <button class="btn btn-danger" (click)="exitReplyMode()">Cancel</button>
         </div>
     </ng-template>
 </div>

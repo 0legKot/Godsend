@@ -42,5 +42,7 @@ namespace Godsend.Models
         int? GetUserRating(Guid entityId, string userId);
 
         Task DeleteCommentAsync(Guid entityId, Guid commentId);
+
+        Task EditCommentAsync(Guid commentId, string newContent);
     }
 }
