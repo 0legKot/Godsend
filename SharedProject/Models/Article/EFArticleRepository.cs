@@ -90,8 +90,10 @@ namespace Godsend.Models
             Article dbEntry = GetEntity(id);
             if (dbEntry != null)
             {
-                context.RemoveRange(context.LinkRatingArticle.Where(lra => lra.EntityId == dbEntry.Id));
-                context.RemoveRange(context.LinkCommentArticle.Where(lra => lra.ArticleId == dbEntry.Id));
+                var quantumMagic = dbEntry.Info.EFTags;
+
+                ////context.RemoveRange(context.LinkRatingArticle.Where(lra => lra.EntityId == dbEntry.Id));
+                ////context.RemoveRange(context.LinkCommentArticle.Where(lra => lra.ArticleId == dbEntry.Id));
                 context.Articles.Remove(dbEntry);
                 await context.SaveChangesAsync();
             }

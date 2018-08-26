@@ -32,6 +32,9 @@ namespace Godsend.Models
 
         [JsonIgnore]
         public string UserId { get; set; }
+
+        [JsonIgnore]
+        public virtual IEnumerable<LinkCommentEntity> ChildComments { get; set; }
     }
 
     public class LinkCommentProduct : LinkCommentEntity

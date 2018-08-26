@@ -105,12 +105,13 @@ namespace Godsend
             Product dbEntry = context.Products.FirstOrDefault(p => p.Id == id);
             if (dbEntry != null)
             {
-                context.RemoveRange(context.LinkProductPropertyDecimal.Where(p => p.Product.Id == dbEntry.Id));
-                context.RemoveRange(context.LinkProductPropertyInt.Where(p => p.Product.Id == dbEntry.Id));
-                context.RemoveRange(context.LinkProductPropertyString.Where(p => p.Product.Id == dbEntry.Id));
-                context.RemoveRange(context.LinkProductsSuppliers.Where(p => p.Product.Id == dbEntry.Id));
-                context.RemoveRange(context.LinkRatingProduct.Where(lrp => lrp.EntityId == dbEntry.Id));
-                context.RemoveRange(context.LinkCommentProduct.Where(lrp => lrp.ProductId == dbEntry.Id));
+                var quantumMagic = dbEntry.Info;
+                ////context.RemoveRange(context.LinkProductPropertyDecimal.Where(p => p.Product.Id == dbEntry.Id));
+                ////context.RemoveRange(context.LinkProductPropertyInt.Where(p => p.Product.Id == dbEntry.Id));
+                ////context.RemoveRange(context.LinkProductPropertyString.Where(p => p.Product.Id == dbEntry.Id));
+                ////context.RemoveRange(context.LinkProductsSuppliers.Where(p => p.Product.Id == dbEntry.Id));
+                ////context.RemoveRange(context.LinkRatingProduct.Where(lrp => lrp.EntityId == dbEntry.Id));
+                ////context.RemoveRange(context.LinkCommentProduct.Where(lrp => lrp.ProductId == dbEntry.Id));
                 context.Products.Remove(dbEntry);
                 await context.SaveChangesAsync();
             }

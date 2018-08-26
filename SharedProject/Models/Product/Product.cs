@@ -63,6 +63,15 @@ namespace Godsend.Models
 
         public virtual ProductInformation Info { get; set; }
 
+        [JsonIgnore]
+        public virtual IEnumerable<EAV<int>> IntProps { get; set; }
+
+        [JsonIgnore]
+        public virtual IEnumerable<EAV<string>> StringProps { get; set; }
+
+        [JsonIgnore]
+        public virtual IEnumerable<EAV<decimal>> DecimalProps { get; set; }
+
         public override string ToString()
         {
             return "Product: " + Info?.Name ?? "Hello include";

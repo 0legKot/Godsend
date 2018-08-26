@@ -107,6 +107,10 @@ namespace Godsend.Models
             builder.Entity<SimpleOrder>();
             ////builder.Entity<SimpleArticle>();
 
+            builder.Entity<Product>().HasMany(p => p.IntProps).WithOne(link => link.Product).OnDelete(DeleteBehavior.Cascade);
+            builder.Entity<Product>().HasMany(p => p.StringProps).WithOne(link => link.Product).OnDelete(DeleteBehavior.Cascade);
+            builder.Entity<Product>().HasMany(p => p.DecimalProps).WithOne(link => link.Product).OnDelete(DeleteBehavior.Cascade);
+
             builder.Entity<Product>()
                 .HasOne(p => p.Info).WithOne(i => i.Product)
                 .HasForeignKey<ProductInformation>(i => i.Id);
@@ -126,6 +130,13 @@ namespace Godsend.Models
             builder.Entity<ArticleInformation>().ToTable("Articles");
 
             builder.Ignore<Information>();
+
+            builder.Entity<LinkCommentEntity>()
+                .HasMany(lce => lce.ChildComments)
+                .WithOne(lce => lce.BaseComment)
+                .HasForeignKey(lce => lce.BaseCommentId)
+                .IsRequired(false)
+                .OnDelete(DeleteBehavior.Restrict); // will crash when trying to delete a comment w/o deleting its children
 
             base.OnModelCreating(builder);
         }

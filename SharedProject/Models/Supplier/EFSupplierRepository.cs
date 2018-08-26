@@ -63,8 +63,10 @@ namespace Godsend.Models
             Supplier dbEntry = GetEntity(id);
             if (dbEntry != null)
             {
-                context.RemoveRange(context.LinkRatingSupplier.Where(lrs => lrs.EntityId == dbEntry.Id));
-                context.RemoveRange(context.LinkCommentSupplier.Where(lrs => lrs.SupplierId == dbEntry.Id));
+                var quantumMagic = dbEntry.Info;
+
+                ////context.RemoveRange(context.LinkRatingSupplier.Where(lrs => lrs.EntityId == dbEntry.Id));
+                ////context.RemoveRange(context.LinkCommentSupplier.Where(lrs => lrs.SupplierId == dbEntry.Id));
                 context.Suppliers.Remove(dbEntry);
                 await context.SaveChangesAsync();
             }
