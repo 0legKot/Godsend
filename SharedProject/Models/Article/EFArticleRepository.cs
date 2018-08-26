@@ -212,6 +212,7 @@ namespace Godsend.Models
             };
             context.Add(newComment);
             await context.SaveChangesAsync();
+            await RecalcCommentsAsync(articleId); // or just increment?
             return newComment.Id;
         }
 
@@ -234,6 +235,10 @@ namespace Godsend.Models
 
             await context.SaveChangesAsync();
 
+            await RecalcCommentsAsync(articleId);
+
+            return;
+
             void deleteRecursive(LinkCommentEntity current)
             {
                 foreach (var child in current.ChildComments)
@@ -249,6 +254,17 @@ namespace Godsend.Models
             var comment = await context.LinkCommentArticle.FirstOrDefaultAsync(lce => lce.Id == commentId);
 
             comment.Comment = newContent;
+
+            await context.SaveChangesAsync();
+        }
+
+        public async Task RecalcCommentsAsync(Guid articleId)
+        {
+            var commentCount = await context.LinkCommentArticle.CountAsync(lce => lce.ArticleId == articleId);
+
+            var article = await context.Articles.FirstOrDefaultAsync(a => a.Id == articleId);
+
+            article.Info.CommentsCount = commentCount;
 
             await context.SaveChangesAsync();
         }

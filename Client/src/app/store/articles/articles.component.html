@@ -25,7 +25,9 @@
                     <footer class="blockquote-footer">by {{ a.author?.name }}</footer>
                 </div>
                 <div class="card-footer text-muted">
-                    <godsend-stars [value]="a.rating"></godsend-stars> &nbsp; <fa name="eye"></fa> : {{ a.watches }}
+                    <godsend-stars [value]="a.rating"></godsend-stars> &nbsp;
+                    <fa name="eye"></fa> : {{ a.watches }}
+                    <fa name="comments"></fa> : {{ a.commentsCount }}
                 </div>
             </div>
         </div>
