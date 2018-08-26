@@ -26,11 +26,10 @@ export class SearchInlineComponent extends SearchBaseComponent implements OnInit
             term = <string>(this.searchField.value || '');
         }
 
-        if (this.type == searchType.product) {
+        if (this.type === searchType.product) {
             this.repo.productFilter.searchTerm = term;
             this.repo.getByFilter();
-        }
-        else {
+        } else {
             this.ss.findByType(this.type, term, res => this.found.emit(res));
         }
     }

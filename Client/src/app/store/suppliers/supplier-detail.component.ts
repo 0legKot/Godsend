@@ -41,7 +41,7 @@ export class SupplierDetailComponent implements OnInit {
 
     deleteSupplier() {
         if (this.supp) {
-            this.repo.deleteEntity('supplier', this.supp.info.id,1,10);
+            this.repo.deleteEntity('supplier', this.supp.info.id, 1, 10);
             this.gotoSuppliers(undefined);
         }
     }
@@ -74,7 +74,7 @@ export class SupplierDetailComponent implements OnInit {
 
     save() {
         if (this.supp) {
-            this.repo.createOrEditEntity('supplier', Supplier.EnsureType(this.supp),1,10);
+            this.repo.createOrEditEntity('supplier', Supplier.EnsureType(this.supp), 1, 10);
         }
 
         this.edit = false;

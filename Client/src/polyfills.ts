@@ -78,11 +78,11 @@ import 'zone.js/dist/zone';  // Included with Angular CLI.
 /***************************************************************************************************
  * APPLICATION IMPORTS
  */
-//fix https://github.com/aspnet/SignalR/issues/2736
+// fix https://github.com/aspnet/SignalR/issues/2736
 (window as any).global = window;
 
 (window as any).process = {
     env: { DEBUG: undefined },
-    version: "1",
+    version: '1',
 };
 global.Buffer = global.Buffer || require('buffer').Buffer;

@@ -8,16 +8,16 @@ import { last } from '@angular/router/src/utils/collection';
 })
 export class CommentComponent implements OnInit {
     @Input()
-    comment!: LinkCommentEntity
+    comment!: LinkCommentEntity;
 
     @Output()
-    send = new EventEmitter<string>();
+    readonly send = new EventEmitter<string>();
 
     @Output()
-    delete = new EventEmitter<void>();
+    readonly delete = new EventEmitter<void>();
 
     @Output()
-    edit = new EventEmitter<string>();
+    readonly edit = new EventEmitter<string>();
 
     isReplyMode = false;
     isEditMode = false;

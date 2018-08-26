@@ -6,13 +6,13 @@
     styleUrls: ['./pages.component.css']
 })
 export class PagesComponent {
-    page: number = 1;
+    page = 1;
 
     @Input()
-    pagesCount: number=1;
+    pagesCount = 1;
 
     @Output()
-    pageChanged = new EventEmitter<number>();
+    readonly pageChanged = new EventEmitter<number>();
 
     constructor() { }
 

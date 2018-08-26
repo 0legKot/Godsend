@@ -9,7 +9,7 @@ export class Product implements IEntity<ProductInfo> {
     constructor(
         public id: string,
         public info: ProductInfo,
-        public category:any=""
+        public category: any = ''
     ) { }
 
     toCreateEdit() {
@@ -19,7 +19,7 @@ export class Product implements IEntity<ProductInfo> {
                 name: this.info.name,
                 description: this.info.description
             },
-            category:this.category
+            category: this.category
         };
     }
 }
@@ -68,7 +68,7 @@ export class FilterInfo {
     decimalProps?: DecimalPropertyInfo[];
     intProps?: IntPropertyInfo[];
     stringProps?: StringPropertyInfo[];
-    orderBy: number = 0;
+    orderBy = 0;
 }
 
 export class DecimalPropertyInfo {
@@ -98,8 +98,8 @@ export class FilterInfoView {
     decimalProps?: DecimalPropertyInfoView[];
     intProps?: IntPropertyInfoView[];
     stringProps?: StringPropertyInfoView[];
-    orderBy: number = 0;
-    sortAscending: boolean = true;
+    orderBy = 0;
+    sortAscending = true;
 }
 
 export class DecimalPropertyInfoView {
@@ -123,7 +123,7 @@ export class IntPropertyInfoView {
 }
 
 export class StringPropertyInfoView {
-    part: string = '';
+    part = '';
 
     constructor(
         public propId: string,
@@ -132,9 +132,9 @@ export class StringPropertyInfoView {
 }
 
 export class Property {
-    id: string = '';
-    name: string = '';
-    type: number = -1;
+    id = '';
+    name = '';
+    type = -1;
 }
 
 export class ProductFilterInfo {
@@ -142,10 +142,10 @@ export class ProductFilterInfo {
     public stringProps?: StringPropertyInfo[];
     public intProps?: IntPropertyInfo[];
     public sortingPropertyId?: string;
-    public orderBy: number = 0;
-    public sortAscending: boolean = false;
+    public orderBy = 0;
+    public sortAscending = false;
     public categoryId?: string;
-    public searchTerm?: string;    
+    public searchTerm?: string;
 
     constructor(
         public quantity: number,
@@ -160,10 +160,10 @@ export interface ProductInfosAndCount {
 }
 
 export const propertyType: allowedPropertyTypes[] = [
-    'int', //0
-    'string', //1
-    'decimal' //2
-]
+    'int', // 0
+    'string', // 1
+    'decimal' // 2
+];
 
 export type allowedPropertyTypes = 'int' | 'string' | 'decimal';
 
@@ -171,7 +171,7 @@ export const orderBy: allowedOrderBy[] = [
     'name',
     'rating',
     'watches'
-]
+];
 
 export type allowedOrderBy = 'name' | 'rating' | 'watches';
 

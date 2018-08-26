@@ -30,7 +30,7 @@ export class ArticleDetailComponent implements OnInit {
     };
 
     get authenticated() {
-        return this.storage.authenticated
+        return this.storage.authenticated;
     }
 
     constructor(
@@ -49,9 +49,8 @@ export class ArticleDetailComponent implements OnInit {
         this.repo.getEntity<Article>('article', this.route.snapshot.params.id, a => {
             this.article = a;
         });
-        
-        
     }
+
     editMode() {
         if (this.article == null) {
             console.log('no data');
@@ -69,7 +68,7 @@ export class ArticleDetailComponent implements OnInit {
 
     save() {
         if (this.article) {
-            this.repo.createOrEditEntity('article', Article.EnsureType(this.article),1,10);
+            this.repo.createOrEditEntity('article', Article.EnsureType(this.article), 1, 10);
         }
 
         this.edit = false;

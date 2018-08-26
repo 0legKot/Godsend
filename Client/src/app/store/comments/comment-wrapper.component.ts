@@ -22,7 +22,7 @@ export class CommentWrapperComponent implements OnInit {
     nestedDataSource: MatTreeNestedDataSource<CommentWithSubs>;
 
     constructor(private repo: RepositoryService) {
-        this.nestedTreeControl = new NestedTreeControl<CommentWithSubs>(this._getChildren);
+        this.nestedTreeControl = new NestedTreeControl<CommentWithSubs>(this.getChildren);
         this.nestedDataSource = new MatTreeNestedDataSource();
         this.dataChange.subscribe(data => this.nestedDataSource.data = data);
     }
@@ -35,7 +35,7 @@ export class CommentWrapperComponent implements OnInit {
         this.repo.sendComment(this.clas, this.id, parentId, content, _ => {
             this.refreshComments();
         });
-    }    
+    }
 
     delete(commentId: string): void {
         this.repo.deleteComment(this.clas, this.id, commentId, _ => {
@@ -46,7 +46,7 @@ export class CommentWrapperComponent implements OnInit {
     edit(commentId: string, content: string) {
         this.repo.editComment(this.clas, commentId, content, _ => {
             this.refreshComments();
-        })
+        });
     }
 
     refreshComments() {
@@ -57,5 +57,5 @@ export class CommentWrapperComponent implements OnInit {
 
     hasNestedChild = (_: number, nodeData: CommentWithSubs) => nodeData.subs && nodeData.subs.length > 0;
 
-    private _getChildren = (node: CommentWithSubs) => node.subs;
+    private getChildren = (node: CommentWithSubs) => node.subs;
 }

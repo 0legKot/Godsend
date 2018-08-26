@@ -12,8 +12,8 @@ import { forEach } from '@angular/router/src/utils/collection';
 export class OrdersComponent implements OnInit {
     orders?: Order[];
     status = orderStatus;
-    page: number = 1;
-    rpp: number = 10;
+    page = 1;
+    rpp = 10;
     constructor(private repo: RepositoryService) { }
 
     get pagesCount(): number {

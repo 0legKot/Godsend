@@ -9,14 +9,15 @@ import { StorageService } from '../../services/storage.service';
     templateUrl: './user.component.html',
     styleUrls: ['./user.component.css']
 })
-export class UserComponent implements OnInit{
+export class UserComponent implements OnInit {
     user: IdentityUser = new IdentityUser();
+    name = this.storage.name;
+
+    constructor(private storage: StorageService, private data: DataService) { }
+
     ngOnInit(): void {
-        this.data.sendRequest<IdentityUser>("get", 'api/account/getprofile/' + this.name).subscribe(
+        this.data.sendRequest<IdentityUser>('get', 'api/account/getprofile/' + this.name).subscribe(
             res => this.user = res
         );
     }
-    name = this.storage.name;
-    constructor(private storage: StorageService, private data: DataService) { }
-
 }

@@ -4,6 +4,5 @@ import { Component, OnInit } from '@angular/core';
     selector: 'godsend-home',
     templateUrl: './home.component.html'
 })
-export class HomeComponent{
-   
+export class HomeComponent {
 }

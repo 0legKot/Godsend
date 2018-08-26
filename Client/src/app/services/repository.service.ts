@@ -31,10 +31,10 @@ export class RepositoryService {
     supplier: Supplier | {} = {};
     articles: ArticleInfo[] = [];
     article: Article | {} = {};
-    productsCount: number = 0;
-    articlesCount: number = 0;
-    suppliersCount: number = 0;
-    ordersCount: number = 0;
+    productsCount = 0;
+    articlesCount = 0;
+    suppliersCount = 0;
+    ordersCount = 0;
     productFilter: ProductFilterInfo = new ProductFilterInfo(10, 1);
     comments: any = {};
 
@@ -167,7 +167,7 @@ export class RepositoryService {
                 if (fn) {
                     fn(response);
                 }
-            })
+            });
     }
 
     editComment(clas: entityClass, commentId: string, content: string, fn?: (_: void) => any) {
@@ -177,7 +177,7 @@ export class RepositoryService {
                 if (fn) {
                     fn(response);
                 }
-            })
+            });
     }
 
     changeOrderStatus(id: string, status: number, page: number, rpp: number, fn?: ((_: Order[]) => any)) {
@@ -194,14 +194,14 @@ export class RepositoryService {
             });
     }
 
-    getEntities<T>(clas: supportedClass, page: number,rpp:number, fn?: (_: T[]) => any) {
-        if (clas == 'product') {
+    getEntities<T>(clas: supportedClass, page: number, rpp: number, fn?: (_: T[]) => any) {
+        if (clas === 'product') {
             this.getByFilter();
         } else {
             const url = this.getUrl(clas);
 
-            //const page = 1;
-            //const rpp = 15;
+            // const page = 1;
+            // const rpp = 15;
 
             this.data.sendRequest<T[]>('get', url + '/all/' + page + '/' + rpp)
                 .subscribe(response => {
@@ -242,7 +242,8 @@ export class RepositoryService {
             });
     }
 
-    createOrEditEntity<T extends IEntity<IInformation>>(clas: supportedClass, entity: T, page: number, rpp: number, fn?: (_: IInformation) => any) {
+    createOrEditEntity<T extends IEntity<IInformation>>(clas: supportedClass, entity: T, page: number, rpp: number,
+                                                        fn?: (_: IInformation) => any) {
         const createEditData = entity.toCreateEdit();
         const url = this.getUrl(clas);
         console.log(createEditData);
@@ -274,7 +275,7 @@ export class RepositoryService {
             patch.push({ op: 'replace', path: key, value: value }));
 
         this.data.sendRequest<null>('patch', url + '/' + id, patch)
-            .subscribe(response => this.getEntities<T>(clas,page,rpp));
+            .subscribe(response => this.getEntities<T>(clas, page, rpp));
     }
 
     deleteEntity(clas: supportedClass, id: string, page: number, rpp: number, fn?: () => any) {
@@ -298,8 +299,10 @@ export class RepositoryService {
             .subscribe(result => {
                 this.products = result.infos;
                 this.productsCount = result.count;
-                if (fn) fn(result.infos);
-            })
+                if (fn) {
+                    fn(result.infos);
+                }
+            });
     }
 
     saveRating(clas: entityClass, id: string, rating: number, fn?: (_: number) => any) {
@@ -310,18 +313,18 @@ export class RepositoryService {
                 if (fn) {
                     fn(result);
                 }
-            })
+            });
     }
 
     getAllRatings(clas: entityClass, entityId: string, fn?: (_: LinkRatingEntity[]) => any) {
-        const url = this.getUrl(clas)
+        const url = this.getUrl(clas);
 
         this.data.sendRequest<LinkRatingEntity[]>('get', `${url}/ratings/${entityId}`)
             .subscribe(result => {
                 if (fn) {
                     fn(result);
                 }
-            })
+            });
     }
 
     getUserRating(clas: entityClass, entityId: string, fn?: (_: number) => any) {
@@ -332,6 +335,6 @@ export class RepositoryService {
                 if (fn) {
                     fn(result);
                 }
-            })
+            });
     }
 }

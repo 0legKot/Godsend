@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
 import { DataService } from './data.service';
-import { CatsWithSubs, Category, FilterInfo, DecimalPropertyInfo, DecimalPropertyInfoView, StringPropertyInfoView, IntPropertyInfoView, FilterInfoView, propertyType, Property } from '../models/product.model';
-import { last } from 'rxjs/operators';
+import {
+    CatsWithSubs, Category, DecimalPropertyInfoView, StringPropertyInfoView,
+    IntPropertyInfoView, FilterInfoView, propertyType, Property
+} from '../models/product.model';
 
 @Injectable({
     providedIn: 'root'
@@ -23,18 +25,17 @@ export class CategoryService {
 
                     console.dir(this.cats);
                     console.dir(this.flatCats);
-
                 });
-        }        
+        }
     }
-
-
 
     getSubcategories(cat: Category): Category[] {
         if (this.flatCats) {
-            const tmp = this.flatCats.find(c => c.cat == cat);
+            const tmp = this.flatCats.find(c => c.cat === cat);
 
-            if (tmp) return tmp.subs.map(c => c.cat);
+            if (tmp) {
+                return tmp.subs.map(c => c.cat);
+            }
         }
         return [];
     }
@@ -44,9 +45,12 @@ export class CategoryService {
             .subscribe(props => {
                 const filter = new FilterInfoView();
 
-                filter.decimalProps = props.filter(prop => propertyType[prop.type] == 'decimal').map(prop => new DecimalPropertyInfoView(prop.id, prop.name));
-                filter.stringProps = props.filter(prop => propertyType[prop.type] == 'string').map(prop => new StringPropertyInfoView(prop.id, prop.name));
-                filter.intProps = props.filter(prop => propertyType[prop.type] == 'int').map(prop => new IntPropertyInfoView(prop.id, prop.name));
+                filter.decimalProps = props.filter(prop => propertyType[prop.type] === 'decimal')
+                    .map(prop => new DecimalPropertyInfoView(prop.id, prop.name));
+                filter.stringProps = props.filter(prop => propertyType[prop.type] === 'string')
+                    .map(prop => new StringPropertyInfoView(prop.id, prop.name));
+                filter.intProps = props.filter(prop => propertyType[prop.type] === 'int')
+                    .map(prop => new IntPropertyInfoView(prop.id, prop.name));
 
                 fn(filter);
             });
@@ -61,7 +65,9 @@ export class CategoryService {
             if (cur && cur.subs) {
                 queue.push(...cur.subs);
             }
-            if (cur) result.push(cur);
+            if (cur) {
+                result.push(cur);
+            }
         }
 
         return result;

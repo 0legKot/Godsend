@@ -57,7 +57,7 @@ export class ProductDetailComponent implements OnInit {
 
     deleteProduct() {
         if (this.data) {
-            this.repo.deleteEntity('product', this.data.product.info.id,1,10);
+            this.repo.deleteEntity('product', this.data.product.info.id, 1, 10);
             this.gotoProducts();
         }
     }
@@ -81,20 +81,18 @@ export class ProductDetailComponent implements OnInit {
     editMode() {
         if (this.data == null) {
             console.log('no data');
-
+        } else {
+            this.backup = {
+                name: this.data.product.info.name,
+                description: this.data.product.info.description
+            };
+            this.edit = true;
         }
-        else
-        this.backup = {
-            name: this.data.product.info.name,
-            description: this.data.product.info.description
-        };
-
-        this.edit = true;
     }
 
     save() {
         if (this.data) {
-            this.repo.createOrEditEntity('product', Product.EnsureType(this.data.product),1,10);
+            this.repo.createOrEditEntity('product', Product.EnsureType(this.data.product), 1, 10);
         }
 
         this.edit = false;

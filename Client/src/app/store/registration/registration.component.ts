@@ -15,6 +15,6 @@ export class RegistrationComponent {
     constructor(private auth: AuthenticationService) { }
     register() {
         console.log(this.birth);
-        this.auth.register(new IdentityUser('',this.name, this.email, this.birth), this.pass);
+        this.auth.register(new IdentityUser('', this.name, this.email, this.birth), this.pass);
     }
 }

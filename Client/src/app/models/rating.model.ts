@@ -1,4 +1,4 @@
-﻿import { IdentityUser } from "./user.model";
+﻿import { IdentityUser } from './user.model';
 
 export interface LinkRatingEntity {
     id: string;

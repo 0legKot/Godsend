@@ -10,7 +10,12 @@ import { NotificationService } from './notification.service';
     providedIn: 'root'
 })
 export class AuthenticationService {
-    constructor(private router: Router, private data: DataService, private storage: StorageService, private notificationService: NotificationService) { }
+    constructor(
+        private router: Router,
+        private data: DataService,
+        private storage: StorageService,
+        private notificationService: NotificationService
+    ) { }
 
     callbackUrl = '';
 
@@ -33,8 +38,12 @@ export class AuthenticationService {
         // });
     }
 
-    register(user: IdentityUser,pass:string) {
-        this.data.sendRequest<any>('post', 'api/account/register', {email:user.email,password:pass,name:user.name,birth:user.birth }).subscribe(response => {
+    register(user: IdentityUser, pass: string) {
+        this.data.sendRequest<any>(
+            'post',
+            'api/account/register',
+            { email: user.email, password: pass, name: user.name, birth: user.birth }
+        ).subscribe(response => {
             this.storage.JWTToken = response.token;
             this.storage.name = name;
 

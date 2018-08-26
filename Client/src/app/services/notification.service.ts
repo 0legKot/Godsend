@@ -1,19 +1,18 @@
 import { Injectable, Inject } from '@angular/core';
 import { HubConnection } from '@aspnet/signalr';
 import * as signalR from '@aspnet/signalr';
-import { AuthenticationService } from './authentication.service';
-import * as signalRMsgPack from '@aspnet/signalr-protocol-msgpack'
+import * as signalRMsgPack from '@aspnet/signalr-protocol-msgpack';
 import { StorageService } from './storage.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class NotificationService {
-    private _hubConnection: HubConnection | undefined;
-    private _messages: string[] = [];
+    private hubConnection: HubConnection | undefined;
+    private messageArray: string[] = [];
 
     get messages() {
-        return this._messages;
+        return this.messageArray;
     }
 
     constructor(@Inject('BASE_URL') private baseUrl: string, private storage: StorageService) {
@@ -21,46 +20,46 @@ export class NotificationService {
     }
 
     public reconnect(): void {
-        this._hubConnection = new signalR.HubConnectionBuilder()
+        this.hubConnection = new signalR.HubConnectionBuilder()
             .withUrl(`${this.baseUrl}chat`, { accessTokenFactory: () => this.storage.JWTToken || '' })
             .withHubProtocol(new signalRMsgPack.MessagePackHubProtocol())
             .configureLogging(signalR.LogLevel.Information)
             .build();
 
-        this._hubConnection.start().catch(err => console.error(err.toString()));
+        this.hubConnection.start().catch(err => console.error(err.toString()));
 
         this.configureConnection();
 
-        this._messages = [];
+        this.messageArray = [];
     }
 
     public sendMessage(message: string): void {
-        if (this._hubConnection) {
-            this._hubConnection.invoke('Send', message);
+        if (this.hubConnection) {
+            this.hubConnection.invoke('Send', message);
         }
     }
 
     private configureConnection() {
-        if (this._hubConnection) {
-            this._hubConnection.on('Receive', (data: any) => {
+        if (this.hubConnection) {
+            this.hubConnection.on('Receive', (data: any) => {
                 this.messages.unshift(`Received: ${data}`);
             });
 
-            this._hubConnection.on('Send', (data: any) => {
+            this.hubConnection.on('Send', (data: any) => {
                 this.messages.unshift(`Sent: ${data}`);
             });
 
-            this._hubConnection.on('Success', (data: any) => {
+            this.hubConnection.on('Success', (data: any) => {
                 this.messages.unshift(`Success: ${data}`);
-            })
+            });
 
-            this._hubConnection.on('Error', (data: any) => {
+            this.hubConnection.on('Error', (data: any) => {
                 this.messages.unshift(`Error: ${data}`);
-            })
+            });
 
-            this._hubConnection.on('Info', (data: any) => {
+            this.hubConnection.on('Info', (data: any) => {
                 this.messages.unshift(`Info: ${data}`);
-            })
+            });
         }
     }
 }

@@ -9,8 +9,8 @@ import { Router } from '@angular/router';
     styleUrls: ['./articles.component.css']
 })
 export class ArticlesComponent implements OnInit {
-    page: number = 1;
-    rpp: number = 5;
+    page = 1;
+    rpp = 5;
 
     get articles() {
         return this.repo.articles;
@@ -36,7 +36,7 @@ export class ArticlesComponent implements OnInit {
     }
 
     createArticle(content: string, name: string, tags: string[]) {
-        const art = new Article(content, new ArticleInfo(name, "Provide description", tags));
+        const art = new Article(content, new ArticleInfo(name, 'Provide description', tags));
         this.repo.createOrEditEntity('article', art, this.page, this.rpp, info => this.router.navigateByUrl('articles/' + info.id));
     }
 

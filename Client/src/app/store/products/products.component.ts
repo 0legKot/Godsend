@@ -1,14 +1,15 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute, ParamMap, Router } from '@angular/router';
+import { Router } from '@angular/router';
 
 import { RepositoryService } from '../../services/repository.service';
-import { Product, ProductInfo, Category, CatsWithSubs, FilterInfo, FilterInfoView, DecimalPropertyInfo, StringPropertyInfo, IntPropertyInfo, allowedOrderBy, orderBy } from '../../models/product.model';
+import {
+    Product, ProductInfo, Category, FilterInfoView, DecimalPropertyInfo,
+    StringPropertyInfo, IntPropertyInfo, allowedOrderBy, orderBy
+} from '../../models/product.model';
 import { searchType } from '../search/search.service';
 import { SearchInlineComponent } from '../search/search-inline.component';
 import { ImageService } from '../../services/image.service';
-import { forEach } from '@angular/router/src/utils/collection';
 import { CategoryService } from '../../services/category.service';
-import { PagesComponent } from '../pages/pages.component';
 
 @Component({
     selector: 'godsend-products',
@@ -21,8 +22,12 @@ export class ProductsComponent implements OnInit {
     // rpp: number = 10;
     type = searchType.product;
     images: { [id: string]: string; } = {};
-    //searchProducts?: ProductInfo[];
+    // searchProducts?: ProductInfo[];
     templateText = 'Waiting for data...';
+
+    categories?: Category[];
+    filter: FilterInfoView = new FilterInfoView();
+    orderBy: allowedOrderBy[] = orderBy;
 
     @ViewChild(SearchInlineComponent)
     searchInline?: SearchInlineComponent;
@@ -45,7 +50,7 @@ export class ProductsComponent implements OnInit {
     }
 
     get products(): ProductInfo[] {
-        //return this.searchProducts || this.repo.products;
+        // return this.searchProducts || this.repo.products;
         return this.repo.products;
     }
 
@@ -63,10 +68,10 @@ export class ProductsComponent implements OnInit {
         this.repo.deleteEntity('product', id, 0, 0);
     }
 
-    //onFound(products: ProductInfo[]) {
+    // onFound(products: ProductInfo[]) {
     //    this.templateText = 'Not found';
     //    this.searchProducts = products;
-    //}
+    // }
 
     constructor(private repo: RepositoryService,
         private imageService: ImageService,
@@ -78,12 +83,9 @@ export class ProductsComponent implements OnInit {
         this.getProducts();
     }
 
-    categories?: Category[];
-    filter: FilterInfoView = new FilterInfoView();
-
     getCategories(): void {
         this.categories = this.cattt.cats ? this.cattt.cats.map(cws => cws.cat) : [];
-        console.log(this.categories)
+        console.log(this.categories);
     }
 
     getSubcategories(category: Category): void {
@@ -119,11 +121,11 @@ export class ProductsComponent implements OnInit {
             this.repo.productFilter.sortAscending = this.filter.sortAscending;
 
             this.getProducts();
-        }       
+        }
     }
 
     getCategoryProps(category: Category): void {
-        this.cattt.getCategoryProps(category, filter => { this.filter = filter; console.log(filter); })
+        this.cattt.getCategoryProps(category, filter => { this.filter = filter; console.log(filter); });
     }
 
     setCurrentCategory(category: Category): void {
@@ -131,6 +133,4 @@ export class ProductsComponent implements OnInit {
         this.getProducts();
         this.getCategoryProps(category);
     }
-
-    orderBy: allowedOrderBy[] = orderBy;
 }

@@ -1,4 +1,4 @@
-﻿import { ControlValueAccessor } from "@angular/forms";
+﻿import { ControlValueAccessor } from '@angular/forms';
 
 export abstract class CustomControlValueAccessor<T> implements ControlValueAccessor {
     protected value?: T;

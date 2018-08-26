@@ -9,10 +9,11 @@ import { DataService } from '../../services/data.service';
     templateUrl: './admin.component.html',
     styleUrls: ['./admin.component.css']
 })
-export class AdminComponent implements OnInit{
-    userList: IdentityUser[]=[];
+export class AdminComponent implements OnInit {
+    userList: IdentityUser[] = [];
     ngOnInit(): void {
-        this.data.sendRequest<IdentityUser[]>('get', 'api/account/getuserlist/1/10').subscribe(res=>this.userList=res);
+        this.data.sendRequest<IdentityUser[]>('get', 'api/account/getuserlist/1/10')
+            .subscribe(res => this.userList = res);
     }
     constructor(private auth: AuthenticationService, private data: DataService) { }
 

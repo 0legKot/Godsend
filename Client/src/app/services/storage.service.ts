@@ -21,7 +21,7 @@ export class StorageService {
         if (newName == null) {
             localStorage.removeItem(this.namePath);
         } else {
-            localStorage.setItem(this.namePath, newName)
+            localStorage.setItem(this.namePath, newName);
         }
     }
 

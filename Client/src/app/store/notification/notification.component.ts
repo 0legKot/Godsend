@@ -27,7 +27,5 @@ export class NotificationComponent implements OnInit {
     }
 
     ngOnInit() {
-       
     }
-
 }

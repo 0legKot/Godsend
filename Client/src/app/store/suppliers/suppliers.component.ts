@@ -17,15 +17,15 @@ import { Router } from '@angular/router';
 })
 export class SuppliersComponent implements OnInit {
     type = searchType.supplier;
-    page: number = 1;
-    rpp: number = 10;
+    page = 1;
+    rpp = 10;
     images: { [id: string]: string; } = {};
     searchSuppliers?: SupplierInfo[];
     templateText = 'Waiting for data...';
     imagg: any = {};
 
     @ViewChild(SearchInlineComponent)
-    searchInline?: SearchInlineComponent;
+    searchInline!: SearchInlineComponent;
 
     get suppliers() {
         return this.searchSuppliers || this.repo.suppliers;
@@ -59,13 +59,13 @@ export class SuppliersComponent implements OnInit {
     createSupplier(name: string, address: string) {
         // TODO create interface with only relevant info
         const sup = new Supplier(new SupplierInfo(name, new Location(address)));
-        //if (this.searchInline != undefined)
+        // if (this.searchInline != undefined)
         this.repo.createOrEditEntity('supplier', sup, this.page, this.rpp, info => this.router.navigateByUrl('suppliers/' + info.id));
     }
 
     deleteSupplier(id: string) {
-        //if (this.searchInline)
-        this.repo.deleteEntity('supplier', id, this.page, this.rpp, () => this.searchInline!.doSearch());
+        // if (this.searchInline)
+        this.repo.deleteEntity('supplier', id, this.page, this.rpp, () => this.searchInline.doSearch());
     }
 
     onFound(suppliers: SupplierInfo[]) {
