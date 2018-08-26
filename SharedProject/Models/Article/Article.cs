@@ -63,5 +63,13 @@ namespace Godsend.Models
         public string Content { get; set; }
 
         public virtual ArticleInformation Info { get; set; }
+
+        public void CopyTo(Article target)
+        {
+            // todo tags
+            target.Content = Content;
+            target.Info.Description = Info.Description;
+            target.Info.Name = Info.Name;
+        }
     }
 }

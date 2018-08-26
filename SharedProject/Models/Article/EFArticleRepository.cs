@@ -148,16 +148,10 @@ namespace Godsend.Models
             Article dbEntry = GetEntity(entity.Id);
             if (dbEntry != null)
             {
-                // TODO: implement IClonable
-                dbEntry.Info.Name = entity.Info.Name;
-                dbEntry.Info.Description = entity.Info.Description;
-                dbEntry.Content = entity.Content;
-
-                // ....
+                entity.CopyTo(dbEntry);
             }
             else
             {
-                ////entity.SetIds();
                 entity.Info.EFAuthor = user;
                 entity.Info.Created = DateTime.Now;
 

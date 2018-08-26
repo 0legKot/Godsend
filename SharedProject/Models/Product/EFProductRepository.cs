@@ -84,9 +84,7 @@ namespace Godsend
             Product dbEntry = context.Products.FirstOrDefault(p => p.Id == entity.Id);
             if (dbEntry != null)
             {
-                // TODO: implement IClonable
-                dbEntry.Info.Name = entity.Info.Name;
-                dbEntry.Info.Description = entity.Info.Description;
+                entity.CopyTo(dbEntry);
             }
             else
             {

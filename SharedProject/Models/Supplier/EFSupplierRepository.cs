@@ -106,17 +106,10 @@ namespace Godsend.Models
             Supplier dbEntry = GetEntity(entity.Id);
             if (dbEntry != null)
             {
-                dbEntry.Info.Name = entity.Info.Name;
-                dbEntry.Info.Location.Address = entity.Info.Location.Address;
-
-                // TODO: implement IClonable
-
-                // dbEntry.Status = supplier.Status;
-                // ....
+                entity.CopyTo(dbEntry);
             }
             else
             {
-                ////entity.SetIds();
                 context.Add(entity);
             }
 

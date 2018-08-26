@@ -76,11 +76,17 @@ namespace Godsend.Models
         {
             return "Product: " + Info?.Name ?? "Hello include";
         }
+
+        public void CopyTo(Product target)
+        {
+            // todo category
+            // todo props
+            // todo state
+            target.Info.Name = Info.Name;
+            target.Info.Description = Info.Description;
+        }
     }
 
-    /// <summary>
-    ///
-    /// </summary>
     public class ProductWithSuppliers
     {
         /// <summary>

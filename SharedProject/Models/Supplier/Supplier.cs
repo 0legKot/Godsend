@@ -53,6 +53,12 @@ namespace Godsend.Models
         public Guid Id { get; set; }
 
         public virtual SupplierInformation Info { get; set; }
+
+        public void CopyTo(Supplier target)
+        {
+            target.Info.Location.Address = Info.Location.Address;
+            target.Info.Name = Info.Name;
+        }
     }
 
     /// <summary>
