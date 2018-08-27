@@ -37,19 +37,19 @@ namespace Godsend
         /// </summary>
         private DataContext context;
 
-        private UserManager<User> userManager;
-
         private IRatingHelper ratingHelper;
+
+        private ICommentHelper commentHelper;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="EFProductRepository" /> class.
         /// </summary>
         /// <param name="ctx">The CTX.</param>
-        public EFProductRepository(DataContext ctx, ISeedHelper seedHelper, UserManager<User> userManager, IRatingHelper ratingHelper)
+        public EFProductRepository(DataContext ctx, ISeedHelper seedHelper, IRatingHelper ratingHelper, ICommentHelper commentHelper)
         {
             context = ctx;
-            this.userManager = userManager;
             this.ratingHelper = ratingHelper;
+            this.commentHelper = commentHelper;
             seedHelper.EnsurePopulated(ctx);
         }
 
@@ -415,34 +415,45 @@ namespace Godsend
 
         public async Task<Guid> AddCommentAsync(Guid productId, string userId, Guid? baseCommentId, string comment)
         {
-            //var user = await userManager.FindByIdAsync(userId);
-            var newComment = new LinkCommentProduct
-            {
-                ProductId = productId,
-                UserId = userId,
-                BaseCommentId = baseCommentId.HasValue ? baseCommentId.Value : Guid.Empty,
-                Comment = comment
-            };
-            context.Add(newComment);
+            var newCommentId = await commentHelper.AddCommentGenericAsync<LinkCommentProduct>(context, productId, userId, baseCommentId, comment);
 
-            await context.SaveChangesAsync();
+            await RecalcCommentsAsync(productId); // or just increment?
 
-            return newComment.Id;
+            return newCommentId;
         }
 
         public IEnumerable<LinkCommentEntity> GetAllComments(Guid productId)
         {
-            return context.LinkCommentProduct.Where(lra => lra.ProductId == productId);
+            var fortst = context.LinkCommentProduct.Where(lra => lra.Product.Id == productId)
+                .Select(x => new LinkCommentProduct() { BaseComment = x.BaseComment, Comment = x.Comment, Id = x.Id, User = x.User });
+            return fortst;
         }
 
-        public Task DeleteCommentAsync(Guid entityId, Guid commentId)
+        public async Task DeleteCommentAsync(Guid productId, Guid commentId)
         {
-            throw new NotImplementedException();
+            await commentHelper.DeleteCommentGenericAsync(context.LinkCommentProduct, context, productId, commentId);
+
+            await RecalcCommentsAsync(productId);
         }
 
-        public Task EditCommentAsync(Guid commentId, string newContent)
+        public async Task EditCommentAsync(Guid commentId, string newContent)
         {
-            throw new NotImplementedException();
+            var comment = await context.LinkCommentProduct.FirstOrDefaultAsync(lce => lce.Id == commentId);
+
+            comment.Comment = newContent;
+
+            await context.SaveChangesAsync();
+        }
+
+        public async Task RecalcCommentsAsync(Guid productId)
+        {
+            var commentCount = await context.LinkCommentProduct.CountAsync(lce => lce.ProductId == productId);
+
+            var product = await context.Products.FirstOrDefaultAsync(a => a.Id == productId);
+
+            product.Info.CommentsCount = commentCount;
+
+            await context.SaveChangesAsync();
         }
     }
 }

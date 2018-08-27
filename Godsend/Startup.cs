@@ -47,6 +47,7 @@ namespace Godsend
             services.AddTransient<IArticleRepository, EFArticleRepository>();
             services.AddTransient<ISeedHelper, SeedHelper>();
             services.AddTransient<IRatingHelper, RatingHelper>();
+            services.AddTransient<ICommentHelper, CommentHelper>();
             services.AddTransient<ImageRepository>();
             string connection = Configuration.GetConnectionString("StoreDb");
             services.AddDbContext<DataContext>(options => options.UseLazyLoadingProxies().UseSqlServer(connection));

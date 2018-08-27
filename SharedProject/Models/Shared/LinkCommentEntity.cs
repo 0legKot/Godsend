@@ -10,7 +10,7 @@ namespace Godsend.Models
     using System.Text;
     using Newtonsoft.Json;
 
-    public class LinkCommentEntity
+    public abstract class LinkCommentEntity
     {
         public Guid Id { get; set; }
 
@@ -32,6 +32,10 @@ namespace Godsend.Models
 
         [JsonIgnore]
         public virtual IEnumerable<LinkCommentEntity> ChildComments { get; set; }
+
+        [JsonIgnore]
+        [NotMapped]
+        public abstract Guid EntityId { get; set; }
     }
 
     public class LinkCommentProduct : LinkCommentEntity
@@ -39,6 +43,8 @@ namespace Godsend.Models
         public virtual Product Product { get; set; }
 
         public Guid ProductId { get; set; }
+
+        public override Guid EntityId { get => ProductId; set => ProductId = value; }
     }
 
     public class LinkCommentSupplier : LinkCommentEntity
@@ -46,6 +52,8 @@ namespace Godsend.Models
         public virtual Supplier Supplier { get; set; }
 
         public Guid SupplierId { get; set; }
+
+        public override Guid EntityId { get => SupplierId; set => SupplierId = value; }
     }
 
     public class LinkCommentArticle : LinkCommentEntity
@@ -53,6 +61,8 @@ namespace Godsend.Models
         public virtual Article Article { get; set; }
 
         public Guid ArticleId { get; set; }
+
+        public override Guid EntityId { get => ArticleId; set => ArticleId = value; }
     }
 
     public class Comment

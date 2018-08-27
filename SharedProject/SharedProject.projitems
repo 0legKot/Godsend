@@ -21,6 +21,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Models\Product\FilterInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Product\OrderBy.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Product\Property.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Shared\CommentHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Shared\DataContext.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Shared\IEntity.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Shared\Information.cs" />

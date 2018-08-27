@@ -8,7 +8,10 @@
         <img [src]="'data:image/jpg;base64,' + image"  class="card-img" />
     </div>
     <div class="rating">
-        <p class="pull-right" [ngStyle]="{'color': '#003e09' }"><fa name="eye"></fa> : {{ supplierInfo.watches }}</p>
+        <p class="pull-right" [ngStyle]="{'color': '#003e09' }">
+            <fa name="eye"></fa> : {{ supplierInfo.watches }}
+            <fa name="comments"></fa> : {{ supplierInfo.commentsCount }}
+        </p>
     </div>
     <div class="rating">
         <godsend-stars [value]="supplierInfo.rating"></godsend-stars>
