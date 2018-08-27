@@ -46,11 +46,12 @@ namespace Godsend.Controllers
         [Authorize]
         public override async Task<IActionResult> CreateOrUpdate([FromBody] Article entity)
         {
-            var name = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name).Value;
             var nameId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value;
 
-            var repo = repository as IArticleRepository;
-            await repo.SetUserAsync(name);
+            if (entity.Id == Guid.Empty)
+            {
+                entity.Info.EFAuthorId = nameId;
+            }
 
             return await base.CreateOrUpdate(entity);
         }

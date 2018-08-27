@@ -22,11 +22,6 @@ namespace Godsend.Models
         private DataContext context;
 
         /// <summary>
-        /// The user manager
-        /// </summary>
-        private UserManager<User> userManager;
-
-        /// <summary>
         /// The user
         /// </summary>
         private User user;
@@ -38,10 +33,9 @@ namespace Godsend.Models
         /// </summary>
         /// <param name="context">The context.</param>
         /// <param name="userManager">The user manager.</param>
-        public EFArticleRepository(DataContext context, UserManager<User> userManager, ISeedHelper seedHelper, IRatingHelper ratingHelper)
+        public EFArticleRepository(DataContext context, ISeedHelper seedHelper, IRatingHelper ratingHelper)
         {
             this.context = context;
-            this.userManager = userManager;
             this.ratingHelper = ratingHelper;
             seedHelper.EnsurePopulated(context);
         }
@@ -69,16 +63,6 @@ namespace Godsend.Models
             var tmp = context.Articles.Select(a => a.Info).Skip(skip).Take(quantity);
 
             return tmp;
-        }
-
-        /// <summary>
-        /// Sets the user asynchronous.
-        /// </summary>
-        /// <param name="email">The email.</param>
-        /// <returns></returns>
-        public async Task SetUserAsync(string email)
-        {
-            user = await userManager.FindByNameAsync(email);
         }
 
         /// <summary>
@@ -152,7 +136,7 @@ namespace Godsend.Models
             }
             else
             {
-                entity.Info.EFAuthor = user;
+                //entity.Info.EFAuthor = user;
                 entity.Info.Created = DateTime.Now;
 
                 context.Add(entity);

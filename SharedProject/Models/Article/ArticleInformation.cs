@@ -26,6 +26,9 @@ namespace Godsend.Models
         [JsonIgnore]
         public virtual User EFAuthor { get; set; }
 
+        [JsonIgnore]
+        public string EFAuthorId { get; set; }
+
         /// <summary>
         /// Gets the author.
         /// </summary>
