@@ -1,11 +1,12 @@
 var Supplier = /** @class */ (function () {
-    function Supplier(info, id) {
+    function Supplier(info, productsAndPrices, id) {
         if (id === void 0) { id = ''; }
         this.info = info;
+        this.productsAndPrices = productsAndPrices;
         this.id = id;
     }
     Supplier.EnsureType = function (sup) {
-        return new Supplier(sup.info, sup.id);
+        return new Supplier(sup.info, sup.productsAndPrices, sup.id);
     };
     Supplier.prototype.toCreateEdit = function () {
         return {
@@ -44,4 +45,13 @@ var Location = /** @class */ (function () {
     return Location;
 }());
 export { Location };
+var ProductAndPrice = /** @class */ (function () {
+    function ProductAndPrice(productInfo, price, id) {
+        this.productInfo = productInfo;
+        this.price = price;
+        this.id = id;
+    }
+    return ProductAndPrice;
+}());
+export { ProductAndPrice };
 //# sourceMappingURL=supplier.model.js.map

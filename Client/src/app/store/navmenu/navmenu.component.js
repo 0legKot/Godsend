@@ -8,10 +8,12 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 import { Component } from '@angular/core';
-import { AuthenticationService } from '../../services/authentication.service';
 import { Router } from '@angular/router';
+import { StorageService } from '../../services/storage.service';
+import { AuthenticationService } from '../../services/authentication.service';
 var NavMenuComponent = /** @class */ (function () {
-    function NavMenuComponent(auth, router) {
+    function NavMenuComponent(storage, auth, router) {
+        this.storage = storage;
         this.auth = auth;
         this.router = router;
         this.showMenuMobile = false;
@@ -26,17 +28,17 @@ var NavMenuComponent = /** @class */ (function () {
         this.showMenuMobile = false;
     };
     Object.defineProperty(NavMenuComponent.prototype, "name", {
-        get: function () { return this.auth.name; },
+        get: function () { return this.storage.name; },
         enumerable: true,
         configurable: true
     });
     Object.defineProperty(NavMenuComponent.prototype, "isLogged", {
-        get: function () { return this.auth.authenticated; },
+        get: function () { return this.storage.authenticated; },
         enumerable: true,
         configurable: true
     });
     Object.defineProperty(NavMenuComponent.prototype, "isAdmin", {
-        get: function () { return this.auth.authenticated; },
+        get: function () { return this.storage.authenticated; },
         enumerable: true,
         configurable: true
     });
@@ -53,7 +55,7 @@ var NavMenuComponent = /** @class */ (function () {
             templateUrl: './navmenu.component.html',
             styleUrls: ['./navmenu.component.css']
         }),
-        __metadata("design:paramtypes", [AuthenticationService, Router])
+        __metadata("design:paramtypes", [StorageService, AuthenticationService, Router])
     ], NavMenuComponent);
     return NavMenuComponent;
 }());

@@ -10,9 +10,11 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 import { Component } from '@angular/core';
 import { RepositoryService } from '../../services/repository.service';
 import { ArticleInfo, Article } from '../../models/article.model';
+import { Router } from '@angular/router';
 var ArticlesComponent = /** @class */ (function () {
-    function ArticlesComponent(repo) {
+    function ArticlesComponent(repo, router) {
         this.repo = repo;
+        this.router = router;
         this.page = 1;
         this.rpp = 5;
     }
@@ -41,8 +43,9 @@ var ArticlesComponent = /** @class */ (function () {
         this.getArticles();
     };
     ArticlesComponent.prototype.createArticle = function (content, name, tags) {
-        var art = new Article(content, new ArticleInfo(name, tags));
-        this.repo.createOrEditEntity('article', art, this.page, this.rpp);
+        var _this = this;
+        var art = new Article(content, new ArticleInfo(name, 'Provide description', tags));
+        this.repo.createOrEditEntity('article', art, this.page, this.rpp, function (info) { return _this.router.navigateByUrl('articles/' + info.id); });
     };
     ArticlesComponent.prototype.deleteArticle = function (id) {
         this.repo.deleteEntity('article', id, this.page, this.rpp);
@@ -53,7 +56,7 @@ var ArticlesComponent = /** @class */ (function () {
             templateUrl: './articles.component.html',
             styleUrls: ['./articles.component.css']
         }),
-        __metadata("design:paramtypes", [RepositoryService])
+        __metadata("design:paramtypes", [RepositoryService, Router])
     ], ArticlesComponent);
     return ArticlesComponent;
 }());

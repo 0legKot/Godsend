@@ -34,6 +34,7 @@ var RepositoryService = /** @class */ (function () {
         this.suppliersCount = 0;
         this.ordersCount = 0;
         this.productFilter = new ProductFilterInfo(10, 1);
+        this.comments = {};
     }
     RepositoryService.prototype.getSavedEntities = function (clas) {
         switch (clas) {
@@ -61,6 +62,21 @@ var RepositoryService = /** @class */ (function () {
             default: return;
         }
     };
+    /*setComments<T>(val: T) {
+        this.comments = val;
+        //switch (typeof (val)) {
+        //    case typeof (Product):
+        //        this.product = val;
+        //        break;
+        //    case typeof (Supplier):
+        //        this.supplier = val;
+        //        break;
+        //    case typeof (Order):
+        //        this.order = val;
+        //        break;
+        //    default: return;
+        //}
+    }*/
     RepositoryService.prototype.setEntities = function (clas, val) {
         switch (clas) {
             case 'product':
@@ -102,7 +118,7 @@ var RepositoryService = /** @class */ (function () {
         }
         return 'urlNotDetected';
     };
-    RepositoryService.prototype.getEntity = function (id, fn, clas) {
+    RepositoryService.prototype.getEntity = function (clas, id, fn) {
         var _this = this;
         if (id != null) {
             var url = this.getUrl(clas);
@@ -114,6 +130,40 @@ var RepositoryService = /** @class */ (function () {
                 }
             });
         }
+    };
+    RepositoryService.prototype.getEntityComments = function (clas, id, fn) {
+        var url = this.getUrl(clas);
+        this.data.sendRequest('get', url + '/comments/' + id)
+            .subscribe(function (response) {
+            fn(response);
+        });
+    };
+    RepositoryService.prototype.sendComment = function (clas, id, baseId, commentText, fn) {
+        var url = this.getUrl(clas);
+        this.data.sendRequest('post', url + '/AddComment/' + id + (baseId != null ? '/' + baseId : ''), { comment: commentText })
+            .subscribe(function (response) {
+            if (fn) {
+                fn(response);
+            }
+        });
+    };
+    RepositoryService.prototype.deleteComment = function (clas, id, commentId, fn) {
+        var url = this.getUrl(clas);
+        this.data.sendRequest('delete', url + "/comment/" + id + "/" + commentId)
+            .subscribe(function (response) {
+            if (fn) {
+                fn(response);
+            }
+        });
+    };
+    RepositoryService.prototype.editComment = function (clas, commentId, content, fn) {
+        var url = this.getUrl(clas);
+        this.data.sendRequest('patch', url + "/comment/" + commentId, { comment: content })
+            .subscribe(function (response) {
+            if (fn) {
+                fn(response);
+            }
+        });
     };
     RepositoryService.prototype.changeOrderStatus = function (id, status, page, rpp, fn) {
         var _this = this;
@@ -131,19 +181,18 @@ var RepositoryService = /** @class */ (function () {
     };
     RepositoryService.prototype.getEntities = function (clas, page, rpp, fn) {
         var _this = this;
-        if (clas == 'product') {
+        if (clas === 'product') {
             this.getByFilter();
         }
         else {
             var url = this.getUrl(clas);
-            //const page = 1;
-            //const rpp = 15;
+            // const page = 1;
+            // const rpp = 15;
             this.data.sendRequest('get', url + '/all/' + page + '/' + rpp)
                 .subscribe(function (response) {
                 if (fn) {
                     fn(response);
                 }
-                console.log(response);
                 _this.setEntities(clas, response);
             });
         }
@@ -163,7 +212,7 @@ var RepositoryService = /** @class */ (function () {
     RepositoryService.prototype.createOrder = function (cartView) {
         var _this = this;
         console.dir(cartView);
-        var cart = new Cart(cartView.discreteItems.map(function (opdv) { return new OrderPartDiscreteSend(opdv.quantity, opdv.product.id, opdv.supplier.id); }));
+        var cart = new Cart(cartView.discreteItems.map(function (opdv) { return new OrderPartDiscreteSend(opdv.quantity, opdv.productInfo.id, opdv.supplierInfo.id); }));
         this.data.sendRequest('post', ordersUrl + '/createOrUpdate', cart)
             .subscribe(function (response) {
             _this.orders.push(response);
@@ -173,6 +222,7 @@ var RepositoryService = /** @class */ (function () {
         var _this = this;
         var createEditData = entity.toCreateEdit();
         var url = this.getUrl(clas);
+        console.log(createEditData);
         this.data.sendRequest('post', url + '/CreateOrUpdate', createEditData)
             .subscribe(function (response) {
             entity.info.id = response;
@@ -223,8 +273,36 @@ var RepositoryService = /** @class */ (function () {
             .subscribe(function (result) {
             _this.products = result.infos;
             _this.productsCount = result.count;
-            if (fn)
+            if (fn) {
                 fn(result.infos);
+            }
+        });
+    };
+    RepositoryService.prototype.saveRating = function (clas, id, rating, fn) {
+        var url = this.getUrl(clas);
+        this.data.sendRequest('post', url + "/setRating/" + id + "/" + rating)
+            .subscribe(function (result) {
+            if (fn) {
+                fn(result);
+            }
+        });
+    };
+    RepositoryService.prototype.getAllRatings = function (clas, entityId, fn) {
+        var url = this.getUrl(clas);
+        this.data.sendRequest('get', url + "/ratings/" + entityId)
+            .subscribe(function (result) {
+            if (fn) {
+                fn(result);
+            }
+        });
+    };
+    RepositoryService.prototype.getUserRating = function (clas, entityId, fn) {
+        var url = this.getUrl(clas);
+        this.data.sendRequest('get', url + "/rating/" + entityId)
+            .subscribe(function (result) {
+            if (fn) {
+                fn(result);
+            }
         });
     };
     RepositoryService = __decorate([

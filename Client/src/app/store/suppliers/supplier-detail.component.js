@@ -13,22 +13,32 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { RepositoryService } from '../../services/repository.service';
 import { Supplier } from '../../models/supplier.model';
 import { ImageService } from '../../services/image.service';
+import { StorageService } from '../../services/storage.service';
 var SupplierDetailComponent = /** @class */ (function () {
-    function SupplierDetailComponent(route, router, service, imageService) {
+    function SupplierDetailComponent(route, router, repo, imageService, storage) {
         this.route = route;
         this.router = router;
-        this.service = service;
+        this.repo = repo;
         this.imageService = imageService;
+        this.storage = storage;
         this.image = '';
         this.backup = {
             name: '',
             address: ''
         };
         this.edit = false;
+        this.clas = 'supplier';
     }
+    Object.defineProperty(SupplierDetailComponent.prototype, "authenticated", {
+        get: function () {
+            return this.storage.authenticated;
+        },
+        enumerable: true,
+        configurable: true
+    });
     SupplierDetailComponent.prototype.deleteSupplier = function () {
         if (this.supp) {
-            this.service.deleteEntity('supplier', this.supp.info.id, 1, 10);
+            this.repo.deleteEntity('supplier', this.supp.info.id, 1, 10);
             this.gotoSuppliers(undefined);
         }
     };
@@ -36,9 +46,15 @@ var SupplierDetailComponent = /** @class */ (function () {
         var supplierId = supplier ? supplier.id : null;
         this.router.navigate(['/suppliers', { id: supplierId }]);
     };
+    SupplierDetailComponent.prototype.gotoProduct = function (prodId) {
+        this.router.navigate(['/products/' + prodId]);
+    };
     SupplierDetailComponent.prototype.ngOnInit = function () {
         var _this = this;
-        this.service.getEntity(this.route.snapshot.params.id, function (s) { return _this.supp = s; }, 'supplier');
+        this.repo.getEntity('supplier', this.route.snapshot.params.id, function (s) {
+            _this.supp = s;
+            console.log(s.productsAndPrices);
+        });
         this.imageService.getImage(this.route.snapshot.params.id, function (image) { _this.image = image; });
     };
     SupplierDetailComponent.prototype.editMode = function () {
@@ -54,7 +70,9 @@ var SupplierDetailComponent = /** @class */ (function () {
     };
     SupplierDetailComponent.prototype.save = function () {
         if (this.supp) {
-            this.service.createOrEditEntity('supplier', Supplier.EnsureType(this.supp), 1, 10);
+            console.log('EDIT');
+            console.log(this.supp);
+            this.repo.createOrEditEntity('supplier', Supplier.EnsureType(this.supp), 1, 10);
         }
         this.edit = false;
     };
@@ -74,7 +92,8 @@ var SupplierDetailComponent = /** @class */ (function () {
         __metadata("design:paramtypes", [ActivatedRoute,
             Router,
             RepositoryService,
-            ImageService])
+            ImageService,
+            StorageService])
     ], SupplierDetailComponent);
     return SupplierDetailComponent;
 }());

@@ -13,10 +13,12 @@ import { Supplier, SupplierInfo, Location } from '../../models/supplier.model';
 import { searchType } from '../search/search.service';
 import { SearchInlineComponent } from '../search/search-inline.component';
 import { ImageService } from '../../services/image.service';
+import { Router } from '@angular/router';
 var SuppliersComponent = /** @class */ (function () {
-    function SuppliersComponent(repo, imageService) {
+    function SuppliersComponent(repo, imageService, router) {
         this.repo = repo;
         this.imageService = imageService;
+        this.router = router;
         this.type = searchType.supplier;
         this.page = 1;
         this.rpp = 10;
@@ -57,13 +59,13 @@ var SuppliersComponent = /** @class */ (function () {
     SuppliersComponent.prototype.createSupplier = function (name, address) {
         var _this = this;
         // TODO create interface with only relevant info
-        var sup = new Supplier(new SupplierInfo(name, new Location(address)));
-        //if (this.searchInline != undefined)
-        this.repo.createOrEditEntity('supplier', sup, this.page, this.rpp, function () { return _this.searchInline.doSearch(); });
+        var sup = new Supplier(new SupplierInfo(name, new Location(address)), []);
+        // if (this.searchInline != undefined)
+        this.repo.createOrEditEntity('supplier', sup, this.page, this.rpp, function (info) { return _this.router.navigateByUrl('suppliers/' + info.id); });
     };
     SuppliersComponent.prototype.deleteSupplier = function (id) {
         var _this = this;
-        //if (this.searchInline)
+        // if (this.searchInline)
         this.repo.deleteEntity('supplier', id, this.page, this.rpp, function () { return _this.searchInline.doSearch(); });
     };
     SuppliersComponent.prototype.onFound = function (suppliers) {
@@ -83,7 +85,7 @@ var SuppliersComponent = /** @class */ (function () {
                 '../products/products.component.css'
             ]
         }),
-        __metadata("design:paramtypes", [RepositoryService, ImageService])
+        __metadata("design:paramtypes", [RepositoryService, ImageService, Router])
     ], SuppliersComponent);
     return SuppliersComponent;
 }());

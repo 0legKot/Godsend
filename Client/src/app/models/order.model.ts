@@ -1,5 +1,5 @@
-﻿import { Product } from './product.model';
-import { Supplier } from './supplier.model';
+﻿import { Product, ProductInfo } from './product.model';
+import { Supplier, SupplierInfo } from './supplier.model';
 import { IdentityUser } from './user.model';
 
 export const orderStatus = [
@@ -23,8 +23,8 @@ export class Order {
 export class OrderPart {
     constructor(
         id: string,
-        product: Product,
-        supplier: Supplier
+        product: ProductInfo,
+        supplier: SupplierInfo
     ) { }
 }
 
@@ -33,8 +33,8 @@ export class OrderPartProducts extends OrderPart {
         public quantity: number,
         public multiplier: number,
         public id: string,
-        public product: Product,
-        public supplier: Supplier
+        public product: ProductInfo,
+        public supplier: SupplierInfo
     ) {
         super(id, product, supplier);
     }

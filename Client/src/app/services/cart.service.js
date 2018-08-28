@@ -22,7 +22,7 @@ var CartService = /** @class */ (function () {
     CartService.prototype.addToCart = function (part) {
         // if (isDiscrete(part)) {
         var repeat = this.cart.discreteItems.find(function (opdv) {
-            return opdv.product === part.product && opdv.supplier === part.supplier && opdv.price === part.price;
+            return opdv.productInfo === part.productInfo && opdv.supplierInfo === part.supplierInfo && opdv.price === part.price;
         });
         if (repeat) {
             repeat.quantity += part.quantity;

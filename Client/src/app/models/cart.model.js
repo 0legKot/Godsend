@@ -56,9 +56,9 @@ export { OrderPartDiscreteSend };
 //    return ((<OrderPartDiscreteView>part).quantity !== undefined);
 // }
 var OrderPartView = /** @class */ (function () {
-    function OrderPartView(product, supplier, price) {
-        this.product = product;
-        this.supplier = supplier;
+    function OrderPartView(productInfo, supplierInfo, price) {
+        this.productInfo = productInfo;
+        this.supplierInfo = supplierInfo;
         this.price = price;
     }
     return OrderPartView;
@@ -66,10 +66,10 @@ var OrderPartView = /** @class */ (function () {
 export { OrderPartView };
 var OrderPartDiscreteView = /** @class */ (function (_super) {
     __extends(OrderPartDiscreteView, _super);
-    function OrderPartDiscreteView(product, supplier, price, quantity) {
-        var _this = _super.call(this, product, supplier, price) || this;
-        _this.product = product;
-        _this.supplier = supplier;
+    function OrderPartDiscreteView(productInfo, supplierInfo, price, quantity) {
+        var _this = _super.call(this, productInfo, supplierInfo, price) || this;
+        _this.productInfo = productInfo;
+        _this.supplierInfo = supplierInfo;
         _this.price = price;
         _this.quantity = quantity;
         return _this;

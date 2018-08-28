@@ -143,7 +143,7 @@ namespace Godsend.Models
         /// <value>
         /// The product.
         /// </value>
-        public virtual Product Product { get; set; }
+        public virtual ProductInformation Product { get; set; }
 
         /// <summary>
         /// Gets or sets the supplier identifier.
@@ -160,7 +160,7 @@ namespace Godsend.Models
         /// <value>
         /// The supplier.
         /// </value>
-        public virtual Supplier Supplier { get; set; }
+        public virtual SupplierInformation Supplier { get; set; }
     }
 
     /// <summary>

@@ -482,7 +482,7 @@ This is a pretty simple and straightforward diet you will ever try. It involves 
                     IList<OrderPartProducts> orderPartDiscretes = new List<OrderPartProducts>();
                     foreach (var p in productsArray)
                     {
-                        orderPartDiscretes.Add(new OrderPartProducts { Quantity = p.Info.Watches * 5, Multiplier = 10, Product = p, Supplier = linkProductsSuppliersArray.FirstOrDefault(lpp => lpp.Product == p)?.Supplier });
+                        orderPartDiscretes.Add(new OrderPartProducts { Quantity = p.Info.Watches * 5, Multiplier = 10, Product = p.Info, Supplier = linkProductsSuppliersArray.FirstOrDefault(lpp => lpp.Product == p)?.Supplier.Info });
                     }
 
                     var orders = (

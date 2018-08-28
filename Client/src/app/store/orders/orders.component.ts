@@ -47,7 +47,7 @@ export class OrdersComponent implements OnInit {
     getProdInfo(arDProd: OrderPartProducts[]): string[] {
         const res: string[] = [];
         for (const p of arDProd) {
-            res.push(p.product.info.name);
+            res.push(p.product.name);
         }
         return res;
     }

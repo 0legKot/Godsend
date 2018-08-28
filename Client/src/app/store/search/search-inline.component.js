@@ -39,7 +39,7 @@ var SearchInlineComponent = /** @class */ (function (_super) {
         if (term == null) {
             term = (this.searchField.value || '');
         }
-        if (this.type == searchType.product) {
+        if (this.type === searchType.product) {
             this.repo.productFilter.searchTerm = term;
             this.repo.getByFilter();
         }
