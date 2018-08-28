@@ -4,6 +4,7 @@
 
 namespace Godsend.Models
 {
+    using Newtonsoft.Json;
     using System;
     using System.Collections.Generic;
     using System.Text;
@@ -28,7 +29,10 @@ namespace Godsend.Models
         /// <value>
         /// The product.
         /// </value>
+        [JsonIgnore]
         public virtual Product Product { get; set; }
+
+        public Guid ProductId { get; set; }
 
         /// <summary>
         /// Gets or sets the property.
@@ -38,6 +42,8 @@ namespace Godsend.Models
         /// </value>
         public virtual Property Property { get; set; }
 
+        [JsonIgnore]
+        public Guid PropertyId { get; set; }
         /// <summary>
         /// Gets or sets the value.
         /// </summary>

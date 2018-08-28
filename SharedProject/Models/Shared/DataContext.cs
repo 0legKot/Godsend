@@ -111,6 +111,8 @@ namespace Godsend.Models
             builder.Entity<Product>().HasMany(p => p.StringProps).WithOne(link => link.Product).OnDelete(DeleteBehavior.Cascade);
             builder.Entity<Product>().HasMany(p => p.DecimalProps).WithOne(link => link.Product).OnDelete(DeleteBehavior.Cascade);
 
+            builder.Entity<Product>().HasOne(p => p.Category).WithMany().IsRequired(true).OnDelete(DeleteBehavior.Restrict);
+
             builder.Entity<Product>()
                 .HasOne(p => p.Info).WithOne(i => i.Product)
                 .HasForeignKey<ProductInformation>(i => i.Id);

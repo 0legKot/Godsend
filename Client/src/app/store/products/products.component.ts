@@ -10,6 +10,7 @@ import { searchType } from '../search/search.service';
 import { SearchInlineComponent } from '../search/search-inline.component';
 import { ImageService } from '../../services/image.service';
 import { CategoryService } from '../../services/category.service';
+import { guidZero } from '../../models/cart.model';
 
 @Component({
     selector: 'godsend-products',
@@ -60,7 +61,7 @@ export class ProductsComponent implements OnInit {
 
     createProduct(descr: string, name: string) {
         // TODO create interface with only relevant info
-        const prod = new Product('', new ProductInfo('', descr, 0, name, 0, 0));
+        const prod = new Product('', new ProductInfo('', descr, 0, name, 0, 0), guidZero);
         this.repo.createOrEditEntity('product', prod, 0, 0, pi => this.router.navigateByUrl('products/' + pi.id));
     }
 
@@ -75,7 +76,7 @@ export class ProductsComponent implements OnInit {
 
     constructor(private repo: RepositoryService,
         private imageService: ImageService,
-        private cattt: CategoryService,
+        private catService: CategoryService,
         private router: Router) {
     }
 
@@ -84,12 +85,12 @@ export class ProductsComponent implements OnInit {
     }
 
     getCategories(): void {
-        this.categories = this.cattt.cats ? this.cattt.cats.map(cws => cws.cat) : [];
+        this.categories = this.catService.cats ? this.catService.cats.map(cws => cws.cat) : [];
         console.log(this.categories);
     }
 
     getSubcategories(category: Category): void {
-        this.categories = this.cattt.getSubcategories(category);
+        this.categories = this.catService.getSubcategories(category);
         this.getCategoryProps(category);
     }
 
@@ -125,7 +126,7 @@ export class ProductsComponent implements OnInit {
     }
 
     getCategoryProps(category: Category): void {
-        this.cattt.getCategoryProps(category, filter => { this.filter = filter; console.log(filter); });
+        this.catService.getCategoryProps(category.id, filter => { this.filter = filter; console.log(filter); });
     }
 
     setCurrentCategory(category: Category): void {

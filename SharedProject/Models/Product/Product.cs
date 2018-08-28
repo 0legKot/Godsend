@@ -61,15 +61,20 @@ namespace Godsend.Models
         [JsonIgnore]
         public virtual Category Category { get; set; }
 
+        /// <summary>
+        /// Gets the category without base category
+        /// </summary>
+        [NotMapped]
+        public Category JSONCategory => Category == null ? null : new Category() { Id = Category.Id, Name = Category.Name };
+
+        public Guid CategoryId { get; set; }
+
         public virtual ProductInformation Info { get; set; }
 
-        [JsonIgnore]
         public virtual IEnumerable<EAV<int>> IntProps { get; set; }
 
-        [JsonIgnore]
         public virtual IEnumerable<EAV<string>> StringProps { get; set; }
 
-        [JsonIgnore]
         public virtual IEnumerable<EAV<decimal>> DecimalProps { get; set; }
 
         public override string ToString()
@@ -79,11 +84,13 @@ namespace Godsend.Models
 
         public void CopyTo(Product target)
         {
-            // todo category
-            // todo props
             // todo state
             target.Info.Name = Info.Name;
             target.Info.Description = Info.Description;
+            target.CategoryId = CategoryId;
+            target.DecimalProps = DecimalProps.Select(eav => new EAV<decimal>() { ProductId = eav.ProductId, PropertyId = eav.Property.Id, Value = eav.Value }).ToList();
+            target.IntProps = IntProps.Select(eav => new EAV<int>() { ProductId = eav.ProductId, PropertyId = eav.Property.Id, Value = eav.Value }).ToList();
+            target.StringProps = StringProps.Select(eav => new EAV<string>() { ProductId = eav.ProductId, PropertyId = eav.Property.Id, Value = eav.Value }).ToList();
         }
     }
 
@@ -104,12 +111,6 @@ namespace Godsend.Models
         /// The suppliers.
         /// </value>
         public IEnumerable<SupplierAndPrice> Suppliers { get; set; }
-
-        public IEnumerable<EAV<string>> StringProps { get; set; }
-
-        public IEnumerable<EAV<decimal>> DecimalProps { get; set; }
-
-        public IEnumerable<EAV<int>> IntProps { get; set; }
     }
 
     /// <summary>

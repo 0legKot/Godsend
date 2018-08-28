@@ -20,7 +20,9 @@ export class InputOutputComponent extends CustomControlValueAccessor<string> {
     @Input()
     class = 'default';
     @Input()
-    huge = false;
+    type: InputOutputType = 'normal';
 
     constructor() { super(); }
 }
+
+export type InputOutputType = 'normal' | 'huge' | 'decimal' | 'integer'

@@ -100,7 +100,7 @@ namespace Godsend.Controllers
 
                 return Ok(entity.Id);
             }
-            catch
+            catch (Exception ex)
             {
                 await (creating
                     ? hubContext.Clients.User(userId).SendAsync("Error", "Could not create")

@@ -1,15 +1,20 @@
 import { Supplier } from './supplier.model';
 import { IEntity, IInformation } from './entity.model';
+import { guidZero } from './cart.model';
 
 export class Product implements IEntity<ProductInfo> {
     static EnsureType(product: Product): Product {
-        return new this(product.id, product.info);
+        return new this(product.id, product.info, product.jsonCategory ? product.jsonCategory.id : guidZero, product.jsonCategory, product.stringProps, product.intProps, product.decimalProps);
     }
 
     constructor(
         public id: string,
         public info: ProductInfo,
-        public category: any = ''
+        public categoryId: string,
+        public jsonCategory?: Category,
+        public stringProps?: EAV<string>[],
+        public intProps?: EAV<number>[],
+        public decimalProps?: EAV<number>[],
     ) { }
 
     toCreateEdit() {
@@ -19,7 +24,10 @@ export class Product implements IEntity<ProductInfo> {
                 name: this.info.name,
                 description: this.info.description
             },
-            category: this.category
+            categoryId: this.categoryId,
+            intProps: this.intProps,
+            stringProps: this.stringProps,
+            decimalProps: this.decimalProps
         };
     }
 }
@@ -38,7 +46,7 @@ export class ProductInfo implements IInformation {
 export class ProductWithSuppliers {
     constructor(
         public product: Product,
-        public suppliers: SupplierAndPrice[]
+        public suppliers: SupplierAndPrice[],
     ) { }
 }
 
@@ -61,6 +69,16 @@ export class CatsWithSubs {
     constructor(
         public cat: Category,
         public subs: CatsWithSubs[]
+    ) { }
+}
+
+export class EAV<T> {
+    public id?: string;
+
+    constructor(
+        public productId: string,
+        public property: Property,
+        public value: T
     ) { }
 }
 

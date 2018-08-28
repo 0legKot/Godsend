@@ -41,6 +41,7 @@ import { CommentComponent } from './store/comments/comment.component';
 import { CommentWrapperComponent } from './store/comments/comment-wrapper.component';
 import { EntityRatingsComponent } from './store/rating/entity-ratings.component';
 import { RatingsComponent } from './store/rating/ratings.component';
+import { CategoryTreeComponent } from './store/products/category-tree.component';
 
 @NgModule({
     declarations: [
@@ -72,7 +73,8 @@ import { RatingsComponent } from './store/rating/ratings.component';
         CommentComponent,
         CommentWrapperComponent,
         EntityRatingsComponent,
-        RatingsComponent
+        RatingsComponent,
+        CategoryTreeComponent,
     ],
     imports: [
         AngularFontAwesomeModule,

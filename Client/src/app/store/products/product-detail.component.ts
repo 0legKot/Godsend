@@ -3,13 +3,14 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 
-import { Product, ProductWithSuppliers, SupplierAndPrice } from '../../models/product.model';
+import { Product, ProductWithSuppliers, SupplierAndPrice, Category, Property, EAV, propertyType } from '../../models/product.model';
 import { RepositoryService, entityClass } from '../../services/repository.service';
 import { CartService } from '../../services/cart.service';
 import { OrderPartDiscreteSend, guidZero, OrderPartDiscreteView } from '../../models/cart.model';
 import { ImageService } from '../../services/image.service';
 import { StorageService } from '../../services/storage.service';
 import { LinkRatingEntity } from '../../models/rating.model';
+import { CategoryService } from '../../services/category.service';
 
 @Component({
     selector: 'godsend-product-detail',
@@ -28,9 +29,9 @@ export class ProductDetailComponent implements OnInit {
 
     images: string[] = [];
 
-    backup = {
+    backup: ProductBackup = {
         name: '',
-        description: ''
+        description: '',
     };
 
     get price(): string {
@@ -41,13 +42,18 @@ export class ProductDetailComponent implements OnInit {
         return this.storage.authenticated;
     }
 
+    get cats() {
+        return this.catService.cats;
+    }
+
     constructor(
         private route: ActivatedRoute,
         private router: Router,
         private repo: RepositoryService,
         private cart: CartService,
         private imageService: ImageService,
-        private storage: StorageService
+        private storage: StorageService,
+        private catService: CategoryService
     ) { }
 
     gotoProducts(product?: Product) {
@@ -84,7 +90,11 @@ export class ProductDetailComponent implements OnInit {
         } else {
             this.backup = {
                 name: this.data.product.info.name,
-                description: this.data.product.info.description
+                description: this.data.product.info.description,
+                cat: this.data.product.jsonCategory,
+                decimalProps: this.data.product.decimalProps,
+                intProps: this.data.product.intProps,
+                stringProps: this.data.product.stringProps
             };
             this.edit = true;
         }
@@ -102,6 +112,10 @@ export class ProductDetailComponent implements OnInit {
         if (this.data) {
             this.data.product.info.name = this.backup.name;
             this.data.product.info.description = this.backup.description;
+            this.data.product.jsonCategory = this.backup.cat;
+            this.data.product.stringProps = this.backup.stringProps;
+            this.data.product.intProps = this.backup.intProps;
+            this.data.product.decimalProps = this.backup.decimalProps;
         }
 
         this.edit = false;
@@ -115,7 +129,54 @@ export class ProductDetailComponent implements OnInit {
         this.imageService.getImages(this.route.snapshot.params.id, images => { this.images = images; });
     }
 
+    changeCategory(newCat: Category) {
+        if (this.data) {
+            this.data.product.jsonCategory = newCat;
+            this.refreshProperties(newCat.id);
+        }
+    }
+
+    refreshProperties(catId: string) {
+        this.catService.getCategoryProps(catId, filter => {
+            if (this.data) {
+                if (filter.decimalProps) {
+                    this.data.product.decimalProps = filter.decimalProps.map(dp =>
+                        new EAV<number>(this.data!.product.id,
+                            { id: dp.propId, name: dp.name, type: propertyType.indexOf('decimal') },
+                            0));
+                } else {
+                    this.data.product.decimalProps = [];
+                }
+                if (filter.stringProps) {
+                    this.data.product.stringProps = filter.stringProps.map(sp =>
+                        new EAV<string>(this.data!.product.id,
+                            { id: sp.propId, name: sp.name, type: propertyType.indexOf('string') },
+                            ''));
+                } else {
+                    this.data.product.stringProps = [];
+                }
+                if (filter.intProps) {
+                    this.data.product.intProps = filter.intProps.map(ip =>
+                        new EAV<number>(this.data!.product.id,
+                            { id: ip.propId, name: ip.name, type: propertyType.indexOf('int') },
+                            0));
+                } else {
+                    this.data.product.intProps = [];
+                }
+            }
+        });
+    }
+
     /*get product(): Product | {} {
         return this.service.product;
     }*/
+}
+
+interface ProductBackup {
+    name: string;
+    description: string;
+    cat?: Category;
+    decimalProps?: EAV<number>[];
+    stringProps?: EAV<string>[];
+    intProps?: EAV<number>[];
 }
