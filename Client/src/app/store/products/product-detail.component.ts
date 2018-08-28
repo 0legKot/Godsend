@@ -11,6 +11,8 @@ import { ImageService } from '../../services/image.service';
 import { StorageService } from '../../services/storage.service';
 import { LinkRatingEntity } from '../../models/rating.model';
 import { CategoryService } from '../../services/category.service';
+import { searchType, AllSearchResult } from '../search/search.service';
+import { Supplier, SupplierInfo } from '../../models/supplier.model';
 
 @Component({
     selector: 'godsend-product-detail',
@@ -24,6 +26,10 @@ export class ProductDetailComponent implements OnInit {
 
     quantity = 1;
     edit = false;
+    searchTypeSupplier = searchType.supplier;
+    foundSuppliers?: SupplierInfo[];
+    supplierToAdd?: SupplierInfo;
+    priceToAdd?: number;
 
     readonly clas: entityClass = 'product';
 
@@ -165,6 +171,19 @@ export class ProductDetailComponent implements OnInit {
                 }
             }
         });
+    }
+
+    refreshFoundSuppliers(newData: AllSearchResult) {
+        this.foundSuppliers = newData.suppliersInfo;
+    }
+
+    addSupplier() {
+        // do something
+        if (this.data && this.supplierToAdd && this.priceToAdd) {
+            this.data.suppliers.push(new SupplierAndPrice(new Supplier(this.supplierToAdd, []), this.priceToAdd));
+            this.supplierToAdd = undefined;
+            this.priceToAdd = 0;
+        }
     }
 
     /*get product(): Product | {} {

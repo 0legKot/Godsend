@@ -79,6 +79,22 @@
                             <p class="inline-block"><fa name="cart-arrow-down"></fa></p>
                             <p class="inline-block">Buy!</p>
                         </div>
+
+                        <div>
+                            <span>Filter selection</span>
+                            <godsend-search-inline [type]="searchTypeSupplier" (found)="refreshFoundSuppliers($event)"></godsend-search-inline>
+                            <div *ngIf="foundSuppliers != null">
+                                <label>Supplier: </label>
+                                <select [(ngModel)]="supplierToAdd">
+                                    <option *ngFor="let s of foundSuppliers" [ngValue]="s"> {{ s.name }}</option>
+                                </select>
+                                <label>Price: </label>
+                                <input [(ngModel)]="priceToAdd" type="number" />
+                                <button (click)="addSupplier()">Add</button>
+                                
+                            </div>
+
+                        </div>
                     </div>
                     <ng-template #noSuppliers>
                         <label>No suppliers</label>
