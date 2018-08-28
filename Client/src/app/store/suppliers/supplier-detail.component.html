@@ -44,10 +44,12 @@
                     <label>
                         Supplier products:
                     </label>
+                    <div *ngIf="supp">
                         <div *ngFor="let prodInfo of supp.products">
                             <p (click)="gotoProduct(prodInfo.id)">{{prodInfo.name}}</p>
                         </div>
-</div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

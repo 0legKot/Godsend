@@ -94,6 +94,7 @@ namespace Godsend
             }
             else
             {
+                entity.Category = context.Categories.FirstOrDefault(c => c.BaseCategory == null);
                 context.Add(entity);
             }
 

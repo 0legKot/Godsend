@@ -31,7 +31,7 @@ namespace Godsend.Models
                 {
                     #region Categories
 
-                    var mainCat = new Category { Name = "Main" };
+                    var mainCat = new Category { Name = "Unspecified" };
                     var food = new Category { Name = "Food", BaseCategory = mainCat };
                     var fruit = new Category { Name = "Fruit", BaseCategory = food };
                     var vegetables = new Category { Name = "Vegetables", BaseCategory = food };

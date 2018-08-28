@@ -79,6 +79,8 @@ export class SupplierDetailComponent implements OnInit {
 
     save() {
         if (this.supp) {
+            console.log('EDIT');
+            console.log(this.supp);
             this.repo.createOrEditEntity('supplier', Supplier.EnsureType(this.supp), 1, 10);
         }
 

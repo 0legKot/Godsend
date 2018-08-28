@@ -41,7 +41,7 @@ namespace Godsend.Controllers
             var sup = repository.GetEntity(id);
             repository.Watch(sup);
             var res = new SupplierWithProds();
-            sup.CopyTo(res);
+            sup.CloneTo(res);
             res.Products = (repository as ISupplierRepository).GetProducts(sup.Id).ToList();
             return res;
         }

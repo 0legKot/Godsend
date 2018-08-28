@@ -54,12 +54,24 @@ namespace Godsend.Models
 
         public virtual SupplierInformation Info { get; set; }
 
+        /// <summary>
+        /// Copies editable properties to target
+        /// </summary>
+        /// <param name="target">The target.</param>
         public void CopyTo(Supplier target)
         {
             if (target.Info == null) target.Info = new SupplierInformation();
             if (target.Info.Location == null) target.Info.Location = new Location();
             target.Info.Location.Address = Info?.Location?.Address;
             target.Info.Name = Info.Name;
+        }
+
+        public void CloneTo(Supplier target)
+        {
+            this.CopyTo(target);
+            target.Id = Id;
+            target.Info.Rating = Info.Rating;
+            target.Info.Watches = Info.Watches;
         }
     }
 
