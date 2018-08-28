@@ -16,7 +16,7 @@
         <div class='row'>
             <div class='col-lg-3 col-md-4 col-sm-6 col-xs-12 products'>
                 <div class="prod-name">
-                    <godsend-input-output *ngIf="data" [(ngModel)]="data.product.info.name" [edit]="edit"></godsend-input-output>
+                    <godsend-input-output *ngIf="product" [(ngModel)]="product.info.name" [edit]="edit"></godsend-input-output>
                 </div>
                 <div class="photo">
                     <div *ngFor="let image of images" style="display:contents;">
@@ -24,38 +24,38 @@
                     </div>
                 </div>
                 <div class="rating">
-                    <div *ngIf="data">
-                        <godsend-ratings [clas]="clas" [id]="data.product.id" [(ngModel)]="data.product.info.rating"></godsend-ratings>
+                    <div *ngIf="product">
+                        <godsend-ratings [clas]="clas" [id]="product.id" [(ngModel)]="product.info.rating"></godsend-ratings>
                     </div>
-                    <p class="pull-right" [ngStyle]="{'color': '#003e09' }"><fa name="eye"></fa> : {{ data?.product?.info?.watches }}</p>
+                    <p class="pull-right" [ngStyle]="{'color': '#003e09' }"><fa name="eye"></fa> : {{ product?.info?.watches }}</p>
                 </div>
             </div>
             <div class='col-lg-7 col-md-6 col-sm-5 col-xs-12 products rel'>
                 <div class="prod-info">
                     <div>
                         <label>Description: </label>
-                        <p><godsend-input-output *ngIf="data" [(ngModel)]="data.product.info.description" [edit]="edit" [type]="'huge'"></godsend-input-output></p>
+                        <p><godsend-input-output *ngIf="product" [(ngModel)]="product.info.description" [edit]="edit" [type]="'huge'"></godsend-input-output></p>
                     </div>
 
                     <!-- PROPERTIES -->
                     <div>
 
-                        <div *ngIf="data && data.product.decimalProps">
-                            <div *ngFor="let dProp of data.product.decimalProps">
+                        <div *ngIf="product && product.decimalProps">
+                            <div *ngFor="let dProp of product.decimalProps">
                                 <label> {{ dProp.property.name }}</label>
                                 <godsend-input-output [(ngModel)]="dProp.value" [edit]="edit" [type]="'decimal'"></godsend-input-output>
                             </div>
                         </div>
 
-                        <div *ngIf="data && data.product.intProps">
-                            <div *ngFor="let iProp of data.product.intProps">
+                        <div *ngIf="product && product.intProps">
+                            <div *ngFor="let iProp of product.intProps">
                                 <label> {{ iProp.property.name }}</label>
                                 <godsend-input-output [(ngModel)]="iProp.value" [edit]="edit" [type]="'integer'"></godsend-input-output>
                             </div>
                         </div>
 
-                        <div *ngIf="data && data.product.stringProps">
-                            <div *ngFor="let sProp of data.product.stringProps">
+                        <div *ngIf="product && product.stringProps">
+                            <div *ngFor="let sProp of product.stringProps">
                                 <label> {{ sProp.property.name }}</label>
                                 <godsend-input-output [(ngModel)]="sProp.value" [edit]="edit"></godsend-input-output>
                             </div>
@@ -64,23 +64,31 @@
                     </div>
                     <!-- END PROPERTIES -->
 
-                    <div *ngIf="data?.suppliers?.length > 0 else noSuppliers">
+                    <div *ngIf="product?.suppliersAndPrices?.length > 0 else noSuppliers">
                         <label>Price: </label>
-                        <p>
-                            <span>From: </span>
-                            <select [(ngModel)]="selectedSupplier" *ngIf="data != null">
-                                <option *ngFor="let s of data?.suppliers" [ngValue]="s">{{ s.supplier?.info?.name }} for {{ s.price }}</option>
-                            </select>
-                        </p>
-                        <p> For: {{ price }}</p>
-                        <label>Quantity: </label>
-                        <p><input id="input-quantity" type="number" min="1" step="1" [(ngModel)]="quantity" /></p>
-                        <div class="buy" (click)="buy()">
-                            <p class="inline-block"><fa name="cart-arrow-down"></fa></p>
-                            <p class="inline-block">Buy!</p>
+                        <div *ngIf="!edit">
+                            <p>
+                                <span>From: </span>
+                                <select [(ngModel)]="selectedSupplier" *ngIf="product != null">
+                                    <option *ngFor="let s of product?.suppliersAndPrices" [ngValue]="s">{{ s.supplierInfo?.name }} for {{ s.price }}</option>
+                                </select>
+                            </p>
+                            <p> For: {{ price }}</p>
+                            <label>Quantity: </label>
+                            <p><input id="input-quantity" type="number" min="1" step="1" [(ngModel)]="quantity" /></p>
+                            <div class="buy" (click)="buy()">
+                                <p class="inline-block"><fa name="cart-arrow-down"></fa></p>
+                                <p class="inline-block">Buy!</p>
+                            </div>
                         </div>
+                        <div *ngIf="edit">
+                            <div>
+                                <ul>
+                                    <li *ngFor="let s of product?.suppliersAndPrices"><p>{{ s.supplierInfo?.name }} for {{ s.price }}<button (click)="removeSupplier(s)">Remove</button></p></li>
+                                </ul>
+                            </div>
 
-                        <div>
+
                             <span>Filter selection</span>
                             <godsend-search-inline [type]="searchTypeSupplier" (found)="refreshFoundSuppliers($event)"></godsend-search-inline>
                             <div *ngIf="foundSuppliers != null">
@@ -101,10 +109,10 @@
                     </ng-template>
 
 
-                    <div *ngIf="data">
+                    <div *ngIf="product">
                         <label>Category: </label>
                         <div>
-                            <span>{{ data.product.jsonCategory.name }}</span>
+                            <span>{{ product.jsonCategory.name }}</span>
                         </div>
 
                         <div *ngIf="edit">

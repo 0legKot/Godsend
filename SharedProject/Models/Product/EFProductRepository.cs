@@ -89,6 +89,7 @@ namespace Godsend
                 context.RemoveRange(dbEntry.DecimalProps);
                 context.RemoveRange(dbEntry.IntProps);
                 context.RemoveRange(dbEntry.StringProps);
+                context.RemoveRange(dbEntry.LinkProductsSuppliers);
 
                 entity.CopyTo(dbEntry);
             }
@@ -162,7 +163,7 @@ namespace Godsend
         /// </summary>
         /// <param name="productId">The product information identifier.</param>
         /// <returns></returns>
-        public ProductWithSuppliers GetProductWithSuppliers(Guid productId)
+        /*public ProductWithSuppliers GetProductWithSuppliers(Guid productId)
         {
             var res = new ProductWithSuppliers
             {
@@ -176,7 +177,7 @@ namespace Godsend
                 //IntProps = context.LinkProductPropertyInt.Where(lpp => lpp.Product.Id == productId)
             };
             return res;
-        }
+        }*/
 
         /// <summary>
         /// Gets products from context.

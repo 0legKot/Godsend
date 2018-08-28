@@ -1,6 +1,6 @@
 ﻿import { IdentityUser } from './user.model';
-import { Product } from './product.model';
-import { Supplier } from './supplier.model';
+import { Product, ProductInfo } from './product.model';
+import { Supplier, SupplierInfo } from './supplier.model';
 
 export const guidZero = '00000000-0000-0000-0000-000000000000';
 
@@ -51,16 +51,16 @@ export class OrderPartDiscreteSend extends OrderPartSend {
 
 export class OrderPartView {
     constructor(
-        public product: Product,
-        public supplier: Supplier,
+        public product: ProductInfo,
+        public supplier: SupplierInfo,
         public price: number
     ) { }
 }
 
 export class OrderPartDiscreteView extends OrderPartView {
     constructor(
-        public product: Product,
-        public supplier: Supplier,
+        public product: ProductInfo,
+        public supplier: SupplierInfo,
         public price: number,
         public quantity: number
     ) { super(product, supplier, price); }

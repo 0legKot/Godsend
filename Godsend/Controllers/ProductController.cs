@@ -47,10 +47,10 @@ namespace Godsend.Controllers
         [HttpGet("[action]/{id:Guid}")]
         public new IActionResult Detail(Guid id)
         {
-            var prod = (repository as IProductRepository)?.GetProductWithSuppliers(id);
+            var prod = (repository as IProductRepository)?.GetEntity(id);
             if (prod != null)
             {
-                repository.Watch(prod.Product);
+                repository.Watch(prod);
             }
             else
             {

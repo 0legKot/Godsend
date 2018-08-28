@@ -73,6 +73,9 @@ namespace Godsend.Models
             target.Info.Rating = Info.Rating;
             target.Info.Watches = Info.Watches;
         }
+
+        public virtual IEnumerable<LinkProductsSuppliers> LinkProductsSuppliers { get; set; }
+
     }
 
     /// <summary>

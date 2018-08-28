@@ -1,10 +1,10 @@
-import { Supplier } from './supplier.model';
+import { Supplier, SupplierInfo } from './supplier.model';
 import { IEntity, IInformation } from './entity.model';
 import { guidZero } from './cart.model';
 
 export class Product implements IEntity<ProductInfo> {
     static EnsureType(product: Product): Product {
-        return new this(product.id, product.info, product.jsonCategory ? product.jsonCategory.id : guidZero, product.jsonCategory, product.stringProps, product.intProps, product.decimalProps);
+        return new this(product.id, product.info, product.jsonCategory ? product.jsonCategory.id : guidZero, product.jsonCategory, product.stringProps, product.intProps, product.decimalProps, product.suppliersAndPrices);
     }
 
     constructor(
@@ -15,6 +15,7 @@ export class Product implements IEntity<ProductInfo> {
         public stringProps?: EAV<string>[],
         public intProps?: EAV<number>[],
         public decimalProps?: EAV<number>[],
+        public suppliersAndPrices?: SupplierAndPrice[]
     ) { }
 
     toCreateEdit() {
@@ -27,7 +28,8 @@ export class Product implements IEntity<ProductInfo> {
             categoryId: this.categoryId,
             intProps: this.intProps,
             stringProps: this.stringProps,
-            decimalProps: this.decimalProps
+            decimalProps: this.decimalProps,
+            suppliersAndPrices: this.suppliersAndPrices
         };
     }
 }
@@ -43,17 +45,11 @@ export class ProductInfo implements IInformation {
     ) { }
 }
 
-export class ProductWithSuppliers {
-    constructor(
-        public product: Product,
-        public suppliers: SupplierAndPrice[],
-    ) { }
-}
-
 export class SupplierAndPrice {
     constructor(
-        public supplier: Supplier,
-        public price: number
+        public supplierInfo: SupplierInfo,
+        public price: number,
+        public id?: string
     ) { }
 }
 

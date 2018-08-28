@@ -77,6 +77,22 @@ namespace Godsend.Models
 
         public virtual IEnumerable<EAV<decimal>> DecimalProps { get; set; }
 
+        [JsonIgnore]
+        public virtual IEnumerable<LinkProductsSuppliers> LinkProductsSuppliers { get; set; }
+
+        [NotMapped]
+        public IEnumerable<LinkProductsSuppliers.WithoutProduct> SuppliersAndPrices
+        {
+            get => LinkProductsSuppliers.Select(lps => new LinkProductsSuppliers.WithoutProduct(lps)).ToList();
+            set => LinkProductsSuppliers = value.Select(link => new LinkProductsSuppliers()
+            {
+                Id = link.Id,
+                Price = link.Price,
+                SupplierId = link.SupplierInfo.Id,
+                ProductId = Id
+            }).ToList();
+        }
+
         public override string ToString()
         {
             return "Product: " + Info?.Name ?? "Hello include";
@@ -91,10 +107,11 @@ namespace Godsend.Models
             target.DecimalProps = DecimalProps.Select(eav => new EAV<decimal>() { ProductId = eav.ProductId, PropertyId = eav.Property.Id, Value = eav.Value }).ToList();
             target.IntProps = IntProps.Select(eav => new EAV<int>() { ProductId = eav.ProductId, PropertyId = eav.Property.Id, Value = eav.Value }).ToList();
             target.StringProps = StringProps.Select(eav => new EAV<string>() { ProductId = eav.ProductId, PropertyId = eav.Property.Id, Value = eav.Value }).ToList();
+            target.LinkProductsSuppliers = LinkProductsSuppliers;
         }
     }
 
-    public class ProductWithSuppliers
+   /* public class ProductWithSuppliers
     {
         /// <summary>
         /// Gets or sets the product.
@@ -111,7 +128,7 @@ namespace Godsend.Models
         /// The suppliers.
         /// </value>
         public IEnumerable<SupplierAndPrice> Suppliers { get; set; }
-    }
+    }*/
 
     /// <summary>
     ///

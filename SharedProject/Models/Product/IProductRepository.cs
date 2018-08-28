@@ -19,7 +19,7 @@ namespace Godsend
         /// </summary>
         /// <param name="productId">The product identifier.</param>
         /// <returns></returns>
-        ProductWithSuppliers GetProductWithSuppliers(Guid productId);
+        //ProductWithSuppliers GetProductWithSuppliers(Guid productId);
 
         /// <summary>
         /// Categorieses this instance.

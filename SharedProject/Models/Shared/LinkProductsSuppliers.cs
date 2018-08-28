@@ -15,54 +15,53 @@ namespace Godsend.Models
     /// </summary>
     public class LinkProductsSuppliers
     {
-        /// <summary>
-        /// Gets or sets the identifier.
-        /// </summary>
-        /// <value>
-        /// The identifier.
-        /// </value>
         public Guid Id { get; set; }
 
-        /// <summary>
-        /// Gets or sets the supplier identifier.
-        /// </summary>
-        /// <value>
-        /// The supplier identifier.
-        /// </value>
         public Guid SupplierId { get; set; }
 
-        /// <summary>
-        /// Gets or sets the supplier.
-        /// </summary>
-        /// <value>
-        /// The supplier.
-        /// </value>
         public virtual Supplier Supplier { get; set; }
 
-        /// <summary>
-        /// Gets or sets the product identifier.
-        /// </summary>
-        /// <value>
-        /// The product identifier.
-        /// </value>
         public Guid ProductId { get; set; }
 
-        /// <summary>
-        /// Gets or sets the product.
-        /// </summary>
-        /// <value>
-        /// The product.
-        /// </value>
         public virtual Product Product { get; set; }
 
-        /// <summary>
-        /// Gets or sets the price.
-        /// </summary>
-        /// <value>
-        /// The price.
-        /// </value>
         [Column(TypeName = "decimal(18,2)")]
         public decimal Price { get; set; }
+
+        public class WithoutProduct
+        {
+            public Guid Id { get; set; }
+
+            public SupplierInformation SupplierInfo { get; set; }
+
+            public decimal Price { get; set; }
+
+            public WithoutProduct(LinkProductsSuppliers link)
+            {
+                if (link != null)
+                {
+                    Id = link.Id;
+                    SupplierInfo = link.Supplier?.Info;
+                    Price = link.Price;
+                }
+            }
+        }
+
+        public class WithoutSupplier
+        {
+            public Guid Id { get; set; }
+
+            public ProductInformation ProductInfo { get; set; }
+
+            public decimal Price { get; set; }
+
+            public WithoutSupplier(LinkProductsSuppliers link)
+            {
+                Id = link.Id;
+                ProductInfo = link.Product.Info;
+                Price = link.Price;
+            }
+        }
 
         // left in stock (gg)
     }

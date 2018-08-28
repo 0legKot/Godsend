@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 
-import { Product, ProductWithSuppliers, SupplierAndPrice, Category, Property, EAV, propertyType } from '../../models/product.model';
+import { Product, SupplierAndPrice, Category, Property, EAV, propertyType } from '../../models/product.model';
 import { RepositoryService, entityClass } from '../../services/repository.service';
 import { CartService } from '../../services/cart.service';
 import { OrderPartDiscreteSend, guidZero, OrderPartDiscreteView } from '../../models/cart.model';
@@ -20,7 +20,7 @@ import { Supplier, SupplierInfo } from '../../models/supplier.model';
     styleUrls: ['./product-detail.component.css']
 })
 export class ProductDetailComponent implements OnInit {
-    data?: ProductWithSuppliers;
+    product?: Product;
 
     selectedSupplier?: SupplierAndPrice;
 
@@ -68,106 +68,106 @@ export class ProductDetailComponent implements OnInit {
     }
 
     deleteProduct() {
-        if (this.data) {
-            this.repo.deleteEntity('product', this.data.product.info.id, 1, 10);
+        if (this.product) {
+            this.repo.deleteEntity('product', this.product.info.id, 1, 10);
             this.gotoProducts();
         }
     }
     buy() {
         // Todo make button disabled if no data?
 
-        if (this.data == null || this.selectedSupplier == null) {
+        if (this.product == null || this.selectedSupplier == null) {
             console.log('ERROR: no data');
             return;
         }
 
         const op: OrderPartDiscreteView = {
             quantity: this.quantity,
-            product: this.data.product,
-            supplier: this.selectedSupplier.supplier,
+            product: this.product.info,
+            supplier: this.selectedSupplier.supplierInfo,
             price: this.selectedSupplier.price
         };
         this.cart.addToCart(op);
     }
 
     editMode() {
-        if (this.data == null) {
+        if (this.product == null) {
             console.log('no data');
         } else {
             this.backup = {
-                name: this.data.product.info.name,
-                description: this.data.product.info.description,
-                cat: this.data.product.jsonCategory,
-                decimalProps: this.data.product.decimalProps,
-                intProps: this.data.product.intProps,
-                stringProps: this.data.product.stringProps
+                name: this.product.info.name,
+                description: this.product.info.description,
+                cat: this.product.jsonCategory,
+                decimalProps: this.product.decimalProps,
+                intProps: this.product.intProps,
+                stringProps: this.product.stringProps
             };
             this.edit = true;
         }
     }
 
     save() {
-        if (this.data) {
-            this.repo.createOrEditEntity('product', Product.EnsureType(this.data.product), 1, 10);
+        if (this.product) {
+            this.repo.createOrEditEntity('product', Product.EnsureType(this.product), 1, 10);
         }
 
         this.edit = false;
     }
 
     discard() {
-        if (this.data) {
-            this.data.product.info.name = this.backup.name;
-            this.data.product.info.description = this.backup.description;
-            this.data.product.jsonCategory = this.backup.cat;
-            this.data.product.stringProps = this.backup.stringProps;
-            this.data.product.intProps = this.backup.intProps;
-            this.data.product.decimalProps = this.backup.decimalProps;
+        if (this.product) {
+            this.product.info.name = this.backup.name;
+            this.product.info.description = this.backup.description;
+            this.product.jsonCategory = this.backup.cat;
+            this.product.stringProps = this.backup.stringProps;
+            this.product.intProps = this.backup.intProps;
+            this.product.decimalProps = this.backup.decimalProps;
         }
 
         this.edit = false;
     }
 
     ngOnInit() {
-        this.repo.getEntity<ProductWithSuppliers>('product', this.route.snapshot.params.id, p => {
-            this.data = p;
-            this.selectedSupplier = p.suppliers[0];
+        this.repo.getEntity<Product>('product', this.route.snapshot.params.id, p => {
+            this.product = p;
+            this.selectedSupplier = p.suppliersAndPrices ? p.suppliersAndPrices[0] : undefined;
         });
         this.imageService.getImages(this.route.snapshot.params.id, images => { this.images = images; });
     }
 
     changeCategory(newCat: Category) {
-        if (this.data) {
-            this.data.product.jsonCategory = newCat;
+        if (this.product) {
+            this.product.jsonCategory = newCat;
             this.refreshProperties(newCat.id);
         }
     }
 
     refreshProperties(catId: string) {
         this.catService.getCategoryProps(catId, filter => {
-            if (this.data) {
+            if (this.product) {
                 if (filter.decimalProps) {
-                    this.data.product.decimalProps = filter.decimalProps.map(dp =>
-                        new EAV<number>(this.data!.product.id,
+                    this.product.decimalProps = filter.decimalProps.map(dp =>
+                        new EAV<number>(this.product!.id,
                             { id: dp.propId, name: dp.name, type: propertyType.indexOf('decimal') },
                             0));
                 } else {
-                    this.data.product.decimalProps = [];
+                    this.product.decimalProps = [];
                 }
                 if (filter.stringProps) {
-                    this.data.product.stringProps = filter.stringProps.map(sp =>
-                        new EAV<string>(this.data!.product.id,
+                    this.product.stringProps = filter.stringProps.map(sp =>
+                        new EAV<string>(this.product!.id,
                             { id: sp.propId, name: sp.name, type: propertyType.indexOf('string') },
                             ''));
                 } else {
-                    this.data.product.stringProps = [];
+                    this.product.stringProps = [];
                 }
                 if (filter.intProps) {
-                    this.data.product.intProps = filter.intProps.map(ip =>
-                        new EAV<number>(this.data!.product.id,
+                    this.product.intProps = filter.intProps.map(ip =>
+                        new EAV<number>(this.product!.id,
                             { id: ip.propId, name: ip.name, type: propertyType.indexOf('int') },
                             0));
                 } else {
-                    this.data.product.intProps = [];
+                    this.product.intProps = [];
                 }
             }
         });
@@ -179,10 +179,20 @@ export class ProductDetailComponent implements OnInit {
 
     addSupplier() {
         // do something
-        if (this.data && this.supplierToAdd && this.priceToAdd) {
-            this.data.suppliers.push(new SupplierAndPrice(new Supplier(this.supplierToAdd, []), this.priceToAdd));
+        if (this.product && this.supplierToAdd && this.priceToAdd) {
+            if (this.product.suppliersAndPrices == null) {
+                this.product.suppliersAndPrices = [];
+            }
+
+            this.product.suppliersAndPrices.push(new SupplierAndPrice(this.supplierToAdd, this.priceToAdd));
             this.supplierToAdd = undefined;
             this.priceToAdd = 0;
+        }
+    }
+
+    removeSupplier(snp: SupplierAndPrice) {
+        if (this.product && this.product.suppliersAndPrices) {
+            this.product.suppliersAndPrices = this.product.suppliersAndPrices.filter(s => s != snp);
         }
     }
 
