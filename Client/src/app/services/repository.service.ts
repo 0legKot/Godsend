@@ -233,7 +233,7 @@ export class RepositoryService {
         console.dir(cartView);
 
         const cart = new Cart(
-            cartView.discreteItems.map(opdv => new OrderPartDiscreteSend(opdv.quantity, opdv.product.id, opdv.supplier.id))
+            cartView.discreteItems.map(opdv => new OrderPartDiscreteSend(opdv.quantity, opdv.productInfo.id, opdv.supplierInfo.id))
         );
 
         this.data.sendRequest<Order>('post', ordersUrl + '/createOrUpdate', cart)

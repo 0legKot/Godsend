@@ -17,10 +17,10 @@
                 <div class="card-header">
                     <h5 class="pull-right delete-art" (click)="delete(part)"><fa name="times"></fa></h5>
                     <br />
-                    <h4>{{ part.product.info.name }}</h4>
+                    <h4>{{ part.productInfo.name }}</h4>
                 </div>
                 <div class="card-body">
-                    <h5 class="card-title">{{ part.supplier.info.name }}</h5>
+                    <h5 class="card-title">{{ part.supplierInfo.name }}</h5>
                     <p class="card-text">Quantity: {{ part.quantity }}</p>
                     <p class="card-text">Price: $ {{ (part.quantity * part.price).toFixed(2) }}</p>
                     <div (click)="increment(part)" class="btn readMore">+Increment</div>

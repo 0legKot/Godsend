@@ -19,7 +19,7 @@ export class CartService {
     addToCart(part: OrderPartDiscreteView ) {
         // if (isDiscrete(part)) {
             const repeat = this.cart.discreteItems.find(opdv =>
-                opdv.product === part.product && opdv.supplier === part.supplier && opdv.price === part.price);
+                opdv.productInfo === part.productInfo && opdv.supplierInfo === part.supplierInfo && opdv.price === part.price);
             if (repeat) {
                 repeat.quantity += part.quantity;
             } else {

@@ -83,8 +83,8 @@ export class ProductDetailComponent implements OnInit {
 
         const op: OrderPartDiscreteView = {
             quantity: this.quantity,
-            product: this.product.info,
-            supplier: this.selectedSupplier.supplierInfo,
+            productInfo: this.product.info,
+            supplierInfo: this.selectedSupplier.supplierInfo,
             price: this.selectedSupplier.price
         };
         this.cart.addToCart(op);

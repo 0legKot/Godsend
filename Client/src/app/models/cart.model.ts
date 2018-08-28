@@ -51,19 +51,19 @@ export class OrderPartDiscreteSend extends OrderPartSend {
 
 export class OrderPartView {
     constructor(
-        public product: ProductInfo,
-        public supplier: SupplierInfo,
+        public productInfo: ProductInfo,
+        public supplierInfo: SupplierInfo,
         public price: number
     ) { }
 }
 
 export class OrderPartDiscreteView extends OrderPartView {
     constructor(
-        public product: ProductInfo,
-        public supplier: SupplierInfo,
+        public productInfo: ProductInfo,
+        public supplierInfo: SupplierInfo,
         public price: number,
         public quantity: number
-    ) { super(product, supplier, price); }
+    ) { super(productInfo, supplierInfo, price); }
 }
 
 // export class OrderPartWeightedView extends OrderPartView {
