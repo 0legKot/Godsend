@@ -513,12 +513,12 @@ This is a pretty simple and straightforward diet you will ever try. It involves 
 
                     foreach (Product p in productsArray)
                     {
-                        context.ImagePathsTable.Add(new ImagePaths() { Id = p.Id, Preview = "apple.jpg", Images = new List<StringWrapper>() { "apple.jpg", "pineapple.jpg" } });
+                        context.ImagePathsTable.Add(new ImagePaths() { Id = p.Id, Preview = p.Info.Name + ".jpg", Images = new List<StringWrapper>() { p.Info.Name + ".jpg", "pineapple.jpg" } });
                     }
 
                     foreach (Supplier s in suppliersArray)
                     {
-                        context.ImagePathsTable.Add(new ImagePaths() { Id = s.Id, Preview = "suppApple.jpg" });
+                        context.ImagePathsTable.Add(new ImagePaths() { Id = s.Id, Preview = "supp" + s.Info.Name +".jpg" });
                     }
 
                     #endregion
