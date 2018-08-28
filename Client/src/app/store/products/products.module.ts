@@ -4,7 +4,8 @@ import { FormsModule } from '@angular/forms';
 
 import { ProductsComponent } from './products.component';
 import { ProductDetailComponent } from './product-detail.component';
-import { PagesComponent } from '../pages/pages.component';
+import { PagesComponent } from '../pages/pages.component';;
+import { CategoryTreeComponent } from './category-tree.component'
 
 @NgModule({
     imports: [
@@ -14,7 +15,7 @@ import { PagesComponent } from '../pages/pages.component';
     declarations: [
         ProductsComponent,
         ProductDetailComponent,
-        PagesComponent
+        PagesComponent,
     ]
 })
 export class ProductsModule { }

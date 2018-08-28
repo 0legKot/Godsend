@@ -84,6 +84,12 @@ namespace Godsend
             Product dbEntry = context.Products.FirstOrDefault(p => p.Id == entity.Id);
             if (dbEntry != null)
             {
+                // todo do something with properties
+
+                context.RemoveRange(dbEntry.DecimalProps);
+                context.RemoveRange(dbEntry.IntProps);
+                context.RemoveRange(dbEntry.StringProps);
+
                 entity.CopyTo(dbEntry);
             }
             else
@@ -164,9 +170,9 @@ namespace Godsend
                     .Where(link => link.Product.Id == productId)
                     .Select(link => new SupplierAndPrice { Supplier = link.Supplier, Price = link.Price })
                     .ToArray(),
-                DecimalProps = context.LinkProductPropertyDecimal.Where(lpp => lpp.Product.Id == productId),
-                StringProps = context.LinkProductPropertyString.Where(lpp => lpp.Product.Id == productId),
-                IntProps = context.LinkProductPropertyInt.Where(lpp => lpp.Product.Id == productId)
+                //DecimalProps = context.LinkProductPropertyDecimal.Where(lpp => lpp.Product.Id == productId),
+                //StringProps = context.LinkProductPropertyString.Where(lpp => lpp.Product.Id == productId),
+                //IntProps = context.LinkProductPropertyInt.Where(lpp => lpp.Product.Id == productId)
             };
             return res;
         }

@@ -1,10 +1,18 @@
 <p *ngIf="!edit else inputMode">{{ value }}</p>
 
 <ng-template #inputMode>
-    <div *ngIf="!huge else hugeMode">
-        <input [ngModel]="value" class="{{class}}"  (ngModelChange)="changeValue($event)" />
-    </div>
-</ng-template>
-<ng-template #hugeMode>
-    <textarea [ngModel]="value" class="{{class}}" (ngModelChange)="changeValue($event)" ></textarea>
+    <ng-container [ngSwitch]="type">
+        <ng-container *ngSwitchCase="'normal'">
+            <input [ngModel]="value" class="{{class}}" (ngModelChange)="changeValue($event)" />
+        </ng-container>
+        <ng-container *ngSwitchCase="'huge'">
+            <textarea [ngModel]="value" class="{{class}}" (ngModelChange)="changeValue($event)"></textarea>
+        </ng-container>
+        <ng-container *ngSwitchCase="'decimal'">
+            <input type="number" [ngModel]="value" class="{{class}}" (ngModelChange)="changeValue($event)" />
+        </ng-container>
+        <ng-container *ngSwitchCase="'integer'">
+            <input type="number" step="1" [ngModel]="value" class="{{class}}" (ngModelChange)="changeValue($event)" />
+        </ng-container>
+    </ng-container>
 </ng-template>

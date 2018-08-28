@@ -9,8 +9,12 @@ import {
     providedIn: 'root'
 })
 export class CategoryService {
-    public cats?: CatsWithSubs[];
+    private treeCats?: CatsWithSubs[];
     private flatCats?: CatsWithSubs[];
+
+    get cats() {
+        return this.treeCats;
+    }
 
     constructor(private data: DataService) {
         this.getCategories();
@@ -20,7 +24,7 @@ export class CategoryService {
         if (this.cats === undefined) {
             this.data.sendRequest<CatsWithSubs[]>('get', 'api/product/getAllCategories')
                 .subscribe(cats => {
-                    this.cats = cats;
+                    this.treeCats = cats;
                     this.flatCats = this.flatten(cats);
 
                     console.dir(this.cats);
@@ -40,8 +44,8 @@ export class CategoryService {
         return [];
     }
 
-    getCategoryProps(cat: Category, fn: (_: FilterInfoView) => any) {
-        this.data.sendRequest<Property[]>('get', 'api/product/getPropertiesByCategory/' + cat.id)
+    getCategoryProps(catId: string, fn: (_: FilterInfoView) => any) {
+        this.data.sendRequest<Property[]>('get', 'api/product/getPropertiesByCategory/' + catId)
             .subscribe(props => {
                 const filter = new FilterInfoView();
 
