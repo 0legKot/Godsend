@@ -56,7 +56,9 @@ namespace Godsend.Models
 
         public void CopyTo(Supplier target)
         {
-            target.Info.Location.Address = Info.Location.Address;
+            if (target.Info == null) target.Info = new SupplierInformation();
+            if (target.Info.Location == null) target.Info.Location = new Location();
+            target.Info.Location.Address = Info?.Location?.Address;
             target.Info.Name = Info.Name;
         }
     }

@@ -192,17 +192,17 @@ namespace Godsend.Models
             return fortst;
         }
 
-        public async Task DeleteCommentAsync(Guid articleId, Guid commentId)
+        public async Task DeleteCommentAsync(Guid articleId, Guid commentId, string userId)
         {
             await commentHelper.DeleteCommentGenericAsync(context.LinkCommentArticle, context, articleId, commentId);
 
             await RecalcCommentsAsync(articleId);
         }
 
-        public async Task EditCommentAsync(Guid commentId, string newContent)
+        public async Task EditCommentAsync(Guid commentId, string newContent, string userId)
         {
             var comment = await context.LinkCommentArticle.FirstOrDefaultAsync(lce => lce.Id == commentId);
-
+            if (comment.UserId != userId) throw new InvalidOperationException("Incorrect user tried to edit comment");
             comment.Comment = newContent;
 
             await context.SaveChangesAsync();

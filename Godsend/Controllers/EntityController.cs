@@ -15,6 +15,7 @@ namespace Godsend.Controllers
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.ApplicationModels;
     using Microsoft.AspNetCore.SignalR;
+    using Microsoft.Extensions.Logging;
 
     /// <summary>
     /// Base controller for entities
@@ -29,10 +30,12 @@ namespace Godsend.Controllers
         /// </summary>
         protected IRepository<TEntity> repository;
         protected IHubContext<NotificationHub> hubContext;
+        protected readonly ILogger<EntityController<TEntity>> _logger;
 
-        protected EntityController(IHubContext<NotificationHub> hubContext)
+        protected EntityController(IHubContext<NotificationHub> hubContext, ILogger<EntityController<TEntity>> logger)
         {
             this.hubContext = hubContext;
+            _logger = logger;
         }
 
         /// <summary>
@@ -44,6 +47,7 @@ namespace Godsend.Controllers
         [HttpGet("[action]/{page:int}/{rpp:int}")]
         public virtual IEnumerable<Information> All(int page, int rpp)
         {
+            _logger.LogInformation($"Executed EntityController<{typeof(TEntity)}>");
             return repository.EntitiesInfo(rpp, (page - 1) * rpp);
         }
 
@@ -187,7 +191,7 @@ namespace Godsend.Controllers
 
             try
             {
-                await repository.DeleteCommentAsync(entityId, commentId);
+                await repository.DeleteCommentAsync(entityId, commentId, userId);
 
                 await hubContext.Clients.User(userId).SendAsync("Success", "Comment has been deleted");
 
@@ -209,15 +213,16 @@ namespace Godsend.Controllers
 
             try
             {
-                await repository.EditCommentAsync(commentId, comment.Comment);
+                await repository.EditCommentAsync(commentId, comment.Comment, userId);
 
-                await hubContext.Clients.User(userId).SendAsync("Success", "Comment has been added");
+                await hubContext.Clients.User(userId).SendAsync("Success", "Comment has been edited");
 
                 return Ok();
             }
             catch (Exception ex)
             {
-                await hubContext.Clients.User(userId).SendAsync("Error", "Could not add a comment");
+                _logger.LogError(ex.Message);
+                await hubContext.Clients.User(userId).SendAsync("Error", "Could not edit a comment");
 
                 return BadRequest();
             }

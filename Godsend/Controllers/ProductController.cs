@@ -13,6 +13,7 @@ namespace Godsend.Controllers
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.SignalR;
+    using Microsoft.Extensions.Logging;
 
     /// <summary>
     /// Product controller
@@ -31,8 +32,8 @@ namespace Godsend.Controllers
         /// Initializes a new instance of the <see cref="ProductController" /> class.
         /// </summary>
         /// <param name="repo">The repo.</param>
-        public ProductController(IProductRepository repo, IHubContext<NotificationHub> hubContext)
-            : base(hubContext)
+        public ProductController(IProductRepository repo, IHubContext<NotificationHub> hubContext, ILogger<EntityController<Product>> logger)
+            : base(hubContext, logger)
         {
             repository = repo;
             Categories = (repository as IProductRepository).Categories().ToList();
@@ -88,7 +89,7 @@ namespace Godsend.Controllers
                     rootCat.Add(cur);
                 }
             }
-
+            _logger.LogInformation($"Got base categories. First is {rootCat.FirstOrDefault().Name}");
             return rootCat;
         }
 
@@ -117,6 +118,7 @@ namespace Godsend.Controllers
                 Cat = Categories.FirstOrDefault(x => x.BaseCategory == null)
             };
             GetRecursiveCats(ref mainCatWithSubs);
+            _logger.LogInformation($"Got all categories. Root is {mainCatWithSubs.Cat.Name}");
             return mainCatWithSubs.Subs;
         }
 

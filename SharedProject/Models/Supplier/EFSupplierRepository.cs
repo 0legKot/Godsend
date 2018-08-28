@@ -176,17 +176,18 @@ namespace Godsend.Models
             return fortst;
         }
 
-        public async Task DeleteCommentAsync(Guid supplierId, Guid commentId)
+        public async Task DeleteCommentAsync(Guid supplierId, Guid commentId, string userId)
         {
             await commentHelper.DeleteCommentGenericAsync(context.LinkCommentSupplier, context, supplierId, commentId);
 
             await RecalcCommentsAsync(supplierId);
         }
 
-        public async Task EditCommentAsync(Guid commentId, string newContent)
+        public async Task EditCommentAsync(Guid commentId, string newContent, string userId)
         {
             var comment = await context.LinkCommentSupplier.FirstOrDefaultAsync(lce => lce.Id == commentId);
 
+            if (comment.UserId != userId) throw new InvalidOperationException("Incorrect user tried to edit comment");
             comment.Comment = newContent;
 
             await context.SaveChangesAsync();
@@ -201,6 +202,11 @@ namespace Godsend.Models
             supplier.Info.CommentsCount = commentCount;
 
             await context.SaveChangesAsync();
+        }
+
+        public IEnumerable<ProductInformation> GetProducts(Guid supplierId)
+        {
+            return context.LinkProductsSuppliers.Where(x => x.SupplierId == supplierId).Select(x => x.Product.Info);
         }
     }
 }

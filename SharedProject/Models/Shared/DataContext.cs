@@ -103,9 +103,10 @@ namespace Godsend.Models
         /// <param name="builder">The builder.</param>
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            ////builder.Entity<Product>().HasMany<Property>();
+            
             builder.Entity<SimpleOrder>();
-            ////builder.Entity<SimpleArticle>();
+            builder.Entity<EAV<decimal>>().Property(p => p.Value).HasColumnType("decimal(18,2)");
+
 
             builder.Entity<Product>().HasMany(p => p.IntProps).WithOne(link => link.Product).OnDelete(DeleteBehavior.Cascade);
             builder.Entity<Product>().HasMany(p => p.StringProps).WithOne(link => link.Product).OnDelete(DeleteBehavior.Cascade);
