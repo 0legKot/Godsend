@@ -215,13 +215,14 @@ namespace Godsend.Controllers
             {
                 await repository.EditCommentAsync(commentId, comment.Comment);
 
-                await hubContext.Clients.User(userId).SendAsync("Success", "Comment has been added");
+                await hubContext.Clients.User(userId).SendAsync("Success", "Comment has been edited");
 
                 return Ok();
             }
             catch (Exception ex)
             {
-                await hubContext.Clients.User(userId).SendAsync("Error", "Could not add a comment");
+                _logger.LogError(ex.Message);
+                await hubContext.Clients.User(userId).SendAsync("Error", "Could not edit a comment");
 
                 return BadRequest();
             }

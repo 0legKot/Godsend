@@ -25,7 +25,7 @@ namespace Godsend.Controllers
         /// </summary>
         /// <param name="repo">The repo.</param>
         public SupplierController(ISupplierRepository repo, IHubContext<NotificationHub> hubContext, ILogger<EntityController<Supplier>> logger)
-            : base(hubContext,logger)
+            : base(hubContext, logger)
         {
             repository = repo;
         }
