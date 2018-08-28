@@ -203,5 +203,10 @@ namespace Godsend.Models
 
             await context.SaveChangesAsync();
         }
+
+        public IEnumerable<ProductInformation> GetProducts(Guid supplierId)
+        {
+            return context.LinkProductsSuppliers.Where(x => x.SupplierId == supplierId).Select(x => x.Product.Info);
+        }
     }
 }

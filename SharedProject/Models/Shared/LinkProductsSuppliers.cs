@@ -6,6 +6,7 @@ namespace Godsend.Models
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations.Schema;
     using System.Linq;
     using System.Threading.Tasks;
 
@@ -60,6 +61,7 @@ namespace Godsend.Models
         /// <value>
         /// The price.
         /// </value>
+        [Column(TypeName = "decimal(18,2)")]
         public decimal Price { get; set; }
 
         // left in stock (gg)

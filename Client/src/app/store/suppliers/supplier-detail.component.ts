@@ -51,9 +51,14 @@ export class SupplierDetailComponent implements OnInit {
         this.router.navigate(['/suppliers', { id: supplierId }]);
     }
 
+    gotoProduct(prodId: string) {
+        this.router.navigate(['/products/'+prodId]);
+    }
+
     ngOnInit() {
         this.repo.getEntity<Supplier>('supplier', this.route.snapshot.params.id, s => {
             this.supp = s;
+            console.log(s.products);
         });
         this.imageService.getImage(this.route.snapshot.params.id, image => { this.image = image; });
     }

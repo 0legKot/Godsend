@@ -40,7 +40,13 @@ namespace Godsend.Controllers
         {
             var sup = repository.GetEntity(id);
             repository.Watch(sup);
-            return sup;
+            var res = new SupplierWithProds();
+            sup.CopyTo(res);
+            res.Products = (repository as ISupplierRepository).GetProducts(sup.Id).ToList();
+            return res;
+        }
+        public class SupplierWithProds:Supplier {
+            public List<ProductInformation> Products { get; set; }
         }
     }
 }

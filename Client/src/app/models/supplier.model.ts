@@ -1,13 +1,15 @@
 ﻿import { guidZero } from './cart.model';
 import { IEntity, IInformation } from './entity.model';
+import {  ProductInfo } from './product.model';
 
 export class Supplier implements IEntity<SupplierInfo> {
     static EnsureType(sup: Supplier): Supplier {
-        return new Supplier(sup.info, sup.id);
+        return new Supplier(sup.info, sup.products, sup.id);
     }
 
     constructor(
         public info: SupplierInfo,
+        public products: ProductInfo[],
         public id: string = ''
     ) { }
 
@@ -28,6 +30,7 @@ export class SupplierInfo implements IInformation {
     constructor(
         public name: string,
         public location: Location,
+        
         public id: string = '',
         public watches: number = 0,
         public rating: number = 0
