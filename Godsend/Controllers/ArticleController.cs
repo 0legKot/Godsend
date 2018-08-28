@@ -14,6 +14,7 @@ namespace Godsend.Controllers
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.SignalR;
+    using Microsoft.Extensions.Logging;
 
     /// <summary>
     /// Article controller
@@ -26,8 +27,8 @@ namespace Godsend.Controllers
         /// Initializes a new instance of the <see cref="ArticleController"/> class.
         /// </summary>
         /// <param name="repository">The repository.</param>
-        public ArticleController(IArticleRepository repository, IHubContext<NotificationHub> hubContext)
-            : base(hubContext)
+        public ArticleController(IArticleRepository repository, IHubContext<NotificationHub> hubContext, ILogger<EntityController<Article>> logger)
+            : base(hubContext, logger)
         {
             this.repository = repository;
         }

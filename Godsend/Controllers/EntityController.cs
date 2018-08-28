@@ -15,6 +15,7 @@ namespace Godsend.Controllers
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.ApplicationModels;
     using Microsoft.AspNetCore.SignalR;
+    using Microsoft.Extensions.Logging;
 
     /// <summary>
     /// Base controller for entities
@@ -29,10 +30,12 @@ namespace Godsend.Controllers
         /// </summary>
         protected IRepository<TEntity> repository;
         protected IHubContext<NotificationHub> hubContext;
+        protected readonly ILogger<EntityController<TEntity>> _logger;
 
-        protected EntityController(IHubContext<NotificationHub> hubContext)
+        protected EntityController(IHubContext<NotificationHub> hubContext, ILogger<EntityController<TEntity>> logger)
         {
             this.hubContext = hubContext;
+            _logger = logger;
         }
 
         /// <summary>
@@ -44,6 +47,7 @@ namespace Godsend.Controllers
         [HttpGet("[action]/{page:int}/{rpp:int}")]
         public virtual IEnumerable<Information> All(int page, int rpp)
         {
+            _logger.LogInformation($"Executed EntityController<{typeof(TEntity)}>");
             return repository.EntitiesInfo(rpp, (page - 1) * rpp);
         }
 
