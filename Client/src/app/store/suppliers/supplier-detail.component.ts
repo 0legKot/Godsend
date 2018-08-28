@@ -58,7 +58,7 @@ export class SupplierDetailComponent implements OnInit {
     ngOnInit() {
         this.repo.getEntity<Supplier>('supplier', this.route.snapshot.params.id, s => {
             this.supp = s;
-            console.log(s.products);
+            console.log(s.productsAndPrices);
         });
         this.imageService.getImage(this.route.snapshot.params.id, image => { this.image = image; });
     }

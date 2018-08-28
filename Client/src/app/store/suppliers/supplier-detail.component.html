@@ -45,8 +45,8 @@
                         Supplier products:
                     </label>
                     <div *ngIf="supp">
-                        <div *ngFor="let prodInfo of supp.products">
-                            <p (click)="gotoProduct(prodInfo.id)">{{prodInfo.name}}</p>
+                        <div *ngFor="let productAndPrice of supp.productsAndPrices">
+                            <p (click)="gotoProduct(productAndPrice.productInfo.id)">{{ productAndPrice.productInfo.name }} (for {{ productAndPrice.price }})</p>
                         </div>
                     </div>
                 </div>

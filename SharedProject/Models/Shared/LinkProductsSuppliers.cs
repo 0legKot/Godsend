@@ -57,9 +57,12 @@ namespace Godsend.Models
 
             public WithoutSupplier(LinkProductsSuppliers link)
             {
-                Id = link.Id;
-                ProductInfo = link.Product.Info;
-                Price = link.Price;
+                if (link != null)
+                {
+                    Id = link.Id;
+                    ProductInfo = link.Product?.Info;
+                    Price = link.Price;
+                }
             }
         }
 

@@ -74,8 +74,21 @@ namespace Godsend.Models
             target.Info.Watches = Info.Watches;
         }
 
+        [JsonIgnore]
         public virtual IEnumerable<LinkProductsSuppliers> LinkProductsSuppliers { get; set; }
 
+        [NotMapped]
+        public IEnumerable<LinkProductsSuppliers.WithoutSupplier> ProductsAndPrices
+        {
+            get => LinkProductsSuppliers?.Select(lps => new LinkProductsSuppliers.WithoutSupplier(lps)).ToList();
+            set => LinkProductsSuppliers = value.Select(link => new LinkProductsSuppliers()
+            {
+                Id = link.Id,
+                Price = link.Price,
+                SupplierId = Id,
+                ProductId = link.ProductInfo.Id
+            }).ToList();
+        }
     }
 
     /// <summary>

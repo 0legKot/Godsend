@@ -59,7 +59,7 @@ export class SuppliersComponent implements OnInit {
 
     createSupplier(name: string, address: string) {
         // TODO create interface with only relevant info
-        const sup = new Supplier(new SupplierInfo(name, new Location(address)), new Array<ProductInfo>());
+        const sup = new Supplier(new SupplierInfo(name, new Location(address)), []);
         // if (this.searchInline != undefined)
         this.repo.createOrEditEntity('supplier', sup, this.page, this.rpp, info => this.router.navigateByUrl('suppliers/' + info.id));
     }

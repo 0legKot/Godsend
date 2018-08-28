@@ -4,12 +4,12 @@ import {  ProductInfo } from './product.model';
 
 export class Supplier implements IEntity<SupplierInfo> {
     static EnsureType(sup: Supplier): Supplier {
-        return new Supplier(sup.info, sup.products, sup.id);
+        return new Supplier(sup.info, sup.productsAndPrices, sup.id);
     }
 
     constructor(
         public info: SupplierInfo,
-        public products: ProductInfo[],
+        public productsAndPrices: ProductAndPrice[],
         public id: string = ''
     ) { }
 
@@ -44,6 +44,10 @@ export class Location {
     ) { }
 }
 
-
-
-
+export class ProductAndPrice {
+    constructor(
+        public productInfo: ProductInfo,
+        public price: number,
+        public id?: string
+    ) { }
+}
