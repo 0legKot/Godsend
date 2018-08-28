@@ -191,7 +191,7 @@ namespace Godsend.Controllers
 
             try
             {
-                await repository.DeleteCommentAsync(entityId, commentId);
+                await repository.DeleteCommentAsync(entityId, commentId, userId);
 
                 await hubContext.Clients.User(userId).SendAsync("Success", "Comment has been deleted");
 
@@ -213,7 +213,7 @@ namespace Godsend.Controllers
 
             try
             {
-                await repository.EditCommentAsync(commentId, comment.Comment);
+                await repository.EditCommentAsync(commentId, comment.Comment, userId);
 
                 await hubContext.Clients.User(userId).SendAsync("Success", "Comment has been edited");
 
