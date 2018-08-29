@@ -51,6 +51,7 @@ namespace Godsend
             this.ratingHelper = ratingHelper;
             this.commentHelper = commentHelper;
             seedHelper.EnsurePopulated(ctx);
+            cats = context.Categories;
         }
 
         /// <summary>
@@ -200,7 +201,7 @@ namespace Godsend
         {
             return context.Categories;
         }
-
+        private IEnumerable<Category> cats; 
         /// <summary>
         /// Get properties related to specified <see cref="Category"/>
         /// </summary>
@@ -341,7 +342,36 @@ namespace Godsend
 
         private IQueryable<Product> FilterByCategory(IQueryable<Product> products, Guid categoryId)
         {
-            return products; //.Where(p => p.Category != null && p.Category.HasParent(categoryId));
+            var curCat = new CatWithSubs() { Cat = cats.FirstOrDefault(x => x.Id == categoryId) };
+            var apropriateCats = GetRecursiveCats(ref curCat);
+            apropriateCats.Add(curCat.Cat);
+            return products.Where(p => apropriateCats.Contains(p.Category)); 
+        }
+
+        public IEnumerable<Category> GetSubCategories(Guid id)
+        {
+            return Categories().Where(x => x.BaseCategory?.Id == id);
+        }
+
+        private List<Category> GetRecursiveCats(ref CatWithSubs cur)
+        {
+            var result = new List<Category>();
+            var subs = new List<CatWithSubs>();
+            var curSubCats = GetSubCategories(cur.Cat.Id);
+            if (curSubCats.Any())
+            {
+                foreach (var cat in curSubCats)
+                {
+                    result.Add(cat);
+                    var tmp = new CatWithSubs() { Cat = cat };
+                    result.AddRange(GetRecursiveCats(ref tmp));
+                    var tmpClone = new CatWithSubs() { Cat = tmp.Cat, Subs = tmp.Subs };
+                    subs.Add(tmpClone);
+                }
+            }
+
+            cur.Subs = subs;
+            return result;
         }
 
         private IQueryable<Product> FilterByDecimalProps(IQueryable<Product> products, IEnumerable<DecimalPropertyInfo> decimalProps)

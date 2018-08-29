@@ -12,25 +12,37 @@ import { Component } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { RepositoryService } from '../../services/repository.service';
 import { Article } from '../../models/article.model';
+import { StorageService } from '../../services/storage.service';
 var ArticleDetailComponent = /** @class */ (function () {
-    function ArticleDetailComponent(route, router, service) {
+    function ArticleDetailComponent(route, router, storage, repo) {
         this.route = route;
         this.router = router;
-        this.service = service;
+        this.storage = storage;
+        this.repo = repo;
         this.edit = false;
+        this.clas = 'article';
         this.backup = {
             name: '',
             content: '',
             tags: ['']
         };
     }
+    Object.defineProperty(ArticleDetailComponent.prototype, "authenticated", {
+        get: function () {
+            return this.storage.authenticated;
+        },
+        enumerable: true,
+        configurable: true
+    });
     ArticleDetailComponent.prototype.gotoArticles = function (article) {
         var articleId = article ? article.id : null;
         this.router.navigate(['/articles', { id: articleId }]);
     };
     ArticleDetailComponent.prototype.ngOnInit = function () {
         var _this = this;
-        this.service.getEntity(this.route.snapshot.params.id, function (a) { return _this.article = a; }, 'article');
+        this.repo.getEntity('article', this.route.snapshot.params.id, function (a) {
+            _this.article = a;
+        });
     };
     ArticleDetailComponent.prototype.editMode = function () {
         if (this.article == null) {
@@ -46,7 +58,7 @@ var ArticleDetailComponent = /** @class */ (function () {
     };
     ArticleDetailComponent.prototype.save = function () {
         if (this.article) {
-            this.service.createOrEditEntity('article', Article.EnsureType(this.article), 1, 10);
+            this.repo.createOrEditEntity('article', Article.EnsureType(this.article), 1, 10);
         }
         this.edit = false;
     };
@@ -70,6 +82,7 @@ var ArticleDetailComponent = /** @class */ (function () {
         }),
         __metadata("design:paramtypes", [ActivatedRoute,
             Router,
+            StorageService,
             RepositoryService])
     ], ArticleDetailComponent);
     return ArticleDetailComponent;

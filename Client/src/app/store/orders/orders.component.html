@@ -22,18 +22,12 @@
                     <div>
 
                         <span *ngFor="let item of o.items" class="prod-list-span">
-                            <span>{{ item.product?.info?.name }}</span>
+                            <span>{{ item.product?.name }}</span>
                             <span *ngIf="item.quantity != 1"> x{{ item.quantity/item.multiplier }}</span>
                         </span>
                     </div>
                 </div>
             </td>
-            <!--<td>
-                <div *ngFor="let item of o.weightedItems">
-                    <span>{{ item.product?.info?.name }}</span>
-                    <span> x {{ item.weight }}</span>
-                </div>
-            </td>-->
             <td>
                 <button (click)="cancel(o.id)" type="button" class="btn btn-danger">Cancel</button>
                 <button (click)="shipped(o.id)" type="button" class="btn btn-success">Mark shipped</button>

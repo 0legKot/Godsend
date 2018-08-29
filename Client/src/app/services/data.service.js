@@ -20,12 +20,14 @@ var DataService = /** @class */ (function () {
     }
     DataService.prototype.sendRequest = function (method, url, data) {
         var _this = this;
+        console.log(url);
         return this.http.request(method, this.baseUrl + url, { body: data, responseType: 'json', headers: this.getHeaders() }).pipe(map(function (response) {
             console.log(_this.baseUrl + url);
             if (data) {
                 console.log('data');
                 console.dir(data);
             }
+            console.log(url);
             console.log(response);
             return response;
         }));

@@ -10,6 +10,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AngularFontAwesomeModule } from 'angular-font-awesome';
+import { MatTreeModule, MatButtonModule, MatIconModule } from '@angular/material';
+import { CdkTreeModule } from '@angular/cdk/tree';
 import { AppComponent } from './store/app/app.component';
 import { NavMenuComponent } from './store/navmenu/navmenu.component';
 import { HomeComponent } from './store/home/home.component';
@@ -36,6 +38,12 @@ import { InputOutputComponent } from './store/input-output/input-output.componen
 import { PagesComponent } from './store/pages/pages.component';
 import { UserComponent } from './store/user/user.component';
 import { AdminComponent } from './store/admin/admin.component';
+import { NotificationComponent } from './store/notification/notification.component';
+import { CommentComponent } from './store/comments/comment.component';
+import { CommentWrapperComponent } from './store/comments/comment-wrapper.component';
+import { EntityRatingsComponent } from './store/rating/entity-ratings.component';
+import { RatingsComponent } from './store/rating/ratings.component';
+import { CategoryTreeComponent } from './store/products/category-tree.component';
 var AppModule = /** @class */ (function () {
     function AppModule() {
     }
@@ -65,7 +73,13 @@ var AppModule = /** @class */ (function () {
                 InputOutputComponent,
                 UserComponent,
                 RegistrationComponent,
-                AdminComponent
+                AdminComponent,
+                NotificationComponent,
+                CommentComponent,
+                CommentWrapperComponent,
+                EntityRatingsComponent,
+                RatingsComponent,
+                CategoryTreeComponent,
             ],
             imports: [
                 AngularFontAwesomeModule,
@@ -73,6 +87,10 @@ var AppModule = /** @class */ (function () {
                 FormsModule,
                 HttpClientModule,
                 ReactiveFormsModule,
+                MatTreeModule,
+                CdkTreeModule,
+                MatButtonModule,
+                MatIconModule,
                 RouterModule.forRoot([
                     { path: '', redirectTo: 'home', pathMatch: 'full' },
                     { path: 'home', component: HomeComponent },
@@ -82,7 +100,7 @@ var AppModule = /** @class */ (function () {
                     { path: 'suppliers/:id', component: SupplierDetailComponent },
                     { path: 'orders', component: OrdersComponent, canActivate: [AuthenticationGuard] },
                     { path: 'articles', component: ArticlesComponent },
-                    { path: 'article/:id', component: ArticleDetailComponent },
+                    { path: 'articles/:id', component: ArticleDetailComponent },
                     { path: 'cart', component: CartComponent },
                     { path: 'consult', component: ConsultComponent },
                     { path: 'login', component: LoginComponent },

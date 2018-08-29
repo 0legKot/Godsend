@@ -1,10 +1,17 @@
+import { guidZero } from './cart.model';
 var Product = /** @class */ (function () {
-    function Product(id, info) {
+    function Product(id, info, categoryId, jsonCategory, stringProps, intProps, decimalProps, suppliersAndPrices) {
         this.id = id;
         this.info = info;
+        this.categoryId = categoryId;
+        this.jsonCategory = jsonCategory;
+        this.stringProps = stringProps;
+        this.intProps = intProps;
+        this.decimalProps = decimalProps;
+        this.suppliersAndPrices = suppliersAndPrices;
     }
     Product.EnsureType = function (product) {
-        return new this(product.id, product.info);
+        return new this(product.id, product.info, product.jsonCategory ? product.jsonCategory.id : guidZero, product.jsonCategory, product.stringProps, product.intProps, product.decimalProps, product.suppliersAndPrices);
     };
     Product.prototype.toCreateEdit = function () {
         return {
@@ -12,7 +19,12 @@ var Product = /** @class */ (function () {
             info: {
                 name: this.info.name,
                 description: this.info.description
-            }
+            },
+            categoryId: this.categoryId,
+            intProps: this.intProps,
+            stringProps: this.stringProps,
+            decimalProps: this.decimalProps,
+            suppliersAndPrices: this.suppliersAndPrices
         };
     };
     return Product;
@@ -30,18 +42,11 @@ var ProductInfo = /** @class */ (function () {
     return ProductInfo;
 }());
 export { ProductInfo };
-var ProductWithSuppliers = /** @class */ (function () {
-    function ProductWithSuppliers(product, suppliers) {
-        this.product = product;
-        this.suppliers = suppliers;
-    }
-    return ProductWithSuppliers;
-}());
-export { ProductWithSuppliers };
 var SupplierAndPrice = /** @class */ (function () {
-    function SupplierAndPrice(supplier, price) {
-        this.supplier = supplier;
+    function SupplierAndPrice(supplierInfo, price, id) {
+        this.supplierInfo = supplierInfo;
         this.price = price;
+        this.id = id;
     }
     return SupplierAndPrice;
 }());
@@ -63,6 +68,15 @@ var CatsWithSubs = /** @class */ (function () {
     return CatsWithSubs;
 }());
 export { CatsWithSubs };
+var EAV = /** @class */ (function () {
+    function EAV(productId, property, value) {
+        this.productId = productId;
+        this.property = property;
+        this.value = value;
+    }
+    return EAV;
+}());
+export { EAV };
 var FilterInfo = /** @class */ (function () {
     function FilterInfo() {
         this.orderBy = 0;
@@ -155,7 +169,7 @@ export { ProductFilterInfo };
 export var propertyType = [
     'int',
     'string',
-    'decimal' //2
+    'decimal' // 2
 ];
 export var orderBy = [
     'name',
