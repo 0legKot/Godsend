@@ -22,6 +22,9 @@ export class ArticleDetailComponent implements OnInit {
     comments?: any;
     edit = false;
     readonly clas: entityClass = 'article';
+    /**
+     * Tags as a single string, where tags begin with a '#' and are separated by spaces
+     */
     stringTags?: string;
 
     backup: ArticleBackup = {
