@@ -370,8 +370,7 @@ namespace Godsend.Models
                             description: "Three is better than two",
                             rating: 4.7,
                             name: "The Three Apples that changed the World",
-                            watches: 17995730,
-                            tags: new[] { "Apple", "Bible", "Newton", "Apple Inc." }),
+                            watches: 17995730),
                     AppleDiet:
                         new Article(
                             @"<b><i>The following apple diet plan will help you lose extra pounds, deep cleanse your body and boost your immune systems. It is one of the most popular mono diets as it supplies your body with so many vitamins and minerals in the short amount of time.</i></b><br>
@@ -392,8 +391,7 @@ This is a pretty simple and straightforward diet you will ever try. It involves 
                             description: "Diet is evil",
                             name: "7 Day Apple Diet Plan",
                             rating: 3.3,
-                            watches: 630389,
-                            tags: new[] { "Apple", "Diet", "Health" }),
+                            watches: 630389),
                     ApplesHistory:
                         new Article(
                             @"The apple, that innocent bud of an Americana autumn, has pulled off one of the greatest cons of all time. As students across the country prepare to greet a new school year and teacher with a polished bit of produce, the apple cements its place in the patriotic foods pantheon despite its dodgy past.
@@ -415,8 +413,7 @@ This is a pretty simple and straightforward diet you will ever try. It involves 
                             description: "It is older than you, man",
                             name: "Why Do Students Give Teachers Apples and More from the Fruit’s Juicy Past",
                             rating: 3.6,
-                            watches: 15,
-                            tags: new[] { "Apple" }),
+                            watches: 15),
                     Empty:
                         new Article(
                             ".",
@@ -424,8 +421,7 @@ This is a pretty simple and straightforward diet you will ever try. It involves 
                             description: "You can't see it",
                             name: "Empty Article(",
                             rating: 1,
-                            watches: 5,
-                            tags: new string[0] { }),
+                            watches: 5),
                     TheAnswer:
                         new Article(
                             "42",
@@ -433,8 +429,7 @@ This is a pretty simple and straightforward diet you will ever try. It involves 
                             description: "Java is not an answer, it is a question. BUT THE ANSWER IS NO",
                             name: "The Answer to the Ultimate Question of Life, the Universe, and Everything",
                             rating: 5,
-                            watches: 42,
-                            tags: new[] { "Life", "Universe" }),
+                            watches: 42),
                     AppleVSAndroid:
                         new Article(
                             "Please answer us in the comments",
@@ -442,11 +437,46 @@ This is a pretty simple and straightforward diet you will ever try. It involves 
                             description: "Apple is better, you won't persuade me",
                             name: "Apple or Android - which is better?",
                             rating: 1.1,
-                            watches: 66,
-                            tags: new[] { "Apple", "Android" })
+                            watches: 66)
                     );
 
                     context.Articles.AddRange(ToEnumerable<Article>(articles));
+
+                    #endregion
+
+                    #region tags
+
+                    var tags = (
+                        apple: new Tag("Apple"),
+                        diet: new Tag("Diet"),
+                        appleInc: new Tag("AppleInc"),
+                        android: new Tag("Android"),
+                        life: new Tag("Life"),
+                        universe: new Tag("Universe"),
+                        health: new Tag("Health"),
+                        bible: new Tag("Bible"),
+                        newton: new Tag("Newton")
+                    );
+
+                    context.Tags.AddRange(ToEnumerable<Tag>(tags));
+
+                    var linkArticleTags = new List<LinkArticleTag>()
+                    {
+                        new LinkArticleTag() { Article = articles.TheThreeApples, Tag = tags.apple },
+                        new LinkArticleTag() { Article = articles.TheThreeApples, Tag = tags.appleInc },
+                        new LinkArticleTag() { Article = articles.TheThreeApples, Tag = tags.bible },
+                        new LinkArticleTag() { Article = articles.TheThreeApples, Tag = tags.newton },
+                        new LinkArticleTag() { Article = articles.AppleDiet, Tag = tags.apple },
+                        new LinkArticleTag() { Article = articles.AppleDiet, Tag = tags.diet },
+                        new LinkArticleTag() { Article = articles.AppleDiet, Tag = tags.health },
+                        new LinkArticleTag() { Article = articles.ApplesHistory, Tag = tags.apple },
+                        new LinkArticleTag() { Article = articles.AppleVSAndroid, Tag = tags.appleInc },
+                        new LinkArticleTag() { Article = articles.AppleVSAndroid, Tag = tags.android },
+                        new LinkArticleTag() { Article = articles.TheAnswer, Tag = tags.life },
+                        new LinkArticleTag() { Article = articles.TheAnswer, Tag = tags.universe },
+                    };
+
+                    context.LinkArticleTags.AddRange(linkArticleTags);
 
                     #endregion
 

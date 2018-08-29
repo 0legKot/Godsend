@@ -97,13 +97,16 @@ namespace Godsend.Models
 
         public DbSet<LinkCommentArticle> LinkCommentArticle { get; set; }
 
+        public DbSet<Tag> Tags { get; set; }
+
+        public DbSet<LinkArticleTag> LinkArticleTags { get; set; }
+
         /// <summary>
         /// Building simple entities because of old architecture
         /// </summary>
         /// <param name="builder">The builder.</param>
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            
             builder.Entity<SimpleOrder>();
             builder.Entity<EAV<decimal>>().Property(p => p.Value).HasColumnType("decimal(18,2)");
 

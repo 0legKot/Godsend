@@ -14,6 +14,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Models\Article\EFArticleRepository.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Article\IArticleRepository.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Article\StringWrapper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Article\Tag.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Identity\Role.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Identity\User.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Product\Category.cs" />

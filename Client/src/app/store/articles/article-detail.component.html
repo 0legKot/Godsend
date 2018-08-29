@@ -22,8 +22,8 @@
             <godsend-input-output [(ngModel)]="article.content" [type]="'huge'" class="edit-art-txtarea" [edit]="edit"><span class="h4" [innerHtml]="article.content"></span></godsend-input-output>
         </p>
         <br />
-        <p class="h5" *ngFor="let hash of article.info.tags">
-            #{{ hash }}&nbsp;
+        <p class="h5" *ngFor="let tag of article.info.tags">
+            #{{ tag.tag.value }}&nbsp;
         </p>
         <p class="h5">
             Created: {{ article.info.created | date : 'dd-MMM-yyyy HH:mm' }}

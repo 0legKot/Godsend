@@ -130,6 +130,10 @@ namespace Godsend.Models
             Article dbEntry = GetEntity(entity.Id);
             if (dbEntry != null)
             {
+                var existingTags = context.LinkArticleTags.Where(lat => entity.Info.EFTags.Contains(lat));
+                var missingTags = entity.Info.EFTags.Except(existingTags);
+
+
                 entity.CopyTo(dbEntry);
             }
             else

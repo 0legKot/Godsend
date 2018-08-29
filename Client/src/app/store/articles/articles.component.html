@@ -16,7 +16,7 @@
                     <h6>{{ a.description }}</h6>
                 </div>
                 <div class="card-body">
-                    <h5 class="card-title"><span *ngFor="let hash of a.tags">#{{ hash }}&nbsp;</span></h5>
+                    <h5 class="card-title"><span *ngFor="let tag of a.tags">#{{ tag.tag.value }}&nbsp;</span></h5>
                     <br />
                     <a [routerLink]="['/articles', a.id]" class="btn readMore">Read more</a>
                     <br />
