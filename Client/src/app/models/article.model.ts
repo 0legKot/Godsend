@@ -37,9 +37,13 @@ export class ArticleInfo {
     ) { }
 }
 
-export interface ArticleTags {
+export class ArticleTags {
     id?: string;
     tag: Tag;
+
+    constructor(value: string) {
+        this.tag = { value: value };
+    }
 }
 
 export interface Tag {

@@ -69,6 +69,7 @@ namespace Godsend.Models
             target.Content = Content;
             target.Info.Description = Info.Description;
             target.Info.Name = Info.Name;
+            target.Info.EFTags = Info.EFTags;
         }
     }
 }

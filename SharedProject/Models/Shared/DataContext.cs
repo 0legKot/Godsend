@@ -109,7 +109,7 @@ namespace Godsend.Models
         {
             builder.Entity<SimpleOrder>();
             builder.Entity<EAV<decimal>>().Property(p => p.Value).HasColumnType("decimal(18,2)");
-
+            builder.Entity<Tag>().HasIndex(tag => tag.Value).IsUnique(true);
 
             builder.Entity<Product>().HasMany(p => p.IntProps).WithOne(link => link.Product).OnDelete(DeleteBehavior.Cascade);
             builder.Entity<Product>().HasMany(p => p.StringProps).WithOne(link => link.Product).OnDelete(DeleteBehavior.Cascade);

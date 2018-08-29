@@ -22,9 +22,15 @@
             <godsend-input-output [(ngModel)]="article.content" [type]="'huge'" class="edit-art-txtarea" [edit]="edit"><span class="h4" [innerHtml]="article.content"></span></godsend-input-output>
         </p>
         <br />
-        <p class="h5" *ngFor="let tag of article.info.tags">
-            #{{ tag.tag.value }}&nbsp;
-        </p>
+        <div *ngIf="!edit else editTags">
+            <p class="h5" *ngFor="let tag of article.info.tags">
+                #{{ tag.tag.value }}&nbsp;
+            </p>
+        </div>
+        <ng-template #editTags>
+            <label>Tags: </label>
+            <input [(ngModel)]="stringTags" />
+        </ng-template>
         <p class="h5">
             Created: {{ article.info.created | date : 'dd-MMM-yyyy HH:mm' }}
         </p><br />

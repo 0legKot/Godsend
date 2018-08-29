@@ -4,14 +4,16 @@ using Godsend.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Godsend.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20180829081937_LinkArticleTags")]
+    partial class LinkArticleTags
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -461,13 +463,9 @@ namespace Godsend.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("Value")
-                        .IsRequired();
+                    b.Property<string>("Value");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("Value")
-                        .IsUnique();
 
                     b.ToTable("Tags");
                 });

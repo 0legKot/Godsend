@@ -130,9 +130,23 @@ namespace Godsend.Models
             Article dbEntry = GetEntity(entity.Id);
             if (dbEntry != null)
             {
-                var existingTags = context.LinkArticleTags.Where(lat => entity.Info.EFTags.Contains(lat));
-                var missingTags = entity.Info.EFTags.Except(existingTags);
+                // add nonexisting tags
+                var allTags = context.Tags.ToList();
+                var existingTags = allTags.Where(tag => entity.Info.EFTags.Any(eftag => eftag.Tag.Value.ToLower() == tag.Value.ToLower()));
+                var missingTags = entity.Info.EFTags.Select(link => link.Tag).Where(eftag => !existingTags.Any(tag => tag.Value.ToLower() == eftag.Value.ToLower()));
 
+                context.AddRange(missingTags);
+
+                // remove old links
+                context.RemoveRange(dbEntry.Info.EFTags);
+
+                // set tag ids of new links
+                var linkTagsWithIdExisting = existingTags.Select(tag => new LinkArticleTag() { Tag = tag, ArticleInfo = entity.Info }).ToList();
+                var linkTagsWithIdAdded = missingTags.Select(tag => new LinkArticleTag() { Tag = tag, ArticleInfo = entity.Info }).ToList();
+
+                linkTagsWithIdExisting.AddRange(linkTagsWithIdAdded);
+
+                entity.Info.EFTags = linkTagsWithIdExisting;
 
                 entity.CopyTo(dbEntry);
             }

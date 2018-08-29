@@ -462,18 +462,18 @@ This is a pretty simple and straightforward diet you will ever try. It involves 
 
                     var linkArticleTags = new List<LinkArticleTag>()
                     {
-                        new LinkArticleTag() { Article = articles.TheThreeApples, Tag = tags.apple },
-                        new LinkArticleTag() { Article = articles.TheThreeApples, Tag = tags.appleInc },
-                        new LinkArticleTag() { Article = articles.TheThreeApples, Tag = tags.bible },
-                        new LinkArticleTag() { Article = articles.TheThreeApples, Tag = tags.newton },
-                        new LinkArticleTag() { Article = articles.AppleDiet, Tag = tags.apple },
-                        new LinkArticleTag() { Article = articles.AppleDiet, Tag = tags.diet },
-                        new LinkArticleTag() { Article = articles.AppleDiet, Tag = tags.health },
-                        new LinkArticleTag() { Article = articles.ApplesHistory, Tag = tags.apple },
-                        new LinkArticleTag() { Article = articles.AppleVSAndroid, Tag = tags.appleInc },
-                        new LinkArticleTag() { Article = articles.AppleVSAndroid, Tag = tags.android },
-                        new LinkArticleTag() { Article = articles.TheAnswer, Tag = tags.life },
-                        new LinkArticleTag() { Article = articles.TheAnswer, Tag = tags.universe },
+                        new LinkArticleTag() { ArticleInfo = articles.TheThreeApples.Info, Tag = tags.apple },
+                        new LinkArticleTag() { ArticleInfo = articles.TheThreeApples.Info, Tag = tags.appleInc },
+                        new LinkArticleTag() { ArticleInfo = articles.TheThreeApples.Info, Tag = tags.bible },
+                        new LinkArticleTag() { ArticleInfo = articles.TheThreeApples.Info, Tag = tags.newton },
+                        new LinkArticleTag() { ArticleInfo = articles.AppleDiet.Info, Tag = tags.apple },
+                        new LinkArticleTag() { ArticleInfo = articles.AppleDiet.Info, Tag = tags.diet },
+                        new LinkArticleTag() { ArticleInfo = articles.AppleDiet.Info, Tag = tags.health },
+                        new LinkArticleTag() { ArticleInfo = articles.ApplesHistory.Info, Tag = tags.apple },
+                        new LinkArticleTag() { ArticleInfo = articles.AppleVSAndroid.Info, Tag = tags.appleInc },
+                        new LinkArticleTag() { ArticleInfo = articles.AppleVSAndroid.Info, Tag = tags.android },
+                        new LinkArticleTag() { ArticleInfo = articles.TheAnswer.Info, Tag = tags.life },
+                        new LinkArticleTag() { ArticleInfo = articles.TheAnswer.Info, Tag = tags.universe },
                     };
 
                     context.LinkArticleTags.AddRange(linkArticleTags);

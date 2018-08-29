@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Text;
 
 namespace Godsend.Models
@@ -8,8 +10,10 @@ namespace Godsend.Models
     {
         public Guid Id { get; set; }
 
+        [Required]
         public string Value { get; set; }
 
+        [JsonIgnore]
         public virtual IEnumerable<LinkArticleTag> LinkArticleTags { get; set; }
 
         public Tag(string value)
@@ -22,9 +26,9 @@ namespace Godsend.Models
     {
         public Guid Id { get; set; }
 
-        public virtual Article Article { get; set; }
+        public virtual ArticleInformation ArticleInfo { get; set; }
 
-        public Guid ArticleId { get; set; }
+        public Guid ArticleInfoId { get; set; }
 
         public virtual Tag Tag { get; set; }
 

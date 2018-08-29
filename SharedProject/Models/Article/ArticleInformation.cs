@@ -73,7 +73,7 @@ namespace Godsend.Models
         public virtual IEnumerable<LinkArticleTag.WithoutArticle> Tags
         {
             get => EFTags?.Select(x => new LinkArticleTag.WithoutArticle(x))?.ToList();
-            set => EFTags = value?.Select(x => new LinkArticleTag() { Id = x.Id, ArticleId = Id, TagId = x.Id }).ToList();
+            set => EFTags = value?.Select(x => new LinkArticleTag() { Id = x.Id, ArticleInfoId = Id, Tag = new Tag(x.Tag.Value) }).ToList();
         }
 
         [JsonIgnore]
