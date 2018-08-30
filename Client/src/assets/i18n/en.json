@@ -51,55 +51,63 @@
         "Messages": "Messages",
         "NoMessages": "No messages"
     },
-    "Search": {
-        "Hint": "Type to search"
+  "HOME": "Home",
+  "PRODUCTS": "Products",
+  "ORDERS": "Orders",
+  "STATISTICS": "Statistics",
+  "ARTICLES": "Articles",
+  "SUPPLIERS": "Suppliers",
+  "LOG OUT": "Log out",
+  "ADMIN PANEL": "Admin panel",
+  "LOGIN": "Login",
+  "Products": {
+    "Category": "Category",
+    "Create": "Create new",
+    "Filter": "Filter it!",
+    "From": "From",
+    "To": "To",
+    "For": "For",
+    "for": "for",
+    "Sort": {
+      "By name": "By name",
+      "By rating": "By rating",
+      "By watches": "By watches count",
+      "Ascending": "Sort ascending",
+      "Descending": "Sort descending"
     },
-    "HOME": "Home",
-    "PRODUCTS": "Products",
-    "ORDERS": "Orders",
-    "STATISTICS": "Statistics",
-    "ARTICLES": "Articles",
-    "SUPPLIERS": "Suppliers",
-    "LOG OUT": "Log out",
-    "ADMIN PANEL": "Admin panel",
-    "LOGIN": "Login",
-    "Products": {
-        "Category": "Category",
-        "Create": "Create new",
-        "Filter": "Filter it!",
-        "From": "From",
-        "To": "To",
-        "For": "For",
-        "for": "for",
-        "Sort": {
-            "By name": "By name",
-            "By rating": "By rating",
-            "By watches": "By watches count",
-            "Ascending": "Sort ascending",
-            "Descending": "Sort descending"
-        },
-        "Detail": {
-            "Add": "Add",
-            "Back": "Back to products",
-            "Buy": "Buy",
-            "Description": "Description",
-            "No suppliers": "No suppliers",
-            "Supplier": "Supplier",
-            "Quantity": "Quantity",
-            "Filter": "Add supplier"
-        }
-    },
-    "Orders": {
-        "Id": "Id",
-        "Customer": "Customer name",
-        "Ordered/Done": "Ordered/Done",
-        "Status": "Status",
-        "Products": "Products",
-        "NotDone": "Not done yet",
-        "Actions": "Actions",
-        "Cancel": "Cancel",
-        "Ship": "Mark shipped",
-        "Hover": "Hover me"
-    },
-    "Waiting": "Waiting for data..."
+    "Detail": {
+      "Add": "Add",
+      "Back": "Back to products",
+      "Buy": "Buy",
+      "Description": "Description",
+      "No suppliers": "No suppliers",
+      "Supplier": "Supplier",
+      "Quantity": "Quantity",
+      "Filter": "Add supplier"
+    }
+  },
+  "Orders": {
+    "Id": "Id",
+    "Customer": "Customer name",
+    "Ordered/Done": "Ordered/Done",
+    "Status": "Status",
+    "Products": "Products",
+    "NotDone": "Not done yet",
+    "Actions": "Actions",
+    "Cancel": "Cancel",
+    "Ship": "Mark shipped",
+    "Hover": "Hover me"
+  },
+  "Search": {
+    "Hint": "Type to search"
+
+  },
+  "Suppliers": {
+    "Address": "Address",
+    "Back": "Back to suppliers",
+    "Description": "Description",
+    "Products": "Supplier products",
+    "for": "for"
+  },
+  "Waiting": "Waiting for data..."
 }
