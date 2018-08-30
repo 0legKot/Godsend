@@ -29,11 +29,11 @@ export class Supplier implements IEntity<SupplierInfo> {
 export class SupplierInfo implements IInformation {
     constructor(
         public name: string,
-        public location: Location,
-        
+        public location: Location,        
         public id: string = '',
         public watches: number = 0,
-        public rating: number = 0
+        public rating: number = 0,
+        public commentsCount: number = 0
     ) { }
 }
 

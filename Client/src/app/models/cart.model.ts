@@ -1,20 +1,17 @@
-﻿import { IdentityUser } from './user.model';
-import { Product, ProductInfo } from './product.model';
-import { Supplier, SupplierInfo } from './supplier.model';
+﻿import { ProductInfo } from './product.model';
+import { SupplierInfo } from './supplier.model';
 
 export const guidZero = '00000000-0000-0000-0000-000000000000';
 
 export class Cart {
     constructor(
         public discreteItems: OrderPartDiscreteSend[],
-        // public weightedItems: OrderPartWeightedSend[],
     ) { }
 }
 
 export class CartView {
     constructor(
         public discreteItems: OrderPartDiscreteView[],
-        // public weightedItems: OrderPartWeightedView[],
     ) { }
 }
 

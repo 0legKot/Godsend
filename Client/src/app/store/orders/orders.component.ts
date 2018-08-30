@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { RepositoryService } from '../../services/repository.service';
-import { DataService } from '../../services/data.service';
 import { Order, orderStatus, OrderPartProducts } from '../../models/order.model';
-import { forEach } from '@angular/router/src/utils/collection';
 
 @Component({
     selector: 'godsend-orders',

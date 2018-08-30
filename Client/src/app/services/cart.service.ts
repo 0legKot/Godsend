@@ -1,5 +1,4 @@
 ﻿import { CartView, OrderPartDiscreteView } from '../models/cart.model';
-import { IdentityUser } from '../models/user.model';
 import { RepositoryService } from './repository.service';
 import { Injectable } from '@angular/core';
 

@@ -34,6 +34,7 @@ export class ArticleInfo {
         public author: IdentityUser = new IdentityUser(),
         public rating: number = 0,
         public watches: number = 0,
+        public commentsCount: number = 0
     ) { }
 }
 

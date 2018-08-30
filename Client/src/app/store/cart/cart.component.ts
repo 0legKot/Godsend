@@ -1,8 +1,6 @@
 import { Component } from '@angular/core';
 import { CartService } from '../../services/cart.service';
-import { OrderPart } from '../../models/order.model';
 import { OrderPartDiscreteView } from '../../models/cart.model';
-import { retry } from 'rxjs/operators';
 
 @Component({
     selector: 'godsend-cart',

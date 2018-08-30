@@ -6,7 +6,6 @@ import { searchType } from '../search/search.service';
 import { SearchInlineComponent } from '../search/search-inline.component';
 import { ImageService } from '../../services/image.service';
 import { Router } from '@angular/router';
-import { ProductInfo } from '../../models/product.model';
 
 @Component({
     selector: 'godsend-suppliers',

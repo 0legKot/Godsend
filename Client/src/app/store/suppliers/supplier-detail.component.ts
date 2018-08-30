@@ -2,14 +2,11 @@
 // import { switchMap } from 'rxjs/operators';
 import { Component, OnInit, HostBinding } from '@angular/core';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
-import { Observable } from 'rxjs';
 
 import { RepositoryService, entityClass } from '../../services/repository.service';
-import { forEach } from '@angular/router/src/utils/collection';
 import { Supplier } from '../../models/supplier.model';
 import { ImageService } from '../../services/image.service';
 import { StorageService } from '../../services/storage.service';
-import { LinkRatingEntity } from '../../models/rating.model';
 
 @Component({
     selector: 'godsend-supplier-detail',

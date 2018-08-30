@@ -10,4 +10,5 @@ export interface IInformation {
     name: string;
     watches: number;
     rating: number;
+    commentsCount: number;
 }
