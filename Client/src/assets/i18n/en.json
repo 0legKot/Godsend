@@ -1,5 +1,4 @@
 {
-
     "Articles": {
         "Detail": {
             "Back": "Back to articles",
@@ -52,12 +51,6 @@
         "Messages": "Messages",
         "NoMessages": "No messages"
     },
-    "Products": {
-        "Create": "Create new",
-        "Filter": "Filter it!"
-    },
-    "Search": {
-        "Hint": "Type to search"
   "HOME": "Home",
   "PRODUCTS": "Products",
   "ORDERS": "Orders",
@@ -66,7 +59,7 @@
   "SUPPLIERS": "Suppliers",
   "LOG OUT": "Log out",
   "ADMIN PANEL": "Admin panel",
-  "Login": "Login",
+  "LOGIN": "Login",
   "Products": {
     "Category": "Category",
     "Create": "Create new",
@@ -108,6 +101,13 @@
   "Search": {
     "Hint": "Type to search"
 
+  },
+  "Suppliers": {
+    "Address": "Address",
+    "Back": "Back to suppliers",
+    "Description": "Description",
+    "Products": "Supplier products",
+    "for": "for"
   },
   "Waiting": "Waiting for data..."
 }
