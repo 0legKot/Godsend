@@ -61,7 +61,7 @@ namespace Godsend.Models
         /// The ef tags.
         /// </value>
         [JsonIgnore]
-        public virtual IEnumerable<StringWrapper> EFTags { get; set; }
+        public virtual IEnumerable<LinkArticleTag> EFTags { get; set; }
 
         /// <summary>
         /// Gets or sets the tags.
@@ -70,10 +70,10 @@ namespace Godsend.Models
         /// The tags.
         /// </value>
         [NotMapped]
-        public virtual IEnumerable<string> Tags
+        public virtual IEnumerable<LinkArticleTag.WithoutArticle> Tags
         {
-            get => this.EFTags?.Select(x => x.Value)?.ToArray();
-            set => this.EFTags = value?.Select<string, StringWrapper>(s => s).ToArray();
+            get => EFTags?.Select(x => new LinkArticleTag.WithoutArticle(x))?.ToList();
+            set => EFTags = value?.Select(x => new LinkArticleTag() { Id = x.Id, ArticleInfoId = Id, Tag = new Tag(x.Tag.Value) }).ToList();
         }
 
         [JsonIgnore]

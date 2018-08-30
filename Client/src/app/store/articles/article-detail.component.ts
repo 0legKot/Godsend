@@ -4,7 +4,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 
 import { RepositoryService, entityClass } from '../../services/repository.service';
-import { Article, ArticleInfo } from '../../models/article.model';
+import { Article, ArticleInfo, ArticleTags } from '../../models/article.model';
 import { StorageService } from '../../services/storage.service';
 import { LinkRatingEntity } from '../../models/rating.model';
 
@@ -22,11 +22,15 @@ export class ArticleDetailComponent implements OnInit {
     comments?: any;
     edit = false;
     readonly clas: entityClass = 'article';
+    /**
+     * Tags as a single string, where tags begin with a '#' and are separated by spaces
+     */
+    stringTags?: string;
 
-    backup = {
+    backup: ArticleBackup = {
         name: '',
         content: '',
-        tags: ['']
+        tags: []
     };
 
     get authenticated() {
@@ -48,6 +52,7 @@ export class ArticleDetailComponent implements OnInit {
     ngOnInit() {
         this.repo.getEntity<Article>('article', this.route.snapshot.params.id, a => {
             this.article = a;
+            this.stringifyTags();
         });
     }
 
@@ -68,6 +73,18 @@ export class ArticleDetailComponent implements OnInit {
 
     save() {
         if (this.article) {
+            if (this.stringTags) {
+                this.article.info.tags = this.stringTags.split(' ')
+                    .filter(str => str.startsWith('#'))
+                    .map(str => str.substring(1))
+                    .map(str => new ArticleTags(str));
+            } else {
+                this.article.info.tags = [];
+            }
+
+            console.log('TAGS: ');
+            console.dir(this.article.info.tags);
+
             this.repo.createOrEditEntity('article', Article.EnsureType(this.article), 1, 10);
         }
 
@@ -79,8 +96,21 @@ export class ArticleDetailComponent implements OnInit {
             this.article.info.name = this.backup.name;
             this.article.content = this.backup.content;
             this.article.info.tags = this.backup.tags;
+            this.stringifyTags();
         }
 
         this.edit = false;
     }
+
+    private stringifyTags() {
+        if (this.article) {
+            this.stringTags = this.article.info.tags.map(tag => '#' + tag.tag.value).reduce((prev, next) => prev + ' ' + next);
+        }
+    }
+}
+
+export interface ArticleBackup {
+    name: string;
+    content: string;
+    tags: ArticleTags[];
 }

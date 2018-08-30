@@ -60,6 +60,11 @@ export class CategoryService {
             });
     }
 
+    /**
+     * Converts tree-formatted categories to array-formatted
+     * @param cats roots of the category tree
+     * @returns 1-level array of categories
+     */
     private flatten(cats: CatsWithSubs[]): CatsWithSubs[] {
         const queue = cats.map(c => c);
         const result: CatsWithSubs[] = [];

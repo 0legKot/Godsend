@@ -31,7 +31,7 @@ namespace Godsend.Models
             };
         }
 
-        public Article(string content, User author, string description, string name, string[] tags, double rating, int watches)
+        public Article(string content, User author, string description, string name, double rating, int watches)
         {
             this.Content = content;
             this.Info = new ArticleInformation()
@@ -40,7 +40,6 @@ namespace Godsend.Models
                 Description = description,
                 Created = DateTime.Now,
                 Name = name,
-                Tags = tags,
                 Rating = rating,
                 Watches = watches,
             };
@@ -70,6 +69,7 @@ namespace Godsend.Models
             target.Content = Content;
             target.Info.Description = Info.Description;
             target.Info.Name = Info.Name;
+            target.Info.EFTags = Info.EFTags;
         }
     }
 }

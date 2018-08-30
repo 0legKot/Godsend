@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { RepositoryService } from '../../services/repository.service';
-import { ArticleInfo, Article } from '../../models/article.model';
+import { ArticleInfo, Article, ArticleTags } from '../../models/article.model';
 import { Router } from '@angular/router';
 
 @Component({
@@ -35,8 +35,8 @@ export class ArticlesComponent implements OnInit {
         this.getArticles();
     }
 
-    createArticle(content: string, name: string, tags: string[]) {
-        const art = new Article(content, new ArticleInfo(name, 'Provide description', tags));
+    createArticle(content: string, name: string) {
+        const art = new Article(content, new ArticleInfo(name, 'Provide description', []));
         this.repo.createOrEditEntity('article', art, this.page, this.rpp, info => this.router.navigateByUrl('articles/' + info.id));
     }
 

@@ -28,11 +28,25 @@ export class ArticleInfo {
     constructor(
         public name: string,
         public description: string = '',
-        public tags: string[],
+        public tags: ArticleTags[],
         public id: string = '',
         public created: string = '',
         public author: IdentityUser = new IdentityUser(),
         public rating: number = 0,
         public watches: number = 0,
     ) { }
+}
+
+export class ArticleTags {
+    id?: string;
+    tag: Tag;
+
+    constructor(value: string) {
+        this.tag = { value: value };
+    }
+}
+
+export interface Tag {
+    id?: string;
+    value: string;
 }
