@@ -4,6 +4,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { RouterModule, Routes } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AngularFontAwesomeModule } from 'angular-font-awesome';
+import {TranslateModule} from '@ngx-translate/core';
 
 import {MatTreeModule, MatButtonModule, MatIconModule} from '@angular/material';
 import { CdkTreeModule } from '@angular/cdk/tree';
@@ -109,6 +110,14 @@ const APP_ROUTES: Routes = [
         MatButtonModule,
         MatIconModule,
         RouterModule.forRoot(APP_ROUTES)
+        TranslateModule.forRoot(
+            loader: {
+                provide: TranslateLoader,
+                useFactory: HttpLoaderFactory,
+                deps: [HttpClient]
+            }
+        )
+        
     ],
     providers: [
         SearchService,
