@@ -6,7 +6,7 @@
 <div class="wrap">
     
     <div class="ml-4">
-        <button (click)="createProduct('it is test product','Test product2')" class="btn btn-dark ">Create new</button>
+        <button (click)="createProduct('it is test product','Test product2')" class="btn btn-dark ">{{ 'Products.Create' | translate }}</button>
 
         <br />
         <br />
@@ -76,7 +76,7 @@
                 </div>
             </div>
 
-                <button class="btn btn-dark" (click)="getByFilter()">Filter</button>
+            <button class="btn btn-dark" (click)="getByFilter()">{{ 'Products.Filter' | translate }}</button>
         </form>
         <br />
     </div>
