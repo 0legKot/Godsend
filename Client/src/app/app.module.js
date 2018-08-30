@@ -10,6 +10,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AngularFontAwesomeModule } from 'angular-font-awesome';
+import { TranslateModule } from '@ngx-translate/core';
 import { MatTreeModule, MatButtonModule, MatIconModule } from '@angular/material';
 import { CdkTreeModule } from '@angular/cdk/tree';
 import { AppComponent } from './store/app/app.component';
@@ -44,6 +45,27 @@ import { CommentWrapperComponent } from './store/comments/comment-wrapper.compon
 import { EntityRatingsComponent } from './store/rating/entity-ratings.component';
 import { RatingsComponent } from './store/rating/ratings.component';
 import { CategoryTreeComponent } from './store/products/category-tree.component';
+var APP_ROUTES = [
+    { path: '', redirectTo: 'home', pathMatch: 'full' },
+    { path: 'home', component: HomeComponent },
+    { path: 'products', component: ProductsComponent },
+    { path: 'products/:id', component: ProductDetailComponent },
+    { path: 'suppliers', component: SuppliersComponent },
+    { path: 'suppliers/:id', component: SupplierDetailComponent },
+    { path: 'orders', component: OrdersComponent, canActivate: [AuthenticationGuard] },
+    { path: 'articles', component: ArticlesComponent },
+    { path: 'articles/:id', component: ArticleDetailComponent },
+    { path: 'cart', component: CartComponent },
+    { path: 'consult', component: ConsultComponent },
+    { path: 'login', component: LoginComponent },
+    { path: 'registration', component: RegistrationComponent },
+    { path: 'search', component: SearchComponent },
+    { path: 'search', component: SearchComponent },
+    { path: 'statistics', component: StatisticsComponent },
+    { path: 'user', component: UserComponent },
+    { path: 'admin', component: AdminComponent },
+    { path: '**', redirectTo: 'home' }
+];
 var AppModule = /** @class */ (function () {
     function AppModule() {
     }
@@ -91,27 +113,12 @@ var AppModule = /** @class */ (function () {
                 CdkTreeModule,
                 MatButtonModule,
                 MatIconModule,
-                RouterModule.forRoot([
-                    { path: '', redirectTo: 'home', pathMatch: 'full' },
-                    { path: 'home', component: HomeComponent },
-                    { path: 'products', component: ProductsComponent },
-                    { path: 'products/:id', component: ProductDetailComponent },
-                    { path: 'suppliers', component: SuppliersComponent },
-                    { path: 'suppliers/:id', component: SupplierDetailComponent },
-                    { path: 'orders', component: OrdersComponent, canActivate: [AuthenticationGuard] },
-                    { path: 'articles', component: ArticlesComponent },
-                    { path: 'articles/:id', component: ArticleDetailComponent },
-                    { path: 'cart', component: CartComponent },
-                    { path: 'consult', component: ConsultComponent },
-                    { path: 'login', component: LoginComponent },
-                    { path: 'registration', component: RegistrationComponent },
-                    { path: 'search', component: SearchComponent },
-                    { path: 'search', component: SearchComponent },
-                    { path: 'statistics', component: StatisticsComponent },
-                    { path: 'user', component: UserComponent },
-                    { path: 'admin', component: AdminComponent },
-                    { path: '**', redirectTo: 'home' }
-                ])
+                RouterModule.forRoot(APP_ROUTES),
+                TranslateModule.forRoot(loader, {
+                    provide: TranslateLoader,
+                    useFactory: HttpLoaderFactory,
+                    deps: [HttpClient]
+                })
             ],
             providers: [
                 SearchService,

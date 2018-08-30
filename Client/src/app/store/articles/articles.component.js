@@ -42,9 +42,9 @@ var ArticlesComponent = /** @class */ (function () {
     ArticlesComponent.prototype.ngOnInit = function () {
         this.getArticles();
     };
-    ArticlesComponent.prototype.createArticle = function (content, name, tags) {
+    ArticlesComponent.prototype.createArticle = function (content, name) {
         var _this = this;
-        var art = new Article(content, new ArticleInfo(name, 'Provide description', tags));
+        var art = new Article(content, new ArticleInfo(name, 'Provide description', []));
         this.repo.createOrEditEntity('article', art, this.page, this.rpp, function (info) { return _this.router.navigateByUrl('articles/' + info.id); });
     };
     ArticlesComponent.prototype.deleteArticle = function (id) {

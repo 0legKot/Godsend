@@ -1,10 +1,11 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { RouterModule, Routes } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AngularFontAwesomeModule } from 'angular-font-awesome';
-import {TranslateModule} from '@ngx-translate/core';
+import {TranslateModule, TranslateLoader} from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
 import {MatTreeModule, MatButtonModule, MatIconModule} from '@angular/material';
 import { CdkTreeModule } from '@angular/cdk/tree';
@@ -43,6 +44,10 @@ import { CommentWrapperComponent } from './store/comments/comment-wrapper.compon
 import { EntityRatingsComponent } from './store/rating/entity-ratings.component';
 import { RatingsComponent } from './store/rating/ratings.component';
 import { CategoryTreeComponent } from './store/products/category-tree.component';
+
+export function HttpLoaderFactory(httpClient: HttpClient) {
+    return new TranslateHttpLoader(httpClient);
+}
 
 const APP_ROUTES: Routes = [
     { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -109,14 +114,17 @@ const APP_ROUTES: Routes = [
         CdkTreeModule,
         MatButtonModule,
         MatIconModule,
-        RouterModule.forRoot(APP_ROUTES)
         TranslateModule.forRoot(
-            loader: {
-                provide: TranslateLoader,
-                useFactory: HttpLoaderFactory,
-                deps: [HttpClient]
+            {
+                loader: {
+                    provide: TranslateLoader,
+                    useFactory: HttpLoaderFactory,
+                    deps: [HttpClient]
+                }
             }
-        )
+        ),
+        RouterModule.forRoot(APP_ROUTES),
+        
         
     ],
     providers: [

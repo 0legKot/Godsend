@@ -42,4 +42,11 @@ var ArticleInfo = /** @class */ (function () {
     return ArticleInfo;
 }());
 export { ArticleInfo };
+var ArticleTags = /** @class */ (function () {
+    function ArticleTags(value) {
+        this.tag = { value: value };
+    }
+    return ArticleTags;
+}());
+export { ArticleTags };
 //# sourceMappingURL=article.model.js.map

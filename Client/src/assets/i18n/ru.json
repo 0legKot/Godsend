@@ -1,0 +1,7 @@
+{
+  "HELLO": "Privetik {{value}} kak parametr",
+  "HOME": {
+    "TITLE": "Бонжур Angular виа ngx-translate э!",
+    "SELECT": "Язык выбирай ты"
+  }
+}

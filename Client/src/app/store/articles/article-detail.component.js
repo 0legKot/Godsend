@@ -11,7 +11,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 import { Component } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { RepositoryService } from '../../services/repository.service';
-import { Article } from '../../models/article.model';
+import { Article, ArticleTags } from '../../models/article.model';
 import { StorageService } from '../../services/storage.service';
 var ArticleDetailComponent = /** @class */ (function () {
     function ArticleDetailComponent(route, router, storage, repo) {
@@ -24,7 +24,7 @@ var ArticleDetailComponent = /** @class */ (function () {
         this.backup = {
             name: '',
             content: '',
-            tags: ['']
+            tags: []
         };
     }
     Object.defineProperty(ArticleDetailComponent.prototype, "authenticated", {
@@ -42,6 +42,7 @@ var ArticleDetailComponent = /** @class */ (function () {
         var _this = this;
         this.repo.getEntity('article', this.route.snapshot.params.id, function (a) {
             _this.article = a;
+            _this.stringifyTags();
         });
     };
     ArticleDetailComponent.prototype.editMode = function () {
@@ -58,6 +59,17 @@ var ArticleDetailComponent = /** @class */ (function () {
     };
     ArticleDetailComponent.prototype.save = function () {
         if (this.article) {
+            if (this.stringTags) {
+                this.article.info.tags = this.stringTags.split(' ')
+                    .filter(function (str) { return str.startsWith('#'); })
+                    .map(function (str) { return str.substring(1); })
+                    .map(function (str) { return new ArticleTags(str); });
+            }
+            else {
+                this.article.info.tags = [];
+            }
+            console.log('TAGS: ');
+            console.dir(this.article.info.tags);
             this.repo.createOrEditEntity('article', Article.EnsureType(this.article), 1, 10);
         }
         this.edit = false;
@@ -67,8 +79,14 @@ var ArticleDetailComponent = /** @class */ (function () {
             this.article.info.name = this.backup.name;
             this.article.content = this.backup.content;
             this.article.info.tags = this.backup.tags;
+            this.stringifyTags();
         }
         this.edit = false;
+    };
+    ArticleDetailComponent.prototype.stringifyTags = function () {
+        if (this.article) {
+            this.stringTags = this.article.info.tags.map(function (tag) { return '#' + tag.tag.value; }).reduce(function (prev, next) { return prev + ' ' + next; });
+        }
     };
     ArticleDetailComponent = __decorate([
         Component({
