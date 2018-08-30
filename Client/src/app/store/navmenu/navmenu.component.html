@@ -29,6 +29,12 @@
         <!-- Top right -->
         <nav class="main-nav-2 pull-right">
             <ul class="list-unstyled">
+                <li *ngIf="availableLangs?.length > 0 && selectedLang">
+                    <select [ngModel]="selectedLang" (ngModelChange)="changeLang($event)">
+                        <option *ngFor="let lang of availableLangs" [ngValue]="lang">{{ lang }}</option>
+                    </select>
+                </li>
+
                 <li *ngIf="isLogged; else elseBlock" class="main-nav-item-2">
                     <fa [routerLink]="['/user']" name="user"></fa> <a [routerLink]="['/user']"> {{ name }} </a>
                     <a (click)="logout()">{{ 'LOG OUT' | translate }}</a>
