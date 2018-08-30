@@ -4,6 +4,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AngularFontAwesomeModule } from 'angular-font-awesome';
+import {TranslateModule} from '@ngx-translate/core';
 
 import {MatTreeModule, MatButtonModule, MatIconModule} from '@angular/material';
 import { CdkTreeModule } from '@angular/cdk/tree';
@@ -86,6 +87,13 @@ import { CategoryTreeComponent } from './store/products/category-tree.component'
         CdkTreeModule,
         MatButtonModule,
         MatIconModule,
+        TranslateModule.forRoot(
+            loader: {
+                provide: TranslateLoader,
+                useFactory: HttpLoaderFactory,
+                deps: [HttpClient]
+            }
+        )
         RouterModule.forRoot([
             { path: '', redirectTo: 'home', pathMatch: 'full' },
             { path: 'home', component: HomeComponent },
