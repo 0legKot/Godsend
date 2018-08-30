@@ -7,6 +7,13 @@
   "SUPPLIERS": "Suppliers",
   "LOG OUT": "Log out",
   "ADMIN PANEL": "Admin panel",
-  "Login": "Login"
+  "Login": "Login",
+  "Products": {
+    "Create": "Create new",
+    "Filter": "Filter it!"
+  },
+  "Search": {
+    "Hint":  "Type to search" 
 
+  }
 }
