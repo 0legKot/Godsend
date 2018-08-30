@@ -1,56 +1,56 @@
 {
-    "Articles": {
-        "Detail": {
-            "Back": "Back to articles",
-            "Tags": "Tags",
-            "Created": "Created",
-            "Edit": "Edit",
-            "Save": "Save",
-            "Discard": "Discard"
-        },
-        "Create": "Create new",
-        "CreatedDate": "Created on",
-        "CreatedAuthor": "by",
-        "ReadMore": "Read more",
-        "WaitingForData": "Waiting for data"
+  "Articles": {
+    "Detail": {
+      "Back": "Back to articles",
+      "Tags": "Tags",
+      "Created": "Created",
+      "Edit": "Edit",
+      "Save": "Save",
+      "Discard": "Discard"
     },
-    "Cart": {
-        "Quantity": "Quantity",
-        "Price": "Price",
-        "Increment": "Increment",
-        "Decrement": "Decrement",
-        "Checkout": "Checkout",
-        "Total": "Total price",
-        "NoOrders": "No orders"
-    },
-    "Comment": {
-        "ReplyMode": "Reply",
-        "EditMode": "Edit",
-        "Delete": "Delete",
-        "EditSave": "Save",
-        "Discard": "Discard",
-        "SendReply": "Send",
-        "CancelReply": "Cancel"
-    },
-    "CommentWrapper": {
-        "Send": "Send"
-    },
-    "Login": {
-        "Username": "Username",
-        "Password": "Password",
-        "NotRegisteredQuestion": "Not registered yet?",
-        "Registration": "Registration",
-        "DoLogin": "Login",
-        "UsernameHint": "Enter username",
-        "PasswordHint": "Enter password"
-    },
-    "Notification": {
-        "Message": "Message",
-        "MessageHint": "Enter message",
-        "Send": "Send",
-        "Messages": "Messages",
-        "NoMessages": "No messages"
-    },
+    "Create": "Create new",
+    "CreatedDate": "Created on",
+    "CreatedAuthor": "by",
+    "ReadMore": "Read more",
+    "WaitingForData": "Waiting for data"
+  },
+  "Cart": {
+    "Quantity": "Quantity",
+    "Price": "Price",
+    "Increment": "Increment",
+    "Decrement": "Decrement",
+    "Checkout": "Checkout",
+    "Total": "Total price",
+    "NoOrders": "No orders"
+  },
+  "Comment": {
+    "ReplyMode": "Reply",
+    "EditMode": "Edit",
+    "Delete": "Delete",
+    "EditSave": "Save",
+    "Discard": "Discard",
+    "SendReply": "Send",
+    "CancelReply": "Cancel"
+  },
+  "CommentWrapper": {
+    "Send": "Send"
+  },
+  "Login": {
+    "Username": "Username",
+    "Password": "Password",
+    "NotRegisteredQuestion": "Not registered yet?",
+    "Registration": "Registration",
+    "DoLogin": "Login",
+    "UsernameHint": "Enter username",
+    "PasswordHint": "Enter password"
+  },
+  "Notification": {
+    "Message": "Message",
+    "MessageHint": "Enter message",
+    "Send": "Send",
+    "Messages": "Messages",
+    "NoMessages": "No messages"
+  },
   "HOME": "Home",
   "PRODUCTS": "Products",
   "ORDERS": "Orders",
@@ -96,7 +96,14 @@
     "Actions": "Actions",
     "Cancel": "Cancel",
     "Ship": "Mark shipped",
-    "Hover": "Hover me"
+    "Hover": "Hover me",
+    "Statuses": {
+      "Ready": "Ready",
+      "Shipped": "Shipped",
+      "Cancelled": "Cancelled",
+      "Processing": "Processing",
+      "Unknown": "Unknown"
+    }
   },
   "Registration": {
     "Placeholder": {
@@ -112,6 +119,10 @@
     "Password": "Password",
     "Birth": "Birh date",
     "Register": "Register"
+  },
+  "Pages": {
+    "Prev": "Previous page",
+    "Next": "Next page"
   },
   "Search": {
     "Hint": "Type to search",
