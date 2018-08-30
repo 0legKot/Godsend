@@ -37,11 +37,11 @@
                 <div *ngFor="let prop of filter.decimalProps">
                     <label> {{ prop.name }} </label>
                     <div>
-                        From
+                        {{ 'Products.From' | translate }}
                         <input class="form-control" name="x" type="number" [(ngModel)]="prop.left" />
                     </div>
                     <div>
-                        To
+                        {{ 'Products.To' | translate }}
                         <input class="form-control" name="x" type="number" [(ngModel)]="prop.right" />
                     </div>
                 </div>
@@ -50,11 +50,11 @@
                 <div *ngFor="let prop of filter.intProps">
                     <label> {{ prop.name }} </label>
                     <div>
-                        From
+                        {{ 'Products.From' | translate }}
                         <input class="form-control" type="number" name="x" [(ngModel)]="prop.left" />
                     </div>
                     <div>
-                        To
+                        {{ 'Products.To' | translate }}
                         <input class="form-control" type="number" name="x" [(ngModel)]="prop.right" />
                     </div>
                 </div>
@@ -68,11 +68,11 @@
             <div>
                 <div>
                     <input type="radio" [value]="true" name="orderDirection" [(ngModel)]="filter.sortAscending" />
-                    <span> Sort ascending </span>
+                    <span> {{ 'Products.Sort.Descending' | translate }} </span>
                 </div>
                 <div>
                     <input type="radio" [value]="false" name="orderDirection" [(ngModel)]="filter.sortAscending" />
-                    <span> Sort descending </span>
+                    <span> {{ 'Products.Sort.Ascending' | translate }} </span>
                 </div>
             </div>
 

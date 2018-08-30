@@ -33,7 +33,7 @@
             <div class='col-lg-7 col-md-6 col-sm-5 col-xs-12 products rel'>
                 <div class="prod-info">
                     <div>
-                        <label>Description: </label>
+                        <label>{{ 'Products.Detail.Description' | translate }}: </label>
                         <p><godsend-input-output *ngIf="product" [(ngModel)]="product.info.description" [edit]="edit" [type]="'huge'"></godsend-input-output></p>
                     </div>
 
@@ -65,52 +65,52 @@
                     <!-- END PROPERTIES -->
 
                     <div *ngIf="product?.suppliersAndPrices?.length > 0 else noSuppliers">
-                        <label>Price: </label>
+                        <label>{{ 'Products.From' | translate }}: </label>
                         <div *ngIf="!edit">
                             <p>
-                                <span>From: </span>
+                                <span>{{ 'Products.From' | translate }}: </span>
                                 <select [(ngModel)]="selectedSupplier" *ngIf="product != null">
-                                    <option *ngFor="let s of product?.suppliersAndPrices" [ngValue]="s">{{ s.supplierInfo?.name }} for {{ s.price }}</option>
+                                    <option *ngFor="let s of product?.suppliersAndPrices" [ngValue]="s">{{ s.supplierInfo?.name }} {{ 'Products.for' | translate }} {{ s.price }}</option>
                                 </select>
                             </p>
-                            <p> For: {{ price }}</p>
-                            <label>Quantity: </label>
+                            <p> {{ 'Products.For' | translate }}: {{ price }}</p>
+                            <label>{{ 'Products.Detail.Quantity' | translate }}: </label>
                             <p><input id="input-quantity" type="number" min="1" step="1" [(ngModel)]="quantity" /></p>
                             <div class="buy" (click)="buy()">
                                 <p class="inline-block"><fa name="cart-arrow-down"></fa></p>
-                                <p class="inline-block">Buy!</p>
+                                <p class="inline-block">{{ 'Products.Detail.Buy' | translate }}!</p>
                             </div>
                         </div>
                         <div *ngIf="edit">
                             <div>
                                 <ul>
-                                    <li *ngFor="let s of product?.suppliersAndPrices"><p>{{ s.supplierInfo?.name }} for {{ s.price }}<button (click)="removeSupplier(s)">Remove</button></p></li>
+                                    <li *ngFor="let s of product?.suppliersAndPrices"><p>{{ s.supplierInfo?.name }} {{ 'Products.for' | translate }} {{ s.price }}<button (click)="removeSupplier(s)">Remove</button></p></li>
                                 </ul>
                             </div>
 
 
-                            <span>Filter selection</span>
+                            <span>{{ 'Products.Detail.Filter' | translate }}</span>
                             <godsend-search-inline [type]="searchTypeSupplier" (found)="refreshFoundSuppliers($event)"></godsend-search-inline>
                             <div *ngIf="foundSuppliers != null">
-                                <label>Supplier: </label>
+                                <label>{{ 'Products.Detail.Supplier' | translate }}: </label>
                                 <select [(ngModel)]="supplierToAdd">
                                     <option *ngFor="let s of foundSuppliers" [ngValue]="s"> {{ s.name }}</option>
                                 </select>
-                                <label>Price: </label>
+                                <label>{{ 'Products.Detail.Price' | translate }}: </label>
                                 <input [(ngModel)]="priceToAdd" type="number" />
-                                <button (click)="addSupplier()">Add</button>
+                                <button (click)="addSupplier()">{{ 'Products.Detail.Add' | translate }}</button>
                                 
                             </div>
 
                         </div>
                     </div>
                     <ng-template #noSuppliers>
-                        <label>No suppliers</label>
+                        <label>{{ 'Products.Detail.No suppliers' | translate }}</label>
                     </ng-template>
 
 
                     <div *ngIf="product">
-                        <label>Category: </label>
+                        <label>{{ 'Products.Category' | translate }}: </label>
                         <div>
                             <span>{{ product.jsonCategory.name }}</span>
                         </div>
@@ -125,7 +125,7 @@
     </div>
     <godsend-comment-wrapper id="{{route.snapshot.params.id}}" clas="product"></godsend-comment-wrapper>
     <div class="back-btn" (click)="gotoProducts(prod)">
-        <fa name="long-arrow-left"></fa> Back to products
+        <fa name="long-arrow-left"></fa> {{ 'Products.Detail.Back' | translate }}
     </div>
 
 </div>

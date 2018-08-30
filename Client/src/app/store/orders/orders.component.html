@@ -4,21 +4,21 @@
     <br />
     <table *ngIf="orders?.length > 0; else nodata" class="table table-responsive">
         <tr>
-            <th>Id</th>
-            <th>Customer name</th>
-            <th>Ordered / Done</th>
-            <th>Status</th>
-            <th>Products</th>
-            <th>Actions</th>
+            <th>{{ 'Orders.Id' | translate }}</th>
+            <th>{{ 'Orders.Customer' | translate }}</th>
+            <th>{{ 'Orders.Ordered/Done' | translate }}</th>
+            <th>{{ 'Orders.Status' | translate }}</th>
+            <th>{{ 'Orders.Products' | translate }}</th>
+            <th>{{ 'Orders.Actions' | translate }}</th>
         </tr>
         <tr *ngFor="let o of orders">
             <td>{{ o.id }}</td>
             <td>{{ o.customer?.name }}</td>
-            <td><p>{{ o.ordered | date : 'dd-MMM-yyyy HH:mm' }} / </p> {{ (o.done | date : 'dd-MMM-yyyy HH:mm') || 'Not done yet' }}</td>
+            <td><p>{{ o.ordered | date : 'dd-MMM-yyyy HH:mm' }} / </p> {{ (o.done | date : 'dd-MMM-yyyy HH:mm') || 'Not done yet'  }}</td>
             <td>{{ status[o.status] || 'Unknown' }}</td>
             <td>
                 <div class="prod-list rel">
-                    Hover me!
+                    {{ 'Orders.Hover' | translate }}!
                     <div>
 
                         <span *ngFor="let item of o.items" class="prod-list-span">
@@ -29,8 +29,8 @@
                 </div>
             </td>
             <td>
-                <button (click)="cancel(o.id)" type="button" class="btn btn-danger">Cancel</button>
-                <button (click)="shipped(o.id)" type="button" class="btn btn-success">Mark shipped</button>
+                <button (click)="cancel(o.id)" type="button" class="btn btn-danger">{{ 'Orders.Cancel' | translate }}</button>
+                <button (click)="shipped(o.id)" type="button" class="btn btn-success">{{ 'Orders.Ship' | translate }}</button>
             </td>
         </tr>
     </table>
@@ -38,6 +38,6 @@
     <godsend-pages [pagesCount]="pagesCount" (pageChanged)="onPageChanged($event)"></godsend-pages>
 
     <ng-template #nodata>
-        <h4 class="m-1">Waiting for data...</h4>
+        <h4 class="m-1">{{ 'Waiting' | translate }}</h4>
     </ng-template>
 </div>
