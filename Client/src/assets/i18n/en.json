@@ -105,6 +105,15 @@
       "Unknown": "Unknown"
     }
   },
+  "Rating": {
+    "All": "All ratings",
+    "No": "No ratings",
+    "User": "User",
+    "Rating": "Rating",
+    "NeedLogIn": "Log in to rate",
+    "YouDidNotRate": "You have not rated yet",
+    "Your": "Your rating"
+  },
   "Registration": {
     "Placeholder": {
       "Email": "Enter your email",

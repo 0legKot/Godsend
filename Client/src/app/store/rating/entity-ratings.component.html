@@ -28,15 +28,15 @@
 </style>
 
 <div>
-    <button (click)="showAll()">All ratings</button>
+    <button (click)="showAll()">{{ 'Rating.All' | translate }}</button>
 
     <div class="fixed-around" *ngIf="showAllRatings">
         <div class="fixed-middle">
             <table *ngIf="ratings && ratings.length > 0 else noratings" class="table table-striped">
                 <thead>
                     <tr>
-                        <th>User</th>
-                        <th>Rating</th>
+                        <th>{{ 'Rating.User' | translate }}</th>
+                        <th>{{ 'Rating.Rating' | translate }}</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -48,7 +48,7 @@
             </table>
             <ng-template #noratings>
                 <p>
-                    No ratings
+                    {{ 'Rating.No' | translate }}
                 </p>
             </ng-template>
             <button (click)="hideAll()" class="close">X</button>
