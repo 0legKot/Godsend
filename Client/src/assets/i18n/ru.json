@@ -1,112 +1,123 @@
 {
-  "Articles": {
-    "Detail": {
-      "Back": "Назад к статьям",
-      "Tags": "Теги",
-      "Created": "Создано",
-      "Edit": "Редактировать",
-      "Save": "Сохранить",
-      "Discard": "Сбросить"
+    "Articles": {
+        "Detail": {
+            "Back": "Назад к статьям",
+            "Tags": "Теги",
+            "Created": "Создано",
+            "Edit": "Редактировать",
+            "Save": "Сохранить",
+            "Discard": "Сбросить"
+        },
+        "Create": "Создать",
+        "CreatedDate": "Создано",
+        "CreatedAuthor": "Автор:",
+        "ReadMore": "Полный текст",
+        "WaitingForData": "Ожидание данных"
     },
-    "Create": "Создать",
-    "CreatedDate": "Создано",
-    "CreatedAuthor": "Автор:",
-    "ReadMore": "Полный текст",
-    "WaitingForData": "Ожидание данных"
-  },
-  "Cart": {
-    "Quantity": "Количество",
-    "Price": "Цена",
-    "Increment": "Добавить",
-    "Decrement": "Убрать",
-    "Checkout": "Заказать",
-    "Total": "Суммарная стоимость",
-    "NoOrders": "Нет заказов"
-  },
-  "Comment": {
-    "ReplyMode": "Ответить",
-    "EditMode": "Редактировать",
-    "Delete": "Удалить",
-    "EditSave": "Сохранить",
-    "Discard": "Сбросить",
-    "SendReply": "Отправить ответ",
-    "CancelReply": "Отмена"
-  },
-  "CommentWrapper": {
-    "Send": "Отправить"
-  },
-  "Login": {
-    "Username": "Имя",
-    "Password": "Пароль",
-    "NotRegisteredQuestion": "Еще не зарегистрированы?",
-    "Registration": "Регистрация",
-    "DoLogin": "Выполнить вход",
-    "UsernameHint": "Введите логин",
-    "PasswordHint": "Введите пароль"
-  },
-  "Notification": {
-    "Message": "Сообщение",
-    "MessageHint": "Введите сообщение",
-    "Send": "Отправить",
-    "Messages": "Уведомления",
-    "NoMessages": "Нет уведомлений"
-  },
-  "Search": {
-    "Hint": "Начните печатать для поиска"
-  },
-  "HOME": "Домой",
-  "PRODUCTS": "Продукты",
-  "ORDERS": "Заказы",
-  "STATISTICS": "Статистика",
-  "ARTICLES": "Статьи",
-  "SUPPLIERS": "Поставщики или продавцы, хз",
-  "LOG OUT": "Выйти",
-  "ADMIN PANEL": "Панель администратора",
-  "LOGIN": "Вход",
-  "Products": {
-    "Category": "Категория",
-    "Create": "Создать новый",
-    "Filter": "Отфильтровать!",
-    "From": "От",
-    "To": "До",
-    "For": "За",
-    "for": "за",
-    "Sort": {
-      "By name": "По имени",
-      "By rating": "По рейтингу",
-      "By watches": "По количеству просмотров",
-      "Ascending": "По убыванию",
-      "Descending": "По возрастанию"
+    "Cart": {
+        "Quantity": "Количество",
+        "Price": "Цена",
+        "Increment": "Добавить",
+        "Decrement": "Убрать",
+        "Checkout": "Заказать",
+        "Total": "Суммарная стоимость",
+        "NoOrders": "Нет заказов"
     },
-    "Detail": {
-      "Add": "Добавить",
-      "Back": "Ко всем продуктам",
-      "Buy": "Купить",
-      "Description": "Описание",
-      "No suppliers": "Поставщиков нет",
-      "Supplier": "Поставщик",
-      "Quantity": "Количество",
-      "Filter": "Добавить поставщика"
-    }
-  },
-  "Orders": {
-    "Id": "Id",
-    "Customer": "Имя покупателя",
-    "Ordered/Done": "Заказано/Выполнено",
-    "Status": "Статус",
-    "Products": "Продукты",
-    "NotDone": "Еще не выполнено",
-    "Actions": "Действия",
-    "Cancel": "Отменить",
-    "Ship": "Пометить доставленным",
-    "Hover": "Наведи на меня"
-  },
-  "Suppliers": {
-    "Address": "Адрес",
-    "Back": "Назад к поставщикам",
-    "Description": "Описание",
-    "Products": "Продукты поставщика",
-    "for": "за"
-  },
-  "Waiting": "Данные загружаются..."
+    "Comment": {
+        "ReplyMode": "Ответить",
+        "EditMode": "Редактировать",
+        "Delete": "Удалить",
+        "EditSave": "Сохранить",
+        "Discard": "Сбросить",
+        "SendReply": "Отправить ответ",
+        "CancelReply": "Отмена"
+    },
+    "CommentWrapper": {
+        "Send": "Отправить"
+    },
+    "Login": {
+        "Username": "Имя",
+        "Password": "Пароль",
+        "NotRegisteredQuestion": "Еще не зарегистрированы?",
+        "Registration": "Регистрация",
+        "DoLogin": "Выполнить вход",
+        "UsernameHint": "Введите логин",
+        "PasswordHint": "Введите пароль"
+    },
+    "Notification": {
+        "Message": "Сообщение",
+        "MessageHint": "Введите сообщение",
+        "Send": "Отправить",
+        "Messages": "Уведомления",
+        "NoMessages": "Нет уведомлений"
+    },
+    "Search": {
+        "Hint": "Начните печатать для поиска"
+    },
+    "HOME": "Домой",
+    "PRODUCTS": "Продукты",
+    "ORDERS": "Заказы",
+    "STATISTICS": "Статистика",
+    "ARTICLES": "Статьи",
+    "SUPPLIERS": "Поставщики или продавцы, хз",
+    "LOG OUT": "Выйти",
+    "ADMIN PANEL": "Панель администратора",
+    "LOGIN": "Вход",
+    "Products": {
+        "Category": "Категория",
+        "Create": "Создать новый",
+        "Filter": "Отфильтровать!",
+        "From": "От",
+        "To": "До",
+        "For": "За",
+        "for": "за",
+        "Sort": {
+            "By name": "По имени",
+            "By rating": "По рейтингу",
+            "By watches": "По количеству просмотров",
+            "Ascending": "По убыванию",
+            "Descending": "По возрастанию"
+        },
+        "Detail": {
+            "Add": "Добавить",
+            "Back": "Ко всем продуктам",
+            "Buy": "Купить",
+            "Description": "Описание",
+            "No suppliers": "Поставщиков нет",
+            "Supplier": "Поставщик",
+            "Quantity": "Количество",
+            "Filter": "Добавить поставщика"
+        }
+    },
+    "Orders": {
+        "Id": "Id",
+        "Customer": "Имя покупателя",
+        "Ordered/Done": "Заказано/Выполнено",
+        "Status": "Статус",
+        "Products": "Продукты",
+        "NotDone": "Еще не выполнено",
+        "Actions": "Действия",
+        "Cancel": "Отменить",
+        "Ship": "Пометить доставленным",
+        "Hover": "Наведи на меня",
+        "Statuses": {
+            "Ready": "Готов",
+            "Shipped": "Доставлен",
+            "Cancelled": "Отменен",
+            "Processing": "Обрабатывается",
+            "Unknown": "Неизвестно"
+        }
+    },
+    "Pages": {
+        "Prev": "Предыдущая страница",
+        "Next": "Следующая страница"
+    },
+    "Suppliers": {
+        "Address": "Адрес",
+        "Back": "Назад к поставщикам",
+        "Description": "Описание",
+        "Products": "Продукты поставщика",
+        "for": "за"
+    },
+    "Waiting": "Данные загружаются..."
 }

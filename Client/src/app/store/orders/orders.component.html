@@ -15,7 +15,7 @@
             <td>{{ o.id }}</td>
             <td>{{ o.customer?.name }}</td>
             <td><p>{{ o.ordered | date : 'dd-MMM-yyyy HH:mm' }} / </p> {{ (o.done | date : 'dd-MMM-yyyy HH:mm') || ('Orders.NotDone' | translate)  }}</td>
-            <td>{{ status[o.status] || 'Unknown' }}</td>
+            <td>{{ 'Orders.Statuses.' + (status[o.status] || 'Unknown') | translate }}</td>
             <td>
                 <div class="prod-list rel">
                     {{ 'Orders.Hover' | translate }}!
