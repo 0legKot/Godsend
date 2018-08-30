@@ -141,6 +141,7 @@
   "Suppliers": {
     "Address": "Address",
     "Back": "Back to suppliers",
+    "Create": "Create a supplier",
     "Description": "Description",
     "Products": "Supplier products",
     "for": "for"
