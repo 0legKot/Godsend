@@ -7,7 +7,7 @@ import { TranslateService } from '@ngx-translate/core';
     styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-    constructor(private translate: TranslateService) {
+    constructor(translate: TranslateService) {
         translate.addLangs(['ru', 'en']);
         // this language will be used as a fallback when a translation isn't found in the current language
         translate.setDefaultLang('ru');
