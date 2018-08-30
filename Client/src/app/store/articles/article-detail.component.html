@@ -1,6 +1,6 @@
 ﻿<div class="wrap rel">
     <div class="back-btn" (click)="gotoArticles(article)">
-        <fa name="long-arrow-left"></fa> Back to articles
+        <fa name="long-arrow-left"></fa><ng-container> {{ 'Articles.Detail.Back' | translate }}ч</ng-container>
     </div>
     <br />
     <br />
@@ -28,21 +28,21 @@
             </p>
         </div>
         <ng-template #editTags>
-            <label>Tags: </label>
+            <label>{{ 'Articles.Detail.Tags' | translate }}:</label>
             <input [(ngModel)]="stringTags" />
         </ng-template>
         <p class="h5">
-            Created: {{ article.info.created | date : 'dd-MMM-yyyy HH:mm' }}
+            {{ 'Articles.Detail.Created' | translate }}: {{ article.info.created | date : 'dd-MMM-yyyy HH:mm' }}
         </p><br />
     </div>
     <div>
         
-        <godsend-comment-wrapper id="{{route.snapshot.params.id}}" clas="article"></godsend-comment-wrapper>
+        <godsend-comment-wrapper id="{{ route.snapshot.params.id }}" clas="article"></godsend-comment-wrapper>
     </div>
     <div class="edit-art">
-        <div class="inline-block edit-btns" id="edit" *ngIf="!edit" (click)="editMode()"> Edit</div>
-        <div class="inline-block edit-btns" id="save" *ngIf="edit" (click)="save()"> Save</div>
-        <div class="inline-block edit-btns" id="discard" *ngIf="edit" (click)="discard()"> Discard</div>
+        <div class="inline-block edit-btns" id="edit" *ngIf="!edit" (click)="editMode()">{{ 'Articles.Detail.Edit' | translate }}</div>
+        <div class="inline-block edit-btns" id="save" *ngIf="edit" (click)="save()">{{ 'Articles.Detail.Save' | translate }}</div>
+        <div class="inline-block edit-btns" id="discard" *ngIf="edit" (click)="discard()">{{ 'Articles.Detail.Discard' | translate }}</div>
     </div>
     <br />
 </div>

@@ -1,19 +1,71 @@
 {
-  "HOME": "Home",
-  "PRODUCTS": "Products",
-  "ORDERS": "Orders",
-  "STATISTICS": "Statistics",
-  "ARTICLES": "Articles",
-  "SUPPLIERS": "Suppliers",
-  "LOG OUT": "Log out",
-  "ADMIN PANEL": "Admin panel",
-  "Login": "Login",
-  "Products": {
-    "Create": "Create new",
-    "Filter": "Filter it!"
-  },
-  "Search": {
-    "Hint":  "Type to search" 
+    "HOME": "Home",
+    "PRODUCTS": "Products",
+    "ORDERS": "Orders",
+    "STATISTICS": "Statistics",
+    "ARTICLES": "Articles",
+    "SUPPLIERS": "Suppliers",
+    "LOG OUT": "Log out",
+    "ADMIN PANEL": "Admin panel",
+    "LOGIN": "Login",
+    "Articles": {
+        "Detail": {
+            "Back": "Back to articles",
+            "Tags": "Tags",
+            "Created": "Created",
+            "Edit": "Edit",
+            "Save": "Save",
+            "Discard": "Discard"
+        },
+        "Create": "Create new",
+        "CreatedDate": "Created on",
+        "CreatedAuthor": "by",
+        "ReadMore": "Read more",
+        "WaitingForData": "Waiting for data"
+    },
+    "Cart": {
+        "Quantity": "Quantity",
+        "Price": "Price",
+        "Increment": "Increment",
+        "Decrement": "Decrement",
+        "Checkout": "Checkout",
+        "Total": "Total price",
+        "NoOrders": "No orders"
+    },
+    "Comment": {
+        "ReplyMode": "Reply",
+        "EditMode": "Edit",
+        "Delete": "Delete",
+        "EditSave": "Save",
+        "Discard": "Discard",
+        "SendReply": "Send",
+        "CancelReply": "Cancel"
+    },
+    "CommentWrapper": {
+        "Send": "Send"
+    },
+    "Login": {
+        "Username": "Username",
+        "Password": "Password",
+        "NotRegisteredQuestion": "Not registered yet?",
+        "Registration": "Registration",
+        "DoLogin": "Login",
+        "UsernameHint": "Enter username",
+        "PasswordHint": "Enter password"
+    },
+    "Notification": {
+        "Message": "Message",
+        "MessageHint": "Enter message",
+        "Send": "Send",
+        "Messages": "Messages",
+        "NoMessages": "No messages"
+    },
+    "Products": {
+        "Create": "Create new",
+        "Filter": "Filter it!"
+    },
+    "Search": {
+        "Hint": "Type to search"
 
-  }
+    }
 }

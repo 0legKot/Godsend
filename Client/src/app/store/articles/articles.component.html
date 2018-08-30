@@ -1,7 +1,7 @@
 ﻿<div class="wrap">
-    <h1>Articles</h1>
+    <h1>{{ 'ARTICLES' | translate }}</h1>
     <br />
-    <button (click)="createArticle('content', 'test name')" class="btn btn-dark btn-lg">Create new</button>
+    <button (click)="createArticle('content', 'test name')" class="btn btn-dark btn-lg">{{ 'Articles.Create' | translate }}</button>
     <br />
     <br />
     <div *ngIf="articles && articles.length > 0 else nodata">
@@ -18,11 +18,11 @@
                 <div class="card-body">
                     <h5 class="card-title"><span *ngFor="let tag of a.tags">#{{ tag.tag.value }}&nbsp;</span></h5>
                     <br />
-                    <a [routerLink]="['/articles', a.id]" class="btn readMore">Read more</a>
+                    <a [routerLink]="['/articles', a.id]" class="btn readMore">{{ 'Articles.ReadMore' | translate }}</a>
                     <br />
                     <br />
-                    <p class="card-text">Created: {{ a.created | date : 'dd-MMM-yyyy HH:mm' }}</p>
-                    <footer class="blockquote-footer">by {{ a.author?.name }}</footer>
+                    <p class="card-text">{{ 'Articles.CreatedDate' | translate }}: {{ a.created | date : 'dd-MMM-yyyy HH:mm' }}</p>
+                    <footer class="blockquote-footer">{{ 'Articles.CreatedAuthor' | translate }}{{ a.author?.name }}</footer>
                 </div>
                 <div class="card-footer text-muted">
                     <godsend-stars [value]="a.rating"></godsend-stars> &nbsp;
@@ -43,5 +43,5 @@
 <godsend-pages [pagesCount]="pagesCount" (pageChanged)="onPageChanged($event)"></godsend-pages>
 
 <ng-template #nodata>
-    <h4 class="m-1">Waiting for data...</h4>
+    <h4 class="m-1">{{ 'Articles.WaitingForData' | translate }}</h4>
 </ng-template>

@@ -21,10 +21,10 @@
                 </div>
                 <div class="card-body">
                     <h5 class="card-title">{{ part.supplierInfo.name }}</h5>
-                    <p class="card-text">Quantity: {{ part.quantity }}</p>
-                    <p class="card-text">Price: $ {{ (part.quantity * part.price).toFixed(2) }}</p>
-                    <div (click)="increment(part)" class="btn readMore">+Increment</div>
-                    <div (click)="decrement(part)" class="btn readMore">-Decrement</div>
+                    <p class="card-text">{{ 'Cart.Quantity' | translate }}: {{ part.quantity }}</p>
+                    <p class="card-text">{{ 'Cart.Price' | translate }}: $ {{ (part.quantity * part.price).toFixed(2) }}</p>
+                    <div (click)="increment(part)" class="btn readMore">+{{ 'Cart.Increment' | translate }}</div>
+                    <div (click)="decrement(part)" class="btn readMore">-{{ 'Cart.Decrement' | translate }}</div>
                 </div>
             </div>
 
@@ -32,12 +32,12 @@
             <br />
             <br />
         </div>
-        <h3>Total: {{ totalPrice }}</h3>
+        <h3>{{ 'Cart.Total' | translate }}: {{ totalPrice }}</h3>
     </div>
-    <button [routerLink]="['/products']" (click)="checkout()" class="btn readMore">Checkout</button>
+    <button [routerLink]="['/products']" (click)="checkout()" class="btn readMore">{{ 'Cart.Checkout' | translate }}</button>
 
     <ng-template #nodata>
-        <h4 class="m-1">No orders</h4>
+        <h4 class="m-1">{{ 'Cart.NoOrders' | translate }}</h4>
     </ng-template>
     <br />
     <br />

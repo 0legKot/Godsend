@@ -3,23 +3,23 @@
     <godsend-input-output [edit]="isEditMode" [(ngModel)]="editedComment"></godsend-input-output>
     <div *ngIf="!isReplyMode else replyBlock">
         <div *ngIf="!isEditMode else editBlock">
-            <button class="btn btn-success" (click)="enterReplyMode()">Reply</button>
+            <button class="btn btn-success" (click)="enterReplyMode()">{{ 'Comment.ReplyMode' | translate }}</button>
             <!--todo authorize-->
-            <button class="btn btn-info" (click)="enterEditMode()">Edit</button>
-            <button class="btn btn-danger" (click)="deleteComment()">Delete</button>
+            <button class="btn btn-info" (click)="enterEditMode()">{{ 'Comment.EditMode' | translate }}</button>
+            <button class="btn btn-danger" (click)="deleteComment()">{{ 'Comment.Delete' | translate }}</button>
         </div>
     </div>
     <ng-template #editBlock>
         <div>
-            <button class="btn btn-success" (click)="editComment()">Edit</button>
-            <button class="btn btn-danger" (click)="discardEdit()">Discard</button>
+            <button class="btn btn-success" (click)="editComment()">{{ 'Comment.EditSave' | translate }}</button>
+            <button class="btn btn-danger" (click)="discardEdit()">{{ 'Comment.Discard' | translate }}</button>
         </div>
     </ng-template>
     <ng-template #replyBlock>
         <div>
             <input [(ngModel)]="newComment" />
-            <button class="btn btn-success" (click)="sendComment()">Send reply</button>
-            <button class="btn btn-danger" (click)="exitReplyMode()">Cancel</button>
+            <button class="btn btn-success" (click)="sendComment()">{{ 'Comment.SendReply' | translate }}</button>
+            <button class="btn btn-danger" (click)="exitReplyMode()">{{ 'Comment.CancelReply' | translate }}</button>
         </div>
     </ng-template>
 </div>

@@ -92,10 +92,10 @@
         </div>
         <form class="form" (ngSubmit)="sendMessage()" #messageForm="ngForm">
             <div class="form-group">
-                <label class="sr-only" for="message">Message</label>
-                <input type="text" class="form-control" id="message" placeholder="your message..." name="message" [(ngModel)]="message" required>
+                <label class="sr-only" for="message">{{ 'Notification.Message' | translate }}</label>
+                <input type="text" class="form-control" id="message" [placeholder]="'Notification.MessageHint' | translate" name="message" [(ngModel)]="message" required>
             </div>
-            <button type="submit" class="btn btn-bl" [disabled]="!messageForm.valid">Send SignalR Message</button>
+            <button type="submit" class="btn btn-bl" [disabled]="!messageForm.valid">{{ 'Notification.Send' | translate }}</button>
         </form>
         <div *ngIf="messages.length > 0">
             <div class="table-responsive">
@@ -103,7 +103,7 @@
                     <thead>
                         <tr>
                             <th>#</th>
-                            <th>Messages</th>
+                            <th>{{ 'Notification.Messages' | translate }}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -116,7 +116,7 @@
             </div>
         </div>
         <div class="txt" *ngIf="messages.length <= 0">
-            <span>No messages</span>
+            <span>{{ 'Notification.NoMessages' | translate }}</span>
         </div>
     </div>
        
