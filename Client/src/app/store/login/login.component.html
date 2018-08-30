@@ -1,19 +1,19 @@
 <div class="wrap rel">
-    <h1>Login</h1>
+    <h1>{{ 'LOGIN' | translate }}</h1>
     <div class="login-form">
         <form>
             <div class="form-group">
-                <label for="exampleInputEmail1">Username</label>
+                <label for="exampleInputEmail1">{{ 'Login.Username' | translate }}</label>
                 <!--<input [(ngModel)]="name" name="Name" type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter username">
                 <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>-->
-                <input [(ngModel)]="name" name="Name" class="form-control" placeholder="Enter username">
+                <input [(ngModel)]="name" name="Name" class="form-control" [placeholder]="'Login.UsernameHint' | translate">
             </div>
             <div class="form-group">
-                <label for="exampleInputPassword1">Password</label>
-                <input [(ngModel)]="pass" name="Password" type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+                <label for="exampleInputPassword1">{{ 'Login.Password' | translate }}</label>
+                <input [(ngModel)]="pass" name="Password" type="password" class="form-control" id="exampleInputPassword1" [placeholder]="'Login.PasswordHint' | translate">
             </div>
-            <button (click)="login()" type="submit" class="btn btn-primary">Login</button>
+            <button (click)="login()" type="submit" class="btn btn-primary">{{ 'Login.DoLogin' | translate }}</button>
         </form>
     </div>
-    <div class="center">Not registered yet? <a class="btn btn-primary" [routerLink]="['/registration']">Registration</a></div>
+    <div class="center">{{ 'Login.NotRegisteredQuestion' | translate }}<a class="btn btn-primary" [routerLink]="['/registration']">{{ 'Login.Registration' | translate }}</a></div>
 </div>

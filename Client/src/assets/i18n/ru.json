@@ -1,4 +1,62 @@
-{
+
+    "Articles": {
+        "Detail": {
+            "Back": "Назад к статьям",
+            "Tags": "Теги",
+            "Created": "Создано",
+            "Edit": "Редактировать",
+            "Save": "Сохранить",
+            "Discard": "Сбросить"
+        },
+        "Create": "Создать",
+        "CreatedDate": "Создано",
+        "CreatedAuthor": "Автор:",
+        "ReadMore": "Полный текст",
+        "WaitingForData": "Ожидание данных"
+    },
+    "Cart": {
+        "Quantity": "Количество",
+        "Price": "Цена",
+        "Increment": "Добавить",
+        "Decrement": "Убрать",
+        "Checkout": "Заказать",
+        "Total": "Суммарная стоимость",
+        "NoOrders": "Нет заказов"
+    },
+    "Comment": {
+        "ReplyMode": "Ответить",
+        "EditMode": "Редактировать",
+        "Delete": "Удалить",
+        "EditSave": "Сохранить",
+        "Discard": "Сбросить",
+        "SendReply": "Отправить ответ",
+        "CancelReply": "Отмена"
+    },
+    "CommentWrapper": {
+        "Send": "Отправить"
+    },
+    "Login": {
+        "Username": "Имя",
+        "Password": "Пароль",
+        "NotRegisteredQuestion": "Еще не зарегистрированы?",
+        "Registration": "Регистрация",
+        "DoLogin": "Выполнить вход",
+        "UsernameHint": "Введите логин",
+        "PasswordHint": "Введите пароль"
+    },
+    "Notification": {
+        "Message": "Сообщение",
+        "MessageHint": "Введите сообщение",
+        "Send": "Отправить",
+        "Messages": "Уведомления",
+        "NoMessages": "Нет уведомлений"
+    },
+    "Products": {
+        "Create": "Создать новый",
+        "Filter": "Отфильтровать!"
+    },
+    "Search": {
+        "Hint": "Начните печатать для поиска"
   "HOME": "Домой",
   "PRODUCTS": "Продукты",
   "ORDERS": "Заказы",
