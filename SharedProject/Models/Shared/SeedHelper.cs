@@ -19,9 +19,15 @@ namespace Godsend.Models
     internal class SeedHelper : ISeedHelper
     {
         private static object creationLock = new object();
+        private static bool created = false;
 
         public void EnsurePopulated(DataContext context)
         {
+            if (created)
+            {
+                return;
+            }
+
             lock (creationLock)
             {
                 if (!context.Categories.Any() && !context.Properties.Any() && !context.Products.Any()
@@ -555,6 +561,8 @@ This is a pretty simple and straightforward diet you will ever try. It involves 
 
                     context.SaveChanges();
                 }
+
+                created = true;
             }
         }
 
