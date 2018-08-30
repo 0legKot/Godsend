@@ -98,9 +98,25 @@
     "Ship": "Mark shipped",
     "Hover": "Hover me"
   },
+  "Registration": {
+    "Placeholder": {
+      "Email": "Enter your email",
+      "Login": "Enter username",
+      "Password": "Password",
+      "Birth": "Your birth date"
+    },
+    "Email": "Email address",
+    "EmailUslMsg": "We'll never share your email with anyone else",
+    "LoginUslMsg": "This will be seen by another users",
+    "Login": "Login",
+    "Password": "Password",
+    "Birth": "Birh date",
+    "Register": "Register"
+  },
   "Search": {
-    "Hint": "Type to search"
-
+    "Hint": "Type to search",
+    "Products": "Products",
+    "Suppliers": "Suppliers"
   },
   "Suppliers": {
     "Address": "Address",

@@ -3,7 +3,7 @@
     <div id="stic-search">
         <div class="search">
             <p class="inline-block">
-                <input [formControl]="searchField" placeholder="Type here" />
+                <input [formControl]="searchField" placeholder="{{ 'Search.Hint' | translate }}" />
             </p>
             <p class="inline-block">
                 <fa name="search"></fa>
@@ -13,7 +13,7 @@
 
     <div *ngIf="searchResult?.productsInfo?.length > 0">
         <br />
-        <h4>Products</h4>
+        <h4>{{ 'Search.Products' | translate }}</h4>
         <br />
         <div class='container-fluid'>
             <div class='row products'>
@@ -25,7 +25,7 @@
     </div>
     <div *ngIf="searchResult?.suppliersInfo?.length > 0">
         <br />
-        <h4>Suppliers</h4>
+        <h4>{{ 'Search.Suppliers' | translate }}</h4>
         <br />
         <div class='container-fluid'>
             <div class='row suppliers'>
