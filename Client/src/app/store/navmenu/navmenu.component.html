@@ -7,22 +7,22 @@
         <nav class='main-nav pull-left' [ngClass]="{'block' : showMenuMobile}">
             <ul class="list-unstyled">
                 <li [routerLinkActive]="['link-active']" class="main-nav-item">
-                    <a [routerLink]="['/home']" (click)="hideMenu()">Home</a>
+                    <a [routerLink]="['/home']" (click)="hideMenu()">{{ 'HOME' | translate }}</a>
                 </li>
                 <li [routerLinkActive]="['link-active']" class="main-nav-item">
-                    <a [routerLink]="['/products']" (click)="hideMenu()">Products</a>
+                    <a [routerLink]="['/products']" (click)="hideMenu()">{{ 'PRODUCTS' | translate }}</a>
                 </li>
                 <li [routerLinkActive]="['link-active']" class="main-nav-item">
-                    <a [routerLink]="['/orders']" (click)="hideMenu()">Orders</a>
+                    <a [routerLink]="['/orders']" (click)="hideMenu()">{{ 'ORDERS' | translate }}</a>
                 </li>
                 <li [routerLinkActive]="['link-active']" class="main-nav-item">
-                    <a [routerLink]="['/statistics']" (click)="hideMenu()">Statistics</a>
+                    <a [routerLink]="['/statistics']" (click)="hideMenu()">{{ 'STATISTICS' | translate }}</a>
                 </li>
                 <li [routerLinkActive]="['link-active']" class="main-nav-item">
-                    <a [routerLink]="['/articles']" (click)="hideMenu()">Articles</a>
+                    <a [routerLink]="['/articles']" (click)="hideMenu()">{{ 'ARTICLES' | translate }}</a>
                 </li>
                 <li [routerLinkActive]="['link-active']" class="main-nav-item">
-                    <a [routerLink]="['/suppliers']" (click)="hideMenu()">Suppliers</a>
+                    <a [routerLink]="['/suppliers']" (click)="hideMenu()">{{ 'SUPPLIERS' | translate }}</a>
                 </li>
             </ul>
         </nav>
@@ -31,15 +31,15 @@
             <ul class="list-unstyled">
                 <li *ngIf="isLogged; else elseBlock" class="main-nav-item-2">
                     <fa [routerLink]="['/user']" name="user"></fa> <a [routerLink]="['/user']"> {{ name }} </a>
-                    <a (click)="logout()">Log out</a>
+                    <a (click)="logout()">{{ 'LOG OUT' | translate }}</a>
                 </li>
                 <li *ngIf="isAdmin" class="main-nav-item-2">
-                    <a [routerLink]="['/admin']"> Admin panel </a>
+                    <a [routerLink]="['/admin']"> {{ 'ADMIN PANEL' | translate }} </a>
                     
                 </li>
                 <ng-template #elseBlock>
                     <li class="main-nav-item-2">
-                        <a (click)="login()">Login</a>
+                        <a (click)="login()">{{ 'LOGIN' | translate }}</a>
                     </li>
                 </ng-template>
 

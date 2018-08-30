@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { StorageService } from '../../services/storage.service';
 import { AuthenticationService } from '../../services/authentication.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
     selector: 'godsend-nav-menu',
@@ -10,7 +11,9 @@ import { AuthenticationService } from '../../services/authentication.service';
 })
 export class NavMenuComponent {
     showMenuMobile = false;
-    constructor(private storage: StorageService, private auth: AuthenticationService, private router: Router) { }
+    constructor(private storage: StorageService, private auth: AuthenticationService, private router: Router, private translate: TranslateService) {
+        translate.setDefaultLang('ru');
+    }
     scrollToTop(): void {
         window.scrollTo(0, 0);
     }
