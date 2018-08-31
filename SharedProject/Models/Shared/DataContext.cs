@@ -67,6 +67,8 @@ namespace Godsend.Models
         /// </value>
         public DbSet<ImagePaths> ImagePathsTable { get; set; }
 
+        public DbSet<Image> Images { get; set; }
+
         /// <summary>
         /// Gets or sets the link products suppliers.
         /// </summary>
