@@ -44,6 +44,7 @@ import { CommentWrapperComponent } from './store/comments/comment-wrapper.compon
 import { EntityRatingsComponent } from './store/rating/entity-ratings.component';
 import { RatingsComponent } from './store/rating/ratings.component';
 import { CategoryTreeComponent } from './store/products/category-tree.component';
+import { ProductsComparisonComponent } from './store/products/products-comparison.component';
 
 export function HttpLoaderFactory(httpClient: HttpClient) {
     return new TranslateHttpLoader(httpClient);
@@ -54,6 +55,7 @@ const APP_ROUTES: Routes = [
     { path: 'home', component: HomeComponent },
     { path: 'products', component: ProductsComponent },
     { path: 'products/:id', component: ProductDetailComponent },
+    { path: 'products/comparison/:ids', component: ProductsComparisonComponent },
     { path: 'suppliers', component: SuppliersComponent },
     { path: 'suppliers/:id', component: SupplierDetailComponent },
     { path: 'orders', component: OrdersComponent, canActivate: [AuthenticationGuard] },
@@ -85,6 +87,7 @@ const APP_ROUTES: Routes = [
         PagesComponent,
         ProductDetailComponent,
         ProductCardComponent,
+        ProductsComparisonComponent,
         ProductsComponent,
         SearchComponent,
         SearchInlineComponent,

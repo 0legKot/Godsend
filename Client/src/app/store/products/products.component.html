@@ -1,9 +1,10 @@
 ﻿<h1>Products</h1>
 <br />
+<a [routerLink]="['/products/comparison', idsForCompare]">COMPARSION</a>
 <div class="wrap">
     
     <div class="ml-4">
-        <button (click)="createProduct('it is test product','Test product2')" class="btn btn-dark ">{{ 'Products.Create' | translate }}</button>
+        <button (click)="createProduct('','New product')" class="btn btn-dark ">{{ 'Products.Create' | translate }}</button>
         <br />
         <br />
         <button class="btn btn-dark" (click)="getCategories()">Get categories</button>
@@ -24,9 +25,6 @@
                 <div *ngFor="let prop of filter.stringProps">
                     <label> {{ prop.name }} </label>
                     <input class="form-control" [(ngModel)]="prop.part" name="x" />
-                    <small id="emailHelp" class="form-text text-muted">
-                        Type only string characters
-                    </small>
                 </div>
             </div>
             <div class="form-group" *ngIf="filter.decimalProps?.length > 0">

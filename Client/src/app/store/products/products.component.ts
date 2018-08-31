@@ -56,6 +56,10 @@ export class ProductsComponent implements OnInit {
         return Boolean(this.repo.productFilter.categoryId);
     }
 
+    get idsForCompare(): string {
+        return this.comparsionSet.join(',');
+    }
+
     toggleComparsion(id: string) {
         if (!this.isFilteredByCategory) return;
         if (this.comparsionSet.indexOf(id) == -1)

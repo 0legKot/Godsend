@@ -59,7 +59,7 @@ export class ProductDetailComponent implements OnInit {
         private catService: CategoryService
     ) { }
 
-    gotoProducts(product?: Product) {
+    gotoProducts() {
         const productId = this.route.snapshot.params.id;
         this.router.navigate(['/products', { id: productId}]);
     }

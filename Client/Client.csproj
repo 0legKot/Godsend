@@ -10,6 +10,7 @@
     <None Remove="src\app\models\rating.model.ts" />
     <None Remove="src\app\store\admin\admin.component.ts" />
     <None Remove="src\app\store\input-output\custom-control-value-accessor.ts" />
+    <None Remove="src\app\store\products\products-comparsion.component.ts" />
     <None Remove="src\app\store\registration\registration.component.ts" />
     <None Remove="src\app\store\user\user.component.ts" />
     <None Remove="src\app\store\orders\orders.component.ts" />
@@ -48,6 +49,7 @@
     <TypeScriptCompile Include="src\app\models\comment.model.ts" />
     <TypeScriptCompile Include="src\app\models\rating.model.ts" />
     <TypeScriptCompile Include="src\app\store\admin\admin.component.ts" />
+    <TypeScriptCompile Include="src\app\store\products\products-comparsion.component.ts" />
     <TypeScriptCompile Include="src\app\store\shared\custom-control-value-accessor.ts" />
     <TypeScriptCompile Include="src\app\store\registration\registration.component.ts" />
     <TypeScriptCompile Include="src\app\store\user\user.component.ts" />

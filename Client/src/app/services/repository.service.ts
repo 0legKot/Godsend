@@ -17,7 +17,7 @@ const productsUrl = 'api/product';
 const ordersUrl = 'api/order';
 const suppliersUrl = 'api/supplier';
 const articlesUrl = 'api/article';
-// TODO: rework
+
 
 @Injectable({
     providedIn: 'root'
@@ -25,6 +25,8 @@ const articlesUrl = 'api/article';
 export class RepositoryService {
     product: Product | {} = {};
     products: ProductInfo[] = [];
+    //must be useless
+    productsForComparement: Product[]=[];
     orders: Order[] = [];
     order: Order | {} = {};
     suppliers: SupplierInfo[] = [];
@@ -69,21 +71,6 @@ export class RepositoryService {
         }
     }
 
-    /*setComments<T>(val: T) {
-        this.comments = val;
-        //switch (typeof (val)) {
-        //    case typeof (Product):
-        //        this.product = val;
-        //        break;
-        //    case typeof (Supplier):
-        //        this.supplier = val;
-        //        break;
-        //    case typeof (Order):
-        //        this.order = val;
-        //        break;
-        //    default: return;
-        //}
-    }*/
 
     setEntities<T>(clas: supportedClass, val: T[]) {
         switch (clas) {
@@ -139,6 +126,24 @@ export class RepositoryService {
                         fn(response);
                     }
                 });
+        }
+    }
+    //redo for entities
+    getProductsForComparement(clas: supportedClass, ids: string[], fn: (_: Product[]) => any) {
+
+            const url = this.getUrl(clas);
+        ids.forEach(id => {
+            if (id != null) {
+                this.data.sendRequest<Product>('get', url + '/detail/' + id)
+                    .subscribe(response => {
+
+                        this.productsForComparement.push(response);
+
+                    });
+            }
+        });
+        if (fn) {
+            fn(this.productsForComparement);
         }
     }
 
