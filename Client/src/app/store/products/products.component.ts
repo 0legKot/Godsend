@@ -11,6 +11,7 @@ import { SearchInlineComponent } from '../search/search-inline.component';
 import { ImageService } from '../../services/image.service';
 import { CategoryService } from '../../services/category.service';
 import { guidZero } from '../../models/cart.model';
+import { retry } from 'rxjs/operators';
 
 @Component({
     selector: 'godsend-products',
@@ -26,6 +27,7 @@ export class ProductsComponent implements OnInit {
     // searchProducts?: ProductInfo[];
     templateText = 'Waiting for data...';
 
+    comparsionSet: string[] = new Array < string>();
     categories?: Category[];
     filter: FilterInfoView = new FilterInfoView();
     orderBy: allowedOrderBy[] = orderBy;
@@ -48,6 +50,17 @@ export class ProductsComponent implements OnInit {
         this.repo.getByFilter(res => {
             this.imageService.getPreviewImages(res.map(pi => pi.id), (smth: any) => this.imagg = smth);
         });
+    }
+
+    get isFilteredByCategory(): boolean {
+        return Boolean(this.repo.productFilter.categoryId);
+    }
+
+    toggleComparsion(id: string) {
+        if (!this.isFilteredByCategory) return;
+        if (this.comparsionSet.indexOf(id) == -1)
+            this.comparsionSet.push(id);
+        else this.comparsionSet = this.comparsionSet.filter(x => x != id);
     }
 
     get products(): ProductInfo[] {
