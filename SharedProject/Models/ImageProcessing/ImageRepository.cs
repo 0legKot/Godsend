@@ -38,7 +38,7 @@ namespace Godsend.Models
         /// <returns></returns>
         public IEnumerable<string> GetImages(Guid id)
         {
-            return context.ImagePathsTable.FirstOrDefault(x => x.Id == id)?.Images.Select(x => x.Value) ?? Enumerable.Empty<string>();
+            return context.ImagePathsTable.FirstOrDefault(x => x.Id == id)?.Images.Select(x => x.Path) ?? Enumerable.Empty<string>();
         }
 
         /// <summary>
@@ -49,6 +49,27 @@ namespace Godsend.Models
         public string GetImage(Guid id)
         {
             return context.ImagePathsTable.FirstOrDefault(x => x.Id == id).Preview;
+        }
+
+        public Image GetImageByThumb(string thumb)
+        {
+            return context.Images.FirstOrDefault(x => x.Thumb == thumb);
+        }
+
+        public void AddImage(Image image, Guid entityId)
+        {
+            context.Images.Add(image);
+            var existing = context.ImagePathsTable.FirstOrDefault(x => x.Id == entityId);
+            if (existing != null)
+            {
+                image.ImagePathsId = existing.Id;
+            }
+            else
+            {
+                context.ImagePathsTable.Add(new ImagePaths { Id = entityId, Images = new[] { image }, Preview = image.Path });
+            }
+
+            context.SaveChanges();
         }
     }
 }

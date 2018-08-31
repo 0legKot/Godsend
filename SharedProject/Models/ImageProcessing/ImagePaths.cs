@@ -36,6 +36,19 @@ namespace Godsend.Models
         /// <value>
         /// The images.
         /// </value>
-        public virtual IEnumerable<StringWrapper> Images { get; set; }
+        public virtual IEnumerable<Image> Images { get; set; }
+    }
+
+    public class Image
+    {
+        public Guid Id { get; set; }
+
+        public string Thumb { get; set; }
+
+        public string Path { get; set; }
+
+        public virtual ImagePaths ImagePaths { get; set; }
+
+        public Guid ImagePathsId { get; set; }
     }
 }
