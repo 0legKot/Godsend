@@ -4,9 +4,8 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 
 import { RepositoryService, entityClass } from '../../services/repository.service';
-import { Article, ArticleInfo, ArticleTags } from '../../models/article.model';
+import { Article, ArticleTags } from '../../models/article.model';
 import { StorageService } from '../../services/storage.service';
-import { LinkRatingEntity } from '../../models/rating.model';
 
 @Component({
     selector: 'godsend-article-detail',

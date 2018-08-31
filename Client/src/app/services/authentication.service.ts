@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
 import { DataService } from '../services/data.service';
 import { IdentityUser } from '../models/user.model';

@@ -1,5 +1,5 @@
-﻿import { Product, ProductInfo } from './product.model';
-import { Supplier, SupplierInfo } from './supplier.model';
+﻿import { ProductInfo } from './product.model';
+import { SupplierInfo } from './supplier.model';
 import { IdentityUser } from './user.model';
 
 export const orderStatus = [
@@ -14,7 +14,6 @@ export class Order {
         public id: string,
         public customer: IdentityUser,
         public items: OrderPartProducts[],
-        // public weightedItems: OrderPartWeighted[],
         public ordered: string,
         public status: number,
         public done?: string) { }

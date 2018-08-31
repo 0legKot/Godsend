@@ -1,6 +1,5 @@
 ﻿import { Component, OnInit } from '@angular/core';
 import { SearchService, searchType, AllSearchResult } from './search.service';
-import { Product } from '../../models/product.model';
 import { SearchBaseComponent } from './search.base.component';
 
 @Component({

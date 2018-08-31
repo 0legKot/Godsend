@@ -40,8 +40,9 @@ export class ProductInfo implements IInformation {
         public description: string,
         public state: number,
         public name: string,
-        public watches: number,
-        public rating: number
+        public watches: number = 0,
+        public rating: number = 0,
+        public commentsCount: number = 0
     ) { }
 }
 

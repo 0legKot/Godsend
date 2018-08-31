@@ -1,18 +1,15 @@
-// import { switchMap } from 'rxjs/operators';
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Observable } from 'rxjs';
 
-import { Product, SupplierAndPrice, Category, Property, EAV, propertyType } from '../../models/product.model';
+import { Product, SupplierAndPrice, Category, EAV, propertyType } from '../../models/product.model';
 import { RepositoryService, entityClass } from '../../services/repository.service';
 import { CartService } from '../../services/cart.service';
-import { OrderPartDiscreteSend, guidZero, OrderPartDiscreteView } from '../../models/cart.model';
+import { OrderPartDiscreteView } from '../../models/cart.model';
 import { ImageService } from '../../services/image.service';
 import { StorageService } from '../../services/storage.service';
-import { LinkRatingEntity } from '../../models/rating.model';
 import { CategoryService } from '../../services/category.service';
 import { searchType, AllSearchResult } from '../search/search.service';
-import { Supplier, SupplierInfo } from '../../models/supplier.model';
+import { SupplierInfo } from '../../models/supplier.model';
 
 @Component({
     selector: 'godsend-product-detail',

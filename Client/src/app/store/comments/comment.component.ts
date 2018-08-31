@@ -1,6 +1,5 @@
 import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { LinkCommentEntity } from '../../models/comment.model';
-import { last } from '@angular/router/src/utils/collection';
 
 @Component({
     selector: 'godsend-comment[comment]',
