@@ -48,17 +48,17 @@
                     <!--<tbody *ngIf="product && product.decimalProps">-->
                     <tr *ngFor="let dProp of dProps">
                         <td> {{ dProp.property.name }}</td>
-                        <td *ngFor="let product of products">{{getDecimalValue(product,dProp.property.name)}}</td>
+                        <td *ngFor="let product of products">{{getValue(product.decimalProps,dProp.property.name)}}</td>
                     </tr>
                     <!--</tbody>-->
                     <tr *ngFor="let iProp of iProps">
                         <td> {{ iProp.property.name }}</td>
-                        <td *ngFor="let product of products">{{getIntValue(product,iProp.property.name)}}</td>
+                        <td *ngFor="let product of products">{{getValue(product.intProps,iProp.property.name)}}</td>
                     </tr>
                     <!-- <tbody *ngIf="product && product.stringProps">  -->
                         <tr *ngFor="let sProp of sProps">
                             <td> {{ sProp.property.name }}</td>
-                            <td *ngFor="let product of products">{{getStringValue(product,sProp?.property?.name)}}</td>
+                            <td *ngFor="let product of products">{{getValue(product.stringProps,sProp?.property?.name)}}</td>
                         </tr>
                     <!--</tbody>-->
                     <!-- END PROPERTIES -->

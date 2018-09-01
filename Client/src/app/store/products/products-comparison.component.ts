@@ -4,7 +4,7 @@ import { RepositoryService, entityClass } from "../../services/repository.servic
 import { ImageService } from "../../services/image.service";
 import { StorageService } from "../../services/storage.service";
 import { CategoryService } from "../../services/category.service";
-import { Product } from "../../models/product.model";
+import { Product, EAV } from "../../models/product.model";
 
 @Component({
     selector: 'godsend-product-comparison',
@@ -52,21 +52,9 @@ export class ProductsComparisonComponent implements OnInit {
         return res;
     }
 
-    getIntValue(prod: Product, propName: string) {
-        if (prod.intProps != undefined && prod.intProps.filter(x => x.property.name == propName)[0] != undefined)
-            return prod.intProps.filter(x => x.property.name == propName)[0].value;
-        else return '';
-    }
-
-    getStringValue(prod: Product, propName: string) {
-        if (prod.stringProps != undefined && prod.stringProps.filter(x => x.property.name == propName)[0] != undefined)
-            return prod.stringProps.filter(x => x.property.name == propName)[0].value;
-        else return '';
-    }
-
-    getDecimalValue(prod: Product, propName: string) {
-        if (prod.decimalProps != undefined && prod.decimalProps.filter(x => x.property.name == propName)[0] != undefined)
-            return prod.decimalProps.filter(x => x.property.name == propName)[0].value;
+    getValue(props: EAV<any>[], propName:string) {
+        if (props != undefined && props.filter(x => x.property.name == propName)[0] != undefined)
+            return props.filter(x => x.property.name == propName)[0].value;
         else return '';
     }
 
