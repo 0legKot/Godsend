@@ -22,6 +22,54 @@ export class ProductsComparisonComponent implements OnInit {
         return this.storage.authenticated;
     }
 
+    get dProps() {
+        let res: any[] = [];
+        if (this.products) this.products.forEach(x => {
+            if (x.decimalProps) x.decimalProps.forEach(y => {
+                if (res.filter(z => z.property.name == y.property.name).length==0) res.push(y)
+            })
+        });
+        return res;
+    }
+
+    get iProps() {
+        let res: any[] = [];
+        if (this.products) this.products.forEach(x => {
+            if (x.intProps) x.intProps.forEach(y => {
+                if (res.filter(z => z.property.name == y.property.name).length == 0) res.push(y)
+            })
+        });
+        return res;
+    }
+
+    get sProps() {
+        let res: any[] = [];
+        if (this.products) this.products.forEach(x => {
+            if (x.stringProps) x.stringProps.forEach(y => {
+                if (res.filter(z => z.property.name == y.property.name).length == 0) res.push(y)
+            })
+        });
+        return res;
+    }
+
+    getIntValue(prod: Product, propName: string) {
+        if (prod.intProps != undefined && prod.intProps.filter(x => x.property.name == propName)[0] != undefined)
+            return prod.intProps.filter(x => x.property.name == propName)[0].value;
+        else return '';
+    }
+
+    getStringValue(prod: Product, propName: string) {
+        if (prod.stringProps != undefined && prod.stringProps.filter(x => x.property.name == propName)[0] != undefined)
+            return prod.stringProps.filter(x => x.property.name == propName)[0].value;
+        else return '';
+    }
+
+    getDecimalValue(prod: Product, propName: string) {
+        if (prod.decimalProps != undefined && prod.decimalProps.filter(x => x.property.name == propName)[0] != undefined)
+            return prod.decimalProps.filter(x => x.property.name == propName)[0].value;
+        else return '';
+    }
+
     get cats() {
         return this.catService.cats;
     }

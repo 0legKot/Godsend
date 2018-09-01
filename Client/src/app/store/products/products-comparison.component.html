@@ -9,76 +9,72 @@
     <div class='container-fluid'>
         <div class='row'>
             <div class='col-lg-3 col-md-4 col-sm-6 col-xs-12 products'>
-                <div >
-                    <div *ngFor="let p of products" class="prod-name">
-                        {{p.info.name}}
-                    </div>
+                <table class="table table-bordered">
+                    <tr>
+                        <th>Name</th>
+                        <th *ngFor="let p of products" class="prod-name">
+                            {{p.info.name}}
+                        </th>
+                    </tr>
                     <!--<div class="photo">
-                        <div *ngFor="let image of images" style="display:contents;">
-                            <img [src]="'data:image/jpg;base64,' + image" width="50%" />
-                        </div>
-                    </div>-->
-                    <div *ngFor="let p of products" class="rating">
-                        <div *ngIf="p">
-                            <godsend-stars  [value]="p.info.rating"></godsend-stars>
-                        
-                        <p class="pull-right" [ngStyle]="{'color': '#003e09' }"><fa name="eye"></fa> : {{ p?.info?.watches
-                        }}</p></div>
-                    </div>
-                </div>
-                <div class='col-lg-7 col-md-6 col-sm-5 col-xs-12 products rel'>
-                    <div *ngFor="let p of products" class="prod-info">
-                        <div>
-                            <label>{{ 'Products.Detail.Description' | translate }}: </label>
-                            {{p.info.description}}
-                        </div>
+        <div *ngFor="let image of images" style="display:contents;">
+            <img [src]="'data:image/jpg;base64,' + image" width="50%" />
+        </div>
+    </div>-->
+                    <tr>
+                        <td>Rating</td>
+                        <td *ngFor="let p of products" class="rating">
+                            <div *ngIf="p">
+                                <godsend-stars [value]="p.info.rating"></godsend-stars>
 
-                        <!-- PROPERTIES -->
-                        <div *ngFor="let product of products">
-
-                            <div *ngIf="product && product.decimalProps">
-                                <div *ngFor="let dProp of product.decimalProps">
-                                    <label> {{ dProp.property.name }}</label>
-                                    <godsend-input-output [(ngModel)]="dProp.value" [edit]="edit" [type]="'decimal'"></godsend-input-output>
+                                <div class="pull-right" [ngStyle]="{'color': '#003e09' }">
+                                    <fa name="eye"></fa> : {{ p?.info?.watches }}
                                 </div>
                             </div>
+                        </td>
+                    </tr>
 
-                            <div *ngIf="product && product.intProps">
-                                <div *ngFor="let iProp of product.intProps">
-                                    <label> {{ iProp.property.name }}</label>
-                                    <godsend-input-output [(ngModel)]="iProp.value" [edit]="edit" [type]="'integer'"></godsend-input-output>
-                                </div>
-                            </div>
-
-                            <div *ngIf="product && product.stringProps">
-                                <div *ngFor="let sProp of product.stringProps">
-                                    <label> {{ sProp.property.name }}</label>
-                                    <godsend-input-output [(ngModel)]="sProp.value" [edit]="edit"></godsend-input-output>
-                                </div>
-                            </div>
-
-                        </div>
-                        <!-- END PROPERTIES -->
-
-
-
-
-
-                        <!--<div *ngIf="product">
-                            <label>{{ 'Products.Category' | translate }}: </label>
+                    <!--<div class='col-lg-7 col-md-6 col-sm-5 col-xs-12 products rel'>-->
+                    <tr>
+                        <td><label>{{ 'Products.Detail.Description' | translate }}: </label></td>
+                        <td *ngFor="let p of products" class="prod-info">
                             <div>
-                                <span>{{ product.jsonCategory.name }}</span>
-                            </div>
 
-                        </div>-->
-                    </div>
-                </div>
+                                {{p.info.description}}
+                            </div>
+                        </td>
+                    </tr>
+                    <!-- PROPERTIES -->
+                    <!--<tbody *ngIf="product && product.decimalProps">-->
+                    <tr *ngFor="let dProp of dProps">
+                        <td> {{ dProp.property.name }}</td>
+                        <td *ngFor="let product of products">{{getDecimalValue(product,dProp.property.name)}}</td>
+                    </tr>
+                    <!--</tbody>-->
+                    <tr *ngFor="let iProp of iProps">
+                        <td> {{ iProp.property.name }}</td>
+                        <td *ngFor="let product of products">{{getIntValue(product,iProp.property.name)}}</td>
+                    </tr>
+                    <!-- <tbody *ngIf="product && product.stringProps">  -->
+                        <tr *ngFor="let sProp of sProps">
+                            <td> {{ sProp.property.name }}</td>
+                            <td *ngFor="let product of products">{{getStringValue(product,sProp?.property?.name)}}</td>
+                        </tr>
+                    <!--</tbody>-->
+                    <!-- END PROPERTIES -->
+                    <tr>
+                        <td>{{ 'Products.Category' | translate }}: </td>
+                        <td *ngFor="let product of products">
+                            <span>{{ product.jsonCategory.name }}</span>
+                        </td>
+                    </tr>
+                </table>
             </div>
         </div>
     </div>
 
-    <div class="back-btn" (click)="gotoProducts()">
+    <!--<div class="back-btn" (click)="gotoProducts()">
         <fa name="long-arrow-left"></fa> {{ 'Products.Detail.Back' | translate }}
-    </div>
+    </div>-->
 
 </div>

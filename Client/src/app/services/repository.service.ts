@@ -130,7 +130,7 @@ export class RepositoryService {
     }
     //redo for entities
     getProductsForComparement(clas: supportedClass, ids: string[], fn: (_: Product[]) => any) {
-
+        this.productsForComparement = Array<Product>();
             const url = this.getUrl(clas);
         ids.forEach(id => {
             if (id != null) {
