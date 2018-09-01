@@ -70,6 +70,7 @@ namespace Godsend.Controllers
         public IDictionary<Guid, string> GetPreviewImages([FromBody]Guid[] ids)
         {
             var res = new Dictionary<Guid, string>();
+
             foreach (Guid id in ids)
             {
                 var tmp = GetPreviewImage(id);
