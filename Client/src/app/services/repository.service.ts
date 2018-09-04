@@ -9,6 +9,7 @@ import { Cart, CartView, OrderPartDiscreteSend } from '../models/cart.model';
 import { IEntity, IInformation } from '../models/entity.model';
 import { LinkRatingEntity } from '../models/rating.model';
 import { CommentWithSubs } from '../models/comment.model';
+import { Image } from '../models/image.model';
 
 export type entityClass = 'article' | 'product' | 'supplier';
 export type supportedClass = entityClass | 'order';
@@ -341,5 +342,14 @@ export class RepositoryService {
                     fn(result);
                 }
             });
+    }
+
+    uploadImages(data: FormData, fn?: (_: Image[]) => any) {
+        this.data.sendRequest<Image[]>('post', `api/image/upload`, data)
+            .subscribe(response => {
+                if (fn) {
+                    fn(response);
+                }
+            })
     }
 }

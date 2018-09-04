@@ -1,10 +1,11 @@
 import { Supplier, SupplierInfo } from './supplier.model';
 import { IEntity, IInformation } from './entity.model';
 import { guidZero } from './cart.model';
+import { Image } from './image.model';
 
 export class Product implements IEntity<ProductInfo> {
     static EnsureType(product: Product): Product {
-        return new this(product.id, product.info, product.jsonCategory ? product.jsonCategory.id : guidZero, product.jsonCategory, product.stringProps, product.intProps, product.decimalProps, product.suppliersAndPrices);
+        return new this(product.id, product.info, product.jsonCategory ? product.jsonCategory.id : guidZero, product.jsonCategory, product.stringProps, product.intProps, product.decimalProps, product.suppliersAndPrices, product.images);
     }
 
     constructor(
@@ -15,7 +16,8 @@ export class Product implements IEntity<ProductInfo> {
         public stringProps?: EAV<string>[],
         public intProps?: EAV<number>[],
         public decimalProps?: EAV<number>[],
-        public suppliersAndPrices?: SupplierAndPrice[]
+        public suppliersAndPrices?: SupplierAndPrice[],
+        public images?: Image[]
     ) { }
 
     toCreateEdit() {
@@ -35,6 +37,8 @@ export class Product implements IEntity<ProductInfo> {
 }
 
 export class ProductInfo implements IInformation {
+    public preview?: Image;
+
     constructor(
         public id: string,
         public description: string,

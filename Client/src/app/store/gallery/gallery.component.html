@@ -1,0 +1,297 @@
+<ng-container *ngIf="images" class="gallery-outer">
+    <ng-container *ngIf="!edit else editBlock">
+        <div class="block">
+            <div class="image-container" *ngIf="images.length > 0" (click)="enterFullView(0)">
+                <div class="cover-large">
+                    <fa name="image" size="3x"></fa>
+                </div>
+                <img [src]="'data:image/jpg;base64,' + images[0]" />
+            </div>
+            <div *ngIf="images.length > 1" class="image-row-container">
+                <!--<h3 [innerText]="'galleryTitle' | loc"></h3>-->
+                <div class="image-row-back">
+                    <div class="image-row">
+                        <div *ngFor="let image of images | slice:1; let index = index; " class="image-container-small"
+                             [ngStyle]="{'background-image': 'url(data:image/jpg;base64,' + images[index+1] + ')'}" (click)="enterFullView(index+1)">
+                            <div class="cover-small">
+                                <fa name="image" size="3x"></fa>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ng-container>
+    <ng-template #editBlock>
+        <div class="block edit">
+            <div class="image-container" *ngIf="images.length > 0">
+                <img [src]="'data:image/jpg;base64,' + images[0]" />
+                <div class="btn-remove" (click)="remove(0)"><fa name="times" size="2x"></fa></div>
+            </div>
+
+            <label for="file" class="add-large" *ngIf="images.length == 0">
+                <fa name="plus" size="3x"></fa>
+            </label>
+
+            <div *ngIf="images.length > 0" class="image-row-container">
+                <!--<h3 [innerText]="'galleryTitle' | loc"></h3>-->
+                <div class="image-row-back">
+                    <div class="image-row">
+                        <div *ngFor="let image of images | slice:1; let index = index; " class="image-container-small"
+                             [ngStyle]="{'background-image': 'url(data:image/jpg;base64,' + images[index+1] + ')'}">
+                            <div class="btn-remove" (click)="remove(index+1)"><fa name="times" size="2x"></fa></div>
+                        </div>
+                        <label for="file" class="add-small" *ngIf="images.length < 5"><span class="fi-plus-1"></span></label>
+                    </div>
+                </div>
+            </div>
+            <input class="invisible" type="file" id="file" multiple [disabled]="images.length >= 5" (change)="uploadFiles()" accept="image/*" #fileInput>
+
+        </div>
+    </ng-template>
+    <ng-container *ngIf="fullView">
+        <div class="full-view">
+            <div class="full-left" (click)="decrementIndex()"><fa name="arrow-left" size="3x"></fa></div>
+            <div class="full-image" [ngStyle]="{'background-image': 'url(data:image/jpg;base64,' + images[curIndex] + ')'}"></div>
+            <div class="full-right" (click)="incrementIndex()"><fa name="arrow-right" size="3x"></fa></div>
+            <div class="full-close" (click)="exitFullView()"><fa name="times" size="3x"></fa></div>
+        </div>
+    </ng-container>
+</ng-container>
+
+<style>
+    .gallery-outer {
+        display: block;
+    }
+
+         .image-container {
+            max-width: 100%;
+            max-height: 400px;
+            position: relative;
+            text-align: center;
+        }
+
+             .image-container img {
+                max-width: 100%;
+                max-height: 100%;
+            }
+
+         .image-container-small {
+            width: calc(25% - 10px);
+            height: 55px;
+            position: relative;
+            display: inline-block;
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            margin-right: 10px;
+        }
+
+             .image-container-small:nth-child(4) {
+                width: calc(25%);
+                margin-right: 0;
+            }
+
+         .image-row {
+            margin-top: 5px;
+            width: 100%;
+        }
+
+         .btn-remove {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 22px;
+            height: 22px;
+            text-align: center;
+            border-radius: 100%;
+            background-color: #F44336;
+            color: #fff;
+            cursor: pointer;
+        }
+
+             .btn-remove:hover {
+                background-color: firebrick;
+            }
+
+
+         .cover-small,
+         .cover-large {
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 0.2s;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            text-align: left;
+        }
+
+             .cover-small:hover,
+             .cover-large:hover {
+                opacity: 0.5;
+            }
+
+             .cover-small span,
+             .cover-large span {
+                color: white;
+                position: relative;
+            }
+
+    @media (min-width: 568px) {
+         .cover-small,
+         .cover-large {
+            display: block;
+        }
+    }
+
+     .cover-large {
+        position: absolute;
+        z-index: 3;
+        top: 0px;
+        left: 0px;
+        cursor: pointer;
+    }
+
+         .cover-large span {
+            top: calc(50% - 50px);
+            left: calc(50% - 50px);
+        }
+
+
+     .cover-small {
+        cursor: pointer;
+    }
+
+         .cover-small span {
+            top: calc(50% - 15px);
+            left: calc(50% - 15px);
+        }
+
+
+
+     .add-small,
+     .add-large {
+        position: relative;
+        overflow: hidden;
+        cursor: pointer;
+        box-sizing: border-box;
+    }
+
+         .add-small span,
+         .add-large span {
+            color: gray;
+            position: relative;
+        }
+
+     .add-small {
+        width: calc(25% - 10px);
+        height: 55px;
+        display: inline-block;
+        border: 1px solid gray;
+    }
+
+         .add-small span {
+            top: calc(50% - 15px);
+            left: calc(50% - 15px);
+        }
+
+
+     .add-large {
+        width: 100%;
+        height: 250px;
+        border: 2px solid gray;
+        display: block;
+    }
+
+         .add-large span {
+            top: calc(50% - 50px);
+            left: calc(50% - 50px);
+        }
+
+
+
+     .invisible {
+        width: 0.1px;
+        height: 0.1px;
+        opacity: 0;
+        overflow: hidden;
+        position: absolute;
+        z-index: -1;
+    }
+
+     .full-view {
+        position: fixed;
+        width: 100%;
+        height: calc(100% - 50px);
+        left: 0;
+        top: 0;
+        z-index: 100;
+        display: table;
+        margin-top: 50px;
+        background: rgba(0, 0, 0, 0.5);
+    }
+
+    @media (min-width: 568px) {
+         .full-view {
+            margin-top: 60px;
+            height: calc(100% - 60px);
+        }
+    }
+
+     .full-view .full-left span,
+     .full-view .full-right span,
+     .full-view .full-close span {
+        padding: 5px;
+        position: absolute;
+        cursor: pointer;
+        color: white;
+        background-color: rgba(0, 0, 0, 0.1);
+        transition: all 0.2s;
+        z-index: 4;
+    }
+
+
+         .full-view .full-left span:hover,
+         .full-view .full-right span:hover,
+         .full-view .full-close span:hover {
+            background-color: rgba(0, 0, 0, 0.3);
+        }
+
+
+     .full-view .full-left span {
+        left: 0;
+        top: 50%;
+    }
+
+     .full-view .full-right span {
+        right: 0;
+        top: 50%;
+    }
+
+     .full-view .full-close span {
+        top: 0;
+        right: 0;
+    }
+
+     .full-view .full-image {
+        z-index: 3;
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        left: 0%;
+        top: 0%;
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: contain;
+        transition: background-image 0.2s;
+    }
+
+    @media (min-width: 568px) {
+         .full-view .full-image {
+            width: 80%;
+            height: 80%;
+            left: 10%;
+            top: 10%;
+        }
+    }
+</style>

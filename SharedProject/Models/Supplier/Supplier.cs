@@ -54,6 +54,8 @@ namespace Godsend.Models
 
         public virtual SupplierInformation Info { get; set; }
 
+        public virtual IEnumerable<Image> Images { get; set; }
+
         /// <summary>
         /// Copies editable properties to target
         /// </summary>

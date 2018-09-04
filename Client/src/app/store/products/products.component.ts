@@ -48,7 +48,7 @@ export class ProductsComponent implements OnInit {
 
     getProducts() {
         this.repo.getByFilter(res => {
-            this.imageService.getPreviewImages(res.map(pi => pi.id), (smth: any) => this.imagg = smth);
+            this.imageService.getPreviewImages(res.filter(pi => pi.preview != null).map(pi => pi.preview!.id), (smth: any) => this.imagg = smth);
         });
     }
 
@@ -72,9 +72,9 @@ export class ProductsComponent implements OnInit {
         return this.repo.products;
     }
 
-    getImage(pi: ProductInfo): string {
-        return this.images[pi.id];
-    }
+    //getImage(pi: ProductInfo): string {
+    //    return this.images[pi.id];
+    //}
 
     createProduct(descr: string, name: string) {
         // TODO create interface with only relevant info

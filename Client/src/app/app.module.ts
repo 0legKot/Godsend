@@ -45,6 +45,7 @@ import { EntityRatingsComponent } from './store/rating/entity-ratings.component'
 import { RatingsComponent } from './store/rating/ratings.component';
 import { CategoryTreeComponent } from './store/products/category-tree.component';
 import { ProductsComparisonComponent } from './store/products/products-comparison.component';
+import { GalleryComponent } from './store/gallery/gallery.component';
 
 export function HttpLoaderFactory(httpClient: HttpClient) {
     return new TranslateHttpLoader(httpClient);
@@ -106,6 +107,7 @@ const APP_ROUTES: Routes = [
         EntityRatingsComponent,
         RatingsComponent,
         CategoryTreeComponent,
+        GalleryComponent,
     ],
     imports: [
         AngularFontAwesomeModule,

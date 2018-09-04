@@ -39,6 +39,8 @@ namespace Godsend.Models
 
         [JsonIgnore]
         public virtual Product Product { get; set; }
+
+        public virtual Image Preview { get; set; }
     }
 
     public enum ProductState

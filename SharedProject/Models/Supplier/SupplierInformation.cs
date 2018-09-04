@@ -27,5 +27,7 @@ namespace Godsend.Models
 
         [JsonIgnore]
         public virtual Supplier Supplier { get; set; }
+
+        public virtual Image Preview { get; set; }
     }
 }

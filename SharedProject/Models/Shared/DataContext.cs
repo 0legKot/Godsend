@@ -65,7 +65,6 @@ namespace Godsend.Models
         /// <value>
         /// The image paths table.
         /// </value>
-        public DbSet<ImagePaths> ImagePathsTable { get; set; }
 
         public DbSet<Image> Images { get; set; }
 

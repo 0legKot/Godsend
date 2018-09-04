@@ -15,7 +15,7 @@ import { StorageService } from '../../services/storage.service';
 })
 export class SupplierDetailComponent implements OnInit {
     supp?: Supplier;
-    image = '';
+    images: any;
     backup = {
         name: '',
         address: ''
@@ -56,8 +56,10 @@ export class SupplierDetailComponent implements OnInit {
         this.repo.getEntity<Supplier>('supplier', this.route.snapshot.params.id, s => {
             this.supp = s;
             console.log(s.productsAndPrices);
+            if (this.supp.images) {
+                this.imageService.getImages(this.supp.images.map(i => i.id), images => { this.images = images; });
+            }
         });
-        this.imageService.getImage(this.route.snapshot.params.id, image => { this.image = image; });
     }
 
     editMode() {

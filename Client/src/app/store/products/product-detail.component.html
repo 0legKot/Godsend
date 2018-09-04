@@ -18,11 +18,12 @@
                 <div class="prod-name">
                     <godsend-input-output *ngIf="product" [(ngModel)]="product.info.name" [edit]="edit"></godsend-input-output>
                 </div>
-                <div class="photo">
+                <!--<div class="photo">
                     <div *ngFor="let image of images" style="display:contents;">
                         <img [src]="'data:image/jpg;base64,' + image" width="50%" />
                     </div>
-                </div>
+                </div>-->
+                <godsend-gallery *ngIf="product" [(ngModel)]="product.images" [edit]="edit"></godsend-gallery>
                 <div class="rating">
                     <div *ngIf="product">
                         <godsend-ratings [clas]="clas" [id]="product.id" [(ngModel)]="product.info.rating"></godsend-ratings>

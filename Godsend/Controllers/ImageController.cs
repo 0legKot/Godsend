@@ -47,15 +47,15 @@ namespace Godsend.Controllers
         /// <summary>
         /// Gets the images.
         /// </summary>
-        /// <param name="id">The identifier.</param>
+        /// <param name="id">The images identifiers.</param>
         /// <returns>Array of base64-encoded images</returns>
-        [HttpGet("[action]/{id:Guid}")]
-        public IEnumerable<string> GetImages(Guid id)
+        [HttpPost("[action]")]
+        public IEnumerable<string> GetImages([FromBody]Guid[] ids)
         {
             var images = new List<string>();
-            foreach (string fileName in repository.GetImages(id))
+            foreach (Guid id in ids)
             {
-                images.Add(Convert.ToBase64String(System.IO.File.ReadAllBytes("Images/" + fileName)));
+                images.Add(Convert.ToBase64String(System.IO.File.ReadAllBytes("Images/" + repository.GetImage(id))));
             }
 
             return images;
@@ -98,8 +98,8 @@ namespace Godsend.Controllers
             this.repository = repo;
         }
 
-        [HttpPost("upload/{id:Guid}")]
-        public IActionResult Upload(Guid id)
+        [HttpPost("upload")]
+        public IActionResult Upload()
         {
             var files = Request.Form.Files;
 
@@ -118,7 +118,7 @@ namespace Godsend.Controllers
             const int hashThumbHeight = 10;
             const int maxImageProportionCoef = 4;
 
-            List<SKBitmap> images = new List<SKBitmap>();
+            List<SKBitmap> skImages = new List<SKBitmap>();
 
             // Validation
             if (files.Count > maxImagesPerUpload)
@@ -164,14 +164,14 @@ namespace Godsend.Controllers
                 if (proportion < 1 / maxImageProportionCoef || proportion > 1 * maxImageProportionCoef)
                     throw new BadRequestException("errorInvalidProportions");
 
-                images.Add(image);
+                skImages.Add(image);
             }
 
             // Processing
-            var fileNames = new List<string>();
-            for (int i = 0; i < images.Count; i++)
+            var images = new List<Image>();
+            for (int i = 0; i < skImages.Count; i++)
             {
-                var image = images[i];
+                var image = skImages[i];
 
                 // Resizing image if needed
                 if (image.Width > resizeImageWidth || image.Height > resizeImageHeight)
@@ -191,7 +191,7 @@ namespace Godsend.Controllers
                 // Return original, dont save duplicate
                 if (original != null)
                 {
-                    fileNames.Add(original.Path);
+                    images.Add(original);
 
                     continue;
                 }
@@ -208,8 +208,8 @@ namespace Godsend.Controllers
 
                 // Saving FULL to storage
                 _storageService.SaveToStorage(fileName, fullMs);
-                fileNames.Add(fileName);
-                repository.AddImage(newImage, id);
+                images.Add(newImage);
+                repository.AddImage(newImage);
 
                 // Converting thumb
                 var thumbImage = _imageService.ResizeImage(image, thumbWidth, thumbHeight);
@@ -224,7 +224,7 @@ namespace Godsend.Controllers
             }
 
             // Result
-            return Ok(fileNames);
+            return Ok(images);
         }
     }
 
@@ -271,7 +271,7 @@ namespace Godsend.Controllers
                     hashCode = hashCodeStart ^ hashCodeMedium ^ hashCodeEnd;
                 }
             }
-            return (hashCode);
+            return hashCode;
         }
     }
 

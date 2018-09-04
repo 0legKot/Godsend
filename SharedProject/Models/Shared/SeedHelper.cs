@@ -225,9 +225,15 @@ namespace Godsend.Models
                                 rating: 3,
                                 watches: 3));
 
-                    context.Products.AddRange(ToEnumerable<Product>(products));
-
                     var productsArray = ToEnumerable<Product>(products).ToArray();
+
+                    foreach (Product p in productsArray)
+                    {
+                        p.Info.Preview = new Image() { Path = p.Info.Name + ".jpg" };
+                        p.Images = new List<Image>() {new Image { Path = p.Info.Name + ".jpg" }, new Image { Path = "pineapple.jpg" } };
+                    }
+
+                    context.Products.AddRange(ToEnumerable<Product>(products));
 
                     #endregion
 
@@ -356,9 +362,14 @@ namespace Godsend.Models
                                 rating: 4.6,
                                 watches: 666));
 
-                    context.Suppliers.AddRange(ToEnumerable<Supplier>(suppliers));
-
                     var suppliersArray = ToEnumerable<Supplier>(suppliers).ToArray();
+
+                    foreach (var s in suppliersArray)
+                    {
+                        s.Info.Preview = new Image() { Path = "suppp" + s.Info.Name + ".jpg" };
+                    }
+
+                    context.Suppliers.AddRange(ToEnumerable<Supplier>(suppliers));
 
                     #endregion
 
@@ -542,20 +553,6 @@ This is a pretty simple and straightforward diet you will ever try. It involves 
                        });
 
                     context.AddRange(ToEnumerable<Order>(orders));
-
-                    #endregion
-
-                    #region Images
-
-                    foreach (Product p in productsArray)
-                    {
-                        context.ImagePathsTable.Add(new ImagePaths() { Id = p.Id, Preview = p.Info.Name + ".jpg", Images = new List<Image>() { new Image() { Path = p.Info.Name + ".jpg" }, new Image { Path = "pineapple.jpg" } } });
-                    }
-
-                    foreach (Supplier s in suppliersArray)
-                    {
-                        context.ImagePathsTable.Add(new ImagePaths() { Id = s.Id, Preview = "supp" + s.Info.Name +".jpg" });
-                    }
 
                     #endregion
 

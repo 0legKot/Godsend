@@ -10,6 +10,7 @@ import { StorageService } from '../../services/storage.service';
 import { CategoryService } from '../../services/category.service';
 import { searchType, AllSearchResult } from '../search/search.service';
 import { SupplierInfo } from '../../models/supplier.model';
+import { Image } from '../../models/image.model';
 
 @Component({
     selector: 'godsend-product-detail',
@@ -30,7 +31,7 @@ export class ProductDetailComponent implements OnInit {
 
     readonly clas: entityClass = 'product';
 
-    images: string[] = [];
+    //images: string[] = [];
 
     backup: ProductBackup = {
         name: '',
@@ -54,7 +55,7 @@ export class ProductDetailComponent implements OnInit {
         private router: Router,
         private repo: RepositoryService,
         private cart: CartService,
-        private imageService: ImageService,
+        //private imageService: ImageService,
         private storage: StorageService,
         private catService: CategoryService
     ) { }
@@ -97,7 +98,8 @@ export class ProductDetailComponent implements OnInit {
                 cat: this.product.jsonCategory,
                 decimalProps: this.product.decimalProps,
                 intProps: this.product.intProps,
-                stringProps: this.product.stringProps
+                stringProps: this.product.stringProps,
+                images: this.product.images
             };
             this.edit = true;
         }
@@ -119,6 +121,7 @@ export class ProductDetailComponent implements OnInit {
             this.product.stringProps = this.backup.stringProps;
             this.product.intProps = this.backup.intProps;
             this.product.decimalProps = this.backup.decimalProps;
+            this.product.images = this.backup.images;
         }
 
         this.edit = false;
@@ -128,8 +131,10 @@ export class ProductDetailComponent implements OnInit {
         this.repo.getEntity<Product>('product', this.route.snapshot.params.id, p => {
             this.product = p;
             this.selectedSupplier = p.suppliersAndPrices ? p.suppliersAndPrices[0] : undefined;
+            /*if (this.product.images) {
+                this.imageService.getImages(this.product.images.map(i => i.id), images => { this.images = images; });
+            }*/
         });
-        this.imageService.getImages(this.route.snapshot.params.id, images => { this.images = images; });
     }
 
     changeCategory(newCat: Category) {
@@ -205,4 +210,5 @@ interface ProductBackup {
     decimalProps?: EAV<number>[];
     stringProps?: EAV<string>[];
     intProps?: EAV<number>[];
+    images?: Image[];
 }
