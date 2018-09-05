@@ -198,6 +198,12 @@ export class ProductDetailComponent implements OnInit {
         }
     }
 
+    setImages(images: Image[]) {
+        if (this.product) {
+            this.product.images = images;
+        }
+    }
+
     /*get product(): Product | {} {
         return this.service.product;
     }*/

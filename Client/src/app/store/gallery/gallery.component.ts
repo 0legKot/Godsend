@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef, SimpleChange } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, SimpleChange, Output, EventEmitter } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { Input } from '@angular/core';
 import { CustomControlValueAccessor } from '../shared/custom-control-value-accessor';
@@ -9,13 +9,16 @@ import { ImageService } from '../../services/image.service';
 @Component({
     selector: 'godsend-gallery',
     templateUrl: './gallery.component.html',
-    providers: [
-        { provide: NG_VALUE_ACCESSOR, useExisting: GalleryComponent, multi: true }
-    ],
 })
-export class GalleryComponent extends CustomControlValueAccessor<Image[]> implements OnInit {
+export class GalleryComponent implements OnInit {
     @Input()
     edit = false;
+
+    @Input()
+    value!: Image[];
+
+    @Output()
+    readonly valueChange = new EventEmitter<Image[]>();
 
     fullView = false;
 
@@ -23,26 +26,19 @@ export class GalleryComponent extends CustomControlValueAccessor<Image[]> implem
 
     images?: string[];
 
-    prevModel?: Image[] = undefined;
 
     @ViewChild('fileInput') fileInput!: ElementRef;
 
     constructor(private repo: RepositoryService, private imageService: ImageService) {
-        super();
     }
 
     ngOnInit(): void {
-
+        this.refreshImages();
     }
 
-    /**
-     * kostyl'
-     */
-    ngAfterContentChecked() {
-        if (this.value != null && this.value != this.prevModel) {
-            this.prevModel = this.value;
-            this.refreshImages();
-        }
+    changeValue(newValue: Image[]) {
+        this.value = newValue;
+        this.valueChange.emit(newValue);
     }
 
     refreshImages() {

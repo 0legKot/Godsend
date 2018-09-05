@@ -23,7 +23,7 @@
                         <img [src]="'data:image/jpg;base64,' + image" width="50%" />
                     </div>
                 </div>-->
-                <godsend-gallery *ngIf="product" [(ngModel)]="product.images" [edit]="edit"></godsend-gallery>
+                <godsend-gallery *ngIf="product" [value]="product.images" (valueChange)="setImages($event)" [edit]="edit"></godsend-gallery>
                 <div class="rating">
                     <div *ngIf="product">
                         <godsend-ratings [clas]="clas" [id]="product.id" [(ngModel)]="product.info.rating"></godsend-ratings>
