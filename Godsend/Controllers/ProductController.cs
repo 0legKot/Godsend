@@ -32,8 +32,8 @@ namespace Godsend.Controllers
         /// Initializes a new instance of the <see cref="ProductController" /> class.
         /// </summary>
         /// <param name="repo">The repo.</param>
-        public ProductController(IProductRepository repo, IHubContext<NotificationHub> hubContext, ILogger<EntityController<Product>> logger)
-            : base(hubContext, logger)
+        public ProductController(IProductRepository repo, IHubContext<NotificationHub> hubContext, ILogger<Product> logger, ILogger<EntityController<Product>> logger2)
+            : base(hubContext, logger2)
         {
             repository = repo;
             Categories = (repository as IProductRepository).Categories().ToList();
