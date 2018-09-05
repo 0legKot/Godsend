@@ -49,5 +49,9 @@ namespace Godsend.Models
 
         [JsonIgnore]
         public string Path { get; set; }
+
+        public Guid? ProductId { get; set; }
+
+        public Guid? SupplierId { get; set; }
     }
 }

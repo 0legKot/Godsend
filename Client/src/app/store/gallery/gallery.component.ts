@@ -37,6 +37,8 @@ export class GalleryComponent implements OnInit {
     }
 
     changeValue(newValue: Image[]) {
+        console.log('changing from ' + this.value + ' to ' + newValue);
+
         this.value = newValue;
         this.valueChange.emit(newValue);
     }
@@ -56,6 +58,7 @@ export class GalleryComponent implements OnInit {
 
     remove(index: number) {
         if (this.value) {
+            console.log('in remove');
             if (this.value.length === 1) {
                 this.changeValue([]);
             } else {

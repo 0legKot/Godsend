@@ -111,7 +111,6 @@ namespace Godsend.Models
             target.StringProps = StringProps.Select(eav => new EAV<string>() { ProductId = eav.ProductId, PropertyId = eav.Property.Id, Value = eav.Value }).ToList();
             target.LinkProductsSuppliers = LinkProductsSuppliers;
             target.Info.Preview = Info.Preview;
-            target.Images = Images;
         }
     }
 

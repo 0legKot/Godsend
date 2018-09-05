@@ -92,6 +92,18 @@ namespace Godsend
                 context.RemoveRange(dbEntry.StringProps);
                 context.RemoveRange(dbEntry.LinkProductsSuppliers);
 
+                // remove old
+                foreach (Image image in context.Images.Where(i => dbEntry.Images.Select(ii => ii.Id).Contains(i.Id)))
+                {
+                    image.ProductId = null;
+                }
+
+                // add new
+                foreach (Image image in context.Images.Where(i => entity.Images.Select(ii => ii.Id).Contains(i.Id)))
+                {
+                    image.ProductId = dbEntry.Id;
+                }
+
                 entity.CopyTo(dbEntry);
             }
             else

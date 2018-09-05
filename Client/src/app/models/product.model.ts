@@ -31,7 +31,8 @@ export class Product implements IEntity<ProductInfo> {
             intProps: this.intProps,
             stringProps: this.stringProps,
             decimalProps: this.decimalProps,
-            suppliersAndPrices: this.suppliersAndPrices
+            suppliersAndPrices: this.suppliersAndPrices,
+            images: this.images
         };
     }
 }
