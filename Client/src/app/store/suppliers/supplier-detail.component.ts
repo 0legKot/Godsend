@@ -7,6 +7,7 @@ import { RepositoryService, entityClass } from '../../services/repository.servic
 import { Supplier } from '../../models/supplier.model';
 import { ImageService } from '../../services/image.service';
 import { StorageService } from '../../services/storage.service';
+import { Image } from '../../models/image.model';
 
 @Component({
     selector: 'godsend-supplier-detail',
@@ -15,10 +16,10 @@ import { StorageService } from '../../services/storage.service';
 })
 export class SupplierDetailComponent implements OnInit {
     supp?: Supplier;
-    images: any;
-    backup = {
+    backup: SupplierBackup = {
         name: '',
-        address: ''
+        address: '',
+        images: []
     };
 
     edit = false;
@@ -32,7 +33,6 @@ export class SupplierDetailComponent implements OnInit {
         private route: ActivatedRoute,
         private router: Router,
         private repo: RepositoryService,
-        private imageService: ImageService,
         private storage: StorageService
     ) { }
 
@@ -56,9 +56,9 @@ export class SupplierDetailComponent implements OnInit {
         this.repo.getEntity<Supplier>('supplier', this.route.snapshot.params.id, s => {
             this.supp = s;
             console.log(s.productsAndPrices);
-            if (this.supp.images) {
-                this.imageService.getImages(this.supp.images.map(i => i.id), images => { this.images = images; });
-            }
+            //if (this.supp.images) {
+            //    this.imageService.getImages(this.supp.images.map(i => i.id), images => { this.images = images; });
+            //}
         });
     }
 
@@ -86,12 +86,25 @@ export class SupplierDetailComponent implements OnInit {
         this.edit = false;
     }
 
+    setImages(newImages: Image[]) {
+        if (this.supp) {
+            this.supp.images = newImages;
+        }
+    }
+
     discard() {
         if (this.supp) {
             this.supp.info.name = this.backup.name;
             this.supp.info.location.address = this.backup.address;
+            this.supp.images = this.backup.images;
         }
 
         this.edit = false;
     }
+}
+
+interface SupplierBackup {
+    name: string;
+    address: string;
+    images?: Image[];
 }

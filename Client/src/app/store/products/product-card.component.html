@@ -5,9 +5,12 @@
         </span>
 
     </div>
-    <div class="photo mb-4">
+    <div class="photo mb-4" *ngIf="image != null else noImage">
         <img [src]="'data:image/jpg;base64,' + image" class="card-img"/>
     </div>
+    <ng-template #noImage>
+        No preview
+    </ng-template>
     <div class="rating">
         <p class="pull-right" [ngStyle]="{'color': '#003e09' }">
             <fa name="eye"></fa> : {{ productInfo.watches }}

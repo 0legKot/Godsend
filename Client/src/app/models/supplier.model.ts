@@ -12,7 +12,7 @@ export class Supplier implements IEntity<SupplierInfo> {
         public info: SupplierInfo,
         public productsAndPrices: ProductAndPrice[],
         public id: string = '',
-        public images: Image[] = []
+        public images?: Image[]
     ) { }
 
     toCreateEdit() {
@@ -23,7 +23,8 @@ export class Supplier implements IEntity<SupplierInfo> {
                 location: {
                     address: this.info.location.address
                 }
-            }
+            },
+            images: this.images
         };
     }
 }

@@ -42,7 +42,7 @@ export class SuppliersComponent implements OnInit {
 
     getSuppliers() {
         this.repo.getEntities<SupplierInfo>('supplier', this.page, this.rpp, res => {
-            this.imageService.getPreviewImages(res.map(si => si.id), (smth: any) => this.imagg = smth);
+            this.imageService.getPreviewImages(res.filter(si => si.preview != null).map(si => si.preview!.id), (smth: any) => this.imagg = smth);
         });
     }
 

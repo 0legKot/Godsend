@@ -37,15 +37,11 @@ export class GalleryComponent implements OnInit {
     }
 
     changeValue(newValue: Image[]) {
-        console.log('changing from ' + this.value + ' to ' + newValue);
-
         this.value = newValue;
         this.valueChange.emit(newValue);
     }
 
     refreshImages() {
-        console.log('refresh images');
-
         if (this.value == null) {
             return;
         }
@@ -58,10 +54,13 @@ export class GalleryComponent implements OnInit {
 
     remove(index: number) {
         if (this.value) {
-            console.log('in remove');
             if (this.value.length === 1) {
+                this.images = [];
                 this.changeValue([]);
             } else {
+                if (this.images) {
+                    this.images = this.images.filter((_, i) => i != index);
+                }
                 this.changeValue(this.value.filter((_, i) => i != index));
             }
         }
@@ -120,6 +119,7 @@ export class GalleryComponent implements OnInit {
                     itemsProcessed++;
                     if (itemsProcessed === array.length) {
                         this.changeValue(tmp);
+                        this.refreshImages();
                         console.log("finished upload");
                         console.dir(this.value);
                     }

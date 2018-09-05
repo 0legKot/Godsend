@@ -19,11 +19,10 @@
                 <div class="supp-name">
                     <godsend-input-output *ngIf="supp" [(ngModel)]="supp.info.name" [edit]="edit"></godsend-input-output>
                 </div>
-                <div class="photo">
-                    <!--<div *ngFor="let image of images" style="display:contents;">-->
+                <!--<div class="photo">
                     <img [src]="'data:image/jpg;base64,' + image" class="card-img" />
-                    <!---</div>-->
-                </div>
+                </div>-->
+                <godsend-gallery *ngIf="supp" [value]="supp.images" (valueChange)="setImages($event)" [edit]="edit"></godsend-gallery>
                 <div class="rating">
                     <div *ngIf="supp">
                         <godsend-ratings [clas]="clas" [id]="supp.id" [(ngModel)]="supp.info.rating"></godsend-ratings>
