@@ -47,7 +47,7 @@ export class SuppliersComponent implements OnInit {
     }
 
     getImage(pi: SupplierInfo): string {
-        return this.images[pi.id];
+        return pi.preview ? this.images[pi.preview.id] : "";
     }
 
     constructor(private repo: RepositoryService, private imageService: ImageService, private router: Router) { }

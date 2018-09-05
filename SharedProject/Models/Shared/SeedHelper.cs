@@ -366,7 +366,7 @@ namespace Godsend.Models
 
                     foreach (var s in suppliersArray)
                     {
-                        s.Info.Preview = new Image() { Path = "suppp" + s.Info.Name + ".jpg" };
+                        s.Info.Preview = new Image() { Path = "supp" + s.Info.Name + ".jpg" };
                     }
 
                     context.Suppliers.AddRange(ToEnumerable<Supplier>(suppliers));

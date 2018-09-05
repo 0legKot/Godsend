@@ -48,7 +48,8 @@ export class ProductsComponent implements OnInit {
 
     getProducts() {
         this.repo.getByFilter(res => {
-            this.imageService.getPreviewImages(res.filter(pi => pi.preview != null).map(pi => pi.preview!.id), (smth: any) => this.imagg = smth);
+            console.log(res);
+            this.imageService.getPreviewImages(res.filter(pi => pi.preview != null).map(pi => pi.preview!.id), (smth: any) => { this.imagg = smth;  });
         });
     }
 
