@@ -1,4 +1,13 @@
-<p *ngIf="!edit else inputMode">{{ value }}</p>
+<p *ngIf="!edit else inputMode">
+    <ng-container [ngSwitch]="type">
+        <ng-container *ngSwitchCase="'datetime'">
+            {{value| date : 'dd-MMM-yyyy HH:mm'}}
+        </ng-container>
+        <ng-container *ngSwitchDefault>
+            {{value}}
+        </ng-container>
+    </ng-container>
+</p>
 
 <ng-template #inputMode>
     <ng-container [ngSwitch]="type">
@@ -13,6 +22,9 @@
         </ng-container>
         <ng-container *ngSwitchCase="'integer'">
             <input type="number" step="1" [ngModel]="value" class="{{class}}" (ngModelChange)="changeValue($event)" />
+        </ng-container>
+        <ng-container *ngSwitchCase="'datetime'">
+            <input type="datetime-local"  [ngModel]="value" class="{{class}}" (ngModelChange)="changeValue($event)" />
         </ng-container>
     </ng-container>
 </ng-template>

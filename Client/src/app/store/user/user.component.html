@@ -1,5 +1,12 @@
-﻿{{ user.name }}
-{{ user.email }}
-{{ user.birth }}
-{{ user.registrationDate }}
-{{ user.rating }}
+﻿<div class="inline-block edit-btns" id="edit" *ngIf="!edit" (click)="editMode()"> Edit</div>
+
+<p>Name: <godsend-input-output *ngIf="user" [(ngModel)]="user.name" [edit]="edit"></godsend-input-output></p>
+<p>Email: <godsend-input-output *ngIf="user" [(ngModel)]="user.email" [edit]="edit"></godsend-input-output></p>
+<p>Birth: <godsend-input-output *ngIf="user" [(ngModel)]="user.birth" [edit]="edit" [type]="'datetime'"></godsend-input-output></p>
+<p>Registered: {{user.registrationDate| date : 'dd-MMM-yyyy HH:mm'}}</p>
+<p>Rating: {{ user.rating }}</p>
+
+<div class="inline-block edit-btns" id="save" *ngIf="edit" (click)="save()"> Save</div>
+<div class="inline-block edit-btns" id="discard" *ngIf="edit" (click)="discard()"> Discard</div>
+
+<div class="edit-btns inline-block " id="delete" *ngIf="edit" (click)="deleteUser()">Delete</div>
