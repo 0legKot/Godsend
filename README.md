@@ -56,6 +56,6 @@ Here are some screenshots:
 <br>Article detail (edit supported):
 <br>![](https://preview.ibb.co/cz3zkU/Article_Detail.png)
 
-<br>Eventually, user page :
+<br>Eventually, user page (of course, we have registration and are going to add roles for users (admin/moderator etc)):
 <br>![](https://image.ibb.co/kQSEKp/UserPage.png)
 <br>![](https://image.ibb.co/c2bkQU/UserEdit.png)
