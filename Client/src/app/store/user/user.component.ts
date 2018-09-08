@@ -3,6 +3,7 @@ import { IdentityUser } from '../../models/user.model';
 import { DataService } from '../../services/data.service';
 import { OnInit } from '@angular/core/src/metadata/lifecycle_hooks';
 import { StorageService } from '../../services/storage.service';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
     selector: 'godsend-user',
@@ -11,6 +12,7 @@ import { StorageService } from '../../services/storage.service';
 })
 export class UserComponent implements OnInit {
     user: IdentityUser = new IdentityUser();
+    curId: string = this.route.snapshot.params.id;
     name = this.storage.name;
     edit: boolean = false;
     backup: UserBackup = {
@@ -19,11 +21,15 @@ export class UserComponent implements OnInit {
         birth: ''
     };
 
-    constructor(private storage: StorageService, private data: DataService) { }
+    get isCurrent() {
+        return this.storage.id == this.curId;
+    }
+
+    constructor(private storage: StorageService, private data: DataService, private route: ActivatedRoute) { }
 
     save() {
         if (this.user) {
-            this.data.sendRequest<IdentityUser>('post', 'api/account/editProfile/' + this.user.id, this.user).subscribe(u => this.user = u);
+            this.data.sendRequest<IdentityUser>('post', 'api/account/editProfile/' + this.storage.JWTToken, this.user).subscribe(u => this.user = u);
             //this.repo.createOrEditEntity('user', User.EnsureType(this.user), 1, 10);
         }
 
@@ -54,8 +60,11 @@ export class UserComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.data.sendRequest<IdentityUser>('get', 'api/account/getprofile/' + this.name).subscribe(
-            res => this.user = res
+        this.data.sendRequest<IdentityUser>('get', 'api/account/getprofile/' + this.curId).subscribe(
+            res => {
+                this.user = res;
+                //if (this.user.birth == null) this.user.birth = "private info";
+            }
         );
     }
 }

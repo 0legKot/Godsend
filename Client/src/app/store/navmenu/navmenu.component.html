@@ -36,7 +36,7 @@
                 </li>
 
                 <li *ngIf="isLogged; else elseBlock" class="main-nav-item-2">
-                    <fa [routerLink]="['/user']" name="user"></fa> <a [routerLink]="['/user']"> {{ name }} </a>
+                    <fa [routerLink]="['/user/'+currentUserId]" name="user"></fa> <a [routerLink]="['/user/'+currentUserId]"> {{ name }} </a>
                     <a (click)="logout()">{{ 'LOG OUT' | translate }}</a>
                 </li>
                 <li *ngIf="isAdmin" class="main-nav-item-2">

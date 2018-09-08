@@ -83,6 +83,7 @@ namespace Godsend.Models
 
             return new ClientUser
             {
+                Id = user.Id,
                 Name = user.UserName,
                 Email = user.Email,
                 Birth = null,

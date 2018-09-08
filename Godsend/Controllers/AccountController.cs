@@ -157,10 +157,27 @@ namespace Godsend.Controllers
                 var appUser = await userManager.FindByNameAsync(creds.Name);
                 currentUser = appUser;
                 var token = await GenerateJwtToken(creds.Name, appUser);
-                return Ok(new { token });
+                return Ok(new { token, appUser.Id });
             }
 
             return BadRequest("Invalid login attempt");
+        }
+
+
+        //TODO do something
+        [HttpPost("[action]/{token}")]
+        public async Task<object> EditProfile(string token, [FromBody] RegisterViewModel model)
+        {
+            User user = context.Users.FirstOrDefault(x => x.UserName == User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name).Value);
+
+            var result = await userManager.ChangeEmailAsync(user, model.Email, token);
+            //result &= await userManager.ChangePasswordAsync(user, "", "");
+            if (result.Succeeded)
+            {
+                return Ok();
+            }
+
+            return BadRequest("Could not edit");
         }
 
         [HttpPost("[action]")]
@@ -178,23 +195,23 @@ namespace Godsend.Controllers
 
             if (result.Succeeded)
             {
-                await signInManager.SignInAsync(user, false);
-                currentUser = user;
-                var token = await GenerateJwtToken(model.Email, user);
-                return Ok(new { token });
+                //await signInManager.SignInAsync(user, false);
+                //currentUser = user;
+                //var token = await GenerateJwtToken(model.Email, user);
+                return await Login(new LoginViewModel() {Name = user.UserName, Password = model.Password });
             }
 
             return BadRequest("Could not register");
         }
 
-        [HttpGet("[action]/{name}")]
+        [HttpGet("[action]/{id}")]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        public ClientUser GetProfile(string name)
+        public ClientUser GetProfile(string id)
         {
             var currentName = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name);
 
-            var user = context.Users.FirstOrDefault(u => u.UserName == name);
-            var clientUser = name == currentName.Value ?
+            var user = context.Users.FirstOrDefault(u => u.Id == id);
+            var clientUser = user.UserName == currentName.Value ?
                 ClientUser.FromEFUser(user) :
                 ClientUser.FromEFUserGeneralInfo(user);
 

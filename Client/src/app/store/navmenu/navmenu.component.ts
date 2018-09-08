@@ -26,6 +26,7 @@ export class NavMenuComponent implements OnInit{
     get name() { return this.storage.name; }
     get isLogged() { return this.storage.authenticated; }
     get isAdmin() { return this.storage.authenticated; }
+    get currentUserId() { return this.storage.id; }
 
     availableLangs?: string[];
     selectedLang?: string;

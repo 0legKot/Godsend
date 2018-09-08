@@ -69,7 +69,7 @@ const APP_ROUTES: Routes = [
     { path: 'search', component: SearchComponent },
     { path: 'search', component: SearchComponent },
     { path: 'statistics', component: StatisticsComponent },
-    { path: 'user', component: UserComponent },
+    { path: 'user/:id', component: UserComponent },
     { path: 'admin', component: AdminComponent },
     { path: '**', redirectTo: 'home' }
 ];

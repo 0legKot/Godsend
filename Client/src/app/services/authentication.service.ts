@@ -18,11 +18,16 @@ export class AuthenticationService {
 
     callbackUrl = '';
 
+    setCreds(jwt: string | null, username: string | null, id: string | null) {
+        this.storage.JWTToken = jwt;
+        this.storage.name = username;
+        this.storage.id = id;
+    }
+
     login(name: string, password: string): void {
         // this.authenticated = false;
         this.data.sendRequest<any>('post', 'api/account/login', { name, password }).subscribe(response => {
-            this.storage.JWTToken = response.token;
-            this.storage.name = name;
+            this.setCreds(response.token,name,response.id);
 
             this.notificationService.reconnect();
 
@@ -43,8 +48,7 @@ export class AuthenticationService {
             'api/account/register',
             { email: user.email, password: pass, name: user.name, birth: user.birth }
         ).subscribe(response => {
-            this.storage.JWTToken = response.token;
-            this.storage.name = name;
+            this.setCreds(response.token, name, response.id);
 
             this.notificationService.reconnect();
 
@@ -56,8 +60,7 @@ export class AuthenticationService {
     }
 
     logout() {
-        this.storage.JWTToken = null;
-        this.storage.name = null;
+        this.setCreds(null, null, null);
 
         this.notificationService.reconnect();
 

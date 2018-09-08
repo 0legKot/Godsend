@@ -6,6 +6,7 @@ import { Injectable } from '@angular/core';
 export class StorageService {
     private readonly tokenPath = 'godsend_authtoken';
     private readonly namePath = 'godsend_authname';
+    private readonly idPath = 'godsend_authid';
 
     constructor() { }
 
@@ -15,6 +16,18 @@ export class StorageService {
 
     get name(): string | null {
         return localStorage.getItem(this.namePath);
+    }
+
+    get id(): string | null {
+        return localStorage.getItem(this.idPath);
+    }
+
+    set id(newId) {
+        if (newId == null) {
+            localStorage.removeItem(this.idPath);
+        } else {
+            localStorage.setItem(this.idPath, newId);
+        }
     }
 
     set name(newName: string | null) {
