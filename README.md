@@ -25,6 +25,9 @@ Here are some screenshots:
 <br>Edit for products (you can change category/add new supplier/edit properties and upload images):
 <br>![](https://preview.ibb.co/kfmVs9/EditMode.png)
 
+<br>Notifications via signalR (you can see messages about results of your actions and so on (not about all now, but it will be improved)):
+<br>![](https://image.ibb.co/muvZKp/Notifications.png)
+
 <br>Gallery (we care about showing images):
 <br>![](https://preview.ibb.co/cG68ep/Gallery.png)
 
@@ -34,5 +37,25 @@ Here are some screenshots:
 <br>Comments (you can post/edit/delete comments and reply to them, there is no deep limit of comment tree):
 <br>![](https://image.ibb.co/fk1KkU/Comments.png)
 
-<br>Comments (you can post/edit/delete comments and reply to them, there is no deep limit of comment tree):
-<br>![](https://image.ibb.co/fk1KkU/Comments.png)
+<br>Buy it! (you can buy product and it will be added to your cart. After that you can chackout and look at orders page):
+<br>![](https://preview.ibb.co/dOJX5U/Shopping_Cart.png)
+<br>![](https://preview.ibb.co/ng0ekU/Orders.png)
+
+<br>Search (just type few letters and it will find something):
+<br>![](https://preview.ibb.co/juLekU/Search.png)
+
+<br>Suppliers page (it is similar to products):
+<br>![](https://preview.ibb.co/hRRVs9/Suppliers.png)
+
+<br>Suppliers detail page (you can see list of products and click on them. There is a bug with image showing there now):
+<br>![](https://preview.ibb.co/nvtzkU/Supplier_Detail.png)
+
+<br>Article (articles with tags and authors):
+<br>![](https://preview.ibb.co/eRQZKp/Articles.png)
+
+<br>Article detail (edit supported):
+<br>![](https://preview.ibb.co/cz3zkU/Article_Detail.png)
+
+<br>Eventually, user page :
+<br>![](https://image.ibb.co/kQSEKp/UserPage.png)
+<br>![](https://image.ibb.co/c2bkQU/UserEdit.png)
