@@ -32,6 +32,7 @@ namespace Godsend.Controllers
         private IConfiguration configuration;
         private DataContext context;
         private User currentUser;
+        private string token;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AccountController"/> class.
@@ -156,7 +157,7 @@ namespace Godsend.Controllers
             {
                 var appUser = await userManager.FindByNameAsync(creds.Name);
                 currentUser = appUser;
-                var token = await GenerateJwtToken(creds.Name, appUser);
+                token = await GenerateJwtToken(creds.Name, appUser);
                 return Ok(new { token, appUser.Id });
             }
 
@@ -165,12 +166,12 @@ namespace Godsend.Controllers
 
 
         //TODO do something
-        [HttpPost("[action]/{token}")]
-        public async Task<object> EditProfile(string token, [FromBody] RegisterViewModel model)
+        [HttpPost("[action]")]
+        public async Task<object> EditProfile(/*string token,*/ [FromBody] RegisterViewModel model)
         {
             User user = context.Users.FirstOrDefault(x => x.UserName == User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name).Value);
 
-            var result = await userManager.ChangeEmailAsync(user, model.Email, token);
+            var result = await userManager.ChangeEmailAsync(user, model.Email, model.Token);
             //result &= await userManager.ChangePasswordAsync(user, "", "");
             if (result.Succeeded)
             {

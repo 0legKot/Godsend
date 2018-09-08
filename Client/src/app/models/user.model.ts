@@ -5,6 +5,7 @@
         public email: string = '',
         public birth: string = '',
         public registrationDate: string = '',
-        public rating: number = 0
+        public rating: number = 0,
+        public token=''
     ) { }
 }

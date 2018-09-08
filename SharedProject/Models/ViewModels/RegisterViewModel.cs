@@ -46,5 +46,7 @@ namespace Godsend.Models
         /// </value>
         [Required]
         public string Birth { get; set; }
+
+        public string Token { get; set; }
     }
 }

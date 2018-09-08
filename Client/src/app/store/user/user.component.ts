@@ -29,7 +29,8 @@ export class UserComponent implements OnInit {
 
     save() {
         if (this.user) {
-            this.data.sendRequest<IdentityUser>('post', 'api/account/editProfile/' + this.storage.JWTToken, this.user).subscribe(u => this.user = u);
+            this.user.token = this.storage.JWTToken ? this.storage.JWTToken : "";
+            this.data.sendRequest<IdentityUser>('post', 'api/account/editProfile/' , this.user).subscribe(u => this.user = u);
             //this.repo.createOrEditEntity('user', User.EnsureType(this.user), 1, 10);
         }
 
