@@ -82,13 +82,13 @@
         align-content: center;
     }
 </style>
-<div class="show" (click)="slideTogglee()">
+<div class="show" (click)="slideToggle()">
     <fa name="info"></fa>
 </div>
-<div class="notification" [ngClass]="{'block' : showMenuMobilee}">
+<div class="notification" [ngClass]="{'block' : showMenuMobile}">
     <div class="my_box">
         <div class="close">
-            <div class="float-right" (click)="hideMenuu()" ><fa name="close"></fa></div>
+            <div class="float-right" (click)="hideMenu()" ><fa name="close"></fa></div>
         </div>
         <form class="form" (ngSubmit)="sendMessage()" #messageForm="ngForm">
             <div class="form-group">

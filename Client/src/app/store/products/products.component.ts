@@ -23,11 +23,10 @@ export class ProductsComponent implements OnInit {
     // page: number = 1;
     // rpp: number = 10;
     type = searchType.product;
-    images: { [id: string]: string; } = {};
     // searchProducts?: ProductInfo[];
     templateText = 'Waiting for data...';
 
-    comparsionSet: string[] = new Array < string>();
+    comparsionSet: string[] = new Array<string>();
     categories?: Category[];
     filter: FilterInfoView = new FilterInfoView();
     orderBy: allowedOrderBy[] = orderBy;
@@ -35,7 +34,10 @@ export class ProductsComponent implements OnInit {
     @ViewChild(SearchInlineComponent)
     searchInline?: SearchInlineComponent;
 
-    imagg: any = {};
+    /**
+     * images as a dictionary where key is id and value is base64-encoded image
+     * */
+    images: { [id: string]: string } = {};
 
     get pagesCount(): number {
         return Math.ceil(this.repo.productsCount / this.repo.productFilter.quantity);
@@ -49,7 +51,7 @@ export class ProductsComponent implements OnInit {
     getProducts() {
         this.repo.getByFilter(res => {
             console.log(res);
-            this.imageService.getPreviewImages(res.filter(pi => pi.preview != null).map(pi => pi.preview!.id), (smth: any) => { this.imagg = smth;  });
+            this.imageService.getPreviewImages(res.filter(pi => pi.preview != null).map(pi => pi.preview!.id), images => { this.images = images;  });
         });
     }
 

@@ -1,6 +1,7 @@
 ﻿import { Component, OnInit } from '@angular/core';
 import { SearchService, searchType, AllSearchResult } from './search.service';
 import { SearchBaseComponent } from './search.base.component';
+import { ImageService } from '../../services/image.service';
 
 @Component({
     selector: 'godsend-search',
@@ -13,7 +14,12 @@ import { SearchBaseComponent } from './search.base.component';
 export class SearchComponent extends SearchBaseComponent implements OnInit {
     searchResult?: AllSearchResult;
 
-    constructor(private ss: SearchService) { super(); }
+    /**
+     * images as a dictionary where key is id and value is base64-encoded image
+     * */
+    images: { [id: string]: string } = {};
+
+    constructor(private ss: SearchService, private imageService: ImageService) { super(); }
 
     ngOnInit() {
         super.ngOnInit();
@@ -23,6 +29,17 @@ export class SearchComponent extends SearchBaseComponent implements OnInit {
         this.ss.findByType(searchType.all, term, res => {
             console.dir(res);
             this.searchResult = res;
+
+            const ids = res.productsInfo
+                    .filter(p => p.preview != null)
+                    .map(p => p.preview!.id)
+                .concat(res.suppliersInfo
+                    .filter(s => s.preview != null)
+                    .map(s => s.preview!.id));
+
+            if (ids.length > 0) {
+                this.imageService.getPreviewImages(ids, images => this.images = images);
+            }
         });
     }
 

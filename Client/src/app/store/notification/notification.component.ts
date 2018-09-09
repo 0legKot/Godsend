@@ -7,16 +7,16 @@ import { NotificationService } from '../../services/notification.service';
 })
 export class NotificationComponent implements OnInit {
     message = '';
-    showMenuMobilee = false;
+    showMenuMobile = false;
     get messages() {
         return this.notificationService.messages;
     }
-    slideTogglee(): void {
-        this.showMenuMobilee = !this.showMenuMobilee;
+    slideToggle(): void {
+        this.showMenuMobile = !this.showMenuMobile;
     }
 
-    hideMenuu(): void {
-        this.showMenuMobilee = false;
+    hideMenu(): void {
+        this.showMenuMobile = false;
     }
     constructor(private notificationService: NotificationService) {
     }

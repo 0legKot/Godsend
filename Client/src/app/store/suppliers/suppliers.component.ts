@@ -19,10 +19,13 @@ export class SuppliersComponent implements OnInit {
     type = searchType.supplier;
     page = 1;
     rpp = 10;
-    images: { [id: string]: string; } = {};
     searchSuppliers?: SupplierInfo[];
     templateText = 'Waiting for data...';
-    imagg: any = {};
+
+    /**
+     * images as a dictionary where key is id and value is base64-encoded image
+     * */
+    images: { [id: string]: string } = { }
 
     @ViewChild(SearchInlineComponent)
     searchInline!: SearchInlineComponent;
@@ -42,7 +45,7 @@ export class SuppliersComponent implements OnInit {
 
     getSuppliers() {
         this.repo.getEntities<SupplierInfo>('supplier', this.page, this.rpp, res => {
-            this.imageService.getPreviewImages(res.filter(si => si.preview != null).map(si => si.preview!.id), (smth: any) => this.imagg = smth);
+            this.imageService.getPreviewImages(res.filter(si => si.preview != null).map(si => si.preview!.id), images => this.images = images);
         });
     }
 

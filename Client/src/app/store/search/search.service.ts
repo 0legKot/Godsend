@@ -38,8 +38,8 @@ export class SearchService {
     }
 }
 
-export class AllSearchResult {
-    productsInfo?: ProductInfo[];
-    suppliersInfo?: SupplierInfo[];
+export interface AllSearchResult {
+    productsInfo: ProductInfo[];
+    suppliersInfo: SupplierInfo[];
 }
 
