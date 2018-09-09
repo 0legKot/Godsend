@@ -12,7 +12,7 @@ Here are some screenshots:
 <br>Products page (10 products per page are shown):
 <br>![](https://preview.ibb.co/bzss5U/All_Products_En.png)
 
-<br>Categories, filter and sorting (yes, products are structured into category tree (no deep limit) and you can filter them for properties releveant to each category):
+<br>Categories, filter and sorting (yes, products are structured into category tree (no depth limit) and you can filter them for properties relevant to each category):
 <br>![](https://image.ibb.co/g1QekU/Categories_And_Filter.png)
 <br>![](https://image.ibb.co/j4aC5U/Sorting.png)
 
@@ -34,10 +34,10 @@ Here are some screenshots:
 <br>Rating (there is an ability to rate product and see a list of users, who rated it):
 <br>![](https://preview.ibb.co/iNvC5U/Ratings.png)
 
-<br>Comments (you can post/edit/delete comments and reply to them, there is no deep limit of comment tree):
+<br>Comments (you can post/edit/delete comments and reply to them, there is no depth limit of comment tree):
 <br>![](https://image.ibb.co/fk1KkU/Comments.png)
 
-<br>Buy it! (you can buy product and it will be added to your cart. After that you can chackout and look at orders page):
+<br>Buy it! (you can buy product and it will be added to your cart. After that you can checkout and look at orders page):
 <br>![](https://preview.ibb.co/dOJX5U/Shopping_Cart.png)
 <br>![](https://preview.ibb.co/ng0ekU/Orders.png)
 
