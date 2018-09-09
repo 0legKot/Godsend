@@ -54,7 +54,15 @@ namespace Godsend.Models
 
         public virtual SupplierInformation Info { get; set; }
 
-        public virtual IEnumerable<Image> Images { get; set; }
+        [JsonIgnore]
+        public virtual IEnumerable<LinkSupplierImage> LinkSupplierImages { get; set; }
+
+        [NotMapped]
+        public virtual IEnumerable<Image> Images
+        {
+            get => LinkSupplierImages?.Select(lsi => lsi.Image).ToList();
+            set => LinkSupplierImages = value?.Select(i => new LinkSupplierImage { ImageId = i.Id, SupplierId = Id }).ToList();
+        }
 
         /// <summary>
         /// Copies editable properties to target
@@ -66,6 +74,7 @@ namespace Godsend.Models
             if (target.Info.Location == null) target.Info.Location = new Location();
             target.Info.Location.Address = Info?.Location?.Address;
             target.Info.Name = Info.Name;
+            target.LinkSupplierImages = LinkSupplierImages;
         }
 
         public void CloneTo(Supplier target)

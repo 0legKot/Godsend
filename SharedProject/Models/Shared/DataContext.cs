@@ -68,6 +68,10 @@ namespace Godsend.Models
 
         public DbSet<Image> Images { get; set; }
 
+        public DbSet<LinkProductImage> LinkProductImages { get; set; }
+
+        public DbSet<LinkSupplierImage> LinkSupplierImages { get; set; }
+
         /// <summary>
         /// Gets or sets the link products suppliers.
         /// </summary>

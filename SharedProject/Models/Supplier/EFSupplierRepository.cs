@@ -106,18 +106,7 @@ namespace Godsend.Models
             Supplier dbEntry = GetEntity(entity.Id);
             if (dbEntry != null)
             {
-                // remove old
-                var tmp = context.Images.Where(i => dbEntry.Images.Select(ii => ii.Id).Contains(i.Id));
-                foreach (Image image in tmp)
-                {
-                    image.SupplierId = null;
-                }
-
-                // add new
-                foreach (Image image in context.Images.Where(i => entity.Images.Select(ii => ii.Id).Contains(i.Id)))
-                {
-                    image.SupplierId = dbEntry.Id;
-                }
+                context.RemoveRange(dbEntry.LinkSupplierImages);
 
                 entity.CopyTo(dbEntry);
             }

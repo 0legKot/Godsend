@@ -77,7 +77,15 @@ namespace Godsend.Models
 
         public virtual IEnumerable<EAV<decimal>> DecimalProps { get; set; }
 
-        public virtual IEnumerable<Image> Images { get; set; }
+        [JsonIgnore]
+        public virtual IEnumerable<LinkProductImage> LinkProductImages { get; set; }
+
+        [NotMapped]
+        public virtual IEnumerable<Image> Images
+        {
+            get => LinkProductImages?.Select(lpi => lpi.Image).ToList();
+            set => LinkProductImages = value?.Select(i => new LinkProductImage { ImageId = i.Id, ProductId = Id }).ToList();
+        }
 
         [JsonIgnore]
         public virtual IEnumerable<LinkProductsSuppliers> LinkProductsSuppliers { get; set; }
@@ -111,6 +119,7 @@ namespace Godsend.Models
             target.StringProps = StringProps.Select(eav => new EAV<string>() { ProductId = eav.ProductId, PropertyId = eav.Property.Id, Value = eav.Value }).ToList();
             target.LinkProductsSuppliers = LinkProductsSuppliers;
             target.Info.Preview = Info.Preview;
+            target.LinkProductImages = LinkProductImages;
         }
     }
 

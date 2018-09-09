@@ -49,9 +49,31 @@ namespace Godsend.Models
 
         [JsonIgnore]
         public string Path { get; set; }
+    }
 
-        public Guid? ProductId { get; set; }
+    public class LinkProductImage
+    {
+        public Guid Id { get; set; }
 
-        public Guid? SupplierId { get; set; }
+        public virtual Image Image { get; set; }
+
+        public Guid ImageId { get; set; }
+
+        public virtual Product Product { get; set; }
+
+        public Guid ProductId { get; set; }
+    }
+
+    public class LinkSupplierImage
+    {
+        public Guid Id { get; set; }
+
+        public virtual Image Image { get; set; }
+
+        public Guid ImageId { get; set; }
+
+        public virtual Supplier Supplier { get; set; }
+
+        public Guid SupplierId { get; set; }
     }
 }

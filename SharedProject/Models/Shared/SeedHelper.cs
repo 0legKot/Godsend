@@ -230,7 +230,6 @@ namespace Godsend.Models
                     foreach (Product p in productsArray)
                     {
                         p.Info.Preview = new Image() { Path = p.Info.Name + ".jpg" };
-                        p.Images = new List<Image>() {new Image { Path = p.Info.Name + ".jpg" }, new Image { Path = "pineapple.jpg" } };
                     }
 
                     context.Products.AddRange(ToEnumerable<Product>(products));
@@ -370,6 +369,26 @@ namespace Godsend.Models
                     }
 
                     context.Suppliers.AddRange(ToEnumerable<Supplier>(suppliers));
+
+                    #endregion
+
+                    #region Images
+
+                    var images = new List<Image>();
+                    var linkProductImages = new List<LinkProductImage>();
+                    var pineappleImage = new Image { Id = Guid.NewGuid(), Path = "pineapple.jpg" };
+                    images.Add(pineappleImage);
+
+                    foreach (Product p in productsArray)
+                    {
+                        //var image = new Image { Id = Guid.NewGuid(), Path = p.Info.Name + ".jpg" };
+                        //images.Add(image);
+                        linkProductImages.Add(new LinkProductImage { ProductId = p.Id, ImageId = p.Info.Preview.Id });
+                        linkProductImages.Add(new LinkProductImage { ProductId = p.Id, ImageId = pineappleImage.Id });
+                    }
+
+                    context.Images.AddRange(images);
+                    context.LinkProductImages.AddRange(linkProductImages);
 
                     #endregion
 
