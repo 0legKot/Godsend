@@ -31,6 +31,8 @@ export class ProductsComponent implements OnInit {
     filter: FilterInfoView = new FilterInfoView();
     orderBy: allowedOrderBy[] = orderBy;
 
+    productsExperiment?: ProductInfo[];
+
     @ViewChild(SearchInlineComponent)
     searchInline?: SearchInlineComponent;
 
@@ -51,7 +53,6 @@ export class ProductsComponent implements OnInit {
     getProducts() {
         this.repo.getByFilter(res => {
             console.log(res);
-            this.imageService.getPreviewImages(res.filter(pi => pi.preview != null).map(pi => pi.preview!.id), images => { this.images = images;  });
         });
     }
 
@@ -63,6 +64,11 @@ export class ProductsComponent implements OnInit {
         return this.comparsionSet.join(',');
     }
 
+    refreshImages(): void {
+        const ids = this.repo.products.filter(pi => pi.preview != null).map(pi => pi.preview!.id);
+        this.imageService.getPreviewImages(ids, images => { this.images = images; });
+    }
+
     toggleComparsion(id: string) {
         if (!this.isFilteredByCategory) return;
         if (this.comparsionSet.indexOf(id) == -1)
@@ -70,10 +76,10 @@ export class ProductsComponent implements OnInit {
         else this.comparsionSet = this.comparsionSet.filter(x => x != id);
     }
 
-    get products(): ProductInfo[] {
+   /*exp get products(): ProductInfo[] {
         // return this.searchProducts || this.repo.products;
         return this.repo.products;
-    }
+    }*/
 
     //getImage(pi: ProductInfo): string {
     //    return this.images[pi.id];
@@ -100,7 +106,12 @@ export class ProductsComponent implements OnInit {
         private router: Router) {
     }
 
-    ngOnInit() {
+    ngOnInit() {        
+        this.repo.productsExperiment.subscribe((newProducts: ProductInfo[]) => {
+            console.log('products changed');
+            this.productsExperiment = newProducts;
+            this.refreshImages();
+        });
         this.getProducts();
     }
 

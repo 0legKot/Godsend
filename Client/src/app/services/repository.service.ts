@@ -1,6 +1,6 @@
 import { Product, ProductInfo, Category, CatsWithSubs, FilterInfo, ProductFilterInfo, ProductInfosAndCount } from '../models/product.model';
-import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Injectable} from '@angular/core';
+import { Observable, Subject } from 'rxjs';
 import { DataService } from './data.service';
 import { Order } from '../models/order.model';
 import { Supplier, SupplierInfo } from '../models/supplier.model';
@@ -10,6 +10,7 @@ import { IEntity, IInformation } from '../models/entity.model';
 import { LinkRatingEntity } from '../models/rating.model';
 import { CommentWithSubs } from '../models/comment.model';
 import { Image } from '../models/image.model';
+import { shareReplay } from 'rxjs/operators';
 
 export type entityClass = 'article' | 'product' | 'supplier';
 export type supportedClass = entityClass | 'order';
@@ -40,6 +41,10 @@ export class RepositoryService {
     ordersCount = 0;
     productFilter: ProductFilterInfo = new ProductFilterInfo(10, 1);
     comments: any = {};
+
+    private productsExperimentPusher = new Subject<ProductInfo[]>();
+    // Re-emits last value on new subscribe
+    productsExperiment = this.productsExperimentPusher.asObservable().pipe(shareReplay(1));
 
     constructor(private data: DataService) {
     }
@@ -287,7 +292,12 @@ export class RepositoryService {
     deleteEntity(clas: supportedClass, id: string, page: number, rpp: number, fn?: () => any) {
         const url = this.getUrl(clas);
         this.data.sendRequest<null>('delete', url + '/delete/' + id)
-            .subscribe(response => { this.getEntities<null>(clas, page, rpp); if (fn) { fn(); } });
+            .subscribe(_ => {
+                this.getEntities<null>(clas, page, rpp);
+                if (fn) {
+                    fn();
+                }
+            });
     }
 
 
@@ -304,6 +314,7 @@ export class RepositoryService {
         this.data.sendRequest<ProductInfosAndCount>('post', 'api/product/byFilter', this.productFilter)
             .subscribe(result => {
                 this.products = result.infos;
+                this.productsExperimentPusher.next(result.infos);
                 this.productsCount = result.count;
                 if (fn) {
                     fn(result.infos);
