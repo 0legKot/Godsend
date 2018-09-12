@@ -38,13 +38,12 @@ namespace TelegramBot
                                 msg = "Hello world! I am great, yeah";
                                 break;
                             case "/products":
-                                var msg = "Our categories:\n";
+                                msg = "Our categories:\n";
                                 var client = new HttpClient();
                                 Stream respStream = client.GetStreamAsync(uri).GetAwaiter().GetResult();
                                 string json = new StreamReader(respStream).ReadToEnd();
                                 var cats = JsonConvert.DeserializeObject<IEnumerable<CatWithSubs>>(json);
                                 msg += GetFormattedCategoryTree(cats);
-                                Bot.SendTextMessageAsync(message.Chat.Id, msg, replyToMessageId: message.MessageId).GetAwaiter();
                                 break;
                             case "/suppliers":
                                 msg = "Nope";
@@ -56,7 +55,10 @@ namespace TelegramBot
                                 msg = "You wrote: " + message.Text;
                                 break;
                         }
+
+                        Bot.SendTextMessageAsync(message.Chat.Id, msg, replyToMessageId: message.MessageId).GetAwaiter();
                     }
+
                     offset = update.Id + 1;
                 }
 
