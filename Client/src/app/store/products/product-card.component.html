@@ -1,5 +1,5 @@
 ﻿<a [routerLink]="['/products', productInfo.id]">
-    <div class="card-header">
+    <div class="card-header" [ngClass]="{'viewed':viewed}">
         <span [ngClass]="{'h4':productInfo.state === 0, 'h3':productInfo.state === 1, 'h2':productInfo.state === 2}" >
             {{ productInfo.name }}
         </span>

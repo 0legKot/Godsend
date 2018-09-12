@@ -27,6 +27,9 @@ const articlesUrl = 'api/article';
 export class RepositoryService {
     product: Product | {} = {};
     products: ProductInfo[] = [];
+    viewedProductsIds: string[] = [];
+    viewedSuppliersIds: string[] = [];
+    viewedArticlesIds: string[] = [];
     //must be useless
     productsForComparement: Product[]=[];
     orders: Order[] = [];

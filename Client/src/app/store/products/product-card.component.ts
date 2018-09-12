@@ -1,6 +1,7 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 
 import { ProductInfo } from '../../models/product.model';
+import { RepositoryService } from '../../services/repository.service';
 
 @Component({
     selector: 'godsend-product-card[productInfo]',
@@ -15,7 +16,11 @@ export class ProductCardComponent {
     @Output()
     readonly delete = new EventEmitter<void>();
 
-    constructor() { }
+    constructor(private repo: RepositoryService) { }
+
+    get viewed() {
+        return this.productInfo && (this.repo.viewedProductsIds.find(id => id === this.productInfo!.id) !== undefined);
+    }
 
     onDelete() {
         this.delete.emit();

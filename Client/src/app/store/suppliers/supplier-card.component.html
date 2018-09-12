@@ -1,5 +1,5 @@
 ﻿<a [routerLink]="['/suppliers', supplierInfo.id]">
-    <div class="card-header">
+    <div class="card-header" [ngClass]="{'viewed':viewed}">
         <span class="h4">
             {{ supplierInfo.name }}
         </span>

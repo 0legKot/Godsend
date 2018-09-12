@@ -39,13 +39,8 @@ export class SupplierDetailComponent implements OnInit {
     deleteSupplier() {
         if (this.supp) {
             this.repo.deleteEntity('supplier', this.supp.info.id, 1, 10);
-            this.gotoSuppliers(undefined);
+            this.router.navigate(['/suppliers']);
         }
-    }
-
-    gotoSuppliers(supplier?: Supplier) {
-        const supplierId = supplier ? supplier.id : null;
-        this.router.navigate(['/suppliers', { id: supplierId }]);
     }
 
     gotoProduct(prodId: string) {
@@ -53,13 +48,17 @@ export class SupplierDetailComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.repo.getEntity<Supplier>('supplier', this.route.snapshot.params.id, s => {
+        const id = this.route.snapshot.params.id;
+        this.repo.getEntity<Supplier>('supplier', id, s => {
             this.supp = s;
             console.log(s.productsAndPrices);
             //if (this.supp.images) {
             //    this.imageService.getImages(this.supp.images.map(i => i.id), images => { this.images = images; });
             //}
         });
+        if (this.repo.viewedSuppliersIds.find(x => x === id) === undefined) {
+            this.repo.viewedSuppliersIds.push(this.route.snapshot.params.id);
+        }
     }
 
     editMode() {

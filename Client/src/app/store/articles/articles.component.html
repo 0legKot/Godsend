@@ -8,7 +8,7 @@
         <div *ngFor="let a of articles" class="cards">
 
             <div class="card text-center">
-                <div class="card-header">
+                <div class="card-header" [ngClass]="{'viewed': getViewed(a.id)}">
                     <h5 class="pull-right delete-art" (click)="deleteArticle(a.id)"><fa name="times"></fa></h5>
                     <br />
                     <h5>{{ a.name }}</h5>

@@ -27,6 +27,10 @@ export class ArticlesComponent implements OnInit {
 
     constructor(private repo: RepositoryService, private router: Router) { }
 
+    getViewed(articleId: string): boolean {
+        return this.repo.viewedArticlesIds.find(id => id === articleId) !== undefined;
+    }
+
     getArticles() {
         this.repo.getEntities('article', this.page, this.rpp);
     }

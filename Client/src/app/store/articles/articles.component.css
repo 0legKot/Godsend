@@ -25,6 +25,10 @@ h1, h3 {
     margin-bottom: 20px;
 }
 
+.viewed {
+    color: darkslategray;
+}
+
 .readMore {
     background-color: #4cff00;
     color: #123901;

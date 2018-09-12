@@ -53,7 +53,7 @@
         </div>
     </div>
     <godsend-comment-wrapper id="{{route.snapshot.params.id}}" clas="supplier"></godsend-comment-wrapper>
-    <div class="back-btn" (click)="gotoSuppliers(supp)">
+    <div class="back-btn" [routerLink]="['/suppliers']">
         <fa name="long-arrow-left"></fa> {{ 'Suppliers.Back' | translate }}
     </div>
 

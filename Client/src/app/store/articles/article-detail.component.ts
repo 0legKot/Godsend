@@ -43,16 +43,15 @@ export class ArticleDetailComponent implements OnInit {
         private repo: RepositoryService
     ) { }
 
-    gotoArticles(article: Article) {
-        const articleId = article ? article.id : null;
-        this.router.navigate(['/articles', { id: articleId }]);
-    }
-
     ngOnInit() {
-        this.repo.getEntity<Article>('article', this.route.snapshot.params.id, a => {
+        const id = this.route.snapshot.params.id;
+        this.repo.getEntity<Article>('article', id, a => {
             this.article = a;
             this.stringifyTags();
         });
+        if (this.repo.viewedArticlesIds.find(x => x === id) === undefined) {
+            this.repo.viewedArticlesIds.push(this.route.snapshot.params.id);
+        }
     }
 
     editMode() {

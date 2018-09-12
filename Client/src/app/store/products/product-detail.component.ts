@@ -60,15 +60,10 @@ export class ProductDetailComponent implements OnInit {
         private catService: CategoryService
     ) { }
 
-    gotoProducts() {
-        const productId = this.route.snapshot.params.id;
-        this.router.navigate(['/products', { id: productId}]);
-    }
-
     deleteProduct() {
         if (this.product) {
             this.repo.deleteEntity('product', this.product.info.id, 1, 10);
-            this.gotoProducts();
+            this.router.navigate(['/products']);
         }
     }
     buy() {
@@ -128,13 +123,17 @@ export class ProductDetailComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.repo.getEntity<Product>('product', this.route.snapshot.params.id, p => {
+        const id: string = this.route.snapshot.params.id;
+        this.repo.getEntity<Product>('product', id, p => {
             this.product = p;
             this.selectedSupplier = p.suppliersAndPrices ? p.suppliersAndPrices[0] : undefined;
             /*if (this.product.images) {
                 this.imageService.getImages(this.product.images.map(i => i.id), images => { this.images = images; });
             }*/
         });
+        if (this.repo.viewedProductsIds.find(x => x === id) === undefined) {
+            this.repo.viewedProductsIds.push(this.route.snapshot.params.id);
+        }
     }
 
     changeCategory(newCat: Category) {

@@ -17,6 +17,10 @@ export class SupplierCardComponent {
 
     constructor(private repo: RepositoryService) { }
 
+    get viewed() {
+        return this.supplierInfo && (this.repo.viewedSuppliersIds.find(id => id === this.supplierInfo!.id) != undefined);
+    }
+
     onDelete() {
         this.delete.emit();
     }

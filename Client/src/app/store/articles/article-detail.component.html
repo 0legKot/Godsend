@@ -1,7 +1,7 @@
 ﻿<div class="wrap rel">
-    <div class="back-btn" (click)="gotoArticles(article)">
+    <div class="back-btn" [routerLink]="['/articles']">
         <fa name="long-arrow-left"></fa>
-        <ng-container> {{ 'Articles.Detail.Back' | translate }}ч</ng-container>
+        <ng-container> {{ 'Articles.Detail.Back' | translate }}</ng-container>
     </div>
     <br />
     <br />
