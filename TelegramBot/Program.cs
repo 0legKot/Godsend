@@ -30,13 +30,13 @@ namespace TelegramBot
                     var message = update.Message;
                     if (message.Type == Telegram.Bot.Types.Enums.MessageType.Text)
                     {
+                        string msg = "";
                         switch (message.Text)
                         {
                             case "/hello":
-                                Bot.SendTextMessageAsync(message.Chat.Id, "Hello world! I am great, yeah", replyToMessageId: message.MessageId).GetAwaiter();
+                                msg = "Hello world! I am great, yeah";
                                 break;
                             case "/products":
-                                var msg = "";
                                 var client = new HttpClient();
                                 Stream respStream = client.GetStreamAsync(uri).GetAwaiter().GetResult();
                                 DataContractJsonSerializer ser = new DataContractJsonSerializer(typeof(IEnumerable<CatWithSubs>));
@@ -44,19 +44,19 @@ namespace TelegramBot
                                 int i = 0;
                                 foreach (var cat in feed) i++;
                                 msg = $"We have {i} categories!";
-                                Bot.SendTextMessageAsync(message.Chat.Id, msg, replyToMessageId: message.MessageId).GetAwaiter();
                                 break;
                             case "/suppliers":
-                                Bot.SendTextMessageAsync(message.Chat.Id, "Nope", replyToMessageId: message.MessageId).GetAwaiter();
+                                msg = "Nope";
                                 break;
                             case "/articles":
-                                Bot.SendTextMessageAsync(message.Chat.Id, "Nope", replyToMessageId: message.MessageId).GetAwaiter();
+                                msg = "Nope";
                                 break;
                             default:
-                                Bot.SendTextMessageAsync(message.Chat.Id, "You wrote: " + message.Text, replyToMessageId: message.MessageId).GetAwaiter();
+                                msg = "You wrote: " + message.Text;
                                 break;
                         }
-                        
+
+                        if (!string.IsNullOrEmpty(msg)) Bot.SendTextMessageAsync(message.Chat.Id, msg, replyToMessageId: message.MessageId).GetAwaiter();
                     }
                     offset = update.Id + 1;
                 }
