@@ -27,7 +27,7 @@ namespace Godsend.Controllers
         /// Initializes a new instance of the <see cref="ArticleController"/> class.
         /// </summary>
         /// <param name="repository">The repository.</param>
-        public ArticleController(IArticleRepository repository, IHubContext<NotificationHub> hubContext, ILogger<EntityController<Article>> logger)
+        public ArticleController(AArticleRepository repository, IHubContext<NotificationHub> hubContext, ILogger<EntityController<Article>> logger)
             : base(hubContext, logger)
         {
             this.repository = repository;

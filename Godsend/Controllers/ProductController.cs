@@ -32,11 +32,11 @@ namespace Godsend.Controllers
         /// Initializes a new instance of the <see cref="ProductController" /> class.
         /// </summary>
         /// <param name="repo">The repo.</param>
-        public ProductController(IProductRepository repo, IHubContext<NotificationHub> hubContext, ILogger<Product> logger, ILogger<EntityController<Product>> logger2)
+        public ProductController(AProductRepository repo, IHubContext<NotificationHub> hubContext, ILogger<Product> logger, ILogger<EntityController<Product>> logger2)
             : base(hubContext, logger2)
         {
             repository = repo;
-            Categories = (repository as IProductRepository).Categories().ToList();
+            Categories = (repository as AProductRepository).Categories().ToList();
         }
 
         /// <summary>
@@ -47,7 +47,7 @@ namespace Godsend.Controllers
         [HttpGet("[action]/{id:Guid}")]
         public new IActionResult Detail(Guid id)
         {
-            var prod = (repository as IProductRepository)?.GetEntity(id);
+            var prod = (repository as AProductRepository)?.GetEntity(id);
             if (prod != null)
             {
                 repository.Watch(prod);
@@ -132,7 +132,7 @@ namespace Godsend.Controllers
         [HttpGet("[action]/{id:Guid}")]
         public IEnumerable<Information> GetByCategory(Guid id, int quantity = 5, int skip = 0)
         {
-            return repository.Entities(quantity, skip).Where(x => x.Category?.Id == id).Select(x => x.Info);
+            return repository.GetEntities(quantity, skip).Where(x => x.Category?.Id == id).Select(x => x.Info);
         }
 
         ////[HttpPost("[action]")]
@@ -146,7 +146,7 @@ namespace Godsend.Controllers
         [HttpPost("[action]")]
         public ProductInfosAndCount ByFilter([FromBody]ProductFilterInfo filter)
         {
-            var result = (repository as IProductRepository).GetProductInformationsByProductFilter(filter);
+            var result = (repository as AProductRepository).GetProductInformationsByProductFilter(filter);
 
             return result;
         }
@@ -159,7 +159,7 @@ namespace Godsend.Controllers
         [HttpGet("[action]/{categoryId:Guid}")]
         public IEnumerable<object> GetPropertiesByCategory(Guid categoryId)
         {
-            var tmp = (repository as IProductRepository).Properties(categoryId);
+            var tmp = (repository as AProductRepository).Properties(categoryId);
             return tmp;
         }
 

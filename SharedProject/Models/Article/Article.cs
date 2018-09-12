@@ -63,6 +63,8 @@ namespace Godsend.Models
 
         public virtual ArticleInformation Info { get; set; }
 
+        public virtual Information EntityInfo => Info;
+
         public void CopyTo(Article target)
         {
             // todo tags

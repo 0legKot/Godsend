@@ -15,7 +15,7 @@ namespace Godsend
     /// <summary>
     ///
     /// </summary>
-    public class EFProductRepository : IProductRepository
+    public class EFProductRepository : AProductRepository
     {
         /// <summary>
         /// The admin user
@@ -54,33 +54,18 @@ namespace Godsend
             cats = context.Categories;
         }
 
-        /// <summary>
-        /// Gets the entities.
-        /// </summary>
-        /// <param name="quantity">The quantity.</param>
-        /// <param name="skip">The skip.</param>
-        /// <returns></returns>
-        /// <value>
-        /// The entities.
-        /// </value>
-        public IEnumerable<Product> Entities(int quantity, int skip = 0) => GetProductsFromContext(quantity, skip);
+        protected override IQueryable<Product> EntitiesSource { get => context.Products; }
 
-        /// <summary>
-        /// Gets the entities information.
-        /// </summary>
-        /// <param name="quantity">The quantity.</param>
-        /// <param name="skip">The skip.</param>
-        /// <returns></returns>
-        /// <value>
-        /// The entities information.
-        /// </value>
-        public IEnumerable<Information> EntitiesInfo(int quantity, int skip = 0) => Entities(quantity, skip).Select(p => p.Info);
+        protected override void SaveChangedState(Product changedProduct)
+        {
+            context.SaveChanges();
+        }
 
         /// <summary>
         /// Saves the entity.
         /// </summary>
         /// <param name="entity">The entity.</param>
-        public async Task SaveEntity(Product entity)
+        public override async Task SaveEntity(Product entity)
         {
             Product dbEntry = context.Products.FirstOrDefault(p => p.Id == entity.Id);
             if (dbEntry != null)
@@ -108,7 +93,7 @@ namespace Godsend
         /// Deletes the product.
         /// </summary>
         /// <param name="id">The product identifier.</param>
-        public async Task DeleteEntity(Guid id)
+        public override async Task DeleteEntity(Guid id)
         {
             Product dbEntry = context.Products.FirstOrDefault(p => p.Id == id);
             if (dbEntry != null)
@@ -126,99 +111,26 @@ namespace Godsend
         }
 
         /// <summary>
-        /// Determines whether the specified entity is first.
-        /// </summary>
-        /// <param name="entity">The entity.</param>
-        /// <returns>
-        ///   <c>true</c> if the specified entity is first; otherwise, <c>false</c>.
-        /// </returns>
-        public bool IsFirst(Product entity)
-        {
-            return !context.Products.Any(p => p.Id == entity.Id);
-        }
-
-        /// <summary>
-        /// Gets the entity.
-        /// </summary>
-        /// <param name="entityId">The entity identifier.</param>
-        /// <returns></returns>
-        public Product GetEntity(Guid entityId)
-        {
-            return context.Products.FirstOrDefault(p => p.Id == entityId);
-        }
-
-        /// <summary>
-        /// Watches the specified product.
-        /// </summary>
-        /// <param name="prod">The product.</param>
-        public void Watch(Product prod)
-        {
-            if (prod != null)
-            {
-                ++prod.Info.Watches;
-                context.SaveChanges();
-            }
-        }
-
-        /// <summary>
-        /// Gets the product with suppliers.
-        /// </summary>
-        /// <param name="productId">The product information identifier.</param>
-        /// <returns></returns>
-        /*public ProductWithSuppliers GetProductWithSuppliers(Guid productId)
-        {
-            var res = new ProductWithSuppliers
-            {
-                Product = GetEntity(productId),
-                Suppliers = context.LinkProductsSuppliers
-                    .Where(link => link.Product.Id == productId)
-                    .Select(link => new SupplierAndPrice { Supplier = link.Supplier, Price = link.Price })
-                    .ToArray(),
-                //DecimalProps = context.LinkProductPropertyDecimal.Where(lpp => lpp.Product.Id == productId),
-                //StringProps = context.LinkProductPropertyString.Where(lpp => lpp.Product.Id == productId),
-                //IntProps = context.LinkProductPropertyInt.Where(lpp => lpp.Product.Id == productId)
-            };
-            return res;
-        }*/
-
-        /// <summary>
-        /// Gets products from context.
-        /// </summary>
-        /// <param name="quantity">The quantity.</param>
-        /// <param name="skip">The skip.</param>
-        /// <returns>
-        /// {quantity} products after {skip} skipped
-        /// </returns>
-        private IQueryable<Product> GetProductsFromContext(int quantity, int skip = 0)
-        {
-            return context.Products.Skip(skip).Take(quantity);
-        }
-
-        /// <summary>
         /// Categorieses this instance.
         /// </summary>
         /// <returns></returns>
-        public IEnumerable<Category> Categories()
+        public override IEnumerable<Category> Categories()
         {
             return context.Categories;
         }
+
         private IEnumerable<Category> cats; 
         /// <summary>
         /// Get properties related to specified <see cref="Category"/>
         /// </summary>
         /// <param name="categoryId">Category id</param>
         /// <returns></returns>
-        public IEnumerable<object> Properties(Guid categoryId)
+        public override IEnumerable<object> Properties(Guid categoryId)
         {
             return context.Properties.Where(x => x.RelatedCategory.Id == categoryId).Select(x => new { x.Id, x.Name, x.Type });
         }
 
-        public int EntitiesCount()
-        {
-            return context.Products.Count();
-        }
-
-        public ProductInfosAndCount GetProductInformationsByProductFilter(ProductFilterInfo filter)
+        public override ProductInfosAndCount GetProductInformationsByProductFilter(ProductFilterInfo filter)
         {
             IQueryable<Product> products = context.Products;
 
@@ -260,6 +172,8 @@ namespace Godsend
                 Infos = products.Skip(filter.Skip).Take(filter.Quantity).Select(p => p.Info).ToList()
             };
         }
+
+        #region Filter private methods
 
         private IQueryable<Product> OrderProducts(IQueryable<Product> products, OrderBy orderBy, Guid? sortingPropertyId, bool sortAscending)
         {
@@ -349,32 +263,6 @@ namespace Godsend
             return products.Where(p => apropriateCats.Contains(p.Category)); 
         }
 
-        public IEnumerable<Category> GetSubCategories(Guid id)
-        {
-            return Categories().Where(x => x.BaseCategory?.Id == id);
-        }
-
-        private List<Category> GetRecursiveCats(ref CatWithSubs cur)
-        {
-            var result = new List<Category>();
-            var subs = new List<CatWithSubs>();
-            var curSubCats = GetSubCategories(cur.Cat.Id);
-            if (curSubCats.Any())
-            {
-                foreach (var cat in curSubCats)
-                {
-                    result.Add(cat);
-                    var tmp = new CatWithSubs() { Cat = cat };
-                    result.AddRange(GetRecursiveCats(ref tmp));
-                    var tmpClone = new CatWithSubs() { Cat = tmp.Cat, Subs = tmp.Subs };
-                    subs.Add(tmpClone);
-                }
-            }
-
-            cur.Subs = subs;
-            return result;
-        }
-
         private IQueryable<Product> FilterByDecimalProps(IQueryable<Product> products, IEnumerable<DecimalPropertyInfo> decimalProps)
         {
             var tmp = products.GroupJoin(
@@ -423,7 +311,35 @@ namespace Godsend
             return tmp.Select(group => group.Product);
         }
 
-        public async Task<double> SetRatingAsync(Guid productId, string userId, int rating)
+        #endregion
+
+        public IEnumerable<Category> GetSubCategories(Guid id)
+        {
+            return Categories().Where(x => x.BaseCategory?.Id == id);
+        }
+
+        private List<Category> GetRecursiveCats(ref CatWithSubs cur)
+        {
+            var result = new List<Category>();
+            var subs = new List<CatWithSubs>();
+            var curSubCats = GetSubCategories(cur.Cat.Id);
+            if (curSubCats.Any())
+            {
+                foreach (var cat in curSubCats)
+                {
+                    result.Add(cat);
+                    var tmp = new CatWithSubs() { Cat = cat };
+                    result.AddRange(GetRecursiveCats(ref tmp));
+                    var tmpClone = new CatWithSubs() { Cat = tmp.Cat, Subs = tmp.Subs };
+                    subs.Add(tmpClone);
+                }
+            }
+
+            cur.Subs = subs;
+            return result;
+        }
+        
+        public override async Task<double> SetRatingAsync(Guid productId, string userId, int rating)
         {
             await ratingHelper.SetRatingAsync(productId, userId, rating, context.LinkRatingProduct, context);
 
@@ -442,17 +358,17 @@ namespace Godsend
             return avg;
         }
 
-        public IEnumerable<LinkRatingEntity> GetAllRatings(Guid productId)
+        public override IEnumerable<LinkRatingEntity> GetAllRatings(Guid productId)
         {
             return context.LinkRatingProduct.Where(lra => lra.EntityId == productId);
         }
 
-        public int? GetUserRating(Guid productId, string userId)
+        public override int? GetUserRating(Guid productId, string userId)
         {
             return context.LinkRatingProduct.FirstOrDefault(lra => lra.EntityId == productId && lra.UserId == userId)?.Rating;
         }
 
-        public async Task<Guid> AddCommentAsync(Guid productId, string userId, Guid? baseCommentId, string comment)
+        public override async Task<Guid> AddCommentAsync(Guid productId, string userId, Guid? baseCommentId, string comment)
         {
             var newCommentId = await commentHelper.AddCommentGenericAsync<LinkCommentProduct>(context, productId, userId, baseCommentId, comment);
 
@@ -461,21 +377,21 @@ namespace Godsend
             return newCommentId;
         }
 
-        public IEnumerable<LinkCommentEntity> GetAllComments(Guid productId)
+        public override IEnumerable<LinkCommentEntity> GetAllComments(Guid productId)
         {
             var fortst = context.LinkCommentProduct.Where(lra => lra.Product.Id == productId)
                 .Select(x => new LinkCommentProduct() { BaseComment = x.BaseComment, Comment = x.Comment, Id = x.Id, User = x.User });
             return fortst;
         }
 
-        public async Task DeleteCommentAsync(Guid productId, Guid commentId, string userId)
+        public override async Task DeleteCommentAsync(Guid productId, Guid commentId, string userId)
         {
             await commentHelper.DeleteCommentGenericAsync(context.LinkCommentProduct, context, productId, commentId);
 
             await RecalcCommentsAsync(productId);
         }
 
-        public async Task EditCommentAsync(Guid commentId, string newContent, string userId)
+        public override async Task EditCommentAsync(Guid commentId, string newContent, string userId)
         {
             var comment = await context.LinkCommentProduct.FirstOrDefaultAsync(lce => lce.Id == commentId);
             if (comment.UserId != userId) throw new InvalidOperationException("Incorrect user tried to edit comment");

@@ -71,6 +71,8 @@ namespace Godsend.Models
 
         public virtual ProductInformation Info { get; set; }
 
+        public virtual Information EntityInfo => Info;
+
         public virtual IEnumerable<EAV<int>> IntProps { get; set; }
 
         public virtual IEnumerable<EAV<string>> StringProps { get; set; }

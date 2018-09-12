@@ -54,6 +54,8 @@ namespace Godsend.Models
 
         public virtual SupplierInformation Info { get; set; }
 
+        public virtual Information EntityInfo => Info;
+
         [JsonIgnore]
         public virtual IEnumerable<LinkSupplierImage> LinkSupplierImages { get; set; }
 

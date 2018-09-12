@@ -12,8 +12,8 @@ namespace Godsend.Models
     /// <summary>
     ///
     /// </summary>
-    public interface ISupplierRepository : IRepository<Supplier>
+    public abstract class ASupplierRepository : ARepository<Supplier>
     {
-        IEnumerable<ProductInformation> GetProducts(Guid supplierId);
+        public abstract IEnumerable<ProductInformation> GetProducts(Guid supplierId);
     }
 }

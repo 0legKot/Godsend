@@ -28,7 +28,7 @@ namespace Godsend.Controllers
         /// <summary>
         /// The repository for instances
         /// </summary>
-        protected IRepository<TEntity> repository;
+        protected ARepository<TEntity> repository;
         protected IHubContext<NotificationHub> hubContext;
         protected readonly ILogger<EntityController<TEntity>> _logger;
 

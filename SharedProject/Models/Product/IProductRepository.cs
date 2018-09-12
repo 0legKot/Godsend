@@ -12,7 +12,7 @@ namespace Godsend
     /// <summary>
     ///
     /// </summary>
-    public interface IProductRepository : IRepository<Product>
+    public abstract class AProductRepository : ARepository<Product>
     {
         /// <summary>
         /// Gets the product with suppliers.
@@ -25,15 +25,15 @@ namespace Godsend
         /// Categorieses this instance.
         /// </summary>
         /// <returns></returns>
-        IEnumerable<Category> Categories();
+        public abstract IEnumerable<Category> Categories();
 
         /// <summary>
         /// Propertieses the specified identifier.
         /// </summary>
         /// <param name="id">The identifier.</param>
         /// <returns></returns>
-        IEnumerable<object> Properties(Guid id);
+        public abstract IEnumerable<object> Properties(Guid id);
 
-        ProductInfosAndCount GetProductInformationsByProductFilter(ProductFilterInfo filter);
+        public abstract ProductInfosAndCount GetProductInformationsByProductFilter(ProductFilterInfo filter);
     }
 }

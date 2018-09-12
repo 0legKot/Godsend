@@ -4,45 +4,72 @@
 
 namespace Godsend.Models
 {
+    using Microsoft.EntityFrameworkCore;
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
+    using System.Linq;
 
     /// <summary>
     ///
     /// </summary>
     /// <typeparam name="IEntity">The type of the entity.</typeparam>
-    public interface IRepository<IEntity>
+    public abstract class ARepository<T>
+        where T : IEntity
     {
-        IEnumerable<IEntity> Entities(int quantity, int skip = 0);
+        protected abstract IQueryable<T> EntitiesSource { get; }
 
-        IEnumerable<Information> EntitiesInfo(int quantity, int skip = 0);
+        protected abstract void SaveChangedState(T changedEntity);
 
-        IEntity GetEntity(Guid entityId);
+        public virtual IEnumerable<T> GetEntities(int quantity, int skip = 0)
+        {
+            return EntitiesSource.Skip(skip).Take(quantity);
+        }
 
-        int EntitiesCount();
+        public virtual IEnumerable<Information> EntitiesInfo(int quantity, int skip = 0)
+        {
+            return GetEntities(quantity, skip).Select(e => e.EntityInfo);
+        }
 
-        Task SaveEntity(IEntity entity);
+        public virtual T GetEntity(Guid entityId)
+        {
+            return EntitiesSource.FirstOrDefault(e => e.Id == entityId);
+        }
 
-        Task DeleteEntity(Guid entityId);
+        public virtual int EntitiesCount()
+        {
+            return EntitiesSource.Count();
+        }
 
-        bool IsFirst(IEntity entity);
+        public abstract Task SaveEntity(T entity);
 
-        void Watch(IEntity entity);
+        public abstract Task DeleteEntity(Guid entityId);
 
-        Task<double> SetRatingAsync(Guid entityId, string userId, int rating);
+        // not used anywhere
+        ////bool IsFirst(T entity);
 
-        Task<Guid> AddCommentAsync(Guid entityId, string userId, Guid? baseCommentId, string comment);
+        public virtual void Watch(T entity)
+        {
+            if (entity != null)
+            {
+                ++entity.EntityInfo.Watches;
+                SaveChangedState(entity);
+            }
+        }
 
-        IEnumerable<LinkRatingEntity> GetAllRatings(Guid entityId);
+        public abstract Task<double> SetRatingAsync(Guid entityId, string userId, int rating);
 
-        IEnumerable<LinkCommentEntity> GetAllComments(Guid entityId);
+        public abstract Task<Guid> AddCommentAsync(Guid entityId, string userId, Guid? baseCommentId, string comment);
 
-        int? GetUserRating(Guid entityId, string userId);
+        public abstract IEnumerable<LinkRatingEntity> GetAllRatings(Guid entityId);
 
-        Task DeleteCommentAsync(Guid entityId, Guid commentId, string userId);
+        public abstract IEnumerable<LinkCommentEntity> GetAllComments(Guid entityId);
 
-        Task EditCommentAsync(Guid commentId, string newContent, string userId);
+        public abstract int? GetUserRating(Guid entityId, string userId);
+
+        public abstract Task DeleteCommentAsync(Guid entityId, Guid commentId, string userId);
+
+        public abstract Task EditCommentAsync(Guid commentId, string newContent, string userId);
     }
 }

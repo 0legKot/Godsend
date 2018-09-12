@@ -33,12 +33,12 @@ namespace Godsend.Controllers
         /// <summary>
         /// The product repo
         /// </summary>
-        private IProductRepository prodRepo;
+        private AProductRepository prodRepo;
 
         /// <summary>
         /// The supplier repo
         /// </summary>
-        private ISupplierRepository supRepo;
+        private ASupplierRepository supRepo;
 
         /// <summary>
         /// The context
@@ -54,7 +54,7 @@ namespace Godsend.Controllers
         /// <param name="prodRepo">The product repo.</param>
         /// <param name="supRepo">The sup repo.</param>
         /// <param name="context">The context.</param>
-        public OrderController(IOrderRepository repo, IProductRepository prodRepo, ISupplierRepository supRepo,
+        public OrderController(IOrderRepository repo, AProductRepository prodRepo, ASupplierRepository supRepo,
             DataContext context, IHubContext<NotificationHub> hubContext, UserManager<User> userManager)
         {
             repository = repo;

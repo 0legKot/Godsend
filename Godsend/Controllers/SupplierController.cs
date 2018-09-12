@@ -24,7 +24,7 @@ namespace Godsend.Controllers
         /// Initializes a new instance of the <see cref="SupplierController"/> class.
         /// </summary>
         /// <param name="repo">The repo.</param>
-        public SupplierController(ISupplierRepository repo, IHubContext<NotificationHub> hubContext, ILogger<EntityController<Supplier>> logger)
+        public SupplierController(ASupplierRepository repo, IHubContext<NotificationHub> hubContext, ILogger<EntityController<Supplier>> logger)
             : base(hubContext, logger)
         {
             repository = repo;

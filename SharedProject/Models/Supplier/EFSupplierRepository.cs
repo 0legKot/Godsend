@@ -14,7 +14,7 @@ namespace Godsend.Models
     /// <summary>
     ///
     /// </summary>
-    public class EFSupplierRepository : ISupplierRepository
+    public class EFSupplierRepository : ASupplierRepository
     {
         /// <summary>
         /// The context
@@ -37,28 +37,18 @@ namespace Godsend.Models
             seedHelper.EnsurePopulated(ctx);
         }
 
-        /// <summary>
-        /// Gets the entities.
-        /// </summary>
-        /// <value>
-        /// The entities.
-        /// </value>
-        public IEnumerable<Supplier> Entities(int quantity, int skip = 0) => context.Suppliers
-            .Skip(skip).Take(quantity);
+        protected override IQueryable<Supplier> EntitiesSource => context.Suppliers;
 
-        /// <summary>
-        /// Gets the entities information.
-        /// </summary>
-        /// <value>
-        /// The entities information.
-        /// </value>
-        public IEnumerable<Information> EntitiesInfo(int quantity, int skip = 0) => Entities(quantity, skip).Select(s => s.Info).ToArray();
+        protected override void SaveChangedState(Supplier changedEntity)
+        {
+            context.SaveChanges();
+        }
 
         /// <summary>
         /// Deletes the supplier.
         /// </summary>
         /// <param name="id">The supplier identifier.</param>
-        public async Task DeleteEntity(Guid id)
+        public override async Task DeleteEntity(Guid id)
         {
             Supplier dbEntry = GetEntity(id);
             if (dbEntry != null)
@@ -73,35 +63,10 @@ namespace Godsend.Models
         }
 
         /// <summary>
-        /// Determines whether the specified entity is first.
-        /// </summary>
-        /// <param name="entity">The entity.</param>
-        /// <returns>
-        ///   <c>true</c> if the specified entity is first; otherwise, <c>false</c>.
-        /// </returns>
-        public bool IsFirst(Supplier entity)
-        {
-            return !context.Suppliers.Any(s => s.Id == entity.Id);
-        }
-
-        /// <summary>
-        /// Watches the specified sup.
-        /// </summary>
-        /// <param name="sup">The sup.</param>
-        public void Watch(Supplier sup)
-        {
-            if (sup != null)
-            {
-                ++sup.Info.Watches;
-                context.SaveChanges();
-            }
-        }
-
-        /// <summary>
         /// Saves the entity.
         /// </summary>
         /// <param name="entity">The entity.</param>
-        public async Task SaveEntity(Supplier entity)
+        public override async Task SaveEntity(Supplier entity)
         {
             Supplier dbEntry = GetEntity(entity.Id);
             if (dbEntry != null)
@@ -118,22 +83,7 @@ namespace Godsend.Models
             await context.SaveChangesAsync();
         }
 
-        /// <summary>
-        /// Gets the entity.
-        /// </summary>
-        /// <param name="entityId">The entity identifier.</param>
-        /// <returns></returns>
-        public Supplier GetEntity(Guid entityId)
-        {
-            return context.Suppliers.FirstOrDefault(s => s.Id == entityId);
-        }
-
-        public int EntitiesCount()
-        {
-            return context.Suppliers.Count();
-        }
-
-        public async Task<double> SetRatingAsync(Guid supplierId, string userId, int rating)
+        public override async Task<double> SetRatingAsync(Guid supplierId, string userId, int rating)
         {
             await ratingHelper.SetRatingAsync(supplierId, userId, rating, context.LinkRatingSupplier, context);
 
@@ -152,17 +102,17 @@ namespace Godsend.Models
             return avg;
         }
 
-        public IEnumerable<LinkRatingEntity> GetAllRatings(Guid supplierId)
+        public override IEnumerable<LinkRatingEntity> GetAllRatings(Guid supplierId)
         {
             return context.LinkRatingSupplier.Where(lrs => lrs.EntityId == supplierId);
         }
 
-        public int? GetUserRating(Guid supplierId, string userId)
+        public override int? GetUserRating(Guid supplierId, string userId)
         {
             return context.LinkRatingSupplier.FirstOrDefault(lra => lra.EntityId == supplierId && lra.UserId == userId)?.Rating;
         }
 
-        public async Task<Guid> AddCommentAsync(Guid supplierId, string userId, Guid? baseCommentId, string comment)
+        public override async Task<Guid> AddCommentAsync(Guid supplierId, string userId, Guid? baseCommentId, string comment)
         {
             var newCommentId = await commentHelper.AddCommentGenericAsync<LinkCommentSupplier>(context, supplierId, userId, baseCommentId, comment);
 
@@ -171,21 +121,21 @@ namespace Godsend.Models
             return newCommentId;
         }
 
-        public IEnumerable<LinkCommentEntity> GetAllComments(Guid supplierId)
+        public override IEnumerable<LinkCommentEntity> GetAllComments(Guid supplierId)
         {
             var fortst = context.LinkCommentSupplier.Where(lra => lra.Supplier.Id == supplierId)
                 .Select(x => new LinkCommentSupplier() { BaseComment = x.BaseComment, Comment = x.Comment, Id = x.Id, User = x.User });
             return fortst;
         }
 
-        public async Task DeleteCommentAsync(Guid supplierId, Guid commentId, string userId)
+        public override async Task DeleteCommentAsync(Guid supplierId, Guid commentId, string userId)
         {
             await commentHelper.DeleteCommentGenericAsync(context.LinkCommentSupplier, context, supplierId, commentId);
 
             await RecalcCommentsAsync(supplierId);
         }
 
-        public async Task EditCommentAsync(Guid commentId, string newContent, string userId)
+        public override async Task EditCommentAsync(Guid commentId, string newContent, string userId)
         {
             var comment = await context.LinkCommentSupplier.FirstOrDefaultAsync(lce => lce.Id == commentId);
 
@@ -206,7 +156,7 @@ namespace Godsend.Models
             await context.SaveChangesAsync();
         }
 
-        public IEnumerable<ProductInformation> GetProducts(Guid supplierId)
+        public override IEnumerable<ProductInformation> GetProducts(Guid supplierId)
         {
             return context.LinkProductsSuppliers.Where(x => x.SupplierId == supplierId).Select(x => x.Product.Info);
         }

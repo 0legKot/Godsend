@@ -4,8 +4,10 @@
 
 namespace Godsend.Models
 {
+    using Newtonsoft.Json;
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations.Schema;
     using System.Linq;
     using System.Threading.Tasks;
 
@@ -21,5 +23,9 @@ namespace Godsend.Models
         /// The identifier.
         /// </value>
         Guid Id { get; set; }
+
+        [NotMapped]
+        [JsonIgnore]
+        Information EntityInfo { get; }
     }
 }
