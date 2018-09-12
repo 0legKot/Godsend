@@ -18,6 +18,15 @@ namespace Godsend.Controllers
     public class NotificationHub : Hub
     {
         [Authorize]
+        public async Task SendTo(string to, string message)
+        {
+            var user = Context.User;
+            string name = user.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name).Value;
+            await Clients.Group(to).SendAsync("HE", $"{name}: {message}");
+            await Clients.Caller.SendAsync("ME", $"{name}: {message}");
+        }
+
+        [Authorize]
         public async Task Send(string message)
         {
             var user = Context.User;
@@ -26,6 +35,22 @@ namespace Godsend.Controllers
 
             await Clients.Others.SendAsync("Receive", $"{name}: {message}");
             await Clients.Caller.SendAsync("Send", $"{name}: {message}");
+        }
+
+        public override Task OnConnectedAsync()
+        {
+            string name = Context.User.Identity.Name;
+            Groups.AddToGroupAsync(Context.ConnectionId, name).GetAwaiter().GetResult();
+
+            return base.OnConnectedAsync();
+        }
+
+        public override async Task OnDisconnectedAsync(Exception exception)
+        {
+            string name = Context.User.Identity.Name;
+            await Groups.RemoveFromGroupAsync(Context.ConnectionId, name);
+
+            base.OnDisconnectedAsync(exception);
         }
     }
 }
