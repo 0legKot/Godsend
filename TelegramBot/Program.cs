@@ -31,10 +31,11 @@ namespace TelegramBot
                     var message = update.Message;
                     if (message.Type == Telegram.Bot.Types.Enums.MessageType.Text)
                     {
+                        string msg = "";
                         switch (message.Text)
                         {
                             case "/hello":
-                                Bot.SendTextMessageAsync(message.Chat.Id, "Hello world! I am great, yeah", replyToMessageId: message.MessageId).GetAwaiter();
+                                msg = "Hello world! I am great, yeah";
                                 break;
                             case "/products":
                                 var msg = "Our categories:\n";
@@ -46,13 +47,13 @@ namespace TelegramBot
                                 Bot.SendTextMessageAsync(message.Chat.Id, msg, replyToMessageId: message.MessageId).GetAwaiter();
                                 break;
                             case "/suppliers":
-                                Bot.SendTextMessageAsync(message.Chat.Id, "Nope", replyToMessageId: message.MessageId).GetAwaiter();
+                                msg = "Nope";
                                 break;
                             case "/articles":
-                                Bot.SendTextMessageAsync(message.Chat.Id, "Nope", replyToMessageId: message.MessageId).GetAwaiter();
+                                msg = "Nope";
                                 break;
                             default:
-                                Bot.SendTextMessageAsync(message.Chat.Id, "You wrote: " + message.Text, replyToMessageId: message.MessageId).GetAwaiter();
+                                msg = "You wrote: " + message.Text;
                                 break;
                         }
                     }
