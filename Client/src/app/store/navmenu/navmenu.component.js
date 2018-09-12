@@ -11,11 +11,13 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { StorageService } from '../../services/storage.service';
 import { AuthenticationService } from '../../services/authentication.service';
+import { TranslateService } from '@ngx-translate/core';
 var NavMenuComponent = /** @class */ (function () {
-    function NavMenuComponent(storage, auth, router) {
+    function NavMenuComponent(storage, auth, router, translateService) {
         this.storage = storage;
         this.auth = auth;
         this.router = router;
+        this.translateService = translateService;
         this.showMenuMobile = false;
     }
     NavMenuComponent.prototype.scrollToTop = function () {
@@ -42,6 +44,21 @@ var NavMenuComponent = /** @class */ (function () {
         enumerable: true,
         configurable: true
     });
+    Object.defineProperty(NavMenuComponent.prototype, "currentUserId", {
+        get: function () { return this.storage.id; },
+        enumerable: true,
+        configurable: true
+    });
+    NavMenuComponent.prototype.ngOnInit = function () {
+        this.selectedLang = this.translateService.currentLang;
+        this.availableLangs = this.translateService.getLangs();
+        console.log(this.selectedLang);
+        console.log(this.availableLangs);
+    };
+    NavMenuComponent.prototype.changeLang = function (newLang) {
+        console.log('Changing lang to ' + newLang);
+        this.translateService.use(newLang);
+    };
     NavMenuComponent.prototype.logout = function () {
         this.auth.logout();
     };
@@ -55,7 +72,7 @@ var NavMenuComponent = /** @class */ (function () {
             templateUrl: './navmenu.component.html',
             styleUrls: ['./navmenu.component.css']
         }),
-        __metadata("design:paramtypes", [StorageService, AuthenticationService, Router])
+        __metadata("design:paramtypes", [StorageService, AuthenticationService, Router, TranslateService])
     ], NavMenuComponent);
     return NavMenuComponent;
 }());

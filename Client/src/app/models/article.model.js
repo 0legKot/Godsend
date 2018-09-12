@@ -23,13 +23,14 @@ var Article = /** @class */ (function () {
 }());
 export { Article };
 var ArticleInfo = /** @class */ (function () {
-    function ArticleInfo(name, description, tags, id, created, author, rating, watches) {
+    function ArticleInfo(name, description, tags, id, created, author, rating, watches, commentsCount) {
         if (description === void 0) { description = ''; }
         if (id === void 0) { id = ''; }
         if (created === void 0) { created = ''; }
         if (author === void 0) { author = new IdentityUser(); }
         if (rating === void 0) { rating = 0; }
         if (watches === void 0) { watches = 0; }
+        if (commentsCount === void 0) { commentsCount = 0; }
         this.name = name;
         this.description = description;
         this.tags = tags;
@@ -38,6 +39,7 @@ var ArticleInfo = /** @class */ (function () {
         this.author = author;
         this.rating = rating;
         this.watches = watches;
+        this.commentsCount = commentsCount;
     }
     return ArticleInfo;
 }());

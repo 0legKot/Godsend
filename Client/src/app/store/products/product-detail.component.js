@@ -7,30 +7,29 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-// import { switchMap } from 'rxjs/operators';
 import { Component } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Product, SupplierAndPrice, EAV, propertyType } from '../../models/product.model';
 import { RepositoryService } from '../../services/repository.service';
 import { CartService } from '../../services/cart.service';
-import { ImageService } from '../../services/image.service';
 import { StorageService } from '../../services/storage.service';
 import { CategoryService } from '../../services/category.service';
 import { searchType } from '../search/search.service';
 var ProductDetailComponent = /** @class */ (function () {
-    function ProductDetailComponent(route, router, repo, cart, imageService, storage, catService) {
+    function ProductDetailComponent(route, router, repo, cart, 
+    //private imageService: ImageService,
+    storage, catService) {
         this.route = route;
         this.router = router;
         this.repo = repo;
         this.cart = cart;
-        this.imageService = imageService;
         this.storage = storage;
         this.catService = catService;
         this.quantity = 1;
         this.edit = false;
         this.searchTypeSupplier = searchType.supplier;
         this.clas = 'product';
-        this.images = [];
+        //images: string[] = [];
         this.backup = {
             name: '',
             description: '',
@@ -57,7 +56,7 @@ var ProductDetailComponent = /** @class */ (function () {
         enumerable: true,
         configurable: true
     });
-    ProductDetailComponent.prototype.gotoProducts = function (product) {
+    ProductDetailComponent.prototype.gotoProducts = function () {
         var productId = this.route.snapshot.params.id;
         this.router.navigate(['/products', { id: productId }]);
     };
@@ -92,7 +91,8 @@ var ProductDetailComponent = /** @class */ (function () {
                 cat: this.product.jsonCategory,
                 decimalProps: this.product.decimalProps,
                 intProps: this.product.intProps,
-                stringProps: this.product.stringProps
+                stringProps: this.product.stringProps,
+                images: this.product.images
             };
             this.edit = true;
         }
@@ -111,6 +111,7 @@ var ProductDetailComponent = /** @class */ (function () {
             this.product.stringProps = this.backup.stringProps;
             this.product.intProps = this.backup.intProps;
             this.product.decimalProps = this.backup.decimalProps;
+            this.product.images = this.backup.images;
         }
         this.edit = false;
     };
@@ -119,8 +120,10 @@ var ProductDetailComponent = /** @class */ (function () {
         this.repo.getEntity('product', this.route.snapshot.params.id, function (p) {
             _this.product = p;
             _this.selectedSupplier = p.suppliersAndPrices ? p.suppliersAndPrices[0] : undefined;
+            /*if (this.product.images) {
+                this.imageService.getImages(this.product.images.map(i => i.id), images => { this.images = images; });
+            }*/
         });
-        this.imageService.getImages(this.route.snapshot.params.id, function (images) { _this.images = images; });
     };
     ProductDetailComponent.prototype.changeCategory = function (newCat) {
         if (this.product) {
@@ -178,6 +181,11 @@ var ProductDetailComponent = /** @class */ (function () {
             this.product.suppliersAndPrices = this.product.suppliersAndPrices.filter(function (s) { return s != snp; });
         }
     };
+    ProductDetailComponent.prototype.setImages = function (images) {
+        if (this.product) {
+            this.product.images = images;
+        }
+    };
     ProductDetailComponent = __decorate([
         Component({
             selector: 'godsend-product-detail',
@@ -188,7 +196,6 @@ var ProductDetailComponent = /** @class */ (function () {
             Router,
             RepositoryService,
             CartService,
-            ImageService,
             StorageService,
             CategoryService])
     ], ProductDetailComponent);

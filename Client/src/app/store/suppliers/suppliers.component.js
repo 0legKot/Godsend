@@ -22,9 +22,11 @@ var SuppliersComponent = /** @class */ (function () {
         this.type = searchType.supplier;
         this.page = 1;
         this.rpp = 10;
-        this.images = {};
         this.templateText = 'Waiting for data...';
-        this.imagg = {};
+        /**
+         * images as a dictionary where key is id and value is base64-encoded image
+         * */
+        this.images = {};
     }
     Object.defineProperty(SuppliersComponent.prototype, "suppliers", {
         get: function () {
@@ -47,11 +49,11 @@ var SuppliersComponent = /** @class */ (function () {
     SuppliersComponent.prototype.getSuppliers = function () {
         var _this = this;
         this.repo.getEntities('supplier', this.page, this.rpp, function (res) {
-            _this.imageService.getPreviewImages(res.map(function (si) { return si.id; }), function (smth) { return _this.imagg = smth; });
+            _this.imageService.getPreviewImages(res.filter(function (si) { return si.preview != null; }).map(function (si) { return si.preview.id; }), function (images) { return _this.images = images; });
         });
     };
     SuppliersComponent.prototype.getImage = function (pi) {
-        return this.images[pi.id];
+        return pi.preview ? this.images[pi.preview.id] : "";
     };
     SuppliersComponent.prototype.ngOnInit = function () {
         this.getSuppliers();

@@ -44,10 +44,4 @@ var SearchService = /** @class */ (function () {
     return SearchService;
 }());
 export { SearchService };
-var AllSearchResult = /** @class */ (function () {
-    function AllSearchResult() {
-    }
-    return AllSearchResult;
-}());
-export { AllSearchResult };
 //# sourceMappingURL=search.service.js.map

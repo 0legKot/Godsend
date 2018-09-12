@@ -30,12 +30,15 @@ var ProductsComponent = /** @class */ (function () {
         // page: number = 1;
         // rpp: number = 10;
         this.type = searchType.product;
-        this.images = {};
         // searchProducts?: ProductInfo[];
         this.templateText = 'Waiting for data...';
+        this.comparsionSet = new Array();
         this.filter = new FilterInfoView();
         this.orderBy = orderBy;
-        this.imagg = {};
+        /**
+         * images as a dictionary where key is id and value is base64-encoded image
+         * */
+        this.images = {};
     }
     Object.defineProperty(ProductsComponent.prototype, "pagesCount", {
         get: function () {
@@ -49,32 +52,60 @@ var ProductsComponent = /** @class */ (function () {
         this.getProducts();
     };
     ProductsComponent.prototype.getProducts = function () {
-        var _this = this;
         this.repo.getByFilter(function (res) {
-            _this.imageService.getPreviewImages(res.map(function (pi) { return pi.id; }), function (smth) { return _this.imagg = smth; });
+            console.log(res);
         });
     };
-    Object.defineProperty(ProductsComponent.prototype, "products", {
+    Object.defineProperty(ProductsComponent.prototype, "isFilteredByCategory", {
         get: function () {
-            // return this.searchProducts || this.repo.products;
-            return this.repo.products;
+            return Boolean(this.repo.productFilter.categoryId);
         },
         enumerable: true,
         configurable: true
     });
-    ProductsComponent.prototype.getImage = function (pi) {
-        return this.images[pi.id];
+    Object.defineProperty(ProductsComponent.prototype, "idsForCompare", {
+        get: function () {
+            return this.comparsionSet.join(',');
+        },
+        enumerable: true,
+        configurable: true
+    });
+    ProductsComponent.prototype.refreshImages = function () {
+        var _this = this;
+        var ids = this.repo.products.filter(function (pi) { return pi.preview != null; }).map(function (pi) { return pi.preview.id; });
+        this.imageService.getPreviewImages(ids, function (images) { _this.images = images; });
     };
+    ProductsComponent.prototype.toggleComparsion = function (id) {
+        if (!this.isFilteredByCategory)
+            return;
+        if (this.comparsionSet.indexOf(id) == -1)
+            this.comparsionSet.push(id);
+        else
+            this.comparsionSet = this.comparsionSet.filter(function (x) { return x != id; });
+    };
+    /*exp get products(): ProductInfo[] {
+         // return this.searchProducts || this.repo.products;
+         return this.repo.products;
+     }*/
+    //getImage(pi: ProductInfo): string {
+    //    return this.images[pi.id];
+    //}
     ProductsComponent.prototype.createProduct = function (descr, name) {
         var _this = this;
         // TODO create interface with only relevant info
-        var prod = new Product('', new ProductInfo('', descr, 0, name, 0, 0), guidZero);
+        var prod = new Product('', new ProductInfo('', descr, 0, name), guidZero);
         this.repo.createOrEditEntity('product', prod, 0, 0, function (pi) { return _this.router.navigateByUrl('products/' + pi.id); });
     };
     ProductsComponent.prototype.deleteProduct = function (id) {
         this.repo.deleteEntity('product', id, 0, 0);
     };
     ProductsComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        this.repo.productsExperiment.subscribe(function (newProducts) {
+            console.log('products changed');
+            _this.productsExperiment = newProducts;
+            _this.refreshImages();
+        });
         this.getProducts();
     };
     ProductsComponent.prototype.getCategories = function () {

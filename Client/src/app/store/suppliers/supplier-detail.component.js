@@ -12,19 +12,17 @@ import { Component } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { RepositoryService } from '../../services/repository.service';
 import { Supplier } from '../../models/supplier.model';
-import { ImageService } from '../../services/image.service';
 import { StorageService } from '../../services/storage.service';
 var SupplierDetailComponent = /** @class */ (function () {
-    function SupplierDetailComponent(route, router, repo, imageService, storage) {
+    function SupplierDetailComponent(route, router, repo, storage) {
         this.route = route;
         this.router = router;
         this.repo = repo;
-        this.imageService = imageService;
         this.storage = storage;
-        this.image = '';
         this.backup = {
             name: '',
-            address: ''
+            address: '',
+            images: []
         };
         this.edit = false;
         this.clas = 'supplier';
@@ -54,8 +52,10 @@ var SupplierDetailComponent = /** @class */ (function () {
         this.repo.getEntity('supplier', this.route.snapshot.params.id, function (s) {
             _this.supp = s;
             console.log(s.productsAndPrices);
+            //if (this.supp.images) {
+            //    this.imageService.getImages(this.supp.images.map(i => i.id), images => { this.images = images; });
+            //}
         });
-        this.imageService.getImage(this.route.snapshot.params.id, function (image) { _this.image = image; });
     };
     SupplierDetailComponent.prototype.editMode = function () {
         if (this.supp == null) {
@@ -76,10 +76,16 @@ var SupplierDetailComponent = /** @class */ (function () {
         }
         this.edit = false;
     };
+    SupplierDetailComponent.prototype.setImages = function (newImages) {
+        if (this.supp) {
+            this.supp.images = newImages;
+        }
+    };
     SupplierDetailComponent.prototype.discard = function () {
         if (this.supp) {
             this.supp.info.name = this.backup.name;
             this.supp.info.location.address = this.backup.address;
+            this.supp.images = this.backup.images;
         }
         this.edit = false;
     };
@@ -92,7 +98,6 @@ var SupplierDetailComponent = /** @class */ (function () {
         __metadata("design:paramtypes", [ActivatedRoute,
             Router,
             RepositoryService,
-            ImageService,
             StorageService])
     ], SupplierDetailComponent);
     return SupplierDetailComponent;

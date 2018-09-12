@@ -170,14 +170,16 @@ namespace Godsend.Controllers
         public async Task<object> EditProfile(/*string token,*/ [FromBody] RegisterViewModel model)
         {
             User user = context.Users.FirstOrDefault(x => x.UserName == User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name).Value);
-
-            var result = await userManager.ChangeEmailAsync(user, model.Email, model.Token);
-            //result &= await userManager.ChangePasswordAsync(user, "", "");
-            if (result.Succeeded)
-            {
-                return Ok();
-            }
-
+            user.Email = model.Email;
+            user.Birth = DateTime.Parse(model.Birth);
+            user.UserName = model.Name;
+            user.NormalizedEmail = userManager.NormalizeKey(model.Email);
+            user.NormalizedUserName = userManager.NormalizeKey(model.Name);
+            if (model.Password != null) user.PasswordHash = userManager.PasswordHasher.HashPassword(user, model.Password);
+            var res = await context.SaveChangesAsync();
+            if (res==1)
+            return Ok(user);
+            else
             return BadRequest("Could not edit");
         }
 

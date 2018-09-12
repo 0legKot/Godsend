@@ -6,11 +6,12 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AngularFontAwesomeModule } from 'angular-font-awesome';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { MatTreeModule, MatButtonModule, MatIconModule } from '@angular/material';
 import { CdkTreeModule } from '@angular/cdk/tree';
 import { AppComponent } from './store/app/app.component';
@@ -45,11 +46,17 @@ import { CommentWrapperComponent } from './store/comments/comment-wrapper.compon
 import { EntityRatingsComponent } from './store/rating/entity-ratings.component';
 import { RatingsComponent } from './store/rating/ratings.component';
 import { CategoryTreeComponent } from './store/products/category-tree.component';
+import { ProductsComparisonComponent } from './store/products/products-comparison.component';
+import { GalleryComponent } from './store/gallery/gallery.component';
+export function HttpLoaderFactory(httpClient) {
+    return new TranslateHttpLoader(httpClient);
+}
 var APP_ROUTES = [
     { path: '', redirectTo: 'home', pathMatch: 'full' },
     { path: 'home', component: HomeComponent },
     { path: 'products', component: ProductsComponent },
     { path: 'products/:id', component: ProductDetailComponent },
+    { path: 'products/comparison/:ids', component: ProductsComparisonComponent },
     { path: 'suppliers', component: SuppliersComponent },
     { path: 'suppliers/:id', component: SupplierDetailComponent },
     { path: 'orders', component: OrdersComponent, canActivate: [AuthenticationGuard] },
@@ -62,7 +69,7 @@ var APP_ROUTES = [
     { path: 'search', component: SearchComponent },
     { path: 'search', component: SearchComponent },
     { path: 'statistics', component: StatisticsComponent },
-    { path: 'user', component: UserComponent },
+    { path: 'user/:id', component: UserComponent },
     { path: 'admin', component: AdminComponent },
     { path: '**', redirectTo: 'home' }
 ];
@@ -84,6 +91,7 @@ var AppModule = /** @class */ (function () {
                 PagesComponent,
                 ProductDetailComponent,
                 ProductCardComponent,
+                ProductsComparisonComponent,
                 ProductsComponent,
                 SearchComponent,
                 SearchInlineComponent,
@@ -102,6 +110,7 @@ var AppModule = /** @class */ (function () {
                 EntityRatingsComponent,
                 RatingsComponent,
                 CategoryTreeComponent,
+                GalleryComponent,
             ],
             imports: [
                 AngularFontAwesomeModule,
@@ -113,12 +122,14 @@ var AppModule = /** @class */ (function () {
                 CdkTreeModule,
                 MatButtonModule,
                 MatIconModule,
+                TranslateModule.forRoot({
+                    loader: {
+                        provide: TranslateLoader,
+                        useFactory: HttpLoaderFactory,
+                        deps: [HttpClient]
+                    }
+                }),
                 RouterModule.forRoot(APP_ROUTES),
-                TranslateModule.forRoot(loader, {
-                    provide: TranslateLoader,
-                    useFactory: HttpLoaderFactory,
-                    deps: [HttpClient]
-                })
             ],
             providers: [
                 SearchService,

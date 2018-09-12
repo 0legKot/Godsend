@@ -9,20 +9,23 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 import { Product, ProductFilterInfo } from '../models/product.model';
 import { Injectable } from '@angular/core';
+import { Subject } from 'rxjs';
 import { DataService } from './data.service';
 import { Order } from '../models/order.model';
 import { Supplier } from '../models/supplier.model';
 import { Cart, OrderPartDiscreteSend } from '../models/cart.model';
+import { shareReplay } from 'rxjs/operators';
 var productsUrl = 'api/product';
 var ordersUrl = 'api/order';
 var suppliersUrl = 'api/supplier';
 var articlesUrl = 'api/article';
-// TODO: rework
 var RepositoryService = /** @class */ (function () {
     function RepositoryService(data) {
         this.data = data;
         this.product = {};
         this.products = [];
+        //must be useless
+        this.productsForComparement = [];
         this.orders = [];
         this.order = {};
         this.suppliers = [];
@@ -35,6 +38,9 @@ var RepositoryService = /** @class */ (function () {
         this.ordersCount = 0;
         this.productFilter = new ProductFilterInfo(10, 1);
         this.comments = {};
+        this.productsExperimentPusher = new Subject();
+        // Re-emits last value on new subscribe
+        this.productsExperiment = this.productsExperimentPusher.asObservable().pipe(shareReplay(1));
     }
     RepositoryService.prototype.getSavedEntities = function (clas) {
         switch (clas) {
@@ -62,21 +68,6 @@ var RepositoryService = /** @class */ (function () {
             default: return;
         }
     };
-    /*setComments<T>(val: T) {
-        this.comments = val;
-        //switch (typeof (val)) {
-        //    case typeof (Product):
-        //        this.product = val;
-        //        break;
-        //    case typeof (Supplier):
-        //        this.supplier = val;
-        //        break;
-        //    case typeof (Order):
-        //        this.order = val;
-        //        break;
-        //    default: return;
-        //}
-    }*/
     RepositoryService.prototype.setEntities = function (clas, val) {
         switch (clas) {
             case 'product':
@@ -129,6 +120,23 @@ var RepositoryService = /** @class */ (function () {
                     fn(response);
                 }
             });
+        }
+    };
+    //redo for entities
+    RepositoryService.prototype.getProductsForComparement = function (clas, ids, fn) {
+        var _this = this;
+        this.productsForComparement = Array();
+        var url = this.getUrl(clas);
+        ids.forEach(function (id) {
+            if (id != null) {
+                _this.data.sendRequest('get', url + '/detail/' + id)
+                    .subscribe(function (response) {
+                    _this.productsForComparement.push(response);
+                });
+            }
+        });
+        if (fn) {
+            fn(this.productsForComparement);
         }
     };
     RepositoryService.prototype.getEntityComments = function (clas, id, fn) {
@@ -256,9 +264,12 @@ var RepositoryService = /** @class */ (function () {
         var _this = this;
         var url = this.getUrl(clas);
         this.data.sendRequest('delete', url + '/delete/' + id)
-            .subscribe(function (response) { _this.getEntities(clas, page, rpp); if (fn) {
-            fn();
-        } });
+            .subscribe(function (_) {
+            _this.getEntities(clas, page, rpp);
+            if (fn) {
+                fn();
+            }
+        });
     };
     RepositoryService.prototype.storeSessionData = function (dataType, data) {
         return this.data.sendRequest('post', '/api/session/' + dataType, data)
@@ -272,6 +283,7 @@ var RepositoryService = /** @class */ (function () {
         this.data.sendRequest('post', 'api/product/byFilter', this.productFilter)
             .subscribe(function (result) {
             _this.products = result.infos;
+            _this.productsExperimentPusher.next(result.infos);
             _this.productsCount = result.count;
             if (fn) {
                 fn(result.infos);
@@ -302,6 +314,14 @@ var RepositoryService = /** @class */ (function () {
             .subscribe(function (result) {
             if (fn) {
                 fn(result);
+            }
+        });
+    };
+    RepositoryService.prototype.uploadImages = function (data, fn) {
+        this.data.sendRequest('post', "api/image/upload", data)
+            .subscribe(function (response) {
+            if (fn) {
+                fn(response);
             }
         });
     };

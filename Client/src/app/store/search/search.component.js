@@ -23,11 +23,17 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 import { Component } from '@angular/core';
 import { SearchService, searchType } from './search.service';
 import { SearchBaseComponent } from './search.base.component';
+import { ImageService } from '../../services/image.service';
 var SearchComponent = /** @class */ (function (_super) {
     __extends(SearchComponent, _super);
-    function SearchComponent(ss) {
+    function SearchComponent(ss, imageService) {
         var _this = _super.call(this) || this;
         _this.ss = ss;
+        _this.imageService = imageService;
+        /**
+         * images as a dictionary where key is id and value is base64-encoded image
+         * */
+        _this.images = {};
         return _this;
     }
     SearchComponent.prototype.ngOnInit = function () {
@@ -38,6 +44,15 @@ var SearchComponent = /** @class */ (function (_super) {
         this.ss.findByType(searchType.all, term, function (res) {
             console.dir(res);
             _this.searchResult = res;
+            var ids = res.productsInfo
+                .filter(function (p) { return p.preview != null; })
+                .map(function (p) { return p.preview.id; })
+                .concat(res.suppliersInfo
+                .filter(function (s) { return s.preview != null; })
+                .map(function (s) { return s.preview.id; }));
+            if (ids.length > 0) {
+                _this.imageService.getPreviewImages(ids, function (images) { return _this.images = images; });
+            }
         });
     };
     SearchComponent = __decorate([
@@ -49,7 +64,7 @@ var SearchComponent = /** @class */ (function (_super) {
                 '../products/products.component.css'
             ]
         }),
-        __metadata("design:paramtypes", [SearchService])
+        __metadata("design:paramtypes", [SearchService, ImageService])
     ], SearchComponent);
     return SearchComponent;
 }(SearchBaseComponent));

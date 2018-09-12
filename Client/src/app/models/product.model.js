@@ -1,6 +1,6 @@
 import { guidZero } from './cart.model';
 var Product = /** @class */ (function () {
-    function Product(id, info, categoryId, jsonCategory, stringProps, intProps, decimalProps, suppliersAndPrices) {
+    function Product(id, info, categoryId, jsonCategory, stringProps, intProps, decimalProps, suppliersAndPrices, images) {
         this.id = id;
         this.info = info;
         this.categoryId = categoryId;
@@ -9,9 +9,10 @@ var Product = /** @class */ (function () {
         this.intProps = intProps;
         this.decimalProps = decimalProps;
         this.suppliersAndPrices = suppliersAndPrices;
+        this.images = images;
     }
     Product.EnsureType = function (product) {
-        return new this(product.id, product.info, product.jsonCategory ? product.jsonCategory.id : guidZero, product.jsonCategory, product.stringProps, product.intProps, product.decimalProps, product.suppliersAndPrices);
+        return new this(product.id, product.info, product.jsonCategory ? product.jsonCategory.id : guidZero, product.jsonCategory, product.stringProps, product.intProps, product.decimalProps, product.suppliersAndPrices, product.images);
     };
     Product.prototype.toCreateEdit = function () {
         return {
@@ -24,20 +25,25 @@ var Product = /** @class */ (function () {
             intProps: this.intProps,
             stringProps: this.stringProps,
             decimalProps: this.decimalProps,
-            suppliersAndPrices: this.suppliersAndPrices
+            suppliersAndPrices: this.suppliersAndPrices,
+            images: this.images
         };
     };
     return Product;
 }());
 export { Product };
 var ProductInfo = /** @class */ (function () {
-    function ProductInfo(id, description, state, name, watches, rating) {
+    function ProductInfo(id, description, state, name, watches, rating, commentsCount) {
+        if (watches === void 0) { watches = 0; }
+        if (rating === void 0) { rating = 0; }
+        if (commentsCount === void 0) { commentsCount = 0; }
         this.id = id;
         this.description = description;
         this.state = state;
         this.name = name;
         this.watches = watches;
         this.rating = rating;
+        this.commentsCount = commentsCount;
     }
     return ProductInfo;
 }());
