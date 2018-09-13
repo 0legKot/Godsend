@@ -137,7 +137,7 @@ namespace Godsend.Controllers
         }
 
         [HttpGet("[action]/{entityId:Guid}")]
-        public virtual IEnumerable<LinkRatingEntity.WithoutEntity> Ratings(Guid entityId)
+        public virtual IEnumerable<LinkRatingEntity<TEntity>.WithoutEntity> Ratings(Guid entityId)
         {
             return repository.GetAllRatings(entityId).Select(link => link.GetWithoutEntity());
         }

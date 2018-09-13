@@ -10,7 +10,7 @@ namespace Godsend.Models
     using System.Text;
     using Newtonsoft.Json;
 
-    public class LinkRatingEntity
+    public class LinkRatingEntity<TEntity> where TEntity : IEntity
     {
         public Guid Id { get; set; }
 
@@ -24,6 +24,8 @@ namespace Godsend.Models
 
         [JsonIgnore]
         public string UserId { get; set; }
+
+        public virtual TEntity Entity { get; set; }
 
         public Guid EntityId { get; set; }
 
@@ -47,18 +49,18 @@ namespace Godsend.Models
         }
     }
 
-    public class LinkRatingProduct : LinkRatingEntity
+   /* public class LinkRatingProduct : LinkRatingEntity<Product>
     {
-        public virtual Product Entity { get; set; }
+        //public virtual Product Entity { get; set; }
     }
 
-    public class LinkRatingSupplier : LinkRatingEntity
+    public class LinkRatingSupplier : LinkRatingEntity<Supplier>
     {
-        public virtual Supplier Entity { get; set; }
+        //public virtual Supplier Entity { get; set; }
     }
 
-    public class LinkRatingArticle : LinkRatingEntity
+    public class LinkRatingArticle : LinkRatingEntity<Article>
     {
-        public virtual Article Entity { get; set; }
-    }
+        //public virtual Article Entity { get; set; }
+    }*/
 }

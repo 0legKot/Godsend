@@ -26,8 +26,6 @@ namespace Godsend.Models
         /// </summary>
         private User user;
 
-        private IRatingHelper ratingHelper;
-
         private ICommentHelper commentHelper;
 
         /// <summary>
@@ -35,15 +33,16 @@ namespace Godsend.Models
         /// </summary>
         /// <param name="context">The context.</param>
         /// <param name="userManager">The user manager.</param>
-        public EFArticleRepository(DataContext context, ISeedHelper seedHelper, IRatingHelper ratingHelper, ICommentHelper commentHelper)
+        public EFArticleRepository(DataContext context, ISeedHelper seedHelper, ICommentHelper commentHelper)
         {
             this.context = context;
-            this.ratingHelper = ratingHelper;
             this.commentHelper = commentHelper;
             seedHelper.EnsurePopulated(context);
         }
 
-        protected override IQueryable<Article> EntitiesSource { get => context.Articles; }
+        protected override IQueryable<Article> EntitiesSource => context.Articles;
+
+        protected override IQueryable<LinkRatingEntity<Article>> RatingsSource => context.LinkRatingArticle;
 
         protected override void SaveChangedState(Article changedEntity)
         {
@@ -107,33 +106,16 @@ namespace Godsend.Models
             await context.SaveChangesAsync();
         }
 
-        public override async Task<double> SetRatingAsync(Guid articleId, string userId, int rating)
+        protected override void AddAndSaveRating(LinkRatingEntity<Article> newRating)
         {
-            await ratingHelper.SetRatingAsync(articleId, userId, rating, context.LinkRatingArticle, context);
+            context.Add(newRating);
 
-            return await RecalcRatings(articleId);
+            context.SaveChanges();
         }
 
-        private async Task<double> RecalcRatings(Guid articleId)
+        protected override void SaveChangedRating(LinkRatingEntity<Article> rating)
         {
-            var avg = await ratingHelper.CalculateAverageAsync(context.LinkRatingArticle, articleId);
-
-            var article = await context.Articles.FirstOrDefaultAsync(p => p.Id == articleId);
-            article.Info.Rating = avg;
-
-            await context.SaveChangesAsync();
-
-            return avg;
-        }
-
-        public override IEnumerable<LinkRatingEntity> GetAllRatings(Guid articleId)
-        {
-            return context.LinkRatingArticle.Where(lra => lra.EntityId == articleId);
-        }
-
-        public override int? GetUserRating(Guid articleId, string userId)
-        {
-            return context.LinkRatingArticle.FirstOrDefault(lra => lra.EntityId == articleId && lra.UserId == userId)?.Rating;
+            context.SaveChanges();
         }
 
         public override async Task<Guid> AddCommentAsync(Guid articleId, string userId, Guid? baseCommentId, string comment)

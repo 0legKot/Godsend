@@ -37,24 +37,23 @@ namespace Godsend
         /// </summary>
         private DataContext context;
 
-        private IRatingHelper ratingHelper;
-
         private ICommentHelper commentHelper;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="EFProductRepository" /> class.
         /// </summary>
         /// <param name="ctx">The CTX.</param>
-        public EFProductRepository(DataContext ctx, ISeedHelper seedHelper, IRatingHelper ratingHelper, ICommentHelper commentHelper)
+        public EFProductRepository(DataContext ctx, ISeedHelper seedHelper, ICommentHelper commentHelper)
         {
             context = ctx;
-            this.ratingHelper = ratingHelper;
             this.commentHelper = commentHelper;
             seedHelper.EnsurePopulated(ctx);
             cats = context.Categories;
         }
 
-        protected override IQueryable<Product> EntitiesSource { get => context.Products; }
+        protected override IQueryable<Product> EntitiesSource => context.Products;
+
+        protected override IQueryable<LinkRatingEntity<Product>> RatingsSource => context.LinkRatingProduct;
 
         protected override void SaveChangedState(Product changedProduct)
         {
@@ -338,34 +337,17 @@ namespace Godsend
             cur.Subs = subs;
             return result;
         }
-        
-        public override async Task<double> SetRatingAsync(Guid productId, string userId, int rating)
-        {
-            await ratingHelper.SetRatingAsync(productId, userId, rating, context.LinkRatingProduct, context);
 
-            return await RecalcRatings(productId);
+        protected override void AddAndSaveRating(LinkRatingEntity<Product> newRating)
+        {
+            context.Add(newRating);
+
+            context.SaveChanges();
         }
 
-        private async Task<double> RecalcRatings(Guid productId)
+        protected override void SaveChangedRating(LinkRatingEntity<Product> rating)
         {
-            var avg = await ratingHelper.CalculateAverageAsync(context.LinkRatingProduct, productId);
-
-            var product = await context.Products.FirstOrDefaultAsync(p => p.Id == productId);
-            product.Info.Rating = avg;
-
-            await context.SaveChangesAsync();
-
-            return avg;
-        }
-
-        public override IEnumerable<LinkRatingEntity> GetAllRatings(Guid productId)
-        {
-            return context.LinkRatingProduct.Where(lra => lra.EntityId == productId);
-        }
-
-        public override int? GetUserRating(Guid productId, string userId)
-        {
-            return context.LinkRatingProduct.FirstOrDefault(lra => lra.EntityId == productId && lra.UserId == userId)?.Rating;
+            context.SaveChanges();
         }
 
         public override async Task<Guid> AddCommentAsync(Guid productId, string userId, Guid? baseCommentId, string comment)

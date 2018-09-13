@@ -46,7 +46,6 @@ namespace Godsend
             services.AddTransient<ASupplierRepository, EFSupplierRepository>();
             services.AddTransient<AArticleRepository, EFArticleRepository>();
             services.AddTransient<ISeedHelper, SeedHelper>();
-            services.AddTransient<IRatingHelper, RatingHelper>();
             services.AddTransient<ICommentHelper, CommentHelper>();
             services.AddTransient<IImageService, ImageService>();
             services.AddTransient<IStorageService, StorageService>();

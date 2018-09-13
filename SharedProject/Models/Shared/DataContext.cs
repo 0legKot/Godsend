@@ -90,11 +90,11 @@ namespace Godsend.Models
 
         public DbSet<EAV<decimal>> LinkProductPropertyDecimal { get; set; }
 
-        public DbSet<LinkRatingProduct> LinkRatingProduct { get; set; }
+        public DbSet<LinkRatingEntity<Product>> LinkRatingProduct { get; set; }
 
-        public DbSet<LinkRatingSupplier> LinkRatingSupplier { get; set; }
+        public DbSet<LinkRatingEntity<Supplier>> LinkRatingSupplier { get; set; }
 
-        public DbSet<LinkRatingArticle> LinkRatingArticle { get; set; }
+        public DbSet<LinkRatingEntity<Article>> LinkRatingArticle { get; set; }
 
         public DbSet<LinkCommentProduct> LinkCommentProduct { get; set; }
 
