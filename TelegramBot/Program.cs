@@ -1,68 +1,61 @@
-﻿using System;
-using System.IO;
-using System.Linq;
-using System.Net;
-using Telegram;
-using Newtonsoft.Json;
-using System.Net.Http;
-using System.Collections.Generic;
-using Godsend.Models;
-using System.Runtime.Serialization.Json;
-
-namespace TelegramBot
+﻿namespace TelegramBot
 {
+    using System.Collections.Generic;
+    using System.IO;
+    using System.Linq;
+    using System.Net.Http;
+    using System.Threading.Tasks;
+    using Godsend.Models;
+    using Newtonsoft.Json;
+    using Telegram.Bot;
+
     class Program
     {
-        static  void Main(string[] args)
+        private const string key = "695808520:AAEHQCogzwOVT2ylbp-d6Odj8vHVGKpt9oE";
+        private const string serverUrl = @"http://localhost:56440";
+        private static ITelegramBotClient botClient;
+
+        public static async Task Main(string[] args)
         {
-            var key= "695808520:AAEHQCogzwOVT2ylbp-d6Odj8vHVGKpt9oE";
-            var uri = @"http://localhost:56440/api/product/getAllCategories";
-            var Bot = new Telegram.Bot.TelegramBotClient(key);
-            Bot.SetWebhookAsync("").GetAwaiter();// убираем старую привязку к вебхуку для бота
-            int offset = 0; // отступ по сообщениям
+            botClient = new TelegramBotClient(key);
+            await botClient.SetWebhookAsync("");// убираем старую привязку к вебхуку для бота
+            botClient.OnMessage += MessageReceived;
+            botClient.StartReceiving();
+            await Task.Delay(-1); // prevent main from exiting
+        }
 
-            
-            while (true)
+        private static async void MessageReceived(object sender, Telegram.Bot.Args.MessageEventArgs e)
+        {
+            string msg = "";
+            switch (e.Message.Text)
             {
-                var updates = Bot.GetUpdatesAsync(offset).GetAwaiter().GetResult(); 
-
-                foreach (var update in updates) 
-                {
-                    var message = update.Message;
-                    if (message.Type == Telegram.Bot.Types.Enums.MessageType.Text)
-                    {
-                        string msg = "";
-                        switch (message.Text)
-                        {
-                            case "/hello":
-                                msg = "Hello world! I am great, yeah";
-                                break;
-                            case "/products":
-                                msg = "Our categories:\n";
-                                var client = new HttpClient();
-                                Stream respStream = client.GetStreamAsync(uri).GetAwaiter().GetResult();
-                                string json = new StreamReader(respStream).ReadToEnd();
-                                var cats = JsonConvert.DeserializeObject<IEnumerable<CatWithSubs>>(json);
-                                msg += GetFormattedCategoryTree(cats);
-                                break;
-                            case "/suppliers":
-                                msg = "Nope";
-                                break;
-                            case "/articles":
-                                msg = "Nope";
-                                break;
-                            default:
-                                msg = "You wrote: " + message.Text;
-                                break;
-                        }
-
-                        Bot.SendTextMessageAsync(message.Chat.Id, msg, replyToMessageId: message.MessageId).GetAwaiter();
-                    }
-
-                    offset = update.Id + 1;
-                }
-
+                case "/hello":
+                    msg = "Hello world! I am great, yeah";
+                    break;
+                case "/products":
+                    msg = "Our categories:\n";
+                    var client = new HttpClient();
+                    Stream respStream = await client.GetStreamAsync($"{serverUrl}/api/product/getAllCategories");
+                    string json = new StreamReader(respStream).ReadToEnd();
+                    var cats = JsonConvert.DeserializeObject<IEnumerable<CatWithSubs>>(json);
+                    msg += GetFormattedCategoryTree(cats);
+                    break;
+                case "/suppliers":
+                    msg = "Nope";
+                    break;
+                case "/articles":
+                    msg = "Nope";
+                    break;
+                default:
+                    msg = "You wrote: " + e.Message.Text;
+                    break;
             }
+
+            await botClient.SendTextMessageAsync(
+                chatId: e.Message.Chat,
+                text: msg,
+                replyToMessageId: e.Message.MessageId
+            );
         }
 
         static string GetFormattedCategoryTree(IEnumerable<CatWithSubs> rootCats)
@@ -72,12 +65,12 @@ namespace TelegramBot
             foreach (var cat in rootCats)
             {
                 res += $"{cat.Cat.Name}\n";
-                res += GetFormattedCategoryTreeRecursive(cat.Subs, 0);
+                res += GetFormattedCategoryTreeRecursive(cat.Subs);
             }
 
             return res;
 
-            string GetFormattedCategoryTreeRecursive(IEnumerable<CatWithSubs> curCats, int level)
+            string GetFormattedCategoryTreeRecursive(IEnumerable<CatWithSubs> curCats)
             {
                 var str = "";
                 var arrCats = curCats.ToArray();
@@ -91,7 +84,7 @@ namespace TelegramBot
                     str += $"{arrCats[i].Cat.Name}\n";
 
                     s.AddLast(i == arrCats.Length - 1 ? "─" : "│");
-                    str += GetFormattedCategoryTreeRecursive(arrCats[i].Subs, level + 1);
+                    str += GetFormattedCategoryTreeRecursive(arrCats[i].Subs);
                     s.RemoveLast();
                 }
 
