@@ -8,6 +8,7 @@
     using Godsend.Models;
     using Newtonsoft.Json;
     using Telegram.Bot;
+    using Telegram.Bot.Types.Enums;
 
     class Program
     {
@@ -38,8 +39,14 @@
                     Stream respStream = await client.GetStreamAsync($"{serverUrl}/api/product/getAllCategories");
                     string json = new StreamReader(respStream).ReadToEnd();
                     var cats = JsonConvert.DeserializeObject<IEnumerable<CatWithSubs>>(json);
-                    msg += GetFormattedCategoryTree(cats);
-                    break;
+                    msg += "<pre>" + GetFormattedCategoryTree(cats) + "</pre>";
+                    await botClient.SendTextMessageAsync(
+                        chatId: e.Message.Chat,
+                        text: msg,
+                        replyToMessageId: e.Message.MessageId,
+                        parseMode: ParseMode.Html                        
+                    );
+                    return;
                 case "/suppliers":
                     msg = "Nope";
                     break;
@@ -83,7 +90,7 @@
                     str += i == arrCats.Length - 1 ? "└" : "├";
                     str += $"{arrCats[i].Cat.Name}\n";
 
-                    s.AddLast(i == arrCats.Length - 1 ? "─" : "│");
+                    s.AddLast(i == arrCats.Length - 1 ? " "/*"─"*/ : "│");
                     str += GetFormattedCategoryTreeRecursive(arrCats[i].Subs);
                     s.RemoveLast();
                 }
