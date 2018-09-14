@@ -1,4 +1,11 @@
 ﻿<h1> {{ 'ADMIN PANEL' | translate }}</h1>
 <div *ngFor="let user of userList">
-    <a [routerLink]="['/user/'+user.id]"> {{ user.name }}</a>
+    <a [routerLink]="['/user/'+user.id]"> {{ user.name }}</a> 
+    <form class="form" (ngSubmit)="sendMessage(user.name)" #messageForm="ngForm">
+    <div class="form-group">
+        <label class="sr-only" for="message">{{ 'Notification.Message' | translate }}</label>
+        <input type="text" class="form-control" id="message" [placeholder]="'Notification.MessageHint' | translate" name="message" [(ngModel)]="message" required>
+    </div>
+    <button type="submit" class="btn btn-bl" [disabled]="!messageForm.valid">{{ 'Notification.Send' | translate }}</button>
+    </form>
 </div>
