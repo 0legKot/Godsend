@@ -10,7 +10,7 @@
         <div id="stic-search">
             <div class="search">
                 <p class="inline-block">
-                    <godsend-search-inline [type]="type" (found)="suppliers = onFound($event.suppliersInfo)"></godsend-search-inline>
+                    <godsend-search-inline [type]="type" (found)="onFound($event.suppliersInfo)"></godsend-search-inline>
                 </p>
                 <p class="inline-block">
                     <fa name="search"></fa>

@@ -46,7 +46,7 @@ export class CategoryTreeComponent implements OnInit {
         
     }
 
-    private hasNestedChild = (_: number, nodeData: CatsWithSubs) => nodeData.subs && nodeData.subs.length > 0;
+    public hasNestedChild = (_: number, nodeData: CatsWithSubs) => nodeData.subs && nodeData.subs.length > 0;
 
     private getChildren = (node: CatsWithSubs) => node.subs;
 }

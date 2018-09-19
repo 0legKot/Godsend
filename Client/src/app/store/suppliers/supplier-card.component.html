@@ -1,7 +1,7 @@
-﻿<a [routerLink]="['/suppliers', supplierInfo.id]">
+﻿<a [routerLink]="['/suppliers', supplierInfo?.id]">
     <div class="card-header" [ngClass]="{'viewed':viewed}">
         <span class="h4">
-            {{ supplierInfo.name }}
+            {{ supplierInfo?.name }}
         </span>
     </div>
     <div class="photo mb-4" *ngIf="image != null else noImage">
@@ -12,12 +12,12 @@
     </ng-template>
     <div class="rating">
         <p class="pull-right" [ngStyle]="{'color': '#003e09' }">
-            <fa name="eye"></fa> : {{ supplierInfo.watches }}
-            <fa name="comments"></fa> : {{ supplierInfo.commentsCount }}
+            <fa name="eye"></fa> : {{ supplierInfo?.watches }}
+            <fa name="comments"></fa> : {{ supplierInfo?.commentsCount }}
         </p>
     </div>
     <div class="rating">
-        <godsend-stars [value]="supplierInfo.rating"></godsend-stars>
+        <godsend-stars [value]="supplierInfo?.rating"></godsend-stars>
     </div>
 </a>
 <div class="delete" (click)="onDelete()"><fa name="times"></fa></div>

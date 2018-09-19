@@ -1,7 +1,7 @@
 ﻿import { ControlValueAccessor } from '@angular/forms';
 
 export abstract class CustomControlValueAccessor<T> implements ControlValueAccessor {
-    protected value?: T;
+    public value?: T;
 
     onChange = (_: T) => { };
 

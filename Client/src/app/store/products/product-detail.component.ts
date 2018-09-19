@@ -18,7 +18,7 @@ import { Image } from '../../models/image.model';
     styleUrls: ['./product-detail.component.css']
 })
 export class ProductDetailComponent implements OnInit {
-    product?: Product;
+    public product?: Product;
 
     selectedSupplier?: SupplierAndPrice;
 
@@ -51,7 +51,7 @@ export class ProductDetailComponent implements OnInit {
     }
 
     constructor(
-        private route: ActivatedRoute,
+        public route: ActivatedRoute,
         private router: Router,
         private repo: RepositoryService,
         private cart: CartService,

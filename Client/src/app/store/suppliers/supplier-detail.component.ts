@@ -30,7 +30,7 @@ export class SupplierDetailComponent implements OnInit {
     }
 
     constructor(
-        private route: ActivatedRoute,
+        public route: ActivatedRoute,
         private router: Router,
         private repo: RepositoryService,
         private storage: StorageService

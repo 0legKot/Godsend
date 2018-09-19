@@ -11,8 +11,8 @@ import { SupplierDetailComponent } from './supplier-detail.component';
         FormsModule,
     ],
     declarations: [
-        SuppliersComponent,
-        SupplierDetailComponent
+        //SuppliersComponent,
+        //SupplierDetailComponent
     ]
 })
 export class SuppliersModule { }

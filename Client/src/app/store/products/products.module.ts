@@ -13,9 +13,9 @@ import { CategoryTreeComponent } from './category-tree.component'
         FormsModule,
     ],
     declarations: [
-        ProductsComponent,
-        ProductDetailComponent,
-        PagesComponent,
+        //ProductsComponent,
+        //ProductDetailComponent,
+        //PagesComponent,
     ]
 })
 export class ProductsModule { }
