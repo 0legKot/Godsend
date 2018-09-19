@@ -1,0 +1,10 @@
+﻿.btn-primary-outline {
+    background-color: transparent;
+    border-color: transparent;
+}
+button:focus {
+        outline: 0;
+ }
+button.btn-primary-outline.clickable:hover {
+    cursor: pointer;
+}

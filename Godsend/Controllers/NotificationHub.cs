@@ -50,7 +50,7 @@ namespace Godsend.Controllers
             string name = Context.User.Identity.Name;
             await Groups.RemoveFromGroupAsync(Context.ConnectionId, name);
 
-            base.OnDisconnectedAsync(exception);
+            await base.OnDisconnectedAsync(exception);
         }
     }
 }

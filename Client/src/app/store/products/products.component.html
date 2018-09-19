@@ -7,18 +7,9 @@
         <button (click)="createProduct('','New product')" class="btn btn-dark ">{{ 'Products.Create' | translate }}</button>
         <br />
         <br />
-        <button class="btn btn-dark" (click)="getCategories()">Get categories</button>
-        <br />
-        <br />
-        <div *ngIf="categories && categories.length > 0">
-            <div class="list-group" *ngFor="let category of categories">
-                <div type="button" (click)="getByCategory(category)" class="list-group-item list-group-item-action">
-                    <div>{{ category.name }}</div>
-                    <button class=" btn btn-light mr-2" (click)="setCurrentCategory(category)">Filter</button>
-                    <button class=" btn btn-dark" (click)="getSubcategories(category)">Subcategories</button>
-                </div>
-            </div>
-        </div>
+        <button *ngIf="!categories || categories.length == 0" class="btn btn-dark" (click)="getCategories()">Get categories</button>
+        <godsend-category-tree *ngIf="categories && categories.length > 0" (categoryChanged)="setCurrentCategory($event)">
+        </godsend-category-tree>
         <br />
         <form *ngIf="filter">
             <div class="form-group" *ngIf="filter.stringProps?.length > 0">
@@ -90,7 +81,10 @@
         <div class='row products'>
             <div *ngFor="let productInfo of productsExperiment" class="col-lg-3 col-md-4 col-sm-6 col-xs-12  card ">
                 <godsend-product-card [productInfo]="productInfo" [image]="images[productInfo.preview?.id]" (delete)="deleteProduct(productInfo.id)"></godsend-product-card>
-                <button class="btn-light" (click)="toggleComparsion(productInfo.id)"  [hidden]="!isFilteredByCategory" >Compare or not</button>
+                <button class="btn-light" (click)="toggleComparsion(productInfo.id)"  [hidden]="!isFilteredByCategory" >
+                    <mat-icon svgIcon="compare">
+                    </mat-icon>
+                </button>
             </div>
         </div>
 

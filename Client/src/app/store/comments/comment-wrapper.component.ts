@@ -4,11 +4,13 @@ import { NestedTreeControl } from '@angular/cdk/tree';
 import { MatTreeNestedDataSource } from '@angular/material/tree';
 import { BehaviorSubject } from 'rxjs';
 import { CommentWithSubs } from '../../models/comment.model';
+import { MatIconRegistry } from '@angular/material';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'godsend-comment-wrapper',
     templateUrl: './comment-wrapper.component.html',
-    styleUrls: ['./comment-wrapper.component.css']
+    styleUrls: ['./comment-wrapper.component.css', '../products/category-tree.component.css']
 })
 export class CommentWrapperComponent implements OnInit {
     @Input()
@@ -21,7 +23,16 @@ export class CommentWrapperComponent implements OnInit {
     nestedTreeControl: NestedTreeControl<CommentWithSubs>;
     nestedDataSource: MatTreeNestedDataSource<CommentWithSubs>;
 
-    constructor(private repo: RepositoryService) {
+    constructor(private repo: RepositoryService, iconRegistry: MatIconRegistry, sanitizer: DomSanitizer) {
+        iconRegistry.addSvgIcon(
+            'chevron_right',
+            sanitizer.bypassSecurityTrustResourceUrl('assets/img/chevron_right.svg'));
+        iconRegistry.addSvgIcon(
+            'expand_more',
+            sanitizer.bypassSecurityTrustResourceUrl('assets/img/expand_more.svg'));
+        iconRegistry.addSvgIcon(
+            'subdirectory',
+            sanitizer.bypassSecurityTrustResourceUrl('assets/img/subdirectory.svg'));
         this.nestedTreeControl = new NestedTreeControl<CommentWithSubs>(this.getChildren);
         this.nestedDataSource = new MatTreeNestedDataSource();
         this.dataChange.subscribe(data => this.nestedDataSource.data = data);
