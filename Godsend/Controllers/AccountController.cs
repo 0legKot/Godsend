@@ -65,6 +65,9 @@ namespace Godsend.Controllers
         [HttpGet("[action]")]
         public async Task<bool> IsAdmin()
         {
+            var currentName = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name);
+
+             currentUser = context.Users.FirstOrDefault(u => u.UserName == currentName.Value);
             return await userManager.IsInRoleAsync(currentUser, "Administrator");
         }
 
@@ -77,22 +80,25 @@ namespace Godsend.Controllers
         {
             return await userManager.GetRolesAsync(currentUser);
         }
-
+        public class UserAndRole {
+            public string userName { get; set; }
+            public string role { get; set; }
+        }
         [HttpPost("[action]")]
-        public async Task<IActionResult> AddToRole(string userName, string role)
+        public async Task<IActionResult> AddToRole([FromBody]UserAndRole userAndRole)
         {
             if (!await IsAdmin())
             {
                 return BadRequest();
             }
 
-            User user = await userManager.FindByNameAsync(userName);
-            if (await roleManager.FindByNameAsync(role) == null || user == null)
+            User user = await userManager.FindByNameAsync(userAndRole.userName);
+            if (await roleManager.FindByNameAsync(userAndRole.role) == null || user == null)
             {
                 return BadRequest();
             }
 
-            await userManager.AddToRoleAsync(user, role);
+            await userManager.AddToRoleAsync(user, userAndRole.role);
             return Ok();
         }
 

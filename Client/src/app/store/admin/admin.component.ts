@@ -19,7 +19,10 @@ export class AdminComponent implements OnInit {
         this.notificationService.sendMessageTo(name, this.message);
         this.message = '';
     }
-
+    makeAdmin(username: string) {
+        console.log(username);
+        this.data.sendRequest<any>('post', 'api/account/addtorole', { userName: username, role: 'Administrator' }).subscribe();
+    }
     ngOnInit(): void {
         this.data.sendRequest<IdentityUser[]>('get', 'api/account/getuserlist/1/10')
             .subscribe(res => this.userList = res);
