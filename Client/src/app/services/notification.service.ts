@@ -39,6 +39,12 @@ export class NotificationService {
         }
     }
 
+    public sendMessageTo(to:string, message: string): void {
+        if (this.hubConnection) {
+            this.hubConnection.invoke('SendTo', to, message);
+        }
+    }
+
     private configureConnection() {
         if (this.hubConnection) {
             this.hubConnection.on('Receive', (data: any) => {

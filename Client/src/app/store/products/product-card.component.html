@@ -1,7 +1,7 @@
-﻿<a [routerLink]="['/products', productInfo.id]">
+﻿<a [routerLink]="['/products', productInfo?.id]">
     <div class="card-header" [ngClass]="{'viewed':viewed}">
-        <span [ngClass]="{'h4':productInfo.state === 0, 'h3':productInfo.state === 1, 'h2':productInfo.state === 2}" >
-            {{ productInfo.name }}
+        <span [ngClass]="{'h4':productInfo?.state === 0, 'h3':productInfo?.state === 1, 'h2':productInfo?.state === 2}" >
+            {{ productInfo?.name }}
         </span>
 
     </div>
@@ -13,15 +13,15 @@
     </ng-template>
     <div class="rating">
         <p class="pull-right" [ngStyle]="{'color': '#003e09' }">
-            <fa name="eye"></fa> : {{ productInfo.watches }}
-            <fa name="comments"></fa> : {{ productInfo.commentsCount }}
+            <fa name="eye"></fa> : {{ productInfo?.watches }}
+            <fa name="comments"></fa> : {{ productInfo?.commentsCount }}
         </p>
     </div>
     <div class="rating">
-        <godsend-stars [value]="productInfo.rating"></godsend-stars>
+        <godsend-stars [value]="productInfo?.rating"></godsend-stars>
     </div>
     <div class="card-block">
-        <span class="card-text p-a-1">{{ productInfo.description }}</span>
+        <span class="card-text p-a-1">{{ productInfo?.description }}</span>
     </div>
 </a>
 <div class="delete" (click)="onDelete()"><fa name="times"></fa></div>

@@ -22,8 +22,8 @@ namespace Godsend.Controllers
         {
             var user = Context.User;
             string name = user.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name).Value;
-            await Clients.Group(to).SendAsync("HE", $"{name}: {message}");
-            await Clients.Caller.SendAsync("ME", $"{name}: {message}");
+            await Clients.Group(to).SendAsync("Receive", $"{name}: {message}");
+            await Clients.Caller.SendAsync("Send", $"{name}: {message}");
         }
 
         [Authorize]
@@ -50,7 +50,7 @@ namespace Godsend.Controllers
             string name = Context.User.Identity.Name;
             await Groups.RemoveFromGroupAsync(Context.ConnectionId, name);
 
-            base.OnDisconnectedAsync(exception);
+            await base.OnDisconnectedAsync(exception);
         }
     }
 }

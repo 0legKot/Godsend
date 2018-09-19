@@ -12,6 +12,8 @@ import { ImageService } from '../../services/image.service';
 import { CategoryService } from '../../services/category.service';
 import { guidZero } from '../../models/cart.model';
 import { retry } from 'rxjs/operators';
+import { MatIconRegistry } from '@angular/material';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
     selector: 'godsend-products',
@@ -103,7 +105,12 @@ export class ProductsComponent implements OnInit {
     constructor(private repo: RepositoryService,
         private imageService: ImageService,
         private catService: CategoryService,
-        private router: Router) {
+        private router: Router,
+        iconRegistry: MatIconRegistry,
+        sanitizer: DomSanitizer) {
+        iconRegistry.addSvgIcon(
+            'compare',
+            sanitizer.bypassSecurityTrustResourceUrl('assets/img/compare.svg'));
     }
 
     ngOnInit() {        
@@ -120,15 +127,15 @@ export class ProductsComponent implements OnInit {
         console.log(this.categories);
     }
 
-    getSubcategories(category: Category): void {
-        this.categories = this.catService.getSubcategories(category);
-        this.getCategoryProps(category);
-    }
+    //getSubcategories(category: Category): void {
+    //    this.categories = this.catService.getSubcategories(category);
+    //    this.getCategoryProps(category);
+    //}
 
-    getByCategory(category: Category): void {
-        this.repo.productFilter.categoryId = category.id;
-        this.getProducts();
-    }
+    //getByCategory(category: Category): void {
+    //    this.repo.productFilter.categoryId = category.id;
+    //    this.getProducts();
+    //}
 
     getByFilter(): void {
         if (this.filter) {
@@ -161,6 +168,7 @@ export class ProductsComponent implements OnInit {
     }
 
     setCurrentCategory(category: Category): void {
+        console.log(category);
         this.repo.productFilter.categoryId = category.id;
         this.getProducts();
         this.getCategoryProps(category);

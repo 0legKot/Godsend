@@ -19,7 +19,7 @@ export class SuppliersComponent implements OnInit {
     type = searchType.supplier;
     page = 1;
     rpp = 10;
-    searchSuppliers?: SupplierInfo[];
+    public searchSuppliers?: SupplierInfo[];
     templateText = 'Waiting for data...';
 
     /**
