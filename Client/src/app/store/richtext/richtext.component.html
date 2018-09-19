@@ -1,0 +1,7 @@
+<div *ngIf="!edit else editBlock">
+    <div [innerHtml]="value"></div>
+</div>
+<div [ngStyle]="{'display': edit ? 'inherit' : 'none'}">
+    <div #editbox id="editbox"></div>
+    <div [innerHtml]="('Richtext.CurLength' | translate) + ': ' + curLength + (maxLength === undefined ? '' : ' (' + ('Richtext.Max' | translate) + ': ' + maxLength + ')')" [ngClass]="divClass"></div>
+</div>

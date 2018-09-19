@@ -21,9 +21,10 @@
         </p>
         <br />
         <p>
-            <godsend-input-output [(ngModel)]="article.content" [type]="'huge'" class="edit-art-txtarea" [edit]="edit">
+            <!--<godsend-input-output [(ngModel)]="article.content" [type]="'huge'" class="edit-art-txtarea" [edit]="edit">
                 <span class="h4" [innerHtml]="article.content"></span>
-            </godsend-input-output>
+            </godsend-input-output>-->
+            <godsend-richtext [edit]="edit" [(ngModel)]="article.content" [maxLength]="1000"></godsend-richtext>
         </p>
         <br />
         <div *ngIf="!edit else editTags">
