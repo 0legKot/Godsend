@@ -133,6 +133,10 @@
     "Prev": "Previous page",
     "Next": "Next page"
   },
+  "Richtext": {
+    "Max": "maximum",
+    "CurLength": "Current length"
+  },
   "Search": {
     "Hint": "Type to search",
     "Products": "Products",
