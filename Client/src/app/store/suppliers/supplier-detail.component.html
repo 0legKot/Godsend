@@ -27,7 +27,7 @@
                     <div *ngIf="supp">
                         <godsend-ratings [clas]="clas" [id]="supp.id" [(ngModel)]="supp.info.rating"></godsend-ratings>
                     </div>
-                    <p class="pull-right" [ngStyle]="{'color': '#003e09' }"><fa name="eye"></fa> : {{ supp?.info?.watches }}</p>
+                    <p class="pull-right" [ngStyle]="{'color': '#003e09' }"><fa-icon icon="eye"></fa-icon> : {{ supp?.info?.watches }}</p>
                 </div>
             </div>
             <div class='col-lg-7 col-md-6 col-sm-5 col-xs-12 suppliers rel'>
@@ -54,7 +54,7 @@
     </div>
     <godsend-comment-wrapper id="{{route.snapshot.params.id}}" clas="supplier"></godsend-comment-wrapper>
     <div class="back-btn" [routerLink]="['/suppliers']">
-        <fa name="long-arrow-left"></fa> {{ 'Suppliers.Back' | translate }}
+        <fa-icon icon="long-arrow-alt-left"></fa-icon> {{ 'Suppliers.Back' | translate }}
     </div>
 
 </div>

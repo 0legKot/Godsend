@@ -6,7 +6,7 @@
     <mat-tree-node *matTreeNodeDef="let node" matTreeNodeToggle>
         <li class="mat-tree-node">
             <button class="btn-primary-outline" disabled>
-                <fa name="bullseye"></fa>
+                <fa-icon icon="bullseye"></fa-icon>
             </button>
             <godsend-comment [comment]="node.comment"
                              (send)="send(node.comment.id, $event)"
@@ -21,7 +21,7 @@
             <div class="mat-tree-node">
                 <button class="btn-primary-outline clickable" matTreeNodeToggle
                         [attr.aria-label]="'toggle ' + node.comment.comment">
-                    <fa [name]="nestedTreeControl.isExpanded(node) ? 'chevron-down' : 'chevron-right'"></fa>
+                    <fa-icon [icon]="nestedTreeControl.isExpanded(node) ? 'chevron-down' : 'chevron-right'"></fa-icon>
 
                 </button>
                 <godsend-comment [comment]="node.comment" 

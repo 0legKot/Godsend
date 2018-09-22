@@ -83,12 +83,12 @@
     }
 </style>
 <div class="show" (click)="slideToggle()">
-    <fa name="info"></fa>
+    <fa-icon icon="info"></fa-icon>
 </div>
 <div class="notification" [ngClass]="{'block' : showMenuMobile}">
     <div class="my_box">
         <div class="close">
-            <div class="float-right" (click)="hideMenu()" ><fa name="close"></fa></div>
+            <div class="float-right" (click)="hideMenu()" ><fa-icon icon="times"></fa-icon></div>
         </div>
         <form class="form" (ngSubmit)="sendMessage()" #messageForm="ngForm">
             <div class="form-group">

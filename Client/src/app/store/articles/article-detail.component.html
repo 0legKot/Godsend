@@ -1,6 +1,6 @@
 ﻿<div class="wrap rel">
     <div class="back-btn" [routerLink]="['/articles']">
-        <fa name="long-arrow-left"></fa>
+        <fa-icon icon="long-arrow-alt-left"></fa-icon>
         <ng-container> {{ 'Articles.Detail.Back' | translate }}</ng-container>
     </div>
     <br />
@@ -14,7 +14,7 @@
                 <godsend-ratings [clas]="clas" [id]="article.id" [(ngModel)]="article.info.rating"></godsend-ratings>
             </div>
             &nbsp;
-            <fa name="eye"></fa> : {{ article.info.watches }}
+            <fa-icon icon="eye"></fa-icon> : {{ article.info.watches }}
         </div>
         <p class="h5 author">
             - {{ article.info.author?.name }}

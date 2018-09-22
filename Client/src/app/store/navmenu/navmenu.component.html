@@ -1,7 +1,7 @@
 <header class="fixed">
     <div class="wrap">
         <div class="hamburger pull-left" (click)="slideToggle()">
-            <fa name="bars" aria-hidden="true"></fa>
+            <fa-icon icon="bars" aria-hidden="true"></fa-icon>
         </div>
         <!-- Top left -->
         <nav class='main-nav pull-left' [ngClass]="{'block' : showMenuMobile}">
@@ -36,7 +36,7 @@
                 </li>
 
                 <li *ngIf="isLogged; else elseBlock" class="main-nav-item-2">
-                    <fa [routerLink]="['/user/'+currentUserId]" name="user"></fa> <a [routerLink]="['/user/'+currentUserId]"> {{ name }} </a>
+                    <fa-icon icon="user" [routerLink]="['/user/'+currentUserId]"></fa-icon> <a [routerLink]="['/user/'+currentUserId]"> {{ name }} </a>
                     <a (click)="logout()">{{ 'LOG OUT' | translate }}</a>
                 </li>
                 <li *ngIf="isAdmin" class="main-nav-item-2">
@@ -50,10 +50,10 @@
                 </ng-template>
 
                 <li [routerLinkActive]="['link-active']" class="main-nav-item-2">
-                    <a [routerLink]="['/search']"><fa name="search"></fa></a>
+                    <a [routerLink]="['/search']"><fa-icon icon="search"></fa-icon></a>
                 </li>
                 <li [routerLinkActive]="['link-active']" class="main-nav-item-2">
-                    <a [routerLink]="['/cart']"><fa name="cart-plus"></fa></a>
+                    <a [routerLink]="['/cart']"><fa-icon icon="cart-plus"></fa-icon></a>
                 </li>
             </ul>
         </nav>
