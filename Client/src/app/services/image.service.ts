@@ -1,24 +1,13 @@
-﻿import { Injectable } from '@angular/core';
+﻿import { Injectable, Inject } from '@angular/core';
 import { DataService } from './data.service';
 
 @Injectable({
     providedIn: 'root'
 })
 export class ImageService {
-    constructor(private data: DataService) { }
+    constructor(private data: DataService, @Inject('BASE_URL') private baseUrl: string) { }
 
-    getImage(id: string, fn: (_: string) => any): void {
-        this.data.sendRequest<string>('get', 'api/image/GetPreviewImage/' + id)
-            .subscribe(response => fn(response));
-    }
-
-    getPreviewImages(ids: string[], fn: (_: { [id: string]: string }) => any): void {
-        this.data.sendRequest<any>('post', 'api/image/getPreviewImages', ids)
-            .subscribe(response => fn(response));
-    }
-
-    getImages(ids: string[], fn: (_: string[]) => any): void {
-        this.data.sendRequest<string[]>('post', 'api/image/getImages/', ids)
-            .subscribe(response => fn(response));
+    getImagePath(id: string) {
+        return this.baseUrl + 'api/image/getImage/' + id;
     }
 }

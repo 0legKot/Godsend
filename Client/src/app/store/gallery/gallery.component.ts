@@ -10,7 +10,7 @@ import { ImageService } from '../../services/image.service';
     selector: 'godsend-gallery',
     templateUrl: './gallery.component.html',
 })
-export class GalleryComponent implements OnInit {
+export class GalleryComponent {
     @Input()
     edit = false;
 
@@ -24,16 +24,13 @@ export class GalleryComponent implements OnInit {
 
     curIndex = 0;
 
-    images?: string[];
-
-
     @ViewChild('fileInput') fileInput!: ElementRef;
 
     constructor(private repo: RepositoryService, private imageService: ImageService) {
     }
 
-    ngOnInit(): void {
-        this.refreshImages();
+    getPath(index: number): string {
+        return this.imageService.getImagePath(this.value[index].id);
     }
 
     changeValue(newValue: Image[]) {
@@ -41,26 +38,11 @@ export class GalleryComponent implements OnInit {
         this.valueChange.emit(newValue);
     }
 
-    refreshImages() {
-        if (this.value == null) {
-            return;
-        }
-
-        this.imageService.getImages(this.value.map(image => image.id), response => {
-            this.images = response;
-        });
-    }
-
-
     remove(index: number) {
         if (this.value) {
             if (this.value.length === 1) {
-                this.images = [];
                 this.changeValue([]);
             } else {
-                if (this.images) {
-                    this.images = this.images.filter((_, i) => i != index);
-                }
                 this.changeValue(this.value.filter((_, i) => i != index));
             }
         }
@@ -119,7 +101,6 @@ export class GalleryComponent implements OnInit {
                     itemsProcessed++;
                     if (itemsProcessed === array.length) {
                         this.changeValue(tmp);
-                        this.refreshImages();
                         console.log("finished upload");
                         console.dir(this.value);
                     }

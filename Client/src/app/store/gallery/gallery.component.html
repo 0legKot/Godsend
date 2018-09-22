@@ -1,18 +1,18 @@
-<ng-container *ngIf="images" class="gallery-outer">
+<ng-container *ngIf="value" class="gallery-outer">
     <ng-container *ngIf="!edit else editBlock">
         <div class="block">
-            <div class="image-container" *ngIf="images.length > 0" (click)="enterFullView(0)">
+            <div class="image-container" *ngIf="value.length > 0" (click)="enterFullView(0)">
                 <div class="cover-large">
                     <fa name="image" size="3x"></fa>
                 </div>
-                <img [src]="'data:image/jpg;base64,' + images[0]" />
+                <img [src]="getPath(0)" />
             </div>
-            <div *ngIf="images.length > 1" class="image-row-container">
+            <div *ngIf="value.length > 1" class="image-row-container">
                 <!--<h3 [innerText]="'galleryTitle' | loc"></h3>-->
                 <div class="image-row-back">
                     <div class="image-row">
-                        <div *ngFor="let image of images | slice:1; let index = index; " class="image-container-small"
-                             [ngStyle]="{'background-image': 'url(data:image/jpg;base64,' + images[index+1] + ')'}" (click)="enterFullView(index+1)">
+                        <div *ngFor="let image of value | slice:1; let index = index; " class="image-container-small"
+                             [ngStyle]="{'background-image': 'url(' + getPath(index + 1) + ')'}" (click)="enterFullView(index+1)">
                             <div class="cover-small">
                                 <fa name="image" size="3x"></fa>
                             </div>
@@ -24,35 +24,35 @@
     </ng-container>
     <ng-template #editBlock>
         <div class="block edit">
-            <div class="image-container" *ngIf="images.length > 0">
-                <img [src]="'data:image/jpg;base64,' + images[0]" />
+            <div class="image-container" *ngIf="value.length > 0">
+                <img [src]="getPath(0)" />
                 <div class="btn-remove" (click)="remove(0)"><fa name="times" size="2x"></fa></div>
             </div>
 
-            <label for="file" class="add-large" *ngIf="images.length == 0">
+            <label for="file" class="add-large" *ngIf="value.length == 0">
                 <fa name="plus" size="3x"></fa>
             </label>
 
-            <div *ngIf="images.length > 0" class="image-row-container">
+            <div *ngIf="value.length > 0" class="image-row-container">
                 <!--<h3 [innerText]="'galleryTitle' | loc"></h3>-->
                 <div class="image-row-back">
                     <div class="image-row">
-                        <div *ngFor="let image of images | slice:1; let index = index; " class="image-container-small"
-                             [ngStyle]="{'background-image': 'url(data:image/jpg;base64,' + images[index+1] + ')'}">
+                        <div *ngFor="let image of value | slice:1; let index = index; " class="image-container-small"
+                             [ngStyle]="{'background-image': 'url(' + getPath(index + 1) + ')'}">
                             <div class="btn-remove" (click)="remove(index+1)"><fa name="times" size="2x"></fa></div>
                         </div>
-                        <label for="file" class="add-small" *ngIf="images.length < 5"><span class="fi-plus-1"></span></label>
+                        <label for="file" class="add-small" *ngIf="value.length < 5"><span class="fi-plus-1"></span></label>
                     </div>
                 </div>
             </div>
-            <input class="invisible" type="file" id="file" multiple [disabled]="images.length >= 5" (change)="uploadFiles()" accept="image/*" #fileInput>
+            <input class="invisible" type="file" id="file" multiple [disabled]="value.length >= 5" (change)="uploadFiles()" accept="image/*" #fileInput>
 
         </div>
     </ng-template>
     <ng-container *ngIf="fullView">
         <div class="full-view">
             <div class="full-left" (click)="decrementIndex()"><fa name="arrow-left" size="3x"></fa></div>
-            <div class="full-image" [ngStyle]="{'background-image': 'url(data:image/jpg;base64,' + images[curIndex] + ')'}"></div>
+            <div class="full-image" [ngStyle]="{'background-image': 'url(' + getPath(curIndex) + ')'}"></div>
             <div class="full-right" (click)="incrementIndex()"><fa name="arrow-right" size="3x"></fa></div>
             <div class="full-close" (click)="exitFullView()"><fa name="times" size="3x"></fa></div>
         </div>

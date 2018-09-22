@@ -38,11 +38,6 @@ export class ProductsComponent implements OnInit {
     @ViewChild(SearchInlineComponent)
     searchInline?: SearchInlineComponent;
 
-    /**
-     * images as a dictionary where key is id and value is base64-encoded image
-     * */
-    images: { [id: string]: string } = {};
-
     get pagesCount(): number {
         return Math.ceil(this.repo.productsCount / this.repo.productFilter.quantity);
     }
@@ -64,11 +59,6 @@ export class ProductsComponent implements OnInit {
 
     get idsForCompare(): string {
         return this.comparsionSet.join(',');
-    }
-
-    refreshImages(): void {
-        const ids = this.repo.products.filter(pi => pi.preview != null).map(pi => pi.preview!.id);
-        this.imageService.getPreviewImages(ids, images => { this.images = images; });
     }
 
     toggleComparsion(id: string) {
@@ -103,7 +93,6 @@ export class ProductsComponent implements OnInit {
     // }
 
     constructor(private repo: RepositoryService,
-        private imageService: ImageService,
         private catService: CategoryService,
         private router: Router) {
     }
@@ -112,7 +101,6 @@ export class ProductsComponent implements OnInit {
         this.repo.productsExperiment.subscribe((newProducts: ProductInfo[]) => {
             console.log('products changed');
             this.productsExperiment = newProducts;
-            this.refreshImages();
         });
         this.getProducts();
     }
