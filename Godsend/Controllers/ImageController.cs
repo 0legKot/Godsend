@@ -41,11 +41,9 @@ namespace Godsend.Controllers
                 // no image for id (new entities)
                 return BadRequest();
             }
-
-            ////return File(new FileStream("Images/"+repository.GetImage(id), FileMode.Open, FileAccess.Read), "image/jpeg");
         }
 
-        //deprecated
+        #region  deprecated
         //[HttpPost("[action]")]
         //public IEnumerable<string> GetImages([FromBody]Guid[] ids)
         //{
@@ -74,19 +72,18 @@ namespace Godsend.Controllers
 
         //    return res;
         //}
+        #endregion
 
         // NUTRIX
 
         private readonly IImageService _imageService;
         private readonly IStorageService _storageService;
-        private readonly ICryptoService _cryptoService;
         private readonly ImageRepository repository;
 
-        public ImageController(ImageRepository repo, IImageService imageService, IStorageService storageService, ICryptoService cryptoService)
+        public ImageController(ImageRepository repo, IImageService imageService, IStorageService storageService)
         {
             _imageService = imageService;
             _storageService = storageService;
-            _cryptoService = cryptoService;
             this.repository = repo;
         }
 
@@ -155,18 +152,18 @@ namespace Godsend.Controllers
                 int height = image.Height;
                 if (width < minImageWidth || height < minImageHeight)
                 {
-                    return BadRequest("errorTooSmallImage");
+                    return BadRequest("Too Small Image");
                 }
 
                 if (width > maxImageWidth || height > maxImageHeight)
                 {
-                    return BadRequest("errorTooBigImage");
+                    return BadRequest("Too Big Image");
                 }
 
                 double proportion = width / height;
                 if (proportion < 1 / maxImageProportionCoef || proportion > 1 * maxImageProportionCoef)
                 {
-                    return BadRequest("errorInvalidProportions");
+                    return BadRequest("Invalid Proportions");
                 }
 
                 skImages.Add(image);
@@ -174,184 +171,72 @@ namespace Godsend.Controllers
 
             // Processing
             var images = new List<Image>();
-            for (int i = 0; i < skImages.Count; i++)
-            {
-                var image = skImages[i];
-
-                if (image.Width > resizeImageWidth || image.Height > resizeImageHeight)
-                {
-                    image = _imageService.ResizeImage(image, resizeImageWidth, resizeImageHeight);
-                }
-                else
-                {
-                    image = _imageService.ResizeImage(image, image.Width, image.Height); // To prevent GDI+ Exception
-                }
-
-                // to prevent hash colisions
-                string hashThumbnail = _imageService.GetThumbnail(image, hashThumbWidth, hashThumbHeight);
-
-                MemoryStream fullMs = _imageService.ConvertToStream(image);
-
-                // Check for duplicate
-                Image original = repository.GetImageByThumb(hashThumbnail);
-
-                // Return original, dont save duplicate
-                if (original != null)
-                {
-                    images.Add(original);
-
-                    continue;
-                }
-
-                // Add entry to db and get ID
-                Image newImage = new Image
-                {
-                    Id = Guid.NewGuid(),
-                    Thumb = hashThumbnail,
-                };
-
-                string fileName = newImage.Id.ToString() + ".jpg";
-                newImage.Path = fileName;
-
-                // Saving FULL to storage
-                _storageService.SaveToStorage(fileName, fullMs);
-                images.Add(newImage);
-                repository.AddImage(newImage);
-
-                // Converting thumb
-                var thumbImage = _imageService.ResizeImage(image, thumbWidth, thumbHeight);
-                var thumbMs = _imageService.ConvertToStream(thumbImage);
-
-                // Saving THUMB to storage
-                _storageService.SaveToStorage(newImage.Id.ToString() + "s.jpg", thumbMs);
-
-                fullMs?.Dispose();
-                thumbMs?.Dispose();
-                image?.Dispose();
-            }
+            ProcessImages(resizeImageWidth, resizeImageHeight, thumbWidth, thumbHeight, hashThumbWidth, hashThumbHeight, skImages, ref images);
 
             // Result
             return Ok(images);
         }
-    }
 
-    public class CryptoService : ICryptoService
-    {
-        public string GetHash(Stream stream)
+        private void ProcessImages(int resizeImageWidth, int resizeImageHeight, int thumbWidth, int thumbHeight, int hashThumbWidth, int hashThumbHeight, List<SKBitmap> skImages, ref List<Image> images)
         {
-            byte[] byteHash;
-            using (var ha = SHA256.Create())
+            for (int i = 0; i < skImages.Count; i++)
             {
-                byteHash = ha.ComputeHash(stream);
-            }
-
-            return Encoding.UTF8.GetString(byteHash, 0, byteHash.Length);
-        }
-    }
-
-    public class ImageService : IImageService
-    {
-        const int quality = 75;
-        const SKBitmapResizeMethod resizeMethod = SKBitmapResizeMethod.Lanczos3;
-
-        public string GetThumbnail(SKBitmap image, int width, int height)
-        {
-            using (var scaledImage = ResizeImage(image, width, height))
-            {
-                SKBitmap.Resize(scaledImage, image, resizeMethod);
-
-                using (var memoryStream = new SKDynamicMemoryWStream())
+                SKBitmap img;
+                if (skImages[i].Width > resizeImageWidth || skImages[i].Height > resizeImageHeight)
                 {
-                    scaledImage.Encode(memoryStream, SKEncodedImageFormat.Jpeg, quality);
-                    return Convert.ToBase64String(memoryStream.DetachAsData().ToArray());
-
+                    img = _imageService.ResizeImage(skImages[i], resizeImageWidth, resizeImageHeight);
                 }
+                else
+                {
+                    img = _imageService.ResizeImage(skImages[i], skImages[i].Width, skImages[i].Height); // To prevent GDI+ Exception
+                }
+
+                using (var image = img)
+                {
+
+                    // to prevent hash colisions
+                    string hashThumbnail = _imageService.GetThumbnail(image, hashThumbWidth, hashThumbHeight);
+
+                    // Check for duplicate
+                    Image original = repository.GetImageByThumb(hashThumbnail);
+
+                    // Return original, dont save duplicate
+                    if (original != null)
+                    {
+                        images.Add(original);
+
+                        continue;
+                    }
+
+                    // Add entry to db and get ID
+                    Image newImage = new Image
+                    {
+                        Id = Guid.NewGuid(),
+                        Thumb = hashThumbnail,
+                    };
+
+                    string fileName = newImage.Id.ToString() + ".jpg";
+                    newImage.Path = fileName;
+
+                    // Saving FULL to storage
+                    using (MemoryStream fullMs = _imageService.ConvertToStream(image))
+                    {
+                        _storageService.SaveToStorage(fileName, fullMs);
+                    }
+
+                    images.Add(newImage);
+                    repository.AddImage(newImage);
+
+                    // Converting thumb
+                    var thumbImage = _imageService.ResizeImage(image, thumbWidth, thumbHeight);
+                    using (MemoryStream thumbMs = _imageService.ConvertToStream(thumbImage))
+                    {
+                        _storageService.SaveToStorage(newImage.Id.ToString() + "s.jpg", thumbMs);
+                    }
+                }
+
+                img.Dispose();
             }
         }
-
-        public SKBitmap ResizeImage(SKBitmap image, int maxWidth, int maxHeight)
-        {
-            var ratioX = (double)maxWidth / image.Width;
-            var ratioY = (double)maxHeight / image.Height;
-            var ratio = Math.Min(ratioX, ratioY);
-
-            var newWidth = (int)(image.Width * ratio);
-            var newHeight = (int)(image.Height * ratio);
-
-            var newImage = new SKBitmap(newWidth, newHeight);
-            SKBitmap.Resize(newImage, image, resizeMethod);
-
-            return newImage;
-        }
-
-        public MemoryStream ConvertToStream(SKBitmap image)
-        {
-            var memstream = new MemoryStream();
-
-            using (var ms = new SKManagedWStream(memstream))
-            {
-                image.Encode(ms, SKEncodedImageFormat.Jpeg, quality);
-            }
-
-            memstream.Seek(0, SeekOrigin.Begin);
-            return memstream;
-        }
-    }
-
-    public class StorageService : IStorageService
-    {
-        const string storagePath = "Images/";
-
-        public FileStream GetFromStorage(string outerFileName)
-        {
-            var pathToFile = storagePath + outerFileName;
-
-            if (!File.Exists(pathToFile))
-            {
-                throw new NotFoundException($"File {outerFileName} Not Found");
-            }
-
-            return File.OpenRead(pathToFile);
-        }
-
-        public void SaveToStorage(string fileName, Stream contents)
-        {
-            string path = storagePath + fileName;
-
-            using (var fileStream = new FileStream(path, FileMode.Create))
-            {
-                contents.Seek(0, SeekOrigin.Begin);
-                contents.CopyTo(fileStream);
-                fileStream.Flush();
-                fileStream.Close();
-            }
-        }
-    }
-
-    public interface ICryptoService
-    {
-        string GetHash(Stream stream);
-    }
-
-    public interface IImageService
-    {
-        string GetThumbnail(SKBitmap image, int width, int height);
-
-        SKBitmap ResizeImage(SKBitmap image, int maxWidth, int maxHeight);
-
-        MemoryStream ConvertToStream(SKBitmap image);
-    }
-
-    public interface IStorageService
-    {
-        FileStream GetFromStorage(string outerFileName);
-
-        void SaveToStorage(string fileName, Stream contents);
-    }
-
-
-    public class NotFoundException : Exception
-    {
-        public NotFoundException(string message) : base(message) { }
     }
 }
