@@ -4,8 +4,8 @@
             {{ supplierInfo?.name }}
         </span>
     </div>
-    <div class="photo mb-4" *ngIf="image != null else noImage">
-        <img [src]="'data:image/jpg;base64,' + image"  class="card-img" />
+    <div class="photo mb-4" *ngIf="supplierInfo && supplierInfo.preview else noImage">
+        <img [src]="imagePath"  class="card-img" />
     </div>
     <ng-template #noImage>
         No preview

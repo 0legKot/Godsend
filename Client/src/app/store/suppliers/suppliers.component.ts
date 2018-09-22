@@ -22,11 +22,6 @@ export class SuppliersComponent implements OnInit {
     public searchSuppliers?: SupplierInfo[];
     templateText = 'Waiting for data...';
 
-    /**
-     * images as a dictionary where key is id and value is base64-encoded image
-     * */
-    images: { [id: string]: string } = { }
-
     @ViewChild(SearchInlineComponent)
     searchInline!: SearchInlineComponent;
 
@@ -44,16 +39,10 @@ export class SuppliersComponent implements OnInit {
     }
 
     getSuppliers() {
-        this.repo.getEntities<SupplierInfo>('supplier', this.page, this.rpp, res => {
-            this.imageService.getPreviewImages(res.filter(si => si.preview != null).map(si => si.preview!.id), images => this.images = images);
-        });
+        this.repo.getEntities<SupplierInfo>('supplier', this.page, this.rpp);
     }
 
-    getImage(pi: SupplierInfo): string {
-        return pi.preview ? this.images[pi.preview.id] : "";
-    }
-
-    constructor(private repo: RepositoryService, private imageService: ImageService, private router: Router) { }
+    constructor(private repo: RepositoryService, private router: Router) { }
 
     ngOnInit() {
         this.getSuppliers();
