@@ -12,12 +12,12 @@
     </ng-template>
     <div class="rating">
         <p class="pull-right" [ngStyle]="{'color': '#003e09' }">
-            <fa name="eye"></fa> : {{ supplierInfo?.watches }}
-            <fa name="comments"></fa> : {{ supplierInfo?.commentsCount }}
+            <fa-icon icon="eye"></fa-icon> : {{ supplierInfo?.watches }}
+            <fa-icon icon="comments"></fa-icon> : {{ supplierInfo?.commentsCount }}
         </p>
     </div>
     <div class="rating">
         <godsend-stars [value]="supplierInfo?.rating"></godsend-stars>
     </div>
 </a>
-<div class="delete" (click)="onDelete()"><fa name="times"></fa></div>
+<div class="delete" (click)="onDelete()"><fa-icon icon="times"></fa-icon></div>

@@ -13,8 +13,8 @@
     </ng-template>
     <div class="rating">
         <p class="pull-right" [ngStyle]="{'color': '#003e09' }">
-            <fa name="eye"></fa> : {{ productInfo?.watches }}
-            <fa name="comments"></fa> : {{ productInfo?.commentsCount }}
+            <fa-icon icon="eye"></fa-icon> : {{ productInfo?.watches }}
+            <fa-icon icon="comments"></fa-icon> : {{ productInfo?.commentsCount }}
         </p>
     </div>
     <div class="rating">
@@ -24,5 +24,5 @@
         <span class="card-text p-a-1">{{ productInfo?.description }}</span>
     </div>
 </a>
-<div class="delete" (click)="onDelete()"><fa name="times"></fa></div>
+<div class="delete" (click)="onDelete()"><fa-icon icon="times"></fa-icon></div>
 

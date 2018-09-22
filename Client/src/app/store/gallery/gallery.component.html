@@ -3,7 +3,7 @@
         <div class="block">
             <div class="image-container" *ngIf="value.length > 0" (click)="enterFullView(0)">
                 <div class="cover-large">
-                    <fa name="image" size="3x"></fa>
+                    <fa-icon icon="image" size="3x"></fa-icon>
                 </div>
                 <img [src]="getPath(0)" />
             </div>
@@ -14,7 +14,7 @@
                         <div *ngFor="let image of value | slice:1; let index = index; " class="image-container-small"
                              [ngStyle]="{'background-image': 'url(' + getPath(index + 1) + ')'}" (click)="enterFullView(index+1)">
                             <div class="cover-small">
-                                <fa name="image" size="3x"></fa>
+                                <fa-icon icon="image" size="3x"></fa-icon>
                             </div>
                         </div>
                     </div>
@@ -26,11 +26,11 @@
         <div class="block edit">
             <div class="image-container" *ngIf="value.length > 0">
                 <img [src]="getPath(0)" />
-                <div class="btn-remove" (click)="remove(0)"><fa name="times" size="2x"></fa></div>
+                <div class="btn-remove" (click)="remove(0)"><fa-icon icon="times" size="2x"></fa-icon></div>
             </div>
 
             <label for="file" class="add-large" *ngIf="value.length == 0">
-                <fa name="plus" size="3x"></fa>
+                <fa-icon icon="plus" size="3x"></fa-icon>
             </label>
 
             <div *ngIf="value.length > 0" class="image-row-container">
@@ -39,7 +39,7 @@
                     <div class="image-row">
                         <div *ngFor="let image of value | slice:1; let index = index; " class="image-container-small"
                              [ngStyle]="{'background-image': 'url(' + getPath(index + 1) + ')'}">
-                            <div class="btn-remove" (click)="remove(index+1)"><fa name="times" size="2x"></fa></div>
+                            <div class="btn-remove" (click)="remove(index+1)"><fa-icon icon="times" size="2x"></fa-icon></div>
                         </div>
                         <label for="file" class="add-small" *ngIf="value.length < 5"><span class="fi-plus-1"></span></label>
                     </div>
@@ -51,10 +51,10 @@
     </ng-template>
     <ng-container *ngIf="fullView">
         <div class="full-view">
-            <div class="full-left" (click)="decrementIndex()"><fa name="arrow-left" size="3x"></fa></div>
+            <div class="full-left" (click)="decrementIndex()"><fa-icon icon="arrow-left" size="3x"></fa-icon></div>
             <div class="full-image" [ngStyle]="{'background-image': 'url(' + getPath(curIndex) + ')'}"></div>
-            <div class="full-right" (click)="incrementIndex()"><fa name="arrow-right" size="3x"></fa></div>
-            <div class="full-close" (click)="exitFullView()"><fa name="times" size="3x"></fa></div>
+            <div class="full-right" (click)="incrementIndex()"><fa-icon icon="arrow-right" size="3x"></fa-icon></div>
+            <div class="full-close" (click)="exitFullView()"><fa-icon icon="times" size="3x"></fa-icon></div>
         </div>
     </ng-container>
 </ng-container>

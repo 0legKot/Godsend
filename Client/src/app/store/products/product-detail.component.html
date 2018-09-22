@@ -28,7 +28,7 @@
                     <div *ngIf="product">
                         <godsend-ratings [clas]="clas" [id]="product.id" [(ngModel)]="product.info.rating"></godsend-ratings>
                     </div>
-                    <p class="pull-right" [ngStyle]="{'color': '#003e09' }"><fa name="eye"></fa> : {{ product?.info?.watches }}</p>
+                    <p class="pull-right" [ngStyle]="{'color': '#003e09' }"><fa-icon icon="eye"></fa-icon> : {{ product?.info?.watches }}</p>
                 </div>
             </div>
             <div class='col-lg-7 col-md-6 col-sm-5 col-xs-12 products rel'>
@@ -78,7 +78,7 @@
                             <label>{{ 'Products.Detail.Quantity' | translate }}: </label>
                             <p><input id="input-quantity" type="number" min="1" step="1" [(ngModel)]="quantity" /></p>
                             <div class="buy" (click)="buy()">
-                                <p class="inline-block"><fa name="cart-arrow-down"></fa></p>
+                                <p class="inline-block"><fa-icon icon="cart-arrow-down"></fa-icon></p>
                                 <p class="inline-block">{{ 'Products.Detail.Buy' | translate }}!</p>
                             </div>
                         </div>
@@ -126,7 +126,7 @@
     </div>
     <godsend-comment-wrapper id="{{ route.snapshot.params.id }}" clas="product"></godsend-comment-wrapper>
     <div class="back-btn" [routerLink]="['/products']">
-        <fa name="long-arrow-left"></fa> {{ 'Products.Detail.Back' | translate }}
+        <fa-icon icon="long-arrow-alt-left"></fa-icon> {{ 'Products.Detail.Back' | translate }}
     </div>
 
 </div>

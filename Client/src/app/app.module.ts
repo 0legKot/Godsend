@@ -3,8 +3,10 @@ import { NgModule } from '@angular/core';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { RouterModule, Routes } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { AngularFontAwesomeModule } from 'angular-font-awesome';
-import {TranslateModule, TranslateLoader} from '@ngx-translate/core';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { fas } from '@fortawesome/free-solid-svg-icons'
+import { TranslateModule, TranslateLoader} from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
 import {MatTreeModule, MatButtonModule, MatIconModule} from '@angular/material';
@@ -23,8 +25,6 @@ import { StatisticsComponent } from './store/statistics/statistics.component';
 import { AuthenticationGuard } from './services/authentication.guard';
 import { SearchService } from './store/search/search.service';
 import { SearchInlineComponent } from './store/search/search-inline.component';
-import { ProductsModule } from './store/products/products.module';
-import { SuppliersModule } from './store/suppliers/suppliers.module';
 import { ProductsComponent } from './store/products/products.component';
 import { ProductDetailComponent } from './store/products/product-detail.component';
 import { SuppliersComponent } from './store/suppliers/suppliers.component';
@@ -51,6 +51,8 @@ import { RichtextComponent } from './store/richtext/richtext.component';
 export function HttpLoaderFactory(httpClient: HttpClient) {
     return new TranslateHttpLoader(httpClient);
 }
+
+library.add(fas);
 
 const APP_ROUTES: Routes = [
     { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -112,7 +114,7 @@ const APP_ROUTES: Routes = [
         RichtextComponent,
     ],
     imports: [
-        AngularFontAwesomeModule,
+        FontAwesomeModule,
         BrowserModule,
         FormsModule,
         HttpClientModule,

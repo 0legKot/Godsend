@@ -1,6 +1,6 @@
 ﻿<h1>Products</h1>
 <br />
-<a [routerLink]="['/products/comparison', idsForCompare]"><fa name="balance-scale" size="3x"></fa></a>
+<a [routerLink]="['/products/comparison', idsForCompare]"><fa-icon icon="balance-scale" size="3x"></fa-icon></a>
 <div class="wrap">
     
     <div class="ml-4">
@@ -72,7 +72,7 @@
                 <godsend-search-inline [type]="type"></godsend-search-inline>
             </p>
             <p class="inline-block">
-                <fa name="search"></fa>
+                <fa-icon icon="search"></fa-icon>
             </p>
         </div>
     </div>
@@ -82,7 +82,7 @@
             <div *ngFor="let productInfo of productsExperiment" class="col-lg-3 col-md-4 col-sm-6 col-xs-12  card ">
                 <godsend-product-card [productInfo]="productInfo" (delete)="deleteProduct(productInfo.id)"></godsend-product-card>
                 <button class="btn-light" (click)="toggleComparsion(productInfo.id)"  [hidden]="!isFilteredByCategory" title="add to compare" >
-                    <fa name="plus-square"></fa>
+                    <fa-icon icon="plus-square"></fa-icon>
                 </button>
             </div>
         </div>

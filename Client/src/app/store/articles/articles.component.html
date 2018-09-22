@@ -9,7 +9,7 @@
 
             <div class="card text-center">
                 <div class="card-header" [ngClass]="{'viewed': getViewed(a.id)}">
-                    <h5 class="pull-right delete-art" (click)="deleteArticle(a.id)"><fa name="times"></fa></h5>
+                    <h5 class="pull-right delete-art" (click)="deleteArticle(a.id)"><fa-icon icon="times"></fa-icon></h5>
                     <br />
                     <h5>{{ a.name }}</h5>
                     <br />
@@ -26,8 +26,8 @@
                 </div>
                 <div class="card-footer text-muted">
                     <godsend-stars [value]="a.rating"></godsend-stars> &nbsp;
-                    <fa name="eye"></fa> : {{ a.watches }}
-                    <fa name="comments"></fa> : {{ a.commentsCount }}
+                    <fa-icon icon="eye"></fa-icon> : {{ a.watches }}
+                    <fa-icon icon="comments"></fa-icon> : {{ a.commentsCount }}
                 </div>
             </div>
         </div>
