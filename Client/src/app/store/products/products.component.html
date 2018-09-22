@@ -81,9 +81,8 @@
         <div class='row products'>
             <div *ngFor="let productInfo of productsExperiment" class="col-lg-3 col-md-4 col-sm-6 col-xs-12  card ">
                 <godsend-product-card [productInfo]="productInfo" [image]="images[productInfo.preview?.id]" (delete)="deleteProduct(productInfo.id)"></godsend-product-card>
-                <button class="btn-light" (click)="toggleComparsion(productInfo.id)"  [hidden]="!isFilteredByCategory" >
-                    <mat-icon svgIcon="compare">
-                    </mat-icon>
+                <button class="btn-light" (click)="toggleComparsion(productInfo.id)"  [hidden]="!isFilteredByCategory" title="add to compare" >
+                    <fa name="plus-square"></fa>
                 </button>
             </div>
         </div>

@@ -105,12 +105,7 @@ export class ProductsComponent implements OnInit {
     constructor(private repo: RepositoryService,
         private imageService: ImageService,
         private catService: CategoryService,
-        private router: Router,
-        iconRegistry: MatIconRegistry,
-        sanitizer: DomSanitizer) {
-        iconRegistry.addSvgIcon(
-            'compare',
-            sanitizer.bypassSecurityTrustResourceUrl('assets/img/compare.svg'));
+        private router: Router) {
     }
 
     ngOnInit() {        

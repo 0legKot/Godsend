@@ -19,16 +19,7 @@ export class CategoryTreeComponent implements OnInit {
     nestedTreeControl: NestedTreeControl<CatsWithSubs>;
     nestedDataSource: MatTreeNestedDataSource<CatsWithSubs>;
 
-    constructor(private catService: CategoryService, iconRegistry: MatIconRegistry, sanitizer: DomSanitizer) {
-        iconRegistry.addSvgIcon(
-            'chevron_right',
-            sanitizer.bypassSecurityTrustResourceUrl('assets/img/chevron_right.svg'));
-        iconRegistry.addSvgIcon(
-            'expand_more',
-            sanitizer.bypassSecurityTrustResourceUrl('assets/img/expand_more.svg'));
-        iconRegistry.addSvgIcon(
-            'subdirectory',
-            sanitizer.bypassSecurityTrustResourceUrl('assets/img/subdirectory.svg'));
+    constructor(private catService: CategoryService) {
         this.nestedTreeControl = new NestedTreeControl<CatsWithSubs>(this.getChildren);
         this.nestedDataSource = new MatTreeNestedDataSource();
         this.dataChange.subscribe(data => this.nestedDataSource.data = data);
