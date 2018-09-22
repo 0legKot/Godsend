@@ -90,8 +90,7 @@ namespace Godsend.Controllers
         [HttpPost("upload")]
         public IActionResult Upload()
         {
-            var files = Request.Form.Files;
-
+            #region constants
             List<string> allowedImageExtensions = new List<string> { ".jpg", ".png", ".jpeg", ".bmp" };
             const int maxImagesPerUpload = 5;
             const int resizeImageWidth = 2000;
@@ -105,11 +104,11 @@ namespace Godsend.Controllers
             const int thumbHeight = 360;
             const int hashThumbWidth = 10;
             const int hashThumbHeight = 10;
-            const int maxImageProportionCoef = 4;
-
+            const double maxImageProportionCoef = 10.0;
+            const double minImageProportionCoef = 1.0 / maxImageProportionCoef;
+            #endregion
+            var files = Request.Form.Files;
             List<SKBitmap> skImages = new List<SKBitmap>();
-
-            // Validation
             if (files.Count > maxImagesPerUpload)
             {
                 return BadRequest("Too Many Images");
@@ -117,64 +116,76 @@ namespace Godsend.Controllers
 
             foreach (var file in files)
             {
-                if (file.Length == 0)
+                if (file.Length != 0)
                 {
-                    continue;
-                }
-
-                if (file.Length > maxImageFileLength)
-                {
-                    return BadRequest("No File Size");
-                }
-
-                var extension = Path.GetExtension(file.FileName).ToLower();
-                if (!allowedImageExtensions.Contains(extension))
-                {
-                    return BadRequest($"Extension {extension} not allowed");
-                }
-
-                SKBitmap image = null;
-                try
-                {
-                    using (var ms = new MemoryStream())
+                    try
                     {
-                        file.CopyTo(ms);
-                        ms.Position = 0;
-                        image = SKBitmap.Decode(ms);
+                        CheckExtensionAndFileLength(allowedImageExtensions, maxImageFileLength, file);
+                        SKBitmap image = GetImageFromFile(file);
+                        CheckSize(maxImageWidth, maxImageHeight, minImageWidth, minImageHeight, maxImageProportionCoef, minImageProportionCoef, image);
+                        skImages.Add(image);
+                    }
+                    catch (Exception e)
+                    {
+                        return BadRequest(e.Message);
                     }
                 }
-                catch
-                {
-                    return BadRequest("Broken Image");
-                }
-
-                int width = image.Width;
-                int height = image.Height;
-                if (width < minImageWidth || height < minImageHeight)
-                {
-                    return BadRequest("Too Small Image");
-                }
-
-                if (width > maxImageWidth || height > maxImageHeight)
-                {
-                    return BadRequest("Too Big Image");
-                }
-
-                double proportion = width / height;
-                if (proportion < 1 / maxImageProportionCoef || proportion > 1 * maxImageProportionCoef)
-                {
-                    return BadRequest("Invalid Proportions");
-                }
-
-                skImages.Add(image);
             }
 
-            // Processing
             var images = new List<Image>();
             ProcessImages(resizeImageWidth, resizeImageHeight, thumbWidth, thumbHeight, hashThumbWidth, hashThumbHeight, skImages, ref images);
-
-            // Result
             return Ok(images);
+        }
+
+        private static SKBitmap GetImageFromFile(IFormFile file)
+        {
+            SKBitmap image;
+            using (var ms = new MemoryStream())
+            {
+                file.CopyTo(ms);
+                ms.Position = 0;
+                image = SKBitmap.Decode(ms);
+            }
+
+            if (image == null)
+            {
+                throw new Exception("Broken image");
+            }
+
+            return image;
+        }
+
+        private static void CheckSize(int maxImageWidth, int maxImageHeight, int minImageWidth, int minImageHeight, double maxImageProportionCoef, double minImageProportionCoef, SKBitmap image)
+        {
+            if (image.Width < minImageWidth || image.Height < minImageHeight)
+            {
+                throw new Exception("Too Small Image");
+            }
+
+            if (image.Width > maxImageWidth || image.Height > maxImageHeight)
+            {
+                throw new Exception("Too Big Image");
+            }
+
+            double proportion = (double)image.Width / image.Height;
+            if (proportion > maxImageProportionCoef || proportion < minImageProportionCoef)
+            {
+                throw new Exception("Invalid Proportions");
+            }
+        }
+
+        private static void CheckExtensionAndFileLength(List<string> allowedImageExtensions, int maxImageFileLength, IFormFile file)
+        {
+            if (file.Length > maxImageFileLength)
+            {
+                throw new Exception("File is to big");
+            }
+
+            var extension = Path.GetExtension(file.FileName).ToLower();
+            if (!allowedImageExtensions.Contains(extension))
+            {
+                throw new Exception($"Extension {extension} not allowed");
+            }
         }
 
         private void ProcessImages(int resizeImageWidth, int resizeImageHeight, int thumbWidth, int thumbHeight, int hashThumbWidth, int hashThumbHeight, List<SKBitmap> skImages, ref List<Image> images)
@@ -193,7 +204,6 @@ namespace Godsend.Controllers
 
                 using (var image = img)
                 {
-
                     // to prevent hash colisions
                     string hashThumbnail = _imageService.GetThumbnail(image, hashThumbWidth, hashThumbHeight);
 
@@ -204,38 +214,37 @@ namespace Godsend.Controllers
                     if (original != null)
                     {
                         images.Add(original);
-
-                        continue;
                     }
-
-                    // Add entry to db and get ID
-                    Image newImage = new Image
+                    else
                     {
-                        Id = Guid.NewGuid(),
-                        Thumb = hashThumbnail,
-                    };
+                        var newId = Guid.NewGuid();
+                        Image newImage = new Image
+                        {
+                            Id = newId,
+                            Thumb = hashThumbnail,
+                            Path = newId.ToString() + ".jpg",
+                        };
 
-                    string fileName = newImage.Id.ToString() + ".jpg";
-                    newImage.Path = fileName;
+                        // Saving FULL to storage
+                        using (MemoryStream fullMs = _imageService.ConvertToStream(image))
+                        {
+                            _storageService.SaveToStorage(newImage.Path, fullMs);
+                        }
 
-                    // Saving FULL to storage
-                    using (MemoryStream fullMs = _imageService.ConvertToStream(image))
-                    {
-                        _storageService.SaveToStorage(fileName, fullMs);
-                    }
+                        images.Add(newImage);
+                        repository.AddImage(newImage);
 
-                    images.Add(newImage);
-                    repository.AddImage(newImage);
-
-                    // Converting thumb
-                    var thumbImage = _imageService.ResizeImage(image, thumbWidth, thumbHeight);
-                    using (MemoryStream thumbMs = _imageService.ConvertToStream(thumbImage))
-                    {
-                        _storageService.SaveToStorage(newImage.Id.ToString() + "s.jpg", thumbMs);
+                        // Converting thumb
+                        var thumbImage = _imageService.ResizeImage(image, thumbWidth, thumbHeight);
+                        using (MemoryStream thumbMs = _imageService.ConvertToStream(thumbImage))
+                        {
+                            _storageService.SaveToStorage(newImage.Id.ToString() + "s.jpg", thumbMs);
+                        }
                     }
                 }
 
                 img.Dispose();
+                skImages[i].Dispose();
             }
         }
     }
