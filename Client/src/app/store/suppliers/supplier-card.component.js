@@ -15,6 +15,14 @@ var SupplierCardComponent = /** @class */ (function () {
         this.repo = repo;
         this.delete = new EventEmitter();
     }
+    Object.defineProperty(SupplierCardComponent.prototype, "viewed", {
+        get: function () {
+            var _this = this;
+            return this.supplierInfo && (this.repo.viewedSuppliersIds.find(function (id) { return id === _this.supplierInfo.id; }) != undefined);
+        },
+        enumerable: true,
+        configurable: true
+    });
     SupplierCardComponent.prototype.onDelete = function () {
         this.delete.emit();
     };

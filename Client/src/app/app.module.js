@@ -48,6 +48,7 @@ import { RatingsComponent } from './store/rating/ratings.component';
 import { CategoryTreeComponent } from './store/products/category-tree.component';
 import { ProductsComparisonComponent } from './store/products/products-comparison.component';
 import { GalleryComponent } from './store/gallery/gallery.component';
+import { RichtextComponent } from './store/richtext/richtext.component';
 export function HttpLoaderFactory(httpClient) {
     return new TranslateHttpLoader(httpClient);
 }
@@ -111,6 +112,7 @@ var AppModule = /** @class */ (function () {
                 RatingsComponent,
                 CategoryTreeComponent,
                 GalleryComponent,
+                RichtextComponent,
             ],
             imports: [
                 AngularFontAwesomeModule,

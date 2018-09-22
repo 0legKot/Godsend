@@ -112,14 +112,14 @@ var ProductsComponent = /** @class */ (function () {
         this.categories = this.catService.cats ? this.catService.cats.map(function (cws) { return cws.cat; }) : [];
         console.log(this.categories);
     };
-    ProductsComponent.prototype.getSubcategories = function (category) {
-        this.categories = this.catService.getSubcategories(category);
-        this.getCategoryProps(category);
-    };
-    ProductsComponent.prototype.getByCategory = function (category) {
-        this.repo.productFilter.categoryId = category.id;
-        this.getProducts();
-    };
+    //getSubcategories(category: Category): void {
+    //    this.categories = this.catService.getSubcategories(category);
+    //    this.getCategoryProps(category);
+    //}
+    //getByCategory(category: Category): void {
+    //    this.repo.productFilter.categoryId = category.id;
+    //    this.getProducts();
+    //}
     ProductsComponent.prototype.getByFilter = function () {
         if (this.filter) {
             if (this.filter.stringProps) {
@@ -147,6 +147,7 @@ var ProductsComponent = /** @class */ (function () {
         this.catService.getCategoryProps(category.id, function (filter) { _this.filter = filter; console.log(filter); });
     };
     ProductsComponent.prototype.setCurrentCategory = function (category) {
+        console.log(category);
         this.repo.productFilter.categoryId = category.id;
         this.getProducts();
         this.getCategoryProps(category);

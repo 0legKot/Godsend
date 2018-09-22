@@ -34,16 +34,16 @@ var ArticleDetailComponent = /** @class */ (function () {
         enumerable: true,
         configurable: true
     });
-    ArticleDetailComponent.prototype.gotoArticles = function (article) {
-        var articleId = article ? article.id : null;
-        this.router.navigate(['/articles', { id: articleId }]);
-    };
     ArticleDetailComponent.prototype.ngOnInit = function () {
         var _this = this;
-        this.repo.getEntity('article', this.route.snapshot.params.id, function (a) {
+        var id = this.route.snapshot.params.id;
+        this.repo.getEntity('article', id, function (a) {
             _this.article = a;
             _this.stringifyTags();
         });
+        if (this.repo.viewedArticlesIds.find(function (x) { return x === id; }) === undefined) {
+            this.repo.viewedArticlesIds.push(this.route.snapshot.params.id);
+        }
     };
     ArticleDetailComponent.prototype.editMode = function () {
         if (this.article == null) {

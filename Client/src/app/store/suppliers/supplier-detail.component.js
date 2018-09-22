@@ -37,25 +37,25 @@ var SupplierDetailComponent = /** @class */ (function () {
     SupplierDetailComponent.prototype.deleteSupplier = function () {
         if (this.supp) {
             this.repo.deleteEntity('supplier', this.supp.info.id, 1, 10);
-            this.gotoSuppliers(undefined);
+            this.router.navigate(['/suppliers']);
         }
-    };
-    SupplierDetailComponent.prototype.gotoSuppliers = function (supplier) {
-        var supplierId = supplier ? supplier.id : null;
-        this.router.navigate(['/suppliers', { id: supplierId }]);
     };
     SupplierDetailComponent.prototype.gotoProduct = function (prodId) {
         this.router.navigate(['/products/' + prodId]);
     };
     SupplierDetailComponent.prototype.ngOnInit = function () {
         var _this = this;
-        this.repo.getEntity('supplier', this.route.snapshot.params.id, function (s) {
+        var id = this.route.snapshot.params.id;
+        this.repo.getEntity('supplier', id, function (s) {
             _this.supp = s;
             console.log(s.productsAndPrices);
             //if (this.supp.images) {
             //    this.imageService.getImages(this.supp.images.map(i => i.id), images => { this.images = images; });
             //}
         });
+        if (this.repo.viewedSuppliersIds.find(function (x) { return x === id; }) === undefined) {
+            this.repo.viewedSuppliersIds.push(this.route.snapshot.params.id);
+        }
     };
     SupplierDetailComponent.prototype.editMode = function () {
         if (this.supp == null) {

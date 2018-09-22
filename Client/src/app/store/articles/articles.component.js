@@ -36,6 +36,9 @@ var ArticlesComponent = /** @class */ (function () {
         this.page = page;
         this.getArticles();
     };
+    ArticlesComponent.prototype.getViewed = function (articleId) {
+        return this.repo.viewedArticlesIds.find(function (id) { return id === articleId; }) !== undefined;
+    };
     ArticlesComponent.prototype.getArticles = function () {
         this.repo.getEntities('article', this.page, this.rpp);
     };
