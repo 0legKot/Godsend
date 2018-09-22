@@ -9,10 +9,20 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { ProductInfo } from '../../models/product.model';
+import { RepositoryService } from '../../services/repository.service';
 var ProductCardComponent = /** @class */ (function () {
-    function ProductCardComponent() {
+    function ProductCardComponent(repo) {
+        this.repo = repo;
         this.delete = new EventEmitter();
     }
+    Object.defineProperty(ProductCardComponent.prototype, "viewed", {
+        get: function () {
+            var _this = this;
+            return this.productInfo && (this.repo.viewedProductsIds.find(function (id) { return id === _this.productInfo.id; }) !== undefined);
+        },
+        enumerable: true,
+        configurable: true
+    });
     ProductCardComponent.prototype.onDelete = function () {
         this.delete.emit();
     };
@@ -34,7 +44,7 @@ var ProductCardComponent = /** @class */ (function () {
             templateUrl: './product-card.component.html',
             styleUrls: ['./products.component.css']
         }),
-        __metadata("design:paramtypes", [])
+        __metadata("design:paramtypes", [RepositoryService])
     ], ProductCardComponent);
     return ProductCardComponent;
 }());

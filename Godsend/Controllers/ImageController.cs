@@ -95,7 +95,7 @@ namespace Godsend.Controllers
         {
             var files = Request.Form.Files;
 
-            const string allowedImageExtensions = ".jpg .png .jpeg .bmp";
+            List<string> allowedImageExtensions = new List<string> { ".jpg", ".png", ".jpeg", ".bmp" };
             const int maxImagesPerUpload = 5;
             const int resizeImageWidth = 2000;
             const int resizeImageHeight = 2000;
@@ -121,19 +121,19 @@ namespace Godsend.Controllers
             foreach (var file in files)
             {
                 if (file.Length == 0)
+                {
                     continue;
+                }
 
-                // File size
                 if (file.Length > maxImageFileLength)
                 {
                     return BadRequest("No File Size");
                 }
 
-                // Extension
                 var extension = Path.GetExtension(file.FileName).ToLower();
                 if (!allowedImageExtensions.Contains(extension))
                 {
-                    return BadRequest("Only Images Allowed");
+                    return BadRequest($"Extension {extension} not allowed");
                 }
 
                 SKBitmap image = null;
@@ -151,7 +151,6 @@ namespace Godsend.Controllers
                     return BadRequest("Broken Image");
                 }
 
-                // Image size and proportions
                 int width = image.Width;
                 int height = image.Height;
                 if (width < minImageWidth || height < minImageHeight)
@@ -160,10 +159,15 @@ namespace Godsend.Controllers
                 }
 
                 if (width > maxImageWidth || height > maxImageHeight)
+                {
                     return BadRequest("errorTooBigImage");
+                }
+
                 double proportion = width / height;
                 if (proportion < 1 / maxImageProportionCoef || proportion > 1 * maxImageProportionCoef)
+                {
                     return BadRequest("errorInvalidProportions");
+                }
 
                 skImages.Add(image);
             }
@@ -174,7 +178,6 @@ namespace Godsend.Controllers
             {
                 var image = skImages[i];
 
-                // Resizing image if needed
                 if (image.Width > resizeImageWidth || image.Height > resizeImageHeight)
                 {
                     image = _imageService.ResizeImage(image, resizeImageWidth, resizeImageHeight);
@@ -184,10 +187,9 @@ namespace Godsend.Controllers
                     image = _imageService.ResizeImage(image, image.Width, image.Height); // To prevent GDI+ Exception
                 }
 
-                // Getting hash thumbnail (to prevent hash colisions)
+                // to prevent hash colisions
                 string hashThumbnail = _imageService.GetThumbnail(image, hashThumbWidth, hashThumbHeight);
 
-                // Converting to stream
                 MemoryStream fullMs = _imageService.ConvertToStream(image);
 
                 // Check for duplicate
@@ -235,50 +237,15 @@ namespace Godsend.Controllers
 
     public class CryptoService : ICryptoService
     {
-        public long GetHash(Stream stream)
+        public string GetHash(Stream stream)
         {
-            var md5 = GetMD5CheckSum(stream);
-            var hash = GetInt64HashCode(md5);
-            using (var ha = HashAlgorithm.Create())
-            { }
-            return hash;
-        }
-
-        public long GetHash(string str)
-        {
-            var hash = GetInt64HashCode(str);
-            return hash;
-        }
-
-        // Modified version of
-        // https://stackoverflow.com/questions/10520048/calculate-md5-checksum-for-a-file
-        private string GetMD5CheckSum(Stream stream)
-        {
-            using (var md5 = MD5.Create())
+            byte[] byteHash;
+            using (var ha = SHA256.Create())
             {
-                var hash = md5.ComputeHash(stream);
-                return BitConverter.ToString(hash).Replace("-", "").ToLowerInvariant();
+                byteHash = ha.ComputeHash(stream);
             }
-        }
 
-        // Modified version of
-        // https://www.codeproject.com/Articles/34309/Convert-String-to-64bit-Integer
-        private long GetInt64HashCode(string strText)
-        {
-            long hashCode = 0;
-            if (!string.IsNullOrEmpty(strText))
-            {
-                byte[] byteContents = Encoding.Unicode.GetBytes(strText);
-                using (SHA256 hash = new SHA256CryptoServiceProvider())
-                {
-                    byte[] hashText = hash.ComputeHash(byteContents);
-                    long hashCodeStart = BitConverter.ToInt64(hashText, 0);
-                    long hashCodeMedium = BitConverter.ToInt64(hashText, 8);
-                    long hashCodeEnd = BitConverter.ToInt64(hashText, 24);
-                    hashCode = hashCodeStart ^ hashCodeMedium ^ hashCodeEnd;
-                }
-            }
-            return hashCode;
+            return Encoding.UTF8.GetString(byteHash, 0, byteHash.Length);
         }
     }
 
@@ -341,7 +308,7 @@ namespace Godsend.Controllers
 
             if (!File.Exists(pathToFile))
             {
-                throw new NotFoundException("FileNotFound");
+                throw new NotFoundException($"File {outerFileName} Not Found");
             }
 
             return File.OpenRead(pathToFile);
@@ -363,9 +330,7 @@ namespace Godsend.Controllers
 
     public interface ICryptoService
     {
-        long GetHash(Stream stream);
-
-        long GetHash(string str);
+        string GetHash(Stream stream);
     }
 
     public interface IImageService

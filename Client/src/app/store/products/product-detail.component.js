@@ -56,14 +56,10 @@ var ProductDetailComponent = /** @class */ (function () {
         enumerable: true,
         configurable: true
     });
-    ProductDetailComponent.prototype.gotoProducts = function () {
-        var productId = this.route.snapshot.params.id;
-        this.router.navigate(['/products', { id: productId }]);
-    };
     ProductDetailComponent.prototype.deleteProduct = function () {
         if (this.product) {
             this.repo.deleteEntity('product', this.product.info.id, 1, 10);
-            this.gotoProducts();
+            this.router.navigate(['/products']);
         }
     };
     ProductDetailComponent.prototype.buy = function () {
@@ -117,13 +113,17 @@ var ProductDetailComponent = /** @class */ (function () {
     };
     ProductDetailComponent.prototype.ngOnInit = function () {
         var _this = this;
-        this.repo.getEntity('product', this.route.snapshot.params.id, function (p) {
+        var id = this.route.snapshot.params.id;
+        this.repo.getEntity('product', id, function (p) {
             _this.product = p;
             _this.selectedSupplier = p.suppliersAndPrices ? p.suppliersAndPrices[0] : undefined;
             /*if (this.product.images) {
                 this.imageService.getImages(this.product.images.map(i => i.id), images => { this.images = images; });
             }*/
         });
+        if (this.repo.viewedProductsIds.find(function (x) { return x === id; }) === undefined) {
+            this.repo.viewedProductsIds.push(this.route.snapshot.params.id);
+        }
     };
     ProductDetailComponent.prototype.changeCategory = function (newCat) {
         if (this.product) {

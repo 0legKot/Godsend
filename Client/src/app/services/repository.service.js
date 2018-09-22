@@ -24,6 +24,9 @@ var RepositoryService = /** @class */ (function () {
         this.data = data;
         this.product = {};
         this.products = [];
+        this.viewedProductsIds = [];
+        this.viewedSuppliersIds = [];
+        this.viewedArticlesIds = [];
         //must be useless
         this.productsForComparement = [];
         this.orders = [];
