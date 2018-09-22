@@ -24,64 +24,56 @@ namespace Godsend.Controllers
     public class ImageController : Controller
     {
         /// <summary>
-        /// Gets the preview image.
+        /// Gets the image.
         /// </summary>
         /// <param name="id">The identifier.</param>
-        /// <returns>Base64-encoded image</returns>
+        /// <returns>image as file</returns>
         [HttpGet("[action]/{id:Guid}")]
-        public JsonResult GetPreviewImage(Guid id)
+        public ActionResult GetImage(Guid id)
         {
             try
             {
-                return Json(Convert.ToBase64String(System.IO.File.ReadAllBytes("Images/" + repository.GetImage(id))));
+                return File(new FileStream("Images/" + repository.GetImage(id), FileMode.Open, FileAccess.Read), "image/jpeg");
+                //return Json(Convert.ToBase64String(System.IO.File.ReadAllBytes("Images/" + repository.GetImage(id))));
             }
             catch
             {
                 // no image for id (new entities)
-                return null;
+                return BadRequest();
             }
 
             ////return File(new FileStream("Images/"+repository.GetImage(id), FileMode.Open, FileAccess.Read), "image/jpeg");
         }
 
-        /// <summary>
-        /// Gets the images.
-        /// </summary>
-        /// <param name="id">The images identifiers.</param>
-        /// <returns>Array of base64-encoded images</returns>
-        [HttpPost("[action]")]
-        public IEnumerable<string> GetImages([FromBody]Guid[] ids)
-        {
-            var images = new List<string>();
-            foreach (Guid id in ids)
-            {
-                images.Add(Convert.ToBase64String(System.IO.File.ReadAllBytes("Images/" + repository.GetImage(id))));
-            }
+        //deprecated
+        //[HttpPost("[action]")]
+        //public IEnumerable<string> GetImages([FromBody]Guid[] ids)
+        //{
+        //    var images = new List<string>();
+        //    foreach (Guid id in ids)
+        //    {
+        //        images.Add(Convert.ToBase64String(System.IO.File.ReadAllBytes("Images/" + repository.GetImage(id))));
+        //    }
 
-            return images;
-        }
+        //    return images;
+        //}
 
-        /// <summary>
-        /// Gets the preview images.
-        /// </summary>
-        /// <param name="ids">The ids.</param>
-        /// <returns>dictionary of (id, base64-encoded image) pairs</returns>
-        [HttpPost("[action]")]
-        public IDictionary<Guid, string> GetPreviewImages([FromBody]Guid[] ids)
-        {
-            var res = new Dictionary<Guid, string>();
+        //[HttpPost("[action]")]
+        //public IDictionary<Guid, string> GetPreviewImages([FromBody]Guid[] ids)
+        //{
+        //    var res = new Dictionary<Guid, string>();
 
-            foreach (Guid id in ids)
-            {
-                var tmp = GetPreviewImage(id);
-                if (tmp != null)
-                {
-                    res.Add(id, GetPreviewImage(id).Value.ToString());
-                }
-            }
+        //    foreach (Guid id in ids)
+        //    {
+        //        var tmp = GetPreviewImage(id);
+        //        if (tmp != null)
+        //        {
+        //            res.Add(id, GetPreviewImage(id).Value.ToString());
+        //        }
+        //    }
 
-            return res;
-        }
+        //    return res;
+        //}
 
         // NUTRIX
 
@@ -122,7 +114,10 @@ namespace Godsend.Controllers
 
             // Validation
             if (files.Count > maxImagesPerUpload)
-                throw new BadRequestException("errorTooManyImages");
+            {
+                return BadRequest("Too Many Images");
+            }
+
             foreach (var file in files)
             {
                 if (file.Length == 0)
@@ -130,14 +125,17 @@ namespace Godsend.Controllers
 
                 // File size
                 if (file.Length > maxImageFileLength)
-                    throw new BadRequestException("errorNoFileSize");
+                {
+                    return BadRequest("No File Size");
+                }
 
                 // Extension
                 var extension = Path.GetExtension(file.FileName).ToLower();
                 if (!allowedImageExtensions.Contains(extension))
-                    throw new BadRequestException("errorOnlyImagesAllowed");
+                {
+                    return BadRequest("Only Images Allowed");
+                }
 
-                // Get image, Validate it's actually image
                 SKBitmap image = null;
                 try
                 {
@@ -150,19 +148,22 @@ namespace Godsend.Controllers
                 }
                 catch
                 {
-                    throw new BadRequestException("errorBrokenImage");
+                    return BadRequest("Broken Image");
                 }
 
                 // Image size and proportions
                 int width = image.Width;
                 int height = image.Height;
                 if (width < minImageWidth || height < minImageHeight)
-                    throw new BadRequestException("errorTooSmallImage");
+                {
+                    return BadRequest("errorTooSmallImage");
+                }
+
                 if (width > maxImageWidth || height > maxImageHeight)
-                    throw new BadRequestException("errorTooBigImage");
+                    return BadRequest("errorTooBigImage");
                 double proportion = width / height;
                 if (proportion < 1 / maxImageProportionCoef || proportion > 1 * maxImageProportionCoef)
-                    throw new BadRequestException("errorInvalidProportions");
+                    return BadRequest("errorInvalidProportions");
 
                 skImages.Add(image);
             }
@@ -175,9 +176,13 @@ namespace Godsend.Controllers
 
                 // Resizing image if needed
                 if (image.Width > resizeImageWidth || image.Height > resizeImageHeight)
+                {
                     image = _imageService.ResizeImage(image, resizeImageWidth, resizeImageHeight);
+                }
                 else
+                {
                     image = _imageService.ResizeImage(image, image.Width, image.Height); // To prevent GDI+ Exception
+                }
 
                 // Getting hash thumbnail (to prevent hash colisions)
                 string hashThumbnail = _imageService.GetThumbnail(image, hashThumbWidth, hashThumbHeight);
@@ -234,6 +239,8 @@ namespace Godsend.Controllers
         {
             var md5 = GetMD5CheckSum(stream);
             var hash = GetInt64HashCode(md5);
+            using (var ha = HashAlgorithm.Create())
+            { }
             return hash;
         }
 
@@ -333,7 +340,9 @@ namespace Godsend.Controllers
             var pathToFile = storagePath + outerFileName;
 
             if (!File.Exists(pathToFile))
-                throw new NotFoundException("errorFileNotFound");
+            {
+                throw new NotFoundException("FileNotFound");
+            }
 
             return File.OpenRead(pathToFile);
         }
@@ -375,10 +384,6 @@ namespace Godsend.Controllers
         void SaveToStorage(string fileName, Stream contents);
     }
 
-    public class BadRequestException : Exception
-    {
-        public BadRequestException(string message) : base(message) { }
-    }
 
     public class NotFoundException : Exception
     {
