@@ -14,6 +14,7 @@ import { CdkTreeModule } from '@angular/cdk/tree';
 
 import { AppComponent } from './store/app/app.component';
 import { NavMenuComponent } from './store/navmenu/navmenu.component';
+import { Filter } from './store/products/filter.component';
 import { HomeComponent } from './store/home/home.component';
 import { OrdersComponent } from './store/orders/orders.component';
 import { ArticlesComponent } from './store/articles/articles.component';
@@ -84,6 +85,7 @@ const APP_ROUTES: Routes = [
         ArticleDetailComponent,
         CartComponent,
         ConsultComponent,
+        Filter,
         HomeComponent,
         LoginComponent,
         NavMenuComponent,

@@ -11,7 +11,8 @@
         <godsend-category-tree *ngIf="categories && categories.length > 0" (categoryChanged)="setCurrentCategory($event)">
         </godsend-category-tree>
         <br />
-        <form *ngIf="filter">
+        <godsend-filter (updated)="getProducts()"></godsend-filter>
+        <!--<form *ngIf="filter">
             <div class="form-group" *ngIf="filter.stringProps?.length > 0">
                 <div *ngFor="let prop of filter.stringProps">
                     <label> {{ prop.name }} </label>
@@ -62,7 +63,7 @@
             </div>
 
             <button class="btn btn-dark" (click)="getByFilter()">{{ 'Products.Filter' | translate }}</button>
-        </form>
+        </form>-->
         <br />
     </div>
 

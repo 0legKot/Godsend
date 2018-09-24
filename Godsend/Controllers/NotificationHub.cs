@@ -39,9 +39,12 @@ namespace Godsend.Controllers
 
         public override Task OnConnectedAsync()
         {
-            string name = Context.User.Identity.Name;
-            Groups.AddToGroupAsync(Context.ConnectionId, name).GetAwaiter().GetResult();
-
+            try
+            {
+                string name = Context.User.Identity.Name;
+                Groups.AddToGroupAsync(Context.ConnectionId, name).GetAwaiter().GetResult();
+            }
+            catch { }
             return base.OnConnectedAsync();
         }
 

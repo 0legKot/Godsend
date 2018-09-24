@@ -118,31 +118,31 @@ export class ProductsComponent implements OnInit {
     //    this.getProducts();
     // }
 
-    getByFilter(): void {
-        if (this.filter) {
-            if (this.filter.stringProps) {
-                this.repo.productFilter.stringProps = this.filter.stringProps
-                    .filter(prop => prop.part !== '' && prop.part != null)
-                    .map(prop => new StringPropertyInfo(prop.propId, prop.part));
-            }
-            if (this.filter.intProps) {
-                this.repo.productFilter.intProps = this.filter.intProps
-                    .filter(prop => prop.left != null && prop.right != null)
-                    .map(prop => new IntPropertyInfo(prop.propId, prop.left, prop.right));
-            }
-            if (this.filter.decimalProps) {
-                this.repo.productFilter.decimalProps = this.filter.decimalProps
-                    .filter(prop => prop.left != null && prop.right != null)
-                    .map(prop => new DecimalPropertyInfo(prop.propId, prop.left, prop.right));
-            }
+    //getByFilter(): void {
+    //    if (this.filter) {
+    //        if (this.filter.stringProps) {
+    //            this.repo.productFilter.stringProps = this.filter.stringProps
+    //                .filter(prop => prop.part !== '' && prop.part != null)
+    //                .map(prop => new StringPropertyInfo(prop.propId, prop.part));
+    //        }
+    //        if (this.filter.intProps) {
+    //            this.repo.productFilter.intProps = this.filter.intProps
+    //                .filter(prop => prop.left != null && prop.right != null)
+    //                .map(prop => new IntPropertyInfo(prop.propId, prop.left, prop.right));
+    //        }
+    //        if (this.filter.decimalProps) {
+    //            this.repo.productFilter.decimalProps = this.filter.decimalProps
+    //                .filter(prop => prop.left != null && prop.right != null)
+    //                .map(prop => new DecimalPropertyInfo(prop.propId, prop.left, prop.right));
+    //        }
 
-            this.repo.productFilter.orderBy = this.filter.orderBy;
+    //        this.repo.productFilter.orderBy = this.filter.orderBy;
 
-            this.repo.productFilter.sortAscending = this.filter.sortAscending;
+    //        this.repo.productFilter.sortAscending = this.filter.sortAscending;
 
-            this.getProducts();
-        }
-    }
+    //        this.getProducts();
+    //    }
+    //}
 
     getCategoryProps(category: Category): void {
         this.catService.getCategoryProps(category.id, filter => { this.filter = filter; console.log(filter); });
