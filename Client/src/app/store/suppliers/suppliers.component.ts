@@ -4,7 +4,6 @@ import { Supplier, SupplierInfo, Location } from '../../models/supplier.model';
 import { OnInit } from '@angular/core';
 import { searchType } from '../search/search.service';
 import { SearchInlineComponent } from '../search/search-inline.component';
-import { ImageService } from '../../services/image.service';
 import { Router } from '@angular/router';
 
 @Component({

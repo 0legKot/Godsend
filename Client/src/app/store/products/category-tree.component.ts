@@ -1,10 +1,9 @@
 import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import { Category, CatsWithSubs } from '../../models/product.model';
 import { NestedTreeControl } from '@angular/cdk/tree';
-import { MatTreeNestedDataSource, MatIconRegistry } from '@angular/material';
+import { MatTreeNestedDataSource } from '@angular/material';
 import { BehaviorSubject } from 'rxjs';
 import { CategoryService } from '../../services/category.service';
-import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
     selector: 'godsend-category-tree',
@@ -34,7 +33,6 @@ export class CategoryTreeComponent implements OnInit {
     selectCategory(newCat: Category) {
         console.log(newCat);
         this.categoryChanged.emit(newCat);
-        
     }
 
     public hasNestedChild = (_: number, nodeData: CatsWithSubs) => nodeData.subs && nodeData.subs.length > 0;

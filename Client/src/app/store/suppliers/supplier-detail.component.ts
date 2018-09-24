@@ -1,6 +1,4 @@
-﻿
-// import { switchMap } from 'rxjs/operators';
-import { Component, OnInit, HostBinding } from '@angular/core';
+﻿import { Component, OnInit, HostBinding } from '@angular/core';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 
 import { RepositoryService, entityClass } from '../../services/repository.service';
@@ -44,7 +42,7 @@ export class SupplierDetailComponent implements OnInit {
     }
 
     gotoProduct(prodId: string) {
-        this.router.navigate(['/products/'+prodId]);
+        this.router.navigate(['/products/' + prodId]);
     }
 
     ngOnInit() {
@@ -52,9 +50,9 @@ export class SupplierDetailComponent implements OnInit {
         this.repo.getEntity<Supplier>('supplier', id, s => {
             this.supp = s;
             console.log(s.productsAndPrices);
-            //if (this.supp.images) {
+            // if (this.supp.images) {
             //    this.imageService.getImages(this.supp.images.map(i => i.id), images => { this.images = images; });
-            //}
+            // }
         });
         if (this.repo.viewedSuppliersIds.find(x => x === id) === undefined) {
             this.repo.viewedSuppliersIds.push(this.route.snapshot.params.id);

@@ -1,7 +1,5 @@
-import { Component, OnInit, ViewChild, ElementRef, SimpleChange, Output, EventEmitter } from '@angular/core';
-import { NG_VALUE_ACCESSOR } from '@angular/forms';
+import { Component, ViewChild, ElementRef, Output, EventEmitter } from '@angular/core';
 import { Input } from '@angular/core';
-import { CustomControlValueAccessor } from '../shared/custom-control-value-accessor';
 import { Image } from '../../models/image.model';
 import { RepositoryService } from '../../services/repository.service';
 import { ImageService } from '../../services/image.service';
@@ -43,7 +41,7 @@ export class GalleryComponent {
             if (this.value.length === 1) {
                 this.changeValue([]);
             } else {
-                this.changeValue(this.value.filter((_, i) => i != index));
+                this.changeValue(this.value.filter((_, i) => i !== index));
             }
         }
     }
@@ -81,7 +79,7 @@ export class GalleryComponent {
         const fileCount: number = inputEl.files.length;
 
         if (fileCount + this.value.length > 5) {
-            alert("Too many images");
+            alert('Too many images');
             return;
         }
 
@@ -101,7 +99,7 @@ export class GalleryComponent {
                     itemsProcessed++;
                     if (itemsProcessed === array.length) {
                         this.changeValue(tmp);
-                        console.log("finished upload");
+                        console.log('finished upload');
                         console.dir(this.value);
                     }
                 });

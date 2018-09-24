@@ -5,7 +5,6 @@ import { Product, SupplierAndPrice, Category, EAV, propertyType } from '../../mo
 import { RepositoryService, entityClass } from '../../services/repository.service';
 import { CartService } from '../../services/cart.service';
 import { OrderPartDiscreteView } from '../../models/cart.model';
-import { ImageService } from '../../services/image.service';
 import { StorageService } from '../../services/storage.service';
 import { CategoryService } from '../../services/category.service';
 import { searchType, AllSearchResult } from '../search/search.service';
@@ -31,7 +30,7 @@ export class ProductDetailComponent implements OnInit {
 
     readonly clas: entityClass = 'product';
 
-    //images: string[] = [];
+    // images: string[] = [];
 
     backup: ProductBackup = {
         name: '',
@@ -55,7 +54,7 @@ export class ProductDetailComponent implements OnInit {
         private router: Router,
         private repo: RepositoryService,
         private cart: CartService,
-        //private imageService: ImageService,
+        // private imageService: ImageService,
         private storage: StorageService,
         private catService: CategoryService
     ) { }
@@ -193,7 +192,7 @@ export class ProductDetailComponent implements OnInit {
 
     removeSupplier(snp: SupplierAndPrice) {
         if (this.product && this.product.suppliersAndPrices) {
-            this.product.suppliersAndPrices = this.product.suppliersAndPrices.filter(s => s != snp);
+            this.product.suppliersAndPrices = this.product.suppliersAndPrices.filter(s => s !== snp);
         }
     }
 

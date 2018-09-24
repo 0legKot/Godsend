@@ -19,7 +19,7 @@ export class RichtextComponent extends CustomControlValueAccessor<string> implem
     // this.model
     // = Editing mode
     @Input()
-    edit: boolean = false;
+    edit = false;
 
     @Input()
     maxLength?: number;
@@ -30,67 +30,6 @@ export class RichtextComponent extends CustomControlValueAccessor<string> implem
 
     @ViewChild('editbox')
     el!: ElementRef;
-    // == On view initialization
-    ngAfterViewInit(): void {
-
-        this.editor = this.init({
-            // <HTMLElement>, required
-            element: this.el.nativeElement,
-
-            // <Function>, required
-            // Use the output html, triggered by element's `oninput` event
-            onChange: (html: string, text: string) => {
-                this.changeValue(html);
-                this.curLength = text.length;
-            },
-
-            // <Array[string | Object]>, string if overwriting, object if customizing/creating
-            // action.name<string> (only required if overwriting)
-            // action.icon<string> (optional if overwriting, required if custom action)
-            // action.title<string> (optional)
-            // action.result<Function> (required)
-            // Specify the actions you specifically want (in order)
-            actions: [
-                'bold',
-                'italic',
-                'underline',
-                'strikethrough',
-                'left',
-                'center',
-                'right',
-                'justify',
-                'heading1',
-                'heading2',
-                'paragraph',
-                'quote',
-                'olist',
-                'ulist',
-                'link',
-
-            ],
-
-            // classes<Array[string]> (optional)
-            // Choose your custom class names
-            classes: {
-                actionbar: 'actionbar',
-                button: 'button',
-                content: 'content'
-            }
-        });
-    }
-
-
-    ngDoCheck(): void {
-        // Initially sets editor text to model, in Edge innerHTML is <br> by default
-        if (this.editor && this.editor.content && (!this.editor.content.innerHTML || this.editor.content.innerHTML === "<br>")) {
-            this.editor.content.innerHTML = this.value;
-            this.curLength = this.editor.content.textContent.length;
-        }
-
-        this.divClass = !this.maxLength || this.curLength <= this.maxLength * 0.8 ? "ok" :
-            this.curLength <= this.maxLength ? "warning" :
-                "error";
-    }
 
     // Next is pell's source code
     actions: any = {
@@ -198,13 +137,75 @@ export class RichtextComponent extends CustomControlValueAccessor<string> implem
         button: 'pell-button',
         content: 'pell-content'
     };
+    // == On view initialization
+    ngAfterViewInit(): void {
+
+        this.editor = this.init({
+            // <HTMLElement>, required
+            element: this.el.nativeElement,
+
+            // <Function>, required
+            // Use the output html, triggered by element's `oninput` event
+            onChange: (html: string, text: string) => {
+                this.changeValue(html);
+                this.curLength = text.length;
+            },
+
+            // <Array[string | Object]>, string if overwriting, object if customizing/creating
+            // action.name<string> (only required if overwriting)
+            // action.icon<string> (optional if overwriting, required if custom action)
+            // action.title<string> (optional)
+            // action.result<Function> (required)
+            // Specify the actions you specifically want (in order)
+            actions: [
+                'bold',
+                'italic',
+                'underline',
+                'strikethrough',
+                'left',
+                'center',
+                'right',
+                'justify',
+                'heading1',
+                'heading2',
+                'paragraph',
+                'quote',
+                'olist',
+                'ulist',
+                'link',
+
+            ],
+
+            // classes<Array[string]> (optional)
+            // Choose your custom class names
+            classes: {
+                actionbar: 'actionbar',
+                button: 'button',
+                content: 'content'
+            }
+        });
+    }
+
+
+    ngDoCheck(): void {
+        // Initially sets editor text to model, in Edge innerHTML is <br> by default
+        if (this.editor && this.editor.content && (!this.editor.content.innerHTML || this.editor.content.innerHTML === '<br>')) {
+            this.editor.content.innerHTML = this.value;
+            this.curLength = this.editor.content.textContent.length;
+        }
+
+        this.divClass = !this.maxLength || this.curLength <= this.maxLength * 0.8 ? 'ok' :
+            this.curLength <= this.maxLength ? 'warning' : 'error';
+    }
 
     exec = (command: string, value: any = null) => {
         document.execCommand(command, false, value);
     }
 
     preventTab = (event: any) => {
-        if (event.which === 9) { event.preventDefault(); }
+        if (event.which === 9) {
+            event.preventDefault();
+        }
     }
 
     init = (settings: any) => {
@@ -233,10 +234,10 @@ export class RichtextComponent extends CustomControlValueAccessor<string> implem
         settings.element.content.onkeydown = this.preventTab;
 
         // Paste everything as plain text
-        settings.element.content.addEventListener("paste", function (e: any) {
+        settings.element.content.addEventListener('paste', function (e: any) {
             e.preventDefault();
-            const text = e.clipboardData.getData("text/plain");
-            self.exec("insertHTML", text);
+            const text = e.clipboardData.getData('text/plain');
+            self.exec('insertHTML', text);
         });
 
         settings.element.appendChild(settings.element.content);
@@ -258,5 +259,5 @@ export class RichtextComponent extends CustomControlValueAccessor<string> implem
 
 }
 
-type allowedDivClass = 'ok' | 'warning' | 'error'
+type allowedDivClass = 'ok' | 'warning' | 'error';
 

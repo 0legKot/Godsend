@@ -8,12 +8,8 @@ import {
 } from '../../models/product.model';
 import { searchType } from '../search/search.service';
 import { SearchInlineComponent } from '../search/search-inline.component';
-import { ImageService } from '../../services/image.service';
 import { CategoryService } from '../../services/category.service';
 import { guidZero } from '../../models/cart.model';
-import { retry } from 'rxjs/operators';
-import { MatIconRegistry } from '@angular/material';
-import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
     selector: 'godsend-products',
@@ -62,10 +58,12 @@ export class ProductsComponent implements OnInit {
     }
 
     toggleComparsion(id: string) {
-        if (!this.isFilteredByCategory) return;
-        if (this.comparsionSet.indexOf(id) == -1)
+        if (!this.isFilteredByCategory) { return; }
+        if (this.comparsionSet.indexOf(id) === -1) {
             this.comparsionSet.push(id);
-        else this.comparsionSet = this.comparsionSet.filter(x => x != id);
+        } else {
+            this.comparsionSet = this.comparsionSet.filter(x => x !== id);
+        }
     }
 
    /*exp get products(): ProductInfo[] {
@@ -73,9 +71,9 @@ export class ProductsComponent implements OnInit {
         return this.repo.products;
     }*/
 
-    //getImage(pi: ProductInfo): string {
+    // getImage(pi: ProductInfo): string {
     //    return this.images[pi.id];
-    //}
+    // }
 
     createProduct(descr: string, name: string) {
         // TODO create interface with only relevant info
@@ -97,7 +95,7 @@ export class ProductsComponent implements OnInit {
         private router: Router) {
     }
 
-    ngOnInit() {        
+    ngOnInit() {
         this.repo.productsExperiment.subscribe((newProducts: ProductInfo[]) => {
             console.log('products changed');
             this.productsExperiment = newProducts;
@@ -110,15 +108,15 @@ export class ProductsComponent implements OnInit {
         console.log(this.categories);
     }
 
-    //getSubcategories(category: Category): void {
+    // getSubcategories(category: Category): void {
     //    this.categories = this.catService.getSubcategories(category);
     //    this.getCategoryProps(category);
-    //}
+    // }
 
-    //getByCategory(category: Category): void {
+    // getByCategory(category: Category): void {
     //    this.repo.productFilter.categoryId = category.id;
     //    this.getProducts();
-    //}
+    // }
 
     getByFilter(): void {
         if (this.filter) {

@@ -2,10 +2,10 @@
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
-import { ProductsComponent } from './products.component';
-import { ProductDetailComponent } from './product-detail.component';
-import { PagesComponent } from '../pages/pages.component';;
-import { CategoryTreeComponent } from './category-tree.component'
+// import { ProductsComponent } from './products.component';
+// import { ProductDetailComponent } from './product-detail.component';
+// import { PagesComponent } from '../pages/pages.component';;
+// import { CategoryTreeComponent } from './category-tree.component'
 
 @NgModule({
     imports: [
@@ -13,9 +13,9 @@ import { CategoryTreeComponent } from './category-tree.component'
         FormsModule,
     ],
     declarations: [
-        //ProductsComponent,
-        //ProductDetailComponent,
-        //PagesComponent,
+        // ProductsComponent,
+        // ProductDetailComponent,
+        // PagesComponent,
     ]
 })
 export class ProductsModule { }

@@ -2,8 +2,8 @@
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
-import { SuppliersComponent } from './suppliers.component';
-import { SupplierDetailComponent } from './supplier-detail.component';
+// import { SuppliersComponent } from './suppliers.component';
+// import { SupplierDetailComponent } from './supplier-detail.component';
 
 @NgModule({
     imports: [
@@ -11,8 +11,8 @@ import { SupplierDetailComponent } from './supplier-detail.component';
         FormsModule,
     ],
     declarations: [
-        //SuppliersComponent,
-        //SupplierDetailComponent
+        // SuppliersComponent,
+        // SupplierDetailComponent
     ]
 })
 export class SuppliersModule { }

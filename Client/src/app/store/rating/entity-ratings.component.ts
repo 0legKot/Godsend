@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { LinkRatingEntity } from '../../models/rating.model';
 import { entityClass, RepositoryService } from '../../services/repository.service';
 

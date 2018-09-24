@@ -25,4 +25,4 @@ export class InputOutputComponent extends CustomControlValueAccessor<string> {
     constructor() { super(); }
 }
 
-export type InputOutputType = 'normal' | 'huge' | 'decimal' | 'integer' | 'datetime'
+export type InputOutputType = 'normal' | 'huge' | 'decimal' | 'integer' | 'datetime';

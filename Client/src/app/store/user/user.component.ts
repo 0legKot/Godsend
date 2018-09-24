@@ -3,7 +3,7 @@ import { IdentityUser } from '../../models/user.model';
 import { DataService } from '../../services/data.service';
 import { OnInit } from '@angular/core/src/metadata/lifecycle_hooks';
 import { StorageService } from '../../services/storage.service';
-import { Router, ActivatedRoute } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
     selector: 'godsend-user',
@@ -14,7 +14,7 @@ export class UserComponent implements OnInit {
     user: IdentityUser = new IdentityUser();
     curId: string = this.route.snapshot.params.id;
     name = this.storage.name;
-    edit: boolean = false;
+    edit = false;
     backup: UserBackup = {
         name: '',
         email: '',
@@ -22,16 +22,17 @@ export class UserComponent implements OnInit {
     };
 
     get isCurrent() {
-        return this.storage.id == this.curId;
+        return this.storage.id === this.curId;
     }
 
     constructor(private storage: StorageService, private data: DataService, private route: ActivatedRoute) { }
 
     save() {
         if (this.user) {
-            this.user.token = this.storage.JWTToken ? this.storage.JWTToken : "";
-            this.data.sendRequest<IdentityUser>('post', 'api/account/editProfile/' , this.user).subscribe(u => this.user = u);
-            //this.repo.createOrEditEntity('user', User.EnsureType(this.user), 1, 10);
+            this.user.token = this.storage.JWTToken ? this.storage.JWTToken : '';
+            this.data.sendRequest<IdentityUser>('post',
+                'api/account/editProfile/' , this.user).subscribe(u => this.user = u);
+            // this.repo.createOrEditEntity('user', User.EnsureType(this.user), 1, 10);
         }
 
         this.edit = false;
@@ -64,7 +65,7 @@ export class UserComponent implements OnInit {
         this.data.sendRequest<IdentityUser>('get', 'api/account/getprofile/' + this.curId).subscribe(
             res => {
                 this.user = res;
-                //if (this.user.birth == null) this.user.birth = "private info";
+                // if (this.user.birth == null) this.user.birth = "private info";
             }
         );
     }

@@ -1,5 +1,4 @@
 ﻿import { Component } from '@angular/core';
-import { AuthenticationService } from '../../services/authentication.service';
 import { OnInit } from '@angular/core';
 import { IdentityUser } from '../../models/user.model';
 import { DataService } from '../../services/data.service';
@@ -12,7 +11,7 @@ import { NotificationService } from '../../services/notification.service';
 })
 export class AdminComponent implements OnInit {
     userList: IdentityUser[] = [];
-    message: string = '';
+    message = '';
 
     public sendMessage(name: string): void {
         console.log(name);

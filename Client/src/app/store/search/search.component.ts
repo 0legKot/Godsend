@@ -1,7 +1,6 @@
 ﻿import { Component, OnInit } from '@angular/core';
 import { SearchService, searchType, AllSearchResult } from './search.service';
 import { SearchBaseComponent } from './search.base.component';
-import { ImageService } from '../../services/image.service';
 
 @Component({
     selector: 'godsend-search',

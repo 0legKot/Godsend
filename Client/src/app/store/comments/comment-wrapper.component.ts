@@ -4,8 +4,6 @@ import { NestedTreeControl } from '@angular/cdk/tree';
 import { MatTreeNestedDataSource } from '@angular/material/tree';
 import { BehaviorSubject } from 'rxjs';
 import { CommentWithSubs } from '../../models/comment.model';
-import { MatIconRegistry } from '@angular/material';
-import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'godsend-comment-wrapper',

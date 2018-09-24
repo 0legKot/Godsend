@@ -9,9 +9,19 @@ import { TranslateService } from '@ngx-translate/core';
     templateUrl: './navmenu.component.html',
     styleUrls: ['./navmenu.component.css']
 })
-export class NavMenuComponent implements OnInit{
+export class NavMenuComponent implements OnInit {
+    constructor(private storage: StorageService,
+                private auth: AuthenticationService,
+                private router: Router,
+                private translateService: TranslateService) { }
+    get name() { return this.storage.name; }
+    get isLogged() { return this.storage.authenticated; }
+    get isAdmin() { return this.storage.authenticated; }
+    get currentUserId() { return this.storage.id; }
     showMenuMobile = false;
-    constructor(private storage: StorageService, private auth: AuthenticationService, private router: Router, private translateService: TranslateService) { }
+
+    availableLangs?: string[];
+    selectedLang?: string;
     scrollToTop(): void {
         window.scrollTo(0, 0);
     }
@@ -23,13 +33,6 @@ export class NavMenuComponent implements OnInit{
     hideMenu(): void {
         this.showMenuMobile = false;
     }
-    get name() { return this.storage.name; }
-    get isLogged() { return this.storage.authenticated; }
-    get isAdmin() { return this.storage.authenticated; }
-    get currentUserId() { return this.storage.id; }
-
-    availableLangs?: string[];
-    selectedLang?: string;
 
     ngOnInit() {
         this.selectedLang = this.translateService.currentLang;

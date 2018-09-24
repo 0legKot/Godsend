@@ -1,4 +1,4 @@
-﻿import { Injectable, Inject } from '@angular/core';
+﻿import { Injectable } from '@angular/core';
 import { Product, ProductInfo } from '../../models/product.model';
 import { DataService } from '../../services/data.service';
 import { Supplier, SupplierInfo } from '../../models/supplier.model';
