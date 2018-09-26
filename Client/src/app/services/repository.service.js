@@ -160,7 +160,7 @@ var RepositoryService = /** @class */ (function () {
     };
     RepositoryService.prototype.deleteComment = function (clas, id, commentId, fn) {
         var url = this.getUrl(clas);
-        this.data.sendRequest('delete', url + "/comment/" + id + "/" + commentId)
+        this.data.sendRequest('delete', url + "/deletecomment/" + id + "/" + commentId)
             .subscribe(function (response) {
             if (fn) {
                 fn(response);
@@ -169,7 +169,7 @@ var RepositoryService = /** @class */ (function () {
     };
     RepositoryService.prototype.editComment = function (clas, commentId, content, fn) {
         var url = this.getUrl(clas);
-        this.data.sendRequest('patch', url + "/comment/" + commentId, { comment: content })
+        this.data.sendRequest('patch', url + "/editcomment/" + commentId, { comment: content })
             .subscribe(function (response) {
             if (fn) {
                 fn(response);

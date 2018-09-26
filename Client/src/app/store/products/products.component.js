@@ -15,15 +15,17 @@ import { searchType } from '../search/search.service';
 import { SearchInlineComponent } from '../search/search-inline.component';
 import { CategoryService } from '../../services/category.service';
 import { guidZero } from '../../models/cart.model';
+import { AuthenticationService } from '../../services/authentication.service';
 var ProductsComponent = /** @class */ (function () {
     // onFound(products: ProductInfo[]) {
     //    this.templateText = 'Not found';
     //    this.searchProducts = products;
     // }
-    function ProductsComponent(repo, catService, router) {
+    function ProductsComponent(repo, catService, router, auth) {
         this.repo = repo;
         this.catService = catService;
         this.router = router;
+        this.auth = auth;
         // private selectedId: string;
         // page: number = 1;
         // rpp: number = 10;
@@ -37,6 +39,20 @@ var ProductsComponent = /** @class */ (function () {
     Object.defineProperty(ProductsComponent.prototype, "pagesCount", {
         get: function () {
             return Math.ceil(this.repo.productsCount / this.repo.productFilter.quantity);
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(ProductsComponent.prototype, "canCreate", {
+        get: function () {
+            return Boolean(this.auth.roles.find(function (x) { return x == 'Administrator' || x == 'Moderator'; }));
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(ProductsComponent.prototype, "canDelete", {
+        get: function () {
+            return Boolean(this.auth.roles.find(function (x) { return x == 'Administrator' || x == 'Moderator'; }));
         },
         enumerable: true,
         configurable: true
@@ -89,7 +105,8 @@ var ProductsComponent = /** @class */ (function () {
         this.repo.createOrEditEntity('product', prod, 0, 0, function (pi) { return _this.router.navigateByUrl('products/' + pi.id); });
     };
     ProductsComponent.prototype.deleteProduct = function (id) {
-        this.repo.deleteEntity('product', id, 0, 0);
+        if (this.canDelete)
+            this.repo.deleteEntity('product', id, 0, 0);
     };
     ProductsComponent.prototype.ngOnInit = function () {
         var _this = this;
@@ -155,7 +172,8 @@ var ProductsComponent = /** @class */ (function () {
         }),
         __metadata("design:paramtypes", [RepositoryService,
             CategoryService,
-            Router])
+            Router,
+            AuthenticationService])
     ], ProductsComponent);
     return ProductsComponent;
 }());

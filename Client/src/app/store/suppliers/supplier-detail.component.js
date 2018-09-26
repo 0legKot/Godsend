@@ -12,12 +12,14 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { RepositoryService } from '../../services/repository.service';
 import { Supplier } from '../../models/supplier.model';
 import { StorageService } from '../../services/storage.service';
+import { AuthenticationService } from '../../services/authentication.service';
 var SupplierDetailComponent = /** @class */ (function () {
-    function SupplierDetailComponent(route, router, repo, storage) {
+    function SupplierDetailComponent(route, router, repo, storage, auth) {
         this.route = route;
         this.router = router;
         this.repo = repo;
         this.storage = storage;
+        this.auth = auth;
         this.backup = {
             name: '',
             address: '',
@@ -26,6 +28,20 @@ var SupplierDetailComponent = /** @class */ (function () {
         this.edit = false;
         this.clas = 'supplier';
     }
+    Object.defineProperty(SupplierDetailComponent.prototype, "canDelete", {
+        get: function () {
+            return Boolean(this.auth.roles.find(function (x) { return x == 'Administrator' || x == 'Moderator' || x == 'Supplier'; }));
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(SupplierDetailComponent.prototype, "canEdit", {
+        get: function () {
+            return Boolean(this.auth.roles.find(function (x) { return x == 'Administrator' || x == 'Moderator' || x == 'Supplier'; }));
+        },
+        enumerable: true,
+        configurable: true
+    });
     Object.defineProperty(SupplierDetailComponent.prototype, "authenticated", {
         get: function () {
             return this.storage.authenticated;
@@ -97,7 +113,8 @@ var SupplierDetailComponent = /** @class */ (function () {
         __metadata("design:paramtypes", [ActivatedRoute,
             Router,
             RepositoryService,
-            StorageService])
+            StorageService,
+            AuthenticationService])
     ], SupplierDetailComponent);
     return SupplierDetailComponent;
 }());

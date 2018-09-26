@@ -11,16 +11,32 @@ import { Component, Input, EventEmitter, Output } from '@angular/core';
 import { SupplierInfo } from '../../models/supplier.model';
 import { RepositoryService } from '../../services/repository.service';
 import { ImageService } from '../../services/image.service';
+import { AuthenticationService } from '../../services/authentication.service';
 var SupplierCardComponent = /** @class */ (function () {
-    function SupplierCardComponent(repo, imageService) {
+    function SupplierCardComponent(repo, imageService, auth) {
         this.repo = repo;
         this.imageService = imageService;
+        this.auth = auth;
         this.delete = new EventEmitter();
     }
     Object.defineProperty(SupplierCardComponent.prototype, "viewed", {
         get: function () {
             var _this = this;
             return this.supplierInfo && (this.repo.viewedSuppliersIds.find(function (id) { return id === _this.supplierInfo.id; }) !== undefined);
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(SupplierCardComponent.prototype, "canDelete", {
+        get: function () {
+            return Boolean(this.auth.roles.find(function (x) { return x == 'Administrator' || x == 'Moderator' || x == 'Supplier'; }));
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(SupplierCardComponent.prototype, "canEdit", {
+        get: function () {
+            return Boolean(this.auth.roles.find(function (x) { return x == 'Administrator' || x == 'Moderator' || x == 'Supplier'; }));
         },
         enumerable: true,
         configurable: true
@@ -54,7 +70,7 @@ var SupplierCardComponent = /** @class */ (function () {
             templateUrl: './supplier-card.component.html',
             styleUrls: ['./suppliers.component.css']
         }),
-        __metadata("design:paramtypes", [RepositoryService, ImageService])
+        __metadata("design:paramtypes", [RepositoryService, ImageService, AuthenticationService])
     ], SupplierCardComponent);
     return SupplierCardComponent;
 }());

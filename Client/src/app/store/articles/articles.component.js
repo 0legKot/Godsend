@@ -11,10 +11,12 @@ import { Component } from '@angular/core';
 import { RepositoryService } from '../../services/repository.service';
 import { ArticleInfo, Article } from '../../models/article.model';
 import { Router } from '@angular/router';
+import { AuthenticationService } from '../../services/authentication.service';
 var ArticlesComponent = /** @class */ (function () {
-    function ArticlesComponent(repo, router) {
+    function ArticlesComponent(repo, router, auth) {
         this.repo = repo;
         this.router = router;
+        this.auth = auth;
         this.page = 1;
         this.rpp = 5;
     }
@@ -28,6 +30,20 @@ var ArticlesComponent = /** @class */ (function () {
     Object.defineProperty(ArticlesComponent.prototype, "pagesCount", {
         get: function () {
             return Math.ceil(this.repo.articlesCount / this.rpp);
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(ArticlesComponent.prototype, "canDelete", {
+        get: function () {
+            return Boolean(this.auth.roles.find(function (x) { return x == 'Administrator' || x == 'Moderator'; }));
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(ArticlesComponent.prototype, "canCreate", {
+        get: function () {
+            return Boolean(this.auth.roles.find(function (x) { return x == 'Administrator' || x == 'Moderator'; }));
         },
         enumerable: true,
         configurable: true
@@ -59,7 +75,7 @@ var ArticlesComponent = /** @class */ (function () {
             templateUrl: './articles.component.html',
             styleUrls: ['./articles.component.css']
         }),
-        __metadata("design:paramtypes", [RepositoryService, Router])
+        __metadata("design:paramtypes", [RepositoryService, Router, AuthenticationService])
     ], ArticlesComponent);
     return ArticlesComponent;
 }());

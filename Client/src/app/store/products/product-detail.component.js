@@ -15,14 +15,14 @@ import { CartService } from '../../services/cart.service';
 import { StorageService } from '../../services/storage.service';
 import { CategoryService } from '../../services/category.service';
 import { searchType } from '../search/search.service';
+import { AuthenticationService } from '../../services/authentication.service';
 var ProductDetailComponent = /** @class */ (function () {
-    function ProductDetailComponent(route, router, repo, cart, 
-    // private imageService: ImageService,
-    storage, catService) {
+    function ProductDetailComponent(route, router, repo, cart, auth, storage, catService) {
         this.route = route;
         this.router = router;
         this.repo = repo;
         this.cart = cart;
+        this.auth = auth;
         this.storage = storage;
         this.catService = catService;
         this.quantity = 1;
@@ -35,6 +35,20 @@ var ProductDetailComponent = /** @class */ (function () {
             description: '',
         };
     }
+    Object.defineProperty(ProductDetailComponent.prototype, "canEdit", {
+        get: function () {
+            return Boolean(this.auth.roles.find(function (x) { return x == 'Administrator' || x == 'Moderator'; }));
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(ProductDetailComponent.prototype, "canDelete", {
+        get: function () {
+            return Boolean(this.auth.roles.find(function (x) { return x == 'Administrator' || x == 'Moderator'; }));
+        },
+        enumerable: true,
+        configurable: true
+    });
     Object.defineProperty(ProductDetailComponent.prototype, "price", {
         get: function () {
             return this.selectedSupplier ? (this.selectedSupplier.price * this.quantity).toFixed(2) : '';
@@ -196,6 +210,7 @@ var ProductDetailComponent = /** @class */ (function () {
             Router,
             RepositoryService,
             CartService,
+            AuthenticationService,
             StorageService,
             CategoryService])
     ], ProductDetailComponent);

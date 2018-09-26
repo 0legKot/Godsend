@@ -13,10 +13,12 @@ import { Supplier, SupplierInfo, Location } from '../../models/supplier.model';
 import { searchType } from '../search/search.service';
 import { SearchInlineComponent } from '../search/search-inline.component';
 import { Router } from '@angular/router';
+import { AuthenticationService } from '../../services/authentication.service';
 var SuppliersComponent = /** @class */ (function () {
-    function SuppliersComponent(repo, router) {
+    function SuppliersComponent(repo, router, auth) {
         this.repo = repo;
         this.router = router;
+        this.auth = auth;
         this.type = searchType.supplier;
         this.page = 1;
         this.rpp = 10;
@@ -25,6 +27,13 @@ var SuppliersComponent = /** @class */ (function () {
     Object.defineProperty(SuppliersComponent.prototype, "suppliers", {
         get: function () {
             return this.searchSuppliers || this.repo.suppliers;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(SuppliersComponent.prototype, "canCreate", {
+        get: function () {
+            return Boolean(this.auth.roles.find(function (x) { return x == 'Administrator' || x == 'Moderator' || x == 'Supplier'; }));
         },
         enumerable: true,
         configurable: true
@@ -75,7 +84,7 @@ var SuppliersComponent = /** @class */ (function () {
                 '../products/products.component.css'
             ]
         }),
-        __metadata("design:paramtypes", [RepositoryService, Router])
+        __metadata("design:paramtypes", [RepositoryService, Router, AuthenticationService])
     ], SuppliersComponent);
     return SuppliersComponent;
 }());

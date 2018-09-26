@@ -176,7 +176,7 @@ namespace Godsend.Controllers
             if (result.Succeeded)
             {
                 var appUser = await userManager.FindByNameAsync(creds.Name);
-                var token = await GenerateJwtToken(creds.Name, appUser);
+                var token = await GenerateJwtToken(/*creds.Name,*/ appUser);
                 return Ok(new { token, appUser.Id });
             }
 

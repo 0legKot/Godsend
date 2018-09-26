@@ -31,7 +31,7 @@ var NavMenuComponent = /** @class */ (function () {
         configurable: true
     });
     Object.defineProperty(NavMenuComponent.prototype, "isAdmin", {
-        get: function () { return this.storage.authenticated; },
+        get: function () { return Boolean(this.auth.roles.find(function (x) { return x == 'Administrator' || x == 'Moderator'; })); },
         enumerable: true,
         configurable: true
     });
@@ -52,8 +52,6 @@ var NavMenuComponent = /** @class */ (function () {
     NavMenuComponent.prototype.ngOnInit = function () {
         this.selectedLang = this.translateService.currentLang;
         this.availableLangs = this.translateService.getLangs();
-        console.log(this.selectedLang);
-        console.log(this.availableLangs);
     };
     NavMenuComponent.prototype.changeLang = function (newLang) {
         console.log('Changing lang to ' + newLang);

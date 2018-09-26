@@ -11,12 +11,21 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { ProductInfo } from '../../models/product.model';
 import { RepositoryService } from '../../services/repository.service';
 import { ImageService } from '../../services/image.service';
+import { AuthenticationService } from '../../services/authentication.service';
 var ProductCardComponent = /** @class */ (function () {
-    function ProductCardComponent(repo, imageService) {
+    function ProductCardComponent(repo, imageService, auth) {
         this.repo = repo;
         this.imageService = imageService;
+        this.auth = auth;
         this.delete = new EventEmitter();
     }
+    Object.defineProperty(ProductCardComponent.prototype, "canDelete", {
+        get: function () {
+            return Boolean(this.auth.roles.find(function (x) { return x == 'Administrator' || x == 'Moderator'; }));
+        },
+        enumerable: true,
+        configurable: true
+    });
     Object.defineProperty(ProductCardComponent.prototype, "viewed", {
         get: function () {
             var _this = this;
@@ -54,7 +63,7 @@ var ProductCardComponent = /** @class */ (function () {
             templateUrl: './product-card.component.html',
             styleUrls: ['./products.component.css']
         }),
-        __metadata("design:paramtypes", [RepositoryService, ImageService])
+        __metadata("design:paramtypes", [RepositoryService, ImageService, AuthenticationService])
     ], ProductCardComponent);
     return ProductCardComponent;
 }());

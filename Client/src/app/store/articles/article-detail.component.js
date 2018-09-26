@@ -8,14 +8,15 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 import { Component } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { RepositoryService } from '../../services/repository.service';
 import { Article, ArticleTags } from '../../models/article.model';
 import { StorageService } from '../../services/storage.service';
+import { AuthenticationService } from '../../services/authentication.service';
 var ArticleDetailComponent = /** @class */ (function () {
-    function ArticleDetailComponent(route, router, storage, repo) {
+    function ArticleDetailComponent(route, auth, storage, repo) {
         this.route = route;
-        this.router = router;
+        this.auth = auth;
         this.storage = storage;
         this.repo = repo;
         this.edit = false;
@@ -29,6 +30,20 @@ var ArticleDetailComponent = /** @class */ (function () {
     Object.defineProperty(ArticleDetailComponent.prototype, "authenticated", {
         get: function () {
             return this.storage.authenticated;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(ArticleDetailComponent.prototype, "canDelete", {
+        get: function () {
+            return Boolean(this.auth.roles.find(function (x) { return x == 'Administrator' || x == 'Moderator'; }));
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(ArticleDetailComponent.prototype, "canEdit", {
+        get: function () {
+            return Boolean(this.auth.roles.find(function (x) { return x == 'Administrator' || x == 'Moderator'; }));
         },
         enumerable: true,
         configurable: true
@@ -98,7 +113,7 @@ var ArticleDetailComponent = /** @class */ (function () {
             ]
         }),
         __metadata("design:paramtypes", [ActivatedRoute,
-            Router,
+            AuthenticationService,
             StorageService,
             RepositoryService])
     ], ArticleDetailComponent);
