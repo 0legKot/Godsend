@@ -45,7 +45,7 @@
         </div>
     </div>
     <div class="edit-art">
-        <div class="inline-block edit-btns" id="edit" *ngIf="!edit" (click)="editMode()">{{ 'Articles.Detail.Edit' | translate }}</div>
+        <div class="inline-block edit-btns" id="edit" *ngIf="!edit&&canEdit" (click)="editMode()">{{ 'Articles.Detail.Edit' | translate }}</div>
         <div class="inline-block edit-btns" id="save" *ngIf="edit" (click)="save()">{{ 'Articles.Detail.Save' | translate }}</div>
         <div class="inline-block edit-btns" id="discard" *ngIf="edit" (click)="discard()">{{ 'Articles.Detail.Discard' | translate }}</div>
     </div>

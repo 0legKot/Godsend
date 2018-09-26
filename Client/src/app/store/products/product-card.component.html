@@ -24,5 +24,5 @@
         <span class="card-text p-a-1">{{ productInfo?.description }}</span>
     </div>
 </a>
-<div class="delete" (click)="onDelete()"><fa-icon icon="times"></fa-icon></div>
+<div *ngIf="canDelete" class="delete" (click)="onDelete()"><fa-icon icon="times"></fa-icon></div>
 

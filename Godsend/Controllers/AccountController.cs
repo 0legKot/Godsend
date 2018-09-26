@@ -82,7 +82,8 @@ namespace Godsend.Controllers
         [HttpGet("[action]")]
         public async Task<IEnumerable<string>> GetRoles()
         {
-            return await userManager.GetRolesAsync(GetCurrentUser());
+            var fortst = await userManager.GetRolesAsync(GetCurrentUser());
+            return fortst;
         }
 
         public class UserAndRole {

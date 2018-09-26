@@ -20,4 +20,4 @@
         <godsend-stars [value]="supplierInfo?.rating"></godsend-stars>
     </div>
 </a>
-<div class="delete" (click)="onDelete()"><fa-icon icon="times"></fa-icon></div>
+<div class="delete" *ngIf="canDelete" (click)="onDelete()"><fa-icon icon="times"></fa-icon></div>

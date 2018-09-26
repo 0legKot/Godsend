@@ -4,7 +4,7 @@
 <div class="wrap">
     
     <div class="ml-4">
-        <button (click)="createProduct('','New product')" class="btn btn-dark ">{{ 'Products.Create' | translate }}</button>
+        <button *ngIf="canCreate" (click)="createProduct('','New product')" class="btn btn-dark ">{{ 'Products.Create' | translate }}</button>
         <br />
         <br />
         <button *ngIf="!categories || categories.length == 0" class="btn btn-dark" (click)="getCategories()">Get categories</button>

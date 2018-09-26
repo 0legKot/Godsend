@@ -6,6 +6,7 @@ import { Supplier } from '../../models/supplier.model';
 import { ImageService } from '../../services/image.service';
 import { StorageService } from '../../services/storage.service';
 import { Image } from '../../models/image.model';
+import { AuthenticationService } from '../../services/authentication.service';
 
 @Component({
     selector: 'godsend-supplier-detail',
@@ -23,6 +24,14 @@ export class SupplierDetailComponent implements OnInit {
     edit = false;
     readonly clas: entityClass = 'supplier';
 
+    get canDelete(): boolean {
+        return Boolean(this.auth.roles.find(x => x == 'Administrator' || x == 'Moderator' || x == 'Supplier'));
+    }
+
+    get canEdit(): boolean {
+        return Boolean(this.auth.roles.find(x => x == 'Administrator' || x == 'Moderator' || x == 'Supplier'));
+    }
+
     get authenticated() {
         return this.storage.authenticated;
     }
@@ -31,7 +40,8 @@ export class SupplierDetailComponent implements OnInit {
         public route: ActivatedRoute,
         private router: Router,
         private repo: RepositoryService,
-        private storage: StorageService
+        private storage: StorageService,
+        private auth: AuthenticationService
     ) { }
 
     deleteSupplier() {

@@ -4,6 +4,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { RepositoryService, entityClass } from '../../services/repository.service';
 import { Article, ArticleTags } from '../../models/article.model';
 import { StorageService } from '../../services/storage.service';
+import { AuthenticationService } from '../../services/authentication.service';
 
 @Component({
     selector: 'godsend-article-detail',
@@ -34,9 +35,17 @@ export class ArticleDetailComponent implements OnInit {
         return this.storage.authenticated;
     }
 
+    get canDelete(): boolean {
+        return Boolean(this.auth.roles.find(x => x == 'Administrator' || x == 'Moderator'));
+    }
+
+    get canEdit(): boolean {
+        return Boolean(this.auth.roles.find(x => x == 'Administrator' || x == 'Moderator'));
+    }
+
     constructor(
         private route: ActivatedRoute,
-        private router: Router,
+        private auth: AuthenticationService,
         private storage: StorageService,
         private repo: RepositoryService
     ) { }

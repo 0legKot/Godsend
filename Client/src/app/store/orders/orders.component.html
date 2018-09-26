@@ -9,7 +9,7 @@
             <th>{{ 'Orders.Ordered/Done' | translate }}</th>
             <th>{{ 'Orders.Status' | translate }}</th>
             <th>{{ 'Orders.Products' | translate }}</th>
-            <th>{{ 'Orders.Actions' | translate }}</th>
+            <th *ngIf="canChangeStatus">{{ 'Orders.Actions' | translate }}</th>
         </tr>
         <tr *ngFor="let o of orders">
             <td>{{ o.id }}</td>
@@ -28,7 +28,7 @@
                     </div>
                 </div>
             </td>
-            <td>
+            <td *ngIf="canChangeStatus">
                 <button (click)="cancel(o.id)" type="button" class="btn btn-danger">{{ 'Orders.Cancel' | translate }}</button>
                 <button (click)="shipped(o.id)" type="button" class="btn btn-success">{{ 'Orders.Ship' | translate }}</button>
             </td>

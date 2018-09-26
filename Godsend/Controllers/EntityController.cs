@@ -184,7 +184,30 @@ namespace Godsend.Controllers
         }
 
         [Authorize]
-        [HttpDelete("comment/{entityId:Guid}/{commentId:Guid}")]
+        [HttpDelete("[action]/{entityId:Guid}/{commentId:Guid}")]
+        public virtual async Task<IActionResult> DeleteOwnComment(Guid entityId, Guid commentId)
+        {
+            throw new NotImplementedException();
+            var userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value;
+
+            try
+            {
+                await repository.DeleteCommentAsync(entityId, commentId, userId);
+
+                await hubContext.Clients.User(userId).SendAsync("Success", "Comment has been deleted");
+
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                await hubContext.Clients.User(userId).SendAsync("Error", "Could not delete a comment");
+
+                return BadRequest();
+            }
+        }
+
+        [Authorize(Roles = "Administrator,Moderator")]
+        [HttpDelete("[action]/{entityId:Guid}/{commentId:Guid}")]
         public virtual async Task<IActionResult> DeleteComment(Guid entityId, Guid commentId)
         {
             var userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value;
@@ -205,7 +228,7 @@ namespace Godsend.Controllers
             }
         }
 
-        [HttpPatch("comment/{commentId:Guid}")]
+        [HttpPatch("[action]/{commentId:Guid}")]
         [Authorize]
         public virtual async Task<IActionResult> EditOwnComment(Guid commentId, [FromBody]TmpComment comment)
         {
@@ -231,7 +254,7 @@ namespace Godsend.Controllers
         }
 
         [Authorize(Roles = "Administrator,Moderator")]
-        [HttpPatch("comment/{commentId:Guid}")]
+        [HttpPatch("[action]/{commentId:Guid}")]
         public virtual async Task<IActionResult> EditComment(Guid commentId, [FromBody]TmpComment comment)
         {
             var userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value;

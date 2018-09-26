@@ -176,7 +176,7 @@ export class RepositoryService {
 
     deleteComment(clas: entityClass, id: string, commentId: string, fn?: (_: void) => any) {
         const url = this.getUrl(clas);
-        this.data.sendRequest<void>('delete', `${url}/comment/${id}/${commentId}`)
+        this.data.sendRequest<void>('delete', `${url}/deletecomment/${id}/${commentId}`)
             .subscribe(response => {
                 if (fn) {
                     fn(response);
@@ -186,7 +186,7 @@ export class RepositoryService {
 
     editComment(clas: entityClass, commentId: string, content: string, fn?: (_: void) => any) {
         const url = this.getUrl(clas);
-        this.data.sendRequest<void>('patch', `${url}/comment/${commentId}`, { comment: content })
+        this.data.sendRequest<void>('patch', `${url}/editcomment/${commentId}`, { comment: content })
             .subscribe(response => {
                 if (fn) {
                     fn(response);

@@ -17,6 +17,7 @@ export class AuthenticationService {
     ) { }
 
     callbackUrl = '';
+    roles: string[] = [];
 
     setCreds(jwt: string | null, username: string | null, id: string | null) {
         this.storage.JWTToken = jwt;
@@ -25,15 +26,12 @@ export class AuthenticationService {
     }
 
     login(name: string, password: string): void {
-        // this.authenticated = false;
-        this.data.sendRequest<any>('post', 'api/account/login', { name, password }).subscribe(response => {
-            this.setCreds(response.token,name,response.id);
-
-            this.notificationService.reconnect();
-
-            this.router.navigateByUrl(this.callbackUrl);
+            this.data.sendRequest<any>('post', 'api/account/login', { name, password }).subscribe(response => {
+                this.setCreds(response.token, name, response.id);
+                this.notificationService.reconnect();
+                this.router.navigateByUrl(this.callbackUrl);
+                this.data.sendRequest<string[]>('get', 'api/account/getroles').subscribe(response2 => response2.forEach(x => this.roles.push(x)));
         }, error => {
-
             console.log('login fail');
         });
         // .catch(e => {
@@ -51,7 +49,7 @@ export class AuthenticationService {
             this.setCreds(response.token, name, response.id);
 
             this.notificationService.reconnect();
-
+            this.login(user.name, pass);
             this.router.navigateByUrl(this.callbackUrl);
         }, error => {
 
@@ -61,7 +59,7 @@ export class AuthenticationService {
 
     logout() {
         this.setCreds(null, null, null);
-
+        this.roles = [];
         this.notificationService.reconnect();
 
         // this.data.sendRequest('post', '/api/account/logout').subscribe(response => { });
