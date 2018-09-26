@@ -17,7 +17,7 @@ import { CategoryService } from '../../services/category.service';
 import { searchType } from '../search/search.service';
 var ProductDetailComponent = /** @class */ (function () {
     function ProductDetailComponent(route, router, repo, cart, 
-    //private imageService: ImageService,
+    // private imageService: ImageService,
     storage, catService) {
         this.route = route;
         this.router = router;
@@ -29,7 +29,7 @@ var ProductDetailComponent = /** @class */ (function () {
         this.edit = false;
         this.searchTypeSupplier = searchType.supplier;
         this.clas = 'product';
-        //images: string[] = [];
+        // images: string[] = [];
         this.backup = {
             name: '',
             description: '',
@@ -178,7 +178,7 @@ var ProductDetailComponent = /** @class */ (function () {
     };
     ProductDetailComponent.prototype.removeSupplier = function (snp) {
         if (this.product && this.product.suppliersAndPrices) {
-            this.product.suppliersAndPrices = this.product.suppliersAndPrices.filter(function (s) { return s != snp; });
+            this.product.suppliersAndPrices = this.product.suppliersAndPrices.filter(function (s) { return s !== snp; });
         }
     };
     ProductDetailComponent.prototype.setImages = function (images) {

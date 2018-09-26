@@ -12,7 +12,7 @@ namespace Godsend
     /// <summary>
     ///
     /// </summary>
-    public abstract class AProductRepository : ARepository<Product>
+    public abstract class AProductRepository : Repository<Product>
     {
         /// <summary>
         /// Gets the product with suppliers.

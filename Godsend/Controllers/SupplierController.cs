@@ -20,21 +20,12 @@ namespace Godsend.Controllers
     [Route("api/[controller]")]
     public class SupplierController : EntityController<Supplier>
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="SupplierController"/> class.
-        /// </summary>
-        /// <param name="repo">The repo.</param>
         public SupplierController(ASupplierRepository repo, IHubContext<NotificationHub> hubContext, ILogger<EntityController<Supplier>> logger)
             : base(hubContext, logger)
         {
             repository = repo;
         }
 
-        /// <summary>
-        /// Details the specified identifier.
-        /// </summary>
-        /// <param name="id">The identifier.</param>
-        /// <returns></returns>
         [HttpGet("[action]/{id:Guid}")]
         public Supplier Detail(Guid id)
         {

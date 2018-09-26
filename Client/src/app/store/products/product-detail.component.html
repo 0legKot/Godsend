@@ -3,15 +3,12 @@
 <br />
 <br />
 <div class="wrap rel">
-    <br />
-    <br />
     <div class="edit-prod">
-        <div class="inline-block edit-btns" id="edit" *ngIf="!edit" (click)="editMode()"> Edit</div>
+        <div class="inline-block edit-btns" id="edit" *ngIf="!edit&&canEdit" (click)="editMode()"> Edit</div>
         <div class="inline-block edit-btns" id="save" *ngIf="edit" (click)="save()"> Save</div>
         <div class="inline-block edit-btns" id="discard" *ngIf="edit" (click)="discard()"> Discard</div>
-        <div id="delete" class="edit-btns inline-block " (click)="deleteProduct()">Delete</div>
+        <div class="edit-btns inline-block " id="delete" *ngIf="canDelete" (click)="deleteProduct()">Delete</div>
     </div>
-    <br />
     <div class='container-fluid'>
         <div class='row'>
             <div class='col-lg-3 col-md-4 col-sm-6 col-xs-12 products'>

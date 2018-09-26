@@ -12,16 +12,17 @@ import { NotificationService } from '../../services/notification.service';
 export class AdminComponent implements OnInit {
     userList: IdentityUser[] = [];
     message = '';
+    roles = ['Administrator', 'Moderator', 'Supplier'];
 
     public sendMessage(name: string): void {
         console.log(name);
         this.notificationService.sendMessageTo(name, this.message);
         this.message = '';
     }
-    makeAdmin(username: string) {
-        console.log(username);
-        this.data.sendRequest<any>('post', 'api/account/addtorole', { userName: username, role: 'Administrator' }).subscribe();
+    addToRole(username: string, role: string) {
+        this.data.sendRequest<any>('post', 'api/account/addtorole', { userName: username, role: role }).subscribe();
     }
+
     ngOnInit(): void {
         this.data.sendRequest<IdentityUser[]>('get', 'api/account/getuserlist/1/10')
             .subscribe(res => this.userList = res);

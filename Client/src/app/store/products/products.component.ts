@@ -10,6 +10,7 @@ import { searchType } from '../search/search.service';
 import { SearchInlineComponent } from '../search/search-inline.component';
 import { CategoryService } from '../../services/category.service';
 import { guidZero } from '../../models/cart.model';
+import { AuthenticationService } from '../../services/authentication.service';
 
 @Component({
     selector: 'godsend-products',
@@ -36,6 +37,14 @@ export class ProductsComponent implements OnInit {
 
     get pagesCount(): number {
         return Math.ceil(this.repo.productsCount / this.repo.productFilter.quantity);
+    }
+
+    get canCreate(): boolean {
+        return Boolean(this.auth.roles.find(x => x == 'Administrator' || x == 'Moderator'));
+    }
+
+    get canDelete(): boolean {
+        return Boolean(this.auth.roles.find(x => x == 'Administrator' || x == 'Moderator'));
     }
 
     onPageChanged(page: number) {
@@ -82,6 +91,7 @@ export class ProductsComponent implements OnInit {
     }
 
     deleteProduct(id: string) {
+        if (this.canDelete)
         this.repo.deleteEntity('product', id, 0, 0);
     }
 
@@ -92,7 +102,9 @@ export class ProductsComponent implements OnInit {
 
     constructor(private repo: RepositoryService,
         private catService: CategoryService,
-        private router: Router) {
+        private router: Router,
+        private auth: AuthenticationService
+    ) {
     }
 
     ngOnInit() {

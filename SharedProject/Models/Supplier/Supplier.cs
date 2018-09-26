@@ -72,8 +72,16 @@ namespace Godsend.Models
         /// <param name="target">The target.</param>
         public void CopyTo(Supplier target)
         {
-            if (target.Info == null) target.Info = new SupplierInformation();
-            if (target.Info.Location == null) target.Info.Location = new Location();
+            if (target.Info == null)
+            {
+                target.Info = new SupplierInformation();
+            }
+
+            if (target.Info.Location == null)
+            {
+                target.Info.Location = new Location();
+            }
+
             target.Info.Location.Address = Info?.Location?.Address;
             target.Info.Name = Info.Name;
             target.LinkSupplierImages = LinkSupplierImages;

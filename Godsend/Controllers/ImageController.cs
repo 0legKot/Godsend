@@ -12,6 +12,7 @@ namespace Godsend.Controllers
     using System.Text;
     using System.Threading.Tasks;
     using Godsend.Models;
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
     using SkiaSharp;
@@ -43,37 +44,6 @@ namespace Godsend.Controllers
             }
         }
 
-        #region  deprecated
-        //[HttpPost("[action]")]
-        //public IEnumerable<string> GetImages([FromBody]Guid[] ids)
-        //{
-        //    var images = new List<string>();
-        //    foreach (Guid id in ids)
-        //    {
-        //        images.Add(Convert.ToBase64String(System.IO.File.ReadAllBytes("Images/" + repository.GetImage(id))));
-        //    }
-
-        //    return images;
-        //}
-
-        //[HttpPost("[action]")]
-        //public IDictionary<Guid, string> GetPreviewImages([FromBody]Guid[] ids)
-        //{
-        //    var res = new Dictionary<Guid, string>();
-
-        //    foreach (Guid id in ids)
-        //    {
-        //        var tmp = GetPreviewImage(id);
-        //        if (tmp != null)
-        //        {
-        //            res.Add(id, GetPreviewImage(id).Value.ToString());
-        //        }
-        //    }
-
-        //    return res;
-        //}
-        #endregion
-
         // NUTRIX
 
         private readonly IImageService _imageService;
@@ -88,6 +58,7 @@ namespace Godsend.Controllers
         }
 
         [HttpPost("upload")]
+        [Authorize]
         public IActionResult Upload()
         {
             #region constants

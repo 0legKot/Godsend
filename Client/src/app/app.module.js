@@ -9,13 +9,16 @@ import { NgModule } from '@angular/core';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { AngularFontAwesomeModule } from 'angular-font-awesome';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { fas } from '@fortawesome/free-solid-svg-icons';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { MatTreeModule, MatButtonModule, MatIconModule } from '@angular/material';
 import { CdkTreeModule } from '@angular/cdk/tree';
 import { AppComponent } from './store/app/app.component';
 import { NavMenuComponent } from './store/navmenu/navmenu.component';
+import { Filter } from './store/products/filter.component';
 import { HomeComponent } from './store/home/home.component';
 import { OrdersComponent } from './store/orders/orders.component';
 import { ArticlesComponent } from './store/articles/articles.component';
@@ -52,6 +55,7 @@ import { RichtextComponent } from './store/richtext/richtext.component';
 export function HttpLoaderFactory(httpClient) {
     return new TranslateHttpLoader(httpClient);
 }
+library.add(fas);
 var APP_ROUTES = [
     { path: '', redirectTo: 'home', pathMatch: 'full' },
     { path: 'home', component: HomeComponent },
@@ -85,6 +89,7 @@ var AppModule = /** @class */ (function () {
                 ArticleDetailComponent,
                 CartComponent,
                 ConsultComponent,
+                Filter,
                 HomeComponent,
                 LoginComponent,
                 NavMenuComponent,
@@ -115,7 +120,7 @@ var AppModule = /** @class */ (function () {
                 RichtextComponent,
             ],
             imports: [
-                AngularFontAwesomeModule,
+                FontAwesomeModule,
                 BrowserModule,
                 FormsModule,
                 HttpClientModule,

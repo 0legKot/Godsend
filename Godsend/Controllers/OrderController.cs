@@ -25,24 +25,9 @@ namespace Godsend.Controllers
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class OrderController : Controller
     {
-        /// <summary>
-        /// The repository
-        /// </summary>
         private IOrderRepository repository;
-
-        /// <summary>
-        /// The product repo
-        /// </summary>
         private AProductRepository prodRepo;
-
-        /// <summary>
-        /// The supplier repo
-        /// </summary>
         private ASupplierRepository supRepo;
-
-        /// <summary>
-        /// The context
-        /// </summary>
         private DataContext context;
         private UserManager<User> userManager;
         IHubContext<NotificationHub> hubContext;
@@ -50,12 +35,13 @@ namespace Godsend.Controllers
         /// <summary>
         /// Initializes a new instance of the <see cref="OrderController"/> class.
         /// </summary>
-        /// <param name="repo">The repo.</param>
-        /// <param name="prodRepo">The product repo.</param>
-        /// <param name="supRepo">The sup repo.</param>
-        /// <param name="context">The context.</param>
-        public OrderController(IOrderRepository repo, AProductRepository prodRepo, ASupplierRepository supRepo,
-            DataContext context, IHubContext<NotificationHub> hubContext, UserManager<User> userManager)
+        public OrderController(
+            IOrderRepository repo,
+            AProductRepository prodRepo,
+            ASupplierRepository supRepo,
+            DataContext context,
+            IHubContext<NotificationHub> hubContext,
+            UserManager<User> userManager)
         {
             repository = repo;
             this.prodRepo = prodRepo;
@@ -65,10 +51,9 @@ namespace Godsend.Controllers
             this.userManager = userManager;
         }
 
-        /// <summary>
-        /// Alls this instance.
-        /// </summary>
-        /// <returns></returns>
+        /// <param name="rpp">
+        /// Results per page
+        /// </param>
         [HttpGet("[action]/{page:int}/{rpp:int}")]
         public IEnumerable<Order> All(int page, int rpp)
         {
@@ -89,7 +74,7 @@ namespace Godsend.Controllers
         /// <returns></returns>
         [DisableCors]
         [HttpPatch("[action]/{id:Guid}/{status:int}")]
-        [Authorize] // todo role
+        [Authorize(Roles = "Administrator,Moderator,Supplier")]
         public async Task<IActionResult> ChangeStatus(Guid id, int status)
         {
             var userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value;
@@ -149,8 +134,6 @@ namespace Godsend.Controllers
                 };
 
                 await repository.SaveOrder(o);
-                /* order.Id = Guid.NewGuid();
-                 repository.SaveOrder(order);*/
                 await hubContext.Clients.User(userId).SendAsync("Success", "Order has been created");
 
                 return Ok(o);
@@ -162,34 +145,14 @@ namespace Godsend.Controllers
             }
         }
 
-        /* [HttpPatch("[action]/{id:Guid}")]
-         public IActionResult Edit([FromBody]OrderFromNg order)
-         {
-             return CreateOrUpdate(order);
-         }
-
-         [HttpPut("[action]/{id:Guid}")]
-         public IActionResult Create([FromBody]OrderFromNg order)
-         {
-             return CreateOrUpdate(order);
-         }*/
-
-        /// <summary>
-        /// Details the specified identifier.
-        /// </summary>
-        /// <param name="id">The identifier.</param>
-        /// <returns></returns>
         [HttpGet("[action]/{id:Guid}")]
+        [Authorize]
         public Order Detail(Guid id)
         {
             return repository.GetOrderById(id);
         }
 
-        /// <summary>
-        /// Deletes the specified identifier.
-        /// </summary>
-        /// <param name="id">The identifier.</param>
-        /// <returns></returns>
+        [Authorize(Roles = "Administrator,Moderator")]
         [HttpDelete("[action]/{id:Guid}")]
         public IActionResult Delete(Guid id)
         {
@@ -197,56 +160,9 @@ namespace Godsend.Controllers
         }
     }
 
-    /// <summary>
-    ///
-    /// </summary>
-    public class OrderFromNg
-    {
-        /// <summary>
-        /// Gets or sets the discrete items.
-        /// </summary>
-        /// <value>
-        /// The discrete items.
-        /// </value>
-        public OrderPartDiscreteNg[] DiscreteItems { get; set; }
-
-        // public OrderPartWeightedNg[] WeightedItems { get; set; }
-    }
-
-    /// <summary>
-    ///
-    /// </summary>
-    public abstract class OrderPartNg
-    {
-        /// <summary>
-        /// Gets or sets the product identifier.
-        /// </summary>
-        /// <value>
-        /// The product identifier.
-        /// </value>
-        public Guid ProductId { get; set; }
-
-        /// <summary>
-        /// Gets or sets the supplier identifier.
-        /// </summary>
-        /// <value>
-        /// The supplier identifier.
-        /// </value>
-        public Guid SupplierId { get; set; }
-    }
-
-    /// <summary>
-    ///
-    /// </summary>
     /// <seealso cref="Godsend.Controllers.OrderPartNg" />
     public class OrderPartDiscreteNg : OrderPartNg
     {
-        /// <summary>
-        /// Gets or sets the quantity.
-        /// </summary>
-        /// <value>
-        /// The quantity.
-        /// </value>
         public int Quantity { get; set; }
 
         /// <summary>
@@ -257,9 +173,4 @@ namespace Godsend.Controllers
         /// </value>
         public int Multiplier { get; set; }
     }
-
-    ////public class OrderPartWeightedNg : OrderPartNg
-    ////{
-    ////    public double Weight { get; set; }
-    ////}
 }

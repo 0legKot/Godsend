@@ -34,6 +34,7 @@ namespace Godsend.Controllers
         private RoleManager<Role> roleManager;
         private IConfiguration configuration;
         private DataContext context;
+        private ISeedHelper seedHelper;
         private User currentUser;
         private FacebookAuthSettings fbAuthSettings;
 
@@ -49,6 +50,7 @@ namespace Godsend.Controllers
             IConfiguration configuration,
             DataContext context,
             RoleManager<Role> roleMngr,
+            ISeedHelper seedHlpr,
             IOptions<FacebookAuthSettings> fbAuthSettingsAccessor)
         {
             userManager = userMgr;
@@ -56,24 +58,30 @@ namespace Godsend.Controllers
             roleManager = roleMngr;
             this.configuration = configuration;
             this.context = context;
+            seedHelper = seedHlpr;
             this.fbAuthSettings = fbAuthSettingsAccessor.Value;
-
             //var currentName = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name);
 
             //var appUser = userManager.FindByNameAsync(currentName.Value).GetAwaiter().GetResult();
         }
 
         /// <summary>
-        /// Check is the current user admin
+        /// Check if the current user is admin
         /// </summary>
         /// <returns>true, if the user is in Administrator role</returns>
-        [HttpGet("[action]")]
-        public async Task<bool> IsAdmin()
+        // DEPRECATED
+        //[HttpGet("[action]")]
+        //[Authorize]
+        //public async Task<bool> IsAdmin()
+        //{
+        //    return await userManager.IsInRoleAsync(GetCurrentUser(), "Administrator");
+        //}
+
+        private User GetCurrentUser()
         {
             var currentName = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name);
 
-             currentUser = context.Users.FirstOrDefault(u => u.UserName == currentName.Value);
-            return await userManager.IsInRoleAsync(currentUser, "Administrator");
+            return context.Users.FirstOrDefault(u => u.UserName == currentName.Value);
         }
 
         /// <summary>
@@ -83,19 +91,24 @@ namespace Godsend.Controllers
         [HttpGet("[action]")]
         public async Task<IEnumerable<string>> GetRoles()
         {
-            return await userManager.GetRolesAsync(currentUser);
+            var fortst = await userManager.GetRolesAsync(GetCurrentUser());
+            return fortst;
         }
+
         public class UserAndRole {
             public string userName { get; set; }
+
             public string role { get; set; }
         }
+
+        [Authorize(Roles ="Administrator")]
         [HttpPost("[action]")]
         public async Task<IActionResult> AddToRole([FromBody]UserAndRole userAndRole)
         {
-            if (!await IsAdmin())
-            {
-                return BadRequest();
-            }
+            //if (!await IsAdmin())
+            //{
+            //    return BadRequest();
+            //}
 
             User user = await userManager.FindByNameAsync(userAndRole.userName);
             if (await roleManager.FindByNameAsync(userAndRole.role) == null || user == null)
@@ -107,13 +120,14 @@ namespace Godsend.Controllers
             return Ok();
         }
 
+        [Authorize(Roles = "Administrator")]
         [HttpPost("[action]")]
         public async Task<IActionResult> ExcludeFromRole(string userName, string role)
         {
-            if (!await IsAdmin())
-            {
-                return BadRequest();
-            }
+            //if (!await IsAdmin())
+            //{
+            //    return BadRequest();
+            //}
 
             User user = await userManager.FindByNameAsync(userName);
             if (await roleManager.FindByNameAsync(role) == null || user == null)
@@ -155,20 +169,14 @@ namespace Godsend.Controllers
         [HttpPost("[action]")]
         public async Task<IActionResult> Login([FromBody] LoginViewModel creds)
         {
-            ////if (ModelState.IsValid && await DoLogin(creds))
-            ////{
-            ////    return true;
-            ////}
-
-            ////return false;
-            IdentitySeedData.EnsurePopulated(userManager, roleManager);
+            seedHelper.EnsurePopulated(context);
+            //IdentitySeedData.EnsurePopulated(userManager, roleManager);
             var result = await signInManager.PasswordSignInAsync(creds.Name, creds.Password, false, false);
 
             if (result.Succeeded)
             {
                 var appUser = await userManager.FindByNameAsync(creds.Name);
-                currentUser = appUser;
-                var token = await GenerateJwtToken(/*creds.Name, */appUser);
+                var token = await GenerateJwtToken(creds.Name, appUser);
                 return Ok(new { token, appUser.Id });
             }
 
@@ -234,9 +242,8 @@ namespace Godsend.Controllers
         }
     
 
-
-    //TODO do something
-    [HttpPost("[action]")]
+        [Authorize]
+        [HttpPost("[action]")]
         public async Task<object> EditProfile(/*string token,*/ [FromBody] RegisterViewModel model)
         {
             User user = context.Users.FirstOrDefault(x => x.UserName == User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name).Value);
@@ -245,12 +252,20 @@ namespace Godsend.Controllers
             user.UserName = model.Name;
             user.NormalizedEmail = userManager.NormalizeKey(model.Email);
             user.NormalizedUserName = userManager.NormalizeKey(model.Name);
-            if (model.Password != null) user.PasswordHash = userManager.PasswordHasher.HashPassword(user, model.Password);
+            if (model.Password != null)
+            {
+                user.PasswordHash = userManager.PasswordHasher.HashPassword(user, model.Password);
+            }
+
             var res = await context.SaveChangesAsync();
-            if (res==1)
-            return Ok(user);
+            if (res == 1)
+            {
+                return Ok(user);
+            }
             else
-            return BadRequest("Could not edit");
+            {
+                return BadRequest("Could not edit");
+            }
         }
 
         [HttpPost("[action]")]
@@ -292,23 +307,12 @@ namespace Godsend.Controllers
         }
 
         [HttpGet("[action]/{page:int}/{rpp:int}")]
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [Authorize(Roles = "Administrator,Moderator", AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<IEnumerable<ClientUser>> GetUserList(int page, int rpp)
         {
-            var currentName = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name);
-            currentUser = context.Users.FirstOrDefault(u => u.UserName == currentName.Value);
-
-            //var user = context.Users.FirstOrDefault(u => u.UserName == currentName.Value);
-            if (await IsAdmin())
-            {
-                return context.Users
+            return context.Users
                     .Skip(rpp * (page - 1)).Take(rpp)
                     .Select(u => ClientUser.FromEFUserGeneralInfo(u));
-            }
-            else
-            {
-                return new List<ClientUser>();
-            }
         }
 
         private async Task<string> GenerateJwtToken(/*string name,*/ User user)
@@ -325,27 +329,6 @@ namespace Godsend.Controllers
                     signingCredentials: creds);
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
-
-       /* // todo review
-        var claims = new List<Claim>
-            {
-                new Claim(JwtRegisteredClaimNames.Sub, name), // subject
-                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()), // jwt id
-                new Claim( ClaimTypes.NameIdentifier,user.Id)
-            };
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["JwtKey"]));
-            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-            var expires = DateTime.Now.AddDays(Convert.ToDouble(configuration["JwtExpireDays"]));
-
-            var token = new JwtSecurityToken(
-                configuration["JwtIssuer"],
-                configuration["JwtIssuer"],
-                claims,
-                expires: expires,
-                signingCredentials: creds);
-
-            return new JwtSecurityTokenHandler().WriteToken(token);
-        }*/
     }
 
     public class FacebookAuthViewModel

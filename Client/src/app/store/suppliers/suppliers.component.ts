@@ -5,6 +5,7 @@ import { OnInit } from '@angular/core';
 import { searchType } from '../search/search.service';
 import { SearchInlineComponent } from '../search/search-inline.component';
 import { Router } from '@angular/router';
+import { AuthenticationService } from '../../services/authentication.service';
 
 @Component({
     selector: 'godsend-suppliers',
@@ -28,6 +29,10 @@ export class SuppliersComponent implements OnInit {
         return this.searchSuppliers || this.repo.suppliers;
     }
 
+    get canCreate(): boolean {
+        return Boolean(this.auth.roles.find(x => x == 'Administrator' || x == 'Moderator' || x == 'Supplier'));
+    }
+
     get pagesCount(): number {
         return Math.ceil(this.repo.suppliersCount / this.rpp);
     }
@@ -41,7 +46,7 @@ export class SuppliersComponent implements OnInit {
         this.repo.getEntities<SupplierInfo>('supplier', this.page, this.rpp);
     }
 
-    constructor(private repo: RepositoryService, private router: Router) { }
+    constructor(private repo: RepositoryService, private router: Router, private auth: AuthenticationService) { }
 
     ngOnInit() {
         this.getSuppliers();

@@ -12,7 +12,7 @@ namespace Godsend.Models
     /// <summary>
     ///
     /// </summary>
-    public abstract class ASupplierRepository : ARepository<Supplier>
+    public abstract class ASupplierRepository : Repository<Supplier>
     {
         public abstract IEnumerable<ProductInformation> GetProducts(Guid supplierId);
     }

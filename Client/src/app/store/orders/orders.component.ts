@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { RepositoryService } from '../../services/repository.service';
 import { Order, orderStatus, OrderPartProducts } from '../../models/order.model';
+import { AuthenticationService } from '../../services/authentication.service';
 
 @Component({
     selector: 'godsend-orders',
@@ -12,10 +13,14 @@ export class OrdersComponent implements OnInit {
     status = orderStatus;
     page = 1;
     rpp = 10;
-    constructor(private repo: RepositoryService) { }
+    constructor(private repo: RepositoryService, private auth: AuthenticationService) { }
 
     get pagesCount(): number {
         return Math.ceil(this.repo.ordersCount / this.rpp);
+    }
+
+    get canChangeStatus(): boolean {
+        return Boolean(this.auth.roles.find(x => x == 'Administrator' || x == 'Moderator'));
     }
 
     onPageChanged(page: number) {

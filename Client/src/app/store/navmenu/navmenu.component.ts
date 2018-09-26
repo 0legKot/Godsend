@@ -16,7 +16,7 @@ export class NavMenuComponent implements OnInit {
                 private translateService: TranslateService) { }
     get name() { return this.storage.name; }
     get isLogged() { return this.storage.authenticated; }
-    get isAdmin() { return this.storage.authenticated; }
+    get isAdmin() { return Boolean(this.auth.roles.find(x => x == 'Administrator' || x == 'Moderator')); }
     get currentUserId() { return this.storage.id; }
     showMenuMobile = false;
 
@@ -37,9 +37,6 @@ export class NavMenuComponent implements OnInit {
     ngOnInit() {
         this.selectedLang = this.translateService.currentLang;
         this.availableLangs = this.translateService.getLangs();
-
-        console.log(this.selectedLang);
-        console.log(this.availableLangs);
     }
 
     changeLang(newLang: string) {

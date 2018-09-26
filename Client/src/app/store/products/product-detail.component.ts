@@ -10,6 +10,7 @@ import { CategoryService } from '../../services/category.service';
 import { searchType, AllSearchResult } from '../search/search.service';
 import { SupplierInfo } from '../../models/supplier.model';
 import { Image } from '../../models/image.model';
+import { AuthenticationService } from '../../services/authentication.service';
 
 @Component({
     selector: 'godsend-product-detail',
@@ -37,6 +38,14 @@ export class ProductDetailComponent implements OnInit {
         description: '',
     };
 
+    get canEdit(): boolean {
+        return Boolean(this.auth.roles.find(x => x == 'Administrator' || x == 'Moderator'));
+    }
+
+    get canDelete(): boolean {
+        return Boolean(this.auth.roles.find(x => x == 'Administrator' || x == 'Moderator'));
+    }
+
     get price(): string {
         return this.selectedSupplier ? (this.selectedSupplier.price * this.quantity).toFixed(2) : '';
     }
@@ -54,7 +63,7 @@ export class ProductDetailComponent implements OnInit {
         private router: Router,
         private repo: RepositoryService,
         private cart: CartService,
-        // private imageService: ImageService,
+        private auth: AuthenticationService,
         private storage: StorageService,
         private catService: CategoryService
     ) { }

@@ -10,10 +10,9 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 import { Component, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { RepositoryService } from '../../services/repository.service';
-import { Product, ProductInfo, FilterInfoView, DecimalPropertyInfo, StringPropertyInfo, IntPropertyInfo, orderBy } from '../../models/product.model';
+import { Product, ProductInfo, FilterInfoView, orderBy } from '../../models/product.model';
 import { searchType } from '../search/search.service';
 import { SearchInlineComponent } from '../search/search-inline.component';
-import { ImageService } from '../../services/image.service';
 import { CategoryService } from '../../services/category.service';
 import { guidZero } from '../../models/cart.model';
 var ProductsComponent = /** @class */ (function () {
@@ -21,9 +20,8 @@ var ProductsComponent = /** @class */ (function () {
     //    this.templateText = 'Not found';
     //    this.searchProducts = products;
     // }
-    function ProductsComponent(repo, imageService, catService, router) {
+    function ProductsComponent(repo, catService, router) {
         this.repo = repo;
-        this.imageService = imageService;
         this.catService = catService;
         this.router = router;
         // private selectedId: string;
@@ -35,10 +33,6 @@ var ProductsComponent = /** @class */ (function () {
         this.comparsionSet = new Array();
         this.filter = new FilterInfoView();
         this.orderBy = orderBy;
-        /**
-         * images as a dictionary where key is id and value is base64-encoded image
-         * */
-        this.images = {};
     }
     Object.defineProperty(ProductsComponent.prototype, "pagesCount", {
         get: function () {
@@ -70,26 +64,24 @@ var ProductsComponent = /** @class */ (function () {
         enumerable: true,
         configurable: true
     });
-    ProductsComponent.prototype.refreshImages = function () {
-        var _this = this;
-        var ids = this.repo.products.filter(function (pi) { return pi.preview != null; }).map(function (pi) { return pi.preview.id; });
-        this.imageService.getPreviewImages(ids, function (images) { _this.images = images; });
-    };
     ProductsComponent.prototype.toggleComparsion = function (id) {
-        if (!this.isFilteredByCategory)
+        if (!this.isFilteredByCategory) {
             return;
-        if (this.comparsionSet.indexOf(id) == -1)
+        }
+        if (this.comparsionSet.indexOf(id) === -1) {
             this.comparsionSet.push(id);
-        else
-            this.comparsionSet = this.comparsionSet.filter(function (x) { return x != id; });
+        }
+        else {
+            this.comparsionSet = this.comparsionSet.filter(function (x) { return x !== id; });
+        }
     };
     /*exp get products(): ProductInfo[] {
          // return this.searchProducts || this.repo.products;
          return this.repo.products;
      }*/
-    //getImage(pi: ProductInfo): string {
+    // getImage(pi: ProductInfo): string {
     //    return this.images[pi.id];
-    //}
+    // }
     ProductsComponent.prototype.createProduct = function (descr, name) {
         var _this = this;
         // TODO create interface with only relevant info
@@ -104,7 +96,6 @@ var ProductsComponent = /** @class */ (function () {
         this.repo.productsExperiment.subscribe(function (newProducts) {
             console.log('products changed');
             _this.productsExperiment = newProducts;
-            _this.refreshImages();
         });
         this.getProducts();
     };
@@ -112,36 +103,36 @@ var ProductsComponent = /** @class */ (function () {
         this.categories = this.catService.cats ? this.catService.cats.map(function (cws) { return cws.cat; }) : [];
         console.log(this.categories);
     };
-    //getSubcategories(category: Category): void {
+    // getSubcategories(category: Category): void {
     //    this.categories = this.catService.getSubcategories(category);
     //    this.getCategoryProps(category);
-    //}
-    //getByCategory(category: Category): void {
+    // }
+    // getByCategory(category: Category): void {
     //    this.repo.productFilter.categoryId = category.id;
     //    this.getProducts();
+    // }
+    //getByFilter(): void {
+    //    if (this.filter) {
+    //        if (this.filter.stringProps) {
+    //            this.repo.productFilter.stringProps = this.filter.stringProps
+    //                .filter(prop => prop.part !== '' && prop.part != null)
+    //                .map(prop => new StringPropertyInfo(prop.propId, prop.part));
+    //        }
+    //        if (this.filter.intProps) {
+    //            this.repo.productFilter.intProps = this.filter.intProps
+    //                .filter(prop => prop.left != null && prop.right != null)
+    //                .map(prop => new IntPropertyInfo(prop.propId, prop.left, prop.right));
+    //        }
+    //        if (this.filter.decimalProps) {
+    //            this.repo.productFilter.decimalProps = this.filter.decimalProps
+    //                .filter(prop => prop.left != null && prop.right != null)
+    //                .map(prop => new DecimalPropertyInfo(prop.propId, prop.left, prop.right));
+    //        }
+    //        this.repo.productFilter.orderBy = this.filter.orderBy;
+    //        this.repo.productFilter.sortAscending = this.filter.sortAscending;
+    //        this.getProducts();
+    //    }
     //}
-    ProductsComponent.prototype.getByFilter = function () {
-        if (this.filter) {
-            if (this.filter.stringProps) {
-                this.repo.productFilter.stringProps = this.filter.stringProps
-                    .filter(function (prop) { return prop.part !== '' && prop.part != null; })
-                    .map(function (prop) { return new StringPropertyInfo(prop.propId, prop.part); });
-            }
-            if (this.filter.intProps) {
-                this.repo.productFilter.intProps = this.filter.intProps
-                    .filter(function (prop) { return prop.left != null && prop.right != null; })
-                    .map(function (prop) { return new IntPropertyInfo(prop.propId, prop.left, prop.right); });
-            }
-            if (this.filter.decimalProps) {
-                this.repo.productFilter.decimalProps = this.filter.decimalProps
-                    .filter(function (prop) { return prop.left != null && prop.right != null; })
-                    .map(function (prop) { return new DecimalPropertyInfo(prop.propId, prop.left, prop.right); });
-            }
-            this.repo.productFilter.orderBy = this.filter.orderBy;
-            this.repo.productFilter.sortAscending = this.filter.sortAscending;
-            this.getProducts();
-        }
-    };
     ProductsComponent.prototype.getCategoryProps = function (category) {
         var _this = this;
         this.catService.getCategoryProps(category.id, function (filter) { _this.filter = filter; console.log(filter); });
@@ -163,7 +154,6 @@ var ProductsComponent = /** @class */ (function () {
             styleUrls: ['./products.component.css']
         }),
         __metadata("design:paramtypes", [RepositoryService,
-            ImageService,
             CategoryService,
             Router])
     ], ProductsComponent);
