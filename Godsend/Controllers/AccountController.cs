@@ -31,7 +31,7 @@ namespace Godsend.Controllers
         private RoleManager<Role> roleManager;
         private IConfiguration configuration;
         private DataContext context;
-        private User currentUser;
+        private ISeedHelper seedHelper;
         private string token;
 
         /// <summary>
@@ -45,17 +45,15 @@ namespace Godsend.Controllers
             SignInManager<User> signInMgr,
             IConfiguration configuration,
             DataContext context,
-            RoleManager<Role> roleMngr)
+            RoleManager<Role> roleMngr,
+            ISeedHelper seedHlpr)
         {
             userManager = userMgr;
             signInManager = signInMgr;
             roleManager = roleMngr;
             this.configuration = configuration;
             this.context = context;
-
-            //var currentName = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name);
-
-            //var appUser = userManager.FindByNameAsync(currentName.Value).GetAwaiter().GetResult();
+            seedHelper = seedHlpr;
         }
 
         /// <summary>
@@ -65,10 +63,14 @@ namespace Godsend.Controllers
         [HttpGet("[action]")]
         public async Task<bool> IsAdmin()
         {
+            return await userManager.IsInRoleAsync(GetCurrentUser(), "Administrator");
+        }
+
+        private User GetCurrentUser()
+        {
             var currentName = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name);
 
-             currentUser = context.Users.FirstOrDefault(u => u.UserName == currentName.Value);
-            return await userManager.IsInRoleAsync(currentUser, "Administrator");
+            return context.Users.FirstOrDefault(u => u.UserName == currentName.Value);
         }
 
         /// <summary>
@@ -78,12 +80,15 @@ namespace Godsend.Controllers
         [HttpGet("[action]")]
         public async Task<IEnumerable<string>> GetRoles()
         {
-            return await userManager.GetRolesAsync(currentUser);
+            return await userManager.GetRolesAsync(GetCurrentUser());
         }
+
         public class UserAndRole {
             public string userName { get; set; }
+
             public string role { get; set; }
         }
+
         [HttpPost("[action]")]
         public async Task<IActionResult> AddToRole([FromBody]UserAndRole userAndRole)
         {
@@ -150,19 +155,13 @@ namespace Godsend.Controllers
         [HttpPost("[action]")]
         public async Task<IActionResult> Login([FromBody] LoginViewModel creds)
         {
-            ////if (ModelState.IsValid && await DoLogin(creds))
-            ////{
-            ////    return true;
-            ////}
-
-            ////return false;
-            IdentitySeedData.EnsurePopulated(userManager, roleManager);
+            seedHelper.EnsurePopulated(context);
+            //IdentitySeedData.EnsurePopulated(userManager, roleManager);
             var result = await signInManager.PasswordSignInAsync(creds.Name, creds.Password, false, false);
 
             if (result.Succeeded)
             {
                 var appUser = await userManager.FindByNameAsync(creds.Name);
-                currentUser = appUser;
                 token = await GenerateJwtToken(creds.Name, appUser);
                 return Ok(new { token, appUser.Id });
             }
@@ -181,12 +180,20 @@ namespace Godsend.Controllers
             user.UserName = model.Name;
             user.NormalizedEmail = userManager.NormalizeKey(model.Email);
             user.NormalizedUserName = userManager.NormalizeKey(model.Name);
-            if (model.Password != null) user.PasswordHash = userManager.PasswordHasher.HashPassword(user, model.Password);
+            if (model.Password != null)
+            {
+                user.PasswordHash = userManager.PasswordHasher.HashPassword(user, model.Password);
+            }
+
             var res = await context.SaveChangesAsync();
-            if (res==1)
-            return Ok(user);
+            if (res == 1)
+            {
+                return Ok(user);
+            }
             else
-            return BadRequest("Could not edit");
+            {
+                return BadRequest("Could not edit");
+            }
         }
 
         [HttpPost("[action]")]
@@ -231,10 +238,6 @@ namespace Godsend.Controllers
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<IEnumerable<ClientUser>> GetUserList(int page, int rpp)
         {
-            var currentName = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name);
-            currentUser = context.Users.FirstOrDefault(u => u.UserName == currentName.Value);
-
-            //var user = context.Users.FirstOrDefault(u => u.UserName == currentName.Value);
             if (await IsAdmin())
             {
                 return context.Users

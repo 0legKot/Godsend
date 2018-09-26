@@ -64,7 +64,10 @@ namespace Godsend.Models
 
         public static ClientUser FromEFUser(User user)
         {
-            if (user == null) return null;
+            if (user == null)
+            {
+                return null;
+            }
 
             return new ClientUser
             {
@@ -79,7 +82,10 @@ namespace Godsend.Models
 
         public static ClientUser FromEFUserGeneralInfo(User user)
         {
-            if (user == null) return null;
+            if (user == null)
+            {
+                return null;
+            }
 
             return new ClientUser
             {

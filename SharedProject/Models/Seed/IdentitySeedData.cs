@@ -10,41 +10,29 @@ namespace Godsend.Models
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Identity;
 
-    /// <summary>
-    ///
-    /// </summary>
     public static class IdentitySeedData
     {
         /// <summary>
-        /// The admin user
+        /// Creds for main admin
         /// </summary>
         private const string adminUser = "Admin";
-
-        /// <summary>
-        /// The admin password
-        /// </summary>
         private const string adminPassword = "Secret123$";
+        private static string[] defaultRoles = new string[] { "Administrator", "Moderator", "Supplier" };
 
-        /// <summary>
-        /// Ensures the populated.
-        /// </summary>
-        /// <param name="userManager">The user manager.</param>
-        /// <returns></returns>
         public static void EnsurePopulated(UserManager<User> userManager, RoleManager<Role> roleManager)
         {
             User user = userManager.FindByNameAsync(adminUser).GetAwaiter().GetResult();
-
-            Role role = roleManager.FindByNameAsync("Administrator").GetAwaiter().GetResult();
-            if (role == null)
+            if (!roleManager.Roles.Any())
             {
-                role = new Role("Administrator");
-                roleManager.CreateAsync(role).GetAwaiter().GetResult();
+                foreach (var role in defaultRoles)
+                {
+                    roleManager.CreateAsync(new Role(role)).GetAwaiter().GetResult();
+                }
             }
 
             if (user == null)
             {
-
-                user = new User("Admin");
+                user = new User(adminUser);
                 userManager.CreateAsync(user, adminPassword).GetAwaiter().GetResult();
                 userManager.AddToRoleAsync(user, "Administrator").GetAwaiter().GetResult();
             }

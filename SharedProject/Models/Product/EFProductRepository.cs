@@ -118,7 +118,7 @@ namespace Godsend
             return context.Categories;
         }
 
-        private IEnumerable<Category> cats; 
+        private IEnumerable<Category> cats;
         /// <summary>
         /// Get properties related to specified <see cref="Category"/>
         /// </summary>
@@ -259,7 +259,7 @@ namespace Godsend
             var curCat = new CatWithSubs() { Cat = cats.FirstOrDefault(x => x.Id == categoryId) };
             var apropriateCats = GetRecursiveCats(ref curCat);
             apropriateCats.Add(curCat.Cat);
-            return products.Where(p => apropriateCats.Contains(p.Category)); 
+            return products.Where(p => apropriateCats.Contains(p.Category));
         }
 
         private IQueryable<Product> FilterByDecimalProps(IQueryable<Product> products, IEnumerable<DecimalPropertyInfo> decimalProps)
@@ -376,7 +376,11 @@ namespace Godsend
         public override async Task EditCommentAsync(Guid commentId, string newContent, string userId)
         {
             var comment = await context.LinkCommentProduct.FirstOrDefaultAsync(lce => lce.Id == commentId);
-            if (comment.UserId != userId) throw new InvalidOperationException("Incorrect user tried to edit comment");
+            if (comment.UserId != userId)
+            {
+                throw new InvalidOperationException("Incorrect user tried to edit comment");
+            }
+
             comment.Comment = newContent;
 
             await context.SaveChangesAsync();

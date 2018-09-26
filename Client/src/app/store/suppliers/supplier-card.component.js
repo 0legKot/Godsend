@@ -10,15 +10,29 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 import { Component, Input, EventEmitter, Output } from '@angular/core';
 import { SupplierInfo } from '../../models/supplier.model';
 import { RepositoryService } from '../../services/repository.service';
+import { ImageService } from '../../services/image.service';
 var SupplierCardComponent = /** @class */ (function () {
-    function SupplierCardComponent(repo) {
+    function SupplierCardComponent(repo, imageService) {
         this.repo = repo;
+        this.imageService = imageService;
         this.delete = new EventEmitter();
     }
     Object.defineProperty(SupplierCardComponent.prototype, "viewed", {
         get: function () {
             var _this = this;
-            return this.supplierInfo && (this.repo.viewedSuppliersIds.find(function (id) { return id === _this.supplierInfo.id; }) != undefined);
+            return this.supplierInfo && (this.repo.viewedSuppliersIds.find(function (id) { return id === _this.supplierInfo.id; }) !== undefined);
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(SupplierCardComponent.prototype, "imagePath", {
+        get: function () {
+            if (this.supplierInfo && this.supplierInfo.preview) {
+                return this.imageService.getImagePath(this.supplierInfo.preview.id);
+            }
+            else {
+                return '';
+            }
         },
         enumerable: true,
         configurable: true
@@ -31,10 +45,6 @@ var SupplierCardComponent = /** @class */ (function () {
         __metadata("design:type", SupplierInfo)
     ], SupplierCardComponent.prototype, "supplierInfo", void 0);
     __decorate([
-        Input(),
-        __metadata("design:type", String)
-    ], SupplierCardComponent.prototype, "image", void 0);
-    __decorate([
         Output(),
         __metadata("design:type", Object)
     ], SupplierCardComponent.prototype, "delete", void 0);
@@ -44,7 +54,7 @@ var SupplierCardComponent = /** @class */ (function () {
             templateUrl: './supplier-card.component.html',
             styleUrls: ['./suppliers.component.css']
         }),
-        __metadata("design:paramtypes", [RepositoryService])
+        __metadata("design:paramtypes", [RepositoryService, ImageService])
     ], SupplierCardComponent);
     return SupplierCardComponent;
 }());

@@ -7,7 +7,6 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-// import { switchMap } from 'rxjs/operators';
 import { Component } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { RepositoryService } from '../../services/repository.service';
@@ -49,9 +48,9 @@ var SupplierDetailComponent = /** @class */ (function () {
         this.repo.getEntity('supplier', id, function (s) {
             _this.supp = s;
             console.log(s.productsAndPrices);
-            //if (this.supp.images) {
+            // if (this.supp.images) {
             //    this.imageService.getImages(this.supp.images.map(i => i.id), images => { this.images = images; });
-            //}
+            // }
         });
         if (this.repo.viewedSuppliersIds.find(function (x) { return x === id; }) === undefined) {
             this.repo.viewedSuppliersIds.push(this.route.snapshot.params.id);

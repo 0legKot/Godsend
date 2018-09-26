@@ -12,58 +12,7 @@
         </godsend-category-tree>
         <br />
         <godsend-filter (updated)="getProducts()"></godsend-filter>
-        <!--<form *ngIf="filter">
-            <div class="form-group" *ngIf="filter.stringProps?.length > 0">
-                <div *ngFor="let prop of filter.stringProps">
-                    <label> {{ prop.name }} </label>
-                    <input class="form-control" [(ngModel)]="prop.part" name="x" />
-                </div>
-            </div>
-            <div class="form-group" *ngIf="filter.decimalProps?.length > 0">
-                <div *ngFor="let prop of filter.decimalProps">
-                    <label> {{ prop.name }} </label>
-                    <div>
-                        {{ 'Products.From' | translate }}
-                        <input class="form-control" name="x" type="number" [(ngModel)]="prop.left" />
-                    </div>
-                    <div>
-                        {{ 'Products.To' | translate }}
-                        <input class="form-control" name="x" type="number" [(ngModel)]="prop.right" />
-                    </div>
-                </div>
-            </div>
-            <div class="form-group" *ngIf="filter.intProps?.length > 0">
-                <div *ngFor="let prop of filter.intProps">
-                    <label> {{ prop.name }} </label>
-                    <div>
-                        {{ 'Products.From' | translate }}
-                        <input class="form-control" type="number" name="x" [(ngModel)]="prop.left" />
-                    </div>
-                    <div>
-                        {{ 'Products.To' | translate }}
-                        <input class="form-control" type="number" name="x" [(ngModel)]="prop.right" />
-                    </div>
-                </div>
-            </div>
-
-            <div *ngFor="let o of orderBy; let i = index">
-                <input type="radio" [value]="i" name="orderBy" [(ngModel)]="filter.orderBy" />
-                <span> {{ o }} </span>
-            </div>
-            <br />
-            <div>
-                <div>
-                    <input type="radio" [value]="true" name="orderDirection" [(ngModel)]="filter.sortAscending" />
-                    <span> {{ 'Products.Sort.Descending' | translate }} </span>
-                </div>
-                <div>
-                    <input type="radio" [value]="false" name="orderDirection" [(ngModel)]="filter.sortAscending" />
-                    <span> {{ 'Products.Sort.Ascending' | translate }} </span>
-                </div>
-            </div>
-
-            <button class="btn btn-dark" (click)="getByFilter()">{{ 'Products.Filter' | translate }}</button>
-        </form>-->
+        
         <br />
     </div>
 

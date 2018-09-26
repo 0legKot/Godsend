@@ -7,6 +7,8 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+// import { SuppliersComponent } from './suppliers.component';
+// import { SupplierDetailComponent } from './supplier-detail.component';
 var SuppliersModule = /** @class */ (function () {
     function SuppliersModule() {
     }
@@ -17,8 +19,8 @@ var SuppliersModule = /** @class */ (function () {
                 FormsModule,
             ],
             declarations: [
-            //SuppliersComponent,
-            //SupplierDetailComponent
+            // SuppliersComponent,
+            // SupplierDetailComponent
             ]
         })
     ], SuppliersModule);

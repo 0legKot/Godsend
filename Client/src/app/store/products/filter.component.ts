@@ -1,13 +1,10 @@
 ﻿import { Component, OnInit, EventEmitter, Output, Input } from '@angular/core';
-import { Category, CatsWithSubs, FilterInfoView, StringPropertyInfo, IntPropertyInfo, DecimalPropertyInfo, orderBy } from '../../models/product.model';
+import { Category, CatsWithSubs, FilterInfoView, StringPropertyInfo, IntPropertyInfo, DecimalPropertyInfo, orderBy, allowedOrderBy } from '../../models/product.model';
 import { NestedTreeControl } from '@angular/cdk/tree';
 import { MatTreeNestedDataSource } from '@angular/material';
 import { BehaviorSubject } from 'rxjs';
 import { CategoryService } from '../../services/category.service';
 import { RepositoryService } from '../../services/repository.service';
-import {
- orderBy
-} from '../../models/product.model';
 
 @Component({
     selector: 'godsend-filter',

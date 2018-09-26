@@ -233,7 +233,10 @@ namespace Godsend.Controllers
         {
             CommentsArr = repository.GetAllComments(entityId);
 
-            if (!CommentsArr.Any()) return null;
+            if (!CommentsArr.Any())
+            {
+                return null;
+            }
 
             var baseComments = CommentsArr.Where(lce => lce.BaseComment == null)
                 .Select(lce => new CommentWithSubs()

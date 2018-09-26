@@ -9,6 +9,7 @@ namespace Godsend.Models
     using System.Linq;
     using System.Runtime.CompilerServices;
     using System.Text;
+    using Microsoft.AspNetCore.Identity;
     using Microsoft.EntityFrameworkCore;
 
     public interface ISeedHelper
@@ -20,6 +21,16 @@ namespace Godsend.Models
     {
         private static object creationLock = new object();
         private static bool created = false;
+        private UserManager<User> userManager;
+        private RoleManager<Role> roleManager;
+
+        public SeedHelper(
+            UserManager<User> userMgr,
+            RoleManager<Role> roleMngr)
+        {
+            userManager = userMgr;
+            roleManager = roleMngr;
+        }
 
         public void EnsurePopulated(DataContext context)
         {
@@ -391,6 +402,8 @@ namespace Godsend.Models
                     context.LinkProductImages.AddRange(linkProductImages);
 
                     #endregion
+
+                    IdentitySeedData.EnsurePopulated(userManager, roleManager);
 
                     #region Articles
 

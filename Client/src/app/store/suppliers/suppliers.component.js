@@ -12,21 +12,15 @@ import { RepositoryService } from '../../services/repository.service';
 import { Supplier, SupplierInfo, Location } from '../../models/supplier.model';
 import { searchType } from '../search/search.service';
 import { SearchInlineComponent } from '../search/search-inline.component';
-import { ImageService } from '../../services/image.service';
 import { Router } from '@angular/router';
 var SuppliersComponent = /** @class */ (function () {
-    function SuppliersComponent(repo, imageService, router) {
+    function SuppliersComponent(repo, router) {
         this.repo = repo;
-        this.imageService = imageService;
         this.router = router;
         this.type = searchType.supplier;
         this.page = 1;
         this.rpp = 10;
         this.templateText = 'Waiting for data...';
-        /**
-         * images as a dictionary where key is id and value is base64-encoded image
-         * */
-        this.images = {};
     }
     Object.defineProperty(SuppliersComponent.prototype, "suppliers", {
         get: function () {
@@ -47,13 +41,7 @@ var SuppliersComponent = /** @class */ (function () {
         this.getSuppliers();
     };
     SuppliersComponent.prototype.getSuppliers = function () {
-        var _this = this;
-        this.repo.getEntities('supplier', this.page, this.rpp, function (res) {
-            _this.imageService.getPreviewImages(res.filter(function (si) { return si.preview != null; }).map(function (si) { return si.preview.id; }), function (images) { return _this.images = images; });
-        });
-    };
-    SuppliersComponent.prototype.getImage = function (pi) {
-        return pi.preview ? this.images[pi.preview.id] : "";
+        this.repo.getEntities('supplier', this.page, this.rpp);
     };
     SuppliersComponent.prototype.ngOnInit = function () {
         this.getSuppliers();
@@ -87,7 +75,7 @@ var SuppliersComponent = /** @class */ (function () {
                 '../products/products.component.css'
             ]
         }),
-        __metadata("design:paramtypes", [RepositoryService, ImageService, Router])
+        __metadata("design:paramtypes", [RepositoryService, Router])
     ], SuppliersComponent);
     return SuppliersComponent;
 }());

@@ -9,5 +9,7 @@
         <button type="submit" class="btn btn-bl" [disabled]="!messageForm.valid">{{ 'Notification.Send' | translate }}</button>
 
     </form>
-    <button (click)="makeAdmin(user.name)" class="btn btn-bl">Make admin</button>
+    <div *ngFor="let role of roles">
+        <button (click)="addToRole(user.name,role)" class="btn btn-bl">Make {{role}}</button>
+    </div>
 </div>

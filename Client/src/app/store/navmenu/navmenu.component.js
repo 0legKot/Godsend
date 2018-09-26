@@ -20,15 +20,6 @@ var NavMenuComponent = /** @class */ (function () {
         this.translateService = translateService;
         this.showMenuMobile = false;
     }
-    NavMenuComponent.prototype.scrollToTop = function () {
-        window.scrollTo(0, 0);
-    };
-    NavMenuComponent.prototype.slideToggle = function () {
-        this.showMenuMobile = !this.showMenuMobile;
-    };
-    NavMenuComponent.prototype.hideMenu = function () {
-        this.showMenuMobile = false;
-    };
     Object.defineProperty(NavMenuComponent.prototype, "name", {
         get: function () { return this.storage.name; },
         enumerable: true,
@@ -49,6 +40,15 @@ var NavMenuComponent = /** @class */ (function () {
         enumerable: true,
         configurable: true
     });
+    NavMenuComponent.prototype.scrollToTop = function () {
+        window.scrollTo(0, 0);
+    };
+    NavMenuComponent.prototype.slideToggle = function () {
+        this.showMenuMobile = !this.showMenuMobile;
+    };
+    NavMenuComponent.prototype.hideMenu = function () {
+        this.showMenuMobile = false;
+    };
     NavMenuComponent.prototype.ngOnInit = function () {
         this.selectedLang = this.translateService.currentLang;
         this.availableLangs = this.translateService.getLangs();
@@ -72,7 +72,10 @@ var NavMenuComponent = /** @class */ (function () {
             templateUrl: './navmenu.component.html',
             styleUrls: ['./navmenu.component.css']
         }),
-        __metadata("design:paramtypes", [StorageService, AuthenticationService, Router, TranslateService])
+        __metadata("design:paramtypes", [StorageService,
+            AuthenticationService,
+            Router,
+            TranslateService])
     ], NavMenuComponent);
     return NavMenuComponent;
 }());

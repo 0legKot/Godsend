@@ -121,7 +121,11 @@ namespace Godsend.Models
         {
             var comment = await context.LinkCommentSupplier.FirstOrDefaultAsync(lce => lce.Id == commentId);
 
-            if (comment.UserId != userId) throw new InvalidOperationException("Incorrect user tried to edit comment");
+            if (comment.UserId != userId)
+            {
+                throw new InvalidOperationException("Incorrect user tried to edit comment");
+            }
+
             comment.Comment = newContent;
 
             await context.SaveChangesAsync();

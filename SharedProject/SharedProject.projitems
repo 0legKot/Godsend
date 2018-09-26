@@ -28,7 +28,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Models\Shared\Information.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Shared\IRepository.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Identity\ClientUser.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Models\Identity\IdentitySeedData.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Seed\IdentitySeedData.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\ImageProcessing\ImagePaths.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\ImageProcessing\ImageRepository.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Shared\LinkCommentEntity.cs" />
@@ -42,7 +42,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Models\Product\ProductInformation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Search\AllSearchResult.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Shared\LinkRatingEntity.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Models\Shared\SeedHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Seed\SeedHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Supplier\EFSupplierRepository.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Supplier\ISupplierRepository.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Supplier\Location.cs" />
@@ -54,5 +54,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Models\TestModel\PrimitiveData.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\ViewModels\LoginViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\ViewModels\RegisterViewModel.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="$(MSBuildThisFileDirectory)Models\Seed\" />
   </ItemGroup>
 </Project>

@@ -144,7 +144,11 @@ namespace Godsend.Models
         public override async Task EditCommentAsync(Guid commentId, string newContent, string userId)
         {
             var comment = await context.LinkCommentArticle.FirstOrDefaultAsync(lce => lce.Id == commentId);
-            if (comment.UserId != userId) throw new InvalidOperationException("Incorrect user tried to edit comment");
+            if (comment.UserId != userId)
+            {
+                throw new InvalidOperationException("Incorrect user tried to edit comment");
+            }
+
             comment.Comment = newContent;
 
             await context.SaveChangesAsync();
