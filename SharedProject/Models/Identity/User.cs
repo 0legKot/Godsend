@@ -35,6 +35,8 @@ namespace Godsend.Models
         /// </value>
         public DateTime RegistrationDate { get; set; }
 
+        public long? FacebookId { get; set; }
+
         /// <summary>
         /// Gets or sets the rating.
         /// </summary>

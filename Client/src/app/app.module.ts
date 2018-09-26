@@ -48,6 +48,8 @@ import { CategoryTreeComponent } from './store/products/category-tree.component'
 import { ProductsComparisonComponent } from './store/products/products-comparison.component';
 import { GalleryComponent } from './store/gallery/gallery.component';
 import { RichtextComponent } from './store/richtext/richtext.component';
+import { FacebookLoginComponent } from './store/login/facebook-login.component';
+import { FacebookAuthComponent } from './store/login/facebook-auth.component';
 
 export function HttpLoaderFactory(httpClient: HttpClient) {
     return new TranslateHttpLoader(httpClient);
@@ -75,6 +77,7 @@ const APP_ROUTES: Routes = [
     { path: 'statistics', component: StatisticsComponent },
     { path: 'user/:id', component: UserComponent },
     { path: 'admin', component: AdminComponent },
+    { path: 'facebook-auth', component: FacebookAuthComponent },
     { path: '**', redirectTo: 'home' }
 ];
 
@@ -114,6 +117,8 @@ const APP_ROUTES: Routes = [
         CategoryTreeComponent,
         GalleryComponent,
         RichtextComponent,
+        FacebookLoginComponent,
+        FacebookAuthComponent
     ],
     imports: [
         FontAwesomeModule,

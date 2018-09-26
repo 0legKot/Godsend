@@ -15,5 +15,6 @@
             <button (click)="login()" type="submit" class="btn btn-primary">{{ 'Login.DoLogin' | translate }}</button>
         </form>
     </div>
+    <godsend-facebook-login></godsend-facebook-login>
     <div class="center">{{ 'Login.NotRegisteredQuestion' | translate }}<a class="btn btn-primary" [routerLink]="['/registration']">{{ 'Login.Registration' | translate }}</a></div>
 </div>

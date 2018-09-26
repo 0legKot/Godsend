@@ -50,6 +50,7 @@ namespace Godsend
             services.AddTransient<IImageService, ImageService>();
             services.AddTransient<IStorageService, StorageService>();
             services.AddTransient<ImageRepository>();
+            services.Configure<FacebookAuthSettings>(Configuration.GetSection(nameof(FacebookAuthSettings)));
             string connection = Configuration.GetConnectionString("StoreDb");
             services.AddDbContext<DataContext>(options => options.UseLazyLoadingProxies().UseSqlServer(connection));
 

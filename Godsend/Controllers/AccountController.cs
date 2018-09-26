@@ -9,6 +9,7 @@ namespace Godsend.Controllers
     using System.ComponentModel.DataAnnotations;
     using System.IdentityModel.Tokens.Jwt;
     using System.Linq;
+    using System.Net.Http;
     using System.Security.Claims;
     using System.Text;
     using System.Threading.Tasks;
@@ -18,7 +19,9 @@ namespace Godsend.Controllers
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Configuration;
+    using Microsoft.Extensions.Options;
     using Microsoft.IdentityModel.Tokens;
+    using Newtonsoft.Json;
 
     /// <summary>
     /// Account controller
@@ -32,7 +35,7 @@ namespace Godsend.Controllers
         private IConfiguration configuration;
         private DataContext context;
         private User currentUser;
-        private string token;
+        private FacebookAuthSettings fbAuthSettings;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AccountController"/> class.
@@ -45,13 +48,15 @@ namespace Godsend.Controllers
             SignInManager<User> signInMgr,
             IConfiguration configuration,
             DataContext context,
-            RoleManager<Role> roleMngr)
+            RoleManager<Role> roleMngr,
+            IOptions<FacebookAuthSettings> fbAuthSettingsAccessor)
         {
             userManager = userMgr;
             signInManager = signInMgr;
             roleManager = roleMngr;
             this.configuration = configuration;
             this.context = context;
+            this.fbAuthSettings = fbAuthSettingsAccessor.Value;
 
             //var currentName = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name);
 
@@ -163,16 +168,75 @@ namespace Godsend.Controllers
             {
                 var appUser = await userManager.FindByNameAsync(creds.Name);
                 currentUser = appUser;
-                token = await GenerateJwtToken(creds.Name, appUser);
+                var token = await GenerateJwtToken(/*creds.Name, */appUser);
                 return Ok(new { token, appUser.Id });
             }
 
             return BadRequest("Invalid login attempt");
         }
 
-
-        //TODO do something
+        // POST api/externalauth/facebook
         [HttpPost("[action]")]
+        public async Task<IActionResult> FacebookLogin([FromBody]FacebookAuthViewModel model)
+        {
+            var client = new HttpClient();
+
+            // 1.generate an app access token
+            var appAccessTokenResponse = await client.GetStringAsync($"https://graph.facebook.com/oauth/access_token?client_id={fbAuthSettings.AppId}&client_secret={fbAuthSettings.AppSecret}&grant_type=client_credentials");
+            var appAccessToken = JsonConvert.DeserializeObject<FacebookAppAccessToken>(appAccessTokenResponse);
+
+            // 2. validate the user access token
+            var tmp = await client.GetAsync($"https://graph.facebook.com/debug_token?input_token={model.AccessToken}&access_token={appAccessToken.AccessToken}");
+            var userAccessTokenValidationResponse = await client.GetStringAsync($"https://graph.facebook.com/debug_token?input_token={model.AccessToken}&access_token={appAccessToken.AccessToken}");
+            var userAccessTokenValidation = JsonConvert.DeserializeObject<FacebookUserAccessTokenValidation>(userAccessTokenValidationResponse);
+
+            if (!userAccessTokenValidation.Data.IsValid)
+            {
+                return BadRequest();
+            }
+
+            // 3. we've got a valid token so we can request user data from fb
+            var userInfoResponse = await client.GetStringAsync($"https://graph.facebook.com/v2.8/me?fields=id,email,first_name,last_name,name,gender,locale,birthday,picture&access_token={model.AccessToken}");
+            var userInfo = JsonConvert.DeserializeObject<FacebookUserData>(userInfoResponse);
+
+            // 4. ready to create the local user account (if necessary) and jwt
+            var user = await userManager.FindByEmailAsync(userInfo.Email);
+
+            if (user == null)
+            {
+                var appUser = new User
+                {
+                    FacebookId = userInfo.Id,
+                    Email = userInfo.Email,
+                    UserName = userInfo.Email,
+                    RegistrationDate = DateTime.Now,
+                };
+
+                var result = await userManager.CreateAsync(appUser, Convert.ToBase64String(Guid.NewGuid().ToByteArray()).Substring(0, 8) + "aB$4");
+
+                if (!result.Succeeded)
+                {
+                    return BadRequest();
+                }
+            }
+
+            // generate the jwt for the local user...
+            var localUser = await userManager.FindByEmailAsync(userInfo.Email);
+
+            if (localUser == null)
+            {
+                return BadRequest();
+            }
+
+            var jwt = await GenerateJwtToken(localUser);
+
+            return Ok(new { token = jwt, id = localUser.Id, name = localUser.UserName });
+        }
+    
+
+
+    //TODO do something
+    [HttpPost("[action]")]
         public async Task<object> EditProfile(/*string token,*/ [FromBody] RegisterViewModel model)
         {
             User user = context.Users.FirstOrDefault(x => x.UserName == User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name).Value);
@@ -247,7 +311,7 @@ namespace Godsend.Controllers
             }
         }
 
-        private async Task<string> GenerateJwtToken(string name, User user)
+        private async Task<string> GenerateJwtToken(/*string name,*/ User user)
         {
             var principal = await signInManager.CreateUserPrincipalAsync(user);
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["JwtKey"]));
@@ -282,5 +346,69 @@ namespace Godsend.Controllers
 
             return new JwtSecurityTokenHandler().WriteToken(token);
         }*/
+    }
+
+    public class FacebookAuthViewModel
+    {
+        public string AccessToken { get; set; }
+    }
+
+    public class FacebookAuthSettings
+    {
+        public string AppId { get; set; }
+        public string AppSecret { get; set; }
+    }
+    public class FacebookAppAccessToken
+    {
+        [JsonProperty("token_type")]
+        public string TokenType { get; set; }
+
+        [JsonProperty("access_token")]
+        public string AccessToken { get; set; }
+    }
+    public class FacebookUserAccessTokenValidation
+    {
+        public FacebookUserAccessTokenData Data { get; set; }
+    }
+
+    public class FacebookUserAccessTokenData
+    {
+        [JsonProperty("app_id")]
+        public long AppId { get; set; }
+        public string Type { get; set; }
+        public string Application { get; set; }
+        [JsonProperty("expires_at")]
+        public long ExpiresAt { get; set; }
+        [JsonProperty("is_valid")]
+        public bool IsValid { get; set; }
+        [JsonProperty("user_id")]
+        public long UserId { get; set; }
+    }
+
+    public class FacebookUserData
+    {
+        public long Id { get; set; }
+        public string Email { get; set; }
+        public string Name { get; set; }
+        [JsonProperty("first_name")]
+        public string FirstName { get; set; }
+        [JsonProperty("last_name")]
+        public string LastName { get; set; }
+        public string Gender { get; set; }
+        public string Locale { get; set; }
+        public FacebookPictureData Picture { get; set; }
+    }
+    public class FacebookPictureData
+    {
+        public FacebookPicture Data { get; set; }
+    }
+
+    public class FacebookPicture
+    {
+        public int Height { get; set; }
+        public int Width { get; set; }
+        [JsonProperty("is_silhouette")]
+        public bool IsSilhouette { get; set; }
+        public string Url { get; set; }
     }
 }
