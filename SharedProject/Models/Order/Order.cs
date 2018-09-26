@@ -18,24 +18,9 @@ namespace Godsend.Models
     /// </summary>
     public enum Status
     {
-        /// <summary>
-        /// The ready
-        /// </summary>
         Ready = 0,
-
-        /// <summary>
-        /// The shipped
-        /// </summary>
         Shipped = 1,
-
-        /// <summary>
-        /// The cancelled
-        /// </summary>
         Cancelled = 2,
-
-        /// <summary>
-        /// The processing
-        /// </summary>
         Processing = 3,
 
             // ...
@@ -46,12 +31,7 @@ namespace Godsend.Models
     /// </summary>
     public abstract class Order
     {
-        /// <summary>
-        /// Gets or sets the identifier.
-        /// </summary>
-        /// <value>
-        /// The identifier.
-        /// </value>
+
         public Guid Id { get; set; } = Guid.NewGuid();
 
         /// <summary>
@@ -72,38 +52,12 @@ namespace Godsend.Models
         [NotMapped]
         public virtual ClientUser Customer => ClientUser.FromEFUser(EFCustomer);
 
-        /// <summary>
-        /// Gets or sets the items.
-        /// </summary>
-        /// <value>
-        /// The items.
-        /// </value>
         public virtual IEnumerable<OrderPartProducts> Items { get; set; }
 
-        ////public IEnumerable<OrderPartWeighted> WeightedItems { get; set; }
-
-        /// <summary>
-        /// Gets or sets the ordered.
-        /// </summary>
-        /// <value>
-        /// The ordered.
-        /// </value>
         public DateTime Ordered { get; set; }
 
-        /// <summary>
-        /// Gets or sets the status.
-        /// </summary>
-        /// <value>
-        /// The status.
-        /// </value>
         public Status Status { get; set; }
 
-        /// <summary>
-        /// Gets or sets the done.
-        /// </summary>
-        /// <value>
-        /// The done.
-        /// </value>
         public DateTime? Done { get; set; }
     }
 
@@ -119,47 +73,19 @@ namespace Godsend.Models
     /// </summary>
     public abstract class OrderPart
     {
-        /// <summary>
-        /// Gets or sets the identifier.
-        /// </summary>
-        /// <value>
-        /// The identifier.
-        /// </value>
+
         [Key]
         public Guid Id { get; set; }
 
-        /// <summary>
-        /// Gets or sets the product identifier.
-        /// </summary>
-        /// <value>
-        /// The product identifier.
-        /// </value>
         [JsonIgnore]
         public Guid ProductId { get; set; }
 
-        /// <summary>
-        /// Gets or sets the product.
-        /// </summary>
-        /// <value>
-        /// The product.
-        /// </value>
+
         public virtual ProductInformation Product { get; set; }
 
-        /// <summary>
-        /// Gets or sets the supplier identifier.
-        /// </summary>
-        /// <value>
-        /// The supplier identifier.
-        /// </value>
         [JsonIgnore]
         public Guid SupplierId { get; set; }
 
-        /// <summary>
-        /// Gets or sets the supplier.
-        /// </summary>
-        /// <value>
-        /// The supplier.
-        /// </value>
         public virtual SupplierInformation Supplier { get; set; }
     }
 
@@ -168,12 +94,6 @@ namespace Godsend.Models
     /// </summary>
     public class OrderPartProducts : OrderPart
     {
-        /// <summary>
-        /// Gets or sets the quantity.
-        /// </summary>
-        /// <value>
-        /// The quantity.
-        /// </value>
         public int Quantity { get; set; }
 
         /// <summary>
@@ -184,9 +104,4 @@ namespace Godsend.Models
         /// </value>
         public int Multiplier { get; set; } = 1;
     }
-
-    ////public class OrderPartWeighted : OrderPart
-    ////{
-    ////    public double Weight { get; set; }
-    ////}
 }

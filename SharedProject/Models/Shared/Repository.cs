@@ -12,10 +12,10 @@ namespace Godsend.Models
     using System.Linq;
 
     /// <summary>
-    ///
+    /// 
     /// </summary>
     /// <typeparam name="IEntity">The type of the entity.</typeparam>
-    public abstract class ARepository<T>
+    public abstract class Repository<T>
         where T : IEntity
     {
         protected abstract IQueryable<T> EntitiesSource { get; }

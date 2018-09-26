@@ -23,15 +23,12 @@ namespace Godsend.Controllers
     [Route("api/[controller]")]
     public class ProductController : EntityController<Product>
     {
-        /// <summary>
-        /// The categories
-        /// </summary>
         private readonly IEnumerable<Category> Categories;
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ProductController" /> class.
-        /// </summary>
-        /// <param name="repo">The repo.</param>
+        /// <summary>For test that server works</summary>
+        [HttpGet("[action]")]
+        public IActionResult SayHello() => Ok("I said Hello");
+
         public ProductController(AProductRepository repo, IHubContext<NotificationHub> hubContext, ILogger<Product> logger, ILogger<EntityController<Product>> logger2)
             : base(hubContext, logger2)
         {
@@ -39,11 +36,6 @@ namespace Godsend.Controllers
             Categories = (repository as AProductRepository).Categories().ToList();
         }
 
-        /// <summary>
-        /// Details the specified identifier.
-        /// </summary>
-        /// <param name="id">The identifier.</param>
-        /// <returns></returns>
         [HttpGet("[action]/{id:Guid}")]
         public new IActionResult Detail(Guid id)
         {
@@ -60,16 +52,6 @@ namespace Godsend.Controllers
             return Ok(prod);
         }
 
-        [HttpGet("[action]")]
-        public IActionResult SayHello()
-        {
-            return Ok("I said Hello");
-        }
-
-        /// <summary>
-        /// Gets the base categories.
-        /// </summary>
-        /// <returns></returns>
         [HttpGet("[action]")]
         public IEnumerable<Category> GetBaseCategories()
         {
@@ -93,11 +75,7 @@ namespace Godsend.Controllers
             return rootCat;
         }
 
-        /// <summary>
-        /// Gets the sub categories.
-        /// </summary>
-        /// <param name="id">The identifier.</param>
-        /// <returns></returns>
+ 
         [HttpGet("[action]/{id:Guid}")]
         public IEnumerable<Category> GetSubCategories(Guid id)
         {
@@ -151,11 +129,6 @@ namespace Godsend.Controllers
             return result;
         }
 
-        /// <summary>
-        /// Gets the properties by category.
-        /// </summary>
-        /// <param name="categoryId">The identifier.</param>
-        /// <returns></returns>
         [HttpGet("[action]/{categoryId:Guid}")]
         public IEnumerable<object> GetPropertiesByCategory(Guid categoryId)
         {
@@ -163,43 +136,10 @@ namespace Godsend.Controllers
             return tmp;
         }
 
-        /////// <summary>
-        /////// Gets the int properties by product.
-        /////// </summary>
-        /////// <param name="id">The identifier.</param>
-        /////// <returns></returns>
-        ////[HttpGet("[action]/{id:Guid}")]
-        ////public IEnumerable<object> GetIntPropertiesByProduct(Guid id)
-        ////{
-        ////    return (repository as IProductRepository).ProductPropertiesInt(id);
-        ////}
-
-        /////// <summary>
-        /////// Gets the decimal properties by product.
-        /////// </summary>
-        /////// <param name="id">The identifier.</param>
-        /////// <returns></returns>
-        ////[HttpGet("[action]/{id:Guid}")]
-        ////public IEnumerable<object> GetDecimalPropertiesByProduct(Guid id)
-        ////{
-        ////    return (repository as IProductRepository).ProductPropertiesDecimal(id);
-        ////}
-
-        /////// <summary>
-        /////// Gets the string properties by product.
-        /////// </summary>
-        /////// <param name="id">The identifier.</param>
-        /////// <returns></returns>
-        ////[HttpGet("[action]/{id:Guid}")]
-        ////public IEnumerable<object> GetStringPropertiesByProduct(Guid id)
-        ////{
-        ////    return (repository as IProductRepository).ProductPropertiesString(id);
-        ////}
-
         /// <summary>
-        /// Gets the recursive cats.
+        /// Gets categories in recursive way.
         /// </summary>
-        /// <param name="cur">The current.</param>
+        /// <param name="cur">The current category with subs. It will be filled with Subcategories</param>
         private void GetRecursiveCats(ref CatWithSubs cur)
         {
             var subs = new List<CatWithSubs>();

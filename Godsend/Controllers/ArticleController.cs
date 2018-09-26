@@ -44,7 +44,7 @@ namespace Godsend.Controllers
         /// </summary>
         /// <param name="entity">The entity.</param>
         /// <returns></returns>
-        [Authorize]
+        [Authorize(Roles ="Administrator,Moderator")]
         public override async Task<IActionResult> CreateOrUpdate([FromBody] Article entity)
         {
             var nameId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value;
@@ -70,7 +70,6 @@ namespace Godsend.Controllers
 
             await hubContext.Clients.All.SendAsync("Success", "Somebody has just watched the article!");
 
-            //await hubContext.Clients.User(null).SendAsync("a", "aaa");
             return article;
         }
     }

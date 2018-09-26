@@ -17,57 +17,34 @@ namespace Godsend.Controllers
     /// </summary>
     public enum SearchType
     {
-        /// <summary>
-        /// All
-        /// </summary>
         All = 0,
-
-        /// <summary>
-        /// The products
-        /// </summary>
         Products = 1,
-
-        /// <summary>
-        /// The suppliers
-        /// </summary>
         Suppliers = 2,
 
         // Orders = 3
     }
 
-    // todo make procedure
+    // todo make procedure ?????
 
-    /// <summary>
-    ///
-    /// </summary>
-    /// <seealso cref="Microsoft.AspNetCore.Mvc.Controller" />
     [Route("api/[controller]")]
     public class SearchController : Controller
     {
-        /// <summary>
-        /// The context
-        /// </summary>
         private DataContext context;
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="SearchController"/> class.
-        /// </summary>
-        /// <param name="context">The context.</param>
         public SearchController(DataContext context)
         {
             this.context = context;
         }
 
         /// <summary>
-        /// Finds the specified t.
+        /// Finds the specified entities.
         /// </summary>
-        /// <param name="t">The t.</param>
-        /// <param name="term">The term.</param>
+        /// <param name="term">User input.</param>
         /// <returns></returns>
         [HttpGet("type/{t:int}/{term?}/{page:int}/{rpp:int}")]
-        public AllSearchResult Find(SearchType t, string term, int page, int rpp)
+        public AllSearchResult Find(SearchType searchType, string term, int page, int rpp)
         {
-            switch (t)
+            switch (searchType)
             {
                 case SearchType.All:
                     return FindAll(term, page, rpp);
@@ -81,10 +58,9 @@ namespace Godsend.Controllers
         }
 
         /// <summary>
-        /// Finds all.
+        /// Finds all entities.
         /// </summary>
-        /// <param name="term">The term.</param>
-        /// <returns></returns>
+        /// <param name="term">User input.</param>
         [HttpGet("all/{term?}/{page:int}/{rpp:int}")]
         public AllSearchResult FindAll(string term, int page, int rpp)
         {
@@ -98,8 +74,7 @@ namespace Godsend.Controllers
         /// <summary>
         /// Finds the products.
         /// </summary>
-        /// <param name="term">The term.</param>
-        /// <returns></returns>
+        /// <param name="term">User input.</param>
         [HttpGet("products/{term?}/{page:int}/{rpp:int}")]
         public IEnumerable<ProductInformation> FindProducts(string term, int page, int rpp)
         {
@@ -114,8 +89,7 @@ namespace Godsend.Controllers
         /// <summary>
         /// Finds the suppliers.
         /// </summary>
-        /// <param name="term">The term.</param>
-        /// <returns></returns>
+        /// <param name="term">User input.</param>
         [HttpGet("suppliers/{term?}/{page:int}/{rpp:int}")]
         public IEnumerable<SupplierInformation> FindSuppliers(string term, int page, int rpp)
         {

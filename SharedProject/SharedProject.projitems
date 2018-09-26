@@ -26,7 +26,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Models\Shared\DataContext.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Shared\IEntity.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Shared\Information.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Models\Shared\IRepository.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Shared\Repository.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Identity\ClientUser.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Seed\IdentitySeedData.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\ImageProcessing\ImagePaths.cs" />
@@ -53,6 +53,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Models\TestModel\Directory.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\TestModel\PrimitiveData.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\ViewModels\LoginViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\ViewModels\OrderFromNg.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\ViewModels\OrderPartNg.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\ViewModels\RegisterViewModel.cs" />
   </ItemGroup>
   <ItemGroup>

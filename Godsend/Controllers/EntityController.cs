@@ -28,7 +28,7 @@ namespace Godsend.Controllers
         /// <summary>
         /// The repository for instances
         /// </summary>
-        protected ARepository<TEntity> repository;
+        protected Repository<TEntity> repository;
         protected IHubContext<NotificationHub> hubContext;
         protected readonly ILogger<EntityController<TEntity>> _logger;
 
@@ -63,7 +63,7 @@ namespace Godsend.Controllers
         /// <param name="id">The identifier of entity that must be deleted.</param>
         /// <returns></returns>
         [HttpDelete("[action]/{id:Guid}")]
-        [Authorize]
+        [Authorize(Roles = "Administrator,Moderator")]
         public virtual async Task<IActionResult> Delete(Guid id)
         {
             var userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value;
@@ -88,7 +88,7 @@ namespace Godsend.Controllers
         /// <param name="entity">Entity for updating or creating.</param>
         /// <returns>Ok on success, BadRequest else </returns>
         [HttpPost("[action]")]
-        [Authorize]
+        [Authorize(Roles = "Administrator,Moderator")]
         public virtual async Task<IActionResult> CreateOrUpdate([FromBody]TEntity entity)
         {
             var userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value;
@@ -205,7 +205,32 @@ namespace Godsend.Controllers
             }
         }
 
+        [HttpPatch("comment/{commentId:Guid}")]
         [Authorize]
+        public virtual async Task<IActionResult> EditOwnComment(Guid commentId, [FromBody]TmpComment comment)
+        {
+            throw new NotImplementedException();
+            //TODO: rework
+            var userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value;
+
+            try
+            {
+                await repository.EditCommentAsync(commentId, comment.Comment, userId);
+
+                await hubContext.Clients.User(userId).SendAsync("Success", "Comment has been edited");
+
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                await hubContext.Clients.User(userId).SendAsync("Error", "Could not edit a comment");
+
+                return BadRequest();
+            }
+        }
+
+        [Authorize(Roles = "Administrator,Moderator")]
         [HttpPatch("comment/{commentId:Guid}")]
         public virtual async Task<IActionResult> EditComment(Guid commentId, [FromBody]TmpComment comment)
         {
@@ -282,34 +307,6 @@ namespace Godsend.Controllers
 
             cur.Subs = subs;
         }
-
-        /////// <summary>
-        /////// Edits the entity asynchronous.
-        /////// </summary>
-        /////// <param name="entity">The entity.</param>
-        /////// <returns></returns>
-        ////[HttpPatch("[action]/{id:Guid}")]
-        ////public virtual async Task<IActionResult> EditAsync([FromBody]TEntity entity)
-        ////{
-        ////    return await CreateOrUpdate(entity);
-        ////}
-
-        /////// <summary>
-        /////// Creates the entity asynchronous.
-        /////// </summary>
-        /////// <param name="entity">The entity.</param>
-        /////// <returns></returns>
-        ////[HttpPut("[action]/{id:Guid}")]
-        ////public virtual async Task<IActionResult> CreateAsync([FromBody]TEntity entity)
-        ////{
-        ////    return await CreateOrUpdate(entity);
-        ////}
-
-        /*[HttpGet("[action]/{id:Guid}")]
-        public virtual TEntity Detail(Guid id)
-        {
-            return repository.GetEntity(id);
-        }*/
     }
 
     public class TmpComment

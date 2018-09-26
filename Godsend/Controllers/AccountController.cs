@@ -57,14 +57,16 @@ namespace Godsend.Controllers
         }
 
         /// <summary>
-        /// Check is the current user admin
+        /// Check if the current user is admin
         /// </summary>
         /// <returns>true, if the user is in Administrator role</returns>
-        [HttpGet("[action]")]
-        public async Task<bool> IsAdmin()
-        {
-            return await userManager.IsInRoleAsync(GetCurrentUser(), "Administrator");
-        }
+        // DEPRECATED
+        //[HttpGet("[action]")]
+        //[Authorize]
+        //public async Task<bool> IsAdmin()
+        //{
+        //    return await userManager.IsInRoleAsync(GetCurrentUser(), "Administrator");
+        //}
 
         private User GetCurrentUser()
         {
@@ -89,13 +91,14 @@ namespace Godsend.Controllers
             public string role { get; set; }
         }
 
+        [Authorize(Roles ="Administrator")]
         [HttpPost("[action]")]
         public async Task<IActionResult> AddToRole([FromBody]UserAndRole userAndRole)
         {
-            if (!await IsAdmin())
-            {
-                return BadRequest();
-            }
+            //if (!await IsAdmin())
+            //{
+            //    return BadRequest();
+            //}
 
             User user = await userManager.FindByNameAsync(userAndRole.userName);
             if (await roleManager.FindByNameAsync(userAndRole.role) == null || user == null)
@@ -107,13 +110,14 @@ namespace Godsend.Controllers
             return Ok();
         }
 
+        [Authorize(Roles = "Administrator")]
         [HttpPost("[action]")]
         public async Task<IActionResult> ExcludeFromRole(string userName, string role)
         {
-            if (!await IsAdmin())
-            {
-                return BadRequest();
-            }
+            //if (!await IsAdmin())
+            //{
+            //    return BadRequest();
+            //}
 
             User user = await userManager.FindByNameAsync(userName);
             if (await roleManager.FindByNameAsync(role) == null || user == null)
@@ -170,7 +174,7 @@ namespace Godsend.Controllers
         }
 
 
-        //TODO do something
+        [Authorize]
         [HttpPost("[action]")]
         public async Task<object> EditProfile(/*string token,*/ [FromBody] RegisterViewModel model)
         {
@@ -235,19 +239,12 @@ namespace Godsend.Controllers
         }
 
         [HttpGet("[action]/{page:int}/{rpp:int}")]
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [Authorize(Roles = "Administrator,Moderator", AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<IEnumerable<ClientUser>> GetUserList(int page, int rpp)
         {
-            if (await IsAdmin())
-            {
-                return context.Users
+            return context.Users
                     .Skip(rpp * (page - 1)).Take(rpp)
                     .Select(u => ClientUser.FromEFUserGeneralInfo(u));
-            }
-            else
-            {
-                return new List<ClientUser>();
-            }
         }
 
         private async Task<string> GenerateJwtToken(string name, User user)
@@ -264,26 +261,5 @@ namespace Godsend.Controllers
                     signingCredentials: creds);
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
-
-       /* // todo review
-        var claims = new List<Claim>
-            {
-                new Claim(JwtRegisteredClaimNames.Sub, name), // subject
-                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()), // jwt id
-                new Claim( ClaimTypes.NameIdentifier,user.Id)
-            };
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["JwtKey"]));
-            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-            var expires = DateTime.Now.AddDays(Convert.ToDouble(configuration["JwtExpireDays"]));
-
-            var token = new JwtSecurityToken(
-                configuration["JwtIssuer"],
-                configuration["JwtIssuer"],
-                claims,
-                expires: expires,
-                signingCredentials: creds);
-
-            return new JwtSecurityTokenHandler().WriteToken(token);
-        }*/
     }
 }

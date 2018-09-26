@@ -26,7 +26,7 @@ namespace Godsend.Controllers
             await Clients.Caller.SendAsync("Send", $"{name}: {message}");
         }
 
-        [Authorize]
+        [Authorize(Roles = "Administrator,Moderator")]
         public async Task Send(string message)
         {
             var user = Context.User;
@@ -42,6 +42,7 @@ namespace Godsend.Controllers
             try
             {
                 string name = Context.User.Identity.Name;
+                //if (Clients.Group(name))
                 Groups.AddToGroupAsync(Context.ConnectionId, name).GetAwaiter().GetResult();
             }
             catch { }

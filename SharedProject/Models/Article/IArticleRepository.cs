@@ -12,7 +12,7 @@ namespace Godsend.Models
     /// <summary>
     ///
     /// </summary>
-    public abstract class AArticleRepository : ARepository<Article>
+    public abstract class AArticleRepository : Repository<Article>
     {
     }
 }

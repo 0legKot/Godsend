@@ -24,8 +24,6 @@ namespace Godsend.Models
         /// <summary>
         /// Initializes a new instance of the <see cref="EFOrderRepository"/> class.
         /// </summary>
-        /// <param name="ctx">The CTX.</param>
-        /// <param name="userManager">The user manager.</param>
         public EFOrderRepository(DataContext ctx, UserManager<User> userManager, ISeedHelper seedHelper)
         {
             context = ctx;
@@ -35,12 +33,6 @@ namespace Godsend.Models
 
         // TODO rework
 
-        /// <summary>
-        /// Gets the orders.
-        /// </summary>
-        /// <value>
-        /// The orders.
-        /// </value>
         public IEnumerable<Order> GetOrders(int quantity, int skip = 0) =>
             this.context.Orders.Skip(skip).Take(quantity);
 
@@ -67,11 +59,6 @@ namespace Godsend.Models
             await context.SaveChangesAsync();
         }
 
-        /// <summary>
-        /// Deletes the order.
-        /// </summary>
-        /// <param name="orderId">The order identifier.</param>
-        /// <returns></returns>
         public Order DeleteOrder(Guid orderId)
         {
             Order dbEntry = GetOrder(orderId);
@@ -106,11 +93,6 @@ namespace Godsend.Models
             return dbEntry;
         }
 
-        /// <summary>
-        /// Gets the order.
-        /// </summary>
-        /// <param name="orderID">The order identifier.</param>
-        /// <returns></returns>
         private Order GetOrder(Guid orderID)
         {
             return context.Orders.FirstOrDefault(p => p.Id == orderID);
