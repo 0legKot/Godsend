@@ -3,10 +3,7 @@
     "Detail": {
       "Back": "Back to articles",
       "Tags": "Tags",
-      "Created": "Created",
-      "Edit": "Edit",
-      "Save": "Save",
-      "Discard": "Discard"
+      "Created": "Created"
     },
     "Create": "Create new",
     "CreatedDate": "Created on",
@@ -141,6 +138,14 @@
     "Hint": "Type to search",
     "Products": "Products",
     "Suppliers": "Suppliers"
+  },
+  "Shared": {
+    "EditDelete": {
+      "Edit": "Edit",
+      "Save": "Save",
+      "Discard": "Discard",
+      "Delete": "Delete"
+    }
   },
   "Suppliers": {
     "Address": "Address",

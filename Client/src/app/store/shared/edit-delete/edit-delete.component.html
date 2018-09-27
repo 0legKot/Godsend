@@ -1,0 +1,6 @@
+<div class="edit" *ngIf="value !== undefined">
+    <div class="edit-btns" id="edit" *ngIf="!value && canEdit" (click)="toEditMode()">{{ 'Shared.EditDelete.Edit' | translate }}</div>
+    <div class="edit-btns" id="save" *ngIf="value" (click)="onSave()">{{ 'Shared.EditDelete.Save' | translate }}</div>
+    <div class="edit-btns" id="discard" *ngIf="value" (click)="onDiscard()">{{ 'Shared.EditDelete.Discard' | translate }}</div>
+    <div class="edit-btns" id="delete" *ngIf="canDelete" (click)="onDelete()">{{ 'Shared.EditDelete.Delete' | translate }}</div>
+</div>

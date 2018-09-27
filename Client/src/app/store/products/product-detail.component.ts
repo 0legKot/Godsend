@@ -23,7 +23,7 @@ export class ProductDetailComponent implements OnInit {
     selectedSupplier?: SupplierAndPrice;
 
     quantity = 1;
-    edit = false;
+    readonly edit = false;
     searchTypeSupplier = searchType.supplier;
     foundSuppliers?: SupplierInfo[];
     supplierToAdd?: SupplierInfo;
@@ -104,7 +104,6 @@ export class ProductDetailComponent implements OnInit {
                 stringProps: this.product.stringProps,
                 images: this.product.images
             };
-            this.edit = true;
         }
     }
 
@@ -112,8 +111,6 @@ export class ProductDetailComponent implements OnInit {
         if (this.product) {
             this.repo.createOrEditEntity('product', Product.EnsureType(this.product), 1, 10);
         }
-
-        this.edit = false;
     }
 
     discard() {
@@ -126,8 +123,6 @@ export class ProductDetailComponent implements OnInit {
             this.product.decimalProps = this.backup.decimalProps;
             this.product.images = this.backup.images;
         }
-
-        this.edit = false;
     }
 
     ngOnInit() {

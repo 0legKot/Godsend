@@ -50,6 +50,7 @@ import { GalleryComponent } from './store/gallery/gallery.component';
 import { RichtextComponent } from './store/richtext/richtext.component';
 import { FacebookLoginComponent } from './store/login/facebook-login.component';
 import { FacebookAuthComponent } from './store/login/facebook-auth.component';
+import { EditDeleteComponent } from './store/shared/edit-delete/edit-delete.component';
 
 export function HttpLoaderFactory(httpClient: HttpClient) {
     return new TranslateHttpLoader(httpClient);
@@ -118,7 +119,8 @@ const APP_ROUTES: Routes = [
         GalleryComponent,
         RichtextComponent,
         FacebookLoginComponent,
-        FacebookAuthComponent
+        FacebookAuthComponent,
+        EditDeleteComponent
     ],
     imports: [
         FontAwesomeModule,

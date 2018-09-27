@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Message } from './facebook-auth.component';
 import { AuthenticationService } from '../../services/authentication.service';
 
@@ -6,7 +6,7 @@ import { AuthenticationService } from '../../services/authentication.service';
     selector: 'godsend-facebook-login',
     templateUrl: './facebook-login.component.html'
 })
-export class FacebookLoginComponent {
+export class FacebookLoginComponent implements OnInit, OnDestroy {
 
     private authWindow?: Window | null;
     failed: boolean = true;
@@ -14,12 +14,31 @@ export class FacebookLoginComponent {
     errorDescription?: string;
     isRequesting: boolean = false;
 
+    /**
+     * Add/remove event listener methods seamingly need the same object to work
+     * Passing handleMessage crashes because 'this' means something else when it is called
+     * Calling handleMessage.bind(this) gives another reference and is not removed
+     * */
+    readonly magic = (x: any) => this.handleMessage(x);
+
     constructor(private authService: AuthenticationService) {
+        
+    }
+
+    ngOnInit() {
         if (window.addEventListener) {
-            window.addEventListener("message", this.handleMessage.bind(this), false);
+            window.addEventListener('message', this.magic);
         } else {
-            (<any>window).attachEvent("onmessage", this.handleMessage.bind(this));
+            (<any>window).attachEvent('onmessage', this.magic);
         } 
+    }
+
+    ngOnDestroy() {
+        if (window.removeEventListener) {
+            window.removeEventListener('message', this.magic)
+        } else {
+            (<any>window).detachEvent('onmessage', this.magic);
+        }
     }
 
     launchFbLogin() {
@@ -30,7 +49,6 @@ export class FacebookLoginComponent {
     handleMessage(event: Event) {
         const message = event as MessageEvent;
         // Only trust messages from the below origin.
-        console.dir(message);
         if (message.origin !== "https://localhost:4200") return;
 
         if (this.authWindow) {
@@ -54,8 +72,6 @@ export class FacebookLoginComponent {
                     console.log('error: no access token');
                 }
             }
-        } else {
-            console.log('is not message')
         }
     }
 
