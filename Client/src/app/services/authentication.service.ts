@@ -15,10 +15,14 @@ export class AuthenticationService {
         private data: DataService,
         private storage: StorageService,
         private notificationService: NotificationService
-    ) { }
+    ) {
+        if (this.storage.JWTToken != null) {
+            this.refreshRoles();
+        }
+    }
 
     callbackUrl = '';
-    roles: string[] = [];
+    roles: Role[] = [];
 
     setCreds(jwt: string | null, username: string | null, id: string | null) {
         this.storage.JWTToken = jwt;
@@ -31,7 +35,7 @@ export class AuthenticationService {
                 this.setCreds(response.token, name, response.id);
                 this.notificationService.reconnect();
                 this.router.navigateByUrl(this.callbackUrl);
-                this.data.sendRequest<string[]>('get', 'api/account/getroles').subscribe(response2 => response2.forEach(x => this.roles.push(x)));
+                this.refreshRoles();
         }, error => {
             console.log('login fail');
         });
@@ -50,12 +54,17 @@ export class AuthenticationService {
             this.setCreds(response.token, name, response.id);
 
             this.notificationService.reconnect();
-            this.login(user.name, pass);
+            this.login(user.name, pass); // todo remove
             this.router.navigateByUrl(this.callbackUrl);
         }, error => {
 
             console.log('register fail');
         });
+    }
+
+    refreshRoles() {
+        this.data.sendRequest<Role[]>('get', 'api/account/getroles')
+            .subscribe(roles => roles.forEach(x => this.roles.push(x)));
     }
 
     logout() {
@@ -78,3 +87,5 @@ export class AuthenticationService {
             });
     }
 }
+
+export type Role = 'Administrator' | 'Moderator' | 'Supplier';

@@ -65,18 +65,6 @@ namespace Godsend.Controllers
             //var appUser = userManager.FindByNameAsync(currentName.Value).GetAwaiter().GetResult();
         }
 
-        /// <summary>
-        /// Check if the current user is admin
-        /// </summary>
-        /// <returns>true, if the user is in Administrator role</returns>
-        // DEPRECATED
-        //[HttpGet("[action]")]
-        //[Authorize]
-        //public async Task<bool> IsAdmin()
-        //{
-        //    return await userManager.IsInRoleAsync(GetCurrentUser(), "Administrator");
-        //}
-
         private User GetCurrentUser()
         {
             var currentName = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name);
@@ -89,6 +77,7 @@ namespace Godsend.Controllers
         /// </summary>
         /// <returns>List of string roles</returns>
         [HttpGet("[action]")]
+        [Authorize]
         public async Task<IEnumerable<string>> GetRoles()
         {
             var fortst = await userManager.GetRolesAsync(GetCurrentUser());
