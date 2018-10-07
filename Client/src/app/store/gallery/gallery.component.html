@@ -51,19 +51,30 @@
     </ng-template>
     <ng-container *ngIf="fullView">
         <div class="full-view">
-            <div class="full-left" (click)="decrementIndex()"><fa-icon icon="arrow-left" size="3x"></fa-icon></div>
             <div class="full-image" [ngStyle]="{'background-image': 'url(' + getPath(curIndex) + ')'}"></div>
-            <div class="full-right" (click)="incrementIndex()"><fa-icon icon="arrow-right" size="3x"></fa-icon></div>
-            <div class="full-close" (click)="exitFullView()"><fa-icon icon="times" size="3x"></fa-icon></div>
+            <div class="flexy">
+                <div class="full-left" (click)="decrementIndex()"><fa-icon icon="arrow-left" ></fa-icon></div>
+                <div class="full-close" (click)="exitFullView()"><fa-icon icon="times" ></fa-icon></div>
+                <div class="full-right" (click)="incrementIndex()"><fa-icon icon="arrow-right" ></fa-icon></div>                    
+            </div>
         </div>
     </ng-container>
 </ng-container>
 
 <style>
+    .full-left, .full-right, .full-close {
+        font-size: 37px;
+        cursor: pointer;
+        color: #fff;
+        z-index: 100000;
+    }
+    .flexy{
+        display: flex;
+        justify-content: space-around;
+    }
     .gallery-outer {
         display: block;
     }
-
          .image-container {
             max-width: 100%;
             max-height: 400px;
@@ -101,8 +112,9 @@
             position: absolute;
             top: 0;
             right: 0;
-            width: 22px;
-            height: 22px;
+            width: 25px;
+            height: 25px;
+            font-size: 12px;
             text-align: center;
             border-radius: 100%;
             background-color: #F44336;
@@ -225,10 +237,10 @@
         height: calc(100% - 50px);
         left: 0;
         top: 0;
-        z-index: 100;
+        z-index: 10000;
         display: table;
         margin-top: 50px;
-        background: rgba(0, 0, 0, 0.5);
+        background: rgba(0, 0, 0, 0.7);
     }
 
     @media (min-width: 568px) {
@@ -237,25 +249,6 @@
             height: calc(100% - 60px);
         }
     }
-
-     .full-view .full-left span,
-     .full-view .full-right span,
-     .full-view .full-close span {
-        padding: 5px;
-        position: absolute;
-        cursor: pointer;
-        color: white;
-        background-color: rgba(0, 0, 0, 0.1);
-        transition: all 0.2s;
-        z-index: 4;
-    }
-
-
-         .full-view .full-left span:hover,
-         .full-view .full-right span:hover,
-         .full-view .full-close span:hover {
-            background-color: rgba(0, 0, 0, 0.3);
-        }
 
 
      .full-view .full-left span {

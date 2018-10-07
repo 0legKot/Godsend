@@ -9,6 +9,20 @@
         margin-bottom: 0;
         list-style-type: none;
     }
+    .category{
+        border: none;
+        background: transparent;
+        font-weight: 500;
+        font-size: 20px;
+        color: rgb(27, 27, 27);
+        cursor: pointer;
+    }
+    .category:hover{
+        color: rgb(34, 139, 34);
+        transition: 500ms;
+        border-right: 1px solid #343a40;
+        border-radius: 0px 20px;
+    }
 </style>
 
 <mat-tree [dataSource]="nestedDataSource" [treeControl]="nestedTreeControl" class="example-tree">
@@ -17,8 +31,7 @@
             <button class="btn-primary-outline" disabled>
                 <fa-icon icon="bullseye"></fa-icon>
             </button>
-            <span>{{ node.cat.name }}</span>
-            <button (click)="selectCategory(node.cat)">Select</button>
+            <button  class="category" (click)="selectCategory(node.cat)">{{ node.cat.name }}</button>
         </li>
     </mat-tree-node>
 
@@ -29,8 +42,7 @@
                         [attr.aria-label]="'toggle ' + node.cat.name">
                     <fa-icon [icon]="nestedTreeControl.isExpanded(node) ? 'chevron-down' : 'chevron-right'"></fa-icon>
                 </button>
-                {{ node.cat.name }}
-                <button (click)="selectCategory(node.cat)">Select</button>
+                <button  class="category" (click)="selectCategory(node.cat)">{{ node.cat.name }}</button>
             </div>
             <ul [class.example-tree-invisible]="!nestedTreeControl.isExpanded(node)">
                 <ng-container matTreeNodeOutlet></ng-container>

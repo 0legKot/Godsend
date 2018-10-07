@@ -21,9 +21,9 @@
 }
 
 #delete {
-    width: 80px;
     background: #ff4a4a;
     box-shadow: 0 -3px #c73d3d inset;
+    padding: 5px;
 }
 
     #delete:hover {
@@ -31,15 +31,19 @@
     }
 
 #edit, #save, #discard {
-    width: 70px;
     background: rgb(64,199,129);
     box-shadow: 0 -3px rgb(53,167,110) inset;
+    padding: 5px;
 }
 
 #discard {
-    width: 100px;
+    padding: 5px;  
+    background: rgb(208, 131, 37);
+    box-shadow: 0 -3px rgb(149, 111, 9) inset;
 }
-
-    #edit:hover, #save:hover, #discard:hover {
+#discard:hover {
+    background: rgb(149, 111, 9);
+}
+    #edit:hover, #save:hover  {
         background: rgb(53, 167, 110);
     }

@@ -4,6 +4,7 @@ import { LinkCommentEntity } from '../../models/comment.model';
 @Component({
     selector: 'godsend-comment[comment]',
     templateUrl: './comment.component.html',
+    styleUrls: ['./comment-wrapper.component.css']
 })
 export class CommentComponent implements OnInit {
     @Input()

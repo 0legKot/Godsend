@@ -30,7 +30,7 @@
         <nav class="main-nav-2 pull-right">
             <ul class="list-unstyled">
                 <li *ngIf="availableLangs?.length > 0 && selectedLang" class="main-nav-item-2">
-                    <select [ngModel]="selectedLang" (ngModelChange)="changeLang($event)">
+                    <select [ngModel]="selectedLang" class="select_lang" (ngModelChange)="changeLang($event)">
                         <option *ngFor="let lang of availableLangs" [ngValue]="lang">{{ lang }}</option>
                     </select>
                 </li>
