@@ -23,7 +23,7 @@ export class ProductDetailComponent implements OnInit {
     selectedSupplier?: SupplierAndPrice;
 
     quantity = 1;
-    readonly edit = false;
+    edit = false;
     searchTypeSupplier = searchType.supplier;
     foundSuppliers?: SupplierInfo[];
     supplierToAdd?: SupplierInfo;
