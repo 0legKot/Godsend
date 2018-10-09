@@ -65,7 +65,12 @@ a:hover, .hamburger:hover {
     margin: 0px 0px 10px 0px;
 }
 
-.main-nav-item, .main-nav-item-2 {
+.main-nav-item {
+    display: inline-block;
+    padding-right: 5px;
+    margin: 10px 0px 0px 0px;
+}
+.main-nav-item-2 {
     display: inline-block;
     padding-right: 5px;
 }
@@ -122,7 +127,7 @@ a:hover, .hamburger:hover {
     border-radius: 15px 15px 15px 15px;
     box-shadow: 1px 1px 8px #330033;
     background: transparent;
-    margin: 0px 0px -10px 0px;
+    margin: 0px 0px -12px 0px;
 }
     #langselection select:hover {
         cursor: pointer
