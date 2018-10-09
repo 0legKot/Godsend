@@ -40,7 +40,7 @@ namespace Godsend
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
-                .ConfigureAppConfiguration((hostingContext,builder) =>
+                .ConfigureAppConfiguration((hostingContext, builder) =>
                 {
                     builder.AddJsonFile(Directory.GetCurrentDirectory() + "\\appsettings.json");
                 })

@@ -29,17 +29,17 @@ namespace Godsend.Controllers
         [HttpGet("[action]")]
         public IActionResult SayHello() => Ok("I said Hello");
 
-        public ProductController(AProductRepository repo, IHubContext<NotificationHub> hubContext, ILogger<Product> logger, ILogger<EntityController<Product>> logger2)
+        public ProductController(ProductRepository repo, IHubContext<NotificationHub> hubContext, ILogger<Product> logger, ILogger<EntityController<Product>> logger2)
             : base(hubContext, logger2)
         {
             repository = repo;
-            Categories = (repository as AProductRepository).Categories().ToList();
+            Categories = (repository as ProductRepository).Categories().ToList();
         }
 
         [HttpGet("[action]/{id:Guid}")]
         public new IActionResult Detail(Guid id)
         {
-            var prod = (repository as AProductRepository)?.GetEntity(id);
+            var prod = (repository as ProductRepository)?.GetEntity(id);
             if (prod != null)
             {
                 repository.Watch(prod);
@@ -124,7 +124,7 @@ namespace Godsend.Controllers
         [HttpPost("[action]")]
         public ProductInfosAndCount ByFilter([FromBody]ProductFilterInfo filter)
         {
-            var result = (repository as AProductRepository).GetProductInformationsByProductFilter(filter);
+            var result = (repository as ProductRepository).GetProductInformationsByProductFilter(filter);
 
             return result;
         }
@@ -132,7 +132,7 @@ namespace Godsend.Controllers
         [HttpGet("[action]/{categoryId:Guid}")]
         public IEnumerable<object> GetPropertiesByCategory(Guid categoryId)
         {
-            var tmp = (repository as AProductRepository).Properties(categoryId);
+            var tmp = (repository as ProductRepository).Properties(categoryId);
             return tmp;
         }
 

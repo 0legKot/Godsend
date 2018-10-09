@@ -96,11 +96,11 @@ namespace Godsend.Models
 
         public DbSet<LinkRatingEntity<Article>> LinkRatingArticle { get; set; }
 
-        public DbSet<LinkCommentProduct> LinkCommentProduct { get; set; }
+        public DbSet<LinkCommentEntity<Product>> LinkCommentProduct { get; set; }
 
-        public DbSet<LinkCommentSupplier> LinkCommentSupplier { get; set; }
+        public DbSet<LinkCommentEntity<Supplier>> LinkCommentSupplier { get; set; }
 
-        public DbSet<LinkCommentArticle> LinkCommentArticle { get; set; }
+        public DbSet<LinkCommentEntity<Article>> LinkCommentArticle { get; set; }
 
         public DbSet<Tag> Tags { get; set; }
 
@@ -142,12 +142,12 @@ namespace Godsend.Models
 
             builder.Ignore<Information>();
 
-            builder.Entity<LinkCommentEntity>()
-                .HasMany(lce => lce.ChildComments)
-                .WithOne(lce => lce.BaseComment)
-                .HasForeignKey(lce => lce.BaseCommentId)
-                .IsRequired(false)
-                .OnDelete(DeleteBehavior.Restrict); // will crash when trying to delete a comment w/o deleting its children
+            //builder.Entity<LinkCommentEntity>()
+            //    .HasMany(lce => lce.ChildComments)
+            //    .WithOne(lce => lce.BaseComment)
+            //    .HasForeignKey(lce => lce.BaseCommentId)
+            //    .IsRequired(false)
+            //    .OnDelete(DeleteBehavior.Restrict); // will crash when trying to delete a comment w/o deleting its children
 
             base.OnModelCreating(builder);
         }

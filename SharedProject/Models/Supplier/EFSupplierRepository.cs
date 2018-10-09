@@ -14,24 +14,16 @@ namespace Godsend.Models
     /// <summary>
     ///
     /// </summary>
-    public class EFSupplierRepository : ASupplierRepository
+    public class EFSupplierRepository : SupplierRepository
     {
-        /// <summary>
-        /// The context
-        /// </summary>
-        private DataContext context;
-
-        private ICommentHelper commentHelper;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="EFSupplierRepository"/> class.
         /// </summary>
         /// <param name="ctx">The CTX.</param>
-        public EFSupplierRepository(DataContext ctx, ISeedHelper seedHelper, ICommentHelper commentHelper)
+        public EFSupplierRepository(DataContext ctx, ISeedHelper seedHelper, ICommentHelper<Supplier> commentHelper)
+            : base(ctx, seedHelper, commentHelper)
         {
-            context = ctx;
-            this.commentHelper = commentHelper;
-            seedHelper.EnsurePopulated(ctx);
         }
 
         protected override IQueryable<Supplier> EntitiesSource => context.Suppliers;
@@ -78,66 +70,6 @@ namespace Godsend.Models
             {
                 context.Add(entity);
             }
-
-            await context.SaveChangesAsync();
-        }
-
-        protected override void AddAndSaveRating(LinkRatingEntity<Supplier> newRating)
-        {
-            context.Add(newRating);
-
-            context.SaveChanges();
-        }
-
-        protected override void SaveChangedRating(LinkRatingEntity<Supplier> rating)
-        {
-            context.SaveChanges();
-        }
-
-        public override async Task<Guid> AddCommentAsync(Guid supplierId, string userId, Guid? baseCommentId, string comment)
-        {
-            var newCommentId = await commentHelper.AddCommentGenericAsync<LinkCommentSupplier>(context, supplierId, userId, baseCommentId, comment);
-
-            await RecalcCommentsAsync(supplierId); // or just increment?
-
-            return newCommentId;
-        }
-
-        public override IEnumerable<LinkCommentEntity> GetAllComments(Guid supplierId)
-        {
-            var fortst = context.LinkCommentSupplier.Where(lra => lra.Supplier.Id == supplierId)
-                .Select(x => new LinkCommentSupplier() { BaseComment = x.BaseComment, Comment = x.Comment, Id = x.Id, User = x.User });
-            return fortst;
-        }
-
-        public override async Task DeleteCommentAsync(Guid supplierId, Guid commentId, string userId)
-        {
-            await commentHelper.DeleteCommentGenericAsync(context.LinkCommentSupplier, context, supplierId, commentId);
-
-            await RecalcCommentsAsync(supplierId);
-        }
-
-        public override async Task EditCommentAsync(Guid commentId, string newContent, string userId)
-        {
-            var comment = await context.LinkCommentSupplier.FirstOrDefaultAsync(lce => lce.Id == commentId);
-
-            if (comment.UserId != userId)
-            {
-                throw new InvalidOperationException("Incorrect user tried to edit comment");
-            }
-
-            comment.Comment = newContent;
-
-            await context.SaveChangesAsync();
-        }
-
-        public async Task RecalcCommentsAsync(Guid supplierId)
-        {
-            var commentCount = await context.LinkCommentSupplier.CountAsync(lce => lce.SupplierId == supplierId);
-
-            var supplier = await context.Suppliers.FirstOrDefaultAsync(a => a.Id == supplierId);
-
-            supplier.Info.CommentsCount = commentCount;
 
             await context.SaveChangesAsync();
         }

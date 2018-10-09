@@ -23,7 +23,7 @@ namespace Godsend.Controllers
     /// <typeparam name="TEntity">The type of the entity.</typeparam>
     /// <seealso cref="Microsoft.AspNetCore.Mvc.Controller" />
     public abstract class EntityController<TEntity> : Controller
-        where TEntity : IEntity
+        where TEntity : class,IEntity
     {
         /// <summary>
         /// The repository for instances
@@ -151,7 +151,7 @@ namespace Godsend.Controllers
             return repository.GetUserRating(entityId, userId);
         }
 
-        IEnumerable<LinkCommentEntity> CommentsArr;
+
 
         [Authorize]
         [HttpPost("[action]/{entityId:Guid}/{baseCommentId:Guid}")]
@@ -238,7 +238,7 @@ namespace Godsend.Controllers
 
             try
             {
-                await repository.EditCommentAsync(commentId, comment.Comment, userId);
+                await repository.EditForeignCommentAsync(commentId, comment.Comment, userId);
 
                 await hubContext.Clients.User(userId).SendAsync("Success", "Comment has been edited");
 
@@ -261,7 +261,7 @@ namespace Godsend.Controllers
 
             try
             {
-                await repository.EditCommentAsync(commentId, comment.Comment, userId);
+                await repository.EditForeignCommentAsync(commentId, comment.Comment, userId);
 
                 await hubContext.Clients.User(userId).SendAsync("Success", "Comment has been edited");
 
@@ -276,54 +276,49 @@ namespace Godsend.Controllers
             }
         }
 
-        [HttpGet("[action]/{entityId:Guid}")]
-        public virtual IEnumerable<CommentWithSubs> Comments(Guid entityId)
-        {
-            CommentsArr = repository.GetAllComments(entityId);
+        private IEnumerable<LinkCommentEntity<TEntity>> commentsArr;
 
-            if (!CommentsArr.Any())
+        [HttpGet("[action]/{entityId:Guid}")]
+        public virtual IEnumerable<CommentWithSubs<TEntity>> Comments(Guid entityId)
+        {
+            commentsArr = repository.GetAllComments(entityId);
+
+            if (!commentsArr.Any())
             {
                 return null;
             }
 
-            var baseComments = CommentsArr.Where(lce => lce.BaseComment == null)
-                .Select(lce => new CommentWithSubs()
+            var baseComments = commentsArr.Where(lce => lce.BaseComment == null)
+                .Select(lce => new CommentWithSubs<TEntity>()
                 {
                     Comment = lce,
-                    Subs = new List<CommentWithSubs>()
+                    Subs = new List<CommentWithSubs<TEntity>>()
                 }).ToArray();
 
             foreach (var comment in baseComments)
             {
                 GetRecursiveComs(comment);
             }
+
             return baseComments;
-            /*CommentWithSubs tmplst = new CommentWithSubs()
-            {
-                Comment = CommentsArr.FirstOrDefault(x => x.BaseComment == null),
-                Subs = new List<CommentWithSubs>()
-            };*/
-            //GetRecursiveComs(ref tmplst);
 
         }
 
-        public IEnumerable<LinkCommentEntity> GetSubComments(Guid id)
+        public IEnumerable<LinkCommentEntity<TEntity>> GetSubComments(Guid id)
         {
-            return CommentsArr.Where(x => x.BaseComment?.Id == id);
+            return commentsArr.Where(x => x.BaseComment?.Id == id);
         }
 
-        private void GetRecursiveComs(CommentWithSubs cur)
+        private void GetRecursiveComs(CommentWithSubs<TEntity> cur)
         {
-            var subs = new List<CommentWithSubs>();
+            var subs = new List<CommentWithSubs<TEntity>>();
             var curSubComs = GetSubComments(cur.Comment.Id);
             if (curSubComs.Any())
             {
                 foreach (var com in curSubComs)
                 {
-                    var tmp = new CommentWithSubs() { Comment = com };
+                    var tmp = new CommentWithSubs<TEntity>() { Comment = com };
                     GetRecursiveComs(tmp);
-                    //var tmpClone = new CommentWithSubs() { Comment = tmp.Comment, Subs = tmp.Subs };
-                    //tmpClone.Comment.BaseComment = null;
                     subs.Add(tmp);
                 }
             }

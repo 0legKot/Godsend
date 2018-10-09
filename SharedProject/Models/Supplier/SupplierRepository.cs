@@ -9,11 +9,12 @@ namespace Godsend.Models
     using System.Linq;
     using System.Threading.Tasks;
 
-    /// <summary>
-    ///
-    /// </summary>
-    public abstract class ASupplierRepository : Repository<Supplier>
+    public abstract class SupplierRepository : Repository<Supplier>
     {
+        public SupplierRepository(DataContext ctx, ISeedHelper seedHelper, ICommentHelper<Supplier> commentHelper) : base(ctx, seedHelper, commentHelper)
+        {
+        }
+
         public abstract IEnumerable<ProductInformation> GetProducts(Guid supplierId);
     }
 }
