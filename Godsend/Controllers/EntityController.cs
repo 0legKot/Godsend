@@ -325,18 +325,18 @@ namespace Godsend.Controllers
 
             try
             {
-                CommentsArr = repository.GetAllComments(entityId);
+                commentsArr = repository.GetAllComments(entityId);
 
-                if (!CommentsArr.Any())
+                if (!commentsArr.Any())
                 {
                     return null;
                 }
 
-                var baseComments = CommentsArr.Where(lce => lce.BaseComment == null)
-                    .Select(lce => new CommentWithSubs()
+                var baseComments = commentsArr.Where(lce => lce.BaseComment == null)
+                    .Select(lce => new CommentWithSubs<TEntity>()
                     {
                         Comment = lce,
-                        Subs = new List<CommentWithSubs>()
+                        Subs = new List<CommentWithSubs<TEntity>>()
                     }).ToArray();
 
                 foreach (var comment in baseComments)
