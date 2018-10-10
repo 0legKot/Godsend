@@ -147,7 +147,7 @@ const APP_ROUTES: Routes = [
     ],
     providers: [
         SearchService,
-        { provide: 'BASE_URL', useValue: 'https://godsend.conveyor.cloud/' }
+        { provide: 'BASE_URL', useValue: /*'https://godsend.conveyor.cloud/'*/'http://localhost:56440/' }
     ],
     bootstrap: [AppComponent]
 })

@@ -47,13 +47,14 @@ namespace Godsend.Controllers
         [HttpGet("[action]/{page:int}/{rpp:int}")]
         public virtual IEnumerable<Information> All(int page, int rpp)
         {
-            _logger.LogInformation($"Executed EntityController<{typeof(TEntity)}>");
+            _logger.LogInformation($"Executing All method, page={page}, rpp={rpp}");
             return repository.EntitiesInfo(rpp, (page - 1) * rpp);
         }
 
         [HttpGet("[action]")]
         public virtual int Count()
         {
+            _logger.LogInformation($"Executing Count method");
             return repository.EntitiesCount();
         }
 
@@ -66,17 +67,25 @@ namespace Godsend.Controllers
         [Authorize(Roles = "Administrator,Moderator")]
         public virtual async Task<IActionResult> Delete(Guid id)
         {
-            var userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value;
+            _logger.LogInformation($"Executing Delete method with id={id}");
 
+            string userId = "";
             try
             {
+                userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value;
                 await repository.DeleteEntity(id);
                 await hubContext.Clients.User(userId).SendAsync("Success", "Deleted successfully");
+                _logger.LogInformation($"Entity deleted, userId={userId}");
                 return Ok();
             }
             catch (Exception e)
             {
-                await hubContext.Clients.User(userId).SendAsync("Error", "Could not delete entity");
+                if (userId != "")
+                {
+                    await hubContext.Clients.User(userId).SendAsync("Error", "Could not delete entity");
+                }
+
+                _logger.LogError(e, $"Deleting entity failed, userId={userId}");
                 return BadRequest();
             }
         }
@@ -91,25 +100,32 @@ namespace Godsend.Controllers
         [Authorize(Roles = "Administrator,Moderator")]
         public virtual async Task<IActionResult> CreateOrUpdate([FromBody]TEntity entity)
         {
-            var userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value;
+            _logger.LogInformation($"Executing CreateOrUpdate method", entity);
+            var userId = "";
             var creating = entity.Id == Guid.Empty;
 
             try
             {
+                userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value;
                 await repository.SaveEntity(entity);
 
                 await (creating
                     ? hubContext.Clients.User(userId).SendAsync("Success", "Created successfully")
                     : hubContext.Clients.User(userId).SendAsync("Success", "Saved successfully"));
 
+                _logger.LogInformation($"Entity {(creating ? "created" : "updated")}, userId={userId}");
                 return Ok(entity.Id);
             }
             catch (Exception ex)
             {
-                await (creating
-                    ? hubContext.Clients.User(userId).SendAsync("Error", "Could not create")
-                    : hubContext.Clients.User(userId).SendAsync("Error", "Could not save"));
+                if (userId != "")
+                {
+                    await (creating
+                        ? hubContext.Clients.User(userId).SendAsync("Error", "Could not create")
+                        : hubContext.Clients.User(userId).SendAsync("Error", "Could not save"));
+                }
 
+                _logger.LogError(ex, $"Could not {(creating ? "create" : "update")} entity, userId={userId}");
                 return BadRequest();
             }
         }
@@ -118,20 +134,23 @@ namespace Godsend.Controllers
         [HttpPost("[action]/{entityId:Guid}/{rating:int}")]
         public virtual async Task<IActionResult> SetRating(Guid entityId, int rating)
         {
-            var userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value;
+            _logger.LogInformation($"Executing SetRating method, entityId={entityId}, rating={rating}");
+
+            var userId = ""; 
 
             try
             {
+                userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value;
                 var avg = await repository.SetRatingAsync(entityId, userId, rating);
 
                 await hubContext.Clients.User(userId).SendAsync("Success", "Rating has been saved");
-
+                _logger.LogInformation($"Rating saved, userId={userId}");
                 return Ok(avg);
             }
             catch (Exception ex)
             {
                 await hubContext.Clients.User(userId).SendAsync("Error", "Could not save rating");
-
+                _logger.LogError(ex, $"Saving rating failed, userId={userId}");
                 return BadRequest();
             }
         }
@@ -139,6 +158,7 @@ namespace Godsend.Controllers
         [HttpGet("[action]/{entityId:Guid}")]
         public virtual IEnumerable<LinkRatingEntity<TEntity>.WithoutEntity> Ratings(Guid entityId)
         {
+            _logger.LogInformation($"Executing Ratings method, entityId={entityId}");
             return repository.GetAllRatings(entityId).Select(link => link.GetWithoutEntity());
         }
 
@@ -146,6 +166,7 @@ namespace Godsend.Controllers
         [HttpGet("[action]/{entityId:Guid}")]
         public virtual int? Rating(Guid entityId)
         {
+            _logger.LogInformation($"Executing Rating method, entityId={entityId}");
             var userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value;
 
             return repository.GetUserRating(entityId, userId);
@@ -157,20 +178,26 @@ namespace Godsend.Controllers
         [HttpPost("[action]/{entityId:Guid}/{baseCommentId:Guid}")]
         public virtual async Task<IActionResult> AddComment(Guid entityId, Guid? baseCommentId, [FromBody]TmpComment comment)
         {
-            var userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value;
+            _logger.LogInformation($"Executing AddComment method, entityId={entityId}, baseCommentId={baseCommentId}", comment);
+            var userId = "";
 
             try
             {
+                userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value;
                 var newCommentId = await repository.AddCommentAsync(entityId, userId, baseCommentId, comment.Comment);
 
                 await hubContext.Clients.User(userId).SendAsync("Success", "Comment has been added");
-
+                _logger.LogInformation($"Comment added, userId={userId}");
                 return Ok(newCommentId);
             }
             catch (Exception ex)
             {
-                await hubContext.Clients.User(userId).SendAsync("Error", "Could not add a comment");
+                if (userId != "")
+                {
+                    await hubContext.Clients.User(userId).SendAsync("Error", "Could not add a comment");
+                }
 
+                _logger.LogError(ex, $"Adding comment failed, userId={userId}");
                 return BadRequest();
             }
         }
@@ -187,21 +214,28 @@ namespace Godsend.Controllers
         [HttpDelete("[action]/{entityId:Guid}/{commentId:Guid}")]
         public virtual async Task<IActionResult> DeleteOwnComment(Guid entityId, Guid commentId)
         {
+            _logger.LogInformation($"Executing DeleteOwnComment method, entityId={entityId}, commentId={commentId}");
+
             throw new NotImplementedException();
-            var userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value;
+            var userId = "";
 
             try
             {
+                userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value;
                 await repository.DeleteCommentAsync(entityId, commentId, userId);
 
                 await hubContext.Clients.User(userId).SendAsync("Success", "Comment has been deleted");
-
+                _logger.LogInformation($"Own comment deleted, userId={userId}");
                 return Ok();
             }
             catch (Exception ex)
             {
-                await hubContext.Clients.User(userId).SendAsync("Error", "Could not delete a comment");
+                if (userId != "")
+                {
+                    await hubContext.Clients.User(userId).SendAsync("Error", "Could not delete a comment");
+                }
 
+                _logger.LogError(ex, $"Deleting own comment failed, userId={userId}");
                 return BadRequest();
             }
         }
@@ -210,20 +244,26 @@ namespace Godsend.Controllers
         [HttpDelete("[action]/{entityId:Guid}/{commentId:Guid}")]
         public virtual async Task<IActionResult> DeleteComment(Guid entityId, Guid commentId)
         {
-            var userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value;
+            _logger.LogInformation($"Executing DeleteComment method, entityId={entityId}, commentId={commentId}");
+            var userId = ""; 
 
             try
             {
+                userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value;
                 await repository.DeleteCommentAsync(entityId, commentId, userId);
 
                 await hubContext.Clients.User(userId).SendAsync("Success", "Comment has been deleted");
-
+                _logger.LogInformation($"Comment deleted, userId={userId}");
                 return Ok();
             }
             catch (Exception ex)
             {
-                await hubContext.Clients.User(userId).SendAsync("Error", "Could not delete a comment");
+                if (userId != "")
+                {
+                    await hubContext.Clients.User(userId).SendAsync("Error", "Could not delete a comment");
+                }
 
+                _logger.LogError(ex, $"Deleting comment failed, userId={userId}");
                 return BadRequest();
             }
         }
@@ -232,6 +272,7 @@ namespace Godsend.Controllers
         [Authorize]
         public virtual async Task<IActionResult> EditOwnComment(Guid commentId, [FromBody]TmpComment comment)
         {
+            _logger.LogInformation($"Executing EditOwnComment method, commentId={commentId}", comment);
             throw new NotImplementedException();
             //TODO: rework
             var userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value;
@@ -241,14 +282,13 @@ namespace Godsend.Controllers
                 await repository.EditCommentAsync(commentId, comment.Comment, userId);
 
                 await hubContext.Clients.User(userId).SendAsync("Success", "Comment has been edited");
-
+                _logger.LogInformation($"Own comment deleted, userId={userId}");
                 return Ok();
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex.Message);
                 await hubContext.Clients.User(userId).SendAsync("Error", "Could not edit a comment");
-
+                _logger.LogError(ex, $"Editing own comment failed, userId={userId}");
                 return BadRequest();
             }
         }
@@ -257,6 +297,7 @@ namespace Godsend.Controllers
         [HttpPatch("[action]/{commentId:Guid}")]
         public virtual async Task<IActionResult> EditComment(Guid commentId, [FromBody]TmpComment comment)
         {
+            _logger.LogInformation($"Executing EditComment method, commentId={commentId}", comment);
             var userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value;
 
             try
@@ -264,40 +305,50 @@ namespace Godsend.Controllers
                 await repository.EditCommentAsync(commentId, comment.Comment, userId);
 
                 await hubContext.Clients.User(userId).SendAsync("Success", "Comment has been edited");
-
+                _logger.LogInformation($"Сomment deleted, userId={userId}");
                 return Ok();
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex.Message);
                 await hubContext.Clients.User(userId).SendAsync("Error", "Could not edit a comment");
-
+                _logger.LogError(ex, $"Editing own comment failed, userId={userId}");
                 return BadRequest();
             }
         }
 
         [HttpGet("[action]/{entityId:Guid}")]
-        public virtual IEnumerable<CommentWithSubs> Comments(Guid entityId)
+        public virtual IActionResult Comments(Guid entityId)
         {
-            CommentsArr = repository.GetAllComments(entityId);
+            _logger.LogInformation($"Executing Comments method, entityId={entityId}");
 
-            if (!CommentsArr.Any())
+            try
             {
-                return null;
-            }
+                CommentsArr = repository.GetAllComments(entityId);
 
-            var baseComments = CommentsArr.Where(lce => lce.BaseComment == null)
-                .Select(lce => new CommentWithSubs()
+                if (!CommentsArr.Any())
                 {
-                    Comment = lce,
-                    Subs = new List<CommentWithSubs>()
-                }).ToArray();
+                    return null;
+                }
 
-            foreach (var comment in baseComments)
-            {
-                GetRecursiveComs(comment);
+                var baseComments = CommentsArr.Where(lce => lce.BaseComment == null)
+                    .Select(lce => new CommentWithSubs()
+                    {
+                        Comment = lce,
+                        Subs = new List<CommentWithSubs>()
+                    }).ToArray();
+
+                foreach (var comment in baseComments)
+                {
+                    GetRecursiveComs(comment);
+                }
+                _logger.LogInformation($"Сomments successful");
+                return Ok(baseComments);
             }
-            return baseComments;
+            catch(Exception ex)
+            {
+                _logger.LogError(ex, $"Comments failed");
+                return BadRequest();
+            }
             /*CommentWithSubs tmplst = new CommentWithSubs()
             {
                 Comment = CommentsArr.FirstOrDefault(x => x.BaseComment == null),
