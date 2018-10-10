@@ -29,12 +29,13 @@
         <!-- Top right -->
         <nav class="main-nav-2 pull-right">
             <ul class="list-unstyled">
-                <li *ngIf="availableLangs?.length > 0 && selectedLang" class="main-nav-item-2">
-                    <select [ngModel]="selectedLang" class="select_lang" (ngModelChange)="changeLang($event)">
-                        <option *ngFor="let lang of availableLangs" [ngValue]="lang">{{ lang }}</option>
-                    </select>
+                <li class="main-nav-item-2">
+                    <div id="langselection">
+                        <select *ngIf="availableLangs?.length > 0 && selectedLang" [ngModel]="selectedLang" (ngModelChange)="changeLang($event)">
+                            <option *ngFor="let lang of availableLangs" [ngValue]="lang">{{ lang }}</option>
+                        </select>
+                    </div>
                 </li>
-
                 <li *ngIf="isLogged; else elseBlock" class="main-nav-item-2">
                     <fa-icon icon="user" [routerLink]="['/user/'+currentUserId]"></fa-icon> <a [routerLink]="['/user/'+currentUserId]"> {{ name }} </a>
                     <a (click)="logout()">{{ 'LOG OUT' | translate }}</a>

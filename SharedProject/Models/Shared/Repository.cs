@@ -16,8 +16,18 @@ namespace Godsend.Models
     /// </summary>
     /// <typeparam name="IEntity">The type of the entity.</typeparam>
     public abstract class Repository<T>
-        where T : IEntity
+        where T : class,IEntity
     {
+        protected DataContext context;
+        protected ICommentHelper<T> commentHelper;
+
+        public Repository(DataContext ctx, ISeedHelper seedHelper, ICommentHelper<T> commentHelper)
+        {
+            context = ctx;
+            this.commentHelper = commentHelper;
+            seedHelper.EnsurePopulated(ctx);
+        }
+
         protected abstract IQueryable<T> EntitiesSource { get; }
 
         protected abstract IQueryable<LinkRatingEntity<T>> RatingsSource { get; }
@@ -72,15 +82,17 @@ namespace Godsend.Models
             else
             {
                 existingRating.Rating = rating;
-                SaveChangedRating(existingRating);
+                await context.SaveChangesAsync();
             }
 
             return await RecalcRatingsAsync(entityId);
         }
 
-        protected abstract void AddAndSaveRating(LinkRatingEntity<T> newRating);
-
-        protected abstract void SaveChangedRating(LinkRatingEntity<T> rating);
+        protected void AddAndSaveRating(LinkRatingEntity<T> newRating)
+        {
+            context.Add(newRating);
+            context.SaveChanges();
+        }
 
         public virtual IEnumerable<LinkRatingEntity<T>> GetAllRatings(Guid entityId)
         {
@@ -112,12 +124,53 @@ namespace Godsend.Models
             return avg;
         }
 
-        public abstract Task<Guid> AddCommentAsync(Guid entityId, string userId, Guid? baseCommentId, string comment);
+        public async Task<Guid> AddCommentAsync(Guid entityId, string userId, Guid? baseCommentId, string comment)
+        {
+            var newCommentId = await commentHelper.AddCommentGenericAsync<LinkCommentEntity<T>>(context, entityId, userId, baseCommentId, comment);
 
-        public abstract IEnumerable<LinkCommentEntity> GetAllComments(Guid entityId);
+            await RecalcCommentsAsync(entityId);
 
-        public abstract Task DeleteCommentAsync(Guid entityId, Guid commentId, string userId);
+            return newCommentId;
+        }
 
-        public abstract Task EditCommentAsync(Guid commentId, string newContent, string userId);
+        public async Task RecalcCommentsAsync(Guid entityId)
+        {
+            var commentCount = await context.Set<LinkCommentEntity<T>>().CountAsync(lce => lce.EntityId == entityId);
+
+            var entity = await context.Set<T>().FirstOrDefaultAsync(e => e.Id == entityId);
+
+            entity.EntityInfo.CommentsCount = commentCount;
+
+            await context.SaveChangesAsync();
+        }
+
+        public IEnumerable<LinkCommentEntity<T>> GetAllComments(Guid entityId) {
+            var fortst = context.Set<LinkCommentEntity<T>>().Where(lra => lra.EntityId == entityId)
+                .Select(x => new LinkCommentEntity<T>() { BaseComment = x.BaseComment, Comment = x.Comment, Id = x.Id, User = x.User });
+            return fortst;
+        }
+
+        public async Task DeleteCommentAsync(Guid entityId, Guid commentId, string userId)
+        {
+            await commentHelper.DeleteCommentGenericAsync(context.Set<LinkCommentEntity<T>>(), context, entityId, commentId);
+
+            await RecalcCommentsAsync(entityId);
+        }
+
+        public async Task EditForeignCommentAsync(Guid commentId, string newContent, string userId) {
+            var comment = await context.Set<LinkCommentEntity<T>>().FirstOrDefaultAsync(lce => lce.Id == commentId);
+            if (comment.UserId != userId)
+            {
+                throw new InvalidOperationException("Incorrect user tried to edit comment");
+            }
+
+            comment.Comment = newContent;
+
+            await context.SaveChangesAsync();
+        }
+
+        public Task EditOwnCommentAsync(Guid commentId, string newContent, string userId) {
+            throw new NotImplementedException();
+        }
     }
 }

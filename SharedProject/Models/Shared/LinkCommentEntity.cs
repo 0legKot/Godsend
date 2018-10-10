@@ -10,14 +10,16 @@ namespace Godsend.Models
     using System.Text;
     using Newtonsoft.Json;
 
-    public abstract class LinkCommentEntity
+    public class LinkCommentEntity<T> where T:IEntity
     {
         public Guid Id { get; set; }
 
         public string Comment { get; set; }
 
+        public virtual T Entity { get; set; }
+
         [JsonIgnore]
-        public virtual LinkCommentEntity BaseComment { get; set; }
+        public virtual LinkCommentEntity<T> BaseComment { get; set; }
 
         public Guid? BaseCommentId { get; set; }
 
@@ -31,39 +33,13 @@ namespace Godsend.Models
         public string UserId { get; set; }
 
         [JsonIgnore]
-        public virtual IEnumerable<LinkCommentEntity> ChildComments { get; set; }
+        public virtual IEnumerable<LinkCommentEntity<T>> ChildComments { get; set; }
 
         [JsonIgnore]
         [NotMapped]
-        public abstract Guid EntityId { get; set; }
+        public Guid EntityId { get; set; }
     }
 
-    public class LinkCommentProduct : LinkCommentEntity
-    {
-        public virtual Product Product { get; set; }
-
-        public Guid ProductId { get; set; }
-
-        public override Guid EntityId { get => ProductId; set => ProductId = value; }
-    }
-
-    public class LinkCommentSupplier : LinkCommentEntity
-    {
-        public virtual Supplier Supplier { get; set; }
-
-        public Guid SupplierId { get; set; }
-
-        public override Guid EntityId { get => SupplierId; set => SupplierId = value; }
-    }
-
-    public class LinkCommentArticle : LinkCommentEntity
-    {
-        public virtual Article Article { get; set; }
-
-        public Guid ArticleId { get; set; }
-
-        public override Guid EntityId { get => ArticleId; set => ArticleId = value; }
-    }
 
     public class Comment
     {
@@ -74,10 +50,10 @@ namespace Godsend.Models
         public User User { get; set; }
     }
 
-    public class CommentWithSubs
+    public class CommentWithSubs<T> where T:IEntity
     {
-        public LinkCommentEntity Comment { get; set; }
+        public LinkCommentEntity<T> Comment { get; set; }
 
-        public List<CommentWithSubs> Subs { get; set; }
+        public List<CommentWithSubs<T>> Subs { get; set; }
     }
 }

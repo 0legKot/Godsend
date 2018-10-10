@@ -26,8 +26,8 @@ namespace Godsend.Controllers
     public class OrderController : Controller
     {
         private IOrderRepository repository;
-        private AProductRepository prodRepo;
-        private ASupplierRepository supRepo;
+        private ProductRepository prodRepo;
+        private SupplierRepository supRepo;
         private DataContext context;
         private UserManager<User> userManager;
         IHubContext<NotificationHub> hubContext;
@@ -37,8 +37,8 @@ namespace Godsend.Controllers
         /// </summary>
         public OrderController(
             IOrderRepository repo,
-            AProductRepository prodRepo,
-            ASupplierRepository supRepo,
+            ProductRepository prodRepo,
+            SupplierRepository supRepo,
             DataContext context,
             IHubContext<NotificationHub> hubContext,
             UserManager<User> userManager)

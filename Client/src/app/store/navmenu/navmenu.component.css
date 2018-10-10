@@ -62,17 +62,21 @@ a:hover, .hamburger:hover {
     display: block;
     padding-top: 5px;
     font-size: 18px;
+    margin: 0px 0px 10px 0px;
 }
 
-.main-nav-item, .main-nav-item-2 {
+.main-nav-item {
+    display: inline-block;
+    padding-right: 5px;
+    margin: 10px 0px 0px 0px;
+}
+.main-nav-item-2 {
     display: inline-block;
     padding-right: 5px;
 }
 
 /* Must come after .main-nav to override it */
-.block {
-    display: block;
-}
+
 
 .select_lang{
     border: none;
@@ -100,3 +104,31 @@ a:hover, .hamburger:hover {
         display: block;
     }
 }
+.block {
+    display: block;
+}
+
+#langselection select {
+    border: none;
+    background: transparent;
+    font-size: 20px;
+    font-weight: bold;
+    padding: 5px;
+    width: 40px;
+    color: #1f1f1f;
+    -webkit-appearance: none;
+}
+#langselection {
+    overflow: hidden;
+    width: 40px;
+    height: 40px;
+    color: #1f1f1f;
+    font-weight: bold;
+    border-radius: 15px 15px 15px 15px;
+    box-shadow: 1px 1px 8px #330033;
+    background: transparent;
+    margin: 0px 0px -12px 0px;
+}
+    #langselection select:hover {
+        cursor: pointer
+    }

@@ -9,10 +9,11 @@ namespace Godsend.Models
     using System.Linq;
     using System.Threading.Tasks;
 
-    /// <summary>
-    ///
-    /// </summary>
-    public abstract class AArticleRepository : Repository<Article>
+    public abstract class ArticleRepository : Repository<Article>
     {
+        public ArticleRepository(DataContext ctx, ISeedHelper seedHelper, ICommentHelper<Article> commentHelper)
+            : base(ctx, seedHelper, commentHelper)
+        {
+        }
     }
 }

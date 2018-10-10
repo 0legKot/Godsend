@@ -104,14 +104,12 @@ var ProductDetailComponent = /** @class */ (function () {
                 stringProps: this.product.stringProps,
                 images: this.product.images
             };
-            this.edit = true;
         }
     };
     ProductDetailComponent.prototype.save = function () {
         if (this.product) {
             this.repo.createOrEditEntity('product', Product.EnsureType(this.product), 1, 10);
         }
-        this.edit = false;
     };
     ProductDetailComponent.prototype.discard = function () {
         if (this.product) {
@@ -123,7 +121,6 @@ var ProductDetailComponent = /** @class */ (function () {
             this.product.decimalProps = this.backup.decimalProps;
             this.product.images = this.backup.images;
         }
-        this.edit = false;
     };
     ProductDetailComponent.prototype.ngOnInit = function () {
         var _this = this;

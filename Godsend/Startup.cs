@@ -41,12 +41,14 @@ namespace Godsend
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddTransient<AProductRepository, EFProductRepository>();
+            services.AddTransient<ProductRepository, EFProductRepository>();
             services.AddTransient<IOrderRepository, EFOrderRepository>();
-            services.AddTransient<ASupplierRepository, EFSupplierRepository>();
-            services.AddTransient<AArticleRepository, EFArticleRepository>();
+            services.AddTransient<SupplierRepository, EFSupplierRepository>();
+            services.AddTransient<ArticleRepository, EFArticleRepository>();
             services.AddTransient<ISeedHelper, SeedHelper>();
-            services.AddTransient<ICommentHelper, CommentHelper>();
+            services.AddTransient<ICommentHelper<Product>, CommentHelper<Product>>();
+            services.AddTransient<ICommentHelper<Supplier>, CommentHelper<Supplier>>();
+            services.AddTransient<ICommentHelper<Article>, CommentHelper<Article>>();
             services.AddTransient<IImageService, ImageService>();
             services.AddTransient<IStorageService, StorageService>();
             services.AddTransient<ImageRepository>();

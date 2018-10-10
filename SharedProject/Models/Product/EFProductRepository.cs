@@ -15,7 +15,7 @@ namespace Godsend
     /// <summary>
     ///
     /// </summary>
-    public class EFProductRepository : AProductRepository
+    public class EFProductRepository : ProductRepository
     {
         /// <summary>
         /// The admin user
@@ -32,22 +32,9 @@ namespace Godsend
         /// </summary>
         private const int maxDepth = 5;
 
-        /// <summary>
-        /// The context
-        /// </summary>
-        private DataContext context;
-
-        private ICommentHelper commentHelper;
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="EFProductRepository" /> class.
-        /// </summary>
-        /// <param name="ctx">The CTX.</param>
-        public EFProductRepository(DataContext ctx, ISeedHelper seedHelper, ICommentHelper commentHelper)
+        public EFProductRepository(DataContext ctx, ISeedHelper seedHelper, ICommentHelper<Product> commentHelper)
+            : base(ctx, seedHelper, commentHelper)
         {
-            context = ctx;
-            this.commentHelper = commentHelper;
-            seedHelper.EnsurePopulated(ctx);
             cats = context.Categories;
         }
 
@@ -109,10 +96,6 @@ namespace Godsend
             }
         }
 
-        /// <summary>
-        /// Categorieses this instance.
-        /// </summary>
-        /// <returns></returns>
         public override IEnumerable<Category> Categories()
         {
             return context.Categories;
@@ -336,65 +319,6 @@ namespace Godsend
 
             cur.Subs = subs;
             return result;
-        }
-
-        protected override void AddAndSaveRating(LinkRatingEntity<Product> newRating)
-        {
-            context.Add(newRating);
-
-            context.SaveChanges();
-        }
-
-        protected override void SaveChangedRating(LinkRatingEntity<Product> rating)
-        {
-            context.SaveChanges();
-        }
-
-        public override async Task<Guid> AddCommentAsync(Guid productId, string userId, Guid? baseCommentId, string comment)
-        {
-            var newCommentId = await commentHelper.AddCommentGenericAsync<LinkCommentProduct>(context, productId, userId, baseCommentId, comment);
-
-            await RecalcCommentsAsync(productId); // or just increment?
-
-            return newCommentId;
-        }
-
-        public override IEnumerable<LinkCommentEntity> GetAllComments(Guid productId)
-        {
-            var fortst = context.LinkCommentProduct.Where(lra => lra.Product.Id == productId)
-                .Select(x => new LinkCommentProduct() { BaseComment = x.BaseComment, Comment = x.Comment, Id = x.Id, User = x.User });
-            return fortst;
-        }
-
-        public override async Task DeleteCommentAsync(Guid productId, Guid commentId, string userId)
-        {
-            await commentHelper.DeleteCommentGenericAsync(context.LinkCommentProduct, context, productId, commentId);
-
-            await RecalcCommentsAsync(productId);
-        }
-
-        public override async Task EditCommentAsync(Guid commentId, string newContent, string userId)
-        {
-            var comment = await context.LinkCommentProduct.FirstOrDefaultAsync(lce => lce.Id == commentId);
-            if (comment.UserId != userId)
-            {
-                throw new InvalidOperationException("Incorrect user tried to edit comment");
-            }
-
-            comment.Comment = newContent;
-
-            await context.SaveChangesAsync();
-        }
-
-        public async Task RecalcCommentsAsync(Guid productId)
-        {
-            var commentCount = await context.LinkCommentProduct.CountAsync(lce => lce.ProductId == productId);
-
-            var product = await context.Products.FirstOrDefaultAsync(a => a.Id == productId);
-
-            product.Info.CommentsCount = commentCount;
-
-            await context.SaveChangesAsync();
         }
     }
 }

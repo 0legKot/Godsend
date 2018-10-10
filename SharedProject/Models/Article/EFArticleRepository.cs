@@ -14,30 +14,19 @@ namespace Godsend.Models
     /// <summary>
     ///
     /// </summary>
-    public class EFArticleRepository : AArticleRepository
+    public class EFArticleRepository : ArticleRepository
     {
-        /// <summary>
-        /// The context
-        /// </summary>
-        private DataContext context;
 
-        /// <summary>
-        /// The user
-        /// </summary>
         private User user;
-
-        private ICommentHelper commentHelper;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="EFArticleRepository"/> class.
         /// </summary>
-        /// <param name="context">The context.</param>
+        /// <param name="ctx">The context.</param>
         /// <param name="userManager">The user manager.</param>
-        public EFArticleRepository(DataContext context, ISeedHelper seedHelper, ICommentHelper commentHelper)
+        public EFArticleRepository(DataContext ctx, ISeedHelper seedHelper, ICommentHelper<Article> commentHelper)
+            : base(ctx, seedHelper,commentHelper)
         {
-            this.context = context;
-            this.commentHelper = commentHelper;
-            seedHelper.EnsurePopulated(context);
         }
 
         protected override IQueryable<Article> EntitiesSource => context.Articles;
@@ -102,65 +91,6 @@ namespace Godsend.Models
 
                 context.Add(entity);
             }
-
-            await context.SaveChangesAsync();
-        }
-
-        protected override void AddAndSaveRating(LinkRatingEntity<Article> newRating)
-        {
-            context.Add(newRating);
-
-            context.SaveChanges();
-        }
-
-        protected override void SaveChangedRating(LinkRatingEntity<Article> rating)
-        {
-            context.SaveChanges();
-        }
-
-        public override async Task<Guid> AddCommentAsync(Guid articleId, string userId, Guid? baseCommentId, string comment)
-        {
-            var newCommentId = await commentHelper.AddCommentGenericAsync<LinkCommentArticle>(context, articleId, userId, baseCommentId, comment);
-
-            await RecalcCommentsAsync(articleId); // or just increment?
-
-            return newCommentId;
-        }
-
-        public override IEnumerable<LinkCommentEntity> GetAllComments(Guid articleId)
-        {
-            var fortst = context.LinkCommentArticle.Where(lra => lra.Article.Id == articleId)
-                .Select(x => new LinkCommentArticle() { BaseComment = x.BaseComment, Comment = x.Comment, Id = x.Id, User = x.User });
-            return fortst;
-        }
-
-        public override async Task DeleteCommentAsync(Guid articleId, Guid commentId, string userId)
-        {
-            await commentHelper.DeleteCommentGenericAsync(context.LinkCommentArticle, context, articleId, commentId);
-
-            await RecalcCommentsAsync(articleId);
-        }
-
-        public override async Task EditCommentAsync(Guid commentId, string newContent, string userId)
-        {
-            var comment = await context.LinkCommentArticle.FirstOrDefaultAsync(lce => lce.Id == commentId);
-            if (comment.UserId != userId)
-            {
-                throw new InvalidOperationException("Incorrect user tried to edit comment");
-            }
-
-            comment.Comment = newContent;
-
-            await context.SaveChangesAsync();
-        }
-
-        public async Task RecalcCommentsAsync(Guid articleId)
-        {
-            var commentCount = await context.LinkCommentArticle.CountAsync(lce => lce.ArticleId == articleId);
-
-            var article = await context.Articles.FirstOrDefaultAsync(a => a.Id == articleId);
-
-            article.Info.CommentsCount = commentCount;
 
             await context.SaveChangesAsync();
         }

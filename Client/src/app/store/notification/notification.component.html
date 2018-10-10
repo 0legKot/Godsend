@@ -1,102 +1,12 @@
-<style>
-    .notification {
-        bottom: 0px;
-        right: 0px;
-        height: 400px;
-        max-width: 450px;
-        position: fixed;
-        overflow-y: scroll;
-        z-index: 1000;
-        opacity: 1;
-        background-color: white;
-        border: 1px solid #808080;
-        border-radius: 5px;
-        padding: 15px;
-        display: none;
-    }
-    @keyframes divi {
-        0% {
-            transform:rotate(0deg);
-        }
-        25% {
-            transform: rotate(-45deg);
-            color: #fff;
-        }
-        50% {
-            transform: rotate(0deg);
-        }
-        75% {
-            transform: rotate(45deg);
-            color: #fff;
-        }
-
-        100% {
-            transform: rotate(0deg);
-        }
-    }
-    .show {
-        cursor: pointer;
-        width: 60px;
-        font-size: 32px;
-        text-align: center;
-        padding: 5px;
-        height: 60px;
-        border-radius: 50%;
-        background: #228b22;
-        bottom: 10px;
-        right: 10px;
-        position: fixed;
-        z-index: 1000;
-        animation: divi 2s ease-in-out infinite;
-    }
-    .form {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-around;
-        align-content: baseline;
-    }
-    .close{
-        border-bottom: 1px solid #808080;
-        width: 100%;
-        margin-bottom: 10px;
-    }
-    .block {
-        display: block;
-    }
-    .btn-bl {
-        border: 1px solid #0c79ca;
-        background: #2a7eff;
-        cursor: pointer;
-        color: #fff;
-        height: auto;
-        z-index: 1000;
-        height: 39px !important;
-    }
-    .txt{
-        text-align: center;
-    }
-    .my_box {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-content: center;
-    }
-</style>
-<div class="show" (click)="slideToggle()">
+<div [ngClass]="{'animate':messages.length>0}" class="show" (click)="slideToggle()">
     <fa-icon icon="info"></fa-icon>
 </div>
 <div class="notification" [ngClass]="{'block' : showMenuMobile}">
     <div class="my_box">
         <div class="close">
-            <div class="float-right" (click)="hideMenu()" ><fa-icon icon="times"></fa-icon></div>
+            <div class="float-right" (click)="hideMenu()"><fa-icon icon="times"></fa-icon></div>
         </div>
-        <form class="form" (ngSubmit)="sendMessage()" #messageForm="ngForm">
-            <div class="form-group">
-                <label class="sr-only" for="message">{{ 'Notification.Message' | translate }}</label>
-                <input type="text" class="form-control" id="message" [placeholder]="'Notification.MessageHint' | translate" name="message" [(ngModel)]="message" required>
-            </div>
-            <button type="submit" class="btn btn-bl" [disabled]="!messageForm.valid">{{ 'Notification.Send' | translate }}</button>
-        </form>
+
         <div *ngIf="messages.length > 0">
             <div class="table-responsive">
                 <table class="table table-striped">
@@ -118,6 +28,13 @@
         <div class="txt" *ngIf="messages.length <= 0">
             <span>{{ 'Notification.NoMessages' | translate }}</span>
         </div>
+        <form class="form" (ngSubmit)="sendMessage()" #messageForm="ngForm">
+            <div class="form-group">
+                <label class="sr-only" for="message">{{ 'Notification.Message' | translate }}</label>
+                <input type="text" class="form-control" id="message" [placeholder]="'Notification.MessageHint' | translate" name="message" [(ngModel)]="message" required>
+            </div>
+            <button type="submit" class="btn btn-bl" [disabled]="!messageForm.valid">{{ 'Notification.Send' | translate }}</button>
+        </form> 
     </div>
        
 </div>

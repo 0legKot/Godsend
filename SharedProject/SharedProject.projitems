@@ -12,7 +12,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Models\Article\Article.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Article\ArticleInformation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Article\EFArticleRepository.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Models\Article\IArticleRepository.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Article\ArticleRepository.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Article\StringWrapper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Article\Tag.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Identity\Role.cs" />
@@ -37,14 +37,14 @@
     <Compile Include="$(MSBuildThisFileDirectory)Models\Order\IOrderRepository.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Order\Order.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Product\EFProductRepository.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Models\Product\IProductRepository.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Product\ProductRepository.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Product\Product.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Product\ProductInformation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Search\AllSearchResult.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Shared\LinkRatingEntity.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Seed\SeedHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Supplier\EFSupplierRepository.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Models\Supplier\ISupplierRepository.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Supplier\SupplierRepository.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Supplier\Location.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Supplier\Supplier.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Supplier\SupplierInformation.cs" />

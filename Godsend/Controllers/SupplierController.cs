@@ -20,7 +20,7 @@ namespace Godsend.Controllers
     [Route("api/[controller]")]
     public class SupplierController : EntityController<Supplier>
     {
-        public SupplierController(ASupplierRepository repo, IHubContext<NotificationHub> hubContext, ILogger<EntityController<Supplier>> logger)
+        public SupplierController(SupplierRepository repo, IHubContext<NotificationHub> hubContext, ILogger<EntityController<Supplier>> logger)
             : base(hubContext, logger)
         {
             repository = repo;

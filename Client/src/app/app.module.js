@@ -54,6 +54,7 @@ import { GalleryComponent } from './store/gallery/gallery.component';
 import { RichtextComponent } from './store/richtext/richtext.component';
 import { FacebookLoginComponent } from './store/login/facebook-login.component';
 import { FacebookAuthComponent } from './store/login/facebook-auth.component';
+import { EditDeleteComponent } from './store/shared/edit-delete/edit-delete.component';
 export function HttpLoaderFactory(httpClient) {
     return new TranslateHttpLoader(httpClient);
 }
@@ -122,7 +123,8 @@ var AppModule = /** @class */ (function () {
                 GalleryComponent,
                 RichtextComponent,
                 FacebookLoginComponent,
-                FacebookAuthComponent
+                FacebookAuthComponent,
+                EditDeleteComponent
             ],
             imports: [
                 FontAwesomeModule,
@@ -145,7 +147,7 @@ var AppModule = /** @class */ (function () {
             ],
             providers: [
                 SearchService,
-                { provide: 'BASE_URL', useValue: 'http://localhost:56440/' }
+                { provide: 'BASE_URL', useValue: 'https://godsend.conveyor.cloud/' }
             ],
             bootstrap: [AppComponent]
         })
