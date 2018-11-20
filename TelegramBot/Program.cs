@@ -19,7 +19,7 @@
         public static async Task Main(string[] args)
         {
             botClient = new TelegramBotClient(key);
-            await botClient.SetWebhookAsync("");// delete old bot webhook binging
+            await botClient.SetWebhookAsync("");// delete old bot webhook binding (checked spelling)
             botClient.OnMessage += MessageReceived;
             botClient.StartReceiving();
             await Task.Delay(-1); // prevent main from exiting
