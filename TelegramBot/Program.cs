@@ -1,5 +1,6 @@
 ﻿namespace TelegramBot
 {
+    using System;
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
@@ -9,6 +10,7 @@
     using Newtonsoft.Json;
     using Telegram.Bot;
     using Telegram.Bot.Types.Enums;
+    using Telegram.Bot.Types.ReplyMarkups;
 
     class Program
     {
@@ -20,6 +22,7 @@
         {
             botClient = new TelegramBotClient(key);
             await botClient.SetWebhookAsync("");// delete old bot webhook binding (checked spelling)
+            Console.WriteLine("Bot started");
             botClient.OnMessage += MessageReceived;
             botClient.StartReceiving();
             await Task.Delay(-1); // prevent main from exiting
@@ -28,6 +31,8 @@
         private static async void MessageReceived(object sender, Telegram.Bot.Args.MessageEventArgs e)
         {
             string msg = "";
+            ParseMode parseMode = ParseMode.Default;
+
             switch (e.Message.Text)
             {
                 case "/hello":
@@ -35,23 +40,23 @@
                     break;
                 case "/products":
                     msg = "Our categories:\n";
-                    var client = new HttpClient();
-                    Stream respStream = await client.GetStreamAsync($"{serverUrl}/api/product/getAllCategories");
-                    string json = new StreamReader(respStream).ReadToEnd();
-                    var cats = JsonConvert.DeserializeObject<IEnumerable<CatWithSubs>>(json);
+                    var cats = await GetItems<CatWithSubs>("product/getAllCategories");  
                     msg += "<pre>" + GetFormattedCategoryTree(cats) + "</pre>";
-                    await botClient.SendTextMessageAsync(
-                        chatId: e.Message.Chat,
-                        text: msg,
-                        replyToMessageId: e.Message.MessageId,
-                        parseMode: ParseMode.Html                        
-                    );
-                    return;
+                    parseMode = ParseMode.Html;
+                    break;
                 case "/suppliers":
-                    msg = "Nope";
+                    msg = "*Suppliers:*\n\n";
+                    var suppliersInformation = await GetItems<SupplierInformation>("supplier/all/1/100");
+                    foreach (var supInfo in suppliersInformation)
+                        msg += $"{RatingStars(supInfo.Rating)} \n*{supInfo.Name}* \n{supInfo.Location.Address}\n\n";
+                    parseMode = ParseMode.Markdown;
                     break;
                 case "/articles":
-                    msg = "Nope";
+                    msg = "*Articles:*\n\n";
+                    var articlesInformation = await GetItems<ArticleInformation>("article/all/1/100");
+                    foreach (var artInfo in articlesInformation)
+                        msg += $"{RatingStars(artInfo.Rating)} \n*{artInfo.Name}* \n{artInfo.Description}\n\n";
+                    parseMode = ParseMode.Markdown;
                     break;
                 default:
                     msg = "You wrote: " + e.Message.Text;
@@ -61,8 +66,25 @@
             await botClient.SendTextMessageAsync(
                 chatId: e.Message.Chat,
                 text: msg,
-                replyToMessageId: e.Message.MessageId
+                replyToMessageId: e.Message.MessageId,
+                parseMode: parseMode
             );
+        }
+
+        private static async Task<IEnumerable<T>> GetItems<T>(string url)
+        {
+            var client = new HttpClient();
+            var respStream = await client.GetStreamAsync($"{serverUrl}/api/{url}");
+            var json = new StreamReader(respStream).ReadToEnd();
+            return JsonConvert.DeserializeObject<IEnumerable<T>>(json);
+        }
+
+        private static string RatingStars(double rating)
+        {
+            string stars = "";
+            for (int i = 1; i < 6; i++)
+                stars += rating >= i ? "★" : "☆";
+            return stars;
         }
 
         static string GetFormattedCategoryTree(IEnumerable<CatWithSubs> rootCats)

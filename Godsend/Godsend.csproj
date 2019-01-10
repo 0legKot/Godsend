@@ -55,4 +55,6 @@
 
   <Import Project="..\SharedProject\SharedProject.projitems" Label="Shared" />
 
+  <ProjectExtensions><VisualStudio><UserProperties appsettings_1json__JSONSchema="" /></VisualStudio></ProjectExtensions>
+
 </Project>
