@@ -32,9 +32,9 @@ namespace Godsend.Models
         {
         }
 
-        public ProductInformation(string Name)
+        public ProductInformation(string name)
         {
-            this.Name = Name;
+            Name = name;
         }
 
         [JsonIgnore]

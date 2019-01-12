@@ -21,20 +21,20 @@ namespace Godsend.Models
         }
 
         [JsonConstructor]
-        public Product(ProductInformation Info)
+        public Product(ProductInformation info)
         {
-            this.Info = new ProductInformation()
+            Info = new ProductInformation()
             {
-                Name = Info.Name,
-                Description = Info.Description,
-                State = Info.State
+                Name = info.Name,
+                Description = info.Description,
+                State = info.State
             };
         }
 
         public Product(string name, string description, Category category, double rating = 0, int watches = 0, ProductState state = ProductState.Normal)
         {
-            this.Category = category;
-            this.Info = new ProductInformation()
+            Category = category;
+            Info = new ProductInformation()
             {
                 Name = name,
                 Description = description,
