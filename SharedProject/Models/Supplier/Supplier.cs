@@ -21,18 +21,21 @@ namespace Godsend.Models
         }
 
         [JsonConstructor]
-        public Supplier(SupplierInformation Info)
+        public Supplier(SupplierInformation info)
         {
-            this.Info = new SupplierInformation()
+            Info = new SupplierInformation()
             {
-                Name = Info.Name,
-                Location = Info.Location
+                Name = info.Name,
+                Location = info.Location,
+                Watches = info.Watches,
+                Rating = info.Rating,
+                Preview = info.Preview
             };
         }
 
         public Supplier(string name, string address, double rating = 0, int watches = 0)
         {
-            this.Info = new SupplierInformation()
+            Info = new SupplierInformation()
             {
                 Name = name,
                 Rating = rating,
@@ -89,7 +92,7 @@ namespace Godsend.Models
 
         public void CloneTo(Supplier target)
         {
-            this.CopyTo(target);
+            CopyTo(target);
             target.Id = Id;
             target.Info.Rating = Info.Rating;
             target.Info.Watches = Info.Watches;

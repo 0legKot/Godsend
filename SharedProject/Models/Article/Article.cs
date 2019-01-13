@@ -23,18 +23,21 @@ namespace Godsend.Models
         [JsonConstructor]
         public Article(ArticleInformation info)
         {
-            this.Info = new ArticleInformation()
+            Info = new ArticleInformation()
             {
                 Name = info.Name,
                 Description = info.Description,
-                Tags = info.Tags
+                Tags = info.Tags,
+                Rating = info.Rating,
+                Watches = info.Watches,
+                Created = info.Created
             };
         }
 
         public Article(string content, User author, string description, string name, double rating, int watches)
         {
-            this.Content = content;
-            this.Info = new ArticleInformation()
+            Content = content;
+            Info = new ArticleInformation()
             {
                 EFAuthor = author,
                 Description = description,

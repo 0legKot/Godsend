@@ -27,7 +27,10 @@ namespace Godsend.Models
             {
                 Name = info.Name,
                 Description = info.Description,
-                State = info.State
+                State = info.State,
+                Rating = info.Rating,
+                Watches = info.Watches,
+                Preview = info.Preview
             };
         }
 

@@ -10,6 +10,8 @@
     using Godsend.Models;
     using Newtonsoft.Json;
     using Telegram.Bot;
+    using Telegram.Bot.Args;
+    using Telegram.Bot.Types;
     using Telegram.Bot.Types.Enums;
     using Telegram.Bot.Types.ReplyMarkups;
 
@@ -18,6 +20,8 @@
         private const string key = "695808520:AAEHQCogzwOVT2ylbp-d6Odj8vHVGKpt9oE";
         private const string serverUrl = @"http://localhost:56440";
         private static ITelegramBotClient botClient;
+        private const int itemsPerPage = 5;
+        private static InlineKeyboardMarkup ikm = null;
 
         public static async Task Main(string[] args)
         {
@@ -25,20 +29,53 @@
             await botClient.SetWebhookAsync("");// delete old bot webhook binding (checked spelling)
             Console.WriteLine("Bot started");
             botClient.OnMessage += MessageReceived;
-            botClient.StartReceiving();
+            botClient.OnCallbackQuery += CallbackQueryReceived;
+            botClient.StartReceiving();            
             await Task.Delay(-1); // prevent main from exiting
         }
 
-        private static async void MessageReceived(object sender, Telegram.Bot.Args.MessageEventArgs e)
+        private static async void CallbackQueryReceived(object sender, CallbackQueryEventArgs e)
+        {
+            string[] data = e.CallbackQuery.Data.Split(' ');
+            string list = data[0];
+            int page = Convert.ToInt32(data[1]);            
+            var pagesNum = Convert.ToInt32(data[2]);
+            string msg;
+            switch (list)
+            {
+                case "product":
+                    msg = await GetListMessage<ProductInformation>("product", page);
+                    break;
+                case "supplier":
+                    msg = await GetListMessage<SupplierInformation>("supplier", page);
+                    break;
+                case "article":
+                    msg = await GetListMessage<ArticleInformation>("article", page);
+                    break;
+                default:
+                    msg = "No such option";
+                    break;
+            }
+            await botClient.EditMessageTextAsync(
+                messageId: e.CallbackQuery.Message.MessageId,
+                chatId: e.CallbackQuery.Message.Chat.Id,
+                text: msg,
+                parseMode: ParseMode.Html,
+                replyMarkup: ikm
+                );
+        }
+
+        private static async void MessageReceived(object sender, MessageEventArgs e)
         {
             string msg = "";
             ParseMode parseMode = ParseMode.Html;
 
             var regId = new Regex(@"\d+$");
             var regText = new Regex(@"^/[a-zA-Z]+");
-            string id= regId.Match(e.Message.Text).Value;
+            string idStr = regId.Match(e.Message.Text).Value;
+            int id = idStr == "" ? 0 : Convert.ToInt32(idStr);
             string text = regText.Match(e.Message.Text).Value;
-            int i = 1;
+            ikm = null;
 
             switch (text)
             {
@@ -47,67 +84,65 @@
                     break;
                 case "/categories":
                     msg = "<b>Our categories:</b>\n";
-                    var cats = await GetItems<CatWithSubs>("product/getAllCategories");  
+                    var cats = await GetItems<IEnumerable<CatWithSubs>>("product/getAllCategories");  
                     msg += "<pre>" + GetFormattedCategoryTree(cats) + "</pre>";
                     break;
                 case "/products":
-                    msg = "<b>Products:</b>\n\n";
-                    var productsInfo = await GetItems<ProductInformation>("product/all/1/100");
-                    i = 1;
-                    foreach (var pInfo in productsInfo)
-                        msg += $"{RatingStars(pInfo.Rating)} \n" +
-                            $"<b>{pInfo.Name}</b> - /product{i++} \n\n";            
+                    msg = await GetListMessage<ProductInformation>("product", 1);
                     break;
                 case "/product":
-                    if (id == "" || id == "0")
-                        msg = "Required id";
-                    else
+                    try
                     {
-                        var prodInf = (await GetItems<ProductInformation>($"product/all/{id}/1")).FirstOrDefault();
-                        if (prodInf == null)
-                            msg = "No such product";
-                        else
-                        {
-                            HttpClient client = new HttpClient();
-                            msg = $"{RatingStars(prodInf.Rating)} \n<b>{prodInf.Name}</b> \n{prodInf.Description}";
-                            msg += prodInf.State != ProductState.Normal ? $"\n<i>{prodInf.State} product</i>" : "";
-                            msg += $"\n๏.๏ {prodInf.Watches}";
-                            var previewStream = await client.GetStreamAsync($"{serverUrl}/api/image/getimage/" + prodInf.Preview.Id);
-                            await botClient.SendPhotoAsync(e.Message.Chat, previewStream);
-                        }
-                    }
+                        var prodInfo = await GetItem<ProductInformation>("product", id);
+                        var state = (prodInfo.State != ProductState.Normal ? $"<i>{prodInfo.State} product</i>\n" : "");
+                        msg = 
+                            $"{RatingStars(prodInfo.Rating)}\n" +
+                            $"<b>{prodInfo.Name}</b>\n" +
+                            $"{prodInfo.Description}\n" +
+                            state +
+                            $"๏.๏ {prodInfo.Watches}\n\n";
+                        SendImage(prodInfo.Preview.Id, e.Message.Chat);
+                    } catch (Exception exc)
+                    {
+                        msg = exc.Message;
+                    }                        
                     break;
                 case "/suppliers":
-                    msg = "<b>Suppliers:</b>\n\n";
-                    var suppliersInformation = await GetItems<SupplierInformation>("supplier/all/1/100");
-                    i = 1;
-                    foreach (var supInfo in suppliersInformation)
-                        msg += $"{RatingStars(supInfo.Rating)} \n" +
-                            $"<b>{supInfo.Name}</b> - /supplier{i++}\n" +
-                            $"{supInfo.Location.Address}\n\n";
+                    msg = await GetListMessage<SupplierInformation>("supplier", 1);
                     break;
                 case "/supplier":
-                    if (id == "" || id == "0")
-                        msg = "Required id";
-                    else
+                    try
                     {
-                        var supInf = (await GetItems<SupplierInformation>($"supplier/all/{id}/1")).FirstOrDefault();
-                        if (supInf == null)
-                            msg = "No such supplier";
-                        else
-                        {
-                            HttpClient client = new HttpClient();
-                            msg = $"{RatingStars(supInf.Rating)} \n<b>{supInf.Name}</b> \n{supInf.Location.Address}\n๏.๏ {supInf.Watches}";
-                            var previewStream = await client.GetStreamAsync($"{serverUrl}/api/image/getimage/" + supInf.Preview.Id);
-                            await botClient.SendPhotoAsync(e.Message.Chat, previewStream);
-                        }
+                        var suppInfo = await GetItem<SupplierInformation>("supplier", id);
+                        msg = 
+                            $"{RatingStars(suppInfo.Rating)}\n" +
+                            $"<b>{suppInfo.Name}</b>\n" +
+                            $"{suppInfo.Location.Address}\n" +
+                            $"๏.๏ {suppInfo.Watches}\n\n";
+                        SendImage(suppInfo.Preview.Id, e.Message.Chat);
+                    }
+                    catch (Exception exc)
+                    {
+                        msg = exc.Message;
                     }
                     break;
                 case "/articles":
-                    msg = "<b>Articles:</b>\n\n";
-                    var articlesInformation = await GetItems<ArticleInformation>("article/all/1/100");
-                    foreach (var artInfo in articlesInformation)
-                        msg += $"{RatingStars(artInfo.Rating)} \n<b>{artInfo.Name}</b> \n{artInfo.Description}\n\n";
+                    msg = await GetListMessage<ArticleInformation>("article", 1);
+                    break;
+                case "/article":
+                    try
+                    {
+                        var artInfo = await GetItem<ArticleInformation>("article", id);
+                        msg = 
+                            $"{RatingStars(artInfo.Rating)}\n" +
+                            $"<b>{artInfo.Name}</b>\n" +
+                            $"{artInfo.Description}\n" +
+                            $"๏.๏ {artInfo.Watches}\n\n";
+                    }
+                    catch (Exception exc)
+                    {
+                        msg = exc.Message;
+                    }
                     break;
                 default:
                     msg = "You wrote: " + e.Message.Text;
@@ -118,16 +153,80 @@
                 chatId: e.Message.Chat,
                 text: msg,
                 replyToMessageId: e.Message.MessageId,
-                parseMode: parseMode
+                parseMode: parseMode,
+                replyMarkup: ikm
             );
         }
 
-        private static async Task<IEnumerable<T>> GetItems<T>(string url)
+        private async static Task<string> GetListMessage<T>(string name, int page) where T : Information
         {
-            var client = new HttpClient();
-            var respStream = await client.GetStreamAsync($"{serverUrl}/api/{url}");
+            var msg = $"<b>Our {name}s:</b>\n\n";
+            var informations = await GetItems<IEnumerable<T>>($"{name}/all/{page}/{itemsPerPage}");
+            var pagesNum = (int)Math.Ceiling((await GetItems<int>($"{name}/count")) / (float)itemsPerPage);
+            var i = itemsPerPage * (page - 1) + 1;
+            foreach (var info in informations)
+            {
+                msg += $"{RatingStars(info.Rating)}\n" +
+                           $"<b>{info.Name}</b> - /{name}{i++}\n";
+                
+                switch(name)
+                {
+                    case "supplier":
+                        msg += $"{(info as SupplierInformation).Location.Address}\n\n";
+                        break;
+                    case "product":
+                        msg += $"{(info as ProductInformation).Description}\n\n";
+                        break;
+                    case "article":
+                        msg += $"{(info as ArticleInformation).Description}\n\n";
+                        break;
+                    default:
+                        msg += "\n";
+                        break;
+                }
+            }
+            ikm = GetKeyboard(page, pagesNum, name);
+            return msg;
+        }
+
+        private async static Task<T> GetItem<T>(string name, int id) where T : Information
+        {
+            if (id == 0)
+                throw new Exception("Required id");
+            else
+            {
+                var info = (await GetItems<IEnumerable<T>>($"{name}/all/{id}/1")).FirstOrDefault();
+                if (info == null)
+                    throw new Exception("No such item");
+                else
+                    return info;
+            }
+        }
+
+
+            private static InlineKeyboardMarkup GetKeyboard(int page, int pagesNum, string items)
+        {
+            InlineKeyboardButton[] ikb = new InlineKeyboardButton[pagesNum];
+            string text;
+            for (int k = 1; k <= pagesNum; k++)
+            {
+                text = k == page ? $"○{k}○" : $"{k}";
+                ikb[k - 1] = new InlineKeyboardButton() { Text = $"{text}", CallbackData = $"{items} {text} {pagesNum}" };
+            }
+            return new InlineKeyboardMarkup(ikb);
+        }
+
+        private static async Task<T> GetItems<T>(string url)
+        {
+            var respStream = await new HttpClient().GetStreamAsync($"{serverUrl}/api/{url}");
             var json = new StreamReader(respStream).ReadToEnd();
-            return JsonConvert.DeserializeObject<IEnumerable<T>>(json);
+            return JsonConvert.DeserializeObject<T>(json);
+        }        
+
+        private static async void SendImage(Guid imgId, Chat chat)
+        {
+            var previewStream = await new HttpClient().GetStreamAsync($"{serverUrl}/api/image/getimage/" + imgId);
+            await botClient.SendPhotoAsync(chat, previewStream);
         }
 
         private static string RatingStars(double rating)
