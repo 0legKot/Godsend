@@ -101,7 +101,7 @@
                             $"{prodInfo.Description}\n" +
                             state +
                             $"๏.๏ {prodInfo.Watches}\n\n";
-                        SendImage(prodInfo.Preview.Id, e.Message.Chat);
+                        await SendImage(prodInfo.Preview.Id, e.Message.Chat);
                     } catch (Exception exc)
                     {
                         msg = exc.Message;
@@ -119,7 +119,15 @@
                             $"<b>{suppInfo.Name}</b>\n" +
                             $"{suppInfo.Location.Address}\n" +
                             $"๏.๏ {suppInfo.Watches}\n\n";
-                        SendImage(suppInfo.Preview.Id, e.Message.Chat);
+                        await SendImage(suppInfo.Preview.Id, e.Message.Chat);
+                        if (!(suppInfo.Location.Longtitude == 0 && suppInfo.Location.Latitude == 0))
+                            await botClient.SendVenueAsync(
+                                chatId: e.Message.Chat, 
+                                latitude: suppInfo.Location.Latitude, 
+                                longitude: suppInfo.Location.Longtitude, 
+                                title: suppInfo.Name, 
+                                address: suppInfo.Location.Address
+                             );
                     }
                     catch (Exception exc)
                     {
@@ -204,7 +212,7 @@
         }
 
 
-            private static InlineKeyboardMarkup GetKeyboard(int page, int pagesNum, string items)
+        private static InlineKeyboardMarkup GetKeyboard(int page, int pagesNum, string items)
         {
             InlineKeyboardButton[] ikb = new InlineKeyboardButton[pagesNum];
             string text;
@@ -223,10 +231,10 @@
             return JsonConvert.DeserializeObject<T>(json);
         }        
 
-        private static async void SendImage(Guid imgId, Chat chat)
+        private static async Task<Message> SendImage(Guid imgId, Chat chat)
         {
             var previewStream = await new HttpClient().GetStreamAsync($"{serverUrl}/api/image/getimage/" + imgId);
-            await botClient.SendPhotoAsync(chat, previewStream);
+            return await botClient.SendPhotoAsync(chat, previewStream);
         }
 
         private static string RatingStars(double rating)

@@ -30,5 +30,21 @@ namespace Godsend.Models
         /// The address.
         /// </value>
         public virtual string Address { get; set; }
+
+        /// <summary>
+        /// Gets or sets the latitude.
+        /// </summary>
+        /// <value>
+        /// The latitude.
+        /// </value>
+        public virtual float Latitude { get; set; }
+
+        /// <summary>
+        /// Gets or sets the longtitude.
+        /// </summary>
+        /// <value>
+        /// The longtitude.
+        /// </value>
+        public virtual float Longtitude { get; set; }
     }
 }

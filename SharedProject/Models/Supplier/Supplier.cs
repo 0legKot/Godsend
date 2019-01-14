@@ -47,6 +47,13 @@ namespace Godsend.Models
             };
         }
 
+        public Supplier(string name, string address, float latitude, float longtitude, double rating = 0, int watches = 0)
+            : this(name, address, rating, watches)
+        {
+            Info.Location.Latitude = latitude;
+            Info.Location.Longtitude = longtitude;
+        }
+
         /// <summary>
         /// Gets or sets the identifier.
         /// </summary>

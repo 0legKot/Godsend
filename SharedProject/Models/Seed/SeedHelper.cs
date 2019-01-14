@@ -303,18 +303,24 @@ namespace Godsend.Models
                         new Supplier(
                                 "USA supply",
                                 "New York",
+                                40.71427f,
+                                -74,
                                 rating: 5,
                                 watches: 3),
                     Russia:
                         new Supplier(
                                 "Russia supply",
                                 "Moscow",
+                                55.75222f,
+                                37.61556f,
                                 rating: 0,
                                 watches: 100),
                     AppleInc:
                         new Supplier(
                                 "Apple Inc.",
                                 "Cupertino, California",
+                                37.323f,
+                                -122.03218f,
                                 rating: 4.99,
                                 watches: 156),
                     SweetAppleAcres:
@@ -333,42 +339,56 @@ namespace Godsend.Models
                         new Supplier(
                                 "АПЭЛ",
                                 "Tolyatti",
+                                53.5303f,
+                                49.3461f,
                                 rating: 2.1,
                                 watches: 66),
                     Opel:
                         new Supplier(
                                 "Opel",
                                 "Rüsselsheim am Main",
+                                49.98955f,
+                                8.42251f,
                                 rating: 4.1,
                                 watches: 126),
                     DoleFoodCompany:
                         new Supplier(
                                 "Dole Food Company",
                                 "Westlake Village, California",
+                                34.141944f,
+                                -118.819444f,
                                 rating: 3.7,
                                 watches: 22000),
                     Monsanto:
                         new Supplier(
                                 "Monsanto",
                                 "800 N. Lindbergh Boulevard St.Louis",
+                                38.62727f,
+                                -90.19789f,
                                 rating: 4.4,
                                 watches: 623),
                     Nestle:
                         new Supplier(
                                 "Nestlé S.A.",
                                 "Vevey, Vaud",
+                                46.466667f,
+                                6.85f,
                                 rating: 3.8,
                                 watches: 1256),
                     CocaCola:
                         new Supplier(
                                 "The Coca-Cola Company",
                                 "Atlanta, Georgia",
+                                33.755f,
+                                -84.39f,
                                 rating: 4.5,
                                 watches: 1566),
                     ChinaGrainOilFood:
                         new Supplier(
                                 "中国粮油食品（集团）有限公司",
                                 "Beijing",
+                                39.9075f,
+                                116.39723f,
                                 rating: 4.6,
                                 watches: 666));
 
