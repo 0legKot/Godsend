@@ -1,0 +1,7 @@
+**/bin/
+**/obj/
+**/out/
+
+Client
+MobileClient
+API.Tests
